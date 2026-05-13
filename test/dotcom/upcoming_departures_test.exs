@@ -1,11 +1,11 @@
-defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
+defmodule Dotcom.UpcomingDeparturesTest do
   use ExUnit.Case
 
   import Dotcom.Utils.Time, only: [truncate: 2]
   import Mox
 
   alias Dotcom.ScheduleFinder.{Platforms}
-  alias Dotcom.UpcomingDepartures.{UpcomingDepartures, UpcomingDepartures.UpcomingDeparture}
+  alias Dotcom.{UpcomingDepartures, UpcomingDepartures.UpcomingDeparture}
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.{Factories, FactoryHelpers, Generators, PredictedScheduleHelper}
 
