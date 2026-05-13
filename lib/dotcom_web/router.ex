@@ -203,6 +203,9 @@ defmodule DotcomWeb.Router do
       to: "/schedules/CR-NewBedford"
     )
 
+    # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
+    get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
+
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
 
