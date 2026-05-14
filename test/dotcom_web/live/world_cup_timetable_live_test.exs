@@ -2,6 +2,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
+  import Mox
 
   import Phoenix.LiveViewTest
 
@@ -9,6 +10,20 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
 
   describe "WorldCupTimetableLive" do
     setup %{conn: conn} do
+      stub(Routes.Repo.Mock, :get, fn _ ->
+        Test.Support.Factories.Routes.Route.commuter_rail_route_factory(%{id: "CR-Foxboro"})
+      end)
+
+      datetime = Faker.DateTime.between(~D[2026-01-01], ~D[2026-12-30])
+
+      stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        datetime
+      end)
+
+      stub(Alerts.Repo.Mock, :all, fn _ ->
+        []
+      end)
+
       %{conn: logged_in_basic_auth(conn)}
     end
 
