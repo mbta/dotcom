@@ -9,7 +9,10 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   import DotcomWeb.WorldCupTimetable.MatchLink, only: [match_link: 1, selected_match_banner: 1]
 
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :world_cup_timetable}
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
 
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @match_list [
     {~D[2026-06-13], ~T[21:00:00], ~t"Match 5", [:haiti, :scotland],
      [
@@ -71,10 +74,17 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    route = @routes_repo.get("CR-Foxboro")
+    alerts = Dotcom.Alerts.route_alerts(route.id)
+    dbg(alerts)
+
     {:ok,
      assign(socket, %{
        match_list: @match_list,
-       selected_match: nil
+       selected_match: nil,
+       date_time: @date_time.now(),
+       route: route,
+       alerts: alerts
      })}
   end
 
