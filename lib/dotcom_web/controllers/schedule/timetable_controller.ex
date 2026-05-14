@@ -547,7 +547,18 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     # Long Wharf new stops
     "Boat-Long-North-5A" => {:after, "Rowes Wharf"},
     "Boat-Long-North-5B" => {:after, "Lewis Mall Wharf"},
-    "Boat-Long-North-5C" => {:after, "Blossom Street Pier"}
+    "Boat-Long-North-5C" => {:after, "Blossom Street Pier"},
+    # Franklin/Foxboro WC shuttle
+    "place-NEC-2139" => {:before, "Readville"},
+    "91637" => {:before, "Canton Juntion"},
+    "71689" => {:before, "Canton Juntion"},
+    "81668" => {:after, "Walpole"},
+    "81698" => {:after, "Walpole"},
+    "39213" => {:after, "Norfolk"},
+    "92133" => {:after, "Norfolk"},
+    "31331" => {:after, "Franklin"},
+    "31330" => {:after, "Franklin"},
+    "place-FB-0303" => {:after, "Forge Park/495"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
