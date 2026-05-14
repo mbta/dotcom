@@ -76,7 +76,6 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   def mount(_params, _session, socket) do
     route = @routes_repo.get("CR-Foxboro")
     alerts = Dotcom.Alerts.route_alerts(route.id)
-    dbg(alerts)
 
     {:ok,
      assign(socket, %{
