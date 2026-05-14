@@ -1,6 +1,5 @@
 defmodule DotcomWeb.AppStoreControllerTest do
   use DotcomWeb.ConnCase, async: true
-  import Test.Support.EnvHelpers
 
   test "redirects to default mbta go project page by default, preserving params", %{conn: conn} do
     conn =
