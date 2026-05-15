@@ -68,3 +68,19 @@
     max-width: 70vw;
   }
 }
+
+// Persistent tooltips for line diagrams
+.m-schedule-diagram [data-toggle='tooltip'] {
+  &:has(.c-icon__bus-pill--small)::before,
+  &:has(.m-schedule-diagram__feature-icon)::before {
+    margin-left: calc($base-spacing / 4);
+  }
+
+  &::before {
+    content: " ";
+    position: absolute;
+    margin-top: 1rem;
+    height: $base-spacing;
+    width: $base-spacing;
+  }
+}
