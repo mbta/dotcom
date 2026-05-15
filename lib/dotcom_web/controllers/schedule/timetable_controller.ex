@@ -219,6 +219,47 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   def assign_trip_schedules(
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
+            direction_id: direction_id
+          }
+        } = conn
+      )
+      when route.id == "CR-Franklin" do
+    timetable_schedules = timetable_schedules(conn)
+    trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
+
+    %{
+      trip_schedules: trip_schedules,
+      trip_stops: trip_stops
+    } = build_timetable(conn, timetable_schedules)
+
+    header_schedules =
+      trip_schedules
+      |> Map.values()
+      |> Kernel.then(&header_schedules(route, &1))
+
+    track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
+    # Filter out Canton Junction on non shuttle days
+    header_stops =
+      trip_stops
+      |> Enum.map(&@stops_repo.get_parent/1)
+      |> Enum.filter(fn %Stops.Stop{id: id} -> id != "place-NEC-2139" end)
+      |> Enum.with_index()
+
+    conn
+    |> assign(:timetable_schedules, timetable_schedules)
+    |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
+    |> assign(:header_schedules, header_schedules)
+    |> assign(:header_stops, header_stops)
+    |> assign(:trip_schedules, trip_schedules)
+    |> assign(:track_changes, track_changes)
+    |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
+  end
+
+  def assign_trip_schedules(
         %{assigns: %{route: route, blocking_alert: nil, date_in_rating?: true}} = conn
       )
       when route.id in @loop_ferries do
@@ -638,8 +679,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "81668" => {:after, "Norfolk Station - Bus Shuttle"},
     "81698" => {:after, "Norfolk Station - Bus Shuttle"},
     # Washington Street
-    "91637" => {:before, "Canton Junction"},
-    "71689" => {:before, "Canton Junction"},
+    "91637" => {:after, "Walpole Station - Bus Shuttle"},
+    "71689" => {:after, "Walpole Station - Bus Shuttle"},
     # Canton Junction
     "place-NEC-2139" => {:before, "Readville"}
   }
