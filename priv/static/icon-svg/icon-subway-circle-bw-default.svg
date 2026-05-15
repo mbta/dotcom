@@ -1,15 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" viewBox="0 0 16 16">
-    <title>
-        subway
-    </title>
-    <defs>
-        <style>
-            .a { fill: #fff; } .b { fill: #1c1e23; }
-        </style>
-    </defs>
-    <title>
-        icon-subway circle bw small
-    </title>
+    
     <path d="M7.99993,15.50007A7.50007,7.50007,0,1,1,15.5,8a7.5,7.5,0,0,1-7.50007,7.50007" class="a"/>
     <g>
         <path d="M6.67,1.41A.56974.56974,0,0,1,7.24.84.58.58,0,1,1,7.24,2H7.22A.57707.57707,0,0,1,6.67,1.41Z" class="b"/>

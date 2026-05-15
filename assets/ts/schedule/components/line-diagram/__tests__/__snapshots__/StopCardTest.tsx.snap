@@ -23,7 +23,7 @@ exports[`StopCard renders and matches snapshot 1`] = `
           <div className=\\"m-schedule-diagram__features\\">
             <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
               <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\">
-                <i className=\\"fa fa-square-parking notranslate u-color-gray-light m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" />
+                <i className=\\"fa fa-square-parking notranslate u-color-gray-light m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Parking\\" />
               </span>
             </TooltipWrapper>
           </div>
@@ -34,7 +34,7 @@ exports[`StopCard renders and matches snapshot 1`] = `
               <TooltipWrapper href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
                 <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Orange Line\\">
                   <span className=\\"m-schedule-diagram__connection\\">
-                    <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                    <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" aria-label=\\"Orange Line\\" dangerouslySetInnerHTML={{...}} />
                   </span>
                 </a>
               </TooltipWrapper>

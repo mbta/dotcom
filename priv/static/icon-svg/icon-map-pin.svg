@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" viewBox="0 0 48 48">
-    <title>
-        map pin
-    </title>
+    
     <defs>
         <style>
             .a, .b { fill: none; } .a { clip-rule: evenodd; } .c { clip-path: url(#icon-map-pin-a); } .d { clip-path: url(#icon-map-pin-b); } .e { clip-path: url(#icon-map-pin-c); } .f { fill: #165c96; }

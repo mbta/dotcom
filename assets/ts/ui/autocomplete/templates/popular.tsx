@@ -9,6 +9,9 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
 }) => {
   const iconHtml = getPopularIcon(item.icon);
   const featureIcons = getFeatureIcons(item, "popular");
+  const featureIconLabels = item.features.map(feature =>
+    feature.replace("_", " ")
+  );
   return (
     <div className="aa-ItemContent mt-1">
       <div className="flex-grow">
@@ -26,8 +29,9 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
         </div>
         <div className="mt-2 mb-1 flex justify-between items-center">
           <div className="flex gap-1">
-            {featureIcons.map((feature: string) => (
+            {featureIcons.map((feature: string, index: number) => (
               <span
+                aria-label={featureIconLabels[index]}
                 key={uniqueId()}
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: feature }}

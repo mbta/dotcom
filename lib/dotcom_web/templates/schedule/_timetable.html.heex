@@ -128,7 +128,8 @@
                     {content_tag(:span, svg("icon-bikes-default.svg"),
                       data: [toggle: "tooltip"],
                       title: ~t(Bicycles allowed),
-                      class: "bicycles-allowed-icon"
+                      class: "bicycles-allowed-icon",
+                      aria_hidden: "true"
                     )}
                     <div class="sr-only">{~t(Bicycles allowed)}</div>
                   <% else %>

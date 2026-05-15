@@ -20,7 +20,24 @@ defmodule DotcomWeb.StopView do
   def stop_feature_icon(feature, size \\ :default)
 
   def stop_feature_icon(feature, size) when is_atom(size) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: stop_feature_icon_atom(feature), size: size})
+    svg_icon_with_circle(%SvgIconWithCircle{
+      icon: stop_feature_icon_atom(feature),
+      size: size,
+      aria_hidden?: false
+    })
+    |> add_aria_label(feature)
+  end
+
+  defp add_aria_label({:safe, [_, _, attributes, _, _, _, _, _, _] = html}, feature) do
+    attributes =
+      attributes
+      |> Enum.concat([
+        "aria-label = \"#{feature |> Atom.to_string() |> String.replace("_", " ")}\""
+      ])
+
+    html = html |> List.replace_at(2, attributes)
+
+    {:safe, html}
   end
 
   defp stop_feature_icon_atom(branch)
