@@ -28,7 +28,7 @@ defmodule DotcomWeb.StopView do
     |> add_aria_label(feature)
   end
 
-  defp add_aria_label({:safe, [_, _, attributes, _, _, _, _, _, _] = html} = icon, feature) do
+  defp add_aria_label({:safe, [_, _, attributes, _, _, _, _, _, _] = html}, feature) do
     attributes =
       attributes
       |> Enum.concat([
