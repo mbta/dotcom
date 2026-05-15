@@ -18,6 +18,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @loop_ferries ["Boat-F6", "Boat-F7"]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)
@@ -137,6 +138,84 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         |> assign(:timetable_schedules, [])
         |> assign(:header_schedules, [])
     end
+  end
+
+  def assign_trip_schedules(
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
+            date: ~D[2026-06-13],
+            direction_id: direction_id
+          }
+        } = conn
+      )
+      when route.id == "CR-Franklin" do
+    shuttle_route = @routes_repo.get("Shuttle-CantonJunctionForgePark")
+
+    shuttle_schedules =
+      timetable_schedules(%{
+        assigns: %{
+          date: ~D[2026-06-13],
+          route: shuttle_route,
+          direction_id: direction_id
+        }
+      })
+
+    route_schedules =
+      timetable_schedules(%{
+        assigns: %{
+          date: ~D[2026-06-13],
+          route: route,
+          direction_id: direction_id
+        }
+      })
+
+    timetable_schedules =
+      route_schedules ++ shuttle_schedules
+
+    trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
+
+    %{
+      trip_schedules: route_schedules,
+      trip_stops: route_stops
+    } = build_timetable(conn, route_schedules)
+
+    %{
+      trip_schedules: shuttle_schedules,
+      trip_stops: shuttle_stops
+    } =
+      build_timetable(
+        %{assigns: %{route: shuttle_route, direction_id: direction_id}},
+        shuttle_schedules
+      )
+
+    trip_schedules = Map.merge(route_schedules, shuttle_schedules)
+
+    trip_stops =
+      shuttle_stops |> Enum.reduce(route_stops, &merge_into_stop_list(&1, &2, direction_id == 1))
+
+    header_schedules =
+      trip_schedules
+      |> Map.values()
+      |> Kernel.then(&header_schedules(route, &1))
+
+    track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
+
+    header_stops =
+      trip_stops
+      |> Enum.map(&@stops_repo.get_parent/1)
+      |> Enum.uniq()
+      |> Enum.with_index()
+
+    conn
+    |> assign(:timetable_schedules, timetable_schedules)
+    |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
+    |> assign(:header_schedules, header_schedules)
+    |> assign(:header_stops, header_stops)
+    |> assign(:trip_schedules, trip_schedules)
+    |> assign(:track_changes, track_changes)
+    |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
   end
 
   def assign_trip_schedules(
@@ -548,17 +627,21 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "Boat-Long-North-5A" => {:after, "Rowes Wharf"},
     "Boat-Long-North-5B" => {:after, "Lewis Mall Wharf"},
     "Boat-Long-North-5C" => {:after, "Blossom Street Pier"},
-    # Franklin/Foxboro WC shuttle
-    "place-NEC-2139" => {:before, "Readville"},
-    "91637" => {:before, "Canton Juntion"},
-    "71689" => {:before, "Canton Juntion"},
-    "81668" => {:after, "Walpole"},
-    "81698" => {:after, "Walpole"},
-    "39213" => {:after, "Norfolk"},
-    "92133" => {:after, "Norfolk"},
-    "31331" => {:after, "Franklin"},
-    "31330" => {:after, "Franklin"},
-    "place-FB-0303" => {:after, "Forge Park/495"}
+    # ----Franklin/Foxboro WC shuttle----
+    # Franklin Station - Bus Shuttle
+    "31330" => {:after, "Forge Park/495"},
+    "31331" => {:after, "Forge Park/495"},
+    # Norfolk Station - Bus Shuttle
+    "92133" => {:after, "Franklin Station - Bus Shuttle"},
+    "39213" => {:after, "Franklin Station - Bus Shuttle"},
+    # Walpole Station - Bus Shuttle
+    "81668" => {:after, "Norfolk Station - Bus Shuttle"},
+    "81698" => {:after, "Norfolk Station - Bus Shuttle"},
+    # Washington Street
+    "91637" => {:before, "Canton Junction"},
+    "71689" => {:before, "Canton Junction"},
+    # Canton Junction
+    "place-NEC-2139" => {:before, "Readville"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
