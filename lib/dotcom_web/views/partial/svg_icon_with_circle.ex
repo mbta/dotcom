@@ -7,13 +7,15 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   defstruct icon: nil,
             size: :default,
             show_tooltip?: false,
-            aria_hidden?: true
+            aria_hidden?: true,
+            aria_label: nil
 
   @type t :: %__MODULE__{
           icon: SvgIcon.icon_arg(),
           size: :small | :default,
           show_tooltip?: boolean,
-          aria_hidden?: boolean
+          aria_hidden?: boolean,
+          aria_label: binary
         }
 
   @spec svg_icon_with_circle(t()) :: Phoenix.HTML.Safe.t()
@@ -82,6 +84,7 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   @spec do_svg_icon_with_circle(Phoenix.HTML.Safe.t(), __MODULE__.t()) :: Phoenix.HTML.Safe.t()
   defp do_svg_icon_with_circle({:safe, _} = icon, %__MODULE__{
          aria_hidden?: false,
+         aria_label: nil,
          show_tooltip?: false
        }) do
     icon
@@ -110,6 +113,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
 
   @spec aria_attrs(__MODULE__.t()) :: Keyword.t()
   defp aria_attrs(%__MODULE__{aria_hidden?: true}), do: [hidden: "true"]
+  defp aria_attrs(%__MODULE__{aria_label: aria_label}), do: [label: aria_label]
+
   defp aria_attrs(%__MODULE__{}), do: []
 
   @spec data_attrs(__MODULE__.t()) :: Keyword.t()
