@@ -23,9 +23,21 @@ defmodule DotcomWeb.StopView do
     svg_icon_with_circle(%SvgIconWithCircle{
       icon: stop_feature_icon_atom(feature),
       size: size,
-      aria_label: feature |> Atom.to_string() |> String.replace("_", " "),
       aria_hidden?: false
     })
+    |> add_aria_label(feature)
+  end
+
+  defp add_aria_label({:safe, [_, _, attributes, _, _, _, _, _, _] = html} = icon, feature) do
+    attributes =
+      attributes
+      |> Enum.concat([
+        "aria-label = \"#{feature |> Atom.to_string() |> String.replace("_", " ")}\""
+      ])
+
+    html = html |> List.replace_at(2, attributes)
+
+    {:safe, html}
   end
 
   defp stop_feature_icon_atom(branch)
