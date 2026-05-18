@@ -20,7 +20,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
         datetime
       end)
 
-      stub(Alerts.Repo.Mock, :all, fn _ ->
+      stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
         []
       end)
 
