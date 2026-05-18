@@ -70,8 +70,8 @@
 }
 
 .tooltip::before {
-  content: "";
-  position: absolute;
-  inset: -0.5rem 0 1.5rem 0;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  content: '';
+  inset: -.5rem 0 1.5rem 0;
+  position: absolute;
 }

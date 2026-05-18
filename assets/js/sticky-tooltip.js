@@ -55,7 +55,7 @@ export default function($) {
       // which messes with tooltip persistence, so we prevent the call if a tooltip
       // for the trigger already exists, which we can find if the "aria-describedby"
       // field is not empty
-      if ($this.attr('aria-describedby')){
+      if ($this.attr("aria-describedby")) {
         return;
       }
       $this.tooltip("show");
@@ -66,18 +66,24 @@ export default function($) {
         return;
       }
       // Prevent tooltip from closing when mousing over the tooltip itself
-      if (typeof e?.relatedTarget?.className === "string" && e.relatedTarget.className.includes("tooltip")) {
+      if (
+        typeof e?.relatedTarget?.className === "string" &&
+        e.relatedTarget.className.includes("tooltip")
+      ) {
         const $tooltip = $(`#${$this.attr("aria-describedby")}`);
         // The tooltip trigger's listener doesn't cover the tooltip, so we need a new listener
         // to close the tooltip when the mouse leaves the tooltip
-        if (!$tooltip.data('listener')) {
-          $tooltip.on("mouseleave", function(event) {
-            if ($(event.relatedTarget).data('original-title') == $this.data('original-title')) {
+        if (!$tooltip.data("listener")) {
+          $tooltip.on("mouseleave", event => {
+            if (
+              $(event.relatedTarget).data("original-title") ===
+              $this.data("original-title")
+            ) {
               return;
             }
-          hideTooltip($this);
+            hideTooltip($this);
           });
-          $tooltip.data('listener', true);
+          $tooltip.data("listener", true);
         }
         return;
       }
