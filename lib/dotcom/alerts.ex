@@ -154,12 +154,6 @@ defmodule Dotcom.Alerts do
     |> drop_empty_groups()
   end
 
-  def route_alerts(route_id) do
-    now = @date_time_module.now()
-
-    @alerts_repo_module.all(now) |> Enum.filter(fn alert -> route_alert?(alert, route_id) end)
-  end
-
   defp with_alert_lists(routes, alerts) do
     routes
     |> Enum.map(fn route ->
