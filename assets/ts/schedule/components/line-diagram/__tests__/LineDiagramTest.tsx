@@ -117,32 +117,6 @@ describe("LineDiagram", () => {
     expect(screen.getByText("Stations")).toBeInTheDocument();
   });
 
-  it("should update the URL when the schedule finder modal is opened", async () => {
-    const updateInLocationSpy = jest.spyOn(UseQueryParams, "updateInLocation");
-    const user = userEvent.setup();
-    const dispatchSpy = jest.fn();
-    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => {
-      return dispatchSpy;
-    });
-    renderWithProviders(
-      <LineDiagram
-        stopTree={stopTree}
-        routeStopList={testRouteStopList}
-        route={route}
-        directionId={1}
-        alerts={[]}
-      />
-    );
-
-    const scheduleLinks = screen.getAllByText("View departures");
-    await user.click(scheduleLinks[0]);
-
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ type: "OPEN_MODAL" })
-    );
-    expect(updateInLocationSpy).toHaveBeenCalled();
-  });
-
   it("should display the No Results card when a user doesn't query a stop", async () => {
     renderWithProviders(
       <LineDiagram
@@ -178,10 +152,13 @@ describe("LineDiagram", () => {
     expect(screen.getByText("a")).toBeDefined();
   });
 
-  it("should fire the open modal event when a user clicks on the results stop card", async () => {
+  it("should go to /departures/ when a user clicks on the results stop card", async () => {
     const user = userEvent.setup();
-    const dispatchSpy = jest.fn();
-    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => dispatchSpy);
+    const locationSpy = jest.fn();
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { assign: locationSpy },
+    });
     renderWithProviders(
       <LineDiagram
         stopTree={stopTree}
@@ -199,10 +176,7 @@ describe("LineDiagram", () => {
     await userEvent.click(scheduleButton);
 
     await waitFor(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: "OPEN_MODAL",
-        newStoreValues: { modalMode: "schedule" }
-      });
+      expect(locationSpy).toHaveBeenCalled()
     });
   });
 });
