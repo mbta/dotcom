@@ -80,7 +80,7 @@ defmodule FaresTest do
         expected_name =
           cond do
             has_logan? and has_charlestown? -> :ferry_cross_harbor
-            has_long? and has_logan? -> :ferry_cross_harbor
+            has_long? and has_logan? -> :ferry_east_boston
             has_long_south? and has_charlestown? -> :ferry_inner_harbor
             has_long? and has_east_boston? -> :ferry_east_boston
             has_lynn? -> :ferry_lynn
@@ -90,7 +90,7 @@ defmodule FaresTest do
           end
 
         assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name},
-               "Unexpected result for #{origin_id} to #{destination_id}"
+               "Unexpected result for #{origin_id} to #{destination_id}, expected #{expected_name}"
       end
     end
   end

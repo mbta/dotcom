@@ -124,7 +124,8 @@ defmodule Fares do
   end
 
   def calculate_ferry(origin, destination)
-      when origin in @loop_ferry_stops and destination in @loop_ferry_stops do
+      when origin in @loop_ferry_stops and destination in @loop_ferry_stops and
+             origin != destination do
     :ferry_east_boston
   end
 
