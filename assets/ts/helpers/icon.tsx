@@ -185,7 +185,10 @@ const defaultTooltipOptions: TooltipOptions = {
   animation: true,
   html: false,
   placement: "top",
-  trigger: "hover focus"
+  // We define some custom trigger behavior in tooltip-hover.js in order to support
+  // keeping the tooltip open when hovering over the tooltip element.
+  // Behaves like "hover focus" otherwise.
+  trigger: "manual"
 };
 
 export const TooltipWrapper: React.FC<{
