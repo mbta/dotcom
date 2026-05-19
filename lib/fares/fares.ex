@@ -20,6 +20,8 @@ defmodule Fares do
   # For the time being, these stops are ONLY served by the Winthrop Ferry
   @winthrop_ferry_stops ["Boat-Aquarium", "Boat-Fan", "Boat-Quincy", "Boat-Winthrop"]
 
+  @loop_ferry_stops ["Boat-Commonwealth", "Boat-Aquarium", "Boat-Lovejoy", "Boat-Logan"]
+
   @type ferry_name ::
           :ferry_cross_harbor
           | :ferry_inner_harbor
@@ -102,7 +104,7 @@ defmodule Fares do
 
   def calculate_ferry(origin, destination)
       when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination] do
-    :ferry_cross_harbor
+    :ferry_east_boston
   end
 
   def calculate_ferry(origin, destination)
@@ -111,9 +113,20 @@ defmodule Fares do
   end
 
   def calculate_ferry(origin, destination)
+      when "Boat-Long-North-5B" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
+    :ferry_east_boston
+  end
+
+  def calculate_ferry(origin, destination)
       when "Boat-Charlestown" in [origin, destination] and
              "Boat-Long-South" in [origin, destination] do
     :ferry_inner_harbor
+  end
+
+  def calculate_ferry(origin, destination)
+      when origin in @loop_ferry_stops and destination in @loop_ferry_stops and
+             origin != destination do
+    :ferry_east_boston
   end
 
   def calculate_ferry(origin, destination) when "Boat-Logan" in [origin, destination] do
