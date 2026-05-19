@@ -11,6 +11,10 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :world_cup_timetable}
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
+
   @match_list [
     {~D[2026-06-13], ~T[21:00:00], ~t"Match 5", [:haiti, :scotland],
      [
@@ -77,10 +81,17 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    now = @date_time.now()
+    route = @routes_repo.get("CR-Foxboro")
+    alerts = @alerts_repo.by_route_ids([route.id], now)
+
     {:ok,
      assign(socket, %{
        match_list: @match_list,
-       selected_match: nil
+       selected_match: nil,
+       date_time: @date_time.now(),
+       route: route,
+       alerts: alerts
      })}
   end
 
