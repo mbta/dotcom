@@ -144,7 +144,7 @@ defmodule DotcomWeb.PageView do
   end
 
   def shortcut_icons do
-    [:commuter_rail, :subway, :bus, :ferry, :the_ride]
+    [:commuter_rail, :subway, :bus, :ferry, :the_ride, :football]
     |> Enum.map(&shortcut_icon/1)
   end
 
@@ -169,6 +169,9 @@ defmodule DotcomWeb.PageView do
 
   defp shortcut_link(:commuter_rail),
     do: schedule_path(DotcomWeb.Endpoint, :show, :"commuter-rail")
+
+  defp shortcut_link(:football),
+    do: ~p"/schedules/bostonstadium"
 
   defp shortcut_link(mode), do: schedule_path(DotcomWeb.Endpoint, :show, mode)
 
@@ -195,6 +198,10 @@ defmodule DotcomWeb.PageView do
     ]
   end
 
+  defp shortcut_text(:football) do
+    content_tag(:span, ~t"Boston Stadium Trains")
+  end
+
   defp shortcut_text(mode) do
     [
       mode_name(mode),
@@ -205,6 +212,7 @@ defmodule DotcomWeb.PageView do
   defp shortcut_svg_name(:stations), do: "icon-circle-t-default.svg"
   defp shortcut_svg_name(:the_ride), do: "icon-the-ride-default.svg"
   defp shortcut_svg_name(:commuter_rail), do: shortcut_svg_name(:"commuter-rail")
+  defp shortcut_svg_name(:football), do: "football.svg"
   defp shortcut_svg_name(mode), do: "icon-mode-#{mode}-default.svg"
 
   def schedule_separator do
