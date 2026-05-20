@@ -23,7 +23,8 @@ defmodule DotcomWeb.StopView do
     svg_icon_with_circle(%SvgIconWithCircle{
       icon: stop_feature_icon_atom(feature),
       size: size,
-      aria_hidden?: false
+      aria_hidden?: false,
+      show_tooltip?: true
     })
     |> add_aria_label(feature)
   end
