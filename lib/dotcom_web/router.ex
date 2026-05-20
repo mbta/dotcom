@@ -207,7 +207,7 @@ defmodule DotcomWeb.Router do
     get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
 
     # Redirect Boat-F1 to Boat-F2H until Boat-F1 can be unlisted
-    get("/schedules/Boat-F1/*path_params", Redirector, to: "/schedules/Boat-F2H")
+    get("/schedules/Boat-F1/*path_params", Plugs.PathParamsRedirector, to: "/schedules/Boat-F2H")
 
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
