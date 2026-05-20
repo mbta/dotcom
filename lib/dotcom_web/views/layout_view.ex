@@ -97,7 +97,7 @@ defmodule DotcomWeb.LayoutView do
           %{
             sub_menu_section: ~t(Plan Your Journey),
             links: [
-              {~t(World Cup Guide), "/schedules/bostonstadium", :internal_link},
+              {~t(World Cup Guide), "/WorldCup", :internal_link},
               {~t(Trip Planner), "/trip-planner", :internal_link},
               {~t(Service Alerts), "/alerts", :internal_link},
               {~t(Sign Up for Service Alerts), "https://alerts.mbta.com/", :external_link},
@@ -230,7 +230,7 @@ defmodule DotcomWeb.LayoutView do
       }
     ]
 
-  def render_nav_link({link_name, href = "/schedules/bostonstadium", _}) do
+  def render_nav_link({link_name, href = "/WorldCup", _}) do
     icon =
       content_tag(:img, "",
         src: "/icon-svg/football.svg",
