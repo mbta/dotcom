@@ -51,6 +51,8 @@ defmodule Dotcom.Application do
           Predictions.Supervisor,
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
+          {Registry, name: Dotcom.PredictionsRegistry, keys: :unique},
+          {DynamicSupervisor, name: Dotcom.PredictedSchedulesManager},
           {Phoenix.PubSub, name: Dotcom.PubSub},
           DotcomWeb.Endpoint
         ] ++

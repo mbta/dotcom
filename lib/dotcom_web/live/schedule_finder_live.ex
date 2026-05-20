@@ -14,6 +14,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
   import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
+  alias Dotcom.PredictedScheduleServer
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias Dotcom.ScheduleFinder.TripDetails
   alias Dotcom.UpcomingDepartures
@@ -43,6 +44,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def mount(params, _session, socket) do
     case validate_params(params) do
       {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
+        _ = PredictedScheduleServer.start(route.id, direction_id)
+
         service_groups = ServiceGroup.for_route(route.id, service_date())
         all_services = Enum.flat_map(service_groups, & &1.services)
         selected_service = Enum.find(all_services, %{}, &(&1.now_date || &1.next_date))
@@ -339,13 +342,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp assign_trip_details(socket, trip_id, stop_sequence) do
     now = @date_time.now()
     stop_id = socket.assigns.stop.id
+    route_id = socket.assigns.route.id
+    direction_id = socket.assigns.direction_id
 
     trip_details =
       UpcomingDepartures.trip_details(%{
         now: now,
         stop_id: stop_id,
         stop_sequence: stop_sequence,
-        trip_id: trip_id
+        trip_id: trip_id,
+        route_id: route_id,
+        direction_id: direction_id
       })
 
     socket
@@ -1292,10 +1299,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp show_last_service?(%{
          remaining_departures: remaining_departures,
-         last_trip_time: %{result: last_trip_time}
+         last_trip_time: %{result: last_scheduled_trip_time}
        })
        when remaining_departures != [] do
-    last_departure = remaining_departures |> Enum.at(-1)
+    last_departure_time = remaining_departures |> Enum.at(-1) |> Map.get(:time)
 
     has_last_trip? =
       !is_nil(
@@ -1303,18 +1310,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
         |> Enum.find(nil, fn departure -> departure |> Map.get(:last_trip?, nil) end)
       )
 
-    last_departure_time = last_departure.time
-
-    if(is_nil(last_departure_time)) do
-      true
-    else
-      if (not is_nil(last_trip_time) and DateTime.after?(last_departure_time, last_trip_time)) or
-           DateTime.before?(last_trip_time, @date_time.now()) or
-           has_last_trip? do
-        false
-      else
-        true
-      end
+    cond do
+      has_last_trip? -> false
+      is_nil(last_scheduled_trip_time) -> true
+      DateTime.before?(last_scheduled_trip_time, @date_time.now()) -> false
+      is_nil(last_departure_time) -> true
+      DateTime.after?(last_departure_time, last_scheduled_trip_time) -> false
+      true -> true
     end
   end
 
