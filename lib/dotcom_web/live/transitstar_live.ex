@@ -3,9 +3,9 @@ defmodule DotcomWeb.TransitStar2000 do
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  @sl_routes %{"741": "SL1", "742": "SL2", "743": "SL3", "751": "SL4"}
 
   def mount(params, _session, socket) do
-    dbg(params)
     location = params |> Map.get("location", "place-sstat")
     scene = params |> Map.get("scene", "current_conditions") |> String.to_atom()
     now = @date_time_module.now()
@@ -27,17 +27,39 @@ defmodule DotcomWeb.TransitStar2000 do
        bus_alerts: bus_alerts,
        subway_ids: subway_ids,
        rail_ids: rail_ids,
-       bus_ids: bus_ids
+       bus_ids: bus_ids,
+       sl_routes: @sl_routes
      })}
   end
 
-  def route_alert_count(alerts, route) do
+  def route_alert_count(alerts, route, now) do
     alerts
+    |> Enum.filter(fn alert ->
+      alert.effect in [
+        :cancellation,
+        :delay,
+        :detour,
+        :dock_closure,
+        :service_change,
+        :shuttle,
+        :single_tracking,
+        :snow_route,
+        :station_closure,
+        :stop_closure,
+        :suspension
+      ]
+    end)
     |> Enum.filter(fn alert ->
       alert.informed_entity.entities
       |> Enum.any?(fn entity ->
         entity.route == route
       end)
+    end)
+    |> Enum.filter(fn alert ->
+      alert.active_period
+      |> Enum.any?(fn range ->
+        Dotcom.Utils.DateTime.in_range?(range, @date_time_module.now())
+      end) or alert.effect == :delay
     end)
     |> Enum.count()
   end
@@ -46,47 +68,77 @@ defmodule DotcomWeb.TransitStar2000 do
     ~H"""
     <div class="w-full m-1">
       <div class="w-full flex flex-row">
-        <div class="flex w-[4em] h-[4em] items-center justify-center">
-          T
+        <div class="flex h-[6em] items-center justify-center mr-8">
+          <img src="/icon-svg/mbta-logo.svg" class="h-full" />
         </div>
         <h2 class="flex items-end">
           Current<br />Conditions
         </h2>
-        <div class="flex items-end ml-auto mr-[1em]">
+        <div class="flex items-end ml-auto mr-[1em] font-bold mb-2">
           {pretty_time(%{now: @now})}
         </div>
       </div>
-      <div class="flex flex-row justify-evenly h-[60vh]">
-        <div id="subway" class="border w-full m-1">
-          <h3 class="bold">
-            Subway Alerts
+      <div class="flex flex-row justify-evenly h-[60vh] font-bold">
+        <div id="subway" class="border w-full m-1 p-4">
+          <h3 class="mt-0">
+            Subway
           </h3>
-          <ul>
-            <li :for={route <- @subway_ids}>
-              {route} Line: {route_alert_count(@subway_alerts, route)}
+          <ul class="list-unstyled">
+            <li :for={route <- @subway_ids} class="flex flex-row justify-between mb-1">
+              <span>
+                <DotcomWeb.Components.RouteSymbols.route_icon route={%Routes.Route{id: route}} />
+                {route} Line
+              </span>
+              {route_alert_count(
+                @subway_alerts,
+                route,
+                @now
+              )} alerts
             </li>
           </ul>
         </div>
-        <div id="rail" class="border w-full m-1 overflow-auto">
-          <h3 class="bold">
-            Commuter Rail Alerts
+        <div id="rail" class="border w-full m-1 p-4">
+          <h3 class="mt-0">
+            Commuter Rail
           </h3>
-          <ul>
+          <ul id="rail_list" class="h-[48vh] overflow-hidden list-unstyled">
             <%= for route <- @rail_ids do %>
-              <li :if={route_alert_count(@rail_alerts, route) > 0}>
-                {route}: {route_alert_count(@rail_alerts, route)}
+              <li
+                :if={route_alert_count(@rail_alerts, route, @now) > 0}
+                class="flex flex-row justify-between mb-1"
+              >
+                <span>
+                  <span class="bg-[#80276c] text-white font-bold rounded-full pl-2 pr-2">
+                    {route
+                    |> String.replace("CR-", "")}
+                  </span>
+                </span>
+                {route_alert_count(@rail_alerts, route, @now)} alerts
               </li>
             <% end %>
           </ul>
         </div>
-        <div id="bus" class="border w-full m-1">
-          <h3 class="bold">
-            Bus Alerts
+        <div id="bus" class="border w-full m-1 p-4">
+          <h3 class="mt-0">
+            Bus
           </h3>
-          <ul>
+          <ul id="bus_list" class="h-[48vh] overflow-hidden list-unstyled">
             <%= for route <- @bus_ids do %>
-              <li :if={route_alert_count(@bus_alerts, route) > 0}>
-                {route}: {route_alert_count(@bus_alerts, route)}
+              <li
+                :if={route_alert_count(@bus_alerts, route, @now) > 0}
+                class="flex flex-row justify-between mb-1"
+              >
+                <span>
+                  {DotcomWeb.ViewHelpers.bus_icon_pill(%Routes.Route{
+                    id: route,
+                    name: Map.get(@sl_routes, route |> String.to_atom(), route)
+                  })}
+                </span>
+                {route_alert_count(
+                  @bus_alerts,
+                  route,
+                  @now
+                )} alerts
               </li>
             <% end %>
           </ul>
@@ -103,8 +155,6 @@ defmodule DotcomWeb.TransitStar2000 do
   end
 
   def pretty_time(assigns) do
-    dbg(assigns)
-
     ~H"""
     {@now |> Dotcom.Utils.Time.format(:hour_12_minutes) |> elem(1)}
     <br />
