@@ -175,6 +175,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   defp mark_last_trip([], _route_type), do: []
 
   # Only mark the last trip for non-subway routes
+  # Subway last trips are indicated from prediction data
   defp mark_last_trip(departures, route_type) when route_type != :subway do
     List.update_at(departures, -1, &Map.put(&1, :last_trip?, true))
   end
