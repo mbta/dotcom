@@ -156,8 +156,8 @@ defmodule DotcomWeb.TransitStar2000 do
           </ul>
         </div>
       </div>
-      <div class="mt-4 p-2">
-        <audio src="/images/jazz_1.mp3" controls autoplay />
+      <div class="transitstar-cc-lowerbox">
+        <audio src="/images/jazz_1.mp3" controls autoplay id="transitstar-music" />
       </div>
     </div>
     """

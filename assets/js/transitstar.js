@@ -20,9 +20,24 @@ export default () => {
       }
     
       document.addEventListener("DOMContentLoaded", ()=>{
-        scrollem(document.getElementById("bus_list"))
-        scrollem(document.getElementById("rail_list"))
+        scrollem(document.getElementById("bus_list"));
+        scrollem(document.getElementById("rail_list"));
+        saySomething("Your current local conditions")
       });
+
+      const saySomething = (text) => {
+        const tsm = document.getElementById("transitstar-music");
+        tsm.volume = 0.15;
+        const utterThis = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterThis);
+        utterThis.pitch = 0.5;
+        utterThis.rate = 0.5;
+        utterThis.onend = (event) => {
+            tsm.volume = 1.0;
+        }
+      }
 
       console.log("HI!");
     }
+
+    
