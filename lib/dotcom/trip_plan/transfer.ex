@@ -101,7 +101,8 @@ defmodule Dotcom.TripPlan.Transfer do
   def bus_to_subway_transfer?([first, middle, last])
       when agency_name?(first, "MBTA") and agency_name?(middle, "MBTA") and
              agency_name?(last, "MBTA") do
-    bus_to_subway_transfer?([first, middle]) || bus_to_subway_transfer?([middle, last])
+    (bus_to_subway_transfer?([first, middle]) ||
+       bus_to_subway_transfer?([middle, last])) && !commuter_rail?([first, middle, last])
   end
 
   def bus_to_subway_transfer?([from, to])
@@ -110,6 +111,18 @@ defmodule Dotcom.TripPlan.Transfer do
   end
 
   def bus_to_subway_transfer?(_), do: false
+
+  def commuter_rail?([_, _, _] = legs) do
+    legs |> Enum.any?(fn leg -> commuter_rail?(leg) end)
+  end
+
+  def commuter_rail?(%{mode: :RAIL}) do
+    true
+  end
+
+  def commuter_rail?(_) do
+    false
+  end
 
   defp same_station?(%Place{stop: %Stop{} = from_stop}, %Place{stop: %Stop{} = to_stop}) do
     cond do
