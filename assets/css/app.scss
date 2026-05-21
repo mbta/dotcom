@@ -161,6 +161,7 @@ svg[class*="fill"] > path[fill]:not([fill="none"]) {
 @import 'event-overlay';
 @import 'event-details';
 @import 'global-navigation';
+@import 'transitstar';
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -172,3 +173,4 @@ svg[class*="fill"] > path[fill]:not([fill="none"]) {
 //
 @import '../vendor/fixedsticky'; // needs refactor
 @import 'utilities';
+

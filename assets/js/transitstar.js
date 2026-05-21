@@ -3,7 +3,7 @@ export default () => {
         if(!elem){return}
         let newDir=dir;
         if(dir>0){
-            if(elem.scrollTop < elem.scrollHeight - elem.clientHeight){
+            if(elem.scrollTop < elem.scrollHeight - elem.clientHeight-1){
                 elem.scrollBy(0,1)
             }else{
                 newDir=-1

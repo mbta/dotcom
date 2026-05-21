@@ -1,0 +1,91 @@
+.transitstar-cc-container {
+    width: 100%;
+    margin: var(--spacing-1);
+    background: linear-gradient(180deg, #20205a, #2f144e 20%, #be5b05);
+    color: white;
+    padding:  var(--spacing-6);
+    padding-top: 0px;
+}
+
+.transitstar-cc-header {
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    margin-bottom: var(--spacing-4);
+}
+
+.transitstar-cc-blend {
+    mix-blend-mode: lighten;
+}
+
+.transitstar-cc-blend-top {
+     background: linear-gradient(180deg, #244da4, #20205b);
+     position: absolute;
+     left: 0px;
+     right: 0px;
+     top: 0px;
+     height: 1em;
+     z-index: 0;
+}
+
+.transitstar-cc-blend-bottom {
+     background: linear-gradient(00deg, #244da4, #20205b);
+     position: absolute;
+     left: 0px;
+     right: 0px;
+     bottom: 0px;
+     height: 1em;
+     z-index: 0;
+}
+
+.transitstar-cc-blend-left {
+     background: linear-gradient(90deg, #244da4, #20205b);
+     position: absolute;
+     left: 0px;
+     width: 1em;
+     bottom: 0px;
+     top: 0px;
+     z-index: 0;
+}
+
+.transitstar-cc-blend-right {
+     background: linear-gradient(270deg, #244da4, #20205b);
+     position: absolute;
+     right: 0px;
+     width: 1em;
+     bottom: 0px;
+     top: 0px;
+     z-index: 0;
+}
+
+.transitstar-cc-ul {
+    padding-inline-start: 0px;
+    list-style: none;
+    height: calc(60vh - var(--spacing-2) - var(--spacing-6) - var(--spacing-5) - 1em);
+    overflow: hidden;
+    margin-top: var(--spacing-2);
+    li {
+        svg {
+            top: 0.4em;
+            position: relative;
+        }
+    }
+}
+
+.transitstar-cc-modebox {
+    background: #20205b;
+    position:relative;
+    width: 30vw;
+    padding: var(--spacing-5);
+}
+
+.transitstar-cc-logo {
+    margin-top: var(--spacing-8);
+    margin-left: var(--spacing-8);
+    margin-right: var(--spacing-4);
+    display: flex;
+    height: 6em;
+    align-items: center;
+    justify-content: center;
+    filter: invert(1);
+}

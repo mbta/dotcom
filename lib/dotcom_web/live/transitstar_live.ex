@@ -66,24 +66,28 @@ defmodule DotcomWeb.TransitStar2000 do
 
   def render(%{scene: :current_conditions} = assigns) do
     ~H"""
-    <div class="w-full m-1">
-      <div class="w-full flex flex-row">
-        <div class="flex h-[6em] items-center justify-center mr-8">
+    <div class="transitstar-cc-container">
+      <div class="transitstar-cc-header">
+        <div class="transitstar-cc-logo">
           <img src="/icon-svg/mbta-logo.svg" class="h-full" />
         </div>
         <h2 class="flex items-end">
           Current<br />Conditions
         </h2>
-        <div class="flex items-end ml-auto mr-[1em] font-bold mb-2">
+        <div class="flex items-end ml-auto mr-6 font-bold mb-2">
           {pretty_time(%{now: @now})}
         </div>
       </div>
-      <div class="flex flex-row justify-evenly h-[60vh] font-bold">
-        <div id="subway" class="border w-full m-1 p-4">
+      <div class="flex flex-row justify-between h-[60vh] font-bold">
+        <div id="subway" class="transitstar-cc-modebox">
+          <div class="transitstar-cc-blend-top transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-left transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-right transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-bottom transitstar-cc-blend"></div>
           <h3 class="mt-0">
             Subway
           </h3>
-          <ul class="list-unstyled">
+          <ul class="transitstar-cc-ul">
             <li :for={route <- @subway_ids} class="flex flex-row justify-between mb-1">
               <span>
                 <DotcomWeb.Components.RouteSymbols.route_icon route={%Routes.Route{id: route}} />
@@ -97,11 +101,15 @@ defmodule DotcomWeb.TransitStar2000 do
             </li>
           </ul>
         </div>
-        <div id="rail" class="border w-full m-1 p-4">
+        <div id="rail" class="transitstar-cc-modebox">
+          <div class="transitstar-cc-blend-top transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-left transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-right transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-bottom transitstar-cc-blend"></div>
           <h3 class="mt-0">
             Commuter Rail
           </h3>
-          <ul id="rail_list" class="h-[48vh] overflow-hidden list-unstyled">
+          <ul id="rail_list" class="transitstar-cc-ul">
             <%= for route <- @rail_ids do %>
               <li
                 :if={route_alert_count(@rail_alerts, route, @now) > 0}
@@ -118,11 +126,15 @@ defmodule DotcomWeb.TransitStar2000 do
             <% end %>
           </ul>
         </div>
-        <div id="bus" class="border w-full m-1 p-4">
+        <div id="bus" class="transitstar-cc-modebox">
+          <div class="transitstar-cc-blend-top transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-left transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-right transitstar-cc-blend"></div>
+          <div class="transitstar-cc-blend-bottom transitstar-cc-blend"></div>
           <h3 class="mt-0">
             Bus
           </h3>
-          <ul id="bus_list" class="h-[48vh] overflow-hidden list-unstyled">
+          <ul id="bus_list" class="transitstar-cc-ul">
             <%= for route <- @bus_ids do %>
               <li
                 :if={route_alert_count(@bus_alerts, route, @now) > 0}
@@ -143,6 +155,9 @@ defmodule DotcomWeb.TransitStar2000 do
             <% end %>
           </ul>
         </div>
+      </div>
+      <div class="mt-4 p-2">
+        <audio src="/images/jazz_1.mp3" controls autoplay />
       </div>
     </div>
     """
