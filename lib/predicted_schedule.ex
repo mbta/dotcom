@@ -298,12 +298,17 @@ defmodule PredictedSchedule do
   Retrieves predicted schedule vehicle
   """
   @spec vehicle(PredictedSchedule.t()) :: Vehicles.Vehicle.t() | nil
-  def vehicle(%PredictedSchedule{prediction: %Prediction{vehicle_id: vehicle_id}})
-      when not is_nil(vehicle_id) do
-    @vehicles_repo.get(vehicle_id)
+  def vehicle(predicted_schedule) do
+    case trip(predicted_schedule) do
+      %Trip{id: trip_id} -> @vehicles_repo.trip(trip_id)
+      _ ->
+        case predicted_schedule.prediction do
+          %Prediction{vehicle_id: vehicle_id} ->
+            @vehicles_repo.get(vehicle_id)
+            _ -> nil
+        end
+    end
   end
-
-  def vehicle(_), do: nil
 
   @doc """
   Determines if the given predicted schedule occurs after the given time

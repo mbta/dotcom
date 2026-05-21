@@ -20,7 +20,7 @@ defmodule Predictions.Repo do
 
   @default_params [
     "fields[prediction]":
-      "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
+      "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence,update_type",
     "fields[trip]": "direction_id,headsign,name,bikes_allowed",
     "fields[stop]": "platform_code",
     include: "trip,trip.occupancies,stop"
@@ -135,7 +135,7 @@ defmodule Predictions.Repo do
   defp has_departure_time?(
          {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival, departure, _time,
           _stop_sequence, _schedule_relationship, _track, _status, _departing?, _vehicle_id,
-          _last_trip?} = _prediction
+          _last_trip?, _update_type} = _prediction
        ) do
     departure != nil
   end
@@ -160,7 +160,8 @@ defmodule Predictions.Repo do
            _status,
            _departing?,
            _vehicle_id,
-           _last_trip?
+           _last_trip?,
+           _update_type
          },
          %DateTime{}
        ) do
@@ -183,7 +184,8 @@ defmodule Predictions.Repo do
            _status,
            _departing?,
            _vehicle_id,
-           _last_trip?
+           _last_trip?,
+           _update_type
          },
          min_time
        ) do
@@ -202,13 +204,13 @@ defmodule Predictions.Repo do
     |> Enum.flat_map(fn {:ok, prediction} -> prediction end)
   end
 
-  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _, _, _, _}, _opts) do
+  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _, _, _, _, _}, _opts) do
     # no stop ID
     []
   end
 
   defp record_to_structs(
-         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _, _} = record,
+         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _, _, _} = record,
          opts
        ) do
     discard_past_subway_predictions = opts |> Keyword.get(:discard_past_subway_predictions, true)
@@ -229,7 +231,7 @@ defmodule Predictions.Repo do
 
   defp do_record_to_structs(
          nil,
-         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _, _} = record
+         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _, _, _} = record
        ) do
     :ok =
       Logger.error(
@@ -243,7 +245,7 @@ defmodule Predictions.Repo do
          %Stop{} = stop,
          {id, trip_id, platform_stop_id, route_id, direction_id, arrival_time, departure_time,
           time, stop_sequence, schedule_relationship, track, status, departing?, vehicle_id,
-          last_trip?}
+          last_trip?, update_type}
        ) do
     trip =
       if trip_id do
@@ -269,7 +271,8 @@ defmodule Predictions.Repo do
         status: status,
         departing?: departing?,
         vehicle_id: vehicle_id,
-        last_trip?: last_trip?
+        last_trip?: last_trip?,
+        update_type: update_type
       }
     ]
   end

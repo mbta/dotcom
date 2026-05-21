@@ -45,7 +45,8 @@ defmodule Predictions.Parser do
       status(item),
       departing?(item),
       vehicle_id(item),
-      last_trip?(item)
+      last_trip?(item),
+      item.attributes["update_type"]
     }
   end
 

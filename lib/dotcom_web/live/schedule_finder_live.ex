@@ -867,7 +867,39 @@ defmodule DotcomWeb.ScheduleFinderLive do
         summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
       >
         <:heading>
-          <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
+           <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
+          <table class="mbta-table text-xs">
+            <tr :for={{key, value} <- Map.drop(upcoming_departure, [
+                  :route,
+                  :crowding,
+                  :__struct__,
+                  :stop_sequence,
+                  :schedule_relationship,
+                  :arrival_status,
+                  :arrival_substatus,
+                  :headsign,
+                  :time,
+                  :last_trip?,
+                  :platform_name,
+                  :trip_name,
+                  :vehicle_name
+                ])}>
+              <th scope="row" class="py-1">{key}</th>
+              <td class="text-nowrap py-1">
+                <%= if key == :prediction && value != nil do %>
+                  <dl>
+                    <dt>Stop ID</dt><dd>{value.stop.id}</dd>
+                    <dt>Platform ID</dt><dd>{value.platform_stop_id}</dd>
+                    <dt>Trip ID</dt><dd>{if(value.trip, do: value.trip.id)}</dd>
+                    <dt>Direction ID</dt><dd>{value.direction_id}</dd>
+                    <dt>Vehicle ID</dt><dd>{value.vehicle_id}</dd>
+                  </dl>
+                <% else %>
+                {value}
+                <% end %>
+              </td>
+            </tr>
+          </table>
         </:heading>
         <:content>
           <.trip_details_wrapper

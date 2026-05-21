@@ -16,7 +16,7 @@ defmodule Dotcom.PredictedScheduleServer do
 
   @registry Dotcom.PredictionsRegistry
 
-  @type collection_key :: {Trip.id_t(), non_neg_integer()}
+  @type collection_key :: {Trip.id_t(), Stop.id_t(), non_neg_integer()}
   @type collection :: %{collection_key() => PredictedSchedule.t()}
   @type direction_id_t :: 0 | 1
 
@@ -52,6 +52,7 @@ defmodule Dotcom.PredictedScheduleServer do
     )
   end
 
+  # It'd be nice to return something when it times out, instead of EXIT
   @spec for_stop(Route.id_t(), direction_id_t(), Stop.id_t()) :: [PredictedSchedule.t()]
   def for_stop(route_id, direction_id, stop_id) do
     with {:ok, pid} <- lookup_server_pid(route_id, direction_id) do
@@ -135,7 +136,7 @@ defmodule Dotcom.PredictedScheduleServer do
   defp predicted_schedules_by_trip(%{collection: collection}) do
     collection
     |> Enum.group_by(
-      fn {{trip_id, _}, _} -> trip_id end,
+      fn {{trip_id, _, _}, _} -> trip_id end,
       fn {_, ps} -> ps end
     )
   end
@@ -143,13 +144,14 @@ defmodule Dotcom.PredictedScheduleServer do
   defp predicted_schedules_by_stop(%{collection: collection}) do
     collection
     |> Enum.group_by(
-      fn {_, ps} -> PredictedSchedule.stop(ps) |> Map.get(:id) end,
+      fn {{_, _, _}, ps} -> PredictedSchedule.stop(ps) |> Map.get(:id) end,
       fn {_, ps} -> ps end
     )
   end
 
   defp update_predictions(%{last_prediction_update: datetime} = state) do
     now = now()
+    state = Map.update!(state, :collection, &prune_past_trips(&1, now))
 
     if is_nil(datetime) or DateTime.diff(now, datetime, :second) > 5 do
       state = Map.put(state, :last_prediction_update, now)
@@ -168,6 +170,24 @@ defmodule Dotcom.PredictedScheduleServer do
     end
   end
 
+  defp prune_past_trips(collection, now) do
+    collection
+    |> Map.reject(fn {_key, ps} ->
+      cond do
+        PredictedSchedule.trip(ps) == nil ->
+          true
+
+        PredictedSchedule.display_time(ps) == nil ->
+          true
+
+        true ->
+          ps
+          |> PredictedSchedule.display_time()
+          |> DateTime.diff(now, :minute) <= -5
+      end
+    end)
+  end
+
   defp reconcile(objects, state) do
     state
     |> Map.update!(:collection, fn collection ->
@@ -182,7 +202,11 @@ defmodule Dotcom.PredictedScheduleServer do
     end)
   end
 
-  defp collection_key(%{stop_sequence: stop_sequence, trip: %Schedules.Trip{id: trip_id}}) do
-    {trip_id, stop_sequence}
+  defp collection_key(%{
+         platform_stop_id: platform_stop_id,
+         stop_sequence: stop_sequence,
+         trip: %Trip{id: trip_id}
+       }) do
+    {trip_id, platform_stop_id, stop_sequence}
   end
 end

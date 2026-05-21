@@ -179,7 +179,14 @@ defmodule Dotcom.UpcomingDepartures.Processor do
       if predicted_schedule.schedule,
         do: predicted_schedule.schedule.stop_headsign
 
+    %{schedule: s, prediction: p} = predicted_schedule
+
     %UpcomingDeparture{
+      schedule_trip_id: if(s, do: s.trip.id),
+      schedule_relationship: if(p, do: p.schedule_relationship),
+      prediction: p,
+      update_type: if(p, do: p.update_type),
+      vehicle_id: if(vehicle, do: vehicle.id),
       arrival_status:
         arrival_status(%{
           predicted_schedule: predicted_schedule,
@@ -271,6 +278,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
       }) do
     predicted_schedules =
       Dotcom.PredictedScheduleServer.for_trip(route_id, direction_id, trip_id)
+      |> Stream.reject(&is_nil(PredictedSchedule.trip(&1)))
       |> Enum.reject(&past_schedule?(&1, now))
 
     vehicle =

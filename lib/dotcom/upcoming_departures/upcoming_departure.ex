@@ -8,6 +8,11 @@ defmodule Dotcom.UpcomingDepartures.UpcomingDeparture do
   alias Vehicles.Vehicle
 
   defstruct [
+    :schedule_trip_id,
+    :schedule_relationship,
+    :prediction,
+    :update_type,
+    :vehicle_id,
     :arrival_status,
     :arrival_substatus,
     :crowding,
@@ -46,6 +51,11 @@ defmodule Dotcom.UpcomingDepartures.UpcomingDeparture do
           | {:status, String.t()}
 
   @type t :: %__MODULE__{
+          schedule_trip_id: term(),
+          schedule_relationship: term(),
+          prediction: term(),
+          update_type: term(),
+          vehicle_id: term(),
           arrival_status: arrival_status_t(),
           arrival_substatus: arrival_substatus_t(),
           crowding: Vehicle.crowding(),

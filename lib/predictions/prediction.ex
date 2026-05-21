@@ -20,6 +20,7 @@ defmodule Predictions.Prediction do
             track: nil,
             status: nil,
             departing?: false,
+            update_type: nil,
             last_trip?: false
 
   @type id_t :: String.t()
@@ -45,6 +46,7 @@ defmodule Predictions.Prediction do
           track: String.t() | nil,
           status: String.t() | nil,
           departing?: boolean,
+          update_type: String.t(),
           last_trip?: boolean
         }
 end
