@@ -9,7 +9,6 @@ defmodule Dotcom.TimetableLoaderTest do
   setup :verify_on_exit!
 
   describe "from_csv/1" do
-    defp valid_date("CR-Foxboro"), do: ~D[2026-03-26]
     defp valid_date(_), do: Faker.Date.between(@ferry_date_range.first, @ferry_date_range.last)
 
     test "error for invalid route" do

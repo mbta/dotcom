@@ -24,9 +24,6 @@ defmodule Dotcom.TimetableLoader do
     },
     "Boat-F8" => %{
       effective_dates: {~D[2026-05-23], ~D[2026-06-13]}
-    },
-    "CR-Foxboro" => %{
-      effective_dates: {~D[2026-03-26], ~D[2026-03-26]}
     }
   }
   @available_route_ids Map.keys(@metadata)
