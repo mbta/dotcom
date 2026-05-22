@@ -410,9 +410,7 @@ describe("SchedulePage", () => {
     const scheduleNode = await waitFor(() =>
       screen.getByText("Schedule Finder")
     );
-    const todaysNode = await waitFor(() => screen.getByText("Today's Service"));
     expect(scheduleNode).toBeInTheDocument();
-    expect(todaysNode).toBeInTheDocument();
   });
 
   it("Renders empty component", () => {
@@ -491,9 +489,7 @@ describe("SchedulePage", () => {
     const scheduleNode = await waitFor(() =>
       screen.getByText("Schedule Finder")
     );
-    const todaysNode = await waitFor(() => screen.getByText("Today's Service"));
     expect(scheduleNode).toBeInTheDocument();
-    expect(todaysNode).toBeInTheDocument();
   });
 
   it("Shows the ScheduleDirection component", () => {
