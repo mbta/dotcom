@@ -59,5 +59,18 @@ defmodule Dotcom.TimetableLoaderTest do
       invalid_date = ~D[2025-12-25]
       assert from_csv(valid_route_id, 1, invalid_date) == {:ok, []}
     end
+
+    test "special case: specific overrides for F6/F7 return F8 table" do
+      f6_or_f7 = Faker.Util.pick(~w(Boat-F6 Boat-F7))
+
+      memorial_day = ~D[2026-05-25]
+
+      expect(Dotcom.TimetableLoader.Mock, :get_csv, fn filename ->
+        assert filename =~ "Boat-F8"
+        []
+      end)
+
+      assert {:ok, _} = from_csv(f6_or_f7, 1, memorial_day)
+    end
   end
 end
