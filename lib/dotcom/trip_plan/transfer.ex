@@ -63,6 +63,19 @@ defmodule Dotcom.TripPlan.Transfer do
     |> Kernel.and(maybe_transfer?([middle_leg, last_leg]))
   end
 
+  def maybe_transfer?([from, to])
+      when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") and
+             from.mode == :SUBWAY and to.mode == :SUBWAY do
+    same_station?(from.to, to.from)
+  end
+
+  def maybe_transfer?([from, middle, to])
+      when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") and
+             agency_name?(middle, "MBTA") and
+             from.mode == :SUBWAY and to.mode == :SUBWAY and middle.mode == :SUBWAY do
+    same_station?(from.to, middle.from) && same_station?(middle.to, to.from)
+  end
+
   def maybe_transfer?([from, to]) when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") do
     if from.route === to.route and
          Enum.all?([from.route, to.route], &bus?/1) do
