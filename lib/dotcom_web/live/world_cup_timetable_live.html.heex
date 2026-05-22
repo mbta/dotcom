@@ -20,6 +20,13 @@
     )
     |> raw()}
   </.callout_link>
+  <div :if={Enum.any?(@alerts)} class="w-full">
+    {DotcomWeb.AlertView.group(
+      alerts: @alerts,
+      route: @route,
+      date_time: @date_time
+    )}
+  </div>
   <nav
     aria-label={~t"World Cup Matches"}
     class="w-full flex flex-col gap-4"
