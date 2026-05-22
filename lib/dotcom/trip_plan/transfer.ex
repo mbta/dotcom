@@ -64,16 +64,15 @@ defmodule Dotcom.TripPlan.Transfer do
   end
 
   def maybe_transfer?([from, to])
-      when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") and
-             from.mode == :SUBWAY and to.mode == :SUBWAY do
-    same_station?(from.to, to.from)
+      when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") do
+    subway?(from.route) && subway?(to.route) && same_station?(from.to, to.from)
   end
 
   def maybe_transfer?([from, middle, to])
       when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") and
-             agency_name?(middle, "MBTA") and
-             from.mode == :SUBWAY and to.mode == :SUBWAY and middle.mode == :SUBWAY do
-    same_station?(from.to, middle.from) && same_station?(middle.to, to.from)
+             agency_name?(middle, "MBTA") do
+    (subway?(from.route) and subway?(to.route) and subway?(middle.route) and
+       same_station?(from.to, middle.from)) && same_station?(middle.to, to.from)
   end
 
   def maybe_transfer?([from, to]) when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") do
