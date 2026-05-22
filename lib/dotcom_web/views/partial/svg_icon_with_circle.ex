@@ -109,7 +109,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
   defp icon_name(icon), do: Atom.to_string(icon)
 
   @spec aria_attrs(__MODULE__.t()) :: Keyword.t()
-  defp aria_attrs(%__MODULE__{aria_hidden?: true}), do: [hidden: true]
+  defp aria_attrs(%__MODULE__{aria_hidden?: true}), do: [hidden: "true"]
+
   defp aria_attrs(%__MODULE__{}), do: []
 
   @spec data_attrs(__MODULE__.t()) :: Keyword.t()

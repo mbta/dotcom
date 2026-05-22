@@ -22,20 +22,22 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
              }) =~ route.name
     end
 
-    test "handles Silver Live rapid transit" do
+    test "handles Silver Line rapid transit" do
       route =
         build(:bus_route,
           description: :rapid_transit,
-          id: Faker.Util.pick(Routes.Route.silver_line())
+          id: Faker.Util.pick(Routes.Route.silver_line()),
+          name: "Silver Line",
+          long_name: "Silver Line"
         )
 
       assert render_component(&route_symbol/1, %{
                route: route
              })
-             |> matches_title?("Silver Line")
+             |> matches_label?("Silver Line")
     end
 
-    test "handles Silver Live buses" do
+    test "handles Silver Line buses" do
       route =
         build(:bus_route,
           id: Faker.Util.pick(Routes.Route.silver_line())
@@ -53,7 +55,8 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
       route =
         build(:bus_route,
           description: :rail_replacement_bus,
-          name: route_name
+          name: route_name,
+          long_name: route_name
         )
 
       icon =
@@ -61,7 +64,7 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
           route: route
         })
 
-      assert icon |> matches_title?("Shuttle Bus")
+      assert icon |> matches_label?(route_name)
 
       {:ok, document} = Floki.parse_document(icon)
 
@@ -138,12 +141,12 @@ defmodule DotcomWeb.Components.RouteSymbolsTest do
     end
   end
 
-  defp matches_title?(html, text) do
+  defp matches_label?(html, text) do
     {:ok, document} = Floki.parse_document(html)
 
     title =
       document
-      |> Floki.find("title")
+      |> Floki.attribute("svg", "aria-label")
       |> Floki.text()
       |> String.trim()
 

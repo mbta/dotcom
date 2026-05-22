@@ -32,7 +32,7 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
         |> Floki.parse_document!()
 
       # Verify
-      assert document |> Floki.find("title") |> Kernel.length() == 1
+      assert document |> Floki.find("svg") |> Kernel.length() == 1
     end
 
     test "renders the commuter rail mode icon last" do
@@ -60,7 +60,8 @@ defmodule DotcomWeb.Components.Stops.HeaderTest do
         |> Floki.parse_document!()
 
       # Verify
-      assert document |> Floki.find("title") |> Enum.at(-1) |> Floki.text() == "Commuter Rail"
+      label = document |> Floki.attribute("svg", "aria-label") |> Enum.at(-1) |> Floki.text()
+      assert label == "Commuter Rail"
     end
 
     test "renders the accessibility icon when the stop is accessible" do

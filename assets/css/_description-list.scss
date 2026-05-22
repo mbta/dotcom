@@ -6,9 +6,7 @@
 
 .dl--item {
   // added this because at larger breakpoints items float into different rows
-  @include media-breakpoint-up(md) {
-    clear: both;
-  }
+  clear: both;
 }
 
 .dt {

@@ -20,25 +20,34 @@ defmodule Dotcom.Alerts.AffectedStops do
 
   @impl Behaviour
   def affected_stops(alerts, route_ids) do
-    stop_ids = alerts |> get_all_entities(:stop)
+    alerts
+    |> Stream.flat_map(fn alert -> affected_stops_for_alert(alert, route_ids) end)
+    |> Enum.group_by(& &1.stop.id)
+    |> Enum.map(fn {_stop_id, affected_stops} -> affected_stops |> combine_directions() end)
+  end
 
-    direction_ids = alerts |> get_all_direction_ids()
+  defp affected_stops_for_alert(alert, route_ids) do
+    affected_stop_ids = alert |> Alert.get_entity(:stop)
 
+    alert
+    |> Alert.get_entity(:direction_id)
+    |> Enum.flat_map(&convert_nil_to_all/1)
+    |> Enum.uniq()
+    |> outer_product(route_ids)
+    |> Enum.flat_map(fn {direction_id, route_id} ->
+      affected_stops_along_route(route_id, direction_id, affected_stop_ids)
+    end)
+  end
+
+  defp affected_stops_along_route(route_id, direction_id, affected_stop_ids) do
     direction_names =
-      route_ids
-      |> List.first()
+      route_id
       |> @routes_repo.get()
       |> Kernel.then(& &1.direction_names)
 
-    route_ids
-    |> outer_product(direction_ids)
-    |> Enum.flat_map(fn {route_id, direction_id} ->
-      @stops_repo.by_route(route_id, direction_id)
-      |> Enum.filter(&(stop_ids |> MapSet.member?(&1.id)))
-      |> Enum.map(&%{stop: &1, direction: {:direction, direction_names |> Map.get(direction_id)}})
-    end)
-    |> Enum.group_by(& &1.stop.id)
-    |> Enum.map(fn {_stop_id, affected_stops} -> affected_stops |> combine_directions() end)
+    @stops_repo.by_route(route_id, direction_id)
+    |> Enum.filter(&(affected_stop_ids |> MapSet.member?(&1.id)))
+    |> Enum.map(&%{stop: &1, direction: {:direction, direction_names |> Map.get(direction_id)}})
   end
 
   defp combine_directions(affected_stops) do
@@ -50,16 +59,8 @@ defmodule Dotcom.Alerts.AffectedStops do
     end
   end
 
-  @spec get_all_direction_ids([Alerts.Alert.t()]) :: [0 | 1]
-  defp get_all_direction_ids(alerts) do
-    alerts
-    |> get_all_entities(:direction_id)
-    |> Enum.reject(&Kernel.is_nil/1)
-    |> case do
-      [] -> [0, 1]
-      direction_ids -> direction_ids
-    end
-  end
+  defp convert_nil_to_all(nil), do: [0, 1]
+  defp convert_nil_to_all(direction_id), do: [direction_id]
 
   defp get_all_entities(alerts, type) do
     alerts
