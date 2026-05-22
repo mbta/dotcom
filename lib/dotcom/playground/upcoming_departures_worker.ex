@@ -44,6 +44,7 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
        predicted_schedules_init: predicted_schedules,
        predicted_schedules: :loading,
        route: route,
+       route_type: Routes.Route.type_atom(route),
        subscribers: MapSet.new(),
        upcoming_departures: :loading,
        published_upcoming_departures: nil
@@ -175,27 +176,22 @@ defmodule Dotcom.Playground.UpcomingDeparturesWorker do
 
   defp update_upcoming_departures(
          %{
-           route: route,
+           route_type: route_type,
            predicted_schedules: {:ok, predicted_schedules}
          } =
            state
        ) do
+    {_keys, predicted_schedules} = Enum.unzip(predicted_schedules)
+
     %{
       state
       | upcoming_departures:
           {:ok,
            predicted_schedules
-           |> Map.values()
-           |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
-           |> Stream.map(fn ps ->
-             UpcomingDepartures.to_upcoming_departure(%{
-               now: Dotcom.Utils.DateTime.now(),
-               predicted_schedule: ps,
-               route_type: Routes.Route.type_atom(route)
-             })
-           end)
-           |> Stream.reject(&(&1.arrival_status == :hidden))
-           |> Enum.to_list()}
+           |> UpcomingDepartures.upcoming_departures(%{
+             now: Dotcom.Utils.DateTime.now(),
+             route_type: route_type
+           })}
     }
   end
 

@@ -13,12 +13,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   import Dotcom.Utils.Time, only: [truncate: 2]
 
   alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
-  alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Schedule
   alias Schedules.Trip
-  alias Stops.Stop
   alias Vehicles.Vehicle
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
@@ -108,11 +106,9 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @typep vehicle_at_stop_status_t() ::
            :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
-  @spec upcoming_departures(%{
-          direction_id: 0 | 1,
+  @spec upcoming_departures([PredictedSchedule.t()], %{
           now: DateTime.t(),
-          route: Route.t(),
-          stop_id: Stop.id_t()
+          route_type: Routes.Route.route_type()
         }) ::
           [__MODULE__.UpcomingDeparture.t()]
           | :no_realtime
@@ -120,32 +116,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           | :service_ended
           | {:before_service, __MODULE__.UpcomingDeparture.t()}
           | {:no_realtime, [__MODULE__.UpcomingDeparture.t()]}
-  def upcoming_departures(%{
-        direction_id: direction_id,
+  def upcoming_departures(predicted_schedules, %{
         now: now,
-        route: route,
-        stop_id: stop_id
+        route_type: route_type
       }) do
-    route_type = Route.type_atom(route)
-
-    predictions =
-      @predictions_repo.all(
-        route: route.id,
-        direction_id: direction_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
-      |> Enum.filter(&(&1.stop.id == stop_id))
-
-    schedules =
-      @schedules_repo.by_route_ids([route.id],
-        direction_id: direction_id,
-        date: ServiceDateTime.service_date(now),
-        stop_ids: [stop_id]
-      )
-
-    predicted_schedules = PredictedSchedule.group(predictions, schedules)
-
     predicted_schedules_at_stop =
       predicted_schedules
       |> Stream.reject(&end_of_trip?/1)
