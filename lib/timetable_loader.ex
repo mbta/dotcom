@@ -44,7 +44,9 @@ defmodule Dotcom.TimetableLoader do
   """
   @spec from_csv(Routes.Route.id_t(), 0 | 1, Date.t()) :: {:ok, list()} | {:error, term()}
   def from_csv(route_id, direction_id, date) when route_id in @available_route_ids do
-    route_id = get_in(@metadata, [route_id, :special_dates, date]) || maybe_use_weekend_route(route_id, date)
+    route_id =
+      get_in(@metadata, [route_id, :special_dates, date]) ||
+        maybe_use_weekend_route(route_id, date)
 
     if in_timetable_date_range?(route_id, date) do
       case @loader_module.get_csv("#{route_id}-#{direction_id}.csv") do
