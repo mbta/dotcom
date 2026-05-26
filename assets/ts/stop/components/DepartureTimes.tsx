@@ -96,7 +96,7 @@ const DepartureTimes = ({
             alerts={alertsForDirection}
             departuresLength={departures.length}
           >
-            {timeList.length > 0 ? (
+            {timeList.length > 0 && departures.length > 0 ? (
               <div className="departure-card__times">{timeList}</div>
             ) : (
               <div className="font-helvetica-neue text-sm u-nowrap">

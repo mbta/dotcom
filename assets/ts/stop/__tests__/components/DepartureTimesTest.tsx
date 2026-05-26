@@ -470,10 +470,10 @@ describe("DepartureTimes", () => {
     renderWithRouter(
       <DepartureTimes
         headsign="Alewife"
-        departures={[]}
+        departures={[{ prediction: undefined } as DepartureInfo]}
         alertsForDirection={[]}
         isCR={false}
-        isSubway={false}
+        isSubway={true}
         onClick={jest.fn()}
         hasService={true}
       />
