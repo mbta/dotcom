@@ -44,6 +44,10 @@ defmodule DotcomWeb.Components.Stops.Header do
   end
 
   # All routes are bus routes if they are all type 3 or are Silver Line.
+  defp all_bus_routes?(%{routes_by_stop: []}) do
+    false
+  end
+
   defp all_bus_routes?(%{routes_by_stop: routes_by_stop}) do
     Enum.all?(routes_by_stop, &(&1.type === 3 && String.slice(&1.name, 0, 2) != "SL"))
   end
