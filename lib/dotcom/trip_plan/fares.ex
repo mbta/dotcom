@@ -38,12 +38,18 @@ defmodule Dotcom.TripPlan.Fares do
     three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
     # If this is part of a free transfer, don't add fare
     cond do
+      Transfer.subway_transfer?(three_legs) ->
+        total
+
       Transfer.bus_to_subway_transfer?(three_legs) ->
         if total == cents_for_leg(List.first(three_legs)),
           do: total + 70,
           else: total
 
       Transfer.maybe_transfer?(three_legs) ->
+        total
+
+      Transfer.subway_transfer?(two_legs) ->
         total
 
       Transfer.subway_after_sl1_from_airport?(two_legs) ->

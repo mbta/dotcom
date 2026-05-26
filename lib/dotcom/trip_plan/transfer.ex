@@ -15,7 +15,7 @@ defmodule Dotcom.TripPlan.Transfer do
   # (can't be certain, as it depends on media used)!
   @single_ride_transfers %{
     :bus => [:subway, :bus],
-    :subway => [:subway, :bus],
+    :subway => [:bus],
     :express_bus => [:subway, :bus, :express_bus]
   }
 
@@ -61,18 +61,6 @@ defmodule Dotcom.TripPlan.Transfer do
     )
     |> Kernel.and(maybe_transfer?([first_leg, middle_leg]))
     |> Kernel.and(maybe_transfer?([middle_leg, last_leg]))
-  end
-
-  def maybe_transfer?([from, to])
-      when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") do
-    subway?(from.route) && subway?(to.route) && same_station?(from.to, to.from)
-  end
-
-  def maybe_transfer?([from, middle, to])
-      when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") and
-             agency_name?(middle, "MBTA") do
-    (subway?(from.route) and subway?(to.route) and subway?(middle.route) and
-       same_station?(from.to, middle.from)) && same_station?(middle.to, to.from)
   end
 
   def maybe_transfer?([from, to]) when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") do
