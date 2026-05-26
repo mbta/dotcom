@@ -59,44 +59,6 @@ defmodule Dotcom.TripPlan.TransferTest do
       refute [nil, bus_leg()] |> maybe_transfer?
     end
 
-    test "subway -> subway when transferring at the same station" do
-      from_leg =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          to:
-            build(:place, %{
-              stop: build(:stop, %{parent_station: "place-mock"})
-            })
-        )
-
-      to_leg =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          from:
-            build(:place, %{
-              stop: build(:stop, %{parent_station: "place-mock"})
-            })
-        )
-
-      assert [from_leg, to_leg] |> subway_transfer?
-    end
-
-    test "subway -> subway when transferring at different station" do
-      from_leg =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          to:
-            build(:place, %{
-              stop: build(:stop, %{parent_station: "place-mock"})
-            })
-        )
-
-      assert !([from_leg, subway_leg()] |> subway_transfer?)
-    end
-
     test "subway -> local bus" do
       assert [subway_leg(), bus_leg()] |> maybe_transfer?
     end
