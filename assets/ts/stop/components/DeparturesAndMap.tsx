@@ -213,10 +213,7 @@ const DeparturesAndMap = ({
     : {};
   let routePatternsForSelection = [];
 
-  if (
-    activeRow &&
-    Object.keys(Object.keys(routePatterns)).includes(activeRow.headsign)
-  ) {
+  if (activeRow && Object.keys(routePatterns).includes(activeRow.headsign)) {
     routePatternsForSelection =
       routePatterns[activeRow.headsign].route_patterns;
   } else {
