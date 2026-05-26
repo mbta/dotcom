@@ -263,7 +263,7 @@ const DeparturesAndMap = ({
               directionId={activeRow.directionId}
               headsign={activeRow.headsign}
               alerts={realtimeAlerts}
-              hasService={filteredDepartures.length !== 0}
+              hasService={routePatternsForSelection.length !== 0}
             />
           </div>
         ) : (

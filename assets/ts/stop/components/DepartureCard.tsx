@@ -148,7 +148,7 @@ const DepartureCard = ({
             onClick={onClick}
             isCR={isACommuterRailRoute(route)}
             isSubway={isSubwayRoute(route)}
-            hasService={departureList.length !== 0}
+            hasService={sortedRoutePatternsByHeadsign.length !== 0}
           />
         );
       })}
