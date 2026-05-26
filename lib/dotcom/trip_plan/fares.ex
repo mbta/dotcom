@@ -32,6 +32,7 @@ defmodule Dotcom.TripPlan.Fares do
 
   defp add_fares({leg, 0}, 0, _), do: cents_for_leg(leg)
 
+  # credo:disable-for-next-line
   defp add_fares({leg, leg_index}, total, transit_legs) do
     # Look at this transit leg and previous transit leg(s)
     two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
