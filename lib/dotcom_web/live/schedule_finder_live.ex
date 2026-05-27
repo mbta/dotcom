@@ -133,6 +133,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             id={"service-picker-#{@route.id}"}
             selected_service_name={@selected_service_name}
             service_groups={@service_groups}
+            upcoming_departures={@upcoming_departures}
           />
           <.async_result :let={departures} assign={@departures}>
             <:loading>
@@ -530,9 +531,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <option
               :for={service <- service_group.services}
               value={service.label}
-              selected={service.now_date || service.next_date}
+              selected={departures_left?(service, assigns.upcoming_departures) || service.next_date}
             >
-              {service.label} {if(service.now_date, do: " (#{~t(Now)})")}
+              {service.label} {if(departures_left?(service, assigns.upcoming_departures),
+                do: " (#{~t(Now)})"
+              )}
             </option>
           </optgroup>
         <% end %>
@@ -547,6 +550,15 @@ defmodule DotcomWeb.ScheduleFinderLive do
       </output>
     </form>
     """
+  end
+
+  defp departures_left?(service, %{ok: true} = upcoming_departures) do
+    upcoming_departures
+    |> Enum.any?(fn departure -> DateTime.after?(departure.time, service.now_date) end)
+  end
+
+  defp departures_left?(service, _) do
+    !is_nil(service.now_date)
   end
 
   attr :stop, Stop
