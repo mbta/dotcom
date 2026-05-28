@@ -97,6 +97,10 @@ defmodule Dotcom.TimetablesTest do
   end
 
   describe "from_schedules/1" do
+    test "returns an empty list of rows if there are no schedules" do
+      assert %Timetables.Timetable{rows: []} = Timetables.from_schedules([])
+    end
+
     test "serializes a single schedule into a single-cell timetable" do
       stop_1 = Factories.Stops.Stop.build(:stop)
 

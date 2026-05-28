@@ -316,7 +316,7 @@ defmodule Dotcom.Timetables do
       rows:
         trips
         |> Enum.map(fn {_trip, schedules} -> schedules |> Enum.map(& &1.stop.id) end)
-        |> Enum.reduce(&combine_stop_lists/2)
+        |> Enum.reduce([], &combine_stop_lists/2)
         |> build_timetable_rows(trips)
     }
   end
