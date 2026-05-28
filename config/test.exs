@@ -66,3 +66,15 @@ config :recaptcha,
   http_client: Recaptcha.Http.MockClient
 
 config :tesla, adapter: Tesla.Mock
+
+config :laboratory,
+  features: [
+    {:test_flag, "Cool Bean", "cool bean for test"},
+    {:use_smartling_translations, "Smartling translations",
+     "Uses Smartling's translation workflows"}
+  ],
+  cookie: [
+    # one month,
+    max_age: 3600 * 24 * 30,
+    http_only: true
+  ]

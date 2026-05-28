@@ -16,7 +16,7 @@ defmodule DotCom.Mixfile do
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro],
+        plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro, :laboratory],
         flags: [:unmatched_returns]
       ],
       deps: deps(),

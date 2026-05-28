@@ -2,6 +2,12 @@ defmodule DotcomWeb.Router do
   @moduledoc false
   # remove this comment, it is here to try and fix github (don't ask)
   use DotcomWeb, :router
+
+  pipeline :get_flags do
+    # pipe_through(:browser)
+    plug DotcomWeb.Plugs.PutFlagsInSessionPlug
+  end
+
   use Plug.ErrorHandler
 
   alias DotcomWeb.ControllerHelpers
@@ -26,6 +32,7 @@ defmodule DotcomWeb.Router do
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
+    plug(:get_flags)
     plug(:fetch_flash)
     plug(:fetch_cookies)
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
@@ -92,22 +99,30 @@ defmodule DotcomWeb.Router do
     get("/*path", WwwRedirector, [])
   end
 
-  scope "/", DotcomWeb do
-    import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+  scope "/lab", Laboratory do
+    forward "/", Router
+  end
 
-    live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
-      live("/alerts/subway", SubwayAlertsLive)
-      live("/alerts/commuter-rail", CommuterRailAlertsLive)
+  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+    scope "/", DotcomWeb do
+      import Phoenix.LiveView.Router
+      pipe_through([:browser, :browser_live])
+
+      live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
+        live("/alerts/subway", SubwayAlertsLive)
+        live("/alerts/commuter-rail", CommuterRailAlertsLive)
+      end
     end
   end
 
-  scope "/schedules/bostonstadium", DotcomWeb do
-    import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+    scope "/schedules/bostonstadium", DotcomWeb do
+      import Phoenix.LiveView.Router
+      pipe_through([:browser, :browser_live])
 
-    live_session :world_cup do
-      live "/", WorldCupTimetableLive
+      live_session :world_cup do
+        live "/", WorldCupTimetableLive
+      end
     end
   end
 
@@ -302,40 +317,48 @@ defmodule DotcomWeb.Router do
     # get("/vote", VoteController, :show)
   end
 
-  scope "/", DotcomWeb do
-    import Phoenix.LiveDashboard.Router
+  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+    scope "/", DotcomWeb do
+      import Phoenix.LiveDashboard.Router
 
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
-    live_dashboard("/dashboard")
-  end
-
-  scope "/", DotcomWeb do
-    import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
-
-    live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
-      live("/search", SearchPageLive)
-      live("/trip-planner", TripPlannerLive)
+      pipe_through([:browser, :browser_live, :basic_auth_readonly])
+      live_dashboard("/dashboard")
     end
   end
 
-  scope "/departures", DotcomWeb do
-    import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+    scope "/", DotcomWeb do
+      import Phoenix.LiveView.Router
+      pipe_through([:browser, :browser_live])
 
-    live_session :departures do
-      live "/", ScheduleFinderLive
+      live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
+        live("/search", SearchPageLive)
+        live("/trip-planner", TripPlannerLive)
+      end
     end
   end
 
-  scope "/preview", DotcomWeb do
-    import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
+  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+    scope "/departures", DotcomWeb do
+      import Phoenix.LiveView.Router
+      pipe_through([:browser, :browser_live])
 
-    live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
-      live "/", PreviewLive
-      live "/schedules/bostonstadium", WorldCupTimetableLive
-      live "/stop-map", StopMapLive
+      live_session :departures do
+        live "/", ScheduleFinderLive
+      end
+    end
+  end
+
+  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+    scope "/preview", DotcomWeb do
+      import Phoenix.LiveView.Router
+      pipe_through([:browser, :browser_live, :basic_auth_readonly])
+
+      live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
+        live "/", PreviewLive
+        live "/schedules/bostonstadium", WorldCupTimetableLive
+        live "/stop-map", StopMapLive
+      end
     end
   end
 
