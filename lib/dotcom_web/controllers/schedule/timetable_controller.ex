@@ -116,12 +116,20 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           assigns: %{
             route: route,
             blocking_alert: nil,
-            date: ~D[2026-06-13],
+            date: date,
             direction_id: direction_id
           }
         } = conn
       )
-      when route.id == "CR-Franklin" do
+      when date in [
+             ~D[2026-06-13],
+             ~D[2026-06-14],
+             ~D[2026-06-19],
+             ~D[2026-06-23],
+             ~D[2026-06-29],
+             ~D[2026-07-09]
+           ] and
+             route.id == "CR-Franklin" do
     shuttle_route = @routes_repo.get("Shuttle-CantonJunctionForgePark")
 
     shuttle_schedules =
