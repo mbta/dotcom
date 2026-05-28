@@ -207,6 +207,54 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     assert has_element?(view, "section.c-alert-group")
   end
 
+  describe "Service Selector" do
+    test "Stays on previous days service when that day still has trips left", %{conn: conn} do
+      departures =
+        2
+        |> Faker.random_between(20)
+        |> Factories.ScheduleFinder.build_list(:daily_departure)
+
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ ->
+        {:ok, departures}
+      end)
+
+      stub(Dotcom.Utils.DateTime.Mock, :now, fn -> ~U[2026-06-14 06:59:59Z] end)
+
+      assert {:ok, view, html} = visit_with_valid_params(conn)
+
+      rendered =
+        view
+        |> render_async()
+        |> Floki.parse_fragment!()
+
+      assert Floki.find(rendered, "Saturday Schedule (extended event service) (Now)")
+             |> Enum.count() > 0
+    end
+
+    test "Shows today's service service when there are no more trips left for yesterday", %{
+      conn: conn
+    } do
+      departures =
+        0
+        |> Factories.ScheduleFinder.build_list(:daily_departure)
+
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ ->
+        {:ok, departures}
+      end)
+
+      stub(Dotcom.Utils.DateTime.Mock, :now, fn -> ~U[2026-06-14 07:59:59Z] end)
+
+      assert {:ok, view, html} = visit_with_valid_params(conn)
+
+      rendered =
+        view
+        |> render_async()
+        |> Floki.parse_fragment!()
+
+      assert Floki.find(rendered, "Sunday Schedules") == 1
+    end
+  end
+
   describe "Daily Departures" do
     test "indicates no service", %{conn: conn} do
       expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)

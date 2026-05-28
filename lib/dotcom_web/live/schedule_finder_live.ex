@@ -554,7 +554,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp departures_left?(service, %{ok: true} = upcoming_departures) do
     upcoming_departures
-    |> Enum.any?(fn departure -> DateTime.after?(departure.time, service.now_date) end)
+    |> Enum.any?(fn departure ->
+      departure.time && DateTime.after?(departure.time, service.now_date)
+    end)
   end
 
   defp departures_left?(service, _) do
