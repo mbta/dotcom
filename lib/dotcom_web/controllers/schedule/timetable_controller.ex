@@ -127,6 +127,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
              ~D[2026-06-16],
              ~D[2026-06-19],
              ~D[2026-06-23],
+             ~D[2026-06-26],
              ~D[2026-06-29],
              ~D[2026-07-09]
            ] and
