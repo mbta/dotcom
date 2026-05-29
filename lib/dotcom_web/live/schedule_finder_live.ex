@@ -104,25 +104,30 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <section>
           <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
           <%= if @service_today? do %>
-            <.async_result :let={upcoming_departures} assign={@upcoming_departures}>
-              <:loading>
-                <div class="mt-lg mb-md flex justify-center">
-                  <.spinner aria_label={~t"Loading upcoming departures"} />
-                </div>
-              </:loading>
-              <:failed :let={_fail}>
-                <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
-              </:failed>
-              <%= if upcoming_departures do %>
-                <.upcoming_departures_section
-                  stop={@stop}
-                  loaded_upcoming_trips={@loaded_upcoming_trips}
-                  upcoming_departures={upcoming_departures}
-                  route={@route}
-                  last_trip_time={@last_trip_time}
-                />
-              <% end %>
-            </.async_result>
+            <div class="hidden phx-error:block">
+              <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
+            </div>
+            <div class="block phx-error:hidden">
+              <.async_result :let={upcoming_departures} assign={@upcoming_departures}>
+                <:loading>
+                  <div class="mt-lg mb-md flex justify-center">
+                    <.spinner aria_label={~t"Loading upcoming departures"} />
+                  </div>
+                </:loading>
+                <:failed :let={_fail}>
+                  <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
+                </:failed>
+                <%= if upcoming_departures do %>
+                  <.upcoming_departures_section
+                    stop={@stop}
+                    loaded_upcoming_trips={@loaded_upcoming_trips}
+                    upcoming_departures={upcoming_departures}
+                    route={@route}
+                    last_trip_time={@last_trip_time}
+                  />
+                <% end %>
+              </.async_result>
+            </div>
           <% else %>
             <.callout>{~t(No service today)}</.callout>
           <% end %>
