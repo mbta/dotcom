@@ -15,7 +15,7 @@ defmodule Dotcom.TripPlan.Transfer do
   # (can't be certain, as it depends on media used)!
   @single_ride_transfers %{
     :bus => [:subway, :bus],
-    :subway => [:subway, :bus],
+    :subway => [:bus],
     :express_bus => [:subway, :bus, :express_bus]
   }
 
@@ -34,10 +34,18 @@ defmodule Dotcom.TripPlan.Transfer do
 
   @doc "Searches a list of legs for evidence of an in-station subway transfer."
   @spec subway_transfer?([Leg.t()]) :: boolean
-  def subway_transfer?([first_leg, next_leg | _])
+  def subway_transfer?([first_leg, next_leg])
       when agency_name?(first_leg, "MBTA") and agency_name?(next_leg, "MBTA") do
     same_station?(first_leg.to, next_leg.from) and subway?(first_leg.route) and
       subway?(next_leg.route)
+  end
+
+  def subway_transfer?([first_leg, next_leg, last_leg])
+      when agency_name?(first_leg, "MBTA") and agency_name?(next_leg, "MBTA") and
+             agency_name?(last_leg, "MBTA") do
+    same_station?(first_leg.to, next_leg.from) and subway?(first_leg.route) and
+      subway?(next_leg.route) and same_station?(next_leg.to, last_leg.from) and
+      subway?(last_leg.route)
   end
 
   def subway_transfer?([_ | legs]), do: subway_transfer?(legs)
