@@ -137,7 +137,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     shuttle_schedules =
       timetable_schedules(%{
         assigns: %{
-          date: ~D[2026-06-13],
+          date: date,
           route: shuttle_route,
           direction_id: direction_id
         }
@@ -146,7 +146,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     route_schedules =
       timetable_schedules(%{
         assigns: %{
-          date: ~D[2026-06-13],
+          date: date,
           route: route,
           direction_id: direction_id
         }
