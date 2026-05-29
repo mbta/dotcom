@@ -34,6 +34,17 @@ const FullwidthErrorMessage = (): JSX.Element => (
     </div>
   </div>
 );
+
+const NoServiceMessage = (): JSX.Element => (
+  <div className="c-fullscreen-error__container">
+    <div className="container">
+      <p className="c-fullscreen-error__heading font-bold">
+        No service at this location
+      </p>
+      <p>Please try again later.</p>
+    </div>
+  </div>
+);
 const StopPage = ({
   stopId
 }: {
@@ -69,7 +80,7 @@ const StopPage = ({
 
   return (
     <article>
-      {hasPredictionError && FullwidthErrorMessage()}
+      {hasPredictionError ? routes.length ? FullwidthErrorMessage(): NoServiceMessage() : null}
       <div className="container">
         <DeparturesAndMap
           routes={routes}

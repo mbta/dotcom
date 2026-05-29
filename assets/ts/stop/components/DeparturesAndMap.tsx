@@ -251,14 +251,18 @@ const DeparturesAndMap = ({
     </div>
   );
 
+  console.log({routes})
+
   return (
     <div
       className={`stop-routes-and-map ${activeRow ? "selected-departure" : ""}`}
     >
       {activeRow && BackToRoutes}
+     
       <div ref={refEl} className="stop-routes">
         {activeRow ? (
           <div className="stop-departures--realtime">
+             {routes.length ? (
             <DepartureList
               route={activeRow.route}
               stop={stop}
@@ -267,7 +271,7 @@ const DeparturesAndMap = ({
               headsign={activeRow.headsign}
               alerts={realtimeAlerts}
               hasService={filteredDepartures.length !== 0}
-            />
+            />) : (<div>No service at this location</div>)}
           </div>
         ) : (
           <StopPageDepartures
