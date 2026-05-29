@@ -8,7 +8,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
 
-  alias Dotcom.TimetableLoader
+  alias Dotcom.Timetables
   alias DotcomWeb.ScheduleView
   alias Plug.Conn
   alias RoutePatterns.RoutePattern
@@ -17,7 +17,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @loop_ferries ["Boat-F6", "Boat-F7"]
+
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   plug(DotcomWeb.Plugs.Route)
@@ -240,32 +240,35 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   def assign_trip_schedules(
-        %{assigns: %{route: route, blocking_alert: nil, date_in_rating?: true}} = conn
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
+            date_in_rating?: true
+          }
+        } = conn
       )
-      when route.id in @loop_ferries do
-    case TimetableLoader.from_csv(route.id, conn.assigns.direction_id, conn.assigns.date) do
-      {:ok, timetable_schedules} ->
-        header_schedules = List.first(timetable_schedules, [])
+      when route.type == 4 do
+    timetable_schedules =
+      conn
+      |> timetable_schedules()
+      |> Timetables.from_schedules()
+      |> then(& &1.rows)
 
-        header_stops =
-          timetable_schedules
-          |> Enum.map(&List.first/1)
-          |> Enum.with_index(fn trip, index ->
-            {@stops_repo.get(trip.stop_id), index}
-          end)
+    header_schedules = List.first(timetable_schedules, [])
 
-        conn
-        |> assign(:use_pdf_schedules?, true)
-        |> assign(:timetable_schedules, timetable_schedules)
-        |> assign(:header_schedules, header_schedules)
-        |> assign(:header_stops, header_stops)
+    header_stops =
+      timetable_schedules
+      |> Enum.map(&List.first/1)
+      |> Enum.with_index(fn trip, index ->
+        {@stops_repo.get(trip.stop_id), index}
+      end)
 
-      {:error, _} ->
-        conn
-        |> assign(:suppress_timetable?, true)
-        |> assign(:timetable_schedules, [])
-        |> assign(:header_schedules, [])
-    end
+    conn
+    |> assign(:use_pdf_schedules?, true)
+    |> assign(:timetable_schedules, timetable_schedules)
+    |> assign(:header_schedules, header_schedules)
+    |> assign(:header_stops, header_stops)
   end
 
   def assign_trip_schedules(

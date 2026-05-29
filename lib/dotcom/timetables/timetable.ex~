@@ -1,0 +1,3 @@
+defmodule Dotcom.Timetables.Timetable do
+  defstruct :rows
+end
