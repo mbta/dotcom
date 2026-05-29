@@ -124,6 +124,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       when date in [
              ~D[2026-06-13],
              ~D[2026-06-14],
+             ~D[2026-06-16],
              ~D[2026-06-19],
              ~D[2026-06-23],
              ~D[2026-06-29],
