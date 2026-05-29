@@ -53,30 +53,35 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   @impl LiveView
   def render(assigns) do
     ~H"""
-    <div class="hidden phx-error:block">
-      <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
-    </div>
-    <div class="block phx-error:hidden">
-      <.async_result :let={departures} assign={@departures}>
-        <:loading>
-          <div class="mt-lg mb-md flex justify-center">
-            <.spinner aria_label={~t"Loading upcoming departures"} />
-          </div>
-        </:loading>
-        <:failed :let={_fail}>
-          <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
-        </:failed>
-        <%= if departures do %>
-          <.upcoming_departures_section
-            stop={@stop}
-            loaded_upcoming_trips={@loaded_upcoming_trips}
-            upcoming_departures={departures}
-            route={@route}
-            last_trip_time={@last_trip_time}
-          />
-        <% end %>
-      </.async_result>
-    </div>
+    <section
+      id={"upcoming-#{@route.id}-#{@direction_id}-#{@stop.id}-section"}
+      phx-hook="PageVisibility"
+    >
+      <div class="hidden phx-error:block">
+        <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
+      </div>
+      <div class="block phx-error:hidden">
+        <.async_result :let={departures} assign={@departures}>
+          <:loading>
+            <div class="mt-lg mb-md flex justify-center">
+              <.spinner aria_label={~t"Loading upcoming departures"} />
+            </div>
+          </:loading>
+          <:failed :let={_fail}>
+            <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
+          </:failed>
+          <%= if departures do %>
+            <.upcoming_departures_section
+              stop={@stop}
+              loaded_upcoming_trips={@loaded_upcoming_trips}
+              upcoming_departures={departures}
+              route={@route}
+              last_trip_time={@last_trip_time}
+            />
+          <% end %>
+        </.async_result>
+      </div>
+    </section>
     """
   end
 

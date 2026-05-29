@@ -91,7 +91,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <div
       class="container"
       id={"#{@route.id}-#{@direction_id}-#{@stop.id}-schedule-finder"}
-      phx-hook="PageVisibility"
     >
       <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
         <.alert_banner alerts={@alerts} />
