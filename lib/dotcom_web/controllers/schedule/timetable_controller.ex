@@ -318,7 +318,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   def assign_trip_schedules(
-        %{assigns: %{route: route, blocking_alert: nil, date_in_rating?: true}} = conn
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
             date_in_rating?: true
           }
         } = conn
