@@ -18,8 +18,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:tab_name)
@@ -132,7 +130,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
              ~D[2026-07-09]
            ] and
              route.id == "CR-Franklin" do
-    shuttle_route = @routes_repo.get("Shuttle-CantonJunctionForgePark")
+    shuttle_route = %Route{id: "Shuttle-CantonJunctionForgePark", type: 3}
 
     shuttle_schedules =
       timetable_schedules(%{
@@ -251,7 +249,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         } = conn
       )
       when route.id == "CR-Providence" do
-    shuttle_route = @routes_repo.get("Shuttle-CantonJunctionStoughton")
+    shuttle_route = %Route{id: "Shuttle-CantonJunctionStoughton", type: 3}
 
     shuttle_schedules =
       timetable_schedules(%{
