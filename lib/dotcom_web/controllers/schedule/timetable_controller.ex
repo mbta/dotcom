@@ -240,6 +240,84 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   def assign_trip_schedules(
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
+            date: date,
+            direction_id: direction_id
+          }
+        } = conn
+      )
+      when route.id == "CR-Providence" do
+    shuttle_route = @routes_repo.get("Shuttle-CantonJunctionStoughton")
+
+    shuttle_schedules =
+      timetable_schedules(%{
+        assigns: %{
+          date: date,
+          route: shuttle_route,
+          direction_id: direction_id
+        }
+      })
+
+    route_schedules =
+      timetable_schedules(%{
+        assigns: %{
+          date: date,
+          route: route,
+          direction_id: direction_id
+        }
+      })
+
+    timetable_schedules =
+      route_schedules ++ shuttle_schedules
+
+    trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
+
+    %{
+      trip_schedules: route_schedules,
+      trip_stops: route_stops
+    } = build_timetable(conn, route_schedules)
+
+    %{
+      trip_schedules: shuttle_schedules,
+      trip_stops: shuttle_stops
+    } =
+      build_timetable(
+        %{assigns: %{route: shuttle_route, direction_id: direction_id}},
+        shuttle_schedules
+      )
+
+    trip_schedules = Map.merge(route_schedules, shuttle_schedules)
+
+    trip_stops =
+      shuttle_stops |> Enum.reduce(route_stops, &merge_into_stop_list(&1, &2, direction_id == 1))
+
+    header_schedules =
+      trip_schedules
+      |> Map.values()
+      |> Kernel.then(&header_schedules(route, &1))
+
+    track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
+
+    header_stops =
+      trip_stops
+      |> Enum.map(&@stops_repo.get_parent/1)
+      |> Enum.uniq()
+      |> Enum.with_index()
+
+    conn
+    |> assign(:timetable_schedules, timetable_schedules)
+    |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
+    |> assign(:header_schedules, header_schedules)
+    |> assign(:header_stops, header_stops)
+    |> assign(:trip_schedules, trip_schedules)
+    |> assign(:track_changes, track_changes)
+    |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
+  end
+
+  def assign_trip_schedules(
         %{assigns: %{route: route, blocking_alert: nil, date_in_rating?: true}} = conn
       )
       when route.id in @loop_ferries do
@@ -663,7 +741,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "91637" => {:after, "Walpole Station - Bus Shuttle"},
     "71689" => {:after, "Walpole Station - Bus Shuttle"},
     # Canton Junction
-    "place-NEC-2139" => {:before, "Readville"}
+    "place-NEC-2139" => {:before, "Readville"},
+    # ----Providence/Stoughton WC shuttle----
+    # Stoughton Station - Bus Shuttle
+    "36133" => {:after, "Sharon"},
+    # Washington St opp Canton Center Station - Bus Shuttle
+    "50617" => {:before, "Canton Junction"},
+    # Washington St @ Canton Center Station - Bus Shuttle
+    "54617" => {:before, "Canton Junction"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
