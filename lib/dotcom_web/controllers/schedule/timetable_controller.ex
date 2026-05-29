@@ -250,7 +250,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         } = conn
       )
       when route.id == "CR-Providence" do
-    shuttle_route = @routes_repo.get("Shuttle-CantonJunctionStoughton")
+    shuttle_route = %Route{id: "Shuttle-CantonJunctionStoughton", type: 3}
 
     shuttle_schedules =
       timetable_schedules(%{
