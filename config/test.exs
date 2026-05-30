@@ -52,6 +52,8 @@ config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
 config :dotcom, :search_service, Dotcom.SearchService.Mock
 
+config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures.Mock
+
 # Let test requests get routed through the :secure pipeline
 config :dotcom, :secure_pipeline,
   force_ssl: [

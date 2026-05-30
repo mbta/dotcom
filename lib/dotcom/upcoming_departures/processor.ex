@@ -19,8 +19,9 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   alias Routes.Route
   alias Schedules.Schedule
   alias Schedules.Trip
-  alias Stops.Stop
   alias Vehicles.Vehicle
+
+  @behaviour Dotcom.UpcomingDepartures.Behaviour
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
@@ -29,18 +30,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   @typep vehicle_at_stop_status_t() ::
            :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
-  @spec upcoming_departures(%{
-          direction_id: 0 | 1,
-          now: DateTime.t(),
-          route: Route.t(),
-          stop_id: Stop.id_t()
-        }) ::
-          [UpcomingDeparture.t()]
-          | :no_realtime
-          | :no_service
-          | :service_ended
-          | {:before_service, UpcomingDeparture.t()}
-          | {:no_realtime, [UpcomingDeparture.t()]}
+  @impl Dotcom.UpcomingDepartures.Behaviour
   def upcoming_departures(%{
         direction_id: direction_id,
         now: now,
@@ -279,6 +269,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
     )
   end
 
+  @impl Dotcom.UpcomingDepartures.Behaviour
   def trip_details(%{
         now: now,
         trip_id: trip_id,

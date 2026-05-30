@@ -19,6 +19,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @upcoming_departures_module Application.compile_env!(:dotcom, :upcoming_departures_module)
 
   @impl LiveView
   def mount(_not_mounted_at_router, session, socket) do
@@ -131,7 +132,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     stop_id = socket.assigns.stop.id
 
     trip_details =
-      Dotcom.UpcomingDepartures.trip_details(%{
+      @upcoming_departures_module.trip_details(%{
         now: now,
         stop_id: stop_id,
         stop_sequence: stop_sequence,
@@ -159,7 +160,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       _ = if should_refresh?, do: schedule_refresh_upcoming_departures(parent_pid)
 
       {:ok,
-       Dotcom.UpcomingDepartures.upcoming_departures(%{
+       @upcoming_departures_module.upcoming_departures(%{
          direction_id: direction_id,
          now: now,
          route: route,
