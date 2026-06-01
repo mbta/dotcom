@@ -425,6 +425,8 @@ defmodule DotcomWeb.ScheduleView do
     end
   end
 
+  def timetable_note(%{route: %Route{id: "Boat-F10"}, timetable_schedules: []}), do: nil
+
   def timetable_note(%{route: %Route{id: "Boat-F10"}, direction_id: 0, date: date}) do
     content_tag :div, class: "m-timetable__note" do
       [
