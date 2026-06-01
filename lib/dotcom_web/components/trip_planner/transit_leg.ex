@@ -87,7 +87,15 @@ defmodule DotcomWeb.Components.TripPlanner.TransitLeg do
         time={@time}
         name={@place.stop.name}
         accessible={@place.stop.wheelchair_boarding == :POSSIBLE}
-        url={@place.stop.url}
+        url={
+          if(@place.stop.url) do
+            if Dotcom.TripPlan.Helpers.mbta_id(@place) do
+              URI.parse(@place.stop.url).path
+            else
+              @place.stop.url
+            end
+          end
+        }
       >
         <:icon>
           <.transit_leg_icon route={@route} />

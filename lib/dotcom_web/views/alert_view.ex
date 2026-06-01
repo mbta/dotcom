@@ -206,6 +206,10 @@ defmodule DotcomWeb.AlertView do
     ]
   end
 
+  def group_header_name(%Route{id: "CR-Foxboro"}) do
+    ["Boston Stadium Trains"]
+  end
+
   def group_header_name(%Route{name: name}) do
     [name]
   end

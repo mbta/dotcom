@@ -1,6 +1,6 @@
-const { expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
 
-exports.scenario = async ({ page, baseURL }) => {
+export async function scenario({ page, baseURL }) {
   await page.goto(`${baseURL}/`);
 
   await page.getByRole("button", { name: "About" }).click();
@@ -13,4 +13,4 @@ exports.scenario = async ({ page, baseURL }) => {
   await expect(
     page.getByRole("heading", { name: "Leadership at The MBTA" }),
   ).toBeVisible();
-};
+}

@@ -7,11 +7,9 @@ import { Hooks } from "../../deps/mbta_metro/priv/dist/metro";
 import setupChannels from "../ts/app/channels";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
-import initializeSentry from "../ts/sentry";
 import { accordionInit } from "../ts/ui/accordion";
 import "../vendor/accessible-date-picker";
 import "../vendor/fixedsticky";
-import { onload as alertItemLoad } from "./alert-item";
 import collapse from "./collapse";
 import datePicker from "./date-picker";
 import eventPageSetup from "./event-page-setup";
@@ -37,6 +35,7 @@ import translateAnalytics from "./translate-analytics.js";
 import previousEventsButton from "./view-previous-events";
 
 import mobileAppBanner from "./mobile-app-banner.js";
+import mobileSearchA11y from "./mobile-search-a11y.js";
 
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
@@ -83,8 +82,6 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-initializeSentry();
-
 document.body.className = document.body.className.replace("no-js", "js");
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -118,7 +115,6 @@ submitOnEvents(["blur", "change"]);
 googleAnalytics();
 setupGlobalNavigation();
 collapse();
-alertItemLoad();
 modal();
 supportForm();
 fixedsticky();
@@ -143,3 +139,5 @@ accordionInit();
 juxtapose();
 
 mobileAppBanner();
+
+mobileSearchA11y();

@@ -1,5 +1,4 @@
 /* eslint-disable */
-import * as Sentry from "@sentry/browser";
 import Filter from "bad-words";
 
 export default function($ = window.jQuery) {
@@ -467,7 +466,12 @@ export function handleSubmitClick($, toUpload) {
     event.preventDefault();
     const errorDisplay = document.getElementById("support-form-errors");
     const errorList = document.getElementById("support-form-error-list");
+    const allErrorIndicators = Array.from(
+      document.getElementsByClassName("error-indicator")
+    );
+    allErrorIndicators.forEach(elem => elem.classList.add("hidden"));
     errorList.innerHTML = "";
+
     if (!valid) {
       // A bit of a hack. Get names of all fields marked with error styling.
       const errors = Array.from(
@@ -483,6 +487,18 @@ export function handleSubmitClick($, toUpload) {
           errorList.appendChild(err);
         });
         errorDisplay.classList.remove("hidden");
+      }
+
+      const errorIndicatorsToShow = Array.from(
+        document.querySelectorAll(".has-danger > div.error-indicator")
+      );
+      errorIndicatorsToShow.forEach(elem => {
+        elem.classList.remove("hidden");
+      });
+      if (!document.getElementById("privacy").checked) {
+        document
+          .getElementById("privacy-error-indicator")
+          .classList.remove("hidden");
       }
       return;
     }
@@ -527,10 +543,6 @@ export function handleSubmitClick($, toUpload) {
       },
       error: (xhr, errorString, errorObject) => {
         console.error(errorString);
-        Sentry.captureException(errorObject, {
-          tags: { "dotcom.application": "frontend", "support.form": true },
-          extra: { errorStatus: errorString, formData: formData }
-        });
         $(".support-confirmation--error")
           .removeClass("hidden-xs-up")
           .focus();

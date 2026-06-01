@@ -48,6 +48,15 @@ defmodule DotcomWeb.ViewHelpers do
         class: "notranslate c-svg__#{Path.rootname(unquote(name))}"
       )
     end
+
+    def svg(unquote(name), label) do
+      content_tag(
+        :span,
+        [unquote(contents)],
+        class: "notranslate c-svg__#{Path.rootname(unquote(name))}",
+        aria_label: label
+      )
+    end
   end
 
   def subway_lines, do: @subway_lines
@@ -111,7 +120,7 @@ defmodule DotcomWeb.ViewHelpers do
       |> Atom.to_string()
       |> String.replace("_", "-")
 
-    svg("icon-#{name}-#{size}.svg")
+    svg("icon-#{name}-#{size}.svg", name |> String.replace("-", " "))
   end
 
   # Massport shuttle routes

@@ -109,7 +109,7 @@ defmodule PredictedSchedule do
 
     schedule_map
     |> unique_map_keys(prediction_map)
-    |> Enum.map(fn key ->
+    |> Stream.map(fn key ->
       %PredictedSchedule{schedule: schedule_map[key], prediction: prediction_map[key]}
     end)
     |> Enum.sort_by(sort_fn)
@@ -191,6 +191,15 @@ defmodule PredictedSchedule do
   def route(%PredictedSchedule{prediction: %Prediction{route: route}}), do: route
 
   @doc """
+  Returns whether or not the given PredictedSchedule is the last trip.
+  """
+  @spec last_trip?(PredictedSchedule.t()) :: boolean()
+  def last_trip?(%PredictedSchedule{prediction: %Prediction{last_trip?: last_trip?}}),
+    do: last_trip?
+
+  def last_trip?(%PredictedSchedule{}), do: false
+
+  @doc """
   Returns the trip for a given PredictedSchedule.
   """
   @spec trip(PredictedSchedule.t()) :: Schedules.Trip.t() | nil
@@ -250,6 +259,12 @@ defmodule PredictedSchedule do
 
   def display_time(%{arrival_time: time}) when time != nil, do: time
   def display_time(%{departure_time: time}), do: time
+
+  def display_time(%PredictedSchedule{
+        prediction: %Prediction{arrival_time: nil, departure_time: nil},
+        schedule: nil
+      }),
+      do: nil
 
   def display_time(%PredictedSchedule{
         prediction: %Prediction{arrival_time: nil, departure_time: nil},
@@ -339,6 +354,11 @@ defmodule PredictedSchedule do
     prediction_time = PredictedSchedule.display_time(prediction)
 
     schedule_time != nil && prediction_time == nil
+  end
+
+  def cancelled?(%PredictedSchedule{schedule: nil, prediction: prediction})
+      when prediction != nil do
+    is_nil(prediction.arrival_time) and is_nil(prediction.departure_time)
   end
 
   def cancelled?(_), do: false

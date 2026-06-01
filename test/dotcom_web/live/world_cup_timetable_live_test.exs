@@ -2,6 +2,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.Router.Helpers, only: [live_path: 2, live_path: 3]
+  import Mox
 
   import Phoenix.LiveViewTest
 
@@ -9,6 +10,20 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
 
   describe "WorldCupTimetableLive" do
     setup %{conn: conn} do
+      stub(Routes.Repo.Mock, :get, fn _ ->
+        Test.Support.Factories.Routes.Route.commuter_rail_route_factory(%{id: "CR-Foxboro"})
+      end)
+
+      datetime = Faker.DateTime.between(~D[2026-01-01], ~D[2026-12-30])
+
+      stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        datetime
+      end)
+
+      stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        []
+      end)
+
       %{conn: logged_in_basic_auth(conn)}
     end
 
@@ -34,7 +49,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
           ~s|nav[aria-label="World Cup Matches"]|
         )
 
-      assert nav |> render() =~ "schedules/CR-WorldCup?date="
+      assert nav |> render() =~ "schedules/bostonstadium?date="
     end
 
     test "can navigate to a match / shows boarding timetable + back link", %{conn: conn} do
@@ -45,10 +60,11 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
       |> render_click()
 
       assert_patch(view)
-      assert has_element?(view, "button", "View All Matches")
+      assert has_element?(view, "button", "View all matches")
       assert element(view, "h2", "Boarding Groups")
       assert has_element?(view, "table th", "Group Name")
-      assert has_element?(view, "table th", "Check in at South Station")
+      assert has_element?(view, "table th", "Check-In at South Station")
+      assert has_element?(view, "table th", "Estimated Arrival at Foxboro Station")
     end
   end
 

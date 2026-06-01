@@ -72,7 +72,7 @@ const StopConnections = ({
             key={connectingRoute.id}
             className="m-schedule-diagram__connection"
           >
-            {modeIcon(connectingRoute.id)}
+            {modeIcon(connectingRoute.id, connectingRoute.name)}
           </span>
         )}
       </TooltipWrapper>

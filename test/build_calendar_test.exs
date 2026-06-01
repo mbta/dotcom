@@ -203,7 +203,7 @@ defmodule BuildCalendarTest do
         })
 
       assert safe_to_string(actual) =~ "23"
-      assert safe_to_string(actual) =~ ~s(href="url")
+      assert safe_to_string(actual) =~ ~s(href="url#date-filter")
     end
 
     test "if the day is selected, adds a class" do

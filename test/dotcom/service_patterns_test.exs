@@ -5,6 +5,7 @@ defmodule Dotcom.ServicePatternsTest do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Mox
   import Test.Support.Factories.Services.Service
+  import Test.Support.Generators.Date, only: [random_date: 0]
 
   alias Test.Support.FactoryHelpers
 
@@ -28,11 +29,13 @@ defmodule Dotcom.ServicePatternsTest do
     end
 
     test "returns true if there are services for that date" do
+      date = random_date()
+
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service, %{date: service_date()})
+        build_list(5, :service, %{date: date})
       end)
 
-      assert has_service?(route: FactoryHelpers.build(:id))
+      assert has_service?(route: FactoryHelpers.build(:id), date: date)
     end
 
     test "returns false if no service" do
@@ -44,13 +47,13 @@ defmodule Dotcom.ServicePatternsTest do
     end
 
     test "returns false if services only serve other dates" do
+      date = random_date()
+
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        build_list(5, :service, %{date: service_date()})
+        build_list(5, :service, %{date: date})
       end)
 
-      other_date =
-        service_date()
-        |> Date.shift(year: 5)
+      other_date = Date.shift(date, year: 5)
 
       refute has_service?(route: FactoryHelpers.build(:id), date: other_date)
     end
@@ -177,7 +180,7 @@ defmodule Dotcom.ServicePatternsTest do
       assert patterns_for_route(route_id) |> Enum.count() == 1
     end
 
-    test "omits weekday service if similar" do
+    test "omits weekday service if similar & same rating" do
       route_id = FactoryHelpers.build(:id)
 
       mon_thurs_service =
@@ -196,6 +199,32 @@ defmodule Dotcom.ServicePatternsTest do
       end)
 
       assert spurious_weekday_service not in patterns_for_route(route_id)
+    end
+
+    test "doesn't omit similar weekday service from other rating" do
+      route_id = FactoryHelpers.build(:id)
+
+      weekday_service =
+        build(:service,
+          date: service_date(),
+          typicality: :typical_service,
+          type: :weekday,
+          valid_days: [1, 2, 3, 4, 5]
+        )
+
+      other_weekday_service =
+        weekday_service
+        |> Map.put(:rating_description, "Some other rating")
+        |> Map.update!(:start_date, &Date.shift(&1, month: 1))
+        |> Map.update!(:end_date, &Date.shift(&1, month: 1))
+        |> Map.update!(:rating_start_date, &Date.shift(&1, month: 1))
+        |> Map.update!(:rating_end_date, &Date.shift(&1, month: 1))
+
+      expect(Services.Repo.Mock, :by_route_id, fn _ ->
+        [weekday_service, other_weekday_service]
+      end)
+
+      assert Enum.count(patterns_for_route(route_id)) == 2
     end
 
     test "omits overlapping service" do

@@ -1,6 +1,6 @@
-const { expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
 
-exports.scenario = async ({ page, baseURL }) => {
+export async function scenario({ page, baseURL }) {
   await page.goto(`${baseURL}/stops/subway`);
   await page
     .locator("div.search-wrapper .aa-Input")
@@ -17,4 +17,4 @@ exports.scenario = async ({ page, baseURL }) => {
   await expect
     .poll(async () => page.locator("li.departure-card").count())
     .toBeGreaterThan(0);
-};
+}

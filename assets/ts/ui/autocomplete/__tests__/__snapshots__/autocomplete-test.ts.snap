@@ -25,6 +25,46 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
         role="search"
       >
         <div
+          class="aa-InputWrapper"
+        >
+          <input
+            aria-autocomplete="both"
+            aria-labelledby="autocomplete-1-label"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            class="aa-Input"
+            enterkeyhint="search"
+            id="autocomplete-1-input"
+            maxlength="512"
+            placeholder="Search for routes, info, and more"
+            spellcheck="false"
+            type="search"
+          />
+        </div>
+        <div
+          class="aa-InputWrapperSuffix"
+        >
+          <button
+            class="aa-ClearButton"
+            hidden=""
+            title="Clear"
+            type="reset"
+          >
+            <svg
+              class="aa-ClearIcon"
+              fill="currentColor"
+              height="18"
+              viewBox="0 0 24 24"
+              width="18"
+            >
+              <path
+                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
           class="aa-InputWrapperPrefix"
         >
           <label
@@ -85,46 +125,6 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
               </circle>
             </svg>
           </div>
-        </div>
-        <div
-          class="aa-InputWrapper"
-        >
-          <input
-            aria-autocomplete="both"
-            aria-labelledby="autocomplete-1-label"
-            autocapitalize="off"
-            autocomplete="off"
-            autocorrect="off"
-            class="aa-Input"
-            enterkeyhint="search"
-            id="autocomplete-1-input"
-            maxlength="512"
-            placeholder="Search for routes, info, and more"
-            spellcheck="false"
-            type="search"
-          />
-        </div>
-        <div
-          class="aa-InputWrapperSuffix"
-        >
-          <button
-            class="aa-ClearButton"
-            hidden=""
-            title="Clear"
-            type="reset"
-          >
-            <svg
-              class="aa-ClearIcon"
-              fill="currentColor"
-              height="18"
-              viewBox="0 0 24 24"
-              width="18"
-            >
-              <path
-                d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
-              />
-            </svg>
-          </button>
         </div>
       </form>
     </div>

@@ -83,12 +83,10 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
         Route.build(:route, direction_names: %{direction_id => direction_name})
       end)
 
-      informed_entities = stops |> Enum.map(&%InformedEntity{stop: &1.id})
+      informed_entities =
+        stops |> Enum.map(&%InformedEntity{stop: &1.id, direction_id: direction_id})
 
-      alert =
-        Alert.new(
-          informed_entity: informed_entities ++ [%InformedEntity{direction_id: direction_id}]
-        )
+      alert = Alert.new(informed_entity: informed_entities)
 
       # Exercise
       queried_route_ids = build_random_size_id_list() ++ [route_id] ++ build_random_size_id_list()
@@ -181,6 +179,170 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
       total_stops_count = (stops1 ++ stops2 ++ overlap_stops) |> Enum.count()
       assert affected_stops_count == total_stops_count
     end
+
+    test "reports a direction of `:all` when given multiple different direction ID's from the same alert" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+
+      affected_stops = build_random_size_non_empty_stop_list()
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, _direction_id ->
+          build_random_size_stop_list() ++ affected_stops ++ build_random_size_stop_list()
+
+        _, _direction_id ->
+          build_random_size_stop_list()
+      end)
+
+      informed_entities =
+        affected_stops
+        |> Enum.flat_map(
+          &[
+            %InformedEntity{stop: &1.id, direction_id: 0},
+            %InformedEntity{stop: &1.id, direction_id: 1}
+          ]
+        )
+
+      alert = Alert.new(informed_entity: informed_entities)
+
+      # Exercise
+      affected_stops = AffectedStops.affected_stops([alert], [route_id])
+
+      # Verify
+      assert affected_stops |> Enum.map(& &1.direction) ==
+               1..(affected_stops |> Enum.count()) |> Enum.map(fn _ -> :all end)
+    end
+
+    test "reports a direction of `:all` when given multiple different direction ID's from different alerts" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+
+      affected_stops = build_random_size_non_empty_stop_list()
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, _direction_id ->
+          build_random_size_stop_list() ++ affected_stops ++ build_random_size_stop_list()
+
+        _, _direction_id ->
+          build_random_size_stop_list()
+      end)
+
+      informed_entities0 =
+        affected_stops |> Enum.map(&%InformedEntity{stop: &1.id, direction_id: 0})
+
+      alert0 = Alert.new(informed_entity: informed_entities0)
+
+      informed_entities1 =
+        affected_stops |> Enum.map(&%InformedEntity{stop: &1.id, direction_id: 1})
+
+      alert1 = Alert.new(informed_entity: informed_entities1)
+
+      # Exercise
+      affected_stops = AffectedStops.affected_stops([alert0, alert1], [route_id])
+
+      # Verify
+      assert affected_stops |> Enum.map(& &1.direction) ==
+               1..(affected_stops |> Enum.count()) |> Enum.map(fn _ -> :all end)
+    end
+
+    test "reports a direction of `:all` when given a `nil` direction ID plus anything else" do
+      # Setup
+      direction_id = Faker.Util.pick([0, 1])
+      route_id = FactoryHelpers.build(:id)
+
+      affected_stops = build_random_size_non_empty_stop_list()
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, _direction_id ->
+          build_random_size_stop_list() ++ affected_stops ++ build_random_size_stop_list()
+
+        _, _direction_id ->
+          build_random_size_stop_list()
+      end)
+
+      informed_entities1 =
+        affected_stops |> Enum.map(&%InformedEntity{stop: &1.id, direction_id: direction_id})
+
+      informed_entities2 =
+        affected_stops |> Enum.map(&%InformedEntity{stop: &1.id, direction_id: nil})
+
+      alert1 = Alert.new(informed_entity: informed_entities1)
+      alert2 = Alert.new(informed_entity: informed_entities2)
+
+      # Exercise
+      affected_stops = AffectedStops.affected_stops([alert1, alert2], [route_id])
+
+      # Verify
+      assert affected_stops |> Enum.map(& &1.direction) ==
+               1..(affected_stops |> Enum.count()) |> Enum.map(fn _ -> :all end)
+    end
+
+    test "reports different directions for different stops" do
+      # Setup
+      route_id = FactoryHelpers.build(:id)
+
+      [bypass_direction_id, other_direction_id] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick([0, 1]) end)
+
+      [bypassed_stop, closed_stop] = Stop.build_list(2, :stop)
+
+      Stops.Repo.Mock
+      |> stub(:by_route, fn
+        ^route_id, _direction_id ->
+          build_random_size_stop_list() ++
+            [bypassed_stop] ++
+            build_random_size_stop_list() ++
+            [closed_stop] ++
+            build_random_size_stop_list()
+
+        _, _direction_id ->
+          build_random_size_stop_list()
+      end)
+
+      [bypass_direction_name, other_direction_name] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Cat.breed() end)
+
+      Routes.Repo.Mock
+      |> stub(:get, fn
+        _ ->
+          Route.build(:route,
+            direction_names: %{
+              bypass_direction_id => bypass_direction_name,
+              other_direction_id => other_direction_name
+            }
+          )
+      end)
+
+      bypass_alert =
+        Alert.new(
+          informed_entity: [
+            %InformedEntity{stop: bypassed_stop.id, direction_id: bypass_direction_id}
+          ]
+        )
+
+      closure_alert =
+        Alert.new(
+          informed_entity: [
+            %InformedEntity{stop: closed_stop.id}
+          ]
+        )
+
+      # Exercise
+      queried_route_ids = build_random_size_id_list() ++ [route_id] ++ build_random_size_id_list()
+
+      affected_stops =
+        AffectedStops.affected_stops([bypass_alert, closure_alert], queried_route_ids)
+
+      # Verify
+      assert affected_stops |> Enum.map(& &1.direction) |> MapSet.new() ==
+               MapSet.new([
+                 {:direction, bypass_direction_name},
+                 :all
+               ])
+    end
   end
 
   describe "affected_stops/1" do
@@ -207,10 +369,10 @@ defmodule Dotcom.Alerts.AffectedStopsTest do
     end
   end
 
-  defp build_random_size_stop_list(), do: Stop.build_list(Faker.random_between(0, 10), :stop)
+  defp build_random_size_stop_list(), do: Stop.build_list(Faker.random_between(0, 3), :stop)
 
   defp build_random_size_id_list() do
-    count = Faker.random_between(0, 10)
+    count = Faker.random_between(0, 2)
     FactoryHelpers.build_list(count, :id)
   end
 

@@ -36,8 +36,8 @@ defmodule Dotcom.ServicePatterns do
     |> Stream.reject(&(&1.typicality == :canonical))
     |> Stream.flat_map(&unwrap_multiple_holidays/1)
     |> Stream.map(&add_single_date_description/1)
+    |> Stream.map(&{Service.all_valid_dates_for_service(&1), &1})
     |> Stream.map(&adjust_planned_description/1)
-    |> Enum.reject(&Date.before?(&1.end_date, ServiceDateTime.service_date()))
     |> dedup_identical_services()
     |> dedup_similar_services()
   end
@@ -101,28 +101,34 @@ defmodule Dotcom.ServicePatterns do
 
   defp format_tiny_date(date), do: Dotcom.Utils.Time.format!(date, :month_day_short)
 
-  defp adjust_planned_description(%{typicality: :planned_disruption} = service) do
-    dates =
-      if service.start_date == service.end_date do
-        " (#{format_tiny_date(service.start_date)})"
+  defp adjust_planned_description({dates, %{typicality: :planned_disruption} = service}) do
+    start_date = List.first(dates)
+    end_date = List.last(dates)
+
+    formatted_dates =
+      if start_date == end_date do
+        " (#{format_tiny_date(start_date)})"
       else
-        " (#{format_tiny_date(service.start_date)} - #{format_tiny_date(service.end_date)})"
+        " (#{format_tiny_date(start_date)} - #{format_tiny_date(end_date)})"
       end
 
-    Map.update!(service, :description, &(&1 <> dates))
+    {dates, Map.update!(service, :description, &(&1 <> formatted_dates))}
   end
 
-  defp adjust_planned_description(service), do: service
+  defp adjust_planned_description(other), do: other
 
-  defp dedup_identical_services(services) do
-    services
-    |> Enum.group_by(fn service ->
-      {service.start_date, service.end_date, service.valid_days, service.removed_dates,
-       service.added_dates}
-    end)
-    |> Enum.map(fn {_key, [service | _rest]} ->
-      service
-    end)
+  defp dedup_identical_services(dated_services) do
+    {_unique_dates, unique_services} =
+      dated_services
+      |> Enum.reject(fn {dates, _} ->
+        dates
+        |> List.last()
+        |> Date.before?(ServiceDateTime.service_date())
+      end)
+      |> Enum.uniq_by(fn {dates, _} -> dates end)
+      |> Enum.unzip()
+
+    unique_services
   end
 
   # If we have two services A and B with the same type and typicality,
@@ -184,13 +190,14 @@ defmodule Dotcom.ServicePatterns do
 
   defp to_service_pattern(services) do
     services
-    |> Enum.map(fn service ->
+    |> Stream.map(fn service ->
       %{
         service: service,
         dates: Service.all_valid_dates_for_service(service),
         group_label: group_label(service)
       }
     end)
+    |> Enum.to_list()
     |> merge_similar_typical()
   end
 
@@ -260,7 +267,7 @@ defmodule Dotcom.ServicePatterns do
   @spec merge_similar_typical([service_pattern()]) :: [service_pattern()]
   defp merge_similar_typical(all) do
     all
-    |> Enum.group_by(&similar_typical_items/1)
+    |> Enum.group_by(&{&1.group_label, similar_typical_items(&1)})
     |> Enum.map(&merge_items/1)
   end
 
@@ -298,18 +305,17 @@ defmodule Dotcom.ServicePatterns do
   defp similar_typical_items(%{dates: dates, service: service}),
     do: {service.typicality, List.first(dates), service.description}
 
-  defp merge_items({label, [%{service: _, dates: dates, group_label: group_label}]}) do
+  defp merge_items({{group_label, label}, [%{service: _, dates: dates}]}) do
     %{service_label: label, dates: dates, group_label: group_label}
   end
 
-  defp merge_items({label, many_items}) do
+  defp merge_items({{group_label, label}, many_items}) do
     merged_dates =
       many_items
       |> Enum.flat_map(& &1.dates)
       |> Enum.uniq()
       |> Enum.sort(Date)
 
-    merged_label = List.first(many_items) |> Map.get(:group_label)
-    %{service_label: label, dates: merged_dates, group_label: merged_label}
+    %{service_label: label, dates: merged_dates, group_label: group_label}
   end
 end

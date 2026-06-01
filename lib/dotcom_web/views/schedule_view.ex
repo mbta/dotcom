@@ -1,7 +1,7 @@
 defmodule DotcomWeb.ScheduleView do
   @moduledoc false
 
-  use DotcomWeb, :component
+  use Phoenix.Component
   use DotcomWeb, :view
 
   require Routes.Route
@@ -399,6 +399,27 @@ defmodule DotcomWeb.ScheduleView do
         content_tag(:p, [
           content_tag(:strong, ~t"Note:"),
           ~t" Trains depart from Foxboro 30 minutes after conclusion of events"
+        ])
+      ]
+    end
+  end
+
+  def timetable_note(%{route: %Route{id: "Boat-F1"}, direction_id: _}) do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          gettext(
+            " Additional service between Boston, Hingham, and Hull is available via the %{link}",
+            %{
+              link:
+                link(~t"Hingham/Hull ferry",
+                  to: ~p"/schedules/Boat-F2H/timetable"
+                )
+                |> safe_to_string()
+            }
+          )
+          |> raw()
         ])
       ]
     end

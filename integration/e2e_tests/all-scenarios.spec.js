@@ -1,24 +1,23 @@
-const fs = require("fs");
-const path = require("path");
-const { performance } = require("node:perf_hooks");
-const { test } = require("@playwright/test");
+import { readdirSync } from "fs";
+import { join } from "path";
+import { performance } from "node:perf_hooks";
+import { test } from "@playwright/test";
+import { fileToMetricName } from "../utils";
 
-const { fileToMetricName } = require("../utils");
-
-const filesPath = path.join(__dirname, "..", "scenarios");
-const files = fs.readdirSync(filesPath);
-const tests = files.map(file => {
-  const filePath = path.join(filesPath, file);
-  const { scenario } = require(filePath);
+const filesPath = join(import.meta.dirname, "..", "scenarios");
+const files = readdirSync(filesPath);
+const tests = await Promise.all(files.map(async file => {
+  const filePath = join(filesPath, file);
+  const fileContent = await import(filePath);
   const name = fileToMetricName(file);
-  return [name, scenario];
-});
+  return [name, fileContent.scenario];
+}));
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
   : "http://localhost:4001";
 
 test.describe("All scenarios", { tag: "@scenarios" }, () => {
-  tests.forEach(([name, scenario]) => {
+  for (const [name, scenario] of tests) {
     test(name, { tag: `@${name}` }, async ({ page }) => {
       const start = performance.now();
 
@@ -32,5 +31,5 @@ test.describe("All scenarios", { tag: "@scenarios" }, () => {
         description: `duration: ${duration}ms`,
       });
     });
-  });
+  };
 });

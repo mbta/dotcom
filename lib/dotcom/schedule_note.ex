@@ -41,9 +41,9 @@ defmodule Dotcom.ScheduleNote do
 
   def schedule_note(%Route{id: "Red"}) do
     %__MODULE__{
-      peak_service: "#{window(4, 5)} within trunk, every #{window(8, 14)} on branches",
-      saturday_service: "#{window(6, 8)} within trunk, every #{window(12, 13)} on branches",
-      sunday_service: "#{window(6, 8)} within trunk, every #{window(12, 13)} on branches"
+      peak_service: "#{window(4, 5)} within trunk, every #{window(9, 14)} on branches",
+      saturday_service: "#{window(6, 7)} within trunk, every #{window(13)} on branches",
+      sunday_service: "#{window(6, 7)} within trunk, every #{window(13)} on branches"
     }
   end
 
@@ -52,15 +52,16 @@ defmodule Dotcom.ScheduleNote do
       offpeak_service: window(9, 13),
       peak_service: window(6, 7),
       saturday_service: window(13),
-      sunday_service: window(12, 13)
+      sunday_service: window(13)
     }
   end
 
   def schedule_note(%Route{id: "Orange"}) do
     %__MODULE__{
+      offpeak_service: window(5, 7),
       peak_service: window(4, 5),
-      saturday_service: window(7, 8),
-      sunday_service: window(8, 10)
+      saturday_service: window(6, 8),
+      sunday_service: window(7, 8)
     }
   end
 
@@ -68,8 +69,8 @@ defmodule Dotcom.ScheduleNote do
     %__MODULE__{
       offpeak_service: window(7, 12),
       peak_service: window(4, 5),
-      saturday_service: window(7, 10),
-      sunday_service: window(7, 10)
+      saturday_service: window(7, 8),
+      sunday_service: window(7, 8)
     }
   end
 

@@ -16,18 +16,18 @@ const files = fs.readdirSync(filesPath);
 
 cron.schedule("* * * * *", (_) => {
   files.forEach(async (file, index) => {
-    setTimeout(
-      async (_) => {
-        const filePath = path.join(filesPath, file);
-        const { check } = require(filePath);
-
-        const name = fileToMetricName(file);
-        const value = (await check()) ? 1 : 0;
-
-        client.gauge(name, value);
-        logger.info({ metric: `${prefix}${name}`, value });
-      },
-      (60000 / files.length) * index,
-    );
+    const filePath = path.join(filesPath, file);
+    const { check } = require(filePath);
+    if (typeof check === "function") {
+      const name = fileToMetricName(file);
+      setTimeout(
+        async (_) => {
+          const value = (await check()) ? 1 : 0;
+          client.gauge(name, value);
+          logger.info({ metric: `${prefix}${name}`, value });
+        },
+        (60000 / files.length) * index,
+      );
+    }
   });
 });

@@ -106,7 +106,12 @@ defmodule DotcomWeb.Components.RouteSymbols do
     assigns = update(assigns, :class, &"#{&1} text-#{route_class}")
 
     ~H"""
-    <.icon type="icon-svg" name="icon-mode-shuttle-default" class={"#{@class} #{@cva_class}"} />
+    <.icon
+      aria-label={route_label(@route)}
+      type="icon-svg"
+      name="icon-mode-shuttle-default"
+      class={"#{@class} #{@cva_class}"}
+    />
     """
   end
 

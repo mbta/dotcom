@@ -9,8 +9,8 @@
  *
  * HOST=dev.mbtace.com npx playwright test smoke
  */
-const { describe, expect, test } = require("@playwright/test");
-const { syncLiveView } = require("../utils");
+import { expect, test } from "@playwright/test";
+import { syncLiveView } from "../utils";
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -96,8 +96,8 @@ test.describe(`${baseURL} passes smoke test`, () => {
   test("stops & stations page, selected station", async ({ page }) => {
     await ok(page, "/stops");
     await page.getByRole("link", { name: "Ferry" }).click();
-    await page.getByRole("link", { name: "Hingham Ferry accessible" }).click();
-    await page.getByRole("heading", { name: "Hingham" });
+    await page.getByRole("link", { name: "Charlestown Ferry" }).click();
+    await page.getByRole("heading", { name: "Charlestown" });
     await page.getByRole("heading", { name: "Stop Information" });
   });
 
@@ -141,7 +141,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
     ["Red", "line"],
     ["1", "line"],
   ];
-  describe("selected schedules", async () => {
+  test.describe("selected schedules", async () => {
     for (let [route, tab] of schedule_sections) {
       test(`/schedules/${route}/${tab}`, async ({ page }) => {
         await ok(page, `/schedules/${route}/${tab}`);

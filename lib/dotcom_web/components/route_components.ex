@@ -26,6 +26,12 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  def route_icon(%{route: %Route{description: :rail_replacement_bus}} = assigns) do
+    ~H"""
+    <SystemIcons.mode_icon mode="bus" size={@size} {@rest} />
+    """
+  end
+
   def route_icon(%{route: %Route{id: route_id}} = assigns) do
     case line_name(route_id) do
       nil ->
@@ -63,19 +69,20 @@ defmodule DotcomWeb.RouteComponents do
   """
   def lined_list(assigns) do
     ~H"""
-    <div class="divide-y-[1px] divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
+    <div class="divide-y-xs divide-gray-lightest border-t-xs border-gray-lightest [&>*:first-child_.top]:invisible [&>*:last-child_.bottom]:invisible">
       {render_slot(@inner_block)}
     </div>
     """
   end
 
-  attr :route, Route, required: true
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :class, :string, default: ""
+  attr :route, Route, required: true
   attr :stop_pin?, :boolean, default: false
 
   attr :variant, :string,
     default: "default",
-    values: ["default", "mode", "none"],
+    values: ["cancelled", "default", "mode", "none", "squiggle"],
     doc:
       "Determines what kind of marker gets put on the line. `default` is a small round circle, " <>
         "`mode` is a larger bus, subway, etc icon, and `none` draws no marker at all."
@@ -87,15 +94,19 @@ defmodule DotcomWeb.RouteComponents do
     <div class={"px-sm py-3 gap-xs flex justify-between items-center #{@class}"}>
       <div
         class="w-6 shrink-0 self-stretch flex justify-center relative"
-        style="margin-block: calc(-1 * (var(--spacing-3) + 1px));"
+        style="margin-block: calc(-1 * (var(--spacing-3) + 0.06rem));"
       >
         <div class="w-1 z-10 shrink-0 flex flex-col self-stretch">
           <div class={"#{route_to_class(@route)} grow top"} />
           <div class={"#{route_to_class(@route)} grow bottom"} />
         </div>
-        <.lined_list_marker variant={@variant} route={@route} />
+        <.lined_list_marker
+          background={@background}
+          variant={@variant}
+          route={@route}
+        />
       </div>
-      <div class="relative">
+      <div class="relative" tabindex="-1">
         <Icon.icon
           :if={@stop_pin?}
           type="icon-svg"
@@ -108,8 +119,12 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
   attr :route, Route, required: true
-  attr :variant, :string, default: "default", values: ["default", "mode", "none"]
+
+  attr :variant, :string,
+    default: "default",
+    values: ["cancelled", "default", "mode", "none", "squiggle"]
 
   defp lined_list_marker(%{variant: "none"} = assigns) do
     ~H""
@@ -136,13 +151,45 @@ defmodule DotcomWeb.RouteComponents do
     """
   end
 
+  defp lined_list_marker(%{variant: "cancelled"} = assigns) do
+    ~H"""
+    <div class={[
+      "bg-transparent #{route_to_class(@route)}",
+      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "size-5 ring-2 #{background_to_ring_class(@background)}",
+      "flex items-center justify-items-center"
+    ]}>
+      <Icon.icon type="icon-svg" name="icon-cancelled" />
+    </div>
+    """
+  end
+
+  defp lined_list_marker(%{variant: "squiggle"} = assigns) do
+    ~H"""
+    <div class={[
+      "#{route_to_stroke_class(@route)}",
+      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "size-5 #{background_to_bg_class(@background)}",
+      "flex items-center justify-items-center"
+    ]}>
+      <Icon.icon type="icon-svg" name="icon-squiggle" />
+    </div>
+    """
+  end
+
   defp lined_list_marker(assigns) do
     ~H"""
     <div class={[
       "#{route_to_class(@route)}",
       "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
-      "size-3.5 rounded-full rounded-full border-xs border-[#00000026]"
+      "size-3.5 rounded-full border-xs border-[#00000026]"
     ]} />
     """
   end
+
+  defp background_to_ring_class("white"), do: "ring-white"
+  defp background_to_ring_class("charcoal-90"), do: "ring-charcoal-90"
+
+  defp background_to_bg_class("white"), do: "bg-white"
+  defp background_to_bg_class("charcoal-90"), do: "bg-charcoal-90"
 end

@@ -12,6 +12,7 @@ defmodule CMS.Partial.Teaser do
       content_type: 1,
       content: 1,
       int_or_string_to_int: 1,
+      rewrite_url: 1,
       routes: 1
     ]
 
@@ -148,7 +149,7 @@ defmodule CMS.Partial.Teaser do
 
   @spec image(String.t(), String.t()) :: Image.t() | nil
   defp image("", _), do: nil
-  defp image(uri, alt), do: struct(Image, url: uri, alt: alt)
+  defp image(uri, alt), do: struct(Image, url: rewrite_url(uri), alt: alt)
 
   # Event location is sent in the form of a pipe-separated string:
   # Ex: "place|address|city|state" (any of the slots may be "").

@@ -304,7 +304,10 @@ describe("DepartureList", () => {
         hasService={true}
       />
     );
-    expect(screen.queryAllByRole("listitem")).toHaveLength(departures.length);
+    // Alert is also rendered as a list item and must be accounted for in the count
+    expect(screen.queryAllByRole("listitem")).toHaveLength(
+      1 + departures.length
+    );
   });
 
   it("can show no service message", () => {

@@ -322,16 +322,16 @@ defmodule OneWayTest do
       south_station_id = "place-sstat"
       foxboro_id = "place-PB-0194"
 
-      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+      assert %Fares.Fare{cents: "WorldCup", duration: :round_trip} =
                recommended_fare(route, south_station_id, foxboro_id)
 
-      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+      assert %Fares.Fare{cents: "WorldCup", duration: :round_trip} =
                base_fare(route, south_station_id, foxboro_id)
 
-      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+      assert %Fares.Fare{cents: "WorldCup", duration: :round_trip} =
                recommended_fare(route, foxboro_id, south_station_id)
 
-      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+      assert %Fares.Fare{cents: "WorldCup", duration: :round_trip} =
                base_fare(route, foxboro_id, south_station_id)
     end
 

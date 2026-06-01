@@ -35,11 +35,6 @@
       date_time: @date_time
     )}
     <h2 class="text-xl mb-4">{~t"Facility Information"}</h2>
-    <.amenity_image
-      :if={:bike_storage_cage in @stop.bike_storage}
-      src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2020-07/bike-parking-back-bay.jpg"
-      alt={~t"MBTA Pedal and Park bike storage"}
-    />
     <ul>
       <li :if={:bike_storage_cage in @stop.bike_storage}>
         {~t"Free Pedal and Park secured parking"} ({~t"requires"}

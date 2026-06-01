@@ -4,7 +4,7 @@ defmodule Dotcom.ScheduleFinderTest do
   import Dotcom.ScheduleFinder
   import Mox
 
-  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival}
+  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
 
   alias Test.Support.Factories.{
     Routes.Route,
@@ -147,6 +147,46 @@ defmodule Dotcom.ScheduleFinderTest do
 
       assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop, date)
       assert %FutureArrival{} = List.first(arrivals)
+    end
+  end
+
+  describe "platform_name_for_stop/3" do
+    test "hides platform names for subway" do
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+
+      assert platform_name_for_stop(platform_name, :subway, stop_id) == nil
+    end
+
+    test "shows platform names for ferry" do
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+
+      assert platform_name_for_stop(platform_name, :ferry, stop_id) == platform_name
+    end
+
+    test "shows platform names for busways only" do
+      stop_id = Platforms.stations_with_bus_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+      stop_id_outside_allowlist = Faker.Pokemon.location()
+
+      assert platform_name_for_stop(platform_name, :bus, stop_id) == platform_name
+      assert platform_name_for_stop(platform_name, :bus, stop_id_outside_allowlist) == nil
+    end
+
+    test "shows commuter rail tracks only at tracked stations" do
+      stop_id = Platforms.stations_with_commuter_rail_platforms() |> Faker.Util.pick()
+      platform_name = Faker.Pokemon.location()
+      stop_id_outside_allowlist = Faker.Pokemon.location()
+
+      assert platform_name_for_stop("Commuter Rail - #{platform_name}", :commuter_rail, stop_id) ==
+               platform_name
+
+      assert platform_name_for_stop(
+               "Commuter Rail - #{platform_name}",
+               :commuter_rail,
+               stop_id_outside_allowlist
+             ) == nil
     end
   end
 
@@ -390,9 +430,9 @@ defmodule Dotcom.ScheduleFinderTest do
       assert simplify_platform_name(Faker.Pizza.topping(), route_type) == nil
     end
 
-    test "returns nil for commuter rail platforms called 'Commuter Rail'" do
+    test "returns Track TBA for commuter rail platforms called 'Commuter Rail'" do
       route_type = Faker.Util.pick([2, :commuter_rail])
-      assert simplify_platform_name("Commuter Rail", route_type) == nil
+      assert simplify_platform_name("Commuter Rail", route_type) == "Track TBA"
     end
 
     test "returns nil for commuter rail platforms starting with 'Commuter Rail -'" do
@@ -401,9 +441,12 @@ defmodule Dotcom.ScheduleFinderTest do
       assert simplify_platform_name("Commuter Rail - " <> actual_name, route_type) == actual_name
     end
 
-    test "returns nil for commuter rail platforms with 'All Trains' in the name" do
+    test "returns Track number only for commuter rail platforms with 'All Trains' in the name" do
       route_type = Faker.Util.pick([2, :commuter_rail])
-      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", route_type) == nil
+      track_name = Faker.Pokemon.name()
+
+      assert simplify_platform_name("#{track_name} (All Trains)", route_type) ==
+               track_name
     end
 
     test "returns nil for ferry platforms with 'Ferry' in the name" do

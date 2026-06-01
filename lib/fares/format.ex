@@ -15,6 +15,7 @@ defmodule Fares.Format do
   @spec price(Fare.t() | non_neg_integer | nil) :: String.t()
   def price(nil), do: ""
   def price(%Fare{cents: +0.0}), do: ~t"Free"
+  def price("WorldCup"), do: ~t(Special ticket required)
   def price(%Fare{cents: cents}), do: price(cents)
   def price(0), do: ~t"Free"
   def price(cents), do: (cents / 100) |> Cldr.Number.to_string!(currency: "USD")

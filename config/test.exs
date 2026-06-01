@@ -42,6 +42,8 @@ config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock
 config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock
 
+config :dotcom, :schedule_finder_module, Dotcom.ScheduleFinder.Mock
+
 config :dotcom, :system_status_cache_modules,
   commuter_rail: Dotcom.SystemStatus.CommuterRailCache.Mock,
   subway: Dotcom.SystemStatus.SubwayCache.Mock
@@ -49,8 +51,6 @@ config :dotcom, :system_status_cache_modules,
 config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
 config :dotcom, :search_service, Dotcom.SearchService.Mock
-
-config :dotcom, :timetable_loader_module, Dotcom.TimetableLoader.Mock
 
 # Let test requests get routed through the :secure pipeline
 config :dotcom, :secure_pipeline,

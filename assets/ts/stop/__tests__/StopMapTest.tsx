@@ -20,7 +20,10 @@ const testStop = {
   id: "Test Stop ID",
   name: "Test Stop Name",
   latitude: newLatOrLon(),
-  longitude: newLatOrLon()
+  longitude: newLatOrLon(),
+  parking_lots: [
+    {latitude: newLatOrLon(), longitude: newLatOrLon()}
+  ]
 } as Stop;
 
 const v1 = {

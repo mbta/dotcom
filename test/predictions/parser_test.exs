@@ -1,13 +1,29 @@
 defmodule Predictions.ParserTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
+  import Mox
   import Predictions.Parser
+  import Test.Support.Factories.Routes.Route
 
   alias JsonApi.Item
   alias Timex.Timezone
 
+  setup context do
+    # Route type matters for display time, but display time is not checked in all tests.
+    # Tag allows it to be properly set if relevant
+    if Map.has_key?(context, :route_type) do
+      expect(Routes.Repo.Mock, :get, fn id ->
+        build(:route, %{id: id, type: context.route_type})
+      end)
+    else
+      expect(Routes.Repo.Mock, :get, fn id -> build(:route, %{id: id}) end)
+    end
+
+    :ok
+  end
+
   describe "parse/1" do
+    @tag route_type: 5
     test "parses a %JsonApi.Item{} into a record" do
       item = %Item{
         attributes: %{
@@ -66,15 +82,16 @@ defmodule Predictions.ParserTest do
         "place-pktrm",
         "route_id",
         0,
-        ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4"),
-        ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
-        ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
+        ~N[2016-01-01T00:00:00] |> Timezone.convert("Etc/UTC-4"),
+        ~N[2016-09-15T15:40:00] |> Timezone.convert("Etc/UTC-4"),
+        ~N[2016-09-15T15:40:00] |> Timezone.convert("Etc/UTC-4"),
         5,
         nil,
         "5",
         "On Time",
         true,
-        "vehicle_id"
+        "vehicle_id",
+        false
       }
 
       assert parse(item) == expected
@@ -133,7 +150,7 @@ defmodule Predictions.ParserTest do
 
       parsed = parse(item)
 
-      assert elem(parsed, 5) == ~N[2016-09-15T14:40:00] |> Timezone.convert("Etc/GMT-1")
+      assert elem(parsed, 5) == ~N[2016-09-15T15:40:00] |> Timezone.convert("Etc/UTC+1")
       refute elem(parsed, 10)
     end
 
@@ -312,6 +329,7 @@ defmodule Predictions.ParserTest do
           | attributes: Map.put(base_item.attributes, "schedule_relationship", json)
         }
 
+        expect(Routes.Repo.Mock, :get, fn id -> build(:route, %{id: id}) end)
         parsed = parse(item)
         assert elem(parsed, 9) == expected
       end
@@ -393,7 +411,7 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [
             %Item{
-              id: "route_id",
+              id: "shape_id",
               attributes: %{
                 "long_name" => "Route",
                 "direction_names" => ["East", "West"],
@@ -413,6 +431,79 @@ defmodule Predictions.ParserTest do
 
       parsed = parse(json_item)
       assert elem(parsed, 12)
+    end
+
+    test "sets last_trip? to false if last_trip attribute is not present" do
+      item = %Item{
+        attributes: %{
+          "track" => "5",
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => "2016-09-15T15:40:00-04:00",
+          "arrival_time" => "2016-01-01T00:00:00-04:00",
+          "stop_sequence" => 5
+        },
+        relationships: %{
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 1
+              }
+            }
+          ],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
+          "trip" => [],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
+            }
+          ]
+        }
+      }
+
+      parsed = parse(item)
+      assert elem(parsed, 14) == false
+    end
+
+    test "sets last_trip? to the value of the attribute last_trip when attribute is present" do
+      last_trip? = Faker.Util.pick([true, false])
+
+      item = %Item{
+        attributes: %{
+          "track" => "5",
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => "2016-09-15T15:40:00-04:00",
+          "arrival_time" => "2016-01-01T00:00:00-04:00",
+          "stop_sequence" => 5,
+          "last_trip" => last_trip?
+        },
+        relationships: %{
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 1
+              }
+            }
+          ],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
+          "trip" => [],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
+            }
+          ]
+        }
+      }
+
+      parsed = parse(item)
+      assert elem(parsed, 14) == last_trip?
     end
   end
 end

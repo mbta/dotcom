@@ -1,6 +1,6 @@
-const { expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
 
-exports.scenario = async ({ page, baseURL }) => {
+export async function scenario({ page, baseURL }) {
   await page.goto(`${baseURL}/`);
   await page
     .locator("div.search-wrapper .aa-Input")
@@ -10,4 +10,4 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", { name: "Leadership at The MBTA", exact: true })).toBeVisible();
-};
+}

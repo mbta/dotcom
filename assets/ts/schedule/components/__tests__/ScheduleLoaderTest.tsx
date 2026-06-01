@@ -314,14 +314,12 @@ describe("schedule-loader", () => {
 
     scheduleLoader.default();
 
-    const hoursNode = await waitFor(() => screen.getByText("Today's Service"));
     const noteNode = await waitFor(() =>
       screen.queryByText(
         "Choose a stop to get schedule information and real-time departure predictions."
       )
     );
 
-    expect(hoursNode).toBeInTheDocument();
     expect(noteNode).toBeNull();
   });
 

@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components do
     endpoint: DotcomWeb.Endpoint,
     router: DotcomWeb.Router
 
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
   import MbtaMetro.Components.Badge, only: [badge: 1]
   import MbtaMetro.Components.Button, only: [button: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -113,6 +114,10 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
+  attr(:title, :string)
+  slot(:inner_block, required: true)
+
   def error_container(assigns) do
     assigns =
       assigns
@@ -122,7 +127,7 @@ defmodule DotcomWeb.Components do
       end)
 
     ~H"""
-    <div class={"error-container rounded #{@padding_class}"}>
+    <div class={"error-container rounded #{@padding_class}"} {@rest}>
       <p :if={@title} class="font-bold mb-2">{@title}</p>
       {render_slot(@inner_block)}
     </div>
@@ -179,6 +184,7 @@ defmodule DotcomWeb.Components do
   slot(:content, required: true)
   slot(:heading, required: true)
   attr(:class, :string, default: "")
+  attr(:id, :string, default: nil)
 
   attr(:summary_class, :string,
     default: "",
@@ -200,7 +206,7 @@ defmodule DotcomWeb.Components do
   """
   def unstyled_accordion(assigns) do
     ~H"""
-    <details class={"#{@class} group"} {@rest}>
+    <details class={"#{@class} group"} id={@id} {@rest}>
       <summary class={"#{@summary_class} cursor-pointer"}>
         {render_slot(@heading)}
         <div class={"#{@chevron_class} shrink-0"}>
@@ -306,6 +312,7 @@ defmodule DotcomWeb.Components do
   slot(:inner_block, required: true, doc: "Content displayed within the link")
   slot(:title, required: true)
   attr(:href, :string, doc: "Optional link to navigate to")
+  attr(:class, :string, default: "")
   attr(:rest, :global, include: ~w(disabled))
 
   @doc """
@@ -314,7 +321,7 @@ defmodule DotcomWeb.Components do
   """
   def descriptive_link(%{href: _} = assigns) do
     ~H"""
-    <a href={@href} class="c-descriptive-link">
+    <a href={@href} class={"c-descriptive-link #{@class}"} {@rest}>
       <.icon type="icon-svg" name="football" class="c-descriptive-link__football-icon" />
       <div class="c-descriptive-link__text">
         <div class="c-descriptive-link__title">{render_slot(@title)}</div>
@@ -343,6 +350,33 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global, include: ~w(disabled))
+  attr(:class, :string, default: "")
+
+  @doc """
+  A banner tailor made for the world cup. Default styling color is yellow.
+  """
+  def world_cup_intercept(assigns) do
+    ~H"""
+    <.descriptive_link
+      href="/WorldCup"
+      class={@class}
+      {@rest}
+    >
+      <:title>
+        {~t(Going to a World Cup match at Boston Stadium?)}
+      </:title>
+      <p class="c-descriptive-link__world-cup">
+        {gettext("Read our %{world_cup_link}",
+          world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
+        )
+        |> Phoenix.HTML.raw()}
+      </p>
+    </.descriptive_link>
+    """
+  end
+
+  attr(:rest, :global)
   slot :inner_block, required: true
 
   @doc """
@@ -350,7 +384,7 @@ defmodule DotcomWeb.Components do
   """
   def callout(assigns) do
     ~H"""
-    <div class="callout font-bold text-center">
+    <div class="callout font-bold text-center" {@rest}>
       {render_slot(@inner_block)}
     </div>
     """
@@ -366,6 +400,37 @@ defmodule DotcomWeb.Components do
         {render_slot(@inner_block)}
       </div>
       <.icon type="solid" name="arrow-right" class="c-callout-link__arrow" />
+    </a>
+    """
+  end
+
+  attr :route_type_atom, :atom, required: true
+  @doc "Renders a banner with a call-to-action to download the MBTA Go app"
+  def mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :route_type_text,
+        route_type_atom
+        |> mode_name()
+        |> String.downcase()
+      )
+
+    ~H"""
+    <a
+      phx-hook="MBTAGoCTABanner"
+      id="mbta-go-cta-banner"
+      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+    >
+      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
+      <span class="leading-tight grow">
+        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+          route_type_text: @route_type_text
+        )
+        |> Phoenix.HTML.raw()}
+      </span>
+      <span aria-hidden="true">&#8594;</span>
     </a>
     """
   end

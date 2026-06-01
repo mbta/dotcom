@@ -12,7 +12,6 @@ module.exports = {
     "!./app/global-navigation.ts", // tested with Cypress
     "!./helpers/socketTestHelpers.ts", // more test utilities
     "!./components/ErrorPage.tsx",
-    "!./sentry.ts",
     "!**/*.d.ts",
     "!./phoenix-hooks/**"
   ],

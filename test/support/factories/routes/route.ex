@@ -28,7 +28,7 @@ defmodule Test.Support.Factories.Routes.Route do
   end
 
   def commuter_rail_route_factory(attrs),
-    do: build(:route, attrs |> Map.put(:type, 2))
+    do: build(:route, attrs |> Map.put(:type, 2) |> Map.put(:description, :commuter_rail))
 
   def ferry_route_factory(attrs),
     do: build(:route, attrs |> Map.put(:type, 4))
@@ -55,6 +55,9 @@ defmodule Test.Support.Factories.Routes.Route do
     |> route_factory()
   end
 
+  def rail_replacement_bus_route_factory(attrs),
+    do: build(:route, attrs |> Map.put(:type, 3) |> Map.put(:description, :rail_replacement_bus))
+
   def route_factory(attrs) do
     type = attrs[:type] || Faker.Util.pick([0, 1, 2, 3, 4])
     fare_class = fare_class(attrs, type)
@@ -66,8 +69,8 @@ defmodule Test.Support.Factories.Routes.Route do
       long_name: Faker.Company.catch_phrase(),
       color: Faker.Color.rgb_hex(),
       direction_destinations: %{
-        0 => Faker.Address.street_address(),
-        1 => Faker.Address.street_address()
+        0 => Faker.Address.state(),
+        1 => Faker.Address.state()
       },
       description:
         [

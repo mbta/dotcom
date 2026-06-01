@@ -170,12 +170,12 @@ defmodule Schedules.Repo do
 
   defp all_from_params(params) do
     with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
-      data = Enum.filter(data, &valid?/1)
-      insert_trips_into_cache(data)
+      data = Stream.filter(data, &valid?/1)
+      data |> Enum.to_list() |> insert_trips_into_cache()
 
       data
       |> Stream.map(&Parser.parse/1)
-      |> Enum.filter(&has_trip?/1)
+      |> Stream.filter(&has_trip?/1)
       |> Enum.sort_by(&date_sorter/1)
     end
   end
@@ -277,9 +277,9 @@ defmodule Schedules.Repo do
 
   defp load_from_other_repos(schedules) do
     schedules
-    |> Enum.map(fn {route_id, trip_id, stop_id, schedule_id, arrival_time, departure_time, time,
-                    flag?, early_departure?, last_stop?, stop_sequence, stop_headsign,
-                    pickup_type} ->
+    |> Task.async_stream(fn {route_id, trip_id, stop_id, schedule_id, arrival_time,
+                             departure_time, time, flag?, early_departure?, last_stop?,
+                             stop_sequence, stop_headsign, pickup_type} ->
       %Schedules.Schedule{
         route: @routes_repo.get(route_id),
         trip: trip(trip_id),
@@ -297,6 +297,7 @@ defmodule Schedules.Repo do
         pickup_type: pickup_type
       }
     end)
+    |> Enum.map(fn {:ok, schedule} -> schedule end)
   end
 
   # Fetching predictions will also insert trips into cache using this function

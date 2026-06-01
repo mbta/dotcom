@@ -12,14 +12,20 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         'self'
         #{@tile_server_url}
         *.arcgis.com
+        ad.doubleclick.net
         analytics.google.com
+        analytics.tiktok.com
+        analytics-ipv6.tiktokw.us
+        bded8a3c6ae-1-1053047382554.us-central1.run.app
         cdn.mbta.com
+        md-eecad2978f7a43f5b7838c919258e6de.ecs.us-east-2.on.aws
         px.ads.linkedin.com
         stats.g.doubleclick.net
         translate.googleapis.com
         translate-pa.googleapis.com
         www.google.com
         www.google-analytics.com
+        www.googleadservices.com
         www.googletagmanager.com
       ],
     default_src: ~w['self'],
@@ -29,6 +35,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         *.arcgis.com
         *.soundcloud.com
         *.vimeo.com
+        14897135.fls.doubleclick.net
         cdn.knightlab.com
         data.mbta.com
         livestream.com
@@ -48,6 +55,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         data:
         i.ytimg.com
         fonts.gstatic.com
+        googleads.g.doubleclick.net
         px.ads.linkedin.com
         www.facebook.com
         www.googletagmanager.com
@@ -71,6 +79,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         translate-pa.googleapis.com
         www.instagram.com
         https://cdn.jsdelivr.net/
+        analytics.tiktok.com
       ],
     style_src: ~w[
         'self'
@@ -112,8 +121,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   defp sentry(directives, dsn) do
     if is_binary(dsn) do
       [
-        {:connect_src, sentry_host(dsn)},
-        {:connect_src, Util.config(:sentry, :js_dsn) |> sentry_host()}
+        {:connect_src, sentry_host(dsn)}
       ] ++ directives
     else
       directives

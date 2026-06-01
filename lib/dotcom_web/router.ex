@@ -4,14 +4,12 @@ defmodule DotcomWeb.Router do
   use DotcomWeb, :router
   use Plug.ErrorHandler
 
-  import KinoLiveComponent.Plug, only: [allow_insecure_connection: 2], warn: false
-
   alias DotcomWeb.ControllerHelpers
 
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: reason}) do
     case reason do
-      %Phoenix.Router.NoRouteError{plug_status: 404} ->
+      %{plug_status: 404} ->
         ControllerHelpers.render_404(conn)
 
       _ ->
@@ -104,6 +102,15 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/schedules/bostonstadium", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :world_cup do
+      live "/", WorldCupTimetableLive
+    end
+  end
+
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
@@ -175,15 +182,38 @@ defmodule DotcomWeb.Router do
       to: "/service-changes/fall-2025-bus-service-changes#62"
     )
 
+    get("/schedules/747", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#ct2"
+    )
+
+    get("/schedules/747/*path_params", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#ct2"
+    )
+
+    get("/schedules/4050", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#40"
+    )
+
+    get("/schedules/4050/*path_params", Redirector,
+      to: "/service-changes/spring-2026-better-bus-network-service-changes#40"
+    )
+
     # Commuter Rail route renamed as part of the SCR project
     get("/schedules/CR-Middleborough/*path_params", Plugs.PathParamsRedirector,
       to: "/schedules/CR-NewBedford"
     )
 
+    # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
+    get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
+
+    # Redirect Boat-F1 to Boat-F2H until Boat-F1 can be unlisted
+    get("/schedules/Boat-F1/*path_params", Plugs.PathParamsRedirector, to: "/schedules/Boat-F2H")
+
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
 
     get("/app-store", AppStoreController, :redirect_mbta_go)
+    get("/mTicketapp", AppStoreController, :redirect_mticket)
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)
@@ -279,14 +309,6 @@ defmodule DotcomWeb.Router do
     live_dashboard("/dashboard")
   end
 
-  if Mix.env() == :dev do
-    scope "/kino-live-component", KinoLiveComponent do
-      pipe_through([:allow_insecure_connection])
-
-      live("/", Live.Index)
-    end
-  end
-
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
@@ -313,7 +335,7 @@ defmodule DotcomWeb.Router do
     live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
       live "/", PreviewLive
       live "/daily-schedules", DailySchedulesLive
-      live "/schedules/CR-WorldCup", WorldCupTimetableLive
+      live "/schedules/bostonstadium", WorldCupTimetableLive
       live "/stop-map", StopMapLive
     end
   end

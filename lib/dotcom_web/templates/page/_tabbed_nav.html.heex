@@ -1,4 +1,4 @@
-<div class="m-tabbed-nav" role="navigation">
+<nav class="m-tabbed-nav" role="navigation" aria-label="main page tabs">
   <div class="nav m-tabbed-nav__items" role="tablist">
     <div class="m-tabbed-nav__item-container">
       <a
@@ -9,6 +9,7 @@
         data-tab-type="schedules"
         aria-controls="schedules-content"
         aria-selected="true"
+        aria-current="page"
       >
         <span aria-hidden="true">
           {svg("icon-map-default.svg")}
@@ -18,7 +19,7 @@
     </div>
     <div class="m-tabbed-nav__item-container">
       <a
-        tabindex="0"
+        tabindex="-1"
         class="nav-link m-tabbed-nav__item"
         role="tab"
         data-toggle="tab"
@@ -34,7 +35,7 @@
     </div>
     <div class="m-tabbed-nav__item-container">
       <a
-        tabindex="0"
+        tabindex="-1"
         class="nav-link m-tabbed-nav__item"
         role="tab"
         data-toggle="tab"
@@ -92,4 +93,4 @@
       {alerts(@conn.assigns.alerts)}
     </div>
   </div>
-</div>
+</nav>

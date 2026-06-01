@@ -96,10 +96,18 @@ exports[`Popular template renders 1`] = `
           <div
             class="flex gap-1"
           >
-            <span />
-            <span />
-            <span />
-            <span>
+            <span
+              aria-label="red line"
+            />
+            <span
+              aria-label="bus"
+            />
+            <span
+              aria-label="commuter rail"
+            />
+            <span
+              aria-label="access"
+            >
               <span
                 class="c-icon__cr-zone text-sm"
               >

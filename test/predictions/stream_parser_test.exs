@@ -29,6 +29,7 @@ defmodule Predictions.StreamParserTest do
 
     test "parses a %JsonApi.Item{} into a Prediction record" do
       stop_id = "place-pktrm"
+      expected_last_trip = Faker.Util.pick([true, false])
 
       item = %Item{
         id: "TEST-ID",
@@ -39,7 +40,8 @@ defmodule Predictions.StreamParserTest do
           "direction_id" => 1,
           "headsign" => "Back Bay",
           "name" => "",
-          "status" => "On Time"
+          "status" => "On Time",
+          "last_trip" => expected_last_trip
         },
         relationships: %{
           "route" => [
@@ -74,7 +76,8 @@ defmodule Predictions.StreamParserTest do
                time: time,
                track: track,
                trip: trip,
-               vehicle_id: vehicle_id
+               vehicle_id: vehicle_id,
+               last_trip?: last_trip?
              } = StreamParser.parse(item)
 
       assert %Route{id: "route_id"} = route
@@ -83,6 +86,7 @@ defmodule Predictions.StreamParserTest do
       assert time == ~U[2016-01-01 04:00:00Z]
       assert track == stop.platform_code
       assert "vehicle_id" = vehicle_id
+      assert last_trip? == expected_last_trip
     end
 
     test "When no vehicle relationship parses vehicle_id as nil" do

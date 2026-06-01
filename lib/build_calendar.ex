@@ -72,7 +72,11 @@ defmodule BuildCalendar do
       formatted_date = Dotcom.Utils.Time.format!(date, :weekday_date_full)
 
       content_tag :td, class: class(day) do
-        link("#{date.day}", to: url, title: formatted_date, "aria-label": formatted_date)
+        link("#{date.day}",
+          to: url <> "#date-filter",
+          title: formatted_date,
+          "aria-label": formatted_date
+        )
       end
     end
 

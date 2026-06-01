@@ -15,8 +15,8 @@ defmodule DotcomWeb.ModeViewTest do
                :commuter_rail
                |> ModeView.mode_group_header("/schedules/commuter-rail", false)
                |> safe_to_string()
-               |> Floki.parse_fragment()
-               |> elem(1)
+               |> Floki.parse_fragment!()
+               |> Floki.find(".m-mode__name")
 
       assert tag == "h2"
     end
@@ -26,8 +26,8 @@ defmodule DotcomWeb.ModeViewTest do
                :commuter_rail
                |> ModeView.mode_group_header("/schedules/commuter-rail", true)
                |> safe_to_string()
-               |> Floki.parse_fragment()
-               |> elem(1)
+               |> Floki.parse_fragment!()
+               |> Floki.find(".m-mode__name")
 
       assert tag == "h3"
     end
@@ -49,13 +49,15 @@ defmodule DotcomWeb.ModeViewTest do
           |> Floki.parse_document!()
 
         assert document
+               |> Floki.find(".m-mode__header")
                |> Floki.find(".m-mode__name")
                |> Floki.text(deep: false)
                |> String.trim() == text
 
         assert document
-               |> Floki.find(".m-mode__name")
-               |> Floki.attribute("href") == [href]
+               |> Floki.find(".m-mode__header #mode-header-link")
+               |> Floki.attribute("href") ==
+                 [href]
 
         view_all = Floki.find(document, ".m-mode__view-all")
 

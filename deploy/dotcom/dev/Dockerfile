@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.19.4-erlang-28.2-debian-trixie-20251229-slim
+FROM hexpm/elixir:1.19.5-erlang-28.4-debian-trixie-20260223-slim
 
 RUN apt-get update && apt-get install -y curl git make build-essential inotify-tools
 RUN apt-get install -y nodejs npm
