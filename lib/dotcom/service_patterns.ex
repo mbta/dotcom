@@ -61,8 +61,8 @@ defmodule Dotcom.ServicePatterns do
     |> to_service_pattern()
   end
 
-  defp unwrap_multiple_holidays(%{typicality: extra, added_dates: added_dates} = service)
-       when extra in [:extra_service, :holiday_service] and length(added_dates) > 1 do
+  defp unwrap_multiple_holidays(%{typicality: typicality, added_dates: added_dates} = service)
+       when typicality in [:extra_service, :holiday_service] and length(added_dates) > 1 do
     for added_date <- added_dates do
       %{
         service
