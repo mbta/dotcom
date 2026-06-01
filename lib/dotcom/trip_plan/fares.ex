@@ -76,9 +76,10 @@ defmodule Dotcom.TripPlan.Fares do
   # All other Logan Express buses are $9.00
   def cents_for_leg(leg) when agency_name?(leg, "Logan Express"), do: 900
 
-  def cents_for_leg(%Leg{from: from, route: route, to: to}) when agency_name?(route, "MBTA") do
+  def cents_for_leg(%Leg{from: from, route: route, to: to, intermediate_stops: between} = leg)
+      when agency_name?(route, "MBTA") do
     route
-    |> fare_filter_for_route(from, to)
+    |> fare_filter_for_route(from, to, between)
     |> Keyword.put_new(:duration, :single_trip)
     |> Keyword.put_new(:reduced, nil)
     |> Fares.Repo.all()
@@ -89,7 +90,7 @@ defmodule Dotcom.TripPlan.Fares do
   # Non-transit legs don't have a fare
   def cents_for_leg(_), do: 0
 
-  defp fare_filter_for_route(route, from, to) when route.type == 2 do
+  defp fare_filter_for_route(route, from, to, _) when route.type == 2 do
     if mbta_id(route) == "CR-Foxboro" do
       [name: :foxboro, duration: :round_trip]
     else
@@ -104,17 +105,19 @@ defmodule Dotcom.TripPlan.Fares do
     end
   end
 
-  defp fare_filter_for_route(route, from, to) when route.type == 4 do
+  defp fare_filter_for_route(route, from, to, between) when route.type == 4 do
     origin_id = mbta_id(from.stop)
     destination_id = mbta_id(to.stop)
-    [name: Fares.calculate_ferry(origin_id, destination_id)]
+
+    between_ids = between |> Enum.map(fn stop -> stop.name end)
+    [name: Fares.calculate_ferry(origin_id, destination_id, between_ids)]
   end
 
-  defp fare_filter_for_route(route, _, _) when mbta_shuttle?(route) do
+  defp fare_filter_for_route(route, _, _, _) when mbta_shuttle?(route) do
     [name: :free_fare]
   end
 
-  defp fare_filter_for_route(route, from, _) when route.type == 3 do
+  defp fare_filter_for_route(route, from, _, _) when route.type == 3 do
     route_id = mbta_id(route)
     origin_id = mbta_id(from.stop)
 
@@ -129,11 +132,11 @@ defmodule Dotcom.TripPlan.Fares do
     [name: name]
   end
 
-  defp fare_filter_for_route(route, _, _) when route.type in [0, 1] do
+  defp fare_filter_for_route(route, _, _, _) when route.type in [0, 1] do
     [mode: :subway]
   end
 
-  defp fare_filter_for_route(route, _, _), do: [name: mbta_id(route)]
+  defp fare_filter_for_route(route, _, _, _), do: [name: mbta_id(route)]
 
   @spec fare_cents(Fare.t() | nil) :: non_neg_integer()
   defp fare_cents(nil), do: 0
