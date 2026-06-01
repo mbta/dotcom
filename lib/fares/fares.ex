@@ -38,6 +38,11 @@ defmodule Fares do
   @doc """
   Calculate the fare between a pair of stops.
   """
+
+  def fare_for_stops(:ferry, origin, destination, between) do
+    {:ok, calculate_ferry(origin, destination, between)}
+  end
+
   @spec fare_for_stops(
           :commuter_rail | :ferry,
           Stop.id_t(),

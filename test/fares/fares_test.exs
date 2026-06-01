@@ -93,6 +93,24 @@ defmodule FaresTest do
                "Unexpected result for #{origin_id} to #{destination_id}, expected #{expected_name}"
       end
     end
+
+    test "detects long-way-around ferry trips and charges appropriately" do
+      origin_id = "Boat-Long"
+      destination_id = Faker.Util.pick(["Boat-Logan", "Boat-Lewis"])
+      between_ids = Faker.Util.pick([["Quincy"], ["Hingham"], ["Hingham", "Hull"]])
+
+      expected_name =
+        if "Quincy" in between_ids do
+          :ferry_winthrop
+        else
+          :commuter_ferry
+        end
+
+      {_, received_name} = Fares.fare_for_stops(:ferry, origin_id, destination_id, between_ids)
+
+      assert received_name == expected_name,
+             "Unexpected result for #{origin_id} to #{destination_id} with #{between_ids} in between, expected #{expected_name} got #{received_name}"
+    end
   end
 
   describe "silver line rapid transit routes" do

@@ -76,7 +76,7 @@ defmodule Dotcom.TripPlan.Fares do
   # All other Logan Express buses are $9.00
   def cents_for_leg(leg) when agency_name?(leg, "Logan Express"), do: 900
 
-  def cents_for_leg(%Leg{from: from, route: route, to: to, intermediate_stops: between} = leg)
+  def cents_for_leg(%Leg{from: from, route: route, to: to, intermediate_stops: between})
       when agency_name?(route, "MBTA") do
     route
     |> fare_filter_for_route(from, to, between)
