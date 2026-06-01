@@ -61,10 +61,8 @@ defmodule Dotcom.ServicePatterns do
     |> to_service_pattern()
   end
 
-  defp unwrap_multiple_holidays(
-         %{typicality: :holiday_service, added_dates: added_dates} = service
-       )
-       when length(added_dates) > 1 do
+  defp unwrap_multiple_holidays(%{typicality: typicality, added_dates: added_dates} = service)
+       when typicality in [:extra_service, :holiday_service] and length(added_dates) > 1 do
     for added_date <- added_dates do
       %{
         service
@@ -76,25 +74,29 @@ defmodule Dotcom.ServicePatterns do
 
   defp unwrap_multiple_holidays(service), do: [service]
 
-  defp add_single_date_description(
-         %{
-           added_dates: [single_date],
-           added_dates_notes: added_dates_notes,
-           typicality: typicality
-         } = service
-       )
+  defp add_single_date_description(%{typicality: typicality} = service)
        when typicality in [:extra_service, :holiday_service] do
-    date_note = Map.get(added_dates_notes, single_date) || service.description
+    case Service.all_valid_dates_for_service(service) do
+      [single_date] ->
+        date_string = Date.to_string(single_date)
 
-    formatted_date =
-      single_date
-      |> Date.from_iso8601!()
-      |> format_tiny_date()
+        date_note =
+          Map.get(service.added_dates_notes, date_string) || service.description
 
-    %{
-      service
-      | description: "#{date_note}, #{formatted_date}"
-    }
+        formatted_date = format_tiny_date(single_date)
+
+        # In the case of :extra_service, a single valid date may not be present
+        # in added_dates, so we add it here to aid in preventing deduplication
+        %{
+          service
+          | description: "#{date_note}, #{formatted_date}",
+            added_dates: [date_string],
+            added_dates_notes: Map.new([{date_string, date_note}])
+        }
+
+      _ ->
+        service
+    end
   end
 
   defp add_single_date_description(service), do: service
@@ -168,6 +170,7 @@ defmodule Dotcom.ServicePatterns do
     end
   end
 
+  defp service_completely_overlapped?(%{typicality: :extra_service}, _), do: false
   defp service_completely_overlapped?(%{typicality: :holiday_service}, _), do: false
 
   defp service_completely_overlapped?(service, services) do
