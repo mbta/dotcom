@@ -210,7 +210,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
   describe "Daily Departures" do
     test "indicates no service", %{conn: conn} do
       expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ -> {:ok, []} end)
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
       assert {:ok, view, _html} = visit_with_valid_params(conn)
 
       no_service =
@@ -228,7 +228,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       active_services = Factories.Services.Service.build_list(15, :service)
       expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> active_services end)
 
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ -> {:ok, []} end)
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
 
       assert {:ok, view, _html} = visit_with_valid_params(conn)
 
@@ -246,7 +246,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     test "handles loading errors & shows custom message", %{conn: conn} do
       actual_error = "nonsense only a computer will understand"
 
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ ->
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ ->
         {:error, actual_error}
       end)
 
@@ -271,7 +271,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         |> Faker.random_between(20)
         |> Factories.ScheduleFinder.build_list(:daily_departure)
 
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, _ ->
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ ->
         {:ok, departures}
       end)
 
@@ -324,7 +324,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         end)
 
       Dotcom.ScheduleFinder.Mock
-      |> expect(:daily_departures, 2, fn _, _, _, _ -> {:ok, departures} end)
+      |> expect(:daily_departures, fn _, _, _, _ -> {:ok, departures} end)
       |> expect(:subway_groups, 1, fn ^departures, _, _ -> subway_groups end)
 
       assert {:ok, view, html} = visit_with_valid_params(conn, [0, 1])
