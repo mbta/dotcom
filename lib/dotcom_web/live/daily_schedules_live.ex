@@ -63,15 +63,17 @@ defmodule DotcomWeb.DailySchedulesLive do
       |> assign(:non_holiday_schedules, non_holiday_schedules)
 
     ~H"""
-    <h1>Daily Schedules</h1>
+    <div class="container">
+      <h1>Daily Schedules</h1>
 
-    <.route_changer selected_route_id={@route_id} />
+      <.route_changer selected_route_id={@route_id} />
 
-    <h2>Regular Schedules</h2>
-    <.daily_schedule :for={schedule <- @non_holiday_schedules} schedule={schedule} />
+      <h2>Regular Schedules</h2>
+      <.daily_schedule :for={schedule <- @non_holiday_schedules} schedule={schedule} />
 
-    <h2>Holiday Schedules</h2>
-    <.daily_schedule :for={schedule <- @holiday_schedules} schedule={schedule} />
+      <h2>Holiday Schedules</h2>
+      <.daily_schedule :for={schedule <- @holiday_schedules} schedule={schedule} />
+    </div>
     """
   end
 
