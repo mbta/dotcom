@@ -425,6 +425,50 @@ defmodule DotcomWeb.ScheduleView do
     end
   end
 
+  def timetable_note(%{route: %Route{id: "Boat-F10"}, direction_id: 0, date: date}) do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          gettext(
+            " Service continues later in the day in the opposite direction. %{link}",
+            %{
+              link:
+                link(~t"View evening timetable",
+                  to:
+                    "/schedules/Boat-F10/timetable?schedule_direction[direction_id]=1&date=#{date}#direction-filter"
+                )
+                |> safe_to_string()
+            }
+          )
+          |> raw()
+        ])
+      ]
+    end
+  end
+
+  def timetable_note(%{route: %Route{id: "Boat-F10"}, direction_id: 1, date: date}) do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          gettext(
+            " Service is available earlier in the day in the opposite direction. %{link}",
+            %{
+              link:
+                link(~t"View morning timetable",
+                  to:
+                    "/schedules/Boat-F10/timetable?schedule_direction[direction_id]=0&date=#{date}#direction-filter"
+                )
+                |> safe_to_string()
+            }
+          )
+          |> raw()
+        ])
+      ]
+    end
+  end
+
   def timetable_note(_), do: nil
 
   def json_safe_route(route) do
