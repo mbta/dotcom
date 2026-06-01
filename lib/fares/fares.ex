@@ -83,27 +83,40 @@ defmodule Fares do
 
   def calculate_ferry(origin, destination, between)
       when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination] do
-    weird_ferry_trip_logic(between)
+    long_way_around_trip_logic(between)
   end
 
   def calculate_ferry(origin, destination, between)
       when "Boat-Long" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
-    weird_ferry_trip_logic(between)
+    long_way_around_trip_logic(between)
   end
 
   def calculate_ferry(origin, destination, between)
       when "Boat-Long-North-5B" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
-    weird_ferry_trip_logic(between)
+    long_way_around_trip_logic(between)
   end
 
   def calculate_ferry(origin, destination, between)
       when origin in @loop_ferry_stops and destination in @loop_ferry_stops and
              origin != destination do
-    weird_ferry_trip_logic(between)
+    long_way_around_trip_logic(between)
   end
 
   def calculate_ferry(origin, destination, _) do
     calculate_ferry(origin, destination)
+  end
+
+  def long_way_around_trip_logic(between) do
+    cond do
+      "Hingham" in between or "Hull" in between ->
+        :commuter_ferry
+
+      "Quincy" in between ->
+        :ferry_winthrop
+
+      true ->
+        :ferry_east_boston
+    end
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
@@ -139,19 +152,6 @@ defmodule Fares do
 
   def calculate_ferry(_origin, _destination) do
     :commuter_ferry
-  end
-
-  def weird_ferry_trip_logic(between) do
-    cond do
-      "Hingham" in between or "Hull" in between ->
-        :commuter_ferry
-
-      "Quincy" in between ->
-        :ferry_winthrop
-
-      true ->
-        :ferry_east_boston
-    end
   end
 
   @spec silver_line_rapid_transit?(Route.id_t()) :: boolean
