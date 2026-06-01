@@ -105,7 +105,9 @@ defmodule Dotcom.ServicePatternsTest do
     test "splits multi-holiday services" do
       route_id = FactoryHelpers.build(:id)
       holiday_count = Faker.random_between(2, 4)
-      service = build(:service, date: Faker.Date.forward(1), typicality: :holiday_service)
+
+      service =
+        build(:service, date: Faker.Date.forward(1), typicality: :holiday_service, valid_days: [])
 
       added_dates =
         Faker.Util.sample_uniq(holiday_count, fn ->
@@ -143,7 +145,8 @@ defmodule Dotcom.ServicePatternsTest do
             date: service_date(),
             typicality: :holiday_service,
             added_dates: [added_date],
-            added_dates_notes: added_date_notes
+            added_dates_notes: added_date_notes,
+            valid_days: []
           )
         ]
       end)
@@ -154,6 +157,28 @@ defmodule Dotcom.ServicePatternsTest do
 
       assert text =~
                added_date |> Date.from_iso8601!() |> Dotcom.Utils.Time.format!(:month_day_short)
+    end
+
+    test "adjusts description to add formatted date, for a extra service on one date" do
+      route_id = FactoryHelpers.build(:id)
+      random_date = Faker.random_between(2, 10) |> Faker.Date.forward()
+
+      expect(Services.Repo.Mock, :by_route_id, fn _ ->
+        [
+          build(:service,
+            start_date: random_date,
+            end_date: random_date,
+            typicality: :extra_service,
+            added_dates: [],
+            added_dates_notes: %{},
+            valid_days: [Date.day_of_week(random_date)]
+          )
+        ]
+      end)
+
+      assert [pattern] = patterns_for_route(route_id)
+      %{service_label: {:extra_service, ^random_date, text}} = pattern
+      assert text =~ Dotcom.Utils.Time.format!(random_date, :month_day_short)
     end
 
     test "adjusts description for planned work" do
