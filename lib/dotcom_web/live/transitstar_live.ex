@@ -1,5 +1,9 @@
 defmodule DotcomWeb.TransitStar2000 do
   use DotcomWeb, :live_view
+  import CMS.Repo, only: [photo: 0]
+
+  alias CMS.Repo
+
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
@@ -15,6 +19,8 @@ defmodule DotcomWeb.TransitStar2000 do
     subway_ids = @routes_repo.by_type([0, 1]) |> Enum.map(& &1.id)
     rail_ids = @routes_repo.by_type([2]) |> Enum.map(& &1.id)
     bus_ids = @routes_repo.by_type([3]) |> Enum.map(& &1.id)
+    events = CMS.Repo.next_n_event_teasers(@date_time_module.now(), 3)
+    dbg(events, limit: :infinity)
 
     {:ok,
      socket
@@ -28,7 +34,8 @@ defmodule DotcomWeb.TransitStar2000 do
        subway_ids: subway_ids,
        rail_ids: rail_ids,
        bus_ids: bus_ids,
-       sl_routes: @sl_routes
+       sl_routes: @sl_routes,
+       events: events
      })}
   end
 
@@ -66,24 +73,11 @@ defmodule DotcomWeb.TransitStar2000 do
 
   def render(%{scene: :current_conditions} = assigns) do
     ~H"""
-    <div class="transitstar-cc-container">
-      <div class="transitstar-cc-header">
-        <div class="transitstar-cc-logo">
-          <img src="/icon-svg/mbta-logo.svg" class="h-full" />
-        </div>
-        <h2 class="flex items-end">
-          Current<br />Conditions
-        </h2>
-        <div class="flex items-end ml-auto mr-6 font-bold mb-2">
-          {pretty_time(%{now: @now})}
-        </div>
-      </div>
-      <div class="flex flex-row justify-between h-[60vh] font-bold">
+    <div class="transitstar-container">
+      <.transitstar_header now={@now} title="Current Conditions" />
+      <div class="transitstar-body">
         <div id="subway" class="transitstar-cc-modebox">
-          <div class="transitstar-cc-blend-top transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-left transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-right transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-bottom transitstar-cc-blend"></div>
+          <.transitstar_border />
           <h3 class="mt-0">
             Subway
           </h3>
@@ -102,10 +96,7 @@ defmodule DotcomWeb.TransitStar2000 do
           </ul>
         </div>
         <div id="rail" class="transitstar-cc-modebox">
-          <div class="transitstar-cc-blend-top transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-left transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-right transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-bottom transitstar-cc-blend"></div>
+          <.transitstar_border />
           <h3 class="mt-0">
             Commuter Rail
           </h3>
@@ -127,10 +118,7 @@ defmodule DotcomWeb.TransitStar2000 do
           </ul>
         </div>
         <div id="bus" class="transitstar-cc-modebox">
-          <div class="transitstar-cc-blend-top transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-left transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-right transitstar-cc-blend"></div>
-          <div class="transitstar-cc-blend-bottom transitstar-cc-blend"></div>
+          <.transitstar_border />
           <h3 class="mt-0">
             Bus
           </h3>
@@ -140,7 +128,7 @@ defmodule DotcomWeb.TransitStar2000 do
                 :if={route_alert_count(@bus_alerts, route, @now) > 0}
                 class="flex flex-row justify-between mb-1"
               >
-                <span>
+                <span class="text-shadow-none">
                   {DotcomWeb.ViewHelpers.bus_icon_pill(%Routes.Route{
                     id: route,
                     name: Map.get(@sl_routes, route |> String.to_atom(), route)
@@ -156,9 +144,27 @@ defmodule DotcomWeb.TransitStar2000 do
           </ul>
         </div>
       </div>
-      <div class="transitstar-cc-lowerbox">
-        <audio src="/images/jazz_1.mp3" controls autoplay id="transitstar-music" />
+      <.transitstar_footer />
+    </div>
+    """
+  end
+
+  def render(%{scene: :future_outlook} = assigns) do
+    ~H"""
+    <div class="transitstar-container">
+      <.transitstar_header now={@now} title="Future Outlook" />
+      <div class="transitstar-body">
+        <div :for={event <- @events} class="transitstar-fu-day">
+          <.transitstar_border />
+          <h3 class="transitstar-fu-day-title">
+            {~W(MON TUE WED THU FRI SAT SUN) |> Enum.at(event.date |> Date.day_of_week())}
+          </h3>
+          <div class="w-100 text-center">{event.date}</div>
+          <img src="image.png" class="transitstar-fu-day-image" />
+          <div class="transitstar-fu-day-desc">{event.text}</div>
+        </div>
       </div>
+      <.transitstar_footer />
     </div>
     """
   end
@@ -166,6 +172,39 @@ defmodule DotcomWeb.TransitStar2000 do
   def render(assigns) do
     ~H"""
     Hello
+    """
+  end
+
+  def transitstar_header(assigns) do
+    ~H"""
+    <div class="transitstar-header">
+      <div class="transitstar-logo">
+        <img src="/icon-svg/mbta-logo.svg" class="h-full" />
+      </div>
+      <h2 class="flex-inline items-end w-4">
+        {@title}
+      </h2>
+      <div class="flex items-end ml-auto mr-6 font-bold mb-2">
+        {pretty_time(%{now: @now})}
+      </div>
+    </div>
+    """
+  end
+
+  def transitstar_footer(assigns) do
+    ~H"""
+    <div class="transitstar-cc-lowerbox">
+      <audio src="/images/jazz_1.mp3" controls autoplay id="transitstar-music" />
+    </div>
+    """
+  end
+
+  def transitstar_border(assigns) do
+    ~H"""
+    <div class="transitstar-blend-top transitstar-blend"></div>
+    <div class="transitstar-blend-left transitstar-blend"></div>
+    <div class="transitstar-blend-right transitstar-blend"></div>
+    <div class="transitstar-blend-bottom transitstar-blend"></div>
     """
   end
 

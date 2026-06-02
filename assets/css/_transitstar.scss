@@ -1,26 +1,48 @@
-.transitstar-cc-container {
+.transitstar-container {
     width: 100%;
     margin: var(--spacing-1);
     background: linear-gradient(180deg, #20205a, #2f144e 20%, #be5b05);
     color: white;
     padding:  var(--spacing-4);
     position:relative;
+
 }
 
-.transitstar-cc-header {
+.transitstar-header {
     width: 100%;
     display:flex;
     flex-direction: row;
     background: linear-gradient(315deg, #1e0a57, #1e0a57 20%, transparent 20%),
                 linear-gradient(180deg, #b85b02, #4f253c);
+    text-shadow: 0.125em 0.125em #000000;
+
 
 }
 
-.transitstar-cc-blend {
+.transitstar-logo {
+    margin-top: var(--spacing-2);
+    margin-left: var(--spacing-2);
+    margin-right: var(--spacing-4);
+    display: flex;
+    height: 6em;
+    align-items: center;
+    justify-content: center;
+    filter: invert(1);
+}
+
+.transitstar-body {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60vh;
+    font-weight: bold;
+}
+
+.transitstar-blend {
     mix-blend-mode: lighten;
 }
 
-.transitstar-cc-blend-top {
+.transitstar-blend-top {
      background: linear-gradient(180deg, #244da4, #20205b);
      position: absolute;
      left: 0px;
@@ -30,7 +52,7 @@
      z-index: 0;
 }
 
-.transitstar-cc-blend-bottom {
+.transitstar-blend-bottom {
      background: linear-gradient(00deg, #244da4, #20205b);
      position: absolute;
      left: 0px;
@@ -40,7 +62,7 @@
      z-index: 0;
 }
 
-.transitstar-cc-blend-left {
+.transitstar-blend-left {
      background: linear-gradient(90deg, #244da4, #20205b);
      position: absolute;
      left: 0px;
@@ -50,7 +72,7 @@
      z-index: 0;
 }
 
-.transitstar-cc-blend-right {
+.transitstar-blend-right {
      background: linear-gradient(270deg, #244da4, #20205b);
      position: absolute;
      right: 0px;
@@ -81,16 +103,7 @@
     padding: var(--spacing-5);
 }
 
-.transitstar-cc-logo {
-    margin-top: var(--spacing-2);
-    margin-left: var(--spacing-2);
-    margin-right: var(--spacing-4);
-    display: flex;
-    height: 6em;
-    align-items: center;
-    justify-content: center;
-    filter: invert(1);
-}
+
 
 .transitstar-cc-lowerbox {
     background: #1f205b;
@@ -101,4 +114,30 @@
     margin-right: calc( -1 * var(--spacing-4) );
     margin-bottom: calc( -1 * var(--spacing-4) );
 
+}
+
+.transitstar-fu-day-title {
+    width: 100%;
+    text-align: center;
+    color: yellow;
+    font-size: 2em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    text-shadow: 0.125em 0.125em #000000;
+}
+
+.transitstar-fu-day {
+    background: linear-gradient(#5a53c8, #0302c8);
+    position:relative;
+    width: 25vw;
+    padding: var(--spacing-1);
+    margin: var(--spacing-5);
+    text-shadow: 0.125em 0.125em #000000;
+
+}
+
+.transitstar-fu-day-image {
+    margin: auto;
+    height: 20%;
+    margin-top: var(--spacing-3)
 }
