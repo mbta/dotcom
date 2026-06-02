@@ -31,63 +31,66 @@ defmodule DotcomWeb.Components.Timetable do
           <td class="hidden-no-js">
             <div class="m-timetable__row-header"></div>
           </td>
-          <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
-            <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == assigns[:offset] do [scroll: [to: true]] end] do %>
-              <span class="sr-only left-0">{~t(Trip)}</span>
-              <span>{schedule.trip.name}</span>
-            <% end %>
-          <% end %>
+          <th
+            :for={{schedule, index} <- Enum.with_index(@header_schedules)}
+            class="m-timetable__header-cell"
+            data-scroll-to={index == assigns[:offset]}
+            scope="col"
+          >
+            <span class="sr-only left-0">{~t(Trip)}</span>
+            <span>{schedule.trip.name}</span>
+          </th>
         </tr>
-        <%= if not ferry?(@route) do %>
-          <tr>
-            <th
-              scope="row"
-              class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__bike-icon-spacer"
-              data-absolute
-            >
-              <div class="m-timetable__row-header">
-                <span class="sr-only">{~t(Bicycles Allowed?)}</span>
-                {# this icon is set to visibility: hidden by CSS;
-                # it's needed to keep the absolutely positioned
-                # header cell height consistent with the cells
-                # that have icons in them.
-                svg("icon-bikes-default.svg")}
-              </div>
-            </th>
-            <td class="hidden-no-js">
-              <div class="m-timetable__row-header"></div>
-            </td>
-            <%= for schedule <- @header_schedules do %>
-              <td class="m-timetable__header-cell">
-                <%= if get_in(schedule, [Access.key(:trip, %{}), Access.key(:bikes_allowed?, false)]) do %>
-                  {content_tag(:span, svg("icon-bikes-default.svg"),
-                    data: [toggle: "tooltip"],
-                    title: ~t(Bicycles allowed),
-                    class: "bicycles-allowed-icon",
-                    aria_hidden: "true"
-                  )}
-                  <div class="sr-only">{~t(Bicycles allowed)}</div>
-                <% else %>
-                  <div class="sr-only">{~t(Bicycles not allowed)}</div>
-                <% end %>
-                <.tooltip
-                  :if={
-                    !is_nil(get_in(schedule, [Access.key(:trip, %{}), Access.key(:occupancy, nil)]))
-                  }
-                  title={timetable_crowding_description(schedule.trip.occupancy)}
-                  placement={:top}
-                >
-                  <.icon
-                    type="icon-svg"
-                    name="icon-crowding"
-                    class={"c-svg__icon c-icon__crowding c-icon__crowding--#{schedule.trip.occupancy} monochrome"}
-                    aria-hidden="true"
-                  />
-                </.tooltip>
-              </td>
+
+        <tr :if={!ferry?(@route)}>
+          <th
+            scope="row"
+            class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__bike-icon-spacer"
+            data-absolute
+          >
+            <div class="m-timetable__row-header">
+              <span class="sr-only">{~t(Bicycles Allowed?)}</span>
+              {# this icon is set to visibility: hidden by CSS;
+              # it's needed to keep the absolutely positioned
+              # header cell height consistent with the cells
+              # that have icons in them.
+              svg("icon-bikes-default.svg")}
+            </div>
+          </th>
+          <td class="hidden-no-js">
+            <div class="m-timetable__row-header"></div>
+          </td>
+
+          <td :for={schedule <- @header_schedules} class="m-timetable__header-cell">
+            <%= if get_in(schedule, [Access.key(:trip, %{}), Access.key(:bikes_allowed?, false)]) do %>
+              <span
+                aria-hidden="true"
+                class="bicycles-allowed-icon"
+                data-toggle="tooltip"
+                title
+                data-original-title={~t"Bicycles allowed"}
+              >
+                {svg("icon-bikes-default.svg")}
+              </span>
+              <div class="sr-only">{~t(Bicycles allowed)}</div>
+            <% else %>
+              <div class="sr-only">{~t(Bicycles not allowed)}</div>
             <% end %>
-          </tr>
-        <% end %>
+            <.tooltip
+              :if={!is_nil(get_in(schedule, [Access.key(:trip, %{}), Access.key(:occupancy, nil)]))}
+              title={timetable_crowding_description(schedule.trip.occupancy)}
+              placement={:top}
+            >
+              <.icon
+                type="icon-svg"
+                name="icon-crowding"
+                class={"c-svg__icon c-icon__crowding c-icon__crowding--#{schedule.trip.occupancy} monochrome"}
+                aria-hidden="true"
+              />
+            </.tooltip>
+          </td>
+        </tr>
+
         <%= for {stop, idx} <- @header_stops do %>
           <% cell_background =
             if rem(idx, 2) == 0 do
@@ -95,17 +98,19 @@ defmodule DotcomWeb.Components.Timetable do
             else
               "gray"
             end %>
-          <%= content_tag :tr, [class: stop_row_class(idx)] do %>
-            <%= content_tag :th, [
-              scope: "row",
-              data: [absolute: true],
-              class: "js-tt-stop-name m-timetable__cell--first-column m-timetable__cell m-timetable__cell--" <>
-                cell_background
-            ] do %>
+          <tr class={stop_row_class(idx)}>
+            <th
+              scope="row"
+              data-absolute
+              class={[
+                "js-tt-stop-name m-timetable__cell--first-column",
+                "m-timetable__cell m-timetable__cell--#{cell_background}"
+              ]}
+            >
               <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-                <%= link to: ~p"/stops/#{stop.id}", class: "m-timetable__stop-link" do %>
+                <.link navigate={~p"/stops/#{stop.id}"} class="m-timetable__stop-link">
                   {break_text_at_slash(stop.name)}
-                <% end %>
+                </.link>
                 <div class="m-timetable__stop-icons">
                   <%= if length(stop.parking_lots) > 0 do %>
                     <.tooltip title={~t(Parking available)} placement={:top}>
@@ -143,7 +148,7 @@ defmodule DotcomWeb.Components.Timetable do
                   <% end %>
                 </div>
               </div>
-            <% end %>
+            </th>
             <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
               <div class="m-timetable__row-header"></div>
             </td>
@@ -161,14 +166,15 @@ defmodule DotcomWeb.Components.Timetable do
               track_change = @track_changes[{trip_id, stop.id} || nil]
               tooltip = stop_tooltip(trip_schedule, track_change)
               full_trip_message = @trip_messages[{schedule.trip.name}]
-              trip_message = @trip_messages[{schedule.trip.name, stop.id}]
-              tooltip_attrs = [html: "true", toggle: "tooltip"] %>
-              <%= content_tag :td, [
-                class: "js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
-                id: "#{stop.name}-#{trip_id}-tooltip",
-                data: if tooltip do tooltip_attrs ++ [stop: raw(tooltip)] else tooltip_attrs end,
-                title: if tooltip do raw(tooltip) end
-              ] do %>
+              trip_message = @trip_messages[{schedule.trip.name, stop.id}] %>
+              <td
+                class={"js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message)}
+                id={"#{stop.name}-#{trip_id}-tooltip"}
+                data-html="true"
+                data-toggle="tooltip"
+                data-stop={tooltip && raw(tooltip)}
+                title={tooltip && raw(tooltip)}
+              >
                 <%= if trip_message do %>
                   <div class="sr-only">{full_trip_message}</div>
                   <div aria-hidden="true">{trip_message}</div>
@@ -179,9 +185,9 @@ defmodule DotcomWeb.Components.Timetable do
                     track_change={track_change}
                   />
                 <% end %>
-              <% end %>
+              </td>
             <% end %>
-          <% end %>
+          </tr>
         <% end %>
       </table>
     </div>
@@ -195,25 +201,23 @@ defmodule DotcomWeb.Components.Timetable do
         <span class="m-timetable__left-icons">
           <span class="m-timetable__track-change-icon">
             <%= if @track_change != nil do %>
-              {content_tag(:i, "",
-                class: "track-change-icon notranslate fa fa-shuffle no-margin-right",
-                aria: [hidden: "true"]
-              )}
-              {content_tag(:span, ~t(Track Change), class: "sr-only")}
+              <i
+                class="track-change-icon notranslate fa fa-shuffle no-margin-right"
+                aria-hidden="true"
+              />
+              <span class="sr-only">{~t"Track Change"}</span>
             <% else %>
               &nbsp;
             <% end %>
           </span>
           <span class="m-timetable__flag-icon">
             <%= if @trip_schedule.flag? do %>
-              {content_tag(:span, svg("icon-flag-stop-default.svg"), aria: [hidden: "true"])}
-              {content_tag(:span, ~t(Flag Stop), class: "sr-only")}
+              <span aria-hidden="true">{svg("icon-flag-stop-default.svg")}</span>
+              <span class="sr-only">{~t"Flag Stop"}</span>
             <% else %>
               <%= if @trip_schedule.early_departure? do %>
-                {content_tag(:span, svg("icon-early-departure-stop-default.svg"),
-                  aria: [hidden: "true"]
-                )}
-                {content_tag(:span, ~t(Early Departure), class: "sr-only")}
+                <span aria-hidden="true">{svg("icon-early-departure-stop-default.svg")}</span>
+                <span class="sr-only">{~t"Early Departure"}</span>
               <% else %>
                 &nbsp;
               <% end %>
