@@ -147,7 +147,7 @@ defmodule DotcomWeb.Components.Timetable do
             <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
               <div class="m-timetable__row-header"></div>
             </td>
-            <%= if assigns[:use_pdf_schedules?] do %>
+            <%= if !assigns[:linear_timetable?] do %>
               <td
                 :for={trip <- Enum.at(@timetable_schedules, idx)}
                 class="js-tt-cell m-timetable__cell px-lg"
@@ -155,7 +155,7 @@ defmodule DotcomWeb.Components.Timetable do
                 {trip.time}
               </td>
             <% end %>
-            <%= for schedule <- @header_schedules, !assigns[:use_pdf_schedules?] do %>
+            <%= for schedule <- @header_schedules, assigns[:linear_timetable?] do %>
               <% trip_id = schedule.trip.id
               trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
               track_change = @track_changes[{trip_id, stop.id} || nil]

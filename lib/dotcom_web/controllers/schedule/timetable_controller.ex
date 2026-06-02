@@ -188,6 +188,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -229,6 +230,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -307,6 +309,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -346,7 +349,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       end)
 
     conn
-    |> assign(:use_pdf_schedules?, true)
+    |> assign(:linear_timetable?, false)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
     |> assign(:header_stops, header_stops)
@@ -383,6 +386,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -394,6 +398,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   def assign_trip_schedules(conn) do
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, [])
     |> assign(:header_schedules, [])
   end
