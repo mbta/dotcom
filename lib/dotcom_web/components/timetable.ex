@@ -5,12 +5,12 @@ defmodule DotcomWeb.Components.Timetable do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.ScheduleView, only: [render: 2, timetable_crowding_description: 1]
+  import DotcomWeb.ScheduleView, only: [timetable_crowding_description: 1]
 
   import DotcomWeb.ScheduleView.Timetable,
     only: [cell_flag_class: 1, cell_via_class: 1, ferry?: 1, stop_row_class: 1, stop_tooltip: 2]
 
-  import DotcomWeb.ViewHelpers, only: [break_text_at_slash: 1, svg: 1]
+  import DotcomWeb.ViewHelpers, only: [break_text_at_slash: 1, format_schedule_time: 1, svg: 1]
   import MbtaMetro.Components.Icon
 
   def timetable(assigns) do
@@ -173,14 +173,11 @@ defmodule DotcomWeb.Components.Timetable do
                   <div class="sr-only">{full_trip_message}</div>
                   <div aria-hidden="true">{trip_message}</div>
                 <% else %>
-                  {render(
-                    "_timetable_schedule.html",
-                    Map.merge(assigns, %{
-                      trip_schedule: trip_schedule,
-                      stop: stop,
-                      track_change: track_change
-                    })
-                  )}
+                  <.timetable_cell
+                    trip_schedule={trip_schedule}
+                    stop={stop}
+                    track_change={track_change}
+                  />
                 <% end %>
               <% end %>
             <% end %>
@@ -188,6 +185,48 @@ defmodule DotcomWeb.Components.Timetable do
         <% end %>
       </table>
     </div>
+    """
+  end
+
+  defp timetable_cell(assigns) do
+    ~H"""
+    <%= if @trip_schedule do %>
+      <span class="m-timetable__schedule">
+        <span class="m-timetable__left-icons">
+          <span class="m-timetable__track-change-icon">
+            <%= if @track_change != nil do %>
+              {content_tag(:i, "",
+                class: "track-change-icon notranslate fa fa-shuffle no-margin-right",
+                aria: [hidden: "true"]
+              )}
+              {content_tag(:span, ~t(Track Change), class: "sr-only")}
+            <% else %>
+              &nbsp;
+            <% end %>
+          </span>
+          <span class="m-timetable__flag-icon">
+            <%= if @trip_schedule.flag? do %>
+              {content_tag(:span, svg("icon-flag-stop-default.svg"), aria: [hidden: "true"])}
+              {content_tag(:span, ~t(Flag Stop), class: "sr-only")}
+            <% else %>
+              <%= if @trip_schedule.early_departure? do %>
+                {content_tag(:span, svg("icon-early-departure-stop-default.svg"),
+                  aria: [hidden: "true"]
+                )}
+                {content_tag(:span, ~t(Early Departure), class: "sr-only")}
+              <% else %>
+                &nbsp;
+              <% end %>
+            <% end %>
+          </span>
+        </span>
+        <span>
+          {format_schedule_time(@trip_schedule.time)}
+        </span>
+      </span>
+    <% else %>
+      <span class="sr-only">{~t(Does not stop at)} {@stop.name}</span>
+    <% end %>
     """
   end
 end
