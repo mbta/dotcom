@@ -58,8 +58,6 @@ config :dotcom, :req_module, Req
 
 config :dotcom, :search_service, Dotcom.SearchService
 
-config :dotcom, :timetable_loader_module, Dotcom.TimetableLoader
-
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
@@ -116,5 +114,16 @@ config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
+
+# Configures the endpoint
+config :dotcom, DotcomWeb.Endpoint,
+  adapter: Bandit.PhoenixAdapter,
+  check_origin: false,
+  secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
+  render_errors: [accepts: ~w(html), layout: {DotcomWeb.LayoutView, "root.html"}],
+  pubsub_server: Dotcom.PubSub,
+  live_view: [
+    signing_salt: "gsQiz0LdGqVmqDOR4snAgelIAAphhdfm"
+  ]
 
 import_config "#{config_env()}.exs"

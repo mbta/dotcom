@@ -103,7 +103,8 @@ module.exports = {
       addVariant("phx-change-loading", [
         ".phx-change-loading&",
         ".phx-change-loading &"
-      ])
+      ]),
+      addVariant("phx-error", [".phx-error&", ".phx-error &"])
     ]),
     // Base styling for HTML elements
     plugin(({ addBase }) =>

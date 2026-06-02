@@ -184,6 +184,16 @@ defmodule Routes.RepoTest do
       route = get("Boat-F2H")
       assert route.direction_destinations[1] == "Long Wharf or Rowes Wharf"
     end
+
+    test "updates the direction names for 'Boat-F10'" do
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/Boat-F10", _ ->
+        %JsonApi{data: [build(:route_item, id: "Boat-F10")]}
+      end)
+
+      route = get("Boat-F10")
+      assert route.direction_names[0] == "Counterclockwise (Morning)"
+      assert route.direction_names[1] == "Clockwise (Evening)"
+    end
   end
 
   test "frequent bus routes are tagged" do

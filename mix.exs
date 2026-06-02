@@ -87,6 +87,7 @@ defmodule DotCom.Mixfile do
       {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.10"},
       {:aws_credentials, "1.0.4", optional: true},
+      {:bandit, "1.10.4"},
       {:browser, "0.5.5"},
       {:castore, "1.0.17"},
       {
@@ -127,6 +128,7 @@ defmodule DotCom.Mixfile do
       # reverted from 0.4
       {:mail, "0.3.1"},
       {:mbta_metro, "1.1.2", runtime: false},
+      {:memoize, "1.4.5"},
       {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},

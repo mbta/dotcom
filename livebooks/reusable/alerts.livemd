@@ -250,6 +250,164 @@ now() |> Alerts.Repo.all()
 
 <!-- livebook:{"branch_parent_index":1} -->
 
+## Tappan Street Closures (Time-based, now)
+
+```elixir
+alerts = [
+  Alert.build(:alert,
+    active_period: [
+      {
+        Timex.parse!("2026-05-18T03:00:00-04:00", "{ISO:Extended}"),
+        Timex.parse!("2026-06-13T02:59:59-04:00", "{ISO:Extended}")
+      }
+    ],
+    header:
+      "Tappan Street will be closed from Monday, May 18 through Friday, June 12 due to maintenance work on the C branch. Riders can board or exit trains one stop away, at either Washington Square or Dean Road.",
+    effect: :station_closure,
+    informed_entity:
+      Alerts.InformedEntitySet.new([
+        InformedEntity.build(:informed_entity,
+          activities: MapSet.new([:exit, :ride, :board]),
+          direction_id: nil,
+          route: "Green-C",
+          route_type: 0,
+          stop: "place-tapst",
+          trip: nil
+        )
+      ]),
+    severity: 7,
+    priority: :high,
+    lifecycle: :new,
+    banner: nil
+  ),
+  Alert.build(:alert,
+    active_period: [
+      {
+        Timex.parse!("2026-06-13T03:00:00-04:00", "{ISO:Extended}"),
+        Timex.parse!("2026-07-11T02:59:59-04:00", "{ISO:Extended}")
+      }
+    ],
+    header:
+      "Green Line C Branch: Due to infrastructure upgrades, outbound trains will bypass Tappan Street Monday, May 18 through Friday, July 10. Passengers can instead board or disembark one stop away at Washington Square or Dean Road.",
+    effect: :station_closure,
+    informed_entity:
+      Alerts.InformedEntitySet.new([
+        InformedEntity.build(:informed_entity,
+          activities: MapSet.new([:exit, :ride, :board]),
+          direction_id: 0,
+          route: "Green-C",
+          route_type: 0,
+          stop: "place-tapst",
+          trip: nil
+        )
+      ]),
+    severity: 7,
+    priority: :high,
+    lifecycle: :new,
+    banner: nil
+  ),
+  Alert.build(:alert,
+    active_period: [
+      {
+        Timex.parse!("2026-05-18T03:00:00-04:00", "{ISO:Extended}"),
+        Timex.parse!("2026-07-11T02:59:59-04:00", "{ISO:Extended}")
+      }
+    ],
+    header:
+      "Green Line C Branch: Due to maintenance work, outbound trains will bypass Englewood Avenue Monday, May 18 through Friday, July 10. Passengers can instead board or disembark one stop away at Cleveland Circle or Dean Road.",
+    effect: :station_closure,
+    informed_entity:
+      Alerts.InformedEntitySet.new([
+        InformedEntity.build(:informed_entity,
+          activities: MapSet.new([:exit, :ride, :board]),
+          direction_id: 0,
+          route: "Green-C",
+          route_type: 0,
+          stop: "place-engav",
+          trip: nil
+        )
+      ]),
+    severity: 7,
+    priority: :high,
+    lifecycle: :new,
+    banner: nil
+  )
+]
+
+# Remove all other alerts and only use the one's you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
+## Tappan Street Closures (later, with Englewood completely closed)
+
+```elixir
+alerts = [
+  Alert.build(:alert,
+    active_period: [
+      {
+        Timex.parse!("2026-05-18T03:00:00-04:00", "{ISO:Extended}"),
+        Timex.parse!("2026-07-11T02:59:59-04:00", "{ISO:Extended}")
+      }
+    ],
+    header:
+      "Green Line C Branch: Due to infrastructure upgrades, outbound trains will bypass Tappan Street Monday, May 18 through Friday, July 10. Passengers can instead board or disembark one stop away at Washington Square or Dean Road.",
+    effect: :station_closure,
+    informed_entity:
+      Alerts.InformedEntitySet.new([
+        InformedEntity.build(:informed_entity,
+          activities: MapSet.new([:exit, :ride, :board]),
+          direction_id: 0,
+          route: "Green-C",
+          route_type: 0,
+          stop: "place-tapst",
+          trip: nil
+        )
+      ]),
+    severity: 7,
+    priority: :high,
+    lifecycle: :new,
+    banner: nil
+  ),
+  Alert.build(:alert,
+    active_period: [
+      {
+        Timex.parse!("2026-05-18T03:00:00-04:00", "{ISO:Extended}"),
+        Timex.parse!("2026-07-11T02:59:59-04:00", "{ISO:Extended}")
+      }
+    ],
+    header:
+      "Green Line C Branch: Due to maintenance work, all trains will bypass Englewood Avenue Monday, May 18 through Friday, July 10. Passengers can instead board or disembark one stop away at Cleveland Circle or Dean Road.",
+    effect: :station_closure,
+    informed_entity:
+      Alerts.InformedEntitySet.new([
+        InformedEntity.build(:informed_entity,
+          activities: MapSet.new([:exit, :ride, :board]),
+          direction_id: nil,
+          route: "Green-C",
+          route_type: 0,
+          stop: "place-engav",
+          trip: nil
+        )
+      ]),
+    severity: 7,
+    priority: :high,
+    lifecycle: :new,
+    banner: nil
+  )
+]
+
+# Remove all other alerts and only use the one's you created
+Alerts.Cache.Store.update(alerts, nil)
+
+now() |> Alerts.Repo.all()
+```
+
+<!-- livebook:{"branch_parent_index":1} -->
+
 ## Two Red Line Stations Skipped
 
 ```elixir
