@@ -12,6 +12,7 @@ defmodule DotcomWeb.TransitStar2000 do
   def mount(params, _session, socket) do
     location = params |> Map.get("location", "place-sstat")
     scene = params |> Map.get("scene", "current_conditions") |> String.to_atom()
+    offset = params |> Map.get("offset", 0)
     now = @date_time_module.now()
     subway_alerts = @alerts_repo.by_route_types([0, 1], now)
     rail_alerts = @alerts_repo.by_route_types([2], now)
@@ -19,8 +20,7 @@ defmodule DotcomWeb.TransitStar2000 do
     subway_ids = @routes_repo.by_type([0, 1]) |> Enum.map(& &1.id)
     rail_ids = @routes_repo.by_type([2]) |> Enum.map(& &1.id)
     bus_ids = @routes_repo.by_type([3]) |> Enum.map(& &1.id)
-    events = CMS.Repo.next_n_event_teasers(@date_time_module.now(), 3)
-    dbg(events, limit: :infinity)
+    events = CMS.Repo.next_n_event_teasers(@date_time_module.now(), 9)
 
     {:ok,
      socket
@@ -35,7 +35,8 @@ defmodule DotcomWeb.TransitStar2000 do
        rail_ids: rail_ids,
        bus_ids: bus_ids,
        sl_routes: @sl_routes,
-       events: events
+       events: events,
+       offset: offset
      })}
   end
 
@@ -154,13 +155,31 @@ defmodule DotcomWeb.TransitStar2000 do
     <div class="transitstar-container">
       <.transitstar_header now={@now} title="Future Outlook" />
       <div class="transitstar-body">
-        <div :for={event <- @events} class="transitstar-fu-day">
+        <div
+          :for={event <- @events |> Enum.drop(@offset |> String.to_integer()) |> Enum.take(3)}
+          class="transitstar-fu-day"
+        >
           <.transitstar_border />
           <h3 class="transitstar-fu-day-title">
             {~W(MON TUE WED THU FRI SAT SUN) |> Enum.at(event.date |> Date.day_of_week())}
           </h3>
-          <div class="w-100 text-center">{event.date}</div>
-          <img src="image.png" class="transitstar-fu-day-image" />
+          <div class="w-100 text-center">{Dotcom.Utils.Time.format!(event.date, :datetime_full)}</div>
+          <div
+            style={"background-image: url(
+            #{
+              cond do
+                event.location[:address] == "10 Park Plaza" ->
+                  "/images/10-park-plaza.jpg"
+
+                event.location[:place] == "Virtual" ->
+                  "/images/internet-icon.png"
+
+                true ->
+                  "/images/question-mark.png"
+              end
+            })"}
+            class="transitstar-fu-day-image"
+          />
           <div class="transitstar-fu-day-desc">{event.text}</div>
         </div>
       </div>
