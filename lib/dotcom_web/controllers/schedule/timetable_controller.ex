@@ -325,7 +325,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           }
         } = conn
       )
-      when route.type == 4 do
+      when route.id in [
+	   "Boat-F6", "Boat-F7", "Boat-F10"
+	   ] do
     timetable_schedules =
       conn
       |> timetable_schedules()
