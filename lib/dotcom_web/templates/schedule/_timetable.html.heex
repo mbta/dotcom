@@ -91,11 +91,9 @@
           header_stops={@header_stops}
           offset={assigns[:offset]}
           route={@route}
-          timetable_schedules={assigns[:timetable_schedules]}
           track_changes={assigns[:track_changes]}
           trip_messages={assigns[:trip_messages]}
           trip_schedules={assigns[:trip_schedules]}
-          linear_timetable?={assigns[:linear_timetable?]}
         />
       <% else %>
         <DotcomWeb.Components.Timetable.timetable
@@ -109,10 +107,6 @@
           offset={assigns[:offset]}
           route={@route}
           timetable_schedules={assigns[:timetable_schedules]}
-          track_changes={assigns[:track_changes]}
-          trip_messages={assigns[:trip_messages]}
-          trip_schedules={assigns[:trip_schedules]}
-          linear_timetable?={assigns[:linear_timetable?]}
         />
       <% end %>
   <% end %>

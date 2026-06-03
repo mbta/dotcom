@@ -152,15 +152,7 @@ defmodule DotcomWeb.Components.Timetable do
             <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
               <div class="m-timetable__row-header"></div>
             </td>
-            <%= if !@linear_timetable? do %>
-              <td
-                :for={trip <- Enum.at(@timetable_schedules, idx)}
-                class="js-tt-cell m-timetable__cell px-lg"
-              >
-                {trip.time}
-              </td>
-            <% end %>
-            <%= for schedule <- @header_schedules, @linear_timetable? do %>
+            <%= for schedule <- @header_schedules do %>
               <.timetable_cell_wrapper
                 id={"#{stop.name}-#{schedule.trip.id}-tooltip"}
                 stop={stop}
@@ -316,24 +308,12 @@ defmodule DotcomWeb.Components.Timetable do
             <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
               <div class="m-timetable__row-header"></div>
             </td>
-            <%= if !@linear_timetable? do %>
-              <td
-                :for={trip <- Enum.at(@timetable_schedules, idx)}
-                class="js-tt-cell m-timetable__cell px-lg"
-              >
-                {trip.time}
-              </td>
-            <% end %>
-            <%= for schedule <- @header_schedules, @linear_timetable? do %>
-              <.timetable_cell_wrapper
-                id={"#{stop.name}-#{schedule.trip.id}-tooltip"}
-                stop={stop}
-                trip_schedule={@trip_schedules[{schedule.trip.id, stop.id}]}
-                track_change={@track_changes[{schedule.trip.id, stop.id}]}
-                full_trip_message={@trip_messages[{schedule.trip.name}]}
-                trip_message={@trip_messages[{schedule.trip.name, stop.id}]}
-              />
-            <% end %>
+            <td
+              :for={trip <- Enum.at(@timetable_schedules, idx)}
+              class="js-tt-cell m-timetable__cell px-lg"
+            >
+              {trip.time}
+            </td>
           </tr>
         <% end %>
       </table>
