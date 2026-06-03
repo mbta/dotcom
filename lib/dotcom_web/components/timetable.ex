@@ -34,7 +34,7 @@ defmodule DotcomWeb.Components.Timetable do
           <th
             :for={{schedule, index} <- Enum.with_index(@header_schedules)}
             class="m-timetable__header-cell"
-            data-scroll-to={index == assigns[:offset]}
+            data-scroll-to={index == @offset}
             scope="col"
           >
             <span class="sr-only left-0">{~t(Trip)}</span>
@@ -152,7 +152,7 @@ defmodule DotcomWeb.Components.Timetable do
             <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
               <div class="m-timetable__row-header"></div>
             </td>
-            <%= if !assigns[:linear_timetable?] do %>
+            <%= if !@linear_timetable? do %>
               <td
                 :for={trip <- Enum.at(@timetable_schedules, idx)}
                 class="js-tt-cell m-timetable__cell px-lg"
@@ -160,7 +160,7 @@ defmodule DotcomWeb.Components.Timetable do
                 {trip.time}
               </td>
             <% end %>
-            <%= for schedule <- @header_schedules, assigns[:linear_timetable?] do %>
+            <%= for schedule <- @header_schedules, @linear_timetable? do %>
               <.timetable_cell_wrapper
                 id={"#{stop.name}-#{schedule.trip.id}-tooltip"}
                 stop={stop}
