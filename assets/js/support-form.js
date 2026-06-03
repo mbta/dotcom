@@ -482,6 +482,12 @@ export function handleSubmitClick($, toUpload) {
         li.appendChild(text);
         return li;
       });
+      const recaptchaError = document.querySelectorAll(".has-danger > #g-recaptcha-response").length > 0
+      if(recaptchaError){
+        const li = document.createElement("li");
+        li.appendChild(document.createTextNode("Recaptcha"));
+        errors.push(li)
+      }
       if (errors.length) {
         errors.forEach(err => {
           errorList.appendChild(err);
@@ -495,6 +501,11 @@ export function handleSubmitClick($, toUpload) {
       errorIndicatorsToShow.forEach(elem => {
         elem.classList.remove("hidden");
       });
+
+      if(recaptchaError){
+        document.getElementById("recaptcha-error-indicator").classList.remove("hidden");
+      }
+      
       if (!document.getElementById("privacy").checked) {
         document
           .getElementById("privacy-error-indicator")
