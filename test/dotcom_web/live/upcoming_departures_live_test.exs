@@ -225,6 +225,51 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     end
   end
 
+  test "shows error when server error occurs", %{conn: conn} do
+    parent = self()
+    ref = make_ref()
+
+    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _ ->
+      send(parent, {ref, :done})
+      :no_realtime
+    end)
+
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = FactoryHelpers.build(:id)
+    topic = "departures:#{route_id}:#{direction_id}:#{stop_id}"
+
+    {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
+
+    assert_receive {^ref, :done}
+    assert_receive {^ref, :done}
+
+    pid = view.pid
+    :erlang.trace(pid, true, [:receive])
+
+    assert view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
+
+    # trigger the correct server's terminate/2
+    :ok =
+      GenServer.whereis({:global, topic})
+      |> GenServer.stop(:normal)
+
+    assert_receive {:trace, ^pid, :receive,
+                    %Phoenix.Socket.Broadcast{event: "upcoming_departures", payload: :terminated}}
+
+    refute view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
+
+    assert view
+           |> element("[data-test=\"u_d:async_failed\"]")
+           |> has_element?()
+
+    assert render(view) =~ "There was a problem loading upcoming departures"
+  end
+
   defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
     live_isolated(conn, UpcomingDeparturesLive,
       session: %{
