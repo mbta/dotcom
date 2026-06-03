@@ -346,19 +346,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     header_schedules = List.first(timetable_schedules, [])
     header_trips = header_schedules |> Enum.map(& &1.trip)
 
-    header_stops =
-      timetable_schedules
-      |> Enum.map(&List.first/1)
-      |> Enum.map(fn trip ->
-        @stops_repo.get(trip.stop_id)
-      end)
-
     conn
     |> assign(:linear_timetable?, false)
     |> assign(:timetable, timetable)
     |> assign(:header_schedules, header_schedules)
     |> assign(:header_trips, header_trips)
-    |> assign(:header_stops, header_stops)
   end
 
   def assign_trip_schedules(

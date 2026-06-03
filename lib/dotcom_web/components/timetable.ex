@@ -166,7 +166,7 @@ defmodule DotcomWeb.Components.Timetable do
         >
           <.stop_header_cell
             cell_background={cell_background(idx)}
-            stop={Enum.at(@header_stops, idx)}
+            stop={row.stop}
             alert_for_stop?={
               fn stop_id ->
                 Alerts.Stop.match(@alerts, stop_id,
