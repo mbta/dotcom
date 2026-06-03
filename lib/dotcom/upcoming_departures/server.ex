@@ -7,7 +7,6 @@ defmodule Dotcom.UpcomingDepartures.Server do
 
   use GenServer, restart: :transient
 
-  @date_time Application.compile_env!(:dotcom, :date_time_module)
   @refresh_interval_ms 5000
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @upcoming_departures_module Application.compile_env!(:dotcom, :upcoming_departures_module)
@@ -23,11 +22,8 @@ defmodule Dotcom.UpcomingDepartures.Server do
     direction_id = String.to_integer(direction_id)
 
     departures_fn = fn ->
-      now = @date_time.now()
-
       @upcoming_departures_module.upcoming_departures(%{
         direction_id: direction_id,
-        now: now,
         route: route,
         stop_id: stop_id
       })
