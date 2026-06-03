@@ -43,7 +43,7 @@
       {render("_timetable_suppressed.html")}
     <% @blocking_alert != nil -> %>
       {render("_timetable_blocked.html", formatted_date: @formatted_date, alert: @blocking_alert)}
-    <% Enum.empty?(@header_schedules) -> %>
+    <% @trip_count == 0 -> %>
       {render("_empty.html",
         date: @date,
         direction: Routes.Route.direction_name(@route, @direction_id),
@@ -52,7 +52,7 @@
       )}
     <% true -> %>
       <% # only show scroll controllers if we have 2 or more schedules
-      should_show_scroll_controls? = match?([_, _ | _], @header_schedules) %>
+      should_show_scroll_controls? = @trip_count >= 2 %>
       <div class="m-timetable__header hidden-no-js">
         <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
         </div>
@@ -113,7 +113,7 @@
 {timetable_note(assigns)}
 <div class="m-timetable__key-and-pdfs">
   <% show_crowding =
-    Enum.any?(@header_schedules, fn
+    Enum.any?(assigns[:header_schedules] || [], fn
       %Schedules.Schedule{trip: trip} when not is_nil(trip) -> trip.occupancy
       _ -> false
     end) %>

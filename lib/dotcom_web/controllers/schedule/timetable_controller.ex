@@ -28,6 +28,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(:alert_blocks)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.ScheduleError)
+  plug(:assign_trip_count)
 
   defdelegate direction_id(conn, params),
     to: DotcomWeb.Schedule.Defaults,
@@ -346,10 +347,12 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     header_schedules = List.first(timetable_schedules, [])
     header_trips = header_schedules |> Enum.map(& &1.trip)
 
+    trip_count = Enum.count(header_schedules)
+
     conn
     |> assign(:linear_timetable?, false)
     |> assign(:timetable, timetable)
-    |> assign(:header_schedules, header_schedules)
+    |> assign(:trip_count, trip_count)
     |> assign(:header_trips, header_trips)
   end
 
@@ -400,6 +403,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:timetable_schedules, [])
     |> assign(:header_schedules, [])
   end
+
+  defp assign_trip_count(%{assigns: %{trip_count: trip_count}} = conn, _) when trip_count != nil,
+    do: conn
+
+  defp assign_trip_count(%{assigns: %{header_schedules: header_schedules}} = conn, _),
+    do:
+      conn
+      |> assign(:trip_count, header_schedules |> Enum.count())
 
   @spec track_changes(
           %{required({Schedules.Trip.id_t(), Stop.id_t()}) => Schedules.Schedule.t()},
