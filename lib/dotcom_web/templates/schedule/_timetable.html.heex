@@ -80,22 +80,41 @@
           <% end %>
         </div>
       </div>
-      <DotcomWeb.Components.Timetable.timetable
-        alerts={@alerts}
-        date={@date}
-        direction_id={@direction_id}
-        direction_name={@direction_name}
-        formatted_date={@formatted_date}
-        header_schedules={@header_schedules}
-        header_stops={@header_stops}
-        offset={assigns[:offset]}
-        route={@route}
-        timetable_schedules={assigns[:timetable_schedules]}
-        track_changes={assigns[:track_changes]}
-        trip_messages={assigns[:trip_messages]}
-        trip_schedules={assigns[:trip_schedules]}
-        linear_timetable?={assigns[:linear_timetable?]}
-      />
+      <%= if assigns[:linear_timetable?] do %>
+        <DotcomWeb.Components.Timetable.linear_timetable
+          alerts={@alerts}
+          date={@date}
+          direction_id={@direction_id}
+          direction_name={@direction_name}
+          formatted_date={@formatted_date}
+          header_schedules={@header_schedules}
+          header_stops={@header_stops}
+          offset={assigns[:offset]}
+          route={@route}
+          timetable_schedules={assigns[:timetable_schedules]}
+          track_changes={assigns[:track_changes]}
+          trip_messages={assigns[:trip_messages]}
+          trip_schedules={assigns[:trip_schedules]}
+          linear_timetable?={assigns[:linear_timetable?]}
+        />
+      <% else %>
+        <DotcomWeb.Components.Timetable.timetable
+          alerts={@alerts}
+          date={@date}
+          direction_id={@direction_id}
+          direction_name={@direction_name}
+          formatted_date={@formatted_date}
+          header_schedules={@header_schedules}
+          header_stops={@header_stops}
+          offset={assigns[:offset]}
+          route={@route}
+          timetable_schedules={assigns[:timetable_schedules]}
+          track_changes={assigns[:track_changes]}
+          trip_messages={assigns[:trip_messages]}
+          trip_schedules={assigns[:trip_schedules]}
+          linear_timetable?={assigns[:linear_timetable?]}
+        />
+      <% end %>
   <% end %>
 </div>
 {timetable_note(assigns)}
