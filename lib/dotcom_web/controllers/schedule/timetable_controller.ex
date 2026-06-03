@@ -333,11 +333,13 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
              "Boat-F7",
              "Boat-F10"
            ] do
-    timetable_schedules =
+    timetable =
       conn
       |> timetable_schedules()
       |> Timetables.from_schedules()
-      |> then(& &1.rows)
+
+    timetable_schedules =
+      timetable |> then(& &1.rows)
 
     header_schedules = List.first(timetable_schedules, [])
 
@@ -350,7 +352,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     conn
     |> assign(:linear_timetable?, false)
-    |> assign(:timetable_schedules, timetable_schedules)
+    |> assign(:timetable, timetable)
     |> assign(:header_schedules, header_schedules)
     |> assign(:header_stops, header_stops)
   end

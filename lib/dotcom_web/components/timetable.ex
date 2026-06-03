@@ -204,7 +204,7 @@ defmodule DotcomWeb.Components.Timetable do
         </tr>
 
         <tr
-          :for={{cells, idx} <- Enum.with_index(@timetable_schedules)}
+          :for={{cells, idx} <- Enum.with_index(@timetable.rows)}
           class={stop_row_class(idx)}
         >
           <.stop_header_cell
