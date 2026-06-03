@@ -203,10 +203,13 @@ defmodule DotcomWeb.Components.Timetable do
           </td>
         </tr>
 
-        <tr :for={{stop, idx} <- @header_stops} class={stop_row_class(idx)}>
+        <tr
+          :for={{cells, idx} <- Enum.with_index(@timetable_schedules)}
+          class={stop_row_class(idx)}
+        >
           <.stop_header_cell
             cell_background={cell_background(idx)}
-            stop={stop}
+            stop={Enum.at(@header_stops, idx)}
             alert_for_stop?={
               fn stop_id ->
                 Alerts.Stop.match(@alerts, stop_id,
@@ -221,10 +224,10 @@ defmodule DotcomWeb.Components.Timetable do
             <div class="m-timetable__row-header"></div>
           </td>
           <td
-            :for={trip <- Enum.at(@timetable_schedules, idx)}
+            :for={cell <- cells}
             class="js-tt-cell m-timetable__cell px-lg"
           >
-            {trip.time}
+            {cell.time}
           </td>
         </tr>
       </table>

@@ -344,8 +344,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     header_stops =
       timetable_schedules
       |> Enum.map(&List.first/1)
-      |> Enum.with_index(fn trip, index ->
-        {@stops_repo.get(trip.stop_id), index}
+      |> Enum.map(fn trip ->
+        @stops_repo.get(trip.stop_id)
       end)
 
     conn
