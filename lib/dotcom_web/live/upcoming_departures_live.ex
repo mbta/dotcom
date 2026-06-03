@@ -75,7 +75,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
               {~t(There was a problem loading upcoming departures)}
             </.callout>
           </:failed>
-          <%= if departures do %>
+          <section data-test="u_d:async_success">
             <.upcoming_departures_section
               stop={@stop}
               loaded_upcoming_trips={@loaded_upcoming_trips}
@@ -83,7 +83,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
               route={@route}
               last_trip_time={@last_trip_time}
             />
-          <% end %>
+          </section>
         </.async_result>
       </div>
     </section>
