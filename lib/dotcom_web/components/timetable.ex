@@ -92,56 +92,20 @@ defmodule DotcomWeb.Components.Timetable do
         </tr>
 
         <tr :for={{stop, idx} <- @header_stops} class={stop_row_class(idx)}>
-          <th
-            scope="row"
-            data-absolute
-            class={[
-              "js-tt-stop-name m-timetable__cell--first-column",
-              "m-timetable__cell m-timetable__cell--#{cell_background(idx)}"
-            ]}
-          >
-            <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-              <.link navigate={~p"/stops/#{stop.id}"} class="m-timetable__stop-link">
-                {break_text_at_slash(stop.name)}
-              </.link>
-              <div class="m-timetable__stop-icons">
-                <%= if length(stop.parking_lots) > 0 do %>
-                  <.tooltip title={~t(Parking available)} placement={:top}>
-                    <.icon
-                      name="square-parking"
-                      class="size-4 fill-gray-light"
-                      aria-hidden="true"
-                    />
-                  </.tooltip>
-                <% else %>
-                  <span class="sr-only">{~t(No parking)}</span>
-                <% end %>
+          <.stop_header_cell
+            cell_background={cell_background(idx)}
+            stop={stop}
+            alert_for_stop?={
+              fn stop_id ->
+                Alerts.Stop.match(@alerts, stop_id,
+                  route: @route.id,
+                  time: @date,
+                  direction_id: @direction_id
+                ) != []
+              end
+            }
+          />
 
-                <%= if Stops.Stop.accessible?(stop) do %>
-                  <.tooltip title={~t(Accessible)} placement={:top}>
-                    <.icon
-                      type="icon-svg"
-                      name="icon-accessible-default"
-                      class="size-4 fill-brand-primary"
-                      aria-hidden="true"
-                    />
-                  </.tooltip>
-                <% else %>
-                  <%= if Stops.Stop.accessibility_known?(stop) do %>
-                    <span class="sr-only">{~t(Not accessible)}</span>
-                  <% else %>
-                    <span class="sr-only">{~t(May not be accessible)}</span>
-                  <% end %>
-                <% end %>
-
-                <%= if Alerts.Stop.match(@alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do %>
-                  <.tooltip title={~t(Service alert or delay)} placement={:top}>
-                    <.icon name="triangle-exclamation" class="h-4 w-4" aria-hidden="true" />
-                  </.tooltip>
-                <% end %>
-              </div>
-            </div>
-          </th>
           <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
             <div class="m-timetable__row-header"></div>
           </td>
@@ -240,56 +204,19 @@ defmodule DotcomWeb.Components.Timetable do
         </tr>
 
         <tr :for={{stop, idx} <- @header_stops} class={stop_row_class(idx)}>
-          <th
-            scope="row"
-            data-absolute
-            class={[
-              "js-tt-stop-name m-timetable__cell--first-column",
-              "m-timetable__cell m-timetable__cell--#{cell_background(idx)}"
-            ]}
-          >
-            <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-              <.link navigate={~p"/stops/#{stop.id}"} class="m-timetable__stop-link">
-                {break_text_at_slash(stop.name)}
-              </.link>
-              <div class="m-timetable__stop-icons">
-                <%= if length(stop.parking_lots) > 0 do %>
-                  <.tooltip title={~t(Parking available)} placement={:top}>
-                    <.icon
-                      name="square-parking"
-                      class="size-4 fill-gray-light"
-                      aria-hidden="true"
-                    />
-                  </.tooltip>
-                <% else %>
-                  <span class="sr-only">{~t(No parking)}</span>
-                <% end %>
-
-                <%= if Stops.Stop.accessible?(stop) do %>
-                  <.tooltip title={~t(Accessible)} placement={:top}>
-                    <.icon
-                      type="icon-svg"
-                      name="icon-accessible-default"
-                      class="size-4 fill-brand-primary"
-                      aria-hidden="true"
-                    />
-                  </.tooltip>
-                <% else %>
-                  <%= if Stops.Stop.accessibility_known?(stop) do %>
-                    <span class="sr-only">{~t(Not accessible)}</span>
-                  <% else %>
-                    <span class="sr-only">{~t(May not be accessible)}</span>
-                  <% end %>
-                <% end %>
-
-                <%= if Alerts.Stop.match(@alerts, stop.id, route: @route.id, time: @date, direction_id: @direction_id) != [] do %>
-                  <.tooltip title={~t(Service alert or delay)} placement={:top}>
-                    <.icon name="triangle-exclamation" class="h-4 w-4" aria-hidden="true" />
-                  </.tooltip>
-                <% end %>
-              </div>
-            </div>
-          </th>
+          <.stop_header_cell
+            cell_background={cell_background(idx)}
+            stop={stop}
+            alert_for_stop?={
+              fn stop_id ->
+                Alerts.Stop.match(@alerts, stop_id,
+                  route: @route.id,
+                  time: @date,
+                  direction_id: @direction_id
+                ) != []
+              end
+            }
+          />
           <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
             <div class="m-timetable__row-header"></div>
           </td>
@@ -302,6 +229,63 @@ defmodule DotcomWeb.Components.Timetable do
         </tr>
       </table>
     </div>
+    """
+  end
+
+  defp stop_header_cell(assigns) do
+    ~H"""
+    <th
+      scope="row"
+      data-absolute
+      class={[
+        "js-tt-stop-name m-timetable__cell--first-column",
+        "m-timetable__cell m-timetable__cell--#{@cell_background}"
+      ]}
+    >
+      <div class="m-timetable__row-header m-timetable__stop-name notranslate">
+        <.link navigate={~p"/stops/#{@stop.id}"} class="m-timetable__stop-link">
+          {break_text_at_slash(@stop.name)}
+        </.link>
+        <div class="m-timetable__stop-icons">
+          <%= if length(@stop.parking_lots) > 0 do %>
+            <.tooltip title={~t(Parking available)} placement={:top}>
+              <.icon
+                name="square-parking"
+                class="size-4 fill-gray-light"
+                aria-hidden="true"
+              />
+            </.tooltip>
+          <% else %>
+            <span class="sr-only">{~t(No parking)}</span>
+          <% end %>
+
+          <%= if Stops.Stop.accessible?(@stop) do %>
+            <.tooltip title={~t(Accessible)} placement={:top}>
+              <.icon
+                type="icon-svg"
+                name="icon-accessible-default"
+                class="size-4 fill-brand-primary"
+                aria-hidden="true"
+              />
+            </.tooltip>
+          <% else %>
+            <%= if Stops.Stop.accessibility_known?(@stop) do %>
+              <span class="sr-only">{~t(Not accessible)}</span>
+            <% else %>
+              <span class="sr-only">{~t(May not be accessible)}</span>
+            <% end %>
+          <% end %>
+
+          <.tooltip
+            :if={@alert_for_stop?.(@stop.id)}
+            title={~t(Service alert or delay)}
+            placement={:top}
+          >
+            <.icon name="triangle-exclamation" class="h-4 w-4" aria-hidden="true" />
+          </.tooltip>
+        </div>
+      </div>
+    </th>
     """
   end
 
