@@ -150,13 +150,13 @@ defmodule DotcomWeb.Components.Timetable do
             <div class="m-timetable__row-header"></div>
           </td>
           <th
-            :for={{schedule, index} <- Enum.with_index(@header_schedules)}
+            :for={{trip, index} <- Enum.with_index(@header_trips)}
             class="m-timetable__header-cell"
             data-scroll-to={index == @offset}
             scope="col"
           >
             <span class="sr-only left-0">{~t(Trip)}</span>
-            <span>{schedule.trip.name}</span>
+            <span>{trip.name}</span>
           </th>
         </tr>
 

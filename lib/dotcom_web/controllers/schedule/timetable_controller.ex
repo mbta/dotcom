@@ -342,6 +342,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       timetable |> then(& &1.rows)
 
     header_schedules = List.first(timetable_schedules, [])
+    header_trips = header_schedules |> Enum.map(& &1.trip)
 
     header_stops =
       timetable_schedules
@@ -354,6 +355,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:linear_timetable?, false)
     |> assign(:timetable, timetable)
     |> assign(:header_schedules, header_schedules)
+    |> assign(:header_trips, header_trips)
     |> assign(:header_stops, header_stops)
   end
 
