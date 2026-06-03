@@ -331,7 +331,7 @@ defmodule Dotcom.Timetables do
   # combined stop list, inserting gaps where necessary.
   @spec from_schedules([Schedules.Schedule.t()]) :: Timetable.t()
   def from_schedules(schedules) do
-    trips =
+    schedule_lists_for_trips =
       schedules
       |> Enum.group_by(&%{id: &1.trip.id, name: &1.trip.name})
       |> Enum.map(fn {trip, schedules} ->
@@ -344,27 +344,30 @@ defmodule Dotcom.Timetables do
         DateTime
       )
 
-    header_trips =
-      trips
-      |> Enum.map(fn {_, [%Schedules.Schedule{trip: trip} | _]} -> trip end)
-
     stop_lists =
-      trips
+      schedule_lists_for_trips
       |> Enum.map(fn {_trip, schedules} ->
         schedules
         |> Enum.map(& &1.stop)
       end)
 
-    stops_by_id = stop_lists |> Enum.flat_map(& &1) |> Map.new(&{&1.id, &1})
+    stops_by_id =
+      stop_lists
+      |> Enum.flat_map(& &1)
+      |> Map.new(&{&1.id, &1})
 
     rows =
       stop_lists
       |> Enum.map(fn stop_list -> stop_list |> Enum.map(& &1.id) end)
       |> Enum.reduce([], &combine_stop_lists/2)
       |> Enum.map(&(stops_by_id |> Map.get(&1)))
-      |> build_timetable_rows(trips)
+      |> build_timetable_rows(schedule_lists_for_trips)
 
-    %Timetable{rows: rows, trips: header_trips}
+    trips =
+      schedule_lists_for_trips
+      |> Enum.map(fn {_, [%Schedules.Schedule{trip: trip} | _]} -> trip end)
+
+    %Timetable{rows: rows, trips: trips}
   end
 
   # Given a list of stops (the list that goes on the left on the
@@ -383,11 +386,11 @@ defmodule Dotcom.Timetables do
   # It works recursively - for each trip, we take the first stop if it
   # matches the first stop of the stop list, or insert a blank cell if
   # it doesn't.
-  defp build_timetable_rows([first_stop | stop_ids], trips) do
+  defp build_timetable_rows([first_stop | stop_ids], schedule_lists_for_trips) do
     first_stop_id = first_stop.id
 
     cells_at_stop =
-      trips
+      schedule_lists_for_trips
       |> Enum.map(fn
         {_trip, [%{stop: %{id: ^first_stop_id}} = first | _]} ->
           first
@@ -401,7 +404,7 @@ defmodule Dotcom.Timetables do
       end)
 
     trips_after_stop =
-      trips
+      schedule_lists_for_trips
       |> Enum.map(fn
         {trip, [%{stop: %{id: ^first_stop_id}} | rest]} -> {trip, rest}
         all -> all
