@@ -853,6 +853,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.earlier_on_day(departure_time)
       end)
@@ -989,6 +990,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.later_on_day(scheduled_time)
       end)
@@ -1054,6 +1056,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.later_on_day(scheduled_time)
       end)
@@ -1088,6 +1091,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.earlier_on_day(scheduled_time)
       end)
@@ -1124,6 +1128,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.earlier_on_day(scheduled_time)
       end)
@@ -1155,6 +1160,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.later_on_day(scheduled_time)
       end)
@@ -1188,6 +1194,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.earlier_on_day(scheduled_time)
       end)
@@ -1224,6 +1231,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.earlier_on_day(scheduled_time)
       end)
@@ -1255,6 +1263,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.later_on_day(scheduled_time)
       end)
@@ -1288,6 +1297,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.earlier_on_day(scheduled_time)
       end)
@@ -1322,6 +1332,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
       expect_schedule_call_filtered_by_stop(schedules, route_id: route.id)
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
         Generators.ServiceDateTime.earlier_on_day(scheduled_time)
       end)
@@ -1368,6 +1379,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       stub(Vehicles.Repo.Mock, :get, fn _ ->
         Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence)
       end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn -> now end)
 
       # Exercise
@@ -1420,6 +1432,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       stub(Vehicles.Repo.Mock, :get, fn _ ->
         Factories.Vehicles.Vehicle.build(:vehicle, stop_sequence: stop_sequence)
       end)
+
       expect(Dotcom.Utils.DateTime.Mock, :now, fn -> now end)
 
       # Exercise
