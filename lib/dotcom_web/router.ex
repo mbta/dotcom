@@ -3,11 +3,6 @@ defmodule DotcomWeb.Router do
   # remove this comment, it is here to try and fix github (don't ask)
   use DotcomWeb, :router
 
-  pipeline :get_flags do
-    # pipe_through(:browser)
-    plug DotcomWeb.Plugs.PutFlagsInSessionPlug
-  end
-
   use Plug.ErrorHandler
 
   alias DotcomWeb.ControllerHelpers
@@ -21,6 +16,10 @@ defmodule DotcomWeb.Router do
       _ ->
         ControllerHelpers.render_500(conn)
     end
+  end
+
+  pipeline :get_flags do
+    plug DotcomWeb.Plugs.PutFlagsInSession
   end
 
   pipeline :secure do
@@ -99,30 +98,29 @@ defmodule DotcomWeb.Router do
     get("/*path", WwwRedirector, [])
   end
 
-  scope "/lab", Laboratory do
+  scope "/_flags", Laboratory do
+    pipe_through(:browser)
     forward "/", Router
   end
 
-  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-    scope "/", DotcomWeb do
-      import Phoenix.LiveView.Router
-      pipe_through([:browser, :browser_live])
+  scope "/", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
 
-      live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
-        live("/alerts/subway", SubwayAlertsLive)
-        live("/alerts/commuter-rail", CommuterRailAlertsLive)
-      end
+    live_session :alerts,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live("/alerts/subway", SubwayAlertsLive)
+      live("/alerts/commuter-rail", CommuterRailAlertsLive)
     end
   end
 
-  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-    scope "/schedules/bostonstadium", DotcomWeb do
-      import Phoenix.LiveView.Router
-      pipe_through([:browser, :browser_live])
+  scope "/schedules/bostonstadium", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
 
-      live_session :world_cup do
-        live "/", WorldCupTimetableLive
-      end
+    live_session :world_cup, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live "/", WorldCupTimetableLive
     end
   end
 
@@ -321,8 +319,19 @@ defmodule DotcomWeb.Router do
     scope "/", DotcomWeb do
       import Phoenix.LiveDashboard.Router
 
-      pipe_through([:browser, :browser_live, :basic_auth_readonly])
-      live_dashboard("/dashboard")
+    pipe_through([:browser, :browser_live, :basic_auth_readonly])
+    live_dashboard("/dashboard")
+  end
+
+  scope "/", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :rider,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live("/search", SearchPageLive)
+      live("/trip-planner", TripPlannerLive)
     end
   end
 
@@ -341,34 +350,21 @@ defmodule DotcomWeb.Router do
       import Phoenix.LiveView.Router
       pipe_through([:browser, :browser_live])
 
-      live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
-        live("/search", SearchPageLive)
-        live("/trip-planner", TripPlannerLive)
-      end
+    live_session :departures, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live "/", ScheduleFinderLive
     end
   end
 
-  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-    scope "/departures", DotcomWeb do
-      import Phoenix.LiveView.Router
-      pipe_through([:browser, :browser_live])
+  scope "/preview", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
-      live_session :departures do
-        live "/", ScheduleFinderLive
-      end
-    end
-  end
-
-  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-    scope "/preview", DotcomWeb do
-      import Phoenix.LiveView.Router
-      pipe_through([:browser, :browser_live, :basic_auth_readonly])
-
-      live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
-        live "/", PreviewLive
-        live "/schedules/bostonstadium", WorldCupTimetableLive
-        live "/stop-map", StopMapLive
-      end
+    live_session :default,
+      layout: {DotcomWeb.LayoutView, :preview},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live "/", PreviewLive
+      live "/schedules/bostonstadium", WorldCupTimetableLive
+      live "/stop-map", StopMapLive
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule DotcomWeb.PutFlagsInAssignsHook do
+defmodule DotcomWeb.Plugs.PutFlagsInAssignsHook do
   @moduledoc """
     Grabs Laboratory flags from session and makes them available as assigns
   """

@@ -73,7 +73,7 @@ defmodule DotCom.Mixfile do
       mod: {Dotcom.Application, []},
       # a list of OTP applications your application depends on which are not included in :deps
       extra_applications: extra_apps,
-      included_applications: [:mbta_metro]
+      included_applications: [:mbta_metro, :laboratory]
     ]
   end
 
@@ -178,7 +178,8 @@ defmodule DotCom.Mixfile do
       {:uuid, "1.1.8"},
       {:wallaby, "0.30.12", [runtime: false, only: [:dev, :test]]},
       {:yaml_elixir, "2.12.1", only: [:dev]},
-      {:ymlr, "5.1.4", only: [:dev]}
+      {:ymlr, "5.1.4", only: [:dev]},
+      {:laboratory, [github: "paulswartz/laboratory", ref: "cookie_opts"]}
     ]
   end
 end

@@ -1,6 +1,7 @@
-defmodule DotcomWeb.Plugs.PutFlagsInSessionPlugTest do
-  use DotcomWeb.ConnCase, async: true
-  use Plug.Test
+defmodule DotcomWeb.Plugs.PutFlagsInSessionTest do
+  # use DotcomWeb.ConnCase, async: true
+
+  # import DotcomWeb.Plugs.PutFlagsInSession
 
   # describe "Put Flags in Session Plug" do
   #   test "flag is false if it has not been set", %{conn: conn} do
