@@ -161,36 +161,44 @@ defmodule DotcomWeb.Components.Timetable do
               </td>
             <% end %>
             <%= for schedule <- @header_schedules, assigns[:linear_timetable?] do %>
-              <% trip_id = schedule.trip.id
-              trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
-              track_change = @track_changes[{trip_id, stop.id} || nil]
-              tooltip = stop_tooltip(trip_schedule, track_change)
-              full_trip_message = @trip_messages[{schedule.trip.name}]
-              trip_message = @trip_messages[{schedule.trip.name, stop.id}] %>
-              <td
-                class={"js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message)}
-                id={"#{stop.name}-#{trip_id}-tooltip"}
-                data-html="true"
-                data-toggle="tooltip"
-                data-stop={tooltip && raw(tooltip)}
-                title={tooltip && raw(tooltip)}
-              >
-                <%= if trip_message do %>
-                  <div class="sr-only">{full_trip_message}</div>
-                  <div aria-hidden="true">{trip_message}</div>
-                <% else %>
-                  <.timetable_cell
-                    trip_schedule={trip_schedule}
-                    stop={stop}
-                    track_change={track_change}
-                  />
-                <% end %>
-              </td>
+              <.timetable_cell_wrapper
+                id={"#{stop.name}-#{schedule.trip.id}-tooltip"}
+                stop={stop}
+                trip_schedule={@trip_schedules[{schedule.trip.id, stop.id} || %{}]}
+                track_change={@track_changes[{schedule.trip.id, stop.id} || nil]}
+                full_trip_message={@trip_messages[{schedule.trip.name}]}
+                trip_message={@trip_messages[{schedule.trip.name, stop.id}]}
+              />
             <% end %>
           </tr>
         <% end %>
       </table>
     </div>
+    """
+  end
+
+  defp timetable_cell_wrapper(assigns) do
+    ~H"""
+    <% tooltip = stop_tooltip(@trip_schedule, @track_change) %>
+    <td
+      class={"js-tt-cell m-timetable__cell" <> cell_flag_class(@trip_schedule) <> cell_via_class(@trip_message)}
+      id={@id}
+      data-html="true"
+      data-toggle="tooltip"
+      data-stop={tooltip && raw(tooltip)}
+      title={tooltip && raw(tooltip)}
+    >
+      <%= if @trip_message do %>
+        <div class="sr-only">{@full_trip_message}</div>
+        <div aria-hidden="true">{@trip_message}</div>
+      <% else %>
+        <.timetable_cell
+          trip_schedule={@trip_schedule}
+          stop={@stop}
+          track_change={@track_change}
+        />
+      <% end %>
+    </td>
     """
   end
 
