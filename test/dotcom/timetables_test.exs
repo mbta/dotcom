@@ -48,7 +48,6 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
     end
 
     test "serializes a single trip into a single-column timetable" do
@@ -86,14 +85,12 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
 
       assert [entry_2] = row_2.cells
       assert row_2.stop == stop_2
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip.id
-      assert entry_2.stop_id == stop_2.id
     end
 
     test "sorts visits within a trip by time" do
@@ -131,14 +128,12 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
 
       assert [entry_2] = row_2.cells
       assert row_2.stop == stop_2
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip.id
-      assert entry_2.stop_id == stop_2.id
     end
 
     test "serializes visits to a single stop into a single-row timetable" do
@@ -174,11 +169,9 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip_1.id
-      assert entry_1.stop_id == stop.id
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip_2.id
-      assert entry_2.stop_id == stop.id
     end
 
     test "sorts trips by first-stop time" do
@@ -219,11 +212,9 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip_1.id
-      assert entry_1.stop_id == stop.id
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip_2.id
-      assert entry_2.stop_id == stop.id
     end
 
     test "inserts a blank cell when a trip does not visit the second stop" do
@@ -265,22 +256,18 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1_1.time == format!(time_1_1)
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
 
       assert entry_2_1.time == format!(time_2_1)
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
 
       assert [entry_1_2, entry_2_2] = row_2.cells
       assert row_2.stop == stop_2
 
       assert entry_1_2.time == format!(time_1_2)
       assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
 
       assert entry_2_2.time == ""
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
 
     test "inserts a blank cell when a trip does not visit the first stop" do
@@ -322,22 +309,18 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1_1.time == format!(time_1_1)
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
 
       assert entry_2_1.time == ""
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
 
       assert [entry_1_2, entry_2_2] = row_2.cells
       assert row_2.stop == stop_2
 
       assert entry_1_2.time == format!(time_1_2)
       assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
 
       assert entry_2_2.time == format!(time_2_2)
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
 
     test "inserts blank cells for the first trip" do
@@ -377,22 +360,18 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_1_1.time == ""
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
 
       assert entry_2_1.time == format!(time_2_1)
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
 
       assert [entry_1_2, entry_2_2] = row_2.cells
       assert row_2.stop == stop_2
 
       assert entry_1_2.time == format!(time_1_2)
       assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
 
       assert entry_2_2.time == format!(time_2_2)
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
   end
 

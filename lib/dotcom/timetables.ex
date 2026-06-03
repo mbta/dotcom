@@ -46,12 +46,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_stop",
                 time: "12:05 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_stop",
                 time: "1:05 PM",
                 trip: %Schedules.Trip{id: "second_trip"}
               }
@@ -63,12 +61,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "second_stop",
                 time: "12:25 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "second_stop",
                 time: "1:25 PM",
                 trip: %Schedules.Trip{id: "second_trip"}
               }
@@ -117,12 +113,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_stop",
                 time: "12:05 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_stop",
                 time: "1:05 PM",
                 trip: %Schedules.Trip{id: "second_trip"}
               }
@@ -134,12 +128,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "second_stop",
                 time: "12:25 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "second_stop",
                 time: "",
                 trip: %{id: "second_trip", name: nil}
               }
@@ -149,12 +141,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "third_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "third_stop",
                 time: "12:45 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "third_stop",
                 time: "1:35 PM",
                 trip: %Schedules.Trip{id: "second_trip"}
               }
@@ -191,7 +181,6 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_and_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_and_last_stop",
                 time: "12:05 PM",
                 trip: %Schedules.Trip{id: "loop_trip"}
               }
@@ -201,7 +190,6 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "second_stop",
                 time: "12:25 PM",
                 trip: %Schedules.Trip{id: "loop_trip"}
               }
@@ -211,7 +199,6 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_and_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_and_last_stop",
                 time: "12:45 PM",
                 trip: %Schedules.Trip{id: "loop_trip"}
               }
@@ -263,12 +250,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_or_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_or_last_stop",
                 time: "",
                 trip: %{id: "first_trip", name: nil}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_or_last_stop",
                 time: "1:05 PM",
                 trip: %Schedules.Trip{id: "second_trip"}
               }
@@ -278,12 +263,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "second_stop",
                 time: "12:05 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "second_stop",
                 time: "1:25 PM",
                 trip: %Schedules.Trip{id: "second_trip"}
               }
@@ -293,12 +276,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "third_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "third_stop",
                 time: "12:25 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "third_stop",
                 time: "1:45 PM",
                 trip: %Schedules.Trip{id: "second_trip"}
               }
@@ -310,12 +291,10 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_or_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_or_last_stop",
                 time: "12:45 PM",
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                stop_id: "first_or_last_stop",
                 time: "",
                 trip: %{id: "second_trip", name: nil}
               }
@@ -417,8 +396,7 @@ defmodule Dotcom.Timetables do
           |> Enum.map(
             &%Timetable.Cell{
               time: &1 |> time() |> format!(),
-              trip: &1.trip,
-              stop_id: first_stop_id
+              trip: &1.trip
             }
           )
       }

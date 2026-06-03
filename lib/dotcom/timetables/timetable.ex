@@ -28,8 +28,7 @@ defmodule Dotcom.Timetables.Timetable do
 
     @type t() :: %__MODULE__{
             time: String.t(),
-            trip: %{id: Schedules.Trip.id_t(), name: String.t()} | Schedules.Trip.t(),
-            stop_id: Stops.Stop.id_t()
+            trip: %{id: Schedules.Trip.id_t(), name: String.t()} | Schedules.Trip.t()
           }
   end
 end
