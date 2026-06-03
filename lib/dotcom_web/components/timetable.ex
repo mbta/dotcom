@@ -125,6 +125,12 @@ defmodule DotcomWeb.Components.Timetable do
     """
   end
 
+  # Note: This component is currently only used for ferry
+  # timetables. The intent is to migrate other timetables to also use
+  # this component, and to deprecate the `<.linear_timetable />` one.
+  # `<.linear_timetable />` has a section that only renders
+  # `:if={!ferry?(@route)}`, which means that that section will need
+  # to be added here before we can use this for non-ferry routes.
   def timetable(assigns) do
     ~H"""
     <div id="timetable" class="m-timetable__table-container" data-sticky-container>
@@ -152,55 +158,6 @@ defmodule DotcomWeb.Components.Timetable do
             <span class="sr-only left-0">{~t(Trip)}</span>
             <span>{schedule.trip.name}</span>
           </th>
-        </tr>
-
-        <tr :if={!ferry?(@route)}>
-          <th
-            scope="row"
-            class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__bike-icon-spacer"
-            data-absolute
-          >
-            <div class="m-timetable__row-header">
-              <span class="sr-only">{~t(Bicycles Allowed?)}</span>
-              {# this icon is set to visibility: hidden by CSS;
-              # it's needed to keep the absolutely positioned
-              # header cell height consistent with the cells
-              # that have icons in them.
-              svg("icon-bikes-default.svg")}
-            </div>
-          </th>
-          <td class="hidden-no-js">
-            <div class="m-timetable__row-header"></div>
-          </td>
-
-          <td :for={schedule <- @header_schedules} class="m-timetable__header-cell">
-            <%= if get_in(schedule, [Access.key(:trip, %{}), Access.key(:bikes_allowed?, false)]) do %>
-              <span
-                aria-hidden="true"
-                class="bicycles-allowed-icon"
-                data-toggle="tooltip"
-                title
-                data-original-title={~t"Bicycles allowed"}
-              >
-                {svg("icon-bikes-default.svg")}
-              </span>
-              <div class="sr-only">{~t(Bicycles allowed)}</div>
-            <% else %>
-              <div class="sr-only">{~t(Bicycles not allowed)}</div>
-            <% end %>
-            <.tooltip
-              :if={!is_nil(get_in(schedule, [Access.key(:trip, %{}), Access.key(:occupancy, nil)]))}
-              title={timetable_crowding_description(schedule.trip.occupancy)}
-              placement={:top}
-            >
-              <.icon
-                type="icon-svg"
-                name="icon-crowding"
-                class={"c-svg__icon c-icon__crowding c-icon__crowding--#{schedule.trip.occupancy} monochrome"}
-                aria-hidden="true"
-              />
-            </.tooltip>
-          </td>
         </tr>
 
         <tr
