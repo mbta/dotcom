@@ -339,21 +339,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> timetable_schedules()
       |> Timetables.from_schedules()
 
-    timetable_schedules =
-      timetable
-      |> then(& &1.rows)
-      |> Enum.map(& &1.cells)
-
-    header_schedules = List.first(timetable_schedules, [])
-    header_trips = header_schedules |> Enum.map(& &1.trip)
-
-    trip_count = Enum.count(header_schedules)
-
     conn
     |> assign(:linear_timetable?, false)
     |> assign(:timetable, timetable)
-    |> assign(:trip_count, trip_count)
-    |> assign(:header_trips, header_trips)
+    |> assign(:trip_count, Enum.count(timetable.trips))
   end
 
   def assign_trip_schedules(

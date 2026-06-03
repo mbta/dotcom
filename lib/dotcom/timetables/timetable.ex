@@ -2,10 +2,11 @@ defmodule Dotcom.Timetables.Timetable do
   @moduledoc """
   A struct representing timetables. See `Dotcom.Timetables` for more information.
   """
-  defstruct [:rows]
+  defstruct [:rows, :trips]
 
   @type t() :: %__MODULE__{
-          rows: [__MODULE__.Row.t()]
+          rows: [__MODULE__.Row.t()],
+          trips: [Schedules.Trip.t()]
         }
 
   defmodule Row do

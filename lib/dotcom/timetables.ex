@@ -70,6 +70,10 @@ defmodule Dotcom.Timetables do
               }
             ]
           }
+        ],
+        trips: [
+          %Schedules.Trip{id: "first_trip"},
+          %Schedules.Trip{id: "second_trip"}
         ]
       }
 
@@ -150,6 +154,10 @@ defmodule Dotcom.Timetables do
               }
             ]
           }
+        ],
+        trips: [
+          %Schedules.Trip{id: "first_trip"},
+          %Schedules.Trip{id: "second_trip"}
         ]
       }
 
@@ -204,6 +212,9 @@ defmodule Dotcom.Timetables do
               }
             ]
           }
+        ],
+        trips: [
+          %Schedules.Trip{id: "loop_trip"}
         ]
       }
 
@@ -300,6 +311,10 @@ defmodule Dotcom.Timetables do
               }
             ]
           }
+        ],
+        trips: [
+          %Schedules.Trip{id: "first_trip"},
+          %Schedules.Trip{id: "second_trip"}
         ]
       }
   """
@@ -329,6 +344,10 @@ defmodule Dotcom.Timetables do
         DateTime
       )
 
+    header_trips =
+      trips
+      |> Enum.map(fn {_, [%Schedules.Schedule{trip: trip} | _]} -> trip end)
+
     stop_lists =
       trips
       |> Enum.map(fn {_trip, schedules} ->
@@ -345,7 +364,7 @@ defmodule Dotcom.Timetables do
       |> Enum.map(&(stops_by_id |> Map.get(&1)))
       |> build_timetable_rows(trips)
 
-    %Timetable{rows: rows}
+    %Timetable{rows: rows, trips: header_trips}
   end
 
   # Given a list of stops (the list that goes on the left on the

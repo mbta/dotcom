@@ -40,6 +40,7 @@ defmodule Dotcom.TimetablesTest do
 
       # Verify
       assert %Timetables.Timetable{
+               trips: [trip],
                rows: [row_1]
              } = timetable
 
@@ -77,7 +78,8 @@ defmodule Dotcom.TimetablesTest do
 
       # Verify
       assert %Timetables.Timetable{
-               rows: [row_1, row_2]
+               rows: [row_1, row_2],
+               trips: [trip]
              } = timetable
 
       assert [entry_1] = row_1.cells
@@ -120,7 +122,8 @@ defmodule Dotcom.TimetablesTest do
 
       # Verify
       assert %Timetables.Timetable{
-               rows: [row_1, row_2]
+               rows: [row_1, row_2],
+               trips: [trip]
              } = timetable
 
       assert [entry_1] = row_1.cells
@@ -161,7 +164,8 @@ defmodule Dotcom.TimetablesTest do
 
       # Verify
       assert %Timetables.Timetable{
-               rows: [row_1]
+               rows: [row_1],
+               trips: [trip_1, trip_2]
              } = timetable
 
       assert [entry_1, entry_2] = row_1.cells
@@ -204,7 +208,8 @@ defmodule Dotcom.TimetablesTest do
 
       # Verify
       assert %Timetables.Timetable{
-               rows: [row_1]
+               rows: [row_1],
+               trips: [trip_1, trip_2]
              } = timetable
 
       assert [entry_1, entry_2] = row_1.cells
@@ -248,7 +253,8 @@ defmodule Dotcom.TimetablesTest do
 
       # Verify
       assert %Timetables.Timetable{
-               rows: [row_1, row_2]
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
              } = timetable
 
       assert [entry_1_1, entry_2_1] = row_1.cells
@@ -301,7 +307,8 @@ defmodule Dotcom.TimetablesTest do
 
       # Verify
       assert %Timetables.Timetable{
-               rows: [row_1, row_2]
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
              } = timetable
 
       assert [entry_1_1, entry_2_1] = row_1.cells
@@ -353,7 +360,10 @@ defmodule Dotcom.TimetablesTest do
       timetable = Timetables.from_schedules(schedules)
 
       # Verify
-      assert %Timetables.Timetable{rows: [row_1, row_2]} = timetable
+      assert %Timetables.Timetable{
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
+             } = timetable
 
       assert [entry_1_1, entry_2_1] = row_1.cells
       assert row_1.stop == stop_1
