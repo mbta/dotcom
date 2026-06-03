@@ -22,7 +22,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   alias Vehicles.Vehicle
 
   @behaviour Dotcom.UpcomingDepartures.Behaviour
-
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -33,10 +33,10 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   @impl Dotcom.UpcomingDepartures.Behaviour
   def upcoming_departures(%{
         direction_id: direction_id,
-        now: now,
         route: route,
         stop_id: stop_id
       }) do
+    now = @date_time.now()
     route_type = Route.type_atom(route)
 
     predictions =

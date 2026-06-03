@@ -155,14 +155,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
     socket
     |> start_async(:get_upcoming_departures, fn ->
-      now = @date_time.now()
-
       _ = if should_refresh?, do: schedule_refresh_upcoming_departures(parent_pid)
 
       {:ok,
        @upcoming_departures_module.upcoming_departures(%{
          direction_id: direction_id,
-         now: now,
          route: route,
          stop_id: stop_id
        })}
