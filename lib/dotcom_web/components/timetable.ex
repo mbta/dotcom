@@ -164,8 +164,8 @@ defmodule DotcomWeb.Components.Timetable do
               <.timetable_cell_wrapper
                 id={"#{stop.name}-#{schedule.trip.id}-tooltip"}
                 stop={stop}
-                trip_schedule={@trip_schedules[{schedule.trip.id, stop.id} || %{}]}
-                track_change={@track_changes[{schedule.trip.id, stop.id} || nil]}
+                trip_schedule={@trip_schedules[{schedule.trip.id, stop.id}]}
+                track_change={@track_changes[{schedule.trip.id, stop.id}]}
                 full_trip_message={@trip_messages[{schedule.trip.name}]}
                 trip_message={@trip_messages[{schedule.trip.name, stop.id}]}
               />
