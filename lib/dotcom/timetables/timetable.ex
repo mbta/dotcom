@@ -5,8 +5,19 @@ defmodule Dotcom.Timetables.Timetable do
   defstruct [:rows]
 
   @type t() :: %__MODULE__{
-          rows: [[__MODULE__.Cell.t()]]
+          rows: [__MODULE__.Row.t()]
         }
+
+  defmodule Row do
+    @moduledoc """
+    A struct representing a timetable row. See `Dotcom.Timetables` for more information.
+    """
+    defstruct [:cells]
+
+    @type t() :: %__MODULE__{
+            cells: [Dotcom.Timetables.Timetable.Cell.t()]
+          }
+  end
 
   defmodule Cell do
     @moduledoc """

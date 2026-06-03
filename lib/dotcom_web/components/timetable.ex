@@ -161,7 +161,7 @@ defmodule DotcomWeb.Components.Timetable do
         </tr>
 
         <tr
-          :for={{cells, idx} <- Enum.with_index(@timetable.rows)}
+          :for={{row, idx} <- Enum.with_index(@timetable.rows)}
           class={stop_row_class(idx)}
         >
           <.stop_header_cell
@@ -181,7 +181,7 @@ defmodule DotcomWeb.Components.Timetable do
             <div class="m-timetable__row-header"></div>
           </td>
           <td
-            :for={cell <- cells}
+            :for={cell <- row.cells}
             class="js-tt-cell m-timetable__cell px-lg"
           >
             {cell.time}

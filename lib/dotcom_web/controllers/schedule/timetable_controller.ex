@@ -339,7 +339,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Timetables.from_schedules()
 
     timetable_schedules =
-      timetable |> then(& &1.rows)
+      timetable
+      |> then(& &1.rows)
+      |> Enum.map(& &1.cells)
 
     header_schedules = List.first(timetable_schedules, [])
     header_trips = header_schedules |> Enum.map(& &1.trip)
