@@ -51,6 +51,7 @@ defmodule Dotcom.Application do
           Predictions.Supervisor,
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
+          {DynamicSupervisor, name: UpcomingDeparturesSupervisor},
           {Phoenix.PubSub, name: Dotcom.PubSub},
           DotcomWeb.Endpoint
         ] ++

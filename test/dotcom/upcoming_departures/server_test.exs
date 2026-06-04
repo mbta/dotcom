@@ -20,21 +20,21 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     %{topic: topic}
   end
 
-  describe "start/1" do
+  describe "start_link/1" do
     test "starts the server process successfully", %{topic: topic} do
-      {:ok, pid} = Server.start(topic)
+      {:ok, pid} = Server.start_link(topic)
       assert Process.alive?(pid)
     end
 
     test "registers the server globally under the topic name", %{topic: topic} do
-      {:ok, pid} = Server.start(topic)
+      {:ok, pid} = Server.start_link(topic)
       assert GenServer.whereis({:global, topic}) == pid
     end
 
     test "returns {:error, {:already_started, pid}} when started twice with the same topic",
          %{topic: topic} do
-      {:ok, pid} = Server.start(topic)
-      assert {:error, {:already_started, ^pid}} = Server.start(topic)
+      {:ok, pid} = Server.start_link(topic)
+      assert {:error, {:already_started, ^pid}} = Server.start_link(topic)
     end
   end
 
@@ -81,7 +81,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
 
     test "broadcasts again each time :refresh is sent to the live process", %{topic: topic} do
       Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
-      {:ok, pid} = Server.start(topic)
+      {:ok, pid} = Server.start_link(topic)
       # Drain the automatic initial :refresh broadcast from init/1.
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -128,7 +128,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
 
     test "does not crash a live server process", %{topic: topic} do
       Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
-      {:ok, pid} = Server.start(topic)
+      {:ok, pid} = Server.start_link(topic)
 
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -159,7 +159,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
 
     test "broadcasts :terminated when the server process is stopped normally", %{topic: topic} do
       Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
-      {:ok, pid} = Server.start(topic)
+      {:ok, pid} = Server.start_link(topic)
 
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -190,5 +190,24 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
         topic: ^topic
       }
     end
+  end
+
+  test "gets restarted if it crashes", %{topic: topic} do
+    Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+
+    {:ok, pid} = start_supervised({Server, topic})
+    assert ^pid = GenServer.whereis({:global, topic})
+    Process.exit(pid, :kill)
+    # need some time for it to restart
+    Process.sleep(100)
+    new_pid = GenServer.whereis({:global, topic})
+    assert new_pid
+    assert new_pid !== pid
+
+    refute_receive %Phoenix.Socket.Broadcast{
+      event: "upcoming_departures",
+      payload: :terminated,
+      topic: ^topic
+    }
   end
 end

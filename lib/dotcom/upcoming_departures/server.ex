@@ -11,8 +11,8 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @upcoming_departures_module Application.compile_env!(:dotcom, :upcoming_departures_module)
 
-  def start(topic) do
-    GenServer.start(__MODULE__, topic, name: {:global, topic})
+  def start_link(topic) do
+    GenServer.start_link(__MODULE__, topic, name: {:global, topic})
   end
 
   @impl GenServer

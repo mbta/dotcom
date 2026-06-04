@@ -10,6 +10,7 @@ defmodule Dotcom.UpcomingDepartures do
 
   defdelegate trip_details(args), to: Processor
 
+  @spec subscribe(map()) :: :ok
   def subscribe(params) do
     {:ok, topic} = topic_name(params)
     :ok = DotcomWeb.Endpoint.subscribe(topic)
@@ -19,6 +20,7 @@ defmodule Dotcom.UpcomingDepartures do
     |> GenServer.cast({:subscribe, self()})
   end
 
+  @spec unsubscribe(map()) :: :ok
   def unsubscribe(params) do
     {:ok, topic} = topic_name(params)
     :ok = DotcomWeb.Endpoint.unsubscribe(topic)
@@ -43,7 +45,7 @@ defmodule Dotcom.UpcomingDepartures do
   end
 
   defp start_worker(topic) do
-    case Server.start(topic) do
+    case DynamicSupervisor.start_child(UpcomingDeparturesSupervisor, {Server, topic}) do
       {:ok, pid} -> pid
       {:error, {:already_started, pid}} -> pid
     end
