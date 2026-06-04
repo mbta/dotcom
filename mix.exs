@@ -178,7 +178,7 @@ defmodule DotCom.Mixfile do
       {:wallaby, "0.30.12", [runtime: false, only: [:dev, :test]]},
       {:yaml_elixir, "2.12.1", only: [:dev]},
       {:ymlr, "5.1.4", only: [:dev]},
-      {:laboratory, [github: "paulswartz/laboratory", ref: "cookie_opts"]}
+      {:laboratory, [github: "lilybarrett/laboratory", ref: "update_cowboy_version"]}
     ]
   end
 end
