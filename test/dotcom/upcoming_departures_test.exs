@@ -2953,7 +2953,6 @@ defmodule Dotcom.UpcomingDeparturesTest do
              ]
     end
 
-    @tag :skip
     test "does not include past scheduled stops in trip details" do
       # Setup
       %{
