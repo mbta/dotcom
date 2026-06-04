@@ -2,7 +2,6 @@ defmodule DotcomWeb.Router do
   @moduledoc false
   # remove this comment, it is here to try and fix github (don't ask)
   use DotcomWeb, :router
-
   use Plug.ErrorHandler
 
   alias DotcomWeb.ControllerHelpers
@@ -19,7 +18,7 @@ defmodule DotcomWeb.Router do
   end
 
   pipeline :get_flags do
-    plug DotcomWeb.Plugs.PutFlagsInSession
+    plug(DotcomWeb.Plugs.PutFlagsInSession)
   end
 
   pipeline :secure do
@@ -100,7 +99,7 @@ defmodule DotcomWeb.Router do
 
   scope "/_flags", Laboratory do
     pipe_through(:browser)
-    forward "/", Router
+    forward("/", Router)
   end
 
   scope "/", DotcomWeb do
@@ -120,7 +119,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live])
 
     live_session :world_cup, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-      live "/", WorldCupTimetableLive
+      live("/", WorldCupTimetableLive)
     end
   end
 
@@ -319,8 +318,9 @@ defmodule DotcomWeb.Router do
     scope "/", DotcomWeb do
       import Phoenix.LiveDashboard.Router
 
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
-    live_dashboard("/dashboard")
+      pipe_through([:browser, :browser_live, :basic_auth_readonly])
+      live_dashboard("/dashboard")
+    end
   end
 
   scope "/", DotcomWeb do
@@ -362,9 +362,9 @@ defmodule DotcomWeb.Router do
     live_session :default,
       layout: {DotcomWeb.LayoutView, :preview},
       on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-      live "/", PreviewLive
-      live "/schedules/bostonstadium", WorldCupTimetableLive
-      live "/stop-map", StopMapLive
+      live("/", PreviewLive)
+      live("/schedules/bostonstadium", WorldCupTimetableLive)
+      live("/stop-map", StopMapLive)
     end
   end
 
