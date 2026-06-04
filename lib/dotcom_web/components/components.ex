@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components do
     endpoint: DotcomWeb.Endpoint,
     router: DotcomWeb.Router
 
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
   import MbtaMetro.Components.Badge, only: [badge: 1]
   import MbtaMetro.Components.Button, only: [button: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -113,6 +114,10 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
+  attr(:title, :string)
+  slot(:inner_block, required: true)
+
   def error_container(assigns) do
     assigns =
       assigns
@@ -122,7 +127,7 @@ defmodule DotcomWeb.Components do
       end)
 
     ~H"""
-    <div class={"error-container rounded #{@padding_class}"}>
+    <div class={"error-container rounded #{@padding_class}"} {@rest}>
       <p :if={@title} class="font-bold mb-2">{@title}</p>
       {render_slot(@inner_block)}
     </div>
@@ -371,6 +376,7 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
   slot :inner_block, required: true
 
   @doc """
@@ -378,7 +384,7 @@ defmodule DotcomWeb.Components do
   """
   def callout(assigns) do
     ~H"""
-    <div class="callout font-bold text-center">
+    <div class="callout font-bold text-center" {@rest}>
       {render_slot(@inner_block)}
     </div>
     """
@@ -394,6 +400,37 @@ defmodule DotcomWeb.Components do
         {render_slot(@inner_block)}
       </div>
       <.icon type="solid" name="arrow-right" class="c-callout-link__arrow" />
+    </a>
+    """
+  end
+
+  attr :route_type_atom, :atom, required: true
+  @doc "Renders a banner with a call-to-action to download the MBTA Go app"
+  def mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :route_type_text,
+        route_type_atom
+        |> mode_name()
+        |> String.downcase()
+      )
+
+    ~H"""
+    <a
+      phx-hook="MBTAGoCTABanner"
+      id="mbta-go-cta-banner"
+      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+    >
+      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
+      <span class="leading-tight grow">
+        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+          route_type_text: @route_type_text
+        )
+        |> Phoenix.HTML.raw()}
+      </span>
+      <span aria-hidden="true">&#8594;</span>
     </a>
     """
   end

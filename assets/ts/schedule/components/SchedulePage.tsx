@@ -228,12 +228,7 @@ const ScheduleNote = ({
 
   return (
     <>
-      <HoursOfOperation
-        route={route}
-        pdfs={pdfs}
-        hours={hours}
-        scheduleNote={scheduleNote}
-      />
+      <HoursOfOperation route={route} pdfs={pdfs} hours={hours} />
       {modalOpen && (
         <ScheduleFinderModal
           closeModal={closeModal}
@@ -261,7 +256,6 @@ const getAdditionalLineInfo = (
 ): JSX.Element => {
   const {
     route,
-    schedule_note: scheduleNote,
     teasers,
     pdfs,
     connections,
@@ -290,7 +284,6 @@ const getAdditionalLineInfo = (
       route={route}
       holidays={holidays}
       hours={hours}
-      scheduleNote={scheduleNote}
     />
   );
 };

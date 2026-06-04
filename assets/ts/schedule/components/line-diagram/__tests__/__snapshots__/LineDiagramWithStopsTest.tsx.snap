@@ -111,8 +111,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </a>
                   <div className=\\"m-schedule-diagram__features\\">
                     <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                       </span>
                     </TooltipWrapper>
                   </div>
@@ -144,8 +144,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </a>
                     <div className=\\"m-schedule-diagram__features\\">
                       <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                          <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                          <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                         </span>
                       </TooltipWrapper>
                     </div>
@@ -177,8 +177,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       </a>
                       <div className=\\"m-schedule-diagram__features\\">
                         <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                          <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                            <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                          <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                            <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                           </span>
                         </TooltipWrapper>
                       </div>
@@ -210,8 +210,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </a>
                         <div className=\\"m-schedule-diagram__features\\">
                           <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                            <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                              <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                            <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                              <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                             </span>
                           </TooltipWrapper>
                         </div>
@@ -276,8 +276,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           </a>
                           <div className=\\"m-schedule-diagram__features\\">
                             <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                                <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                                <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                               </span>
                             </TooltipWrapper>
                           </div>
@@ -309,8 +309,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             </a>
                             <div className=\\"m-schedule-diagram__features\\">
                               <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                                  <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                                  <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                                 </span>
                               </TooltipWrapper>
                             </div>
@@ -375,8 +375,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                               </a>
                               <div className=\\"m-schedule-diagram__features\\">
                                 <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                                    <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                                    <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                                   </span>
                                 </TooltipWrapper>
                               </div>
@@ -408,8 +408,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                 </a>
                                 <div className=\\"m-schedule-diagram__features\\">
                                   <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                                    <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                                      <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                                    <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                                      <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                                     </span>
                                   </TooltipWrapper>
                                 </div>
@@ -441,8 +441,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                   </a>
                                   <div className=\\"m-schedule-diagram__features\\">
                                     <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                                       </span>
                                     </TooltipWrapper>
                                   </div>
@@ -474,8 +474,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                     </a>
                                     <div className=\\"m-schedule-diagram__features\\">
                                       <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                                        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                                          <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                                        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                                          <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                                         </span>
                                       </TooltipWrapper>
                                     </div>
@@ -507,8 +507,8 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                                       </a>
                                       <div className=\\"m-schedule-diagram__features\\">
                                         <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                                          <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                                            <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                                          <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"manual\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                                            <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" aria-label=\\"Accessible\\" dangerouslySetInnerHTML={{...}} />
                                           </span>
                                         </TooltipWrapper>
                                       </div>

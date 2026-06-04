@@ -1,10 +1,11 @@
-defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
+defmodule Dotcom.UpcomingDeparturesTest do
   use ExUnit.Case
 
   import Dotcom.Utils.Time, only: [truncate: 2]
   import Mox
 
-  alias Dotcom.ScheduleFinder.{Platforms, UpcomingDepartures}
+  alias Dotcom.ScheduleFinder.{Platforms}
+  alias Dotcom.{UpcomingDepartures, UpcomingDepartures.UpcomingDeparture}
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.{Factories, FactoryHelpers, Generators, PredictedScheduleHelper}
 
@@ -835,7 +836,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDeparturesTest do
                  stop_id: stop_id
                })
 
-      assert [%UpcomingDepartures.UpcomingDeparture{} | _] = departures
+      assert [%UpcomingDeparture{} | _] = departures
     end
 
     test "uses departure time for scheduled trips for the first stop, when arrival time is nil" do

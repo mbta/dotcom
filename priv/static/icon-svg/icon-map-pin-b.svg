@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" viewBox="0 0 48 48">
-    <title>
-        map pin B
-    </title>
+    
     <clipPath id="icon-map-pin-b--a">
         <path d="m25 48q19.28-18 19.28-28.68a19.32 19.32 0 0 0 -38.64 0q0 10.68 19.36 28.68z" clip-rule="evenodd"/>
     </clipPath>

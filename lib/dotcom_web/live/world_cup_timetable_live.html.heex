@@ -20,6 +20,13 @@
     )
     |> raw()}
   </.callout_link>
+  <div :if={Enum.any?(@alerts)} class="w-full">
+    {DotcomWeb.AlertView.group(
+      alerts: @alerts,
+      route: @route,
+      date_time: @date_time
+    )}
+  </div>
   <nav
     aria-label={~t"World Cup Matches"}
     class="w-full flex flex-col gap-4"
@@ -105,7 +112,14 @@
     </p>
     <h3>{~t(Return Trip Included)}</h3>
     <p>
-      {~t(All Boston Stadium Train tickets include a return trip after the match.)}
+      {~t(All Boston Stadium Train tickets include a return trip after the match. Trains will start leaving Foxboro Station 30 minutes after the final whistle. Return trains will leave the stadium roughly every 15 minutes until all trains have departed.)}
+    </p>
+    <h3>{~t(Bag Policy & Prohibited Items)}</h3>
+    <p>
+      {~t(Only wallets or small clear bags are permitted. Prohibited items must be discarded before boarding.)}
+      {link(~t(See what you can bring on Boston Stadium Trains),
+        to: "/security/what-you-can-bring-boston-stadium-trains"
+      )}
     </p>
   </div>
 </div>
