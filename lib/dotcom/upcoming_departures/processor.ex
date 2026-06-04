@@ -296,7 +296,6 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
     predicted_schedules =
       PredictedSchedule.group(predictions, schedules)
-      |> Enum.reject(&past_schedule?(&1, now))
 
     vehicle =
       predicted_schedules
