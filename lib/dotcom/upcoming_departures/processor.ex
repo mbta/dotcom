@@ -14,7 +14,6 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
   alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
   alias Dotcom.UpcomingDepartures.{UpcomingDeparture, UpcomingTripDetails}
-  alias Dotcom.Utils.ServiceDateTime
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Schedule
@@ -31,31 +30,9 @@ defmodule Dotcom.UpcomingDepartures.Processor do
            :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
   @impl Dotcom.UpcomingDepartures.Behaviour
-  def upcoming_departures(%{
-        direction_id: direction_id,
-        route: route,
-        stop_id: stop_id
-      }) do
+  def upcoming_departures(predicted_schedules, %{route: route}) do
     now = @date_time.now()
     route_type = Route.type_atom(route)
-
-    predictions =
-      @predictions_repo.all(
-        route: route.id,
-        direction_id: direction_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
-      |> Enum.filter(&(&1.stop.id == stop_id))
-
-    schedules =
-      @schedules_repo.by_route_ids([route.id],
-        direction_id: direction_id,
-        date: ServiceDateTime.service_date(now),
-        stop_ids: [stop_id]
-      )
-
-    predicted_schedules = PredictedSchedule.group(predictions, schedules)
 
     predicted_schedules_at_stop =
       predicted_schedules

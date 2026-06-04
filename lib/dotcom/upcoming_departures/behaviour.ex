@@ -5,7 +5,7 @@ defmodule Dotcom.UpcomingDepartures.Behaviour do
 
   alias Dotcom.UpcomingDepartures.{UpcomingDeparture, UpcomingTripDetails}
 
-  @callback upcoming_departures(map()) ::
+  @callback upcoming_departures([PredictedSchedule.t()], map()) ::
               [UpcomingDeparture.t()]
               | :no_realtime
               | :no_service
