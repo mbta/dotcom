@@ -7,15 +7,15 @@ defmodule DotcomWeb.PreviewLive do
   use DotcomWeb, :live_view
 
   alias DotcomWeb.Router.Helpers
-  alias DotcomWeb.ScheduleFinderLive
+  alias DotcomWeb.ScheduleFinderPickerLive
   alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
 
   @pages [
     %{
-      arguments: [[route_id: "Red", direction_id: "0"]],
+      arguments: [],
       icon_name: "icon-realtime-tracking",
-      module: ScheduleFinderLive,
+      module: ScheduleFinderPickerLive,
       title: "Schedule Finder 2.0"
     },
     %{
