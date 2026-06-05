@@ -10,11 +10,42 @@ defmodule DotcomWeb.Components.Timetable do
   import DotcomWeb.ScheduleView.Timetable,
     only: [cell_flag_class: 1, cell_via_class: 1, ferry?: 1, stop_row_class: 1, stop_tooltip: 2]
 
-  import DotcomWeb.ViewHelpers, only: [break_text_at_slash: 1, format_schedule_time: 1, svg: 1]
+  import DotcomWeb.ViewHelpers,
+    only: [break_text_at_slash: 1, fa: 1, format_schedule_time: 1, svg: 1]
+
   import MbtaMetro.Components.Icon
 
   def linear_timetable(assigns) do
     ~H"""
+    <% # only show scroll controllers if we have 2 or more schedules
+    should_show_scroll_controls? = @trip_count >= 2 %>
+    <div class="m-timetable__header hidden-no-js">
+      <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
+      </div>
+      <div class="m-timetable__col-headers" aria-hidden="true">
+        <%= if should_show_scroll_controls? do %>
+          <span class="m-timetable__trains-label">
+            {Routes.Route.vehicle_name(@route) <> "s"}
+          </span>
+          <button
+            class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm"
+            data-scroll="earlier"
+          >
+            {fa("angle-left m-timetable__scroll-btn-arrow")} {~t(Earlier)} {Routes.Route.vehicle_name(
+              @route
+            ) <> "s"}
+          </button>
+          <button
+            class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm"
+            data-scroll="later"
+          >
+            {~t(Later)} {Routes.Route.vehicle_name(@route) <> "s"} {fa(
+              "angle-right m-timetable__scroll-btn-arrow"
+            )}
+          </button>
+        <% end %>
+      </div>
+    </div>
     <div id="timetable" class="m-timetable__table-container" data-sticky-container>
       <table
         class="m-timetable__table"
@@ -133,6 +164,35 @@ defmodule DotcomWeb.Components.Timetable do
   # to be added here before we can use this for non-ferry routes.
   def timetable(assigns) do
     ~H"""
+    <% # only show scroll controllers if we have 2 or more schedules
+    should_show_scroll_controls? = @trip_count >= 2 %>
+    <div class="m-timetable__header hidden-no-js">
+      <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
+      </div>
+      <div class="m-timetable__col-headers" aria-hidden="true">
+        <%= if should_show_scroll_controls? do %>
+          <span class="m-timetable__trains-label">
+            {Routes.Route.vehicle_name(@route) <> "s"}
+          </span>
+          <button
+            class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm"
+            data-scroll="earlier"
+          >
+            {fa("angle-left m-timetable__scroll-btn-arrow")} {~t(Earlier)} {Routes.Route.vehicle_name(
+              @route
+            ) <> "s"}
+          </button>
+          <button
+            class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm"
+            data-scroll="later"
+          >
+            {~t(Later)} {Routes.Route.vehicle_name(@route) <> "s"} {fa(
+              "angle-right m-timetable__scroll-btn-arrow"
+            )}
+          </button>
+        <% end %>
+      </div>
+    </div>
     <div id="timetable" class="m-timetable__table-container" data-sticky-container>
       <table
         class="m-timetable__table"
