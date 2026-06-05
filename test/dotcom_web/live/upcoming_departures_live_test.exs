@@ -237,7 +237,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     route_id = FactoryHelpers.build(:id)
     direction_id = FactoryHelpers.build(:direction_id)
     stop_id = FactoryHelpers.build(:id)
-    topic = "departures:#{route_id}:#{direction_id}:#{stop_id}"
+    params = %{route_id: route_id, direction_id: direction_id, stop_id: stop_id}
 
     {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
 
@@ -253,7 +253,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
 
     # trigger the correct server's terminate/2
     :ok =
-      GenServer.whereis({:global, topic})
+      GenServer.whereis({:global, params})
       |> GenServer.stop(:normal)
 
     assert_receive {:trace, ^pid, :receive,

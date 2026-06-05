@@ -17,44 +17,50 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     n = System.unique_integer([:positive])
     topic = "departures:route-#{n}:0:stop-#{n}"
 
-    %{topic: topic}
+    params = %{
+      route_id: "route-#{n}",
+      direction_id: "0",
+      stop_id: "stop-#{n}"
+    }
+
+    %{params: params, topic: topic}
   end
 
   describe "start_link/1" do
-    test "starts the server process successfully", %{topic: topic} do
-      {:ok, pid} = Server.start_link(topic)
+    test "starts the server process successfully", %{params: params} do
+      {:ok, pid} = Server.start_link(params)
       assert Process.alive?(pid)
     end
 
-    test "registers the server globally under the topic name", %{topic: topic} do
-      {:ok, pid} = Server.start_link(topic)
-      assert GenServer.whereis({:global, topic}) == pid
+    test "registers the server globally under the topic name", %{params: params} do
+      {:ok, pid} = Server.start_link(params)
+      assert GenServer.whereis({:global, params}) == pid
     end
 
     test "returns {:error, {:already_started, pid}} when started twice with the same topic",
-         %{topic: topic} do
-      {:ok, pid} = Server.start_link(topic)
-      assert {:error, {:already_started, ^pid}} = Server.start_link(topic)
+         %{params: params} do
+      {:ok, pid} = Server.start_link(params)
+      assert {:error, {:already_started, ^pid}} = Server.start_link(params)
     end
   end
 
   describe "init/1" do
-    test "returns :ok tuple", %{topic: topic} do
-      assert {:ok, _state} = Server.init(topic)
+    test "returns :ok tuple", %{params: params} do
+      assert {:ok, _state} = Server.init(params)
     end
 
-    test "stores the topic in state", %{topic: topic} do
-      {:ok, state} = Server.init(topic)
-      assert state.topic == topic
+    test "stores the topic in state", %{params: params} do
+      {:ok, state} = Server.init(params)
+      assert state.topic == Dotcom.UpcomingDepartures.topic_name(params)
     end
 
-    test "stores a zero-arity departures_fn in state", %{topic: topic} do
-      {:ok, state} = Server.init(topic)
+    test "stores a zero-arity departures_fn in state", %{params: params} do
+      {:ok, state} = Server.init(params)
       assert is_function(state.departures_fn, 0)
     end
 
-    test "queues a :refresh message to trigger the initial broadcast", %{topic: topic} do
-      _ = Server.init(topic)
+    test "queues a :refresh message to trigger the initial broadcast", %{params: params} do
+      _ = Server.init(params)
       assert_receive :refresh
     end
   end
@@ -79,9 +85,12 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       assert {:noreply, ^state} = Server.handle_info(:refresh, state)
     end
 
-    test "broadcasts again each time :refresh is sent to the live process", %{topic: topic} do
+    test "broadcasts again each time :refresh is sent to the live process", %{
+      params: params,
+      topic: topic
+    } do
       Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
-      {:ok, pid} = Server.start_link(topic)
+      {:ok, pid} = Server.start_link(params)
       # Drain the automatic initial :refresh broadcast from init/1.
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -126,9 +135,9 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       refute_receive {:upcoming_departures, _}
     end
 
-    test "does not crash a live server process", %{topic: topic} do
+    test "does not crash a live server process", %{params: params, topic: topic} do
       Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
-      {:ok, pid} = Server.start_link(topic)
+      {:ok, pid} = Server.start_link(params)
 
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -157,9 +166,12 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       }
     end
 
-    test "broadcasts :terminated when the server process is stopped normally", %{topic: topic} do
+    test "broadcasts :terminated when the server process is stopped normally", %{
+      params: params,
+      topic: topic
+    } do
       Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
-      {:ok, pid} = Server.start_link(topic)
+      {:ok, pid} = Server.start_link(params)
 
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -192,15 +204,15 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     end
   end
 
-  test "gets restarted if it crashes", %{topic: topic} do
+  test "gets restarted if it crashes", %{params: params, topic: topic} do
     Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
 
-    {:ok, pid} = start_supervised({Server, topic})
-    assert ^pid = GenServer.whereis({:global, topic})
+    {:ok, pid} = start_supervised({Server, params})
+    assert ^pid = GenServer.whereis({:global, params})
     Process.exit(pid, :kill)
     # need some time for it to restart
     Dotcom.Assertions.wait_until(fn ->
-      new_pid = GenServer.whereis({:global, topic})
+      new_pid = GenServer.whereis({:global, params})
       assert new_pid
       assert new_pid !== pid
     end)

@@ -12,40 +12,44 @@ defmodule Dotcom.UpcomingDepartures do
 
   @spec subscribe(map()) :: :ok
   def subscribe(params) do
-    topic = topic_name(params)
-    :ok = DotcomWeb.Endpoint.subscribe(topic)
+    :ok =
+      params
+      |> topic_name()
+      |> DotcomWeb.Endpoint.subscribe()
 
-    topic
+    params
     |> get_or_start_worker()
     |> GenServer.cast({:subscribe, self()})
   end
 
   @spec unsubscribe(map()) :: :ok
   def unsubscribe(params) do
-    topic = topic_name(params)
-    :ok = DotcomWeb.Endpoint.unsubscribe(topic)
+    :ok =
+      params
+      |> topic_name()
+      |> DotcomWeb.Endpoint.unsubscribe()
 
-    worker = get_worker(topic)
+    worker = get_worker(params)
 
     if worker do
       GenServer.cast(worker, {:unsubscribe, self()})
     end
   end
 
-  defp topic_name(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do
+  def topic_name(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do
     "departures:#{route_id}:#{direction_id}:#{stop_id}"
   end
 
-  defp get_or_start_worker(topic) do
-    get_worker(topic) || start_worker(topic)
+  defp get_or_start_worker(params) do
+    get_worker(params) || start_worker(params)
   end
 
-  defp get_worker(topic) do
-    GenServer.whereis({:global, topic})
+  defp get_worker(params) do
+    GenServer.whereis({:global, params})
   end
 
-  defp start_worker(topic) do
-    case DynamicSupervisor.start_child(Dotcom.UpcomingDepartures.Supervisor, {Server, topic}) do
+  defp start_worker(params) do
+    case DynamicSupervisor.start_child(Dotcom.UpcomingDepartures.Supervisor, {Server, params}) do
       {:ok, pid} -> pid
       {:error, {:already_started, pid}} -> pid
     end
