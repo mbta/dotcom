@@ -106,7 +106,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
 
       Server.handle_cast({:subscribe, self()}, state)
 
-      assert_receive {:subscribed, ^fake_result}
+      assert_receive {:upcoming_departures, ^fake_result}
     end
 
     test "returns {:noreply, state} with new subscriber pid in state", %{topic: topic} do
@@ -137,7 +137,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       }
 
       GenServer.cast(pid, {:subscribe, self()})
-      assert_receive {:subscribed, _}
+      assert_receive {:upcoming_departures, _}
 
       assert Process.alive?(pid)
     end

@@ -124,7 +124,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     {:noreply, refresh_upcoming_trip_details(socket)}
   end
 
-  def handle_info({:subscribed, upcoming_departures}, socket) do
+  def handle_info({:upcoming_departures, upcoming_departures}, socket) do
     {:noreply,
      socket
      |> update(:departures, &AsyncResult.ok(&1, upcoming_departures))

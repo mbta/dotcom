@@ -47,7 +47,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   def handle_cast({:subscribe, caller_pid}, state) do
     Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
     new_state = add_subscriber(caller_pid, state)
-    send(caller_pid, {:subscribed, state.departures_fn.()})
+    send(caller_pid, {:upcoming_departures, state.departures_fn.()})
     {:noreply, new_state}
   end
 
