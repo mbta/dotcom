@@ -21,12 +21,7 @@ defmodule DotcomWeb.ScheduleFinderPickerLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:routes, Routes.Repo.all())
-     |> assign(:subscribed?, false)
-     |> assign(:predictions_list_by_snapshot, [])
-     |> assign(:predictions_map_by_events, %{})
-     |> assign(:predictions_list_by_events, [])
-     |> assign(:prediction_events, [])}
+     |> assign(:routes, Routes.Repo.all())}
   end
 
   @impl LiveView
