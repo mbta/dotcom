@@ -12,7 +12,7 @@ defmodule Dotcom.UpcomingDepartures do
 
   @spec subscribe(map()) :: :ok
   def subscribe(params) do
-    {:ok, topic} = topic_name(params)
+    topic = topic_name(params)
     :ok = DotcomWeb.Endpoint.subscribe(topic)
 
     topic
@@ -22,7 +22,7 @@ defmodule Dotcom.UpcomingDepartures do
 
   @spec unsubscribe(map()) :: :ok
   def unsubscribe(params) do
-    {:ok, topic} = topic_name(params)
+    topic = topic_name(params)
     :ok = DotcomWeb.Endpoint.unsubscribe(topic)
 
     worker = get_worker(topic)
@@ -33,7 +33,7 @@ defmodule Dotcom.UpcomingDepartures do
   end
 
   defp topic_name(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do
-    {:ok, "departures:#{route_id}:#{direction_id}:#{stop_id}"}
+    "departures:#{route_id}:#{direction_id}:#{stop_id}"
   end
 
   defp get_or_start_worker(topic) do
