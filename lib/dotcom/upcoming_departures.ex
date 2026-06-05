@@ -45,7 +45,7 @@ defmodule Dotcom.UpcomingDepartures do
   end
 
   defp start_worker(topic) do
-    case DynamicSupervisor.start_child(UpcomingDeparturesSupervisor, {Server, topic}) do
+    case DynamicSupervisor.start_child(Dotcom.UpcomingDepartures.Supervisor, {Server, topic}) do
       {:ok, pid} -> pid
       {:error, {:already_started, pid}} -> pid
     end
