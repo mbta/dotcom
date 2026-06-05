@@ -199,10 +199,11 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     assert ^pid = GenServer.whereis({:global, topic})
     Process.exit(pid, :kill)
     # need some time for it to restart
-    Process.sleep(100)
-    new_pid = GenServer.whereis({:global, topic})
-    assert new_pid
-    assert new_pid !== pid
+    Dotcom.Assertions.wait_until(fn ->
+      new_pid = GenServer.whereis({:global, topic})
+      assert new_pid
+      assert new_pid !== pid
+    end)
 
     refute_receive %Phoenix.Socket.Broadcast{
       event: "upcoming_departures",
