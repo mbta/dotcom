@@ -28,6 +28,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(:alert_blocks)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.ScheduleError)
+  plug(:assign_trip_count)
 
   defdelegate direction_id(conn, params),
     to: DotcomWeb.Schedule.Defaults,
@@ -188,6 +189,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -229,6 +231,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -307,6 +310,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -330,26 +334,15 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
              "Boat-F7",
              "Boat-F10"
            ] do
-    timetable_schedules =
+    timetable =
       conn
       |> timetable_schedules()
       |> Timetables.from_schedules()
-      |> then(& &1.rows)
-
-    header_schedules = List.first(timetable_schedules, [])
-
-    header_stops =
-      timetable_schedules
-      |> Enum.map(&List.first/1)
-      |> Enum.with_index(fn trip, index ->
-        {@stops_repo.get(trip.stop_id), index}
-      end)
 
     conn
-    |> assign(:use_pdf_schedules?, true)
-    |> assign(:timetable_schedules, timetable_schedules)
-    |> assign(:header_schedules, header_schedules)
-    |> assign(:header_stops, header_stops)
+    |> assign(:linear_timetable?, false)
+    |> assign(:timetable, timetable)
+    |> assign(:trip_count, Enum.count(timetable.trips))
   end
 
   def assign_trip_schedules(
@@ -383,6 +376,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -394,9 +388,18 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   def assign_trip_schedules(conn) do
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, [])
     |> assign(:header_schedules, [])
   end
+
+  defp assign_trip_count(%{assigns: %{trip_count: trip_count}} = conn, _) when trip_count != nil,
+    do: conn
+
+  defp assign_trip_count(%{assigns: %{header_schedules: header_schedules}} = conn, _),
+    do:
+      conn
+      |> assign(:trip_count, header_schedules |> Enum.count())
 
   @spec track_changes(
           %{required({Schedules.Trip.id_t(), Stop.id_t()}) => Schedules.Schedule.t()},

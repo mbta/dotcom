@@ -21,6 +21,7 @@ defmodule Dotcom.TimetablesTest do
     end
 
     test "serializes a single schedule into a single-cell timetable" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
 
       [time_1] = generate_times(1)
@@ -34,18 +35,24 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1]
-               ]
-             } = Timetables.from_schedules(schedules)
+               trips: [trip],
+               rows: [row_1]
+             } = timetable
+
+      assert [entry_1] = row_1.cells
+      assert row_1.stop == stop_1
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
     end
 
     test "serializes a single trip into a single-column timetable" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -66,23 +73,30 @@ defmodule Dotcom.TimetablesTest do
           )
         ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1],
-                 [entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip]
+             } = timetable
+
+      assert [entry_1] = row_1.cells
+      assert row_1.stop == stop_1
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
+
+      assert [entry_2] = row_2.cells
+      assert row_2.stop == stop_2
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip.id
-      assert entry_2.stop_id == stop_2.id
     end
 
     test "sorts visits within a trip by time" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -103,23 +117,30 @@ defmodule Dotcom.TimetablesTest do
           )
         ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1],
-                 [entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip]
+             } = timetable
+
+      assert [entry_1] = row_1.cells
+      assert row_1.stop == stop_1
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
+
+      assert [entry_2] = row_2.cells
+      assert row_2.stop == stop_2
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip.id
-      assert entry_2.stop_id == stop_2.id
     end
 
     test "serializes visits to a single stop into a single-row timetable" do
+      # Setup
       stop = Factories.Stops.Stop.build(:stop)
 
       [time_1, time_2] = generate_times(2)
@@ -138,22 +159,27 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1, entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1],
+               trips: [trip_1, trip_2]
+             } = timetable
+
+      assert [entry_1, entry_2] = row_1.cells
+      assert row_1.stop == stop
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip_1.id
-      assert entry_1.stop_id == stop.id
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip_2.id
-      assert entry_2.stop_id == stop.id
     end
 
     test "sorts trips by first-stop time" do
+      # Setup
       stop = Factories.Stops.Stop.build(:stop)
 
       [time_1, time_2] = generate_times(2)
@@ -177,22 +203,27 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1, entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1],
+               trips: [trip_1, trip_2]
+             } = timetable
+
+      assert [entry_1, entry_2] = row_1.cells
+      assert row_1.stop == stop
 
       assert entry_1.time == format!(time_1)
       assert entry_1.trip.id == trip_1.id
-      assert entry_1.stop_id == stop.id
 
       assert entry_2.time == format!(time_2)
       assert entry_2.trip.id == trip_2.id
-      assert entry_2.stop_id == stop.id
     end
 
     test "inserts a blank cell when a trip does not visit the second stop" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -217,31 +248,36 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1_1, entry_2_1],
-                 [entry_1_2, entry_2_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
+             } = timetable
+
+      assert [entry_1_1, entry_2_1] = row_1.cells
+      assert row_1.stop == stop_1
 
       assert entry_1_1.time == format!(time_1_1)
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
-
-      assert entry_1_2.time == format!(time_1_2)
-      assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
 
       assert entry_2_1.time == format!(time_2_1)
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
+
+      assert [entry_1_2, entry_2_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_1_2.time == format!(time_1_2)
+      assert entry_1_2.trip.id == trip_1.id
 
       assert entry_2_2.time == ""
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
 
     test "inserts a blank cell when a trip does not visit the first stop" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -266,31 +302,36 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1_1, entry_2_1],
-                 [entry_1_2, entry_2_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
+             } = timetable
+
+      assert [entry_1_1, entry_2_1] = row_1.cells
+      assert row_1.stop == stop_1
 
       assert entry_1_1.time == format!(time_1_1)
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
-
-      assert entry_1_2.time == format!(time_1_2)
-      assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
 
       assert entry_2_1.time == ""
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
+
+      assert [entry_1_2, entry_2_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_1_2.time == format!(time_1_2)
+      assert entry_1_2.trip.id == trip_1.id
 
       assert entry_2_2.time == format!(time_2_2)
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
 
     test "inserts blank cells for the first trip" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -315,28 +356,32 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1_1, entry_2_1],
-                 [entry_1_2, entry_2_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
+             } = timetable
+
+      assert [entry_1_1, entry_2_1] = row_1.cells
+      assert row_1.stop == stop_1
 
       assert entry_1_1.time == ""
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
-
-      assert entry_1_2.time == format!(time_1_2)
-      assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
 
       assert entry_2_1.time == format!(time_2_1)
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
+
+      assert [entry_1_2, entry_2_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_1_2.time == format!(time_1_2)
+      assert entry_1_2.trip.id == trip_1.id
 
       assert entry_2_2.time == format!(time_2_2)
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
   end
 
