@@ -17,13 +17,12 @@ defmodule DotcomWeb.Components.Timetable do
 
   def linear_timetable(assigns) do
     ~H"""
-    <% # only show scroll controllers if we have 2 or more schedules
-    should_show_scroll_controls? = @trip_count >= 2 %>
     <div class="m-timetable__header hidden-no-js">
       <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
       </div>
       <div class="m-timetable__col-headers" aria-hidden="true">
-        <%= if should_show_scroll_controls? do %>
+        <% # only show scroll controllers if we have 2 or more schedules %>
+        <%= if @trip_count >= 2 do %>
           <span class="m-timetable__trains-label">
             {Routes.Route.vehicle_name(@route) <> "s"}
           </span>
@@ -164,13 +163,12 @@ defmodule DotcomWeb.Components.Timetable do
   # to be added here before we can use this for non-ferry routes.
   def timetable(assigns) do
     ~H"""
-    <% # only show scroll controllers if we have 2 or more schedules
-    should_show_scroll_controls? = @trip_count >= 2 %>
     <div class="m-timetable__header hidden-no-js">
       <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
       </div>
       <div class="m-timetable__col-headers" aria-hidden="true">
-        <%= if should_show_scroll_controls? do %>
+        <% # only show scroll controllers if we have 2 or more schedules %>
+        <%= if @trip_count >= 2 do %>
           <span class="m-timetable__trains-label">
             {Routes.Route.vehicle_name(@route) <> "s"}
           </span>
