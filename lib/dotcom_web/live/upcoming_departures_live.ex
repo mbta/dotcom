@@ -147,6 +147,8 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     end
   end
 
+  def handle_info(_, socket), do: {:noreply, socket}
+
   defp assign_trip_details(socket, trip_id, stop_sequence) do
     now = @date_time.now()
     stop_id = socket.assigns.stop.id
