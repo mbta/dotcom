@@ -31,15 +31,25 @@ defmodule Dotcom.UpcomingDepartures.Server do
     send(self(), :refresh)
 
     topic = Dotcom.UpcomingDepartures.topic_name(params)
+    Logger.notice("Starting server for #{topic}.")
 
-    {:ok, %{departures_fn: departures_fn, topic: topic, subscribers: MapSet.new([])}}
+    {:ok, %{departures_fn: departures_fn, topic: topic}}
   end
 
   @impl GenServer
-  def handle_info(:refresh, state) do
-    :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", state.departures_fn.())
-    _ = Process.send_after(self(), :refresh, @refresh_interval_ms)
-    {:noreply, state}
+  def handle_info(:refresh, %{topic: topic} = state) do
+    case topic_subscriber_count(topic) do
+      0 ->
+        Logger.notice("No more subscribers for #{topic}, closing server.")
+        {:stop, :normal, state}
+
+      count ->
+        Logger.notice("Sending departures for #{topic} to #{count} subscribers")
+        :ok = DotcomWeb.Endpoint.broadcast(topic, "upcoming_departures", state.departures_fn.())
+        _ = Process.send_after(self(), :refresh, @refresh_interval_ms)
+
+        {:noreply, state}
+    end
   end
 
   def handle_info(_, state), do: {:noreply, state}
@@ -47,21 +57,8 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @impl GenServer
   def handle_cast({:subscribe, caller_pid}, state) do
     Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
-    new_state = add_subscriber(caller_pid, state)
     send(caller_pid, {:upcoming_departures, state.departures_fn.()})
-    {:noreply, new_state}
-  end
-
-  def handle_cast({:unsubscribe, caller_pid}, state) do
-    Logger.notice("removing #{inspect(caller_pid)} from #{state.topic}")
-    new_state = remove_subscriber(caller_pid, state)
-
-    # if there are no more subscribers, stop the worker
-    if subscriber_count(new_state) == 0 do
-      {:stop, :normal, new_state}
-    else
-      {:noreply, new_state}
-    end
+    {:noreply, state}
   end
 
   @impl GenServer
@@ -69,15 +66,10 @@ defmodule Dotcom.UpcomingDepartures.Server do
     :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", :terminated)
   end
 
-  defp add_subscriber(caller_pid, state) do
-    Map.update(state, :subscribers, MapSet.new(), &MapSet.put(&1, caller_pid))
-  end
-
-  defp remove_subscriber(caller_pid, state) do
-    Map.update(state, :subscribers, MapSet.new(), &MapSet.delete(&1, caller_pid))
-  end
-
-  defp subscriber_count(state) do
-    Map.get(state, :subscribers, MapSet.new()) |> MapSet.size()
+  defp topic_subscriber_count(topic) do
+    case DotcomWeb.Presence.list(topic) do
+      %{"upcoming_departures" => %{metas: list}} -> Enum.count(list)
+      _other -> 0
+    end
   end
 end

@@ -12,10 +12,9 @@ defmodule Dotcom.UpcomingDepartures do
 
   @spec subscribe(map()) :: :ok
   def subscribe(params) do
-    :ok =
-      params
-      |> topic_name()
-      |> DotcomWeb.Endpoint.subscribe()
+    topic = topic_name(params)
+    :ok = DotcomWeb.Endpoint.subscribe(topic)
+    _ = DotcomWeb.Presence.track(self(), topic, "upcoming_departures", %{})
 
     params
     |> get_or_start_worker()
@@ -28,12 +27,6 @@ defmodule Dotcom.UpcomingDepartures do
       params
       |> topic_name()
       |> DotcomWeb.Endpoint.unsubscribe()
-
-    worker = get_worker(params)
-
-    if worker do
-      GenServer.cast(worker, {:unsubscribe, self()})
-    end
   end
 
   def topic_name(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do
