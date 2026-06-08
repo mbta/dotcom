@@ -2987,14 +2987,13 @@ defmodule Dotcom.UpcomingDeparturesTest do
              ]
     end
 
-    test "includes skipped stops in trip details" do
+    test "includes only downstream skipped stops in trip details" do
       # Setup
       %{
-        scheduled_departure_times: [departure_time_1, departure_time_2, _, _, _],
-        scheduled_arrival_times: [_, _, arrival_time_2, _, _],
+        scheduled_departure_times: [_, departure_time_1, departure_time_2, _, _],
         schedules: schedules,
-        stop_sequences: [_, _, _, stop_seq, _],
-        stops: [_, this_stop, stop_0, stop_1, stop_2] = stops,
+        stop_sequences: [_, _, stop_seq, _, _],
+        stops: [_, _, this_stop, _, _] = stops,
         trip_id: trip_id,
         trip: trip,
         route: route
@@ -3002,19 +3001,13 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(
           route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
           stop_count: 5,
-          skipped_stops: [2, 3, 4]
+          skipped_stops: [0, 1, 3, 4]
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ ->
         stops
         |> Enum.map(fn stop ->
           %Predictions.Prediction{
-            schedule_relationship:
-              if stop == this_stop do
-                nil
-              else
-                :skipped
-              end,
             route: route,
             trip: trip,
             stop: stop
@@ -3034,10 +3027,18 @@ defmodule Dotcom.UpcomingDeparturesTest do
           trip_id: trip_id
         })
 
-      dbg(trip_details.stops_after, limit: :infinity)
       # Verify
-      assert trip_details.stops_after |> Enum.count() == 3,
-             "Unexpected number of stops_after, expected 4 got #{trip_details.stops_before |> Enum.count()}"
+      after_count =
+        trip_details.stops_after |> Enum.filter(fn s -> !s.cancelled? end) |> Enum.count()
+
+      assert after_count == 2,
+             "Unexpected number of stops_after, expected 2 got #{after_count}"
+
+      before_count =
+        trip_details.stops_before |> Enum.filter(fn s -> !s.cancelled? end) |> Enum.count()
+
+      assert before_count == 0,
+             "Unexpected number of stops_before, expected 0 got #{after_count}"
     end
 
     test "uses `departure_time` as other_stop.time if `arrival_time` isn't available" do
