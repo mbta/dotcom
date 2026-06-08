@@ -302,11 +302,13 @@ defmodule DotcomWeb.Router do
     # get("/vote", VoteController, :show)
   end
 
-  scope "/", DotcomWeb do
-    import Phoenix.LiveDashboard.Router
+  if Mix.env() != :prod do
+    scope "/", DotcomWeb do
+      import Phoenix.LiveDashboard.Router
 
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
-    live_dashboard("/dashboard")
+      pipe_through([:browser, :browser_live, :basic_auth_readonly])
+      live_dashboard("/dashboard")
+    end
   end
 
   scope "/", DotcomWeb do
