@@ -3029,13 +3029,13 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       after_count =
-        trip_details.stops_after |> Enum.filter(fn s -> !s.cancelled? end) |> Enum.count()
+        trip_details.stops_after |> Enum.count(fn s -> !s.cancelled? end)
 
       assert after_count == 2,
              "Unexpected number of stops_after, expected 2 got #{after_count}"
 
       before_count =
-        trip_details.stops_before |> Enum.filter(fn s -> !s.cancelled? end) |> Enum.count()
+        trip_details.stops_before |> Enum.count(fn s -> !s.cancelled? end)
 
       assert before_count == 0,
              "Unexpected number of stops_before, expected 0 got #{after_count}"
