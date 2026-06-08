@@ -65,13 +65,26 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     end
   end
 
+  defp subscribe_and_track(topic) do
+    DotcomWeb.Endpoint.subscribe(topic)
+    DotcomWeb.Presence.track(self(), topic, "upcoming_departures", %{})
+
+    on_exit(fn ->
+      for pid <- DotcomWeb.Presence.fetchers_pids() do
+        ref = Process.monitor(pid)
+        assert_receive {:DOWN, ^ref, _, _, _}, 1000
+      end
+    end)
+  end
+
   describe "handle_info/2 - :refresh" do
     test "broadcasts upcoming departures to the PubSub topic", %{topic: topic} do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+      subscribe_and_track(topic)
+
       fake_departures = [:departure_a, :departure_b]
       state = %{departures_fn: fn -> fake_departures end, topic: topic}
 
-      Server.handle_info(:refresh, state)
+      assert {:noreply, ^state} = Server.handle_info(:refresh, state)
 
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -80,16 +93,11 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       }
     end
 
-    test "returns {:noreply, state} keeping state unchanged", %{topic: topic} do
-      state = %{departures_fn: fn -> :no_service end, topic: topic}
-      assert {:noreply, ^state} = Server.handle_info(:refresh, state)
-    end
-
     test "broadcasts again each time :refresh is sent to the live process", %{
       params: params,
       topic: topic
     } do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+      subscribe_and_track(topic)
       {:ok, pid} = Server.start_link(params)
       # Drain the automatic initial :refresh broadcast from init/1.
       assert_receive %Phoenix.Socket.Broadcast{
@@ -118,14 +126,8 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       assert_receive {:upcoming_departures, ^fake_result}
     end
 
-    test "returns {:noreply, state} with new subscriber pid in state", %{topic: topic} do
-      state = %{departures_fn: fn -> :no_service end, topic: topic, subscribers: MapSet.new([])}
-      {:noreply, new_state} = Server.handle_cast({:subscribe, self()}, state)
-      assert MapSet.member?(new_state.subscribers, self())
-    end
-
     test "does not publish to PubSub – only sends to the target pid", %{topic: topic} do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+      subscribe_and_track(topic)
       other_pid = spawn(fn -> Process.sleep(:infinity) end)
       state = %{departures_fn: fn -> [:trip] end, topic: topic}
 
@@ -136,7 +138,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     end
 
     test "does not crash a live server process", %{params: params, topic: topic} do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+      subscribe_and_track(topic)
       {:ok, pid} = Server.start_link(params)
 
       assert_receive %Phoenix.Socket.Broadcast{
@@ -154,7 +156,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
 
   describe "terminate/2" do
     test "broadcasts :terminated to the PubSub topic", %{topic: topic} do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+      subscribe_and_track(topic)
       state = %{departures_fn: fn -> :no_service end, topic: topic}
 
       Server.terminate(:normal, state)
@@ -170,7 +172,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       params: params,
       topic: topic
     } do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+      subscribe_and_track(topic)
       {:ok, pid} = Server.start_link(params)
 
       assert_receive %Phoenix.Socket.Broadcast{
@@ -191,7 +193,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     end
 
     test "broadcasts :terminated regardless of the stop reason", %{topic: topic} do
-      Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+      subscribe_and_track(topic)
       state = %{departures_fn: fn -> :no_service end, topic: topic}
 
       Server.terminate(:shutdown, state)
@@ -205,7 +207,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
   end
 
   test "gets restarted if it crashes", %{params: params, topic: topic} do
-    Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+    subscribe_and_track(topic)
 
     {:ok, pid} = start_supervised({Server, params})
     assert ^pid = GenServer.whereis({:global, params})
