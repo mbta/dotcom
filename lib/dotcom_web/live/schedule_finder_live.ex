@@ -20,6 +20,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias Routes.Route
   alias Stops.Stop
 
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @schedule_finder Application.compile_env!(:dotcom, :schedule_finder_module)
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -39,7 +40,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def mount(params, _session, socket) do
     case validate_params(params) do
       {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
-        service_groups = ServiceGroup.for_route(route.id, service_date())
+        today = service_date()
+        yesterday = today |> Date.shift(day: -1)
+
+        yesterday_service_date? =
+          future_trips_from_yesterdays_service?(%{
+            direction_id: direction_id,
+            now: @date_time.now(),
+            route_id: route.id,
+            stop_id: stop.id,
+            yesterday: yesterday
+          })
+
+        service_date = if yesterday_service_date?, do: yesterday, else: today
+        service_groups = ServiceGroup.for_route(route.id, service_date)
+
         all_services = Enum.flat_map(service_groups, & &1.services)
         selected_service = Enum.find(all_services, %{}, &(&1.now_date || &1.next_date))
 
@@ -61,10 +76,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
           end)
           |> assign_new(:daily_schedule_date, fn assigns ->
             # Current date if there's service today, next available service date otherwise... or current date if there's no service at all!
-            if assigns.service_today? do
-              service_date()
-            else
-              Map.get(selected_service, :next_date, service_date())
+
+            cond do
+              yesterday_service_date? -> yesterday
+              assigns.service_today? -> today
+              true -> Map.get(selected_service, :next_date, today)
             end
           end)
           |> assign_alerts()
@@ -579,6 +595,31 @@ defmodule DotcomWeb.ScheduleFinderLive do
         route: route_name,
         stop: stop.name
       )
+    end
+  end
+
+  defp future_trips_from_yesterdays_service?(%{
+         direction_id: direction_id,
+         now: now,
+         route_id: route_id,
+         stop_id: stop_id,
+         yesterday: yesterday
+       }) do
+    [route_id]
+    |> Schedules.Repo.by_route_ids(
+      direction_id: direction_id,
+      stop_ids: stop_id,
+      date: yesterday
+    )
+    |> Enum.map(&(&1.departure_time || &1.arrival_time))
+    |> case do
+      [] ->
+        false
+
+      time_list ->
+        time_list
+        |> Enum.max_by(& &1, DateTime)
+        |> DateTime.after?(now)
     end
   end
 end
