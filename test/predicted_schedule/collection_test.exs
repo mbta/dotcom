@@ -133,7 +133,7 @@ defmodule PredictedSchedule.CollectionTest do
 
   defp build_schedules(count) do
     Faker.Util.sample_uniq(count, fn ->
-      {FactoryHelpers.build(:id), Faker.random_between(1, 10000)}
+      {FactoryHelpers.build(:id), Faker.random_between(1, 10_000)}
     end)
     |> Enum.map(fn {trip_id, stop_sequence} ->
       Factories.Schedules.Schedule.build(:schedule,
