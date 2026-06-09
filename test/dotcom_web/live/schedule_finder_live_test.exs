@@ -32,6 +32,10 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       GenServer.whereis({:global, upcoming_departure_params})
     end)
 
+    allow(Schedules.Repo.Mock, self(), fn ->
+      GenServer.whereis({:global, upcoming_departure_params})
+    end)
+
     allow(Dotcom.Utils.DateTime.Mock, self(), fn ->
       GenServer.whereis({:global, upcoming_departure_params})
     end)
