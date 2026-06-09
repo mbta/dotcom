@@ -5,8 +5,6 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
   use DotcomWeb, :live_view
 
-  require Logger
-
   import Dotcom.Utils.Diff, only: [minutes_to_localized_minutes: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
@@ -19,6 +17,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @upcoming_departures_module Application.compile_env!(:dotcom, :upcoming_departures_module)
 
   @impl LiveView
   def mount(_not_mounted_at_router, session, socket) do
@@ -31,6 +30,8 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     {:ok,
      socket
      |> assign(:direction_id, direction_id)
+     |> assign(:route_id, route_id)
+     |> assign(:stop_id, stop_id)
      |> assign_new(:route, fn -> @routes_repo.get(route_id) end)
      |> assign_new(:stop, fn -> @stops_repo.get(stop_id) end)
      |> assign_new(:should_refresh?, fn -> true end)
@@ -47,7 +48,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
        end
      end)
      |> assign(:departures, AsyncResult.loading())
-     |> assign_upcoming_departures()}
+     |> subscribe_to_upcoming_departures()}
   end
 
   @impl LiveView
@@ -58,19 +59,23 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       phx-hook="PageVisibility"
     >
       <div class="hidden phx-error:block">
-        <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
+        <.callout data-test="u_d:error">
+          {~t(There was a problem loading upcoming departures)}
+        </.callout>
       </div>
       <div class="block phx-error:hidden">
         <.async_result :let={departures} assign={@departures}>
           <:loading>
-            <div class="mt-lg mb-md flex justify-center">
+            <div data-test="u_d:async_loading" class="mt-lg mb-md flex justify-center">
               <.spinner aria_label={~t"Loading upcoming departures"} />
             </div>
           </:loading>
           <:failed :let={_fail}>
-            <.callout>{~t(There was a problem loading upcoming departures)}</.callout>
+            <.callout data-test="u_d:async_failed">
+              {~t(There was a problem loading upcoming departures)}
+            </.callout>
           </:failed>
-          <%= if departures do %>
+          <section data-test="u_d:async_success">
             <.upcoming_departures_section
               stop={@stop}
               loaded_upcoming_trips={@loaded_upcoming_trips}
@@ -78,7 +83,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
               route={@route}
               last_trip_time={@last_trip_time}
             />
-          <% end %>
+          </section>
         </.async_result>
       </div>
     </section>
@@ -86,14 +91,10 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   end
 
   @impl LiveView
-  def handle_async(:get_upcoming_departures, {:ok, {:ok, departures}}, socket) do
-    {:noreply, assign(socket, :departures, AsyncResult.ok(departures))}
-  end
-
-  def handle_async(:get_upcoming_departures, other, socket) do
-    _ = Logger.error("module=#{__MODULE__} error=#{inspect(other)}")
-    departures = socket.assigns.departures
-    {:noreply, assign(socket, :departures, AsyncResult.failed(departures, :other))}
+  def terminate(_reason, socket) do
+    socket.assigns
+    |> Map.take([:route_id, :direction_id, :stop_id])
+    |> Dotcom.UpcomingDepartures.unsubscribe()
   end
 
   @impl LiveView
@@ -112,7 +113,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       :noreply,
       socket
       |> assign(:should_refresh?, state == "visible")
-      |> assign_upcoming_departures()
+      |> subscribe_to_upcoming_departures()
     }
   end
 
@@ -120,18 +121,40 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
   @impl LiveView
   def handle_info(:refresh_upcoming_departures, socket) do
+    {:noreply, refresh_upcoming_trip_details(socket)}
+  end
+
+  def handle_info({:upcoming_departures, upcoming_departures}, socket) do
     {:noreply,
      socket
-     |> assign_upcoming_departures()
+     |> update(:departures, &AsyncResult.ok(&1, upcoming_departures))
      |> refresh_upcoming_trip_details()}
   end
+
+  def handle_info(
+        %Phoenix.Socket.Broadcast{event: "upcoming_departures", payload: upcoming_departures},
+        socket
+      ) do
+    case upcoming_departures do
+      :terminated ->
+        {:noreply, assign(socket, :departures, AsyncResult.failed(%AsyncResult{}, :terminated))}
+
+      upcoming_departures ->
+        {:noreply,
+         socket
+         |> update(:departures, &AsyncResult.ok(&1, upcoming_departures))
+         |> refresh_upcoming_trip_details()}
+    end
+  end
+
+  def handle_info(_, socket), do: {:noreply, socket}
 
   defp assign_trip_details(socket, trip_id, stop_sequence) do
     now = @date_time.now()
     stop_id = socket.assigns.stop.id
 
     trip_details =
-      Dotcom.UpcomingDepartures.trip_details(%{
+      @upcoming_departures_module.trip_details(%{
         now: now,
         stop_id: stop_id,
         stop_sequence: stop_sequence,
@@ -144,28 +167,20 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     end)
   end
 
-  defp assign_upcoming_departures(socket) do
-    direction_id = socket.assigns.direction_id
-    route = socket.assigns.route
-    stop_id = socket.assigns.stop.id
+  defp subscribe_to_upcoming_departures(socket) do
+    if connected?(socket) do
+      params =
+        socket.assigns
+        |> Map.take([:route_id, :direction_id, :stop_id])
 
-    parent_pid = self()
-    should_refresh? = socket.assigns.should_refresh?
+      if socket.assigns.should_refresh? do
+        Dotcom.UpcomingDepartures.subscribe(params)
+      else
+        Dotcom.UpcomingDepartures.unsubscribe(params)
+      end
+    end
 
     socket
-    |> start_async(:get_upcoming_departures, fn ->
-      now = @date_time.now()
-
-      _ = if should_refresh?, do: schedule_refresh_upcoming_departures(parent_pid)
-
-      {:ok,
-       Dotcom.UpcomingDepartures.upcoming_departures(%{
-         direction_id: direction_id,
-         now: now,
-         route: route,
-         stop_id: stop_id
-       })}
-    end)
   end
 
   defp schedule_refresh_upcoming_departures(pid) do
@@ -174,6 +189,8 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   end
 
   defp refresh_upcoming_trip_details(socket) do
+    _ = if socket.assigns.should_refresh?, do: schedule_refresh_upcoming_departures(self())
+
     trip_ids_and_stop_seqs = Map.keys(socket.assigns.loaded_upcoming_trips)
 
     Enum.reduce(trip_ids_and_stop_seqs, socket, fn {trip_id, stop_sequence}, s ->

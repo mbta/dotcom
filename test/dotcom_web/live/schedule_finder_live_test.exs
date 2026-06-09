@@ -21,6 +21,18 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     :ok
   end
 
+  defp allow_mocks(route_id, stop_id, direction_id) do
+    upcoming_departure_params = %{
+      route_id: route_id,
+      direction_id: direction_id,
+      stop_id: stop_id
+    }
+
+    allow(Routes.Repo.Mock, self(), fn ->
+      GenServer.whereis({:global, upcoming_departure_params})
+    end)
+  end
+
   test "loads, fetching route info", %{conn: conn} do
     route_id = FactoryHelpers.build(:id)
     stop_id = FactoryHelpers.build(:id)
@@ -38,7 +50,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     end)
 
     expect(Services.Repo.Mock, :by_route_id, 2, fn ^route_id ->
-      Factories.Services.Service.build_list(5, :service)
+      []
     end)
 
     expect(Stops.Repo.Mock, :get, 2, fn ^stop_id ->
@@ -68,6 +80,8 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     stop_id = FactoryHelpers.build(:id)
     direction_id = FactoryHelpers.build(:direction_id)
 
+    allow_mocks(route_id, stop_id, direction_id)
+
     path =
       live_path(conn, ScheduleFinderLive,
         route_id: route_id,
@@ -88,6 +102,8 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     route_id = FactoryHelpers.build(:id)
     stop_id = FactoryHelpers.build(:id)
     direction_id = FactoryHelpers.build(:direction_id)
+
+    allow_mocks(route_id, stop_id, direction_id)
 
     path =
       live_path(conn, ScheduleFinderLive,
@@ -393,13 +409,16 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       []
     end)
 
-    # Dotcom.ScheduleFinder.UpcomingDepartures.Mock
-    # |> stub(:upcoming_departures, fn _ -> [] end)
+    Dotcom.UpcomingDepartures.Mock
+    |> stub(:upcoming_departures, fn _ -> :no_service end)
+
     stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
     stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
     stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
     stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
+
+    allow_mocks(route_id, stop_id, direction_id)
 
     path =
       live_path(conn, ScheduleFinderLive,

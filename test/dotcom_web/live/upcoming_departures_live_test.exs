@@ -1,18 +1,21 @@
 defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
-  use DotcomWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase
 
   import Mox
   import Phoenix.LiveViewTest
 
   alias DotcomWeb.Live.UpcomingDeparturesLive
-  alias Test.Support.{Factories, FactoryHelpers, PredictedScheduleHelper}
+  alias Test.Support.{Factories, FactoryHelpers}
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+
   @moduletag capture_log: false
 
-  setup :verify_on_exit!
+  setup [:verify_on_exit!, :set_mox_global]
 
   setup _ do
+    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
     stub(Routes.Repo.Mock, :get, fn id ->
       Factories.Routes.Route.build(:route, %{id: id})
     end)
@@ -21,47 +24,54 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
       Factories.Stops.Stop.build(:stop, %{id: id})
     end)
 
-    stub(Vehicles.Repo.Mock, :get, fn _ -> nil end)
+    stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+
+    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _ ->
+      :no_service
+    end)
 
     :ok
   end
 
-  test "loads, fetching route, stop info", %{conn: conn} do
-    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-    route_id = FactoryHelpers.build(:id)
-
-    route =
-      Factories.Routes.Route.build(:route, %{id: route_id, type: Faker.Util.pick([2, 3, 4])})
-
-    stop_id = FactoryHelpers.build(:id)
+  test "loads, fetching route, stop info & subscribing to upcoming departures", %{conn: conn} do
+    route_id_param = FactoryHelpers.build(:id)
+    stop_id_param = FactoryHelpers.build(:id)
     direction_id = FactoryHelpers.build(:direction_id)
 
-    expect(Routes.Repo.Mock, :get, 2, fn ^route_id -> route end)
+    expect(Routes.Repo.Mock, :get, 3, fn route_id ->
+      assert route_id == route_id_param
+      Factories.Routes.Route.build(:route)
+    end)
 
-    expect(Stops.Repo.Mock, :get, 2, fn ^stop_id ->
+    expect(Stops.Repo.Mock, :get, 2, fn stop_id ->
+      assert stop_id == stop_id_param
       Factories.Stops.Stop.build(:stop, %{id: stop_id})
     end)
 
-    {:ok, _, html} =
-      live_isolated(conn, UpcomingDeparturesLive,
-        session: %{
-          "route_id" => route_id,
-          "direction_id" => direction_id,
-          "stop_id" => stop_id
-        }
-      )
+    parent = self()
+    ref = make_ref()
 
-    assert html =~ "Loading upcoming departures"
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+      send(parent, {ref, :done})
+      :no_service
+    end)
+
+    {:ok, view, _} = start_live_view(conn, route_id_param, direction_id, stop_id_param)
+    assert_receive {^ref, :done}
+    assert_receive {^ref, :done}
+
+    assert view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
   end
 
   test "fetches schedules info on load for subway", %{conn: conn} do
-    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     route_id = FactoryHelpers.build(:id)
     route = Factories.Routes.Route.build(:route, %{id: route_id, type: Faker.Util.pick([0, 1])})
     stop_id = FactoryHelpers.build(:id)
     direction_id = FactoryHelpers.build(:direction_id)
 
-    expect(Routes.Repo.Mock, :get, 2, fn ^route_id -> route end)
+    expect(Routes.Repo.Mock, :get, 3, fn ^route_id -> route end)
 
     expect(Schedules.Repo.Mock, :by_route_ids, 2, fn routes, opts ->
       assert routes == [route_id]
@@ -72,38 +82,24 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
       []
     end)
 
-    {:ok, _, html} =
-      live_isolated(conn, UpcomingDeparturesLive,
-        session: %{
-          "route_id" => route_id,
-          "direction_id" => direction_id,
-          "stop_id" => stop_id
-        }
-      )
+    parent = self()
+    ref = make_ref()
 
-    assert html =~ "Loading upcoming departures"
-  end
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+      send(parent, {ref, :done})
+      :no_service
+    end)
 
-  test "requests predictions info", %{conn: conn} do
-    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-    stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+    {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
+    assert_receive {^ref, :done}
+    assert_receive {^ref, :done}
 
-    expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-
-    {:ok, view, _} =
-      live_isolated(conn, UpcomingDeparturesLive,
-        session: %{
-          "route_id" => FactoryHelpers.build(:id),
-          "direction_id" => FactoryHelpers.build(:direction_id),
-          "stop_id" => FactoryHelpers.build(:id)
-        }
-      )
-
-    assert render_async(view)
+    assert view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
   end
 
   test "shows last scheduled trip for subway", %{conn: conn} do
-    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     route = Factories.Routes.Route.build(:subway_route)
     stop = Factories.Stops.Stop.build(:stop)
     route_id = route.id
@@ -115,130 +111,173 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
 
     schedules = Factories.Schedules.Schedule.build_list(3, :schedule)
 
+    # Last scheduled time is in the future
     last_schedule =
       Factories.Schedules.Schedule.build(:schedule,
         time: @date_time_module.now() |> DateTime.shift(minute: 40)
       )
 
-    expect(Schedules.Repo.Mock, :by_route_ids, 3, fn _, _ ->
+    expect(Schedules.Repo.Mock, :by_route_ids, 2, fn _, _ ->
       schedules ++ [last_schedule]
     end)
 
-    expect(Predictions.Repo.Mock, :all, fn _ ->
-      Factories.Predictions.Prediction.build_list(15, :prediction,
-        route: route,
-        stop: stop,
+    parent = self()
+    ref = make_ref()
+
+    # Available upcoming departures are earlier than the last scheduled time
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+      send(parent, {ref, :done})
+
+      Factories.UpcomingDepartures.build_list(15, :upcoming_departure,
         time: @date_time_module.now() |> DateTime.shift(minute: 20)
       )
     end)
 
-    {:ok, view, _} =
-      live_isolated(conn, UpcomingDeparturesLive,
-        session: %{
-          "route_id" => route_id,
-          "direction_id" => direction_id,
-          "stop_id" => stop_id
-        },
-        on_error: :warn
-      )
+    {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
+    assert_receive {^ref, :done}
+    assert_receive {^ref, :done}
 
     {:ok, rendered_time} = Dotcom.Utils.Time.format(last_schedule.time, :hour_12_minutes)
-    assert render_async(view) =~ "Scheduled service continues until #{rendered_time}"
+
+    assert view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
+
+    assert render(view) =~ "Scheduled service continues until #{rendered_time}"
   end
 
-  test "shows service ended message", %{conn: conn} do
+  test "receives and shows service ended message", %{conn: conn} do
     # Setup
-    stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    parent = self()
+    ref = make_ref()
 
-    %{
-      route: route,
-      scheduled_departure_times: [_, scheduled_time, _],
-      schedules: schedules,
-      stops: [_, stop, _]
-    } =
-      PredictedScheduleHelper.predicted_schedule_trip_data(route_factory_types: [:bus_route])
-
-    route_id = route.id
-    stop_id = stop.id
-    expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-
-    stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
-      Dotcom.Utils.ServiceDateTime.end_of_service_day(scheduled_time)
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+      send(parent, {ref, :done})
+      :service_ended
     end)
 
-    stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
-      schedules |> Enum.filter(&(&1.stop.id == stop_id))
-    end)
+    {:ok, view, _} = start_live_view(conn)
+    assert_receive {^ref, :done}
+    assert_receive {^ref, :done}
 
-    {:ok, view, _} =
-      live_isolated(conn, UpcomingDeparturesLive,
-        session: %{
-          "route_id" => route_id,
-          "direction_id" => FactoryHelpers.build(:direction_id),
-          "stop_id" => stop_id
-        }
-      )
+    assert view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
 
-    assert render_async(view) =~ "Service ended"
+    assert render(view) =~ "Service ended"
   end
 
-  describe "for non-subway routes" do
-    test "shows no realtime message", %{conn: conn} do
-      stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-      route_id = FactoryHelpers.build(:id)
-
-      route =
-        Factories.Routes.Route.build(:route, %{id: route_id, type: Faker.Util.pick([2, 3, 4])})
-
-      stub(Routes.Repo.Mock, :get, fn _ -> route end)
-
+  describe "shows no realtime message" do
+    setup do
       stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
-        Factories.Schedules.Schedule.build_list(10, :schedule,
+        Factories.Schedules.Schedule.build_list(1, :schedule,
           time: @date_time_module.now() |> DateTime.shift(minute: 40)
         )
       end)
 
-      stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
+      :ok
+    end
 
-      {:ok, view, _} =
-        live_isolated(conn, UpcomingDeparturesLive,
-          session: %{
-            "route_id" => route_id,
-            "direction_id" => FactoryHelpers.build(:direction_id),
-            "stop_id" => FactoryHelpers.build(:id)
-          }
+    test "with scheduled departures", %{conn: conn} do
+      upcoming_departures =
+        Factories.UpcomingDepartures.build_list(15, :upcoming_departure,
+          time: @date_time_module.now() |> DateTime.shift(minute: 20)
         )
 
-      assert render_async(view) =~
+      parent = self()
+      ref = make_ref()
+
+      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+        send(parent, {ref, :done})
+        {:no_realtime, upcoming_departures}
+      end)
+
+      {:ok, view, _} = start_live_view(conn)
+      assert_receive {^ref, :done}
+      assert_receive {^ref, :done}
+
+      assert view
+             |> element("[data-test=\"u_d:async_success\"]")
+             |> has_element?()
+
+      assert render(view) =~
                "There are currently no realtime departures available. Scheduled departures are shown below."
     end
-  end
 
-  describe "for subway routes" do
-    test "shows no realtime message", %{conn: conn} do
-      stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
-      route_id = FactoryHelpers.build(:id)
-      route = Factories.Routes.Route.build(:subway_route, %{id: route_id})
-      stub(Routes.Repo.Mock, :get, fn _ -> route end)
+    test "without scheduled departures", %{conn: conn} do
+      parent = self()
+      ref = make_ref()
 
-      stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ ->
-        Factories.Schedules.Schedule.build_list(10, :schedule,
-          time: @date_time_module.now() |> DateTime.shift(minute: 40)
-        )
+      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+        send(parent, {ref, :done})
+        :no_realtime
       end)
 
-      stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
+      {:ok, view, _} = start_live_view(conn)
+      assert_receive {^ref, :done}
+      assert_receive {^ref, :done}
 
-      {:ok, view, _} =
-        live_isolated(conn, UpcomingDeparturesLive,
-          session: %{
-            "route_id" => route_id,
-            "direction_id" => FactoryHelpers.build(:direction_id),
-            "stop_id" => FactoryHelpers.build(:id)
-          }
-        )
+      assert view
+             |> element("[data-test=\"u_d:async_success\"]")
+             |> has_element?()
 
-      render_async(view) =~ "There are currently no realtime departures available."
+      assert render(view) =~ "There are currently no realtime departures available."
     end
+  end
+
+  test "shows error when server error occurs", %{conn: conn} do
+    parent = self()
+    ref = make_ref()
+
+    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _ ->
+      send(parent, {ref, :done})
+      :no_realtime
+    end)
+
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = FactoryHelpers.build(:id)
+    params = %{route_id: route_id, direction_id: direction_id, stop_id: stop_id}
+
+    {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
+
+    assert_receive {^ref, :done}
+    assert_receive {^ref, :done}
+
+    pid = view.pid
+    :erlang.trace(pid, true, [:receive])
+
+    assert view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
+
+    # trigger the correct server's terminate/2
+    :ok =
+      GenServer.whereis({:global, params})
+      |> GenServer.stop(:normal)
+
+    assert_receive {:trace, ^pid, :receive,
+                    %Phoenix.Socket.Broadcast{event: "upcoming_departures", payload: :terminated}}
+
+    refute view
+           |> element("[data-test=\"u_d:async_success\"]")
+           |> has_element?()
+
+    assert view
+           |> element("[data-test=\"u_d:async_failed\"]")
+           |> has_element?()
+
+    assert render(view) =~ "There was a problem loading upcoming departures"
+  end
+
+  defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
+    live_isolated(conn, UpcomingDeparturesLive,
+      session: %{
+        "route_id" => route_id || FactoryHelpers.build(:id),
+        "direction_id" => direction_id || FactoryHelpers.build(:direction_id),
+        "stop_id" => stop_id || FactoryHelpers.build(:id)
+      },
+      on_error: :warn
+    )
   end
 end
