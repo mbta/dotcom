@@ -11,9 +11,11 @@ config:
       target: "http://dev-blue.mbtace.com"
   engines:
     playwright:
-      aggregateByName: true
+      aggregateByName: false
       launchOptions:
         headless: true
+        slowMo: 500 # drag each test step out a bit!
+        timeout: 0 # disable the test timeout..supposedly
       contextOptions:
         userAgent: "Artillery"
   payload:
