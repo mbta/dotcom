@@ -402,6 +402,9 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global, include: ~w(disabled))
+  attr(:class, :string, default: "")
+
   @doc """
   Callout for commuter rail alerts during the world cup
   """
