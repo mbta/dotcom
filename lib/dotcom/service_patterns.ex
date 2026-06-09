@@ -29,8 +29,8 @@ defmodule Dotcom.ServicePatterns do
     |> Enum.any?(&Service.serves_date?(&1, date))
   end
 
-  @spec services_for_route(Routes.Route.id_t()) :: [Service.t()]
-  def services_for_route(route_id) do
+  @spec services_for_route(Routes.Route.id_t(), Date.t()) :: [Service.t()]
+  def services_for_route(route_id, current_date \\ ServiceDateTime.service_date()) do
     route_id
     |> @services_repo.by_route_id()
     |> Stream.reject(&(&1.typicality == :canonical))
@@ -38,7 +38,7 @@ defmodule Dotcom.ServicePatterns do
     |> Stream.map(&add_single_date_description/1)
     |> Stream.map(&{Service.all_valid_dates_for_service(&1), &1})
     |> Stream.map(&adjust_planned_description/1)
-    |> dedup_identical_services()
+    |> dedup_identical_services(current_date)
     |> dedup_similar_services()
   end
 
@@ -54,10 +54,10 @@ defmodule Dotcom.ServicePatterns do
           service_label: typical_label() | atypical_label()
         }
 
-  @spec patterns_for_route(Routes.Route.id_t()) :: [service_pattern()]
-  def patterns_for_route(route_id) do
+  @spec patterns_for_route(Routes.Route.id_t(), Date.t()) :: [service_pattern()]
+  def patterns_for_route(route_id, current_date \\ ServiceDateTime.service_date()) do
     route_id
-    |> services_for_route()
+    |> services_for_route(current_date)
     |> to_service_pattern()
   end
 
@@ -119,13 +119,13 @@ defmodule Dotcom.ServicePatterns do
 
   defp adjust_planned_description(other), do: other
 
-  defp dedup_identical_services(dated_services) do
+  defp dedup_identical_services(dated_services, current_date) do
     {_unique_dates, unique_services} =
       dated_services
       |> Enum.reject(fn {dates, _} ->
         dates
         |> List.last()
-        |> Date.before?(ServiceDateTime.service_date())
+        |> Date.before?(current_date)
       end)
       |> Enum.uniq_by(fn {dates, _} -> dates end)
       |> Enum.unzip()

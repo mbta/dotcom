@@ -18,6 +18,8 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
 
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
+    stub(MBTA.Api.Mock, :get_json, fn "/schedules/", _ -> %JsonApi{} end)
+
     :ok
   end
 
