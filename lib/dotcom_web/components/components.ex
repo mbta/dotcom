@@ -395,7 +395,7 @@ defmodule DotcomWeb.Components do
       <p class="c-descriptive-link__world-cup c-descriptive-link__boston-stadium">
         {gettext("View %{timetable_link} for departure information.",
           timetable_link: "<span class='underline font-medium'>Boston Stadium Train timetables</span>"
-           )
+        )
         |> Phoenix.HTML.raw()}
       </p>
     </.descriptive_link>
@@ -410,7 +410,8 @@ defmodule DotcomWeb.Components do
     <.descriptive_link
       href="/schedules/commuter-rail"
       class={@class}
-      {@rest}>
+      {@rest}
+    >
       <:title>
         {~t(Your Commuter Rail trip will be affected by the World Cup.)}
       </:title>
