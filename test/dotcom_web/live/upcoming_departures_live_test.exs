@@ -34,6 +34,26 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     :ok
   end
 
+  defp allow_mocks(route_id, stop_id, direction_id) do
+    upcoming_departure_params = %{
+      route_id: route_id,
+      direction_id: direction_id,
+      stop_id: stop_id
+    }
+
+    allow(Routes.Repo.Mock, self(), fn ->
+      GenServer.whereis({:global, upcoming_departure_params})
+    end)
+
+    allow(Schedules.Repo.Mock, self(), fn ->
+      GenServer.whereis({:global, upcoming_departure_params})
+    end)
+
+    allow(Dotcom.Utils.DateTime.Mock, self(), fn ->
+      GenServer.whereis({:global, upcoming_departure_params})
+    end)
+  end
+
   test "loads, fetching route, stop info & subscribing to upcoming departures", %{conn: conn} do
     route_id_param = FactoryHelpers.build(:id)
     stop_id_param = FactoryHelpers.build(:id)
@@ -272,11 +292,16 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
   end
 
   defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
+    route_id = route_id || FactoryHelpers.build(:id)
+    direction_id = direction_id || FactoryHelpers.build(:direction_id)
+    stop_id = stop_id || FactoryHelpers.build(:id)
+    allow_mocks(route_id, stop_id, direction_id)
+
     live_isolated(conn, UpcomingDeparturesLive,
       session: %{
-        "route_id" => route_id || FactoryHelpers.build(:id),
-        "direction_id" => direction_id || FactoryHelpers.build(:direction_id),
-        "stop_id" => stop_id || FactoryHelpers.build(:id)
+        "route_id" => route_id,
+        "direction_id" => direction_id,
+        "stop_id" => stop_id
       },
       on_error: :warn
     )
