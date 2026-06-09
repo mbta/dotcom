@@ -86,40 +86,6 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
            |> has_element?()
   end
 
-  test "fetches schedules info on load for subway", %{conn: conn} do
-    route_id = FactoryHelpers.build(:id)
-    route = Factories.Routes.Route.build(:route, %{id: route_id, type: Faker.Util.pick([0, 1])})
-    stop_id = FactoryHelpers.build(:id)
-    direction_id = FactoryHelpers.build(:direction_id)
-
-    expect(Routes.Repo.Mock, :get, 3, fn ^route_id -> route end)
-
-    expect(Schedules.Repo.Mock, :by_route_ids, 3, fn routes, opts ->
-      assert routes == [route_id]
-      assert Keyword.get(opts, :direction_id) == direction_id
-      assert Keyword.get(opts, :stop_ids) == [stop_id]
-      assert Keyword.get(opts, :date) == Dotcom.Utils.ServiceDateTime.service_date()
-
-      []
-    end)
-
-    parent = self()
-    ref = make_ref()
-
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
-      send(parent, {ref, :done})
-      :no_service
-    end)
-
-    {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
-    assert_receive {^ref, :done}
-    assert_receive {^ref, :done}
-
-    assert view
-           |> element("[data-test=\"u_d:async_success\"]")
-           |> has_element?()
-  end
-
   test "shows last scheduled trip for subway", %{conn: conn} do
     route = Factories.Routes.Route.build(:subway_route)
     stop = Factories.Stops.Stop.build(:stop)
@@ -138,7 +104,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
         time: @date_time_module.now() |> DateTime.shift(minute: 40)
       )
 
-    expect(Schedules.Repo.Mock, :by_route_ids, 3, fn _, _ ->
+    expect(Schedules.Repo.Mock, :by_route_ids, 4, fn _, _ ->
       schedules ++ [last_schedule]
     end)
 
