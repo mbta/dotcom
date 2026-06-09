@@ -1,6 +1,13 @@
 defmodule Dotcom.Predictions.Manager do
   @moduledoc """
+  Lets consumers subscribe to predictions changes
 
+  _ = Dotcom.Predictions.Manager.subscribe(self(), params)
+
+  def handle_info({:predictions_update, _update}, state) do
+    # IO.inspect(update, label: "predictions_update")
+    {:noreply, state}
+  end
   """
   alias Dotcom.Predictions.EventSupervisor
   use GenServer

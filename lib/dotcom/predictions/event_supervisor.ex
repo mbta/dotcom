@@ -1,4 +1,7 @@
 defmodule Dotcom.Predictions.EventSupervisor do
+  @moduledoc """
+  Starts a Supervisor with two children - One which opens a connection to the streaming V3 API /predictions endpoint, and the other which receives its events and broadcasts them to subscribers.
+  """
   use Supervisor
 
   alias Dotcom.Predictions.EventBroadcaster

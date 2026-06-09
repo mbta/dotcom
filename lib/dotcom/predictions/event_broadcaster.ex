@@ -1,4 +1,7 @@
 defmodule Dotcom.Predictions.EventBroadcaster do
+  @moduledoc """
+  Receives events from the streaming V3 API /predictions endpoint
+  """
   use GenStage
 
   alias Predictions.StreamParser

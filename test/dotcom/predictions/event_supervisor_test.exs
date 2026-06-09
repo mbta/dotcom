@@ -3,7 +3,7 @@ defmodule Dotcom.Predictions.SupervisorTest do
 
   import ExUnit.CaptureLog
 
-  alias Dotcom.Predictions.Supervisor, as: PredictionsSupervisor
+  alias Dotcom.Predictions.EventSupervisor
   alias Dotcom.Predictions.EventBroadcaster
 
   # async: false because tests modify Application env.
@@ -32,14 +32,14 @@ defmodule Dotcom.Predictions.SupervisorTest do
     test "returns {:ok, _} with :one_for_all supervision strategy", %{params: params} do
       args = %{params: params, publish_to: self()}
 
-      assert {:ok, {flags, _children}} = PredictionsSupervisor.init(args)
+      assert {:ok, {flags, _children}} = EventSupervisor.init(args)
       assert flags.strategy == :one_for_all
     end
 
     test "includes ServerSentEventStage and Consumer as children", %{params: params} do
       args = %{params: params, publish_to: self()}
 
-      {:ok, {_flags, children}} = PredictionsSupervisor.init(args)
+      {:ok, {_flags, children}} = EventSupervisor.init(args)
 
       child_ids = Enum.map(children, fn %{id: id} -> id end)
       assert ServerSentEventStage in child_ids
@@ -49,7 +49,7 @@ defmodule Dotcom.Predictions.SupervisorTest do
     test "builds SSE URL from base_url and encoded params", %{params: params} do
       args = %{params: params, publish_to: self()}
 
-      {:ok, {_flags, children}} = PredictionsSupervisor.init(args)
+      {:ok, {_flags, children}} = EventSupervisor.init(args)
 
       %{start: {ServerSentEventStage, :start_link, [sses_opts]}} =
         Enum.find(children, fn %{id: id} -> id == ServerSentEventStage end)
@@ -65,7 +65,7 @@ defmodule Dotcom.Predictions.SupervisorTest do
     test "passes the configured API headers to the SSE stage", %{params: params} do
       args = %{params: params, publish_to: self()}
 
-      {:ok, {_flags, children}} = PredictionsSupervisor.init(args)
+      {:ok, {_flags, children}} = EventSupervisor.init(args)
 
       %{start: {ServerSentEventStage, :start_link, [sses_opts]}} =
         Enum.find(children, fn %{id: id} -> id == ServerSentEventStage end)
@@ -78,7 +78,7 @@ defmodule Dotcom.Predictions.SupervisorTest do
       publish_to = self()
       args = %{params: params, publish_to: publish_to}
 
-      {:ok, {_flags, children}} = PredictionsSupervisor.init(args)
+      {:ok, {_flags, children}} = EventSupervisor.init(args)
 
       %{start: {EventBroadcaster, :start_link, [consumer_opts]}} =
         Enum.find(children, fn %{id: id} -> id == EventBroadcaster end)
@@ -95,7 +95,7 @@ defmodule Dotcom.Predictions.SupervisorTest do
     test "supervisor is registered under the expected global name", %{params: params} do
       # Suppress logs from the SSE stage's immediate connection failure.
       capture_log(fn ->
-        {:ok, pid} = PredictionsSupervisor.start_link(%{params: params, publish_to: self()})
+        {:ok, pid} = EventSupervisor.start_link(%{params: params, publish_to: self()})
 
         # Unlink so the test isn't killed if the supervisor crashes before we stop it.
         Process.unlink(pid)
@@ -112,11 +112,11 @@ defmodule Dotcom.Predictions.SupervisorTest do
 
     test "stop/1 terminates the supervisor process", %{params: params} do
       capture_log(fn ->
-        {:ok, pid} = PredictionsSupervisor.start_link(%{params: params, publish_to: self()})
+        {:ok, pid} = EventSupervisor.start_link(%{params: params, publish_to: self()})
         Process.unlink(pid)
         ref = Process.monitor(pid)
 
-        PredictionsSupervisor.stop(%{params: params})
+        EventSupervisor.stop(%{params: params})
 
         assert_receive {:DOWN, ^ref, :process, ^pid, _reason}, 1_000
       end)
