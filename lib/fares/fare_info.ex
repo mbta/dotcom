@@ -672,7 +672,7 @@ defmodule Fares.FareInfo do
         duration: :single_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
-        cents: dollars_to_cents(east_boston_price)
+        cents: dollars_to_cents(harbor_loop_price)
       },
       %Fare{
         mode: :ferry,
@@ -680,7 +680,7 @@ defmodule Fares.FareInfo do
         duration: :round_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
-        cents: dollars_to_cents(east_boston_price) * 2
+        cents: dollars_to_cents(harbor_loop_price) * 2
       }
     ]
 
