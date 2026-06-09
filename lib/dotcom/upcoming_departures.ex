@@ -4,11 +4,47 @@ defmodule Dotcom.UpcomingDepartures do
   get information about realtime upcoming departures.
   """
 
-  def upcoming_departures(args) do
-    __MODULE__.Processor.upcoming_departures(args)
+  alias Dotcom.UpcomingDepartures.{Processor, Server}
+
+  defdelegate upcoming_departures(predicted_schedules, args), to: Processor
+
+  defdelegate trip_details(args), to: Processor
+
+  @spec subscribe(map()) :: :ok
+  def subscribe(params) do
+    topic = topic_name(params)
+    :ok = DotcomWeb.Endpoint.subscribe(topic)
+    _ = DotcomWeb.Presence.track(self(), topic, "upcoming_departures", %{})
+
+    params
+    |> get_or_start_worker()
+    |> GenServer.cast({:subscribe, self()})
   end
 
-  def trip_details(args) do
-    __MODULE__.Processor.trip_details(args)
+  @spec unsubscribe(map()) :: :ok
+  def unsubscribe(params) do
+    :ok =
+      params
+      |> topic_name()
+      |> DotcomWeb.Endpoint.unsubscribe()
+  end
+
+  def topic_name(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do
+    "departures:#{route_id}:#{direction_id}:#{stop_id}"
+  end
+
+  defp get_or_start_worker(params) do
+    get_worker(params) || start_worker(params)
+  end
+
+  defp get_worker(params) do
+    GenServer.whereis({:global, params})
+  end
+
+  defp start_worker(params) do
+    case DynamicSupervisor.start_child(Dotcom.UpcomingDepartures.Supervisor, {Server, params}) do
+      {:ok, pid} -> pid
+      {:error, {:already_started, pid}} -> pid
+    end
   end
 end

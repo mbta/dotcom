@@ -67,6 +67,7 @@ defmodule DotcomWeb.CommuterRailAlertsLive do
           {DotcomWeb.AlertView.render("_t-alerts.html")}
         </:sidebar_bottom>
         <:main_section>
+          <.cr_alert_intercept class="mb-3" />
           <section id="current_status">
             <.alerts_commuter_rail_status commuter_rail_status={@commuter_rail_status} />
           </section>

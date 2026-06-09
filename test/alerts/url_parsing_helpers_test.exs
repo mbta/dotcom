@@ -23,6 +23,21 @@ defmodule Alerts.URLParsingHelpersTest do
 
       assert get_full_url(text) == nil
     end
+
+    test "should return the url with special characters parsed from the text" do
+      word_fn = &Faker.Internet.domain_word/0
+
+      url =
+        "#{Faker.Util.pick(["http", "https"])}://#{word_fn.()}.#{Faker.Internet.domain_name()}/#{word_fn.()}/#{word_fn.()}?#{word_fn.()}=#{word_fn.()}&param_2=hello%20world##{word_fn.()}"
+
+      text =
+        "This is a test for url validation, the following URL should be completely parsed:  #{url} "
+
+      result = get_full_url(text)
+
+      assert result == url,
+             "Unexpected URL received: got #{result}, expected #{url}"
+    end
   end
 
   describe "create_url/1" do

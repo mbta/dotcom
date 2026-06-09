@@ -23,7 +23,7 @@ defmodule Dotcom.ScheduleFinder.ServiceGroup do
   @spec for_route(Routes.Route.id_t(), Date.t()) :: [__MODULE__.t()]
   def for_route(route_id, current_date) do
     route_id
-    |> ServicePatterns.patterns_for_route()
+    |> ServicePatterns.patterns_for_route(current_date)
     |> Enum.map(fn sp ->
       %{
         now_date: if(current_date in sp.dates, do: current_date),

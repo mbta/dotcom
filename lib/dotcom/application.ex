@@ -51,7 +51,9 @@ defmodule Dotcom.Application do
           Predictions.Supervisor,
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
+          {DynamicSupervisor, name: Dotcom.UpcomingDepartures.Supervisor},
           {Phoenix.PubSub, name: Dotcom.PubSub},
+          DotcomWeb.Presence,
           DotcomWeb.Endpoint
         ] ++
         if Application.get_env(:dotcom, :env) != :test do
