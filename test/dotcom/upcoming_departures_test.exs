@@ -1,6 +1,5 @@
 defmodule Dotcom.UpcomingDeparturesTest do
   use ExUnit.Case
-  # @moduletag :skip
 
   import Dotcom.Utils.Time, only: [truncate: 2]
   import Mox
