@@ -1,7 +1,7 @@
 defmodule Alerts.URLParsingHelpers do
   @moduledoc "Helpers to parse out the url from a string and create an html link"
 
-  @url_regex ~r/(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w\.-]*)*\/?/i
+  @url_regex ~r/(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w\.-\?&%#]*)*\/?/i
 
   @spec get_full_url(String.t()) :: String.t() | nil
   def get_full_url(text) do
