@@ -25,7 +25,14 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       stop_id: "stop-#{n}"
     }
 
-    %{params: params, topic: topic}
+    state = %{
+      predicted_schedules_fn: fn _ -> [] end,
+      schedules_fn: fn _ -> [] end,
+      route: Factories.Routes.Route.build(:route),
+      topic: topic
+    }
+
+    %{params: params, topic: topic, state: state}
   end
 
   describe "start_link/1" do
@@ -56,9 +63,10 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       assert state.topic == Dotcom.UpcomingDepartures.topic_name(params)
     end
 
-    test "stores a zero-arity departures_fn in state", %{params: params} do
+    test "stores helpful functions in state", %{params: params} do
       {:ok, state} = Server.init(params)
-      assert is_function(state.departures_fn, 0)
+      assert is_function(state.schedules_fn, 1)
+      assert is_function(state.predicted_schedules_fn, 1)
     end
 
     test "queues a :refresh message to trigger the initial broadcast", %{params: params} do
@@ -80,11 +88,15 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
   end
 
   describe "handle_info/2 - :refresh" do
-    test "broadcasts upcoming departures to the PubSub topic", %{topic: topic} do
+    test "broadcasts upcoming departures to the PubSub topic", %{state: state} do
+      topic = state.topic
       subscribe_and_track(topic)
 
       fake_departures = [:departure_a, :departure_b]
-      state = %{departures_fn: fn -> fake_departures end, topic: topic}
+
+      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 1, fn _, _ ->
+        fake_departures
+      end)
 
       assert {:noreply, ^state} = Server.handle_info(:refresh, state)
 
@@ -119,19 +131,19 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
   end
 
   describe "handle_cast/2 - :subscribe" do
-    test "sends upcoming departures directly to the specified pid", %{topic: topic} do
+    test "sends upcoming departures directly to the specified pid", %{state: state} do
       fake_result = :service_ended
-      state = %{departures_fn: fn -> fake_result end, topic: topic}
-
       Server.handle_cast({:subscribe, self()}, state)
 
       assert_receive {:upcoming_departures, ^fake_result}
     end
 
-    test "does not publish to PubSub – only sends to the target pid", %{topic: topic} do
+    test "does not publish to PubSub – only sends to the target pid", %{
+      topic: topic,
+      state: state
+    } do
       subscribe_and_track(topic)
       other_pid = spawn(fn -> Process.sleep(:infinity) end)
-      state = %{departures_fn: fn -> [:trip] end, topic: topic}
 
       Server.handle_cast({:subscribe, other_pid}, state)
 
