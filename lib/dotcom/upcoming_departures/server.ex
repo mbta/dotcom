@@ -24,15 +24,17 @@ defmodule Dotcom.UpcomingDepartures.Server do
     %{route_id: route_id, direction_id: direction_id, stop_id: stop_id} = params
     route = @routes_repo.get(route_id)
 
-    schedules =
-      @schedules_repo.by_route_ids([route_id],
+    base_predicted_schedules =
+      [route_id]
+      |> @schedules_repo.by_route_ids(
         direction_id: direction_id,
         date: ServiceDateTime.service_date(),
         stop_ids: [stop_id]
       )
+      |> PredictedSchedule.Collection.new()
 
     departures_fn = fn ->
-      get_predicted_schedules(schedules, route_id, direction_id, stop_id)
+      get_predicted_schedules(base_predicted_schedules, route_id, direction_id, stop_id)
       |> @upcoming_departures_module.upcoming_departures(%{route: route})
     end
 
@@ -44,7 +46,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
     {:ok, %{departures_fn: departures_fn, topic: topic}}
   end
 
-  defp get_predicted_schedules(schedules, route_id, direction_id, stop_id) do
+  defp get_predicted_schedules(base_predicted_schedules, route_id, direction_id, stop_id) do
     @predictions_repo.all(
       route: route_id,
       direction_id: direction_id,
@@ -52,7 +54,10 @@ defmodule Dotcom.UpcomingDepartures.Server do
       discard_past_subway_predictions: false
     )
     |> Enum.filter(&(&1.stop.id == stop_id))
-    |> PredictedSchedule.group(schedules)
+    |> Enum.reduce(base_predicted_schedules, fn prediction, collection ->
+      PredictedSchedule.Collection.put_prediction(collection, prediction)
+    end)
+    |> PredictedSchedule.Collection.to_list()
   end
 
   @impl GenServer
