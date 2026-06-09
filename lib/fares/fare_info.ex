@@ -494,6 +494,7 @@ defmodule Fares.FareInfo do
         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
         east_boston_price: east_boston_price,
+        harbor_loop_price: harbor_loop_price,
         lynn_price: lynn_price,
         winthrop_price: winthrop_price,
         commuter_ferry_price: commuter_ferry_price,
