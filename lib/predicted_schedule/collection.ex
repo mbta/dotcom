@@ -92,20 +92,14 @@ defmodule PredictedSchedule.Collection do
   it attaches the prediction to that schedule; otherwise, it creates a new entry.
   """
   def put_prediction(collection, prediction) do
-    key = key(prediction)
-
-    new_predicted_schedule =
-      collection
-      |> Map.get(key)
-      |> case do
-        %PredictedSchedule{} = ps ->
-          %PredictedSchedule{ps | prediction: prediction}
-
-        _ ->
-          %PredictedSchedule{prediction: prediction}
+    Map.update(
+      collection,
+      key(prediction),
+      %PredictedSchedule{prediction: prediction},
+      fn %PredictedSchedule{} = ps ->
+        %PredictedSchedule{ps | prediction: prediction}
       end
-
-    collection |> Map.put(key, new_predicted_schedule)
+    )
   end
 
   @spec delete_prediction(t(), Predictions.Prediction.t()) :: t()
