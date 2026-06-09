@@ -85,6 +85,9 @@ defmodule Dotcom.UpcomingDepartures.Server do
 
   def handle_info({:predictions_update, _update}, state) do
     # IO.inspect(update, label: "predictions_update")
+    {:noreply, state}
+  end
+
   def handle_info({:service_date_rollover, new_service_date}, state) do
     updated_departures = compute_departures(state, new_service_date)
     Logger.notice("Date change - Re-sending departures for #{state.topic}")
