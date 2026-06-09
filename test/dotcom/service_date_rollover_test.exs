@@ -45,6 +45,7 @@ defmodule Dotcom.ServiceDateRolloverTest do
       expected_ms = DateTime.diff(expected_rollover, now, :millisecond)
 
       # Exercise / Verify
+      expect(@date_time_module, :now, 2, fn -> now end)
       assert ms_to_next_rollover() == expected_ms
     end
 
