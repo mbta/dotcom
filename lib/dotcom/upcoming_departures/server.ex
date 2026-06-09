@@ -7,8 +7,12 @@ defmodule Dotcom.UpcomingDepartures.Server do
 
   use GenServer, restart: :transient
 
+  alias Dotcom.Utils.ServiceDateTime
+
   @refresh_interval_ms 5000
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @upcoming_departures_module Application.compile_env!(:dotcom, :upcoming_departures_module)
 
   def start_link(params) do
@@ -20,12 +24,16 @@ defmodule Dotcom.UpcomingDepartures.Server do
     %{route_id: route_id, direction_id: direction_id, stop_id: stop_id} = params
     route = @routes_repo.get(route_id)
 
-    departures_fn = fn ->
-      @upcoming_departures_module.upcoming_departures(%{
+    schedules =
+      @schedules_repo.by_route_ids([route_id],
         direction_id: direction_id,
-        route: route,
-        stop_id: stop_id
-      })
+        date: ServiceDateTime.service_date(),
+        stop_ids: [stop_id]
+      )
+
+    departures_fn = fn ->
+      get_predicted_schedules(schedules, route_id, direction_id, stop_id)
+      |> @upcoming_departures_module.upcoming_departures(%{route: route})
     end
 
     send(self(), :refresh)
@@ -34,6 +42,17 @@ defmodule Dotcom.UpcomingDepartures.Server do
     Logger.notice("Starting server for #{topic}.")
 
     {:ok, %{departures_fn: departures_fn, topic: topic}}
+  end
+
+  defp get_predicted_schedules(schedules, route_id, direction_id, stop_id) do
+    @predictions_repo.all(
+      route: route_id,
+      direction_id: direction_id,
+      include_terminals: true,
+      discard_past_subway_predictions: false
+    )
+    |> Enum.filter(&(&1.stop.id == stop_id))
+    |> PredictedSchedule.group(schedules)
   end
 
   @impl GenServer

@@ -25,8 +25,9 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     end)
 
     stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+    stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
 
-    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _ ->
+    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
       :no_service
     end)
 
@@ -51,7 +52,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     parent = self()
     ref = make_ref()
 
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
       send(parent, {ref, :done})
       :no_service
     end)
@@ -73,7 +74,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
 
     expect(Routes.Repo.Mock, :get, 3, fn ^route_id -> route end)
 
-    expect(Schedules.Repo.Mock, :by_route_ids, 2, fn routes, opts ->
+    expect(Schedules.Repo.Mock, :by_route_ids, 3, fn routes, opts ->
       assert routes == [route_id]
       assert Keyword.get(opts, :direction_id) == direction_id
       assert Keyword.get(opts, :stop_ids) == [stop_id]
@@ -85,7 +86,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     parent = self()
     ref = make_ref()
 
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
       send(parent, {ref, :done})
       :no_service
     end)
@@ -117,7 +118,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
         time: @date_time_module.now() |> DateTime.shift(minute: 40)
       )
 
-    expect(Schedules.Repo.Mock, :by_route_ids, 2, fn _, _ ->
+    expect(Schedules.Repo.Mock, :by_route_ids, 3, fn _, _ ->
       schedules ++ [last_schedule]
     end)
 
@@ -125,7 +126,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     ref = make_ref()
 
     # Available upcoming departures are earlier than the last scheduled time
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
       send(parent, {ref, :done})
 
       Factories.UpcomingDepartures.build_list(15, :upcoming_departure,
@@ -151,7 +152,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     parent = self()
     ref = make_ref()
 
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
       send(parent, {ref, :done})
       :service_ended
     end)
@@ -187,7 +188,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
       parent = self()
       ref = make_ref()
 
-      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
         send(parent, {ref, :done})
         {:no_realtime, upcoming_departures}
       end)
@@ -208,7 +209,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
       parent = self()
       ref = make_ref()
 
-      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _ ->
+      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
         send(parent, {ref, :done})
         :no_realtime
       end)
@@ -229,7 +230,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     parent = self()
     ref = make_ref()
 
-    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _ ->
+    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
       send(parent, {ref, :done})
       :no_realtime
     end)

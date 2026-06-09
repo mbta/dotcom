@@ -33,6 +33,14 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     allow(Routes.Repo.Mock, self(), fn ->
       GenServer.whereis({:global, upcoming_departure_params})
     end)
+
+    allow(Schedules.Repo.Mock, self(), fn ->
+      GenServer.whereis({:global, upcoming_departure_params})
+    end)
+
+    allow(Dotcom.Utils.DateTime.Mock, self(), fn ->
+      GenServer.whereis({:global, upcoming_departure_params})
+    end)
   end
 
   test "loads, fetching route info", %{conn: conn} do
@@ -412,7 +420,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     end)
 
     Dotcom.UpcomingDepartures.Mock
-    |> stub(:upcoming_departures, fn _ -> :no_service end)
+    |> stub(:upcoming_departures, fn _, _ -> :no_service end)
 
     stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
     stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)

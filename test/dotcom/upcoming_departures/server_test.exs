@@ -12,7 +12,9 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     stub(Routes.Repo.Mock, :get, fn id -> Factories.Routes.Route.build(:route, id: id) end)
     stub(Stops.Repo.Mock, :get, fn id -> Factories.Stops.Stop.build(:stop, id: id) end)
-    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _ -> :service_ended end)
+    stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
+    stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
+    stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ -> :service_ended end)
 
     n = System.unique_integer([:positive])
     topic = "departures:route-#{n}:0:stop-#{n}"

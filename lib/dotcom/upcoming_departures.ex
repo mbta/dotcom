@@ -6,7 +6,7 @@ defmodule Dotcom.UpcomingDepartures do
 
   alias Dotcom.UpcomingDepartures.{Processor, Server}
 
-  defdelegate upcoming_departures(args), to: Processor
+  defdelegate upcoming_departures(predicted_schedules, args), to: Processor
 
   defdelegate trip_details(args), to: Processor
 
