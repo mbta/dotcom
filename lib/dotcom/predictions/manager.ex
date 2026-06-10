@@ -74,7 +74,7 @@ defmodule Dotcom.Predictions.Manager do
       0 ->
         {:stop, :normal, state}
 
-      count ->
+      _count ->
         Process.send_after(self(), :check_subscribers, @check_interval_ms)
         {:noreply, state}
     end
