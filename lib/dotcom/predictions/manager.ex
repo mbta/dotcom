@@ -48,7 +48,7 @@ defmodule Dotcom.Predictions.Manager do
 
   # Server
   def init(params) do
-    EventSupervisor.start_link(%{params: params, publish_to: self()})
+    _ = EventSupervisor.start_link(%{params: params, publish_to: self()})
 
     Process.send_after(self(), :check_subscribers, @check_interval_ms)
 
