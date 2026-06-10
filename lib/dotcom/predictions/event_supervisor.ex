@@ -6,6 +6,8 @@ defmodule Dotcom.Predictions.EventSupervisor do
 
   alias Dotcom.Predictions.EventBroadcaster
 
+  @idle_timeout 45_000
+
   # Client
   def start_link(args) do
     Supervisor.start_link(__MODULE__, args)
@@ -23,7 +25,11 @@ defmodule Dotcom.Predictions.EventSupervisor do
 
     Supervisor.init(
       [
-        {ServerSentEventStage, url: url, headers: headers(), name: process_name({:sses, params})},
+        {ServerSentEventStage,
+         url: url,
+         headers: headers(),
+         name: process_name({:sses, params}),
+         idle_timeout: @idle_timeout},
         {EventBroadcaster,
          publish_to: publish_to,
          subscribe_to: process_name({:sses, params}),
