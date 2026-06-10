@@ -13,6 +13,9 @@ defmodule Predictions.StreamParserTest do
     Routes.Repo.Mock
     |> stub(:get, fn id -> %Route{id: id} end)
 
+    Schedules.Repo.Mock
+    |> stub(:trip, fn id -> %Trip{id: id} end)
+
     Stops.Repo.Mock
     |> stub(:get, fn id -> %Stops.Stop{id: id} end)
     |> stub(:get_parent, fn id when is_binary(id) -> %Stops.Stop{id: id} end)

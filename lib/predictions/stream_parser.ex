@@ -14,6 +14,7 @@ defmodule Predictions.StreamParser do
   alias Stops.Stop
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec parse(Item.t()) :: Prediction.t()
@@ -87,7 +88,7 @@ defmodule Predictions.StreamParser do
 
   @spec included_trip(Item.t()) :: Trip.t() | nil
   defp included_trip(%Item{relationships: %{"trip" => [%Item{id: id} | _]}}),
-    do: Schedules.Repo.trip(id)
+    do: @schedules_repo.trip(id)
 
   defp included_trip(_), do: nil
 
