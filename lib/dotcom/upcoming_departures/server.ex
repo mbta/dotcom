@@ -24,7 +24,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
     route = @routes_repo.get(route_id)
 
     _ = Dotcom.ServiceDateRollover.subscribe()
-    _ = Dotcom.Predictions.Manager.subscribe(self(), params)
+    _ = Dotcom.Predictions.Manager.subscribe(params)
 
     schedules_fn = fn date ->
       @schedules_repo.by_route_ids([route_id],
@@ -55,7 +55,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
        predicted_schedules: predicted_schedules,
        schedules_fn: schedules_fn,
        topic: topic,
-       unsubscribe_fn: fn -> _ = Dotcom.Predictions.Manager.unsubscribe(self(), params) end,
+       unsubscribe_fn: fn -> _ = Dotcom.Predictions.Manager.unsubscribe(params) end,
        upcoming_departures_fn: upcoming_departures_fn
      }}
   end

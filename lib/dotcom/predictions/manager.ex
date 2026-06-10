@@ -22,7 +22,7 @@ defmodule Dotcom.Predictions.Manager do
   @check_interval_ms 5000
 
   # Client
-  def subscribe(caller_pid, params) do
+  def subscribe(params) do
     topic = topic_name(params)
 
     :ok = Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
@@ -33,10 +33,10 @@ defmodule Dotcom.Predictions.Manager do
       {:ok, pid} -> pid
       {:error, {:already_started, pid}} -> pid
     end
-    |> GenServer.cast({:subscribe, caller_pid})
+    |> GenServer.cast({:subscribe, self()})
   end
 
-  def unsubscribe(_caller_pid, params) do
+  def unsubscribe(params) do
     topic = topic_name(params)
 
     :ok = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, topic)
