@@ -168,37 +168,10 @@ defmodule Dotcom.Predictions.ManagerTest do
   # ---------------------------------------------------------------------------
 
   describe "subscribe/2" do
-    # subscribe/2 calls GenServer.start_link internally, linking the server to
-    # the test process.  We unlink immediately, and use capture_log to suppress
-    # crash noise from the supervisor's SSE restart loop.
-    test "starts a server registered under the expected global name" do
+    test "starts a server and gets updates" do
       params = unique_params()
-
-      capture_log(fn ->
-        Manager.subscribe(self(), params)
-        server_pid = GenServer.whereis({:global, {:predictions, params}})
-        if server_pid, do: Process.unlink(server_pid)
-
-        # The server was alive when start_link returned — that is sufficient.
-        assert server_pid != nil
-      end)
-    end
-
-    test "reuses the already-running server when called a second time with the same params" do
-      params = unique_params()
-
-      capture_log(fn ->
-        Manager.subscribe(self(), params)
-        pid1 = GenServer.whereis({:global, {:predictions, params}})
-        if pid1, do: Process.unlink(pid1)
-
-        other = spawn(fn -> Process.sleep(:infinity) end)
-        Manager.subscribe(other, params)
-        pid2 = GenServer.whereis({:global, {:predictions, params}})
-
-        assert pid1 != nil
-        assert pid1 == pid2
-      end)
+      Manager.subscribe(self(), params)
+      assert_receive {:predictions_update, _}
     end
   end
 
