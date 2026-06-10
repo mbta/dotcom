@@ -43,11 +43,15 @@ defmodule Dotcom.UpcomingDepartures.Server do
     topic = Dotcom.UpcomingDepartures.topic_name(params)
     Logger.notice("Starting server for #{topic}.")
 
+    departures_fn = fn service_date ->
+      schedules_fn.(service_date)
+      |> predicted_schedules_fn.()
+      |> @upcoming_departures_module.upcoming_departures(%{route: route})
+    end
+
     {:ok,
      %{
-       predicted_schedules_fn: predicted_schedules_fn,
-       schedules_fn: schedules_fn,
-       route: route,
+       departures_fn: departures_fn,
        topic: topic
      }}
   end
@@ -74,7 +78,11 @@ defmodule Dotcom.UpcomingDepartures.Server do
         Logger.notice("Sending departures for #{topic} to #{count} subscribers")
 
         :ok =
-          DotcomWeb.Endpoint.broadcast(topic, "upcoming_departures", compute_departures(state))
+          DotcomWeb.Endpoint.broadcast(
+            topic,
+            "upcoming_departures",
+            state.departures_fn.(ServiceDateTime.service_date())
+          )
 
         _ = Process.send_after(self(), :refresh, @refresh_interval_ms)
 
@@ -83,7 +91,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   end
 
   def handle_info({:service_date_rollover, new_service_date}, state) do
-    updated_departures = compute_departures(state, new_service_date)
+    updated_departures = state.departures_fn.(new_service_date)
     Logger.notice("Date change - Re-sending departures for #{state.topic}")
     :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", updated_departures)
     {:noreply, state}
@@ -94,19 +102,13 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @impl GenServer
   def handle_cast({:subscribe, caller_pid}, state) do
     Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
-    send(caller_pid, {:upcoming_departures, compute_departures(state)})
+    send(caller_pid, {:upcoming_departures, state.departures_fn.(ServiceDateTime.service_date())})
     {:noreply, state}
   end
 
   @impl GenServer
   def terminate(_reason, state) do
     :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", :terminated)
-  end
-
-  defp compute_departures(state, service_date \\ ServiceDateTime.service_date()) do
-    state.schedules_fn.(service_date)
-    |> state.predicted_schedules_fn.()
-    |> @upcoming_departures_module.upcoming_departures(%{route: state.route})
   end
 
   defp topic_subscriber_count(topic) do
