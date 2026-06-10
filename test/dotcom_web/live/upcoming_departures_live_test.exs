@@ -69,17 +69,12 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
       Factories.Stops.Stop.build(:stop, %{id: stop_id})
     end)
 
-    parent = self()
-    ref = make_ref()
-
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
-      send(parent, {ref, :done})
-      :no_service
-    end)
-
     {:ok, view, _} = start_live_view(conn, route_id_param, direction_id, stop_id_param)
-    assert_receive {^ref, :done}
-    assert_receive {^ref, :done}
+    pid = view.pid
+    :erlang.trace(pid, true, [:receive])
+
+    assert_receive {:trace, ^pid, :receive,
+                    %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
 
     assert view
            |> element("[data-test=\"u_d:async_success\"]")
@@ -108,20 +103,19 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
       schedules ++ [last_schedule]
     end)
 
-    parent = self()
-    ref = make_ref()
-
     # Available upcoming departures are earlier than the last scheduled time
     expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 1, fn _, _ ->
-      send(parent, {ref, :done})
-
       Factories.UpcomingDepartures.build_list(15, :upcoming_departure,
         time: @date_time_module.now() |> DateTime.shift(minute: 20)
       )
     end)
 
     {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
-    assert_receive {^ref, :done}
+    pid = view.pid
+    :erlang.trace(pid, true, [:receive])
+
+    assert_receive {:trace, ^pid, :receive,
+                    %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
 
     {:ok, rendered_time} = Dotcom.Utils.Time.format(last_schedule.time, :hour_12_minutes)
 
@@ -134,17 +128,16 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
 
   test "receives and shows service ended message", %{conn: conn} do
     # Setup
-    parent = self()
-    ref = make_ref()
-
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
-      send(parent, {ref, :done})
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
       :service_ended
     end)
 
     {:ok, view, _} = start_live_view(conn)
-    assert_receive {^ref, :done}
-    assert_receive {^ref, :done}
+    pid = view.pid
+    :erlang.trace(pid, true, [:receive])
+
+    assert_receive {:trace, ^pid, :receive,
+                    %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
 
     assert view
            |> element("[data-test=\"u_d:async_success\"]")
@@ -170,17 +163,16 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
           time: @date_time_module.now() |> DateTime.shift(minute: 20)
         )
 
-      parent = self()
-      ref = make_ref()
-
-      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
-        send(parent, {ref, :done})
+      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
         {:no_realtime, upcoming_departures}
       end)
 
       {:ok, view, _} = start_live_view(conn)
-      assert_receive {^ref, :done}
-      assert_receive {^ref, :done}
+      pid = view.pid
+      :erlang.trace(pid, true, [:receive])
+
+      assert_receive {:trace, ^pid, :receive,
+                      %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
 
       assert view
              |> element("[data-test=\"u_d:async_success\"]")
@@ -191,17 +183,16 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     end
 
     test "without scheduled departures", %{conn: conn} do
-      parent = self()
-      ref = make_ref()
-
-      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
-        send(parent, {ref, :done})
+      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
         :no_realtime
       end)
 
       {:ok, view, _} = start_live_view(conn)
-      assert_receive {^ref, :done}
-      assert_receive {^ref, :done}
+      pid = view.pid
+      :erlang.trace(pid, true, [:receive])
+
+      assert_receive {:trace, ^pid, :receive,
+                      %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
 
       assert view
              |> element("[data-test=\"u_d:async_success\"]")
@@ -212,11 +203,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
   end
 
   test "shows error when server error occurs", %{conn: conn} do
-    parent = self()
-    ref = make_ref()
-
     stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
-      send(parent, {ref, :done})
       :no_realtime
     end)
 
@@ -226,12 +213,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     params = %{route_id: route_id, direction_id: direction_id, stop_id: stop_id}
 
     {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
-
-    assert_receive {^ref, :done}
-    assert_receive {^ref, :done}
-
     pid = view.pid
     :erlang.trace(pid, true, [:receive])
+
+    assert_receive {:trace, ^pid, :receive,
+                    %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
 
     assert view
            |> element("[data-test=\"u_d:async_success\"]")

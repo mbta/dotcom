@@ -141,7 +141,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       ) do
     case upcoming_departures do
       :terminated ->
-        {:noreply, update(socket, :departures, &AsyncResult.failed(&1, :terminated))}
+        {:noreply, assign(socket, :departures, AsyncResult.failed(%AsyncResult{}, :terminated))}
 
       :loading ->
         {:noreply, update(socket, :departures, &AsyncResult.loading(&1, :loading))}
