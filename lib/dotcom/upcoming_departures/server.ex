@@ -87,26 +87,19 @@ defmodule Dotcom.UpcomingDepartures.Server do
       count ->
         Logger.notice("Sending departures for #{topic} to #{count} subscribers")
 
-        :ok =
-          DotcomWeb.Endpoint.broadcast(
-            topic,
-            "upcoming_departures",
-            state.departures_fn.()
-          )
-
         _ = Process.send_after(self(), :refresh, @refresh_interval_ms)
 
-        {:noreply, state}
+        {:noreply, state |> broadcast_departures()}
     end
   end
 
   def handle_info({:service_date_rollover, new_service_date}, state) do
-    new_departures_fn = state.build_departures_fn_from_date.(new_service_date)
-
-    updated_departures = new_departures_fn.()
     Logger.notice("Date change - Re-sending departures for #{state.topic}")
-    :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", updated_departures)
-    {:noreply, %{state | departures_fn: new_departures_fn}}
+
+    {:noreply,
+     state
+     |> update_service_date(new_service_date)
+     |> broadcast_departures()}
   end
 
   def handle_info(_, state), do: {:noreply, state}
@@ -114,13 +107,34 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @impl GenServer
   def handle_cast({:subscribe, caller_pid}, state) do
     Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
-    send(caller_pid, {:upcoming_departures, state.departures_fn.()})
+    send(caller_pid, {:upcoming_departures, upcoming_departures(state)})
     {:noreply, state}
   end
 
   @impl GenServer
   def terminate(_reason, state) do
     :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", :terminated)
+  end
+
+  defp broadcast_departures(state) do
+    :ok =
+      DotcomWeb.Endpoint.broadcast(
+        state.topic,
+        "upcoming_departures",
+        upcoming_departures(state)
+      )
+
+    state
+  end
+
+  defp update_service_date(state, new_service_date) do
+    new_departures_fn = state.build_departures_fn_from_date.(new_service_date)
+
+    %{state | departures_fn: new_departures_fn}
+  end
+
+  defp upcoming_departures(state) do
+    state.departures_fn.()
   end
 
   defp topic_subscriber_count(topic) do
