@@ -44,7 +44,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
     topic = Dotcom.UpcomingDepartures.topic_name(params)
     Logger.notice("Starting server for #{topic}.")
 
-    base_predicted_schedules =
+    predicted_schedules =
       ServiceDateTime.service_date()
       |> schedules_fn.()
       |> PredictedSchedule.Collection.new()
@@ -52,7 +52,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
     {:ok,
      %{
        predictions_loaded?: false,
-       base_predicted_schedules: base_predicted_schedules,
+       predicted_schedules: predicted_schedules,
        schedules_fn: schedules_fn,
        topic: topic,
        upcoming_departures_fn: upcoming_departures_fn
