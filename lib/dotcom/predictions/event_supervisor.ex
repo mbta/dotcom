@@ -7,8 +7,8 @@ defmodule Dotcom.Predictions.EventSupervisor do
   alias Dotcom.Predictions.EventBroadcaster
 
   # Client
-  def start_link(%{params: params} = args) do
-    Supervisor.start_link(__MODULE__, args, name: process_name(params))
+  def start_link(args) do
+    Supervisor.start_link(__MODULE__, args)
   end
 
   def stop(%{params: params}) do
