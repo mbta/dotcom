@@ -2,6 +2,7 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
   use ExUnit.Case, async: false
 
   import Mox
+  alias Test.Support.Factories
 
   alias Dotcom.Predictions.EventBroadcaster
   alias Predictions.Prediction
@@ -10,24 +11,21 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
   setup :verify_on_exit!
 
   setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
+    stub(Routes.Repo.Mock, :get, fn _ -> Factories.Routes.Route.build(:route) end)
     # StreamParser.parse always calls Stops.Repo.get_parent/1, even when stop is nil.
-    stub(Stops.Repo.Mock, :get_parent, fn _ -> nil end)
+    stub(Stops.Repo.Mock, :get, fn _ -> Factories.Stops.Stop.build(:stop) end)
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
+    stub(Schedules.Repo.Mock, :trip, fn _ -> Factories.Schedules.Trip.build(:trip) end)
     :ok
   end
 
   # Minimal prediction item in JSON:API map format (accepted by JsonApi.parse/1).
-  @prediction_item %{
-    "id" => "pred-1",
-    "type" => "prediction",
-    "attributes" => %{
-      "arrival_time" => nil,
-      "departure_time" => nil,
-      "direction_id" => 0,
-      "stop_sequence" => 1,
-      "status" => nil
-    },
-    "relationships" => %{}
-  }
+  defp prediction_item(id) do
+    Factories.MBTA.Api.build(:raw_prediction_item, id: id)
+  end
 
   @initial_state %{publish_to: nil, predictions: %{}}
 
@@ -37,7 +35,11 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
 
   describe "handle_events/3 - reset" do
     test "replaces all predictions and publishes them to publish_to" do
-      event = %Event{event: "reset", data: Jason.encode!(%{"data" => [@prediction_item]})}
+      event = %Event{
+        event: "reset",
+        data: Jason.encode!(%{"data" => [prediction_item("pred-1")]})
+      }
+
       state = %{@initial_state | publish_to: self()}
 
       {:noreply, [], new_state} = EventBroadcaster.handle_events([event], nil, state)
@@ -49,9 +51,13 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
     end
 
     test "clears any previously held predictions" do
-      old = %Prediction{id: "old"}
+      old = Factories.Predictions.Prediction.build(:prediction, id: "old")
       state = %{publish_to: self(), predictions: %{"old" => old}}
-      event = %Event{event: "reset", data: Jason.encode!(%{"data" => [@prediction_item]})}
+
+      event = %Event{
+        event: "reset",
+        data: Jason.encode!(%{"data" => [prediction_item("pred-1")]})
+      }
 
       {:noreply, [], new_state} = EventBroadcaster.handle_events([event], nil, state)
 
@@ -66,7 +72,7 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
 
   describe "handle_events/3 - add" do
     test "inserts a new prediction into state and publishes it" do
-      event = %Event{event: "add", data: Jason.encode!(%{"data" => @prediction_item})}
+      event = %Event{event: "add", data: Jason.encode!(%{"data" => prediction_item("pred-1")})}
       state = %{@initial_state | publish_to: self()}
 
       {:noreply, [], new_state} = EventBroadcaster.handle_events([event], nil, state)
@@ -84,7 +90,7 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
 
   describe "handle_events/3 - update" do
     test "replaces an existing prediction and publishes the new version" do
-      event = %Event{event: "update", data: Jason.encode!(%{"data" => @prediction_item})}
+      event = %Event{event: "update", data: Jason.encode!(%{"data" => prediction_item("pred-1")})}
       state = %{@initial_state | publish_to: self()}
 
       {:noreply, [], new_state} = EventBroadcaster.handle_events([event], nil, state)
@@ -190,11 +196,9 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
 
   describe "handle_events/3 - batch" do
     test "processes all events in one call and sends a single update" do
-      item2 = Map.put(@prediction_item, "id", "pred-2")
-
       events = [
-        %Event{event: "add", data: Jason.encode!(%{"data" => @prediction_item})},
-        %Event{event: "add", data: Jason.encode!(%{"data" => item2})}
+        %Event{event: "add", data: Jason.encode!(%{"data" => prediction_item("pred-1")})},
+        %Event{event: "add", data: Jason.encode!(%{"data" => prediction_item("pred-2")})}
       ]
 
       state = %{@initial_state | publish_to: self()}
