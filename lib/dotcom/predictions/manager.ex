@@ -9,8 +9,15 @@ defmodule Dotcom.Predictions.Manager do
     {:noreply, state}
   end
   """
+
+  # `restart: :transient` is necessary here because when the
+  # subscriber count drops to 0, we want the GenServer to gracefully
+  # shutdown. With the default value of `:permanent`, it would shut
+  # down but then try to start back up again, detect that it has no
+  # subscribers, shut down again, start back up again, and so on.
+  use GenServer, restart: :transient
+
   alias Dotcom.Predictions.EventSupervisor
-  use GenServer
 
   # Client
   def subscribe(caller_pid, params) do
