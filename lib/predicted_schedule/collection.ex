@@ -73,17 +73,23 @@ defmodule PredictedSchedule.Collection do
   """
 
   @type key_t() :: {Schedules.Trip.id_t(), non_neg_integer()}
-  @type t() :: %{key_t() => PredictedSchedule.t()}
+  @type t() :: %{
+          base: %{key_t() => PredictedSchedule.t()},
+          populated: %{key_t() => PredictedSchedule.t()}
+        }
 
   @spec new([Schedules.Schedule.t()]) :: t()
   @doc """
   Constructs a new `Collection` from a list of schedules.
   """
   def new(schedules) do
-    schedules
-    |> Map.new(fn schedule ->
-      {key(schedule), %PredictedSchedule{schedule: schedule}}
-    end)
+    predicted_schedule_map =
+      schedules
+      |> Map.new(fn schedule ->
+        {key(schedule), %PredictedSchedule{schedule: schedule}}
+      end)
+
+    %{base: predicted_schedule_map, populated: predicted_schedule_map}
   end
 
   @spec put_prediction(t(), Predictions.Prediction.t()) :: t()
@@ -91,15 +97,18 @@ defmodule PredictedSchedule.Collection do
   Efficiently adds a prediction to the `Collection`. If there is an associated schedule,
   it attaches the prediction to that schedule; otherwise, it creates a new entry.
   """
-  def put_prediction(collection, prediction) do
-    Map.update(
-      collection,
-      key(prediction),
-      %PredictedSchedule{prediction: prediction},
-      fn %PredictedSchedule{} = ps ->
-        %PredictedSchedule{ps | prediction: prediction}
-      end
-    )
+  def put_prediction(%{populated: populated} = collection, prediction) do
+    new_map =
+      Map.update(
+        populated,
+        key(prediction),
+        %PredictedSchedule{prediction: prediction},
+        fn %PredictedSchedule{} = ps ->
+          %PredictedSchedule{ps | prediction: prediction}
+        end
+      )
+
+    %{collection | populated: new_map}
   end
 
   @spec delete_prediction(t(), Predictions.Prediction.t()) :: t()
@@ -108,26 +117,58 @@ defmodule PredictedSchedule.Collection do
   with that prediction, then the schedule is preserved; if there wasn't one, then the entry
   is removed.
   """
-  def delete_prediction(collection, prediction) do
+  def delete_prediction(%{populated: populated} = collection, prediction) do
     key = key(prediction)
 
-    collection
-    |> Map.get(key)
-    |> case do
-      %PredictedSchedule{schedule: schedule} = ps when schedule != nil ->
-        collection |> Map.put(key, %PredictedSchedule{ps | prediction: nil})
+    new_map =
+      populated
+      |> Map.get(key)
+      |> case do
+        %PredictedSchedule{schedule: schedule} = ps when schedule != nil ->
+          populated |> Map.put(key, %PredictedSchedule{ps | prediction: nil})
 
-      _ ->
-        collection |> Map.delete(key)
-    end
+        _ ->
+          populated |> Map.delete(key)
+      end
+
+    %{collection | populated: new_map}
+  end
+
+  @spec clear_predictions(t()) :: t()
+  @doc """
+  Efficiently removes all predictions from the `Collection` and restores it to its state
+  before any predictions were added.
+  """
+  def clear_predictions(%{base: base} = collection) do
+    %{collection | populated: base}
+  end
+
+  @spec update_schedules(t(), [Schedules.Schedule.t()]) :: t()
+  @doc """
+  > #### Warning {: .warning}
+  >
+  > This function is less performant than the others. `put_prediction/2`, `delete_prediction/2`,
+  > and `clear_predictions/1` are all expected to be called frequently, but this should only be
+  > called at service day boundaries and rating changes, so its efficiency is less important.
+
+  Swaps out the underlying schedules, replaces them with `new_schedules`, and re-applies the
+  predictions that were previously passed in.
+  """
+  def update_schedules(%{populated: populated}, new_schedules) do
+    populated
+    |> Enum.map(fn {_key, %PredictedSchedule{prediction: prediction}} -> prediction end)
+    |> Enum.reject(&is_nil/1)
+    |> Enum.reduce(new(new_schedules), fn prediction, new_collection ->
+      new_collection |> put_prediction(prediction)
+    end)
   end
 
   @spec to_list(t()) :: [PredictedSchedule.t()]
   @doc """
   Returns a list containing the `PredictedSchedule`'s in the `Collection`.
   """
-  def to_list(collection) do
-    collection
+  def to_list(%{populated: populated}) do
+    populated
     |> Map.values()
   end
 
