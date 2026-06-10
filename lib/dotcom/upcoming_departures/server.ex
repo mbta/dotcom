@@ -50,11 +50,17 @@ defmodule Dotcom.UpcomingDepartures.Server do
     Logger.notice("Starting server for #{topic}.")
 
     build_departures_fn_from_date = fn date ->
-      schedules = schedules_fn.(date)
+      base_predicted_schedules =
+        date
+        |> schedules_fn.()
+        |> PredictedSchedule.Collection.new()
 
       fn ->
         predictions_fn.()
-        |> PredictedSchedule.group(schedules)
+        |> Enum.reduce(base_predicted_schedules, fn prediction, collection ->
+          PredictedSchedule.Collection.put_prediction(collection, prediction)
+        end)
+        |> PredictedSchedule.Collection.to_list()
         |> @upcoming_departures_module.upcoming_departures(%{route: route})
       end
     end
