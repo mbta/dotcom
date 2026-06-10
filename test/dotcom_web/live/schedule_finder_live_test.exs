@@ -24,11 +24,13 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
   end
 
   defp allow_mocks(route_id, stop_id, direction_id) do
-    upcoming_departure_params = %{
-      route_id: route_id,
-      direction_id: direction_id,
-      stop_id: stop_id
-    }
+    upcoming_departure_params =
+      {Dotcom.UpcomingDepartures.Server,
+       %{
+         route_id: route_id,
+         direction_id: direction_id,
+         stop_id: stop_id
+       }}
 
     allow(Routes.Repo.Mock, self(), fn ->
       GenServer.whereis({:global, upcoming_departure_params})

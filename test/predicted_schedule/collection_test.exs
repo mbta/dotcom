@@ -151,23 +151,59 @@ defmodule PredictedSchedule.CollectionTest do
                MapSet.new(expected_predicted_schedule_list)
     end
 
-    test "doesn't crash when removing a non-schedule-associated prediction that wasn't previously added" do
+    test "can clear the predictions" do
       # Setup
-      [absent_schedule | schedules] = build_schedules(2)
-      prediction = build_prediction_from_schedule(absent_schedule)
+      [absent_schedule | schedules] = build_schedules(3)
+      [regular_schedule, schedule_no_prediction] = schedules
+
+      prediction_no_schedule = build_prediction_from_schedule(absent_schedule)
+      regular_prediction = build_prediction_from_schedule(regular_schedule)
 
       # Exercise
       actual_predicted_schedule_list =
         schedules
         |> Collection.new()
-        |> Collection.delete_prediction(prediction)
+        |> Collection.put_prediction(prediction_no_schedule)
+        |> Collection.put_prediction(regular_prediction)
+        |> Collection.clear_predictions()
         |> Collection.to_list()
         |> MapSet.new()
 
       # Verify
       expected_predicted_schedule_list =
-        schedules
-        |> Enum.map(&%PredictedSchedule{schedule: &1, prediction: nil})
+        [
+          %PredictedSchedule{schedule: regular_schedule, prediction: nil},
+          %PredictedSchedule{schedule: schedule_no_prediction, prediction: nil}
+        ]
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
+
+    test "can swap in a different set of schedules" do
+      # Setup
+      [old_schedule_1, old_schedule_2, new_schedule_1, new_schedule_2] = build_schedules(4)
+
+      old_prediction = build_prediction_from_schedule(old_schedule_1)
+      new_prediction = build_prediction_from_schedule(new_schedule_1)
+
+      # Exercise
+      actual_predicted_schedule_list =
+        [old_schedule_1, old_schedule_2]
+        |> Collection.new()
+        |> Collection.put_prediction(old_prediction)
+        |> Collection.put_prediction(new_prediction)
+        |> Collection.update_schedules([new_schedule_1, new_schedule_2])
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        [
+          %PredictedSchedule{schedule: nil, prediction: old_prediction},
+          %PredictedSchedule{schedule: new_schedule_1, prediction: new_prediction},
+          %PredictedSchedule{schedule: new_schedule_2, prediction: nil}
+        ]
 
       assert MapSet.new(actual_predicted_schedule_list) ==
                MapSet.new(expected_predicted_schedule_list)

@@ -124,6 +124,10 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     {:noreply, refresh_upcoming_trip_details(socket)}
   end
 
+  def handle_info({:upcoming_departures, :loading}, socket) do
+    {:noreply, socket |> update(:departures, &AsyncResult.loading(&1, :loading))}
+  end
+
   def handle_info({:upcoming_departures, upcoming_departures}, socket) do
     {:noreply,
      socket
@@ -138,6 +142,9 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     case upcoming_departures do
       :terminated ->
         {:noreply, assign(socket, :departures, AsyncResult.failed(%AsyncResult{}, :terminated))}
+
+      :loading ->
+        {:noreply, update(socket, :departures, &AsyncResult.loading(&1, :loading))}
 
       upcoming_departures ->
         {:noreply,

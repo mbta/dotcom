@@ -14,6 +14,7 @@ defmodule Predictions.StreamParser do
   alias Stops.Stop
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec parse(Item.t()) :: Prediction.t()
@@ -64,9 +65,14 @@ defmodule Predictions.StreamParser do
   defp departure_time(_), do: nil
 
   @spec parse_time(String.t()) :: DateTime.t()
-  defp parse_time(time) do
-    {:ok, dt, _} = DateTime.from_iso8601(time)
-    dt
+  defp parse_time(prediction_time) do
+    case Timex.parse(prediction_time, "{ISO:Extended}") do
+      {:ok, time} ->
+        time
+
+      _ ->
+        nil
+    end
   end
 
   @spec vehicle_id(Item.t()) :: Vehicles.Vehicle.id_t() | nil
@@ -82,7 +88,7 @@ defmodule Predictions.StreamParser do
 
   @spec included_trip(Item.t()) :: Trip.t() | nil
   defp included_trip(%Item{relationships: %{"trip" => [%Item{id: id} | _]}}),
-    do: Schedules.Repo.trip(id)
+    do: @schedules_repo.trip(id)
 
   defp included_trip(_), do: nil
 

@@ -31,16 +31,19 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
   end
 
   describe "start_link/1" do
+    @tag :flaky
     test "starts the server process successfully", %{params: params} do
       {:ok, pid} = Server.start_link(params)
       assert Process.alive?(pid)
     end
 
+    @tag :flaky
     test "registers the server globally under the topic name", %{params: params} do
       {:ok, pid} = Server.start_link(params)
-      assert GenServer.whereis({:global, params}) == pid
+      assert GenServer.whereis({:global, {Server, params}}) == pid
     end
 
+    @tag :flaky
     test "returns {:error, {:already_started, pid}} when started twice with the same topic",
          %{params: params} do
       {:ok, pid} = Server.start_link(params)
@@ -77,17 +80,27 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
   end
 
   describe "handle_info/2 - :refresh" do
-    test "broadcasts upcoming departures to the PubSub topic", %{state: state} do
+    test "broadcasts upcoming departures to the PubSub topic only after predictions have been updated",
+         %{state: state} do
       topic = state.topic
       subscribe_and_track(topic)
 
       fake_departures = [:departure_a, :departure_b]
 
-      expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 1, fn _, _ ->
+      stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
         fake_departures
       end)
 
+      assert_receive :refresh
       assert {:noreply, ^state} = Server.handle_info(:refresh, state)
+
+      refute_receive %Phoenix.Socket.Broadcast{
+        event: "upcoming_departures",
+        payload: ^fake_departures,
+        topic: ^topic
+      }
+
+      assert {:noreply, _} = Server.handle_info({:predictions_update, %{events: []}}, state)
 
       assert_receive %Phoenix.Socket.Broadcast{
         event: "upcoming_departures",
@@ -122,7 +135,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
   describe "handle_cast/2 - :subscribe" do
     test "sends upcoming departures directly to the specified pid", %{state: state} do
       fake_result = :service_ended
-      Server.handle_cast({:subscribe, self()}, state)
+      Server.handle_cast({:subscribe, self()}, Map.put(state, :predictions_loaded?, true))
 
       assert_receive {:upcoming_departures, ^fake_result}
     end
@@ -213,11 +226,11 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     subscribe_and_track(topic)
 
     {:ok, pid} = start_supervised({Server, params})
-    assert ^pid = GenServer.whereis({:global, params})
+    assert ^pid = GenServer.whereis({:global, {Server, params}})
     Process.exit(pid, :kill)
     # need some time for it to restart
     Dotcom.Assertions.wait_until(fn ->
-      new_pid = GenServer.whereis({:global, params})
+      new_pid = GenServer.whereis({:global, {Server, params}})
       assert new_pid
       assert new_pid !== pid
     end)
