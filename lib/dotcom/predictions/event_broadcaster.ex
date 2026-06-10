@@ -79,20 +79,29 @@ defmodule Dotcom.Predictions.EventBroadcaster do
     end
   end
 
-  defp handle_event(%Event{event: "remove", data: data}, %{
-         predictions: predictions,
-         parsed_events: parsed_events
-       }) do
+  defp handle_event(
+         %Event{event: "remove", data: data},
+         %{
+           predictions: predictions,
+           parsed_events: parsed_events
+         } = state
+       ) do
     id =
       data
       |> JsonApi.parse()
       |> then(fn %JsonApi{data: data} -> data end)
       |> then(fn [%JsonApi.Item{id: id}] -> id end)
 
-    %{
-      parsed_events: [{"remove", Map.get(predictions, id)} | parsed_events],
-      predictions: Map.delete(predictions, id)
-    }
+    case Map.get(predictions, id) do
+      nil ->
+        state
+
+      prediction_to_remove ->
+        %{
+          parsed_events: [{"remove", prediction_to_remove} | parsed_events],
+          predictions: Map.delete(predictions, id)
+        }
+    end
   end
 
   defp handle_event(%Event{event: event_type, data: data}, %{

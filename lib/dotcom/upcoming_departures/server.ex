@@ -130,7 +130,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
     predicted_schedules |> PredictedSchedule.Collection.put_prediction(prediction)
   end
 
-  defp process_event({"remove", prediction}, predicted_schedules) do
+  defp process_event({"remove", prediction}, predicted_schedules) when not is_nil(prediction) do
     predicted_schedules |> PredictedSchedule.Collection.delete_prediction(prediction)
   end
 

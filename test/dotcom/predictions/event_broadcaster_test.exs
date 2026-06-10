@@ -128,7 +128,7 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
       refute Map.has_key?(new_state.predictions, "pred-1")
     end
 
-    test "publishes nil as the removed prediction when id is not in state" do
+    test "omits event for a removed prediction when id is not in state" do
       state = %{@initial_state | publish_to: self()}
 
       remove_item = %{
@@ -142,7 +142,7 @@ defmodule Dotcom.Predictions.EventBroadcasterTest do
 
       {:noreply, [], _new_state} = EventBroadcaster.handle_events([event], nil, state)
 
-      assert_receive {:predictions_update, %{events: [{"remove", nil}]}}
+      assert_receive {:predictions_update, %{events: []}}
     end
   end
 
