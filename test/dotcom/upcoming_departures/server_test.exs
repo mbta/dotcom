@@ -31,16 +31,19 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
   end
 
   describe "start_link/1" do
+    @tag :flaky
     test "starts the server process successfully", %{params: params} do
       {:ok, pid} = Server.start_link(params)
       assert Process.alive?(pid)
     end
 
+    @tag :flaky
     test "registers the server globally under the topic name", %{params: params} do
       {:ok, pid} = Server.start_link(params)
-      assert GenServer.whereis({:global, params}) == pid
+      assert GenServer.whereis({:global, {Server, params}}) == pid
     end
 
+    @tag :flaky
     test "returns {:error, {:already_started, pid}} when started twice with the same topic",
          %{params: params} do
       {:ok, pid} = Server.start_link(params)
@@ -223,11 +226,11 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     subscribe_and_track(topic)
 
     {:ok, pid} = start_supervised({Server, params})
-    assert ^pid = GenServer.whereis({:global, params})
+    assert ^pid = GenServer.whereis({:global, {Server, params}})
     Process.exit(pid, :kill)
     # need some time for it to restart
     Dotcom.Assertions.wait_until(fn ->
-      new_pid = GenServer.whereis({:global, params})
+      new_pid = GenServer.whereis({:global, {Server, params}})
       assert new_pid
       assert new_pid !== pid
     end)

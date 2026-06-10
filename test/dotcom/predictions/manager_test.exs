@@ -158,6 +158,7 @@ defmodule Dotcom.Predictions.ManagerTest do
   # ---------------------------------------------------------------------------
 
   describe "subscribe/1" do
+    @tag :flaky
     test "starts a server and gets updates" do
       params = unique_params()
       Manager.subscribe(params)

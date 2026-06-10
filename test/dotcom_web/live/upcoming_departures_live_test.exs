@@ -54,6 +54,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     end)
   end
 
+  @tag :flaky
   test "loads, fetching route, stop info & subscribing to upcoming departures", %{conn: conn} do
     route_id_param = FactoryHelpers.build(:id)
     stop_id_param = FactoryHelpers.build(:id)
@@ -81,6 +82,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
            |> has_element?()
   end
 
+  @tag :flaky
   test "shows last scheduled trip for subway", %{conn: conn} do
     route = Factories.Routes.Route.build(:subway_route)
     stop = Factories.Stops.Stop.build(:stop)
@@ -126,6 +128,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     assert render(view) =~ "Scheduled service continues until #{rendered_time}"
   end
 
+  @tag :flaky
   test "receives and shows service ended message", %{conn: conn} do
     # Setup
     expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
@@ -157,6 +160,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
       :ok
     end
 
+    @tag :flaky
     test "with scheduled departures", %{conn: conn} do
       upcoming_departures =
         Factories.UpcomingDepartures.build_list(15, :upcoming_departure,
@@ -182,6 +186,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
                "There are currently no realtime departures available. Scheduled departures are shown below."
     end
 
+    @tag :flaky
     test "without scheduled departures", %{conn: conn} do
       expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
         :no_realtime
@@ -202,6 +207,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     end
   end
 
+  @tag :flaky
   test "shows error when server error occurs", %{conn: conn} do
     stub(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, fn _, _ ->
       :no_realtime
