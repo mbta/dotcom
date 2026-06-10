@@ -14,7 +14,7 @@ defmodule Dotcom.Predictions.Manager do
 
   # Client
   def subscribe(caller_pid, params) do
-    GenServer.start_link(__MODULE__, params, name: process_name(params))
+    DynamicSupervisor.start_child(Dotcom.Predictions.Supervisor, {__MODULE__, params})
     |> case do
       {:ok, pid} -> pid
       {:error, {:already_started, pid}} -> pid
@@ -27,6 +27,10 @@ defmodule Dotcom.Predictions.Manager do
     |> process_name()
     |> GenServer.whereis()
     |> GenServer.cast({:unsubscribe, caller_pid})
+  end
+
+  def start_link(params) do
+    GenServer.start_link(__MODULE__, params, name: {:global, {__MODULE__, params}})
   end
 
   # Server
