@@ -10,7 +10,6 @@ defmodule Dotcom.UpcomingDepartures.Server do
   alias Dotcom.Utils.ServiceDateTime
 
   @refresh_interval_ms 5000
-  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @upcoming_departures_module Application.compile_env!(:dotcom, :upcoming_departures_module)
@@ -35,16 +34,6 @@ defmodule Dotcom.UpcomingDepartures.Server do
       )
     end
 
-    predictions_fn = fn ->
-      @predictions_repo.all(
-        route: route_id,
-        direction_id: direction_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
-      |> Enum.filter(&(&1.stop.id == stop_id))
-    end
-
     upcoming_departures_fn = fn predicted_schedules ->
       predicted_schedules
       |> @upcoming_departures_module.upcoming_departures(%{route: route})
@@ -62,7 +51,6 @@ defmodule Dotcom.UpcomingDepartures.Server do
 
     {:ok,
      %{
-       predictions_fn: predictions_fn,
        predicted_schedules: predicted_schedules,
        schedules_fn: schedules_fn,
        topic: topic,
