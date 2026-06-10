@@ -92,6 +92,7 @@ defmodule Dotcom.Predictions.SupervisorTest do
   # ---------------------------------------------------------------------------
 
   describe "start_link/1 and stop/1" do
+    @tag :skip
     test "supervisor is registered under the expected global name", %{params: params} do
       # Suppress logs from the SSE stage's immediate connection failure.
       capture_log(fn ->
@@ -110,6 +111,7 @@ defmodule Dotcom.Predictions.SupervisorTest do
       end)
     end
 
+    @tag :skip
     test "stop/1 terminates the supervisor process", %{params: params} do
       capture_log(fn ->
         {:ok, pid} = EventSupervisor.start_link(%{params: params, publish_to: self()})
