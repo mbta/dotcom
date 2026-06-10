@@ -25,12 +25,7 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       stop_id: "stop-#{n}"
     }
 
-    state = %{
-      predicted_schedules_fn: fn _ -> [] end,
-      schedules_fn: fn _ -> [] end,
-      route: Factories.Routes.Route.build(:route),
-      topic: topic
-    }
+    {:ok, state} = Server.init(params)
 
     %{params: params, topic: topic, state: state}
   end
@@ -61,12 +56,6 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
     test "stores the topic in state", %{params: params} do
       {:ok, state} = Server.init(params)
       assert state.topic == Dotcom.UpcomingDepartures.topic_name(params)
-    end
-
-    test "stores helpful functions in state", %{params: params} do
-      {:ok, state} = Server.init(params)
-      assert is_function(state.schedules_fn, 1)
-      assert is_function(state.predicted_schedules_fn, 1)
     end
 
     test "queues a :refresh message to trigger the initial broadcast", %{params: params} do

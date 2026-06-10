@@ -34,8 +34,19 @@ defmodule Dotcom.UpcomingDepartures.Server do
       )
     end
 
-    predicted_schedules_fn = fn schedules ->
-      get_predicted_schedules(schedules, route_id, direction_id, stop_id)
+    predictions_fn = fn ->
+      @predictions_repo.all(
+        route: route_id,
+        direction_id: direction_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
+      |> Enum.filter(&(&1.stop.id == stop_id))
+    end
+
+    upcoming_departures_fn = fn predicted_schedules ->
+      predicted_schedules
+      |> @upcoming_departures_module.upcoming_departures(%{route: route})
     end
 
     send(self(), :refresh)
@@ -43,24 +54,19 @@ defmodule Dotcom.UpcomingDepartures.Server do
     topic = Dotcom.UpcomingDepartures.topic_name(params)
     Logger.notice("Starting server for #{topic}.")
 
+    base_predicted_schedules =
+      ServiceDateTime.service_date()
+      |> schedules_fn.()
+      |> PredictedSchedule.Collection.new()
+
     {:ok,
      %{
-       predicted_schedules_fn: predicted_schedules_fn,
+       base_predicted_schedules: base_predicted_schedules,
+       predictions_fn: predictions_fn,
        schedules_fn: schedules_fn,
-       route: route,
-       topic: topic
+       topic: topic,
+       upcoming_departures_fn: upcoming_departures_fn
      }}
-  end
-
-  defp get_predicted_schedules(schedules, route_id, direction_id, stop_id) do
-    @predictions_repo.all(
-      route: route_id,
-      direction_id: direction_id,
-      include_terminals: true,
-      discard_past_subway_predictions: false
-    )
-    |> Enum.filter(&(&1.stop.id == stop_id))
-    |> PredictedSchedule.group(schedules)
   end
 
   @impl GenServer
@@ -73,20 +79,19 @@ defmodule Dotcom.UpcomingDepartures.Server do
       count ->
         Logger.notice("Sending departures for #{topic} to #{count} subscribers")
 
-        :ok =
-          DotcomWeb.Endpoint.broadcast(topic, "upcoming_departures", compute_departures(state))
-
         _ = Process.send_after(self(), :refresh, @refresh_interval_ms)
 
-        {:noreply, state}
+        {:noreply, state |> broadcast_departures()}
     end
   end
 
   def handle_info({:service_date_rollover, new_service_date}, state) do
-    updated_departures = compute_departures(state, new_service_date)
     Logger.notice("Date change - Re-sending departures for #{state.topic}")
-    :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", updated_departures)
-    {:noreply, state}
+
+    {:noreply,
+     state
+     |> update_service_date(new_service_date)
+     |> broadcast_departures()}
   end
 
   def handle_info(_, state), do: {:noreply, state}
@@ -94,7 +99,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @impl GenServer
   def handle_cast({:subscribe, caller_pid}, state) do
     Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
-    send(caller_pid, {:upcoming_departures, compute_departures(state)})
+    send(caller_pid, {:upcoming_departures, upcoming_departures(state)})
     {:noreply, state}
   end
 
@@ -103,10 +108,33 @@ defmodule Dotcom.UpcomingDepartures.Server do
     :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", :terminated)
   end
 
-  defp compute_departures(state, service_date \\ ServiceDateTime.service_date()) do
-    state.schedules_fn.(service_date)
-    |> state.predicted_schedules_fn.()
-    |> @upcoming_departures_module.upcoming_departures(%{route: state.route})
+  defp broadcast_departures(state) do
+    :ok =
+      DotcomWeb.Endpoint.broadcast(
+        state.topic,
+        "upcoming_departures",
+        upcoming_departures(state)
+      )
+
+    state
+  end
+
+  defp update_service_date(state, new_service_date) do
+    base_predicted_schedules =
+      new_service_date
+      |> state.schedules_fn.()
+      |> PredictedSchedule.Collection.new()
+
+    %{state | base_predicted_schedules: base_predicted_schedules}
+  end
+
+  defp upcoming_departures(state) do
+    state.predictions_fn.()
+    |> Enum.reduce(state.base_predicted_schedules, fn prediction, collection ->
+      PredictedSchedule.Collection.put_prediction(collection, prediction)
+    end)
+    |> PredictedSchedule.Collection.to_list()
+    |> state.upcoming_departures_fn.()
   end
 
   defp topic_subscriber_count(topic) do

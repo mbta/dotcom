@@ -104,7 +104,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
         time: @date_time_module.now() |> DateTime.shift(minute: 40)
       )
 
-    expect(Schedules.Repo.Mock, :by_route_ids, 4, fn _, _ ->
+    expect(Schedules.Repo.Mock, :by_route_ids, 3, fn _, _ ->
       schedules ++ [last_schedule]
     end)
 
