@@ -84,6 +84,27 @@ defmodule PredictedSchedule.CollectionTest do
                MapSet.new(expected_predicted_schedule_list)
     end
 
+    test "doesn't crash when removing a schedule-associated prediction that wasn't previously added" do
+      # Setup
+      schedules = [schedule | _] = build_schedules(2)
+      prediction = build_prediction_from_schedule(schedule)
+
+      # Exercise
+      actual_predicted_schedule_list =
+        schedules
+        |> Collection.new()
+        |> Collection.delete_prediction(prediction)
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        schedules |> Enum.map(&%PredictedSchedule{schedule: &1, prediction: nil})
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
+
     test "adds a PredictedSchedule with no schedule if a prediction doesn't correspond to a schedule" do
       # Setup
       [absent_schedule | schedules] = build_schedules(2)
@@ -117,6 +138,28 @@ defmodule PredictedSchedule.CollectionTest do
         schedules
         |> Collection.new()
         |> Collection.put_prediction(prediction)
+        |> Collection.delete_prediction(prediction)
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        schedules
+        |> Enum.map(&%PredictedSchedule{schedule: &1, prediction: nil})
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
+
+    test "doesn't crash when removing a non-schedule-associated prediction that wasn't previously added" do
+      # Setup
+      [absent_schedule | schedules] = build_schedules(2)
+      prediction = build_prediction_from_schedule(absent_schedule)
+
+      # Exercise
+      actual_predicted_schedule_list =
+        schedules
+        |> Collection.new()
         |> Collection.delete_prediction(prediction)
         |> Collection.to_list()
         |> MapSet.new()
