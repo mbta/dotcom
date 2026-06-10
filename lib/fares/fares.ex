@@ -26,6 +26,7 @@ defmodule Fares do
           :ferry_cross_harbor
           | :ferry_inner_harbor
           | :ferry_east_boston
+          | :ferry_harbor_loop
           | :ferry_lynn
           | :ferry_winthrop
           | :commuter_ferry_logan
@@ -120,7 +121,7 @@ defmodule Fares do
         :ferry_winthrop
 
       true ->
-        :ferry_east_boston
+        :ferry_harbor_loop
     end
   end
 
