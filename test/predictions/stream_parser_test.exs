@@ -7,6 +7,7 @@ defmodule Predictions.StreamParserTest do
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
+  alias Timex.Timezone
 
   setup do
     Routes.Repo.Mock
@@ -64,9 +65,9 @@ defmodule Predictions.StreamParserTest do
 
       assert %Prediction{
                id: "TEST-ID",
-               arrival_time: ~U[2016-01-01 04:00:00Z],
+               arrival_time: arrival_time,
                departing?: true,
-               departure_time: ~U[2016-09-15 19:40:00Z],
+               departure_time: departure_time,
                direction_id: 1,
                route: route,
                status: "On Time",
@@ -83,7 +84,9 @@ defmodule Predictions.StreamParserTest do
       assert %Route{id: "route_id"} = route
       assert %Stop{id: ^stop_id} = stop
       assert %Trip{id: "trip_id"} = trip
-      assert time == ~U[2016-01-01 04:00:00Z]
+      assert time == ~N[2016-01-01 00:00:00] |> Timezone.convert("Etc/UTC-4")
+      assert arrival_time == ~N[2016-01-01 00:00:00] |> Timezone.convert("Etc/UTC-4")
+      assert departure_time == ~N[2016-09-15 15:40:00] |> Timezone.convert("Etc/UTC-4")
       assert track == stop.platform_code
       assert "vehicle_id" = vehicle_id
       assert last_trip? == expected_last_trip
