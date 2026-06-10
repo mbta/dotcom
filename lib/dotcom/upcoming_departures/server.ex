@@ -15,7 +15,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @upcoming_departures_module Application.compile_env!(:dotcom, :upcoming_departures_module)
 
   def start_link(params) do
-    GenServer.start_link(__MODULE__, params, name: {:global, params})
+    GenServer.start_link(__MODULE__, params, name: {:global, {__MODULE__, params}})
   end
 
   @impl GenServer
