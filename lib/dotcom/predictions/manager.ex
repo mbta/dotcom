@@ -19,6 +19,8 @@ defmodule Dotcom.Predictions.Manager do
 
   alias Dotcom.Predictions.EventSupervisor
 
+  @check_interval_ms 5000
+
   # Client
   def subscribe(caller_pid, params) do
     topic = topic_name(params)
@@ -35,14 +37,9 @@ defmodule Dotcom.Predictions.Manager do
   end
 
   def unsubscribe(_caller_pid, params) do
-    :ok =
-      params
-      |> topic_name()
-      |> DotcomWeb.Endpoint.unsubscribe()
+    topic = topic_name(params)
 
-    params
-    |> process_name()
-    |> GenServer.whereis()
+    :ok = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, topic)
   end
 
   def start_link(params) do
@@ -53,43 +50,33 @@ defmodule Dotcom.Predictions.Manager do
   def init(params) do
     EventSupervisor.start_link(%{params: params, publish_to: self()})
 
+    Process.send_after(self(), :check_subscribers, @check_interval_ms)
+
     {:ok,
      %{
        params: params,
        predictions: :loading,
-       subscribers: MapSet.new(),
        topic: topic_name(params)
      }}
   end
 
-  def terminate(_reason, %{params: params}) do
-    EventSupervisor.stop(%{params: params})
-  end
-
   def handle_cast(
         {:subscribe, pid},
-        %{predictions: predictions, subscribers: subscribers} = state
+        %{predictions: predictions} = state
       ) do
-    new_subscribers =
-      subscribers
-      |> MapSet.put(pid)
-
     publish_predictions_if_any(pid, predictions)
 
-    {:noreply, %{state | subscribers: new_subscribers}}
+    {:noreply, state}
   end
 
-  def handle_cast({:unsubscribe, pid}, %{subscribers: subscribers} = state) do
-    new_subscribers =
-      subscribers
-      |> MapSet.delete(pid)
+  def handle_info(:check_subscribers, %{topic: topic} = state) do
+    case topic_subscriber_count(topic) do
+      0 ->
+        {:stop, :normal, state}
 
-    new_state = %{state | subscribers: new_subscribers}
-
-    if Enum.empty?(new_subscribers) do
-      {:stop, :normal, new_state}
-    else
-      {:noreply, new_state}
+      count ->
+        Process.send_after(self(), :check_subscribers, @check_interval_ms)
+        {:noreply, state}
     end
   end
 
@@ -118,5 +105,12 @@ defmodule Dotcom.Predictions.Manager do
       pid,
       {:predictions_update, %{predictions: predictions, events: [{"reset", predictions}]}}
     )
+  end
+
+  defp topic_subscriber_count(topic) do
+    case DotcomWeb.Presence.list(topic) do
+      %{"predictions" => %{metas: list}} -> Enum.count(list)
+      _other -> 0
+    end
   end
 end

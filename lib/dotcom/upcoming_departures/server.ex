@@ -55,15 +55,19 @@ defmodule Dotcom.UpcomingDepartures.Server do
        predicted_schedules: predicted_schedules,
        schedules_fn: schedules_fn,
        topic: topic,
+       unsubscribe_fn: fn -> _ = Dotcom.Predictions.Manager.unsubscribe(self(), params) end,
        upcoming_departures_fn: upcoming_departures_fn
      }}
   end
 
   @impl GenServer
-  def handle_info(:refresh, %{topic: topic} = state) do
+  def handle_info(:refresh, %{topic: topic, unsubscribe_fn: unsubscribe_fn} = state) do
     case topic_subscriber_count(topic) do
       0 ->
         Logger.debug("No more subscribers for #{topic}, closing server.")
+
+        unsubscribe_fn.()
+
         {:stop, :normal, state}
 
       count ->
