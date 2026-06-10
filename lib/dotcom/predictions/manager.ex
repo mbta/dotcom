@@ -14,6 +14,11 @@ defmodule Dotcom.Predictions.Manager do
 
   # Client
   def subscribe(caller_pid, params) do
+    topic = topic_name(params)
+
+    :ok = Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+    _ = DotcomWeb.Presence.track(self(), topic, "predictions", %{})
+
     DynamicSupervisor.start_child(Dotcom.Predictions.Supervisor, {__MODULE__, params})
     |> case do
       {:ok, pid} -> pid
@@ -22,21 +27,32 @@ defmodule Dotcom.Predictions.Manager do
     |> GenServer.cast({:subscribe, caller_pid})
   end
 
-  def unsubscribe(caller_pid, params) do
+  def unsubscribe(_caller_pid, params) do
+    :ok =
+      params
+      |> topic_name()
+      |> DotcomWeb.Endpoint.unsubscribe()
+
     params
     |> process_name()
     |> GenServer.whereis()
-    |> GenServer.cast({:unsubscribe, caller_pid})
   end
 
   def start_link(params) do
-    GenServer.start_link(__MODULE__, params, name: {:global, {__MODULE__, params}})
+    GenServer.start_link(__MODULE__, params, name: process_name(params))
   end
 
   # Server
   def init(params) do
     EventSupervisor.start_link(%{params: params, publish_to: self()})
-    {:ok, %{params: params, predictions: :loading, subscribers: MapSet.new()}}
+
+    {:ok,
+     %{
+       params: params,
+       predictions: :loading,
+       subscribers: MapSet.new(),
+       topic: topic_name(params)
+     }}
   end
 
   def terminate(_reason, %{params: params}) do
@@ -72,15 +88,19 @@ defmodule Dotcom.Predictions.Manager do
 
   def handle_info(
         {:predictions_update, %{predictions: predictions} = data},
-        %{subscribers: subscribers} = state
+        %{topic: topic} = state
       ) do
-    subscribers |> Enum.each(&send(&1, {:predictions_update, data}))
+    _ = Phoenix.PubSub.broadcast(Dotcom.PubSub, topic, {:predictions_update, data})
 
     {:noreply, %{state | predictions: {:ok, predictions}}}
   end
 
   defp process_name(params) do
-    {:global, {:predictions, params}}
+    {:global, {__MODULE__, params}}
+  end
+
+  def topic_name(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do
+    "predictions:#{route_id}:#{direction_id}:#{stop_id}"
   end
 
   defp publish_predictions_if_any(_pid, :loading) do
