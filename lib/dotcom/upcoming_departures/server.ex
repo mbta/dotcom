@@ -42,7 +42,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
     send(self(), :refresh)
 
     topic = Dotcom.UpcomingDepartures.topic_name(params)
-    Logger.notice("Starting server for #{topic}.")
+    Logger.debug("Starting server for #{topic}.")
 
     predicted_schedules =
       ServiceDateTime.service_date()
@@ -63,11 +63,11 @@ defmodule Dotcom.UpcomingDepartures.Server do
   def handle_info(:refresh, %{topic: topic} = state) do
     case topic_subscriber_count(topic) do
       0 ->
-        Logger.notice("No more subscribers for #{topic}, closing server.")
+        Logger.debug("No more subscribers for #{topic}, closing server.")
         {:stop, :normal, state}
 
       count ->
-        Logger.notice("Sending departures for #{topic} to #{count} subscribers")
+        Logger.debug("Sending departures for #{topic} to #{count} subscribers")
 
         _ = Process.send_after(self(), :refresh, @refresh_interval_ms)
 
@@ -84,7 +84,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   end
 
   def handle_info({:service_date_rollover, new_service_date}, state) do
-    Logger.notice("Date change - Re-sending departures for #{state.topic}")
+    Logger.debug("Date change - Re-sending departures for #{state.topic}")
 
     {:noreply,
      state
@@ -96,7 +96,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
 
   @impl GenServer
   def handle_cast({:subscribe, caller_pid}, state) do
-    Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
+    Logger.debug("subscribing #{inspect(caller_pid)} to #{state.topic}")
     send(caller_pid, {:upcoming_departures, compute_upcoming_departures(state)})
     {:noreply, state}
   end
@@ -135,8 +135,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   end
 
   defp process_event(event, predicted_schedules) do
-    dbg(event)
-
+    _ = Logger.debug("unknown event: #{inspect(event)}")
     predicted_schedules
   end
 

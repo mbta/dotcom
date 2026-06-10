@@ -225,7 +225,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
 
     # trigger the correct server's terminate/2
     :ok =
-      GenServer.whereis({:global, params})
+      GenServer.whereis({:global, {Dotcom.UpcomingDepartures.Server, params}})
       |> GenServer.stop(:normal)
 
     assert_receive {:trace, ^pid, :receive,
