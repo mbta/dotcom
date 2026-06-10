@@ -44,36 +44,28 @@ defmodule Dotcom.UpcomingDepartures.Server do
       |> Enum.filter(&(&1.stop.id == stop_id))
     end
 
+    upcoming_departures_fn = fn predicted_schedules ->
+      predicted_schedules
+      |> @upcoming_departures_module.upcoming_departures(%{route: route})
+    end
+
     send(self(), :refresh)
 
     topic = Dotcom.UpcomingDepartures.topic_name(params)
     Logger.notice("Starting server for #{topic}.")
 
-    build_departures_fn_from_date = fn date ->
-      base_predicted_schedules =
-        date
-        |> schedules_fn.()
-        |> PredictedSchedule.Collection.new()
-
-      fn ->
-        predictions_fn.()
-        |> Enum.reduce(base_predicted_schedules, fn prediction, collection ->
-          PredictedSchedule.Collection.put_prediction(collection, prediction)
-        end)
-        |> PredictedSchedule.Collection.to_list()
-        |> @upcoming_departures_module.upcoming_departures(%{route: route})
-      end
-    end
-
-    departures_fn =
+    base_predicted_schedules =
       ServiceDateTime.service_date()
-      |> build_departures_fn_from_date.()
+      |> schedules_fn.()
+      |> PredictedSchedule.Collection.new()
 
     {:ok,
      %{
-       build_departures_fn_from_date: build_departures_fn_from_date,
-       departures_fn: departures_fn,
-       topic: topic
+       base_predicted_schedules: base_predicted_schedules,
+       predictions_fn: predictions_fn,
+       schedules_fn: schedules_fn,
+       topic: topic,
+       upcoming_departures_fn: upcoming_departures_fn
      }}
   end
 
@@ -128,13 +120,21 @@ defmodule Dotcom.UpcomingDepartures.Server do
   end
 
   defp update_service_date(state, new_service_date) do
-    new_departures_fn = state.build_departures_fn_from_date.(new_service_date)
+    base_predicted_schedules =
+      new_service_date
+      |> state.schedules_fn.()
+      |> PredictedSchedule.Collection.new()
 
-    %{state | departures_fn: new_departures_fn}
+    %{state | base_predicted_schedules: base_predicted_schedules}
   end
 
   defp upcoming_departures(state) do
-    state.departures_fn.()
+    state.predictions_fn.()
+    |> Enum.reduce(state.base_predicted_schedules, fn prediction, collection ->
+      PredictedSchedule.Collection.put_prediction(collection, prediction)
+    end)
+    |> PredictedSchedule.Collection.to_list()
+    |> state.upcoming_departures_fn.()
   end
 
   defp topic_subscriber_count(topic) do
