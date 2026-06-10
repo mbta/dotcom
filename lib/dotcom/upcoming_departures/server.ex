@@ -86,8 +86,11 @@ defmodule Dotcom.UpcomingDepartures.Server do
     end
   end
 
-  def handle_info({:predictions_update, update}, state) do
-    IO.inspect(update, label: "predictions_update")
+  def handle_info({:predictions_update, %{events: events}}, state) do
+    events
+    |> Enum.map(fn {event_type, _} -> event_type end)
+    |> IO.inspect(label: "event_types")
+
     {:noreply, state}
   end
 
