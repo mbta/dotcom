@@ -55,15 +55,15 @@ defmodule Dotcom.UpcomingDepartures.Server do
     topic = Dotcom.UpcomingDepartures.topic_name(params)
     Logger.notice("Starting server for #{topic}.")
 
-    base_predicted_schedules =
+    predicted_schedules =
       ServiceDateTime.service_date()
       |> schedules_fn.()
       |> PredictedSchedule.Collection.new()
 
     {:ok,
      %{
-       base_predicted_schedules: base_predicted_schedules,
        predictions_fn: predictions_fn,
+       predicted_schedules: predicted_schedules,
        schedules_fn: schedules_fn,
        topic: topic,
        upcoming_departures_fn: upcoming_departures_fn
@@ -87,11 +87,10 @@ defmodule Dotcom.UpcomingDepartures.Server do
   end
 
   def handle_info({:predictions_update, %{events: events}}, state) do
-    events
-    |> Enum.map(fn {event_type, _} -> event_type end)
-    |> IO.inspect(label: "event_types")
-
-    {:noreply, state}
+    {:noreply,
+     state
+     |> process_events(events)
+     |> broadcast_departures()}
   end
 
   def handle_info({:service_date_rollover, new_service_date}, state) do
@@ -117,6 +116,40 @@ defmodule Dotcom.UpcomingDepartures.Server do
     :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", :terminated)
   end
 
+  defp process_events(state, events) do
+    %{
+      state
+      | predicted_schedules:
+          events
+          |> Enum.reduce(state.predicted_schedules, &process_event/2)
+    }
+  end
+
+  defp process_event({"reset", predictions}, predicted_schedules) do
+    reset_predicted_schedules =
+      predicted_schedules |> PredictedSchedule.Collection.clear_predictions()
+
+    predictions
+    |> Enum.reduce(reset_predicted_schedules, fn prediction, predicted_schedules ->
+      predicted_schedules |> PredictedSchedule.Collection.put_prediction(prediction)
+    end)
+  end
+
+  defp process_event({event_type, prediction}, predicted_schedules)
+       when event_type in ["add", "update"] do
+    predicted_schedules |> PredictedSchedule.Collection.put_prediction(prediction)
+  end
+
+  defp process_event({"remove", prediction}, predicted_schedules) do
+    predicted_schedules |> PredictedSchedule.Collection.delete_prediction(prediction)
+  end
+
+  defp process_event(event, predicted_schedules) do
+    dbg(event)
+
+    predicted_schedules
+  end
+
   defp broadcast_departures(state) do
     :ok =
       DotcomWeb.Endpoint.broadcast(
@@ -129,19 +162,20 @@ defmodule Dotcom.UpcomingDepartures.Server do
   end
 
   defp update_service_date(state, new_service_date) do
-    base_predicted_schedules =
+    new_schedules =
       new_service_date
       |> state.schedules_fn.()
-      |> PredictedSchedule.Collection.new()
 
-    %{state | base_predicted_schedules: base_predicted_schedules}
+    %{
+      state
+      | predicted_schedules:
+          state.predicted_schedules
+          |> PredictedSchedule.Collection.update_schedules(new_schedules)
+    }
   end
 
   defp upcoming_departures(state) do
-    state.predictions_fn.()
-    |> Enum.reduce(state.base_predicted_schedules, fn prediction, collection ->
-      PredictedSchedule.Collection.put_prediction(collection, prediction)
-    end)
+    state.predicted_schedules
     |> PredictedSchedule.Collection.to_list()
     |> state.upcoming_departures_fn.()
   end
