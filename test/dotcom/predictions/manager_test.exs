@@ -30,11 +30,11 @@ defmodule Dotcom.Predictions.ManagerTest do
   # ---------------------------------------------------------------------------
 
   describe "init/1" do
-    test "returns :loading predictions and an empty subscribers set" do
+    test "returns :loading predictions and sets up the topic" do
       assert {:ok, state} = Manager.init(@params)
       assert state.params == @params
       assert state.predictions == :loading
-      assert MapSet.size(state.subscribers) == 0
+      assert state.topic == "predictions:Red:0:place-pktrm"
     end
   end
 
@@ -43,20 +43,19 @@ defmodule Dotcom.Predictions.ManagerTest do
   # ---------------------------------------------------------------------------
 
   describe "handle_cast/2 - :subscribe" do
-    test "adds the subscriber pid to the subscribers set" do
-      state = %{params: @params, predictions: :loading, subscribers: MapSet.new()}
-      {:noreply, new_state} = Manager.handle_cast({:subscribe, self()}, state)
-      assert MapSet.member?(new_state.subscribers, self())
-    end
-
     test "does not send a message when predictions are still :loading" do
-      state = %{params: @params, predictions: :loading, subscribers: MapSet.new()}
+      state = %{params: @params, predictions: :loading, topic: "predictions:Red:0:place-pktrm"}
       Manager.handle_cast({:subscribe, self()}, state)
       refute_receive {:predictions_update, _}
     end
 
     test "immediately sends current predictions to the new subscriber when available" do
-      state = %{params: @params, predictions: {:ok, @predictions}, subscribers: MapSet.new()}
+      state = %{
+        params: @params,
+        predictions: {:ok, @predictions},
+        topic: "predictions:Red:0:place-pktrm"
+      }
+
       Manager.handle_cast({:subscribe, self()}, state)
       expected_events = [{"reset", @predictions}]
       assert_receive {:predictions_update, %{predictions: @predictions, events: ^expected_events}}
@@ -65,7 +64,7 @@ defmodule Dotcom.Predictions.ManagerTest do
     test "only sends to the newly subscribed pid, not to existing subscribers" do
       test_pid = self()
 
-      bystander =
+      _bystander =
         spawn(fn ->
           receive do
             msg -> send(test_pid, {:bystander_received, msg})
@@ -75,7 +74,7 @@ defmodule Dotcom.Predictions.ManagerTest do
       state = %{
         params: @params,
         predictions: {:ok, @predictions},
-        subscribers: MapSet.new([bystander])
+        topic: "predictions:Red:0:place-pktrm"
       }
 
       Manager.handle_cast({:subscribe, self()}, state)
@@ -86,53 +85,33 @@ defmodule Dotcom.Predictions.ManagerTest do
   end
 
   # ---------------------------------------------------------------------------
-  # handle_cast/2 — :unsubscribe
-  # ---------------------------------------------------------------------------
-
-  describe "handle_cast/2 - :unsubscribe" do
-    test "removes the subscriber from the set" do
-      other = spawn(fn -> Process.sleep(:infinity) end)
-      state = %{params: @params, predictions: :loading, subscribers: MapSet.new([self(), other])}
-
-      {:noreply, new_state} = Manager.handle_cast({:unsubscribe, self()}, state)
-
-      refute MapSet.member?(new_state.subscribers, self())
-      assert MapSet.member?(new_state.subscribers, other)
-    end
-
-    test "returns {:stop, :normal, state} when the last subscriber leaves" do
-      state = %{params: @params, predictions: :loading, subscribers: MapSet.new([self()])}
-
-      assert {:stop, :normal, _state} = Manager.handle_cast({:unsubscribe, self()}, state)
-    end
-
-    test "returns {:noreply, state} when other subscribers remain" do
-      other = spawn(fn -> Process.sleep(:infinity) end)
-      state = %{params: @params, predictions: :loading, subscribers: MapSet.new([self(), other])}
-
-      assert {:noreply, _state} = Manager.handle_cast({:unsubscribe, self()}, state)
-    end
-  end
-
-  # ---------------------------------------------------------------------------
   # handle_info/2 — {:predictions_update, data}
   # ---------------------------------------------------------------------------
 
   describe "handle_info/2 - :predictions_update" do
     test "broadcasts the update to every subscriber" do
       test_pid = self()
+      topic = "predictions:Red:0:place-pktrm"
 
-      sub =
+      # Subscribe to the topic to receive broadcasts
+      :ok = Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+
+      _sub =
         spawn(fn ->
+          :ok = Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+
           receive do
             msg -> send(test_pid, {:from_sub, msg})
           end
         end)
 
+      # Give the sub process time to subscribe
+      Process.sleep(10)
+
       state = %{
         params: @params,
         predictions: :loading,
-        subscribers: MapSet.new([self(), sub])
+        topic: topic
       }
 
       data = %{predictions: @predictions, events: [{"reset", @predictions}]}
@@ -144,7 +123,12 @@ defmodule Dotcom.Predictions.ManagerTest do
     end
 
     test "stores the received predictions in state as {:ok, predictions}" do
-      state = %{params: @params, predictions: :loading, subscribers: MapSet.new()}
+      state = %{
+        params: @params,
+        predictions: :loading,
+        topic: "predictions:Red:0:place-pktrm"
+      }
+
       data = %{predictions: @predictions, events: [{"reset", @predictions}]}
 
       {:noreply, new_state} = Manager.handle_info({:predictions_update, data}, state)
@@ -154,7 +138,13 @@ defmodule Dotcom.Predictions.ManagerTest do
 
     test "replaces previously stored predictions with each new update" do
       old = [%Prediction{id: "old"}]
-      state = %{params: @params, predictions: {:ok, old}, subscribers: MapSet.new()}
+
+      state = %{
+        params: @params,
+        predictions: {:ok, old},
+        topic: "predictions:Red:0:place-pktrm"
+      }
+
       data = %{predictions: @predictions, events: [{"reset", @predictions}]}
 
       {:noreply, new_state} = Manager.handle_info({:predictions_update, data}, state)
@@ -167,10 +157,10 @@ defmodule Dotcom.Predictions.ManagerTest do
   # subscribe/2 — integration
   # ---------------------------------------------------------------------------
 
-  describe "subscribe/2" do
+  describe "subscribe/1" do
     test "starts a server and gets updates" do
       params = unique_params()
-      Manager.subscribe(self(), params)
+      Manager.subscribe(params)
       assert_receive {:predictions_update, _}
     end
   end
@@ -179,25 +169,38 @@ defmodule Dotcom.Predictions.ManagerTest do
   # unsubscribe/2 — integration
   # ---------------------------------------------------------------------------
 
-  describe "unsubscribe/2" do
+  describe "unsubscribe/1" do
     test "server process terminates when the last subscriber unsubscribes" do
       params = unique_params()
 
       capture_log(fn ->
         server_pid = start_server!(params)
         ref = Process.monitor(server_pid)
+        topic = Manager.topic_name(params)
 
-        GenServer.cast(server_pid, {:subscribe, self()})
-        Manager.unsubscribe(self(), params)
+        # Subscribe and track presence
+        :ok = Phoenix.PubSub.subscribe(Dotcom.PubSub, topic)
+        _ = DotcomWeb.Presence.track(self(), topic, "predictions", %{})
 
-        # The server goes down — either via {:stop, :normal} from handle_cast or
-        # from the supervisor crash cascade. Either way the monitor fires.
+        # Give presence time to propagate
+        Process.sleep(100)
+
+        # Unsubscribe - this removes from PubSub but presence tracking
+        # is tied to process lifecycle
+        Manager.unsubscribe(params)
+
+        # We need to untrack manually since the test process isn't terminating
+        DotcomWeb.Presence.untrack(self(), topic, "predictions")
+
+        # Give presence time to propagate the untrack
+        Process.sleep(100)
+
+        # Manually trigger the check_subscribers message to speed up the test
+        send(server_pid, :check_subscribers)
+
+        # The server should terminate when it checks for subscribers and finds none
         assert_receive {:DOWN, ^ref, :process, ^server_pid, _reason}, 1_000
       end)
     end
-
-    # "server remains alive when other subscribers are present" is already
-    # proven at the callback level: handle_cast({:unsubscribe}) returns
-    # {:noreply, _} when the subscriber set is non-empty.
   end
 end
