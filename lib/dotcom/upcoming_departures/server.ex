@@ -51,6 +51,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
 
     {:ok,
      %{
+       predictions_loaded?: false,
        predicted_schedules: predicted_schedules,
        schedules_fn: schedules_fn,
        topic: topic,
@@ -77,6 +78,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   def handle_info({:predictions_update, %{events: events}}, state) do
     {:noreply,
      state
+     |> Map.put(:predictions_loaded?, true)
      |> process_events(events)
      |> broadcast_departures()}
   end
@@ -95,7 +97,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @impl GenServer
   def handle_cast({:subscribe, caller_pid}, state) do
     Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
-    send(caller_pid, {:upcoming_departures, upcoming_departures(state)})
+    send(caller_pid, {:upcoming_departures, compute_upcoming_departures(state)})
     {:noreply, state}
   end
 
@@ -143,7 +145,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
       DotcomWeb.Endpoint.broadcast(
         state.topic,
         "upcoming_departures",
-        upcoming_departures(state)
+        compute_upcoming_departures(state)
       )
 
     state
@@ -162,11 +164,13 @@ defmodule Dotcom.UpcomingDepartures.Server do
     }
   end
 
-  defp upcoming_departures(state) do
+  defp compute_upcoming_departures(%{predictions_loaded?: true} = state) do
     state.predicted_schedules
     |> PredictedSchedule.Collection.to_list()
     |> state.upcoming_departures_fn.()
   end
+
+  defp compute_upcoming_departures(_), do: :loading
 
   defp topic_subscriber_count(topic) do
     case DotcomWeb.Presence.list(topic) do
