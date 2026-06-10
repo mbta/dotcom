@@ -25,6 +25,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
     route = @routes_repo.get(route_id)
 
     _ = Dotcom.ServiceDateRollover.subscribe()
+    _ = Dotcom.Predictions.Manager.subscribe(self(), params)
 
     schedules_fn = fn date ->
       @schedules_repo.by_route_ids([route_id],
@@ -83,6 +84,11 @@ defmodule Dotcom.UpcomingDepartures.Server do
 
         {:noreply, state |> broadcast_departures()}
     end
+  end
+
+  def handle_info({:predictions_update, update}, state) do
+    IO.inspect(update, label: "predictions_update")
+    {:noreply, state}
   end
 
   def handle_info({:service_date_rollover, new_service_date}, state) do
