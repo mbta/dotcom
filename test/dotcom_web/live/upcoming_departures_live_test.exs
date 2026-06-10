@@ -104,7 +104,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
         time: @date_time_module.now() |> DateTime.shift(minute: 40)
       )
 
-    expect(Schedules.Repo.Mock, :by_route_ids, 4, fn _, _ ->
+    expect(Schedules.Repo.Mock, :by_route_ids, 3, fn _, _ ->
       schedules ++ [last_schedule]
     end)
 
@@ -112,7 +112,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     ref = make_ref()
 
     # Available upcoming departures are earlier than the last scheduled time
-    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 2, fn _, _ ->
+    expect(Dotcom.UpcomingDepartures.Mock, :upcoming_departures, 1, fn _, _ ->
       send(parent, {ref, :done})
 
       Factories.UpcomingDepartures.build_list(15, :upcoming_departure,
@@ -121,7 +121,6 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     end)
 
     {:ok, view, _} = start_live_view(conn, route_id, direction_id, stop_id)
-    assert_receive {^ref, :done}
     assert_receive {^ref, :done}
 
     {:ok, rendered_time} = Dotcom.Utils.Time.format(last_schedule.time, :hour_12_minutes)
