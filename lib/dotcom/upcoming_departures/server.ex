@@ -34,8 +34,14 @@ defmodule Dotcom.UpcomingDepartures.Server do
       )
     end
 
-    predicted_schedules_fn = fn schedules ->
-      get_predicted_schedules(schedules, route_id, direction_id, stop_id)
+    predictions_fn = fn ->
+      @predictions_repo.all(
+        route: route_id,
+        direction_id: direction_id,
+        include_terminals: true,
+        discard_past_subway_predictions: false
+      )
+      |> Enum.filter(&(&1.stop.id == stop_id))
     end
 
     send(self(), :refresh)
@@ -43,28 +49,26 @@ defmodule Dotcom.UpcomingDepartures.Server do
     topic = Dotcom.UpcomingDepartures.topic_name(params)
     Logger.notice("Starting server for #{topic}.")
 
-    departures_fn = fn service_date ->
-      schedules_fn.(service_date)
-      |> predicted_schedules_fn.()
-      |> @upcoming_departures_module.upcoming_departures(%{route: route})
+    build_departures_fn_from_date = fn date ->
+      schedules = schedules_fn.(date)
+
+      fn ->
+        predictions_fn.()
+        |> PredictedSchedule.group(schedules)
+        |> @upcoming_departures_module.upcoming_departures(%{route: route})
+      end
     end
+
+    departures_fn =
+      ServiceDateTime.service_date()
+      |> build_departures_fn_from_date.()
 
     {:ok,
      %{
+       build_departures_fn_from_date: build_departures_fn_from_date,
        departures_fn: departures_fn,
        topic: topic
      }}
-  end
-
-  defp get_predicted_schedules(schedules, route_id, direction_id, stop_id) do
-    @predictions_repo.all(
-      route: route_id,
-      direction_id: direction_id,
-      include_terminals: true,
-      discard_past_subway_predictions: false
-    )
-    |> Enum.filter(&(&1.stop.id == stop_id))
-    |> PredictedSchedule.group(schedules)
   end
 
   @impl GenServer
@@ -81,7 +85,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
           DotcomWeb.Endpoint.broadcast(
             topic,
             "upcoming_departures",
-            state.departures_fn.(ServiceDateTime.service_date())
+            state.departures_fn.()
           )
 
         _ = Process.send_after(self(), :refresh, @refresh_interval_ms)
@@ -91,10 +95,12 @@ defmodule Dotcom.UpcomingDepartures.Server do
   end
 
   def handle_info({:service_date_rollover, new_service_date}, state) do
-    updated_departures = state.departures_fn.(new_service_date)
+    new_departures_fn = state.build_departures_fn_from_date.(new_service_date)
+
+    updated_departures = new_departures_fn.()
     Logger.notice("Date change - Re-sending departures for #{state.topic}")
     :ok = DotcomWeb.Endpoint.broadcast(state.topic, "upcoming_departures", updated_departures)
-    {:noreply, state}
+    {:noreply, %{state | departures_fn: new_departures_fn}}
   end
 
   def handle_info(_, state), do: {:noreply, state}
@@ -102,7 +108,7 @@ defmodule Dotcom.UpcomingDepartures.Server do
   @impl GenServer
   def handle_cast({:subscribe, caller_pid}, state) do
     Logger.notice("subscribing #{inspect(caller_pid)} to #{state.topic}")
-    send(caller_pid, {:upcoming_departures, state.departures_fn.(ServiceDateTime.service_date())})
+    send(caller_pid, {:upcoming_departures, state.departures_fn.()})
     {:noreply, state}
   end
 
