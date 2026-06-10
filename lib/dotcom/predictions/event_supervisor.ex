@@ -35,12 +35,15 @@ defmodule Dotcom.Predictions.EventSupervisor do
 
   defp api_query_params(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do
     %{
-      "filter[route]" => route_id,
+      "filter[route]" => as_route_query_filter(route_id),
       "filter[direction_id]" => direction_id,
       "filter[stop]" => stop_id
     }
     |> URI.encode_query()
   end
+
+  defp as_route_query_filter("Green"), do: GreenLine.branch_ids() |> Enum.join(",")
+  defp as_route_query_filter(route_id), do: route_id
 
   defp process_name(args) do
     {:global, {:predictions_supervisor, args}}
