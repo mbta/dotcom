@@ -4,7 +4,7 @@ defmodule Dotcom.Predictions.EventBroadcaster do
   """
   use GenStage
 
-  alias Predictions.StreamParser
+  alias Predictions.{Prediction, StreamParser}
   alias ServerSentEventStage.Event
 
   def start_link(opts) do
@@ -51,11 +51,7 @@ defmodule Dotcom.Predictions.EventBroadcaster do
          predictions: _predictions,
          parsed_events: parsed_events
        }) do
-    new_predictions =
-      data
-      |> JsonApi.parse()
-      |> then(fn %JsonApi{data: data} -> data end)
-      |> Map.new(fn %JsonApi.Item{id: id} = item -> {id, StreamParser.parse(item)} end)
+    new_predictions = parse_prediction_data(data) |> Map.new()
 
     %{
       parsed_events: [{"reset", Map.values(new_predictions)} | parsed_events],
@@ -63,21 +59,24 @@ defmodule Dotcom.Predictions.EventBroadcaster do
     }
   end
 
-  defp handle_event(%Event{event: event_type, data: data}, %{
-         predictions: predictions,
-         parsed_events: parsed_events
-       })
+  defp handle_event(
+         %Event{event: event_type, data: data},
+         %{
+           predictions: predictions,
+           parsed_events: parsed_events
+         } = state
+       )
        when event_type in ["add", "update"] do
-    {id, prediction} =
-      data
-      |> JsonApi.parse()
-      |> then(fn %JsonApi{data: data} -> data end)
-      |> then(fn [%JsonApi.Item{id: id} = item] -> {id, StreamParser.parse(item)} end)
+    case parse_prediction_data(data) do
+      [] ->
+        state
 
-    %{
-      parsed_events: [{event_type, prediction} | parsed_events],
-      predictions: Map.put(predictions, id, prediction)
-    }
+      [{id, prediction}] ->
+        %{
+          parsed_events: [{event_type, prediction} | parsed_events],
+          predictions: Map.put(predictions, id, prediction)
+        }
+    end
   end
 
   defp handle_event(%Event{event: "remove", data: data}, %{
@@ -105,4 +104,18 @@ defmodule Dotcom.Predictions.EventBroadcaster do
       predictions: predictions
     }
   end
+
+  defp parse_prediction_data(json_api_data) do
+    with %JsonApi{data: data} <- JsonApi.parse(json_api_data) do
+      data
+      |> Stream.map(fn %JsonApi.Item{id: id} = item ->
+        check_tripless_prediction(id, StreamParser.parse(item))
+      end)
+      |> Stream.reject(fn item -> item == :error end)
+      |> Enum.to_list()
+    end
+  end
+
+  defp check_tripless_prediction(_, %Prediction{trip: nil}), do: :error
+  defp check_tripless_prediction(id, parsed), do: {id, parsed}
 end
