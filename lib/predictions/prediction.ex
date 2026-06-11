@@ -32,7 +32,7 @@ defmodule Predictions.Prediction do
   @type t :: %__MODULE__{
           id: id_t,
           trip: Schedules.Trip.t() | nil,
-          trip: Schedules.Trip.id_t() | nil,
+          trip_id: Schedules.Trip.id_t() | nil,
           stop: stop,
           platform_stop_id: Stops.Stop.id_t() | nil,
           route: Routes.Route.t(),

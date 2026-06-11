@@ -93,7 +93,7 @@ defmodule Predictions.StreamParser do
 
   defp included_trip(_), do: nil
 
-  @spec included_trip(Item.t()) :: Trip.t() | nil
+  @spec included_trip_id(Item.t()) :: Trip.id_t() | nil
   defp included_trip_id(%Item{relationships: %{"trip" => [%Item{id: id} | _]}}),
     do: id
 
