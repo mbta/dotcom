@@ -204,15 +204,12 @@ defmodule PredictedSchedule do
   """
   @spec trip(PredictedSchedule.t()) :: Schedules.Trip.t() | nil
   def trip(%PredictedSchedule{schedule: %Schedule{trip: trip}}), do: trip
-  def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}), do: trip
 
-  @doc """
-  Returns the trip_id for a given PredictedSchedule.
-  """
-  @spec trip_id(PredictedSchedule.t()) :: Schedules.Trip.id_t() | nil
-  def trip_id(%PredictedSchedule{prediction: %Prediction{trip: %Trip{id: trip_id}}}), do: trip_id
-  def trip_id(%PredictedSchedule{prediction: %Prediction{trip_id: trip_id}}), do: trip_id
-  def trip_id(%PredictedSchedule{schedule: %Schedule{trip: %Trip{id: trip_id}}}), do: trip_id
+  def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}) when not is_nil(trip),
+    do: trip
+
+  def trip(%PredictedSchedule{prediction: %Prediction{trip_id: trip_id}}),
+    do: @schedules_repo.trip(trip_id)
 
   @doc """
   Returns the direction ID for a given PredictedSchedule

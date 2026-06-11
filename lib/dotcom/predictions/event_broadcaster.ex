@@ -4,7 +4,7 @@ defmodule Dotcom.Predictions.EventBroadcaster do
   """
   use GenStage
 
-  alias Predictions.{Prediction, StreamParser}
+  alias Predictions.StreamParser
   alias ServerSentEventStage.Event
 
   def start_link(opts) do

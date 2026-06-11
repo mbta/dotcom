@@ -2125,7 +2125,6 @@ defmodule Dotcom.UpcomingDeparturesTest do
       # Verify
       assert [%{headsign: headsign}] = departures
       assert headsign == trip.headsign
-
     end
   end
 
