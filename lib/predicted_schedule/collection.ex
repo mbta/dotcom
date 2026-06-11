@@ -180,19 +180,21 @@ defmodule PredictedSchedule.Collection do
     populated
     |> Enum.flat_map(fn {_, %{schedule: schedule, predictions: predictions}} ->
       predictions
-      |> Enum.to_list()
-      |> case do
-        [] ->
-          [%PredictedSchedule{schedule: schedule}]
-
-        entry_list ->
-          entry_list
-          |> Enum.map(fn {_, prediction} ->
-            %PredictedSchedule{schedule: schedule, prediction: prediction}
-          end)
-      end
+      |> Map.values()
+      |> to_prediction_list()
+      |> Enum.map(&%PredictedSchedule{schedule: schedule, prediction: &1})
     end)
   end
+
+  # This function is used to convert a list of predictions into a list
+  # to be mapped into predicted_schedules for a given schedule. If we
+  # have one or more predictions, then we want the list, but if we
+  # have none, then we want a single `nil` value, so that we get
+  # %PredictedSchedule{schedule: schedule, prediction: nil} as an end
+  # result.
+  @spec to_prediction_list([Predictions.Prediction.t()]) :: [Predictions.Prediction.t()] | [nil]
+  defp to_prediction_list([]), do: [nil]
+  defp to_prediction_list(list) when is_list(list), do: list
 
   @spec key(Schedules.Schedule.t() | Predictions.Prediction.t()) :: key_t()
   defp key(%{trip: %{id: trip_id}, stop_sequence: stop_sequence}) do
