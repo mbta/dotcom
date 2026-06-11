@@ -83,7 +83,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp assign_cr_upcoming(%{assigns: %{alerts: alerts}} = conn) do
     cr_upcoming =
       alerts
-      |> Enum.filter(&upcoming_alert?/1)
+      |> Enum.filter(&future_alert?/1)
       |> Enum.sort(&alert_period_sorter/2)
 
     grouped_alerts =
@@ -99,19 +99,16 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     })
   end
 
-  defp upcoming_alert?(alert) do
-    later = DateTime.shift(Util.now(), day: 7)
-
+  defp future_alert?(alert) do
     case next_active_time(alert) do
+      {:future, _} -> true
+
       {:current, start_time} ->
         {_, end_time} =
           alert.active_period
           |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
 
         Util.safe_time_compare(end_time, Util.end_of_service()) == :gt
-
-      {:future, start_time} ->
-        start_time |> DateTime.before?(later)
 
       _ ->
         false
