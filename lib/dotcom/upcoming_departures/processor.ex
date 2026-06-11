@@ -154,7 +154,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
         route_type: route_type
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
-    trip_id = trip.id
+    trip_id = predicted_schedule |> PredictedSchedule.trip_id()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
     vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip_id, stop_sequence)
