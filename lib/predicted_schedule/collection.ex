@@ -186,9 +186,6 @@ defmodule PredictedSchedule.Collection do
             %PredictedSchedule{schedule: schedule, prediction: prediction}
           end)
       end
-
-      # dbg(schedule)
-      # dbg(predictions)
     end)
   end
 
