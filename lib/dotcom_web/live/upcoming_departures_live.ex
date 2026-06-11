@@ -36,17 +36,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
      |> assign_new(:stop, fn -> @stops_repo.get(stop_id) end)
      |> assign_new(:should_refresh?, fn -> true end)
      |> assign_new(:loaded_upcoming_trips, fn -> %{} end)
-     |> assign_new(:last_trip_time, fn assigns ->
-       if assigns.route.type in [0, 1] do
-         @schedules_repo.by_route_ids([route_id],
-           direction_id: direction_id,
-           stop_ids: [assigns.stop.id],
-           date: service_date()
-         )
-         |> List.last(%{})
-         |> Map.get(:time)
-       end
-     end)
+     |> assign_last_trip_time(service_date())
      |> assign(:departures, AsyncResult.loading())
      |> subscribe_to_upcoming_departures()}
   end
@@ -203,6 +193,26 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     Enum.reduce(trip_ids_and_stop_seqs, socket, fn {trip_id, stop_sequence}, s ->
       s |> assign_trip_details(trip_id, stop_sequence)
     end)
+  end
+
+  defp assign_last_trip_time(%{assigns: %{route: %{type: route_type}}} = socket, _)
+       when route_type not in [0, 1] do
+    assign(socket, :last_trip_time, nil)
+  end
+
+  defp assign_last_trip_time(socket, date) do
+    assign(socket, :last_trip_time, get_last_trip_time(socket.assigns, date))
+  end
+
+  defp get_last_trip_time(assigns, date) do
+    [assigns.route_id]
+    |> @schedules_repo.by_route_ids(
+      direction_id: assigns.direction_id,
+      stop_ids: [assigns.stop_id],
+      date: date
+    )
+    |> List.last(%{})
+    |> Map.get(:time)
   end
 
   attr :upcoming_departures, :any,
