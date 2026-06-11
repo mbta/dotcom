@@ -151,6 +151,34 @@ defmodule PredictedSchedule.CollectionTest do
                MapSet.new(expected_predicted_schedule_list)
     end
 
+    test "can change prediction ID by adding the new followed by removing the old" do
+      # Setup
+      absent_schedule = Factories.Schedules.Schedule.build(:schedule)
+      base_prediction = build_prediction_from_schedule(absent_schedule)
+
+      prediction_ids = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      [old_prediction, new_prediction] =
+        prediction_ids |> Enum.map(&(base_prediction |> Map.put(:id, &1)))
+
+      # Exercise
+      actual_predicted_schedule_list =
+        []
+        |> Collection.new()
+        |> Collection.put_prediction(old_prediction)
+        |> Collection.put_prediction(new_prediction)
+        |> Collection.delete_prediction(old_prediction)
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        [%PredictedSchedule{schedule: nil, prediction: new_prediction}]
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
+
     test "can clear the predictions" do
       # Setup
       [absent_schedule | schedules] = build_schedules(3)
