@@ -23,6 +23,26 @@ defmodule Util do
     # to_local_time(utc_now_fn.())
   end
 
+  @doc "Allows you to compare DateTime to nil values.
+  By default, nil is an indefinite future."
+  @spec safe_time_compare(DateTime.t(), DateTime.t(), boolean()) :: :lt | :eq | :gt
+  def safe_time_compare(a, b, nil_is_greater? \\ true) do
+    cond do
+      a == nil ->
+        if b == nil do
+          :eq
+        else
+          if nil_is_greater?, do: :gt, else: :lt
+        end
+
+      b == nil ->
+        if nil_is_greater?, do: :lt, else: :gt
+
+      true ->
+        DateTime.compare(a, b)
+    end
+  end
+
   @spec time_is_greater_or_equal?(
           DateTime.t() | NaiveDateTime.t(),
           DateTime.t() | NaiveDateTime.t()
