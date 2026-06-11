@@ -77,7 +77,7 @@ const LineDiagram = ({
 
     if (selectedOrigin !== undefined && !modalIsOpen) {
       window.location.assign(
-        `/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`
+        `/departures?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`
       );
     }
   };
