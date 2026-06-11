@@ -200,8 +200,29 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     assign(socket, :last_trip_time, nil)
   end
 
+  # WC special!
+  defp assign_last_trip_time(
+         %{assigns: assigns} = socket,
+         %Date{month: 6, day: 14, year: 2026} = date
+       ) do
+    yesterday_last_scheduled_time = get_last_trip_time(assigns, ~D[2026-06-13])
+
+    if last_trip_has_passed?(yesterday_last_scheduled_time) do
+      assign(socket, :last_trip_time, get_last_trip_time(assigns, date))
+    else
+      # don't reassign the last_trip_time! we'll have to reassign it later.
+      assign(socket, :last_trip_time, yesterday_last_scheduled_time)
+    end
+  end
+
   defp assign_last_trip_time(socket, date) do
     assign(socket, :last_trip_time, get_last_trip_time(socket.assigns, date))
+  end
+
+  defp last_trip_has_passed?(nil), do: false
+
+  defp last_trip_has_passed?(time) do
+    @date_time.now() |> DateTime.after?(time)
   end
 
   defp get_last_trip_time(assigns, date) do
