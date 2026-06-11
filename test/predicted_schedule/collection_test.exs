@@ -258,6 +258,34 @@ defmodule PredictedSchedule.CollectionTest do
       assert MapSet.new(actual_predicted_schedule_list) ==
                MapSet.new(expected_predicted_schedule_list)
     end
+
+    test "works with predictions that have nil trips" do
+      # Setup
+      [prediction_1, prediction_2] =
+        2
+        |> build_schedules()
+        |> Enum.map(&build_prediction_from_schedule/1)
+        |> Enum.map(&Map.put(&1, :trip, nil))
+
+      # Exercise
+      actual_predicted_schedule_list =
+        []
+        |> Collection.new()
+        |> Collection.put_prediction(prediction_1)
+        |> Collection.put_prediction(prediction_2)
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        [
+          %PredictedSchedule{schedule: nil, prediction: prediction_1},
+          %PredictedSchedule{schedule: nil, prediction: prediction_2}
+        ]
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
   end
 
   defp build_schedules(count) do

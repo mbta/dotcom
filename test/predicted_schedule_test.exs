@@ -6,6 +6,8 @@ defmodule PredictedScheduleTest do
   import PredictedSchedule
   import Test.Support.Factories.Predictions.Prediction
 
+  alias Test.Support.FactoryHelpers
+  alias Test.Support.Factories
   alias Predictions.Prediction
   alias Schedules.{Schedule, ScheduleCondensed, Trip}
   alias Stops.Stop
@@ -467,6 +469,33 @@ defmodule PredictedScheduleTest do
 
     test "returns nil when status is not available" do
       refute PredictedSchedule.status(%PredictedSchedule{})
+    end
+  end
+
+  describe "trip_id/1" do
+    test "uses prediction.trip.id if available" do
+      trip = Factories.Schedules.Trip.build(:trip)
+      predicted_schedule = %PredictedSchedule{prediction: %Prediction{trip: trip}}
+      assert trip_id(predicted_schedule) == trip.id
+    end
+
+    # This can happen for added trips if the prediction becomes
+    # available in the API before the trip is. It's typically a
+    # transient state, but still one we need to handle.
+    test "uses prediction.trip_id when trip is nil" do
+      trip_id = FactoryHelpers.build(:id)
+
+      predicted_schedule = %PredictedSchedule{
+        prediction: %Prediction{trip: nil, trip_id: trip_id}
+      }
+
+      assert trip_id(predicted_schedule) == trip_id
+    end
+
+    test "uses schedule.trip.id when there's no prediction" do
+      trip = Factories.Schedules.Trip.build(:trip)
+      predicted_schedule = %PredictedSchedule{prediction: nil, schedule: %Schedule{trip: trip}}
+      assert trip_id(predicted_schedule) == trip.id
     end
   end
 
