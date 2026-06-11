@@ -51,7 +51,6 @@ defmodule Dotcom.Application do
           Predictions.Supervisor,
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
-          Dotcom.ServiceDateRollover,
           {DynamicSupervisor, name: Dotcom.UpcomingDepartures.Supervisor},
           {DynamicSupervisor, name: Dotcom.Predictions.Supervisor},
           {Phoenix.PubSub, name: Dotcom.PubSub},
@@ -60,6 +59,7 @@ defmodule Dotcom.Application do
         ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
+            Dotcom.ServiceDateRollover,
             Dotcom.ViaFairmount,
             {Dotcom.SystemStatus.CommuterRailCache, []},
             {Dotcom.SystemStatus.SubwayCache, []}
