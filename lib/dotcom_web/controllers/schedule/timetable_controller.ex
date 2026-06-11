@@ -6,8 +6,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
-  import Dotcom.Alerts.StartTime, only: [active_in_next_n_days?: 2]
-  import Dotcom.SystemStatus, only: [active_now_or_later_on_day?: 2]
+  import Dotcom.Alerts, only: [sort_by_start_time_sorter: 2]
+  import Dotcom.Alerts.StartTime,
+    only: [next_active_period_active_time: 2, active_in_next_n_days?: 2]
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
 
   alias Dotcom.Timetables
@@ -79,27 +80,15 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:cr_status, cr_status)
   end
 
-  defp assign_cr_upcoming(%{assigns: %{alerts: alerts, cr_status: cr_status}} = conn) do
-    status_alert_ids =
-      case cr_status do
-        status when is_map(status) ->
-          cr_status
-          |> Enum.flat_map(fn {_, entries} -> entries |> Enum.map(& &1.alert.id) end)
-
-        _ ->
-          []
-      end
-      |> MapSet.new()
-
+  defp assign_cr_upcoming(%{assigns: %{alerts: alerts}} = conn) do
     cr_upcoming =
       alerts
-      |> Enum.reject(
-        &(MapSet.member?(status_alert_ids, &1.id) || active_now_or_later_on_day?(&1, Util.now()))
-      )
+      |> Enum.filter(&upcoming_alert?/1)
+      |> Enum.sort(&sort_by_start_time_sorter/2)
 
     grouped_alerts =
       cr_upcoming
-      |> Enum.group_by(&if active_in_next_n_days?(&1, 7), do: :soon, else: :later)
+      |> Enum.group_by(& if active_in_next_n_days?(&1, 7), do: :soon, else: :later)
       |> Enum.into(%{soon: [], later: []})
 
     conn
@@ -108,6 +97,23 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       cr_soon: grouped_alerts.soon,
       cr_later: grouped_alerts.later
     })
+  end
+
+  defp upcoming_alert?(alert) do
+    now = Util.now()
+    later = DateTime.shift(now, day: 7)
+
+    case next_active_period_active_time(alert.active_period, now) do
+      {:current, start_time} ->
+        {_, end_time} =
+          alert.active_period
+          |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
+
+        if end_time == nil, do: true, else: DateTime.after?(end_time, Util.end_of_service())
+
+      {:future, start_time} -> start_time |> DateTime.before?(later)
+      _ -> false
+    end
   end
 
   defp assign_banner_alerts(
