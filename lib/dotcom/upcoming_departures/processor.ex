@@ -157,7 +157,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
     trip = @schedules_repo.trip(trip_id)
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
-    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip.id, stop_sequence)
+    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip_id, stop_sequence)
 
     predicted_schedule_route = PredictedSchedule.route(predicted_schedule)
 
@@ -172,6 +172,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
           route_type: route_type,
           status: PredictedSchedule.status(predicted_schedule),
           now: now,
+          trip: trip,
           vehicle_at_stop_status: vehicle_at_stop_status
         }),
       arrival_substatus:
@@ -179,8 +180,8 @@ defmodule Dotcom.UpcomingDepartures.Processor do
           predicted_schedule: predicted_schedule,
           route_type: route_type
         }),
-      crowding: crowding(vehicle, trip.id),
-      headsign: stop_headsign || trip.headsign,
+      crowding: crowding(vehicle, trip_id),
+      headsign: stop_headsign || (trip && trip.headsign),
       last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
       route: predicted_schedule_route,
@@ -188,7 +189,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
       time: PredictedSchedule.display_time(predicted_schedule),
       trip_id: trip_id,
       trip_name:
-        if(route_type == :commuter_rail,
+        if(route_type == :commuter_rail && trip,
           do: trip_name(predicted_schedule_route, trip.name),
           else: nil
         ),
@@ -324,8 +325,11 @@ defmodule Dotcom.UpcomingDepartures.Processor do
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type(),
           status: nil | String.t(),
+          trip: Schedules.Trip.t() | nil,
           vehicle_at_stop_status: vehicle_at_stop_status_t()
         }) :: UpcomingDeparture.arrival_status_t()
+  defp arrival_status(%{trip: nil}), do: :hidden
+
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
          route_type: :subway
