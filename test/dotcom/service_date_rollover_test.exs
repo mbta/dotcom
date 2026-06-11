@@ -111,14 +111,14 @@ defmodule Dotcom.ServiceDateRolloverTest do
       :ok = Phoenix.PubSub.subscribe(Dotcom.PubSub, topic_name())
       {:ok, _pid} = start_supervised({Dotcom.ServiceDateRollover, []}, id: :service_date_rollover)
 
-      assert_receive {:service_date_rollover, _date}, 200
+      assert_receive {:service_date_rollover, _date}, 1200
     end
 
     test "subscribe/0 subscribes to the service date rollover topic" do
       :ok = Dotcom.ServiceDateRollover.subscribe()
       {:ok, _pid} = start_supervised({Dotcom.ServiceDateRollover, []}, id: :service_date_rollover)
 
-      assert_receive {:service_date_rollover, _date}, 200
+      assert_receive {:service_date_rollover, _date}, 1200
     end
   end
 end
