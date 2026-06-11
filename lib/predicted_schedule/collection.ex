@@ -73,9 +73,13 @@ defmodule PredictedSchedule.Collection do
   """
 
   @type key_t() :: {Schedules.Trip.id_t(), non_neg_integer()}
+  @type entry_t() :: %{
+          schedule: Schedules.Schedule.t(),
+          predictions: %{Predictions.Prediction.id_t() => Predictions.Prediction.t()}
+        }
   @type t() :: %{
-          base: %{key_t() => PredictedSchedule.t()},
-          populated: %{key_t() => PredictedSchedule.t()}
+          base: %{key_t() => entry_t()},
+          populated: %{key_t() => entry_t()}
         }
 
   @spec new([Schedules.Schedule.t()]) :: t()
@@ -86,7 +90,7 @@ defmodule PredictedSchedule.Collection do
     predicted_schedule_map =
       schedules
       |> Map.new(fn schedule ->
-        {key(schedule), %PredictedSchedule{schedule: schedule}}
+        {key(schedule), %{schedule: schedule, predictions: %{}}}
       end)
 
     %{base: predicted_schedule_map, populated: predicted_schedule_map}
@@ -102,9 +106,9 @@ defmodule PredictedSchedule.Collection do
       Map.update(
         populated,
         key(prediction),
-        %PredictedSchedule{prediction: prediction},
-        fn %PredictedSchedule{} = ps ->
-          %PredictedSchedule{ps | prediction: prediction}
+        %{schedule: nil, predictions: %{prediction.id => prediction}},
+        fn %{predictions: predictions} = ps ->
+          %{ps | predictions: predictions |> Map.put(prediction.id, prediction)}
         end
       )
 
@@ -120,18 +124,23 @@ defmodule PredictedSchedule.Collection do
   def delete_prediction(%{populated: populated} = collection, prediction) do
     key = key(prediction)
 
-    new_map =
-      populated
-      |> Map.get(key)
-      |> case do
-        %PredictedSchedule{schedule: schedule} = ps when schedule != nil ->
-          populated |> Map.put(key, %PredictedSchedule{ps | prediction: nil})
+    case populated do
+      %{^key => entry} ->
+        new_predictions = entry.predictions |> Map.delete(prediction.id)
+        new_entry = %{entry | predictions: new_predictions}
 
-        _ ->
-          populated |> Map.delete(key)
-      end
+        new_map =
+          if new_entry == %{schedule: nil, predictions: %{}} do
+            populated |> Map.delete(key)
+          else
+            populated |> Map.put(key, new_entry)
+          end
 
-    %{collection | populated: new_map}
+        %{collection | populated: new_map}
+
+      _ ->
+        collection
+    end
   end
 
   @spec clear_predictions(t()) :: t()
@@ -156,7 +165,7 @@ defmodule PredictedSchedule.Collection do
   """
   def update_schedules(%{populated: populated}, new_schedules) do
     populated
-    |> Enum.map(fn {_key, %PredictedSchedule{prediction: prediction}} -> prediction end)
+    |> Enum.flat_map(fn {_key, %{predictions: predictions}} -> predictions |> Map.values() end)
     |> Enum.reject(&is_nil/1)
     |> Enum.reduce(new(new_schedules), fn prediction, new_collection ->
       new_collection |> put_prediction(prediction)
@@ -169,8 +178,23 @@ defmodule PredictedSchedule.Collection do
   """
   def to_list(%{populated: populated}) do
     populated
-    |> Map.values()
+    |> Enum.flat_map(fn {_, %{schedule: schedule, predictions: predictions}} ->
+      predictions
+      |> Map.values()
+      |> to_prediction_list()
+      |> Enum.map(&%PredictedSchedule{schedule: schedule, prediction: &1})
+    end)
   end
+
+  # This function is used to convert a list of predictions into a list
+  # to be mapped into predicted_schedules for a given schedule. If we
+  # have one or more predictions, then we want the list, but if we
+  # have none, then we want a single `nil` value, so that we get
+  # %PredictedSchedule{schedule: schedule, prediction: nil} as an end
+  # result.
+  @spec to_prediction_list([Predictions.Prediction.t()]) :: [Predictions.Prediction.t()] | [nil]
+  defp to_prediction_list([]), do: [nil]
+  defp to_prediction_list(list) when is_list(list), do: list
 
   @spec key(Schedules.Schedule.t() | Predictions.Prediction.t()) :: key_t()
   defp key(%{trip: %{id: trip_id}, stop_sequence: stop_sequence}) do
