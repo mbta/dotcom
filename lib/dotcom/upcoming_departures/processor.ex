@@ -6,6 +6,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   in order to present a single model containing everything needed to convey rider
   info about an upcoming departure.
   """
+  require Logger
 
   use Dotcom.Gettext.Sigils
 
@@ -31,6 +32,17 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
   @impl Dotcom.UpcomingDepartures.Behaviour
   def upcoming_departures(predicted_schedules, %{route: route}) do
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("")
+    # Logger.notice("---Upcoming Departures Check---")
     now = @date_time.now()
     route_type = Route.type_atom(route)
 
@@ -71,6 +83,10 @@ defmodule Dotcom.UpcomingDepartures.Processor do
         end
 
       true ->
+        # upcoming_predicted_schedules_at_stop
+        # |> Enum.take(5)
+        # |> Enum.each(&log_predicted_schedule/1)
+
         upcoming_departures =
           upcoming_predicted_schedules_at_stop
           |> to_upcoming_departures(%{
@@ -147,6 +163,52 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   end
 
   defp mark_last_trip(departures, _route_type), do: departures
+
+  defp present_trip?(%PredictedSchedule{prediction: %Prediction{trip: trip}}) when trip != nil,
+    do: "yeps"
+
+  defp present_trip?(_), do: "nope"
+
+  defp present?(nil), do: "nope"
+  defp present?(_), do: "yeps"
+
+  defp prediction_trip_id(%PredictedSchedule{prediction: %Prediction{trip_id: trip_id}}),
+    do: trip_id
+
+  defp prediction_trip_id(_), do: nil
+
+  defp prediction_trip(%PredictedSchedule{prediction: %Prediction{trip: %Trip{id: trip_id}}}),
+    do: trip_id
+
+  defp prediction_trip(_), do: nil
+
+  defp repo_trip(predicted_schedule) do
+    predicted_schedule
+    |> prediction_trip_id()
+    |> @schedules_repo.trip()
+    |> case do
+      %Trip{id: trip_id} -> trip_id
+      _ -> nil
+    end
+  end
+
+  defp log_predicted_schedule(predicted_schedule) do
+    trip = predicted_schedule |> PredictedSchedule.trip()
+    trip_id = predicted_schedule |> PredictedSchedule.trip_id()
+
+    Logger.notice(
+      [
+        "Checking #{trip_id}:",
+        "Has Prediction: #{PredictedSchedule.has_prediction?(predicted_schedule)}",
+        "Has Schedule: #{PredictedSchedule.has_schedule?(predicted_schedule)}",
+        "Prediction Trip ID: #{prediction_trip_id(predicted_schedule)}",
+        "Prediction Trip: #{prediction_trip(predicted_schedule)}",
+        "Repo Trip: #{repo_trip(predicted_schedule)}",
+        ""
+      ]
+      |> Enum.join("\n\t")
+    )
+  end
 
   def to_upcoming_departure(%{
         now: now,
