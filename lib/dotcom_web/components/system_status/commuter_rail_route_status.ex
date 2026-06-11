@@ -13,13 +13,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
 
   alias Alerts.Alert
 
+  attr :class, :string, default: ""
   attr :status, :map
 
   def commuter_rail_route_status(%{status: nil} = assigns), do: ~H""
 
   def commuter_rail_route_status(assigns) do
     ~H"""
-    <.commuter_rail_info_widget heading_text={~t"Current Status"}>
+    <.commuter_rail_info_widget heading_text={~t"Current Status"} class={@class}>
       <.rows_for_status status={@status} />
     </.commuter_rail_info_widget>
     """

@@ -13,9 +13,12 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
 
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
+  attr :class, :string, default: ""
+  attr :status, :map
+
   def commuter_rail_upcoming_changes(%{status: nil} = assigns) do
     ~H"""
-    <.commuter_rail_info_widget heading_text={~t"Upcoming Changes"}>
+    <.commuter_rail_info_widget class={@class} heading_text={~t"Upcoming Changes"}>
       {~t"No changes posted for the next 7 days"}
     </.commuter_rail_info_widget>
     """
@@ -23,7 +26,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
 
   def commuter_rail_upcoming_changes(assigns) do
     ~H"""
-    <.commuter_rail_info_widget heading_text={~t"Upcoming Changes"}>
+    <.commuter_rail_info_widget class={@class} heading_text={~t"Upcoming Changes"}>
       <.rows_for_upcoming alerts={@alerts} />
       <:postscript>
         {render_slot(@inner_block)}
@@ -31,6 +34,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
     </.commuter_rail_info_widget>
     """
   end
+
+  attr :later_count, :integer, default: 0
 
   def later_changes_link(%{later_count: 0} = assigns), do: ~H""
 

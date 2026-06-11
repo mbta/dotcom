@@ -7,13 +7,14 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailInfoWidget do
 
   import DotcomWeb.Components, only: [bordered_container: 1]
 
+  attr :class, :string, default: ""
   attr :heading_text, :string, required: true
   slot :inner_block, required: true
   slot :postscript, required: false
 
   def commuter_rail_info_widget(assigns) do
     ~H"""
-    <.bordered_container hide_divider>
+    <.bordered_container class={@class} hide_divider>
       <h2 class="font-heading font-bold text-[1.75rem] leading-normal" style="margin-top: inherit">
         {@heading_text}
       </h2>
