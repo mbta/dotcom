@@ -37,3 +37,14 @@ config :phoenix_live_view,
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :laboratory,
+  features: [
+    {:use_smartling_translations, "Smartling translations",
+     "Uses Smartling's translation workflows"}
+  ],
+  cookie: [
+    # one month,
+    max_age: 3600 * 24 * 30,
+    http_only: true
+  ]
