@@ -10,6 +10,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
+  alias Dotcom.ServiceDateRollover
   alias DotcomWeb.Components.Departures
   alias Phoenix.{LiveView, LiveView.AsyncResult}
 
@@ -26,6 +27,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       "direction_id" => direction_id,
       "stop_id" => stop_id
     } = session
+
+    _ =
+      if connected?(socket) do
+        ServiceDateRollover.subscribe()
+      end
 
     {:ok,
      socket
@@ -112,6 +118,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   @impl LiveView
   def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply, refresh_upcoming_trip_details(socket)}
+  end
+
+  # sent every night by `ServiceDateRollover`
+  def handle_info({:service_date_rollover, new_service_date}, socket) do
+    {:noreply, assign_last_trip_time(socket, new_service_date)}
   end
 
   def handle_info({:upcoming_departures, :loading}, socket) do
