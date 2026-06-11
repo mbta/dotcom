@@ -189,12 +189,15 @@ defmodule Dotcom.UpcomingDeparturesTest do
         predictions: predictions,
         stops: [_, stop, _],
         trip: trip,
+        trip_id: trip_id,
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
           route_factory_types: [:rail_replacement_bus_route],
           stop_id_options: Platforms.stations_with_commuter_rail_platforms()
         )
+
+      stub(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
 
       original_route = Factories.Routes.Route.build(:commuter_rail_route)
 
@@ -2049,6 +2052,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       # Verify
       assert [%{headsign: headsign}] = departures
       assert headsign == trip.headsign
+
     end
   end
 
