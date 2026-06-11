@@ -10,6 +10,8 @@ defmodule Test.Support.Factories.Predictions.Prediction do
   alias Test.Support.FactoryHelpers
 
   def prediction_factory do
+    trip = Trip.build(:trip)
+
     %Prediction{
       id: FactoryHelpers.build(:id),
       arrival_time: Timex.now() |> Timex.shift(minutes: 10),
@@ -21,7 +23,8 @@ defmodule Test.Support.Factories.Predictions.Prediction do
       stop: Stop.build(:stop),
       time: Faker.DateTime.forward(1),
       track: Faker.Util.digit() |> FactoryHelpers.nullable_item(),
-      trip: Trip.build(:trip),
+      trip: trip,
+      trip_id: trip.id,
       vehicle_id: FactoryHelpers.build(:nullable_id),
       last_trip?: false
     }

@@ -4,7 +4,7 @@ defmodule Dotcom.Predictions.EventBroadcaster do
   """
   use GenStage
 
-  alias Predictions.{Prediction, StreamParser}
+  alias Predictions.StreamParser
   alias ServerSentEventStage.Event
 
   def start_link(opts) do
@@ -118,13 +118,9 @@ defmodule Dotcom.Predictions.EventBroadcaster do
     with %JsonApi{data: data} <- JsonApi.parse(json_api_data) do
       data
       |> Stream.map(fn %JsonApi.Item{id: id} = item ->
-        check_tripless_prediction(id, StreamParser.parse(item))
+        {id, StreamParser.parse(item)}
       end)
-      |> Stream.reject(fn item -> item == :error end)
       |> Enum.to_list()
     end
   end
-
-  defp check_tripless_prediction(_, %Prediction{trip: nil}), do: :error
-  defp check_tripless_prediction(id, parsed), do: {id, parsed}
 end

@@ -7,6 +7,7 @@ defmodule Predictions.Prediction do
 
   defstruct id: nil,
             trip: nil,
+            trip_id: nil,
             stop: nil,
             platform_stop_id: nil,
             route: nil,
@@ -31,6 +32,7 @@ defmodule Predictions.Prediction do
   @type t :: %__MODULE__{
           id: id_t,
           trip: Schedules.Trip.t() | nil,
+          trip_id: Schedules.Trip.id_t() | nil,
           stop: stop,
           platform_stop_id: Stops.Stop.id_t() | nil,
           route: Routes.Route.t(),

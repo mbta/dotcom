@@ -173,7 +173,6 @@ defmodule PredictedSchedule.Collection do
   end
 
   @spec key(Schedules.Schedule.t() | Predictions.Prediction.t()) :: key_t()
-  defp key(%{trip: %{id: trip_id}, stop_sequence: stop_sequence}) do
-    {trip_id, stop_sequence}
-  end
+  defp key(%{trip: %{id: trip_id}, stop_sequence: stop_sequence}), do: {trip_id, stop_sequence}
+  defp key(%{trip_id: trip_id, stop_sequence: stop_sequence}), do: {trip_id, stop_sequence}
 end
