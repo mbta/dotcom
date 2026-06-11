@@ -74,7 +74,7 @@ defmodule PredictedSchedule.Collection do
 
   @type key_t() :: {Schedules.Trip.id_t(), non_neg_integer()}
   @type entry_t() :: %{
-          schedule: Schedules.Trip.t(),
+          schedule: Schedules.Schedule.t(),
           predictions: %{Predictions.Prediction.id_t() => Predictions.Prediction.t()}
         }
   @type t() :: %{
