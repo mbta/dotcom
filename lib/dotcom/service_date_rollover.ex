@@ -47,6 +47,7 @@ defmodule Dotcom.ServiceDateRollover do
     end_of_service_day()
     |> DateTime.shift(microsecond: {1, 4})
     |> DateTime.diff(@date_time_module.now(), :millisecond)
+    |> max(1000)
   end
 
   def subscribe() do
