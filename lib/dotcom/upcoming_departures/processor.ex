@@ -153,7 +153,8 @@ defmodule Dotcom.UpcomingDepartures.Processor do
         predicted_schedule: predicted_schedule,
         route_type: route_type
       }) do
-    trip = predicted_schedule |> PredictedSchedule.trip()
+    trip_id = predicted_schedule |> PredictedSchedule.trip_id()
+    trip = @schedules_repo.trip(trip_id)
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
     vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip.id, stop_sequence)
@@ -185,7 +186,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
       route: predicted_schedule_route,
       stop_sequence: stop_sequence,
       time: PredictedSchedule.display_time(predicted_schedule),
-      trip_id: trip.id,
+      trip_id: trip_id,
       trip_name:
         if(route_type == :commuter_rail,
           do: trip_name(predicted_schedule_route, trip.name),

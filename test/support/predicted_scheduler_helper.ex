@@ -131,6 +131,7 @@ defmodule Test.Support.PredictedScheduleHelper do
             stop: stop,
             stop_sequence: stop_sequence,
             trip: prediction_trip,
+            trip_id: prediction_trip.id,
             vehicle_id: if(missing_vehicle?, do: nil, else: vehicle.id)
           },
           %{
