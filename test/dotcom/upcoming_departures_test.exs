@@ -161,15 +161,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         platform_stop_ids: [_, platform_id, _],
         stops: [_, stop, _],
         trip: trip,
-        trip_id: trip_id,
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
           route_factory_types: [:commuter_rail_route],
           stop_id_options: Platforms.stations_with_commuter_rail_platforms()
         )
-
-      expect(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
 
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
@@ -249,7 +246,9 @@ defmodule Dotcom.UpcomingDeparturesTest do
       end)
 
       # Exercise
-      predicted_schedules = predicted_schedules_for_stop([], predictions, stop.id)
+      non_trip_predictions = predictions |> Enum.map(&Map.put(&1, :trip, nil))
+
+      predicted_schedules = predicted_schedules_for_stop([], non_trip_predictions, stop.id)
       departures = UpcomingDepartures.upcoming_departures(predicted_schedules, %{route: route})
 
       # Verify
