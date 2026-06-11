@@ -124,18 +124,23 @@ defmodule PredictedSchedule.Collection do
   def delete_prediction(%{populated: populated} = collection, prediction) do
     key = key(prediction)
 
-    entry = populated |> Map.get(key)
-    new_predictions = entry.predictions |> Map.delete(prediction.id)
-    new_entry = %{entry | predictions: new_predictions}
+    case populated do
+      %{^key => entry} ->
+        new_predictions = entry.predictions |> Map.delete(prediction.id)
+        new_entry = %{entry | predictions: new_predictions}
 
-    new_map =
-      if new_entry == %{schedule: nil, predictions: %{}} do
-        populated |> Map.delete(key)
-      else
-        populated |> Map.put(key, new_entry)
-      end
+        new_map =
+          if new_entry == %{schedule: nil, predictions: %{}} do
+            populated |> Map.delete(key)
+          else
+            populated |> Map.put(key, new_entry)
+          end
 
-    %{collection | populated: new_map}
+        %{collection | populated: new_map}
+
+      _ ->
+        collection
+    end
   end
 
   @spec clear_predictions(t()) :: t()
