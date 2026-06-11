@@ -120,7 +120,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     {:noreply, refresh_upcoming_trip_details(socket)}
   end
 
-  # sent every night by `ServiceDateRollover`
+  # sent every night by `ServiceDateRollover`, or in special case by `assign_last_trip_time`
   def handle_info({:service_date_rollover, new_service_date}, socket) do
     {:noreply, assign_last_trip_time(socket, new_service_date)}
   end
@@ -222,6 +222,8 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       assign(socket, :last_trip_time, get_last_trip_time(assigns, date))
     else
       # don't reassign the last_trip_time! we'll have to reassign it later.
+      later = ServiceDateRollover.ms_to_next_rollover(yesterday_last_scheduled_time)
+      Process.send_after(self(), {:service_date_rollover, date}, later)
       assign(socket, :last_trip_time, yesterday_last_scheduled_time)
     end
   end
