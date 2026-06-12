@@ -10,6 +10,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
+  alias Dotcom.ServiceDateRollover
   alias DotcomWeb.Components.Departures
   alias Phoenix.{LiveView, LiveView.AsyncResult}
 
@@ -27,6 +28,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       "stop_id" => stop_id
     } = session
 
+    _ =
+      if connected?(socket) do
+        ServiceDateRollover.subscribe()
+      end
+
     {:ok,
      socket
      |> assign(:direction_id, direction_id)
@@ -36,17 +42,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
      |> assign_new(:stop, fn -> @stops_repo.get(stop_id) end)
      |> assign_new(:should_refresh?, fn -> true end)
      |> assign_new(:loaded_upcoming_trips, fn -> %{} end)
-     |> assign_new(:last_trip_time, fn assigns ->
-       if assigns.route.type in [0, 1] do
-         @schedules_repo.by_route_ids([route_id],
-           direction_id: direction_id,
-           stop_ids: [assigns.stop.id],
-           date: service_date()
-         )
-         |> List.last(%{})
-         |> Map.get(:time)
-       end
-     end)
+     |> assign_last_trip_time(service_date())
      |> assign(:departures, AsyncResult.loading())
      |> subscribe_to_upcoming_departures()}
   end
@@ -122,6 +118,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   @impl LiveView
   def handle_info(:refresh_upcoming_departures, socket) do
     {:noreply, refresh_upcoming_trip_details(socket)}
+  end
+
+  # sent every night by `ServiceDateRollover`, or in special case by `assign_last_trip_time`
+  def handle_info({:service_date_rollover, new_service_date}, socket) do
+    {:noreply, assign_last_trip_time(socket, new_service_date)}
   end
 
   def handle_info({:upcoming_departures, :loading}, socket) do
@@ -203,6 +204,49 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     Enum.reduce(trip_ids_and_stop_seqs, socket, fn {trip_id, stop_sequence}, s ->
       s |> assign_trip_details(trip_id, stop_sequence)
     end)
+  end
+
+  defp assign_last_trip_time(%{assigns: %{route: %{type: route_type}}} = socket, _)
+       when route_type not in [0, 1] do
+    assign(socket, :last_trip_time, nil)
+  end
+
+  # WC special!
+  defp assign_last_trip_time(
+         %{assigns: assigns} = socket,
+         %Date{month: 6, day: 14, year: 2026} = date
+       ) do
+    yesterday_last_scheduled_time = get_last_trip_time(assigns, ~D[2026-06-13])
+
+    if last_trip_has_passed?(yesterday_last_scheduled_time) do
+      assign(socket, :last_trip_time, get_last_trip_time(assigns, date))
+    else
+      # don't reassign the last_trip_time! we'll have to reassign it later.
+      later = ServiceDateRollover.ms_to_next_rollover(yesterday_last_scheduled_time)
+      Process.send_after(self(), {:service_date_rollover, date}, later)
+      assign(socket, :last_trip_time, yesterday_last_scheduled_time)
+    end
+  end
+
+  defp assign_last_trip_time(socket, date) do
+    assign(socket, :last_trip_time, get_last_trip_time(socket.assigns, date))
+  end
+
+  defp last_trip_has_passed?(nil), do: false
+
+  defp last_trip_has_passed?(time) do
+    @date_time.now() |> DateTime.after?(time)
+  end
+
+  defp get_last_trip_time(assigns, date) do
+    [assigns.route_id]
+    |> @schedules_repo.by_route_ids(
+      direction_id: assigns.direction_id,
+      stop_ids: [assigns.stop_id],
+      date: date
+    )
+    |> List.last(%{})
+    |> Map.get(:time)
   end
 
   attr :upcoming_departures, :any,
