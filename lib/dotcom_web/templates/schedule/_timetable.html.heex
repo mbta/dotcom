@@ -26,7 +26,17 @@
 )}
 
 <%= if commuter_rail?(@route) do %>
-  <.commuter_rail_route_status status={@cr_status} />
+  <div class="md:flex md:justify-between items-start">
+    <.commuter_rail_route_status
+      status={@cr_status}
+      class="mb-lg md:mb-0 md:w-[calc(50%-.75rem)]"
+    />
+    <.commuter_rail_upcoming_changes
+      alerts={@cr_upcoming}
+      route_id={@route.id}
+      class="md:w-[calc(50%-.75rem)]"
+    />
+  </div>
   <div class="mt-4">
     <.track_changes track_changes={Enum.filter(@alerts, &(&1.effect == :track_change))} />
   </div>

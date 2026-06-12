@@ -6,6 +6,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
+  import Dotcom.Alerts.StartTime, only: [next_active_time: 1]
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
 
   alias Dotcom.Timetables
@@ -52,6 +53,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
     |> assign_cr_status()
+    |> assign_cr_upcoming()
     |> assign_banner_alerts()
     |> put_view(ScheduleView)
     |> render("show.html", [])
@@ -72,10 +74,43 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         commuter_rail_route_status(route.id)
       end
 
-    conn |> assign(:cr_status, cr_status)
+    conn
+    |> assign(:cr_status, cr_status)
   end
 
-  defp assign_banner_alerts(%{assigns: %{alerts: alerts, cr_status: cr_status}} = conn) do
+  defp assign_cr_upcoming(%{assigns: %{alerts: alerts, route: route}} = conn) do
+    cr_upcoming =
+      if Routes.Route.type_atom(route) == :commuter_rail do
+        alerts
+        |> Enum.filter(&future_alert?/1)
+      else
+        []
+      end
+
+    conn
+    |> assign(:cr_upcoming, cr_upcoming)
+  end
+
+  defp future_alert?(alert) do
+    case next_active_time(alert) do
+      {:future, _} ->
+        true
+
+      {:current, start_time} ->
+        {_, end_time} =
+          alert.active_period
+          |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
+
+        Util.safe_time_compare(end_time, Util.end_of_service()) == :gt
+
+      _ ->
+        false
+    end
+  end
+
+  defp assign_banner_alerts(
+         %{assigns: %{alerts: alerts, cr_status: cr_status, cr_upcoming: cr_upcoming}} = conn
+       ) do
     status_alert_ids =
       case cr_status do
         status when is_map(status) ->
@@ -85,9 +120,16 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         _ ->
           []
       end
+
+    upcoming_alert_ids =
+      cr_upcoming
+      |> Enum.map(& &1.id)
+
+    alert_ids =
+      (status_alert_ids ++ upcoming_alert_ids)
       |> MapSet.new()
 
-    banner_alerts = alerts |> Enum.reject(&MapSet.member?(status_alert_ids, &1.id))
+    banner_alerts = alerts |> Enum.reject(&MapSet.member?(alert_ids, &1.id))
 
     conn
     |> assign(:banner_alerts, banner_alerts)
