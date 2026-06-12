@@ -6,8 +6,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
-  import Dotcom.Alerts.StartTime, only: [next_active_time: 1]
-  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
+  import Dotcom.SystemStatus.CommuterRail,
+    only: [commuter_rail_route_status: 1, commuter_rail_upcoming_alerts: 1]
 
   alias Dotcom.Timetables
   alias DotcomWeb.ScheduleView
@@ -52,8 +52,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:meta_description, meta_description)
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
-    |> assign_cr_status()
-    |> assign_cr_upcoming()
+    |> assign_cr_info()
     |> assign_banner_alerts()
     |> put_view(ScheduleView)
     |> render("show.html", [])
@@ -68,43 +67,19 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp station_type_name(%Route{type: 4}), do: ~t"docks"
   defp station_type_name(_route), do: ~t"stations"
 
-  defp assign_cr_status(%{assigns: %{route: route}} = conn) do
-    cr_status =
-      if Routes.Route.type_atom(route) == :commuter_rail do
-        commuter_rail_route_status(route.id)
-      end
-
-    conn
-    |> assign(:cr_status, cr_status)
-  end
-
-  defp assign_cr_upcoming(%{assigns: %{alerts: alerts, route: route}} = conn) do
-    cr_upcoming =
-      if Routes.Route.type_atom(route) == :commuter_rail do
-        alerts
-        |> Enum.filter(&future_alert?/1)
-      else
-        []
-      end
-
-    conn
-    |> assign(:cr_upcoming, cr_upcoming)
-  end
-
-  defp future_alert?(alert) do
-    case next_active_time(alert) do
-      {:future, _} ->
-        true
-
-      {:current, start_time} ->
-        {_, end_time} =
-          alert.active_period
-          |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
-
-        Util.safe_time_compare(end_time, Util.end_of_service()) == :gt
-
-      _ ->
-        false
+  defp assign_cr_info(%{assigns: %{route: route}} = conn) do
+    if Routes.Route.type_atom(route) == :commuter_rail do
+      conn
+      |> assign(%{
+        cr_status: commuter_rail_route_status(route.id),
+        cr_upcoming: commuter_rail_upcoming_alerts(route.id)
+      })
+    else
+      conn
+      |> assign(%{
+        cr_status: nil,
+        cr_upcoming: []
+      })
     end
   end
 

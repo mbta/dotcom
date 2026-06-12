@@ -91,6 +91,38 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     end
   end
 
+  @doc """
+  Returns upcoming alerts for the route given.
+  """
+  @spec commuter_rail_upcoming_alerts(String.t()) :: [Alerts.Alert.t()]
+  def commuter_rail_upcoming_alerts(id) do
+    [id]
+    |> @alerts_repo.by_route_ids(@date_time_module.now())
+    |> Enum.filter(fn alert ->
+      (service_impacting_alert?(alert) || alert.effect == :schedule_change) &&
+      future_alert?(alert)
+    end)
+  end
+
+  # Checks if the next active period for an alert is in the future.
+  # Excludes alerts that end today.
+  defp future_alert?(alert) do
+    case next_active_time(alert) do
+      {:future, _} ->
+        true
+
+      {:current, start_time} ->
+        {_, end_time} =
+          alert.active_period
+          |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
+
+        Util.safe_time_compare(end_time, Util.end_of_service()) == :gt
+
+      _ ->
+        false
+    end
+  end
+
   # Groups the alerts given into train impacts (delays and
   # cancellations) versus service impacts (everything else). For
   # train impacts, add trip info (first departure time, train number,
