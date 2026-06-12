@@ -7,7 +7,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   require Logger
 
   import Dotcom.SystemStatus.CommuterRail,
-    only: [commuter_rail_route_status: 1, commuter_rail_upcoming_alerts: 1]
+    only: [commuter_rail_route_status: 1, commuter_rail_upcoming_changes: 1]
 
   alias Dotcom.Timetables
   alias DotcomWeb.ScheduleView
@@ -72,7 +72,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       conn
       |> assign(%{
         cr_status: commuter_rail_route_status(route.id),
-        cr_upcoming: commuter_rail_upcoming_alerts(route.id)
+        cr_upcoming: commuter_rail_upcoming_changes(route.id)
       })
     else
       conn

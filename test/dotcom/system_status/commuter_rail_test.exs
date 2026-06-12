@@ -1,7 +1,9 @@
 defmodule Dotcom.SystemStatus.CommuterRailTest do
   use ExUnit.Case
 
-  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
+  import Dotcom.SystemStatus.CommuterRail,
+    only: [commuter_rail_route_status: 1, commuter_rail_upcoming_changes: 1]
+
   import Mox
   import Test.Support.Generators.DateTime, only: [random_time_range_date_time: 1]
 
@@ -699,6 +701,78 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
 
       # VERIFY
       assert delay.trip_info == :all
+    end
+  end
+
+  describe "commuter_rail_upcoming_changes/1" do
+    test "includes only schedule changes and service-impacting alerts" do
+      # SETUP
+      today = Util.now()
+      active_period = [{today, DateTime.shift(today, week: 2)}]
+
+      service_impacting_effects =
+        Dotcom.Alerts.service_impacting_effects()
+        |> Enum.map(fn item -> elem(item, 0) end)
+
+      non_service_impacting_effects = Alerts.Alert.all_types() -- service_impacting_effects
+
+      schedule_change =
+        Factories.Alerts.Alert.build(
+          :alert,
+          active_period: active_period,
+          effect: :schedule_change
+        )
+
+      service_impact =
+        Factories.Alerts.Alert.build(
+          :alert,
+          active_period: active_period,
+          effect: Faker.Util.pick(service_impacting_effects)
+        )
+
+      other_effect =
+        Factories.Alerts.Alert.build(
+          :alert,
+          active_period: active_period,
+          effect: Faker.Util.pick(non_service_impacting_effects -- [:schedule_change])
+        )
+
+      # EXERCISE
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ ->
+        [schedule_change, service_impact, other_effect]
+      end)
+
+      alerts = commuter_rail_upcoming_changes("foo")
+
+      # VERIFY
+      assert Enum.sort(alerts) == Enum.sort([schedule_change, service_impact])
+    end
+
+    test "excludes alerts that end today" do
+      # SETUP
+      today = Util.now()
+      later = DateTime.shift(today, day: 3)
+
+      alert1 =
+        Factories.Alerts.Alert.build(
+          :alert,
+          active_period: [{today, today}],
+          effect: :schedule_change
+        )
+
+      alert2 =
+        Factories.Alerts.Alert.build(
+          :alert,
+          active_period: [{today, later}],
+          effect: :schedule_change
+        )
+
+      # EXERCISE
+      expect(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [alert1, alert2] end)
+      alerts = commuter_rail_upcoming_changes("foo")
+
+      # VERIFY
+      assert alerts == [alert2]
     end
   end
 end

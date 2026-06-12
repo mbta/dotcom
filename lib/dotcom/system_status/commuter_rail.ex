@@ -94,8 +94,8 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   @doc """
   Returns upcoming alerts for the route given.
   """
-  @spec commuter_rail_upcoming_alerts(String.t()) :: [Alerts.Alert.t()]
-  def commuter_rail_upcoming_alerts(id) do
+  @spec commuter_rail_upcoming_changes(String.t()) :: [Alerts.Alert.t()]
+  def commuter_rail_upcoming_changes(id) do
     [id]
     |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(fn alert ->
