@@ -151,6 +151,56 @@ defmodule PredictedSchedule.CollectionTest do
                MapSet.new(expected_predicted_schedule_list)
     end
 
+    test "doesn't crash when removing a non-schedule-associated prediction that wasn't previously added" do
+      # Setup
+      [absent_schedule | schedules] = build_schedules(2)
+      prediction = build_prediction_from_schedule(absent_schedule)
+
+      # Exercise
+      actual_predicted_schedule_list =
+        schedules
+        |> Collection.new()
+        |> Collection.delete_prediction(prediction)
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        schedules
+        |> Enum.map(&%PredictedSchedule{schedule: &1, prediction: nil})
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
+
+    test "can change prediction ID by adding the new followed by removing the old" do
+      # Setup
+      absent_schedule = Factories.Schedules.Schedule.build(:schedule)
+      base_prediction = build_prediction_from_schedule(absent_schedule)
+
+      prediction_ids = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      [old_prediction, new_prediction] =
+        prediction_ids |> Enum.map(&(base_prediction |> Map.put(:id, &1)))
+
+      # Exercise
+      actual_predicted_schedule_list =
+        []
+        |> Collection.new()
+        |> Collection.put_prediction(old_prediction)
+        |> Collection.put_prediction(new_prediction)
+        |> Collection.delete_prediction(old_prediction)
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        [%PredictedSchedule{schedule: nil, prediction: new_prediction}]
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
+
     test "can clear the predictions" do
       # Setup
       [absent_schedule | schedules] = build_schedules(3)
@@ -203,6 +253,34 @@ defmodule PredictedSchedule.CollectionTest do
           %PredictedSchedule{schedule: nil, prediction: old_prediction},
           %PredictedSchedule{schedule: new_schedule_1, prediction: new_prediction},
           %PredictedSchedule{schedule: new_schedule_2, prediction: nil}
+        ]
+
+      assert MapSet.new(actual_predicted_schedule_list) ==
+               MapSet.new(expected_predicted_schedule_list)
+    end
+
+    test "works with predictions that have nil trips" do
+      # Setup
+      [prediction_1, prediction_2] =
+        2
+        |> build_schedules()
+        |> Enum.map(&build_prediction_from_schedule/1)
+        |> Enum.map(&Map.put(&1, :trip, nil))
+
+      # Exercise
+      actual_predicted_schedule_list =
+        []
+        |> Collection.new()
+        |> Collection.put_prediction(prediction_1)
+        |> Collection.put_prediction(prediction_2)
+        |> Collection.to_list()
+        |> MapSet.new()
+
+      # Verify
+      expected_predicted_schedule_list =
+        [
+          %PredictedSchedule{schedule: nil, prediction: prediction_1},
+          %PredictedSchedule{schedule: nil, prediction: prediction_2}
         ]
 
       assert MapSet.new(actual_predicted_schedule_list) ==

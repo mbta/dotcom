@@ -52,7 +52,7 @@ const ScheduleFinder = ({
 
   const openScheduleModal = (): void => {
     if (selectedOrigin !== undefined && !modalOpen) {
-      document.location.href = `/departures/?route_id=${route.id}&direction_id=${directionId}&stop_id=${selectedOrigin}`;
+      document.location.href = `/departures?route_id=${route.id}&direction_id=${directionId}&stop_id=${selectedOrigin}`;
     }
   };
 

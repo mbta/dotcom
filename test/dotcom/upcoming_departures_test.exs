@@ -20,13 +20,25 @@ defmodule Dotcom.UpcomingDeparturesTest do
       Factories.Stops.Stop.build(:stop, id: id, parent_id: nil)
     end)
 
+    stub(Schedules.Repo.Mock, :trip, fn id ->
+      Factories.Schedules.Trip.build(:trip, id: id)
+    end)
+
     :ok
   end
 
   defp predicted_schedules_for_stop(schedules, predictions, stop_id) do
-    predictions
-    |> for_stop(stop_id)
-    |> PredictedSchedule.group(for_stop(schedules, stop_id))
+    predictions_for_stop = predictions |> for_stop(stop_id)
+    schedules_for_stop = schedules |> for_stop(stop_id)
+
+    predictions_for_stop
+    |> Enum.reduce(
+      PredictedSchedule.Collection.new(schedules_for_stop),
+      fn prediction, collection ->
+        collection |> PredictedSchedule.Collection.put_prediction(prediction)
+      end
+    )
+    |> PredictedSchedule.Collection.to_list()
   end
 
   defp for_stop(list, stop_id), do: Enum.filter(list, &(&1.stop.id == stop_id))
@@ -176,18 +188,88 @@ defmodule Dotcom.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
+    test "uses data from Schedules.Repo.trip/1 when prediction.trip is nil" do
+      # Setup
+      %{
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        trip: trip,
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data()
+
+      expect(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      platform_name = Faker.Pokemon.location()
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      # Exercise
+      non_trip_predictions = predictions |> Enum.map(&Map.put(&1, :trip, nil))
+
+      predicted_schedules = predicted_schedules_for_stop([], non_trip_predictions, stop.id)
+      departures = UpcomingDepartures.upcoming_departures(predicted_schedules, %{route: route})
+
+      # Verify
+      assert [departure] = departures
+
+      assert departure.headsign == trip.headsign
+    end
+
+    test "excludes departures whose trip is nil" do
+      # Setup
+      %{
+        predictions: predictions,
+        route: route,
+        platform_stop_ids: [_, platform_id, _],
+        stops: [_, stop, _],
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data()
+
+      expect(Schedules.Repo.Mock, :trip, fn ^trip_id -> nil end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      platform_name = Faker.Pokemon.location()
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^platform_id -> Factories.Stops.Stop.build(:stop, platform_name: platform_name)
+        _ -> Factories.Stops.Stop.build(:stop)
+      end)
+
+      # Exercise
+      non_trip_predictions = predictions |> Enum.map(&Map.put(&1, :trip, nil))
+
+      predicted_schedules = predicted_schedules_for_stop([], non_trip_predictions, stop.id)
+      departures = UpcomingDepartures.upcoming_departures(predicted_schedules, %{route: route})
+
+      # Verify
+      refute match?([_departure], departures)
+    end
+
     test "prepends 'Bus' to trip names for rail replacement buses" do
       # Setup
       %{
         predictions: predictions,
         stops: [_, stop, _],
         trip: trip,
+        trip_id: trip_id,
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
           route_factory_types: [:rail_replacement_bus_route],
           stop_id_options: Platforms.stations_with_commuter_rail_platforms()
         )
+
+      stub(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
 
       original_route = Factories.Routes.Route.build(:commuter_rail_route)
 
@@ -2012,12 +2094,16 @@ defmodule Dotcom.UpcomingDeparturesTest do
         predictions: predictions,
         schedules: schedules,
         stops: [_, _, stop, _],
+        trip: trip,
+        trip_id: trip_id,
         vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(
           vehicle_stop_index: 0,
           stop_count: 4
         )
+
+      stub(Schedules.Repo.Mock, :trip, fn ^trip_id -> trip end)
 
       updated_schedules =
         schedules
@@ -2037,7 +2123,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       assert [%{headsign: headsign}] = departures
-      assert updated_schedules |> Enum.find(fn s -> s.trip.headsign == headsign end)
+      assert headsign == trip.headsign
     end
   end
 

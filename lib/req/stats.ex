@@ -23,13 +23,22 @@ defmodule Req.Stats do
     status = metadata.status
     duration = measurement[:duration]
 
-    Agent.update(__MODULE__, fn state ->
-      if Kernel.get_in(state, [host, path, status]) do
-        Kernel.update_in(state, [host, path, status], &(&1 ++ [duration]))
-      else
-        Kernel.put_in(state, [Access.key(host, %{}), Access.key(path, %{}), status], [duration])
-      end
-    end)
+    Agent.update(__MODULE__, &update_state(&1, host, path, status, duration))
+  end
+
+  defp update_state(state, host, path, status, duration) do
+    if Kernel.get_in(state, [host, path, status]) do
+      Kernel.update_in(state, [host, path, status], fn count_and_sum ->
+        {count, sum} = count_and_sum
+        {count + 1, sum + duration}
+      end)
+    else
+      Kernel.put_in(
+        state,
+        [Access.key(host, %{}), Access.key(path, %{}), status],
+        {1, duration}
+      )
+    end
   end
 
   @doc """
@@ -43,20 +52,23 @@ defmodule Req.Stats do
     Agent.update(__MODULE__, fn _ -> %{} end)
   end
 
-  defp dispatch_host({host, stats}) do
-    Enum.each(stats, fn {path, statuses} ->
-      Enum.each(statuses, fn {status, durations} ->
-        dispatch_stat(host, path, status, durations)
+  defp dispatch_host(entry) do
+    {host, stats} = entry
+
+    Enum.each(stats, fn path_and_statuses ->
+      {path, statuses} = path_and_statuses
+
+      Enum.each(statuses, fn status_and_count_sum ->
+        {status, count_and_sum} = status_and_count_sum
+        {count, sum} = count_and_sum
+        dispatch_stat(host, path, status, count, sum)
       end)
     end)
   end
 
-  defp dispatch_stat(host, path, status, durations) do
-    count = Enum.count(durations)
-
+  defp dispatch_stat(host, path, status, count, sum) do
     avg =
-      durations
-      |> Enum.sum()
+      sum
       |> Kernel.div(count)
       |> System.convert_time_unit(:native, :millisecond)
 
@@ -68,8 +80,7 @@ defmodule Req.Stats do
   end
 
   defp strip_filename(path) do
-    path
-    |> (&Regex.replace(~r/\/$/, &1, "")).()
-    |> (&Regex.replace(~r/[\w|-]+\.\w+/, &1, "")).()
+    no_slash = Regex.replace(~r/\/$/, path, "")
+    Regex.replace(~r/[\w|-]+\.\w+/, no_slash, "")
   end
 end

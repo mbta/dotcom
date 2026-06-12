@@ -2,11 +2,11 @@ defmodule Dotcom.ServiceDateRollover do
   @moduledoc """
   Notifies via PubSub when the service date advances to the next service date
 
-  // subscribe to updates
-  _ = Dotcom.ServiceDateRollover.subscribe()
+      // subscribe to updates
+      _ = Dotcom.ServiceDateRollover.subscribe()
 
-  // handle the update
-  def handle_info({:service_date_rollover, new_service_date}, socket)
+      // handle the update
+      def handle_info({:service_date_rollover, new_service_date}, socket)
   """
 
   use GenServer
@@ -47,6 +47,7 @@ defmodule Dotcom.ServiceDateRollover do
     end_of_service_day()
     |> DateTime.shift(microsecond: {1, 4})
     |> DateTime.diff(@date_time_module.now(), :millisecond)
+    |> max(1000)
   end
 
   def subscribe() do

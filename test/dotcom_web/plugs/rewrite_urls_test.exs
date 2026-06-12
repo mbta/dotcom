@@ -28,7 +28,7 @@ defmodule DotcomWeb.Plugs.RewriteUrlsTest do
       conn = call(conn, [])
 
       assert redirected_to(conn, 302) ==
-               "/departures/?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
+               "/departures?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
 
       assert conn.halted
     end

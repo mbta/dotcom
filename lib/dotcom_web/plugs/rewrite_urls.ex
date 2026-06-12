@@ -33,7 +33,7 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
            "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id}
          }
        }) do
-    "/departures/?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
+    "/departures?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
   end
 
   # "Green" line special case
@@ -43,7 +43,7 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
            "schedule_finder" => %{"direction_id" => direction_id, "origin" => stop_id}
          }
        }) do
-    "/departures/?route_id=Green&direction_id=#{direction_id}&stop_id=#{stop_id}"
+    "/departures?route_id=Green&direction_id=#{direction_id}&stop_id=#{stop_id}"
   end
 
   defp rewrite_url(%{path_info: ["schedules", "Boat-F3" | _]} = conn) do
