@@ -26,11 +26,11 @@ defmodule Alerts.URLParsingHelpersTest do
 
     test "should return the url with special characters parsed from the text" do
       word_fn = &Faker.Internet.domain_word/0
-      # \"#$%&'()*+,-./0123456789:;<=>?@
+      # Characters between ! and @ :  !\"#$%&'()*+,-./0123456789:;<=>?@
       special_chars =
-        Enum.to_list(33..64) # numbers corresponding to ASCII characters between ! and @
+        Enum.to_list(33..64)
         |> Enum.map(fn x -> <<x::utf8>> end)
-        |> List.to_string
+        |> List.to_string()
 
       url =
         "#{Faker.Util.pick(["http", "https"])}://#{word_fn.()}.#{Faker.Internet.domain_name()}/#{word_fn.()}/#{word_fn.()}?#{word_fn.()}=[#{word_fn.()}]&param_2=hello%20world##{word_fn.()}#{special_chars}"
