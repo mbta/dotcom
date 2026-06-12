@@ -25,21 +25,21 @@ defmodule Util do
 
   @doc "Handles comparison of DateTime to nil values.
   By default, nil is an indefinite future."
-  @spec safe_time_compare(DateTime.t(), DateTime.t(), boolean()) :: :lt | :eq | :gt
-  def safe_time_compare(a, b, nil_is_greater? \\ true) do
-    cond do
-      a == nil && b == nil ->
-        :eq
+  @spec safe_time_compare(DateTime.t() | nil, DateTime.t() | nil, boolean()) :: :lt | :eq | :gt
+  def safe_time_compare(a, b, nil_is_greater? \\ true)
 
-      a == nil ->
-        if nil_is_greater?, do: :gt, else: :lt
+  def safe_time_compare(nil, nil, _), do: :eq
 
-      b == nil ->
-        if nil_is_greater?, do: :lt, else: :gt
+  def safe_time_compare(nil, _, nil_is_greater?) do
+    if nil_is_greater?, do: :gt, else: :lt
+  end
 
-      true ->
-        DateTime.compare(a, b)
-    end
+  def safe_time_compare(_, nil, nil_is_greater?) do
+    if nil_is_greater?, do: :lt, else: :gt
+  end
+
+  def safe_time_compare(a, b, _) do
+    DateTime.compare(a, b)
   end
 
   @spec time_is_greater_or_equal?(

@@ -87,14 +87,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
     end
 
     test "doesn't render a link to alerts if there are no later alerts" do
-      # SETUP / EXERCISE
-      rendered_component = render_upcoming_changes([])
-
-      # VERIFY
-      assert !String.contains?(
-               rendered_component,
-               "later change"
-             )
+      # SETUP / EXERCISE / VERIFY
+      assert length(later_changes_link([])) == 0
     end
 
     test "renders a link to alerts if there is at least one later alert" do
@@ -105,24 +99,16 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
       alert1 = Factories.Alerts.Alert.build(:alert, active_period: [{later, nil}])
       alert2 = Factories.Alerts.Alert.build(:alert, active_period: [{later, nil}])
 
-      # EXERCISE
-      rendered_component = render_upcoming_changes([alert1, alert2])
-
-      # VERIFY
-      assert String.contains?(
-               rendered_component,
-               "later change"
-             )
+      # EXERCISE / VERIFY
+      assert length(later_changes_link([alert1, alert2])) == 1
     end
   end
 
-  defp upcoming_alert_rows(alerts) do
+  defp later_changes_link(alerts) do
     render_upcoming_changes(alerts)
     |> Floki.parse_document()
     |> Kernel.then(fn {:ok, document} -> document end)
-    |> Floki.find("[data-test=\"status_label_text\"]")
-    |> Enum.map(&Floki.text/1)
-    |> Enum.map(&String.trim/1)
+    |> Floki.find("[data-test=\"later_changes_link\"]")
   end
 
   defp render_upcoming_changes(alerts) do
@@ -139,5 +125,14 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
       |> Enum.at(0)
 
     time_text == format_date_range_for_alert(alert)
+  end
+
+  defp upcoming_alert_rows(alerts) do
+    render_upcoming_changes(alerts)
+    |> Floki.parse_document()
+    |> Kernel.then(fn {:ok, document} -> document end)
+    |> Floki.find("[data-test=\"status_label_text\"]")
+    |> Enum.map(&Floki.text/1)
+    |> Enum.map(&String.trim/1)
   end
 end

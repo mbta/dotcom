@@ -50,7 +50,10 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
   defp later_changes_link(assigns) do
     ~H"""
     <div class="pt-md">
-      <.link patch={~p"/schedules/#{@route_id}/alerts"}>
+      <.link
+        data-test="later_changes_link"
+        patch={~p"/schedules/#{@route_id}/alerts"}
+      >
         {@later_count} later {Inflex.inflect("change", @later_count)}
         <.icon name="chevron-right" class="h-3 w-3 fill-brand-primary shrink-0" />
       </.link>
