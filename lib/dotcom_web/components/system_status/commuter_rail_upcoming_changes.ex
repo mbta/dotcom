@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
 
   use DotcomWeb, :component
 
+  import Dotcom.Alerts.StartTime, only: [active_in_next_n_days?: 2]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.PlannedDisruptions, only: [format_date_range_for_alert: 1]
 
@@ -14,32 +15,38 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
 
   attr :class, :string, default: ""
-  attr :status, :map
+  attr :route_id, :string, required: true
+  attr :alerts, :list, required: true
 
-  def commuter_rail_upcoming_changes(%{status: nil} = assigns) do
+  def commuter_rail_upcoming_changes(%{alerts: upcoming_alerts} = assigns) do
+    grouped_alerts =
+      upcoming_alerts
+      |> Enum.group_by(&if active_in_next_n_days?(&1, 7), do: :soon, else: :later)
+      |> Enum.into(%{soon: [], later: []})
+
+    assigns =
+      assigns
+      |> assign(%{
+        soon: grouped_alerts.soon,
+        later: grouped_alerts.later
+      })
+
     ~H"""
     <.commuter_rail_info_widget class={@class} heading_text={~t"Upcoming Changes"}>
-      {~t"No changes posted for the next 7 days"}
-    </.commuter_rail_info_widget>
-    """
-  end
-
-  def commuter_rail_upcoming_changes(assigns) do
-    ~H"""
-    <.commuter_rail_info_widget class={@class} heading_text={~t"Upcoming Changes"}>
-      <.rows_for_upcoming alerts={@alerts} />
+      <.rows_for_upcoming alerts={@soon} />
       <:postscript>
-        {render_slot(@inner_block)}
+        <.later_changes_link later_count={Enum.count(@later)} route_id={@route_id} />
       </:postscript>
     </.commuter_rail_info_widget>
     """
   end
 
   attr :later_count, :integer, default: 0
+  attr :route_id, :string, required: true
 
-  def later_changes_link(%{later_count: 0} = assigns), do: ~H""
+  defp later_changes_link(%{later_count: 0} = assigns), do: ~H""
 
-  def later_changes_link(assigns) do
+  defp later_changes_link(assigns) do
     ~H"""
     <div class="pt-md">
       <.link patch={~p"/schedules/#{@route_id}/alerts"}>

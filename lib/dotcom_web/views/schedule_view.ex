@@ -15,7 +15,7 @@ defmodule DotcomWeb.ScheduleView do
     only: [commuter_rail_route_status: 1]
 
   import DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges,
-    only: [commuter_rail_upcoming_changes: 1, later_changes_link: 1]
+    only: [commuter_rail_upcoming_changes: 1]
 
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers

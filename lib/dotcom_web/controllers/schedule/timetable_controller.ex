@@ -6,9 +6,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
-  import Dotcom.Alerts.StartTime,
-    only: [next_active_time: 1, active_in_next_n_days?: 2]
-
+  import Dotcom.Alerts.StartTime, only: [next_active_time: 1]
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
 
   alias Dotcom.Timetables
@@ -80,28 +78,24 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:cr_status, cr_status)
   end
 
-  defp assign_cr_upcoming(%{assigns: %{alerts: alerts}} = conn) do
+  defp assign_cr_upcoming(%{assigns: %{alerts: alerts, route: route}} = conn) do
     cr_upcoming =
-      alerts
-      |> Enum.filter(&future_alert?/1)
-      |> Enum.sort(&alert_period_sorter/2)
-
-    grouped_alerts =
-      cr_upcoming
-      |> Enum.group_by(&if active_in_next_n_days?(&1, 7), do: :soon, else: :later)
-      |> Enum.into(%{soon: [], later: []})
+      if Routes.Route.type_atom(route) == :commuter_rail do
+        alerts
+        |> Enum.filter(&future_alert?/1)
+        |> Enum.sort(&alert_period_sorter/2)
+      else
+        []
+      end
 
     conn
-    |> assign(%{
-      cr_upcoming: cr_upcoming,
-      cr_soon: grouped_alerts.soon,
-      cr_later: grouped_alerts.later
-    })
+    |> assign(:cr_upcoming, cr_upcoming)
   end
 
   defp future_alert?(alert) do
     case next_active_time(alert) do
-      {:future, _} -> true
+      {:future, _} ->
+        true
 
       {:current, start_time} ->
         {_, end_time} =
