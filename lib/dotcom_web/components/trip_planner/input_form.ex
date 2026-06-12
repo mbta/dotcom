@@ -10,7 +10,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
   alias Dotcom.Utils.ServiceDateTime
-  alias MbtaMetro.Live.DatePicker
+  alias DotcomWeb.Components.DatePicker
 
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @timezone Application.compile_env!(:dotcom, :timezone)
