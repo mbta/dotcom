@@ -43,15 +43,10 @@ defmodule Req.Stats do
   """
   def handle_event(_name, measurement, metadata, _config) do
     host = metadata.request.host
-    path = strip_filename(metadata.request.path)
+    path = Path.dirname(metadata.request.path)
     status = metadata.status
     duration = measurement[:duration]
 
     Telemetry.Stats.record_stat(__MODULE__, host, path, status, duration)
-  end
-
-  defp strip_filename(path) do
-    no_slash = Regex.replace(~r/\/$/, path, "")
-    Regex.replace(~r/[\w|-]+\.\w+/, no_slash, "")
   end
 end
