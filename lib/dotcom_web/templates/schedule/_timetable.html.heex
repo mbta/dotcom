@@ -17,6 +17,14 @@
   class="mb-5"
 />
 
+{DotcomWeb.AlertView.group(
+  alerts: @banner_alerts,
+  route: @route,
+  date_time: @date_time,
+  priority_filter: :high,
+  always_show: List.wrap(@blocking_alert)
+)}
+
 <%= if commuter_rail?(@route) do %>
   <div class="md:flex md:justify-between items-start">
     <.commuter_rail_route_status
