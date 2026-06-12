@@ -88,7 +88,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
 
     test "doesn't render a link to alerts if there are no later alerts" do
       # SETUP / EXERCISE / VERIFY
-      assert length(later_changes_link([])) == 0
+      assert later_changes_link([]) == []
     end
 
     test "renders a link to alerts if there is at least one later alert" do
