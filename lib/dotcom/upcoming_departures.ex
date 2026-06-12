@@ -38,7 +38,7 @@ defmodule Dotcom.UpcomingDepartures do
   end
 
   defp get_worker(params) do
-    GenServer.whereis({:global, params})
+    GenServer.whereis(Server.server_name(params))
   end
 
   defp start_worker(params) do
