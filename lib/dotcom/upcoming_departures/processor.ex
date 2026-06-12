@@ -110,6 +110,16 @@ defmodule Dotcom.UpcomingDepartures.Processor do
     !prediction_departure_time && !schedule_departure_time
   end
 
+  defp past_schedule_keep_skipped?(
+         %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: prediction},
+         now
+       )
+       when time != nil do
+    is_nil(prediction) and DateTime.before?(time, now)
+  end
+
+  defp past_schedule_keep_skipped?(_, _), do: false
+
   defp past_schedule?(
          %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: prediction},
          now
@@ -266,7 +276,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
     predicted_schedules =
       PredictedSchedule.group(predictions, schedules)
-      |> Enum.reject(&past_schedule?(&1, now))
+      |> Enum.reject(&past_schedule_keep_skipped?(&1, now))
 
     vehicle =
       predicted_schedules

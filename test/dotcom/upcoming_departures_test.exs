@@ -2693,6 +2693,60 @@ defmodule Dotcom.UpcomingDeparturesTest do
              ]
     end
 
+    test "includes only downstream skipped stops in trip details" do
+      # Setup
+      %{
+        scheduled_departure_times: [_, departure_time_1, departure_time_2, _, _],
+        schedules: schedules,
+        stop_sequences: [_, _, stop_seq, _, _],
+        stops: [_, _, this_stop, _, _] = stops,
+        trip_id: trip_id,
+        trip: trip,
+        route: route
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
+          stop_count: 5,
+          skipped_stops: [0, 1, 3, 4]
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        stops
+        |> Enum.map(fn stop ->
+          %Predictions.Prediction{
+            route: route,
+            trip: trip,
+            stop: stop
+          }
+        end)
+      end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now:
+            Generators.DateTime.random_time_range_date_time({departure_time_1, departure_time_2}),
+          stop_id: this_stop.id,
+          stop_sequence: stop_seq,
+          trip_id: trip_id
+        })
+
+      # Verify
+      after_count =
+        trip_details.stops_after |> Enum.count(fn s -> !s.cancelled? end)
+
+      assert after_count == 2,
+             "Unexpected number of stops_after, expected 2 got #{after_count}"
+
+      before_count =
+        trip_details.stops_before |> Enum.count(fn s -> !s.cancelled? end)
+
+      assert before_count == 0,
+             "Unexpected number of stops_before, expected 0 got #{after_count}"
+    end
+
     test "uses `departure_time` as other_stop.time if `arrival_time` isn't available" do
       # Setup
       %{
