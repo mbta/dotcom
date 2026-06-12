@@ -33,8 +33,7 @@ defmodule Alerts.URLParsingHelpersTest do
         |> List.to_string
 
       url =
-        "#{Faker.Util.pick(["http", "https"])}://#{word_fn.()}.#{Faker.Internet.domain_name()}/#{word_fn.()}/#{word_fn.()}?#{word_fn.()}=#{word_fn.()}&param_2=hello%20world##{word_fn.()}#{special_chars}"
-        |> dbg()
+        "#{Faker.Util.pick(["http", "https"])}://#{word_fn.()}.#{Faker.Internet.domain_name()}/#{word_fn.()}/#{word_fn.()}?#{word_fn.()}=[#{word_fn.()}]&param_2=hello%20world##{word_fn.()}#{special_chars}"
 
       text =
         "This is a test for url validation, the following URL should be completely parsed:  #{url} "
