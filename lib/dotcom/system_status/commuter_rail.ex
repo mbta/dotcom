@@ -100,7 +100,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
     |> @alerts_repo.by_route_ids(@date_time_module.now())
     |> Enum.filter(fn alert ->
       (service_impacting_alert?(alert) || alert.effect == :schedule_change) &&
-      future_alert?(alert)
+        future_alert?(alert)
     end)
   end
 
