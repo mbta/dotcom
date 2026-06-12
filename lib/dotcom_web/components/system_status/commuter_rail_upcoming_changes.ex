@@ -5,7 +5,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
 
   use DotcomWeb, :component
 
-  import Dotcom.Alerts.StartTime, only: [active_in_next_n_days?: 2]
+  import Dotcom.Alerts.StartTime, only: [next_active_time: 1, active_in_next_n_days?: 2]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.PlannedDisruptions, only: [format_date_range_for_alert: 1]
 
@@ -21,6 +21,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
   def commuter_rail_upcoming_changes(%{alerts: upcoming_alerts} = assigns) do
     grouped_alerts =
       upcoming_alerts
+      |> Enum.sort(&alert_period_sorter/2)
       |> Enum.group_by(&if active_in_next_n_days?(&1, 7), do: :soon, else: :later)
       |> Enum.into(%{soon: [], later: []})
 
@@ -88,5 +89,30 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
       </:content>
     </.unstyled_accordion>
     """
+  end
+
+  defp alert_period_sorter(a, b) do
+    {a_start, a_end} = alert_period_mapper(a)
+    {b_start, b_end} = alert_period_mapper(b)
+
+    start_comparison = Date.compare(a_start, b_start)
+
+    case start_comparison do
+      :eq -> Util.safe_time_compare(a_end, b_end)
+      _ -> start_comparison
+    end != :gt
+  end
+
+  defp alert_period_mapper(alert) do
+    {current, start_time} = next_active_time(alert)
+
+    {period_start, period_end} =
+      alert.active_period
+      |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
+
+    {
+      if(current == :current, do: Util.now(), else: period_start),
+      period_end
+    }
   end
 end

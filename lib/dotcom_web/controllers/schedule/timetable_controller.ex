@@ -83,7 +83,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       if Routes.Route.type_atom(route) == :commuter_rail do
         alerts
         |> Enum.filter(&future_alert?/1)
-        |> Enum.sort(&alert_period_sorter/2)
       else
         []
       end
@@ -107,31 +106,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       _ ->
         false
     end
-  end
-
-  defp alert_period_sorter(a, b) do
-    {a_start, a_end} = alert_period_mapper(a)
-    {b_start, b_end} = alert_period_mapper(b)
-
-    start_comparison = Date.compare(a_start, b_start)
-
-    case start_comparison do
-      :eq -> Util.safe_time_compare(a_end, b_end)
-      _ -> start_comparison
-    end != :gt
-  end
-
-  defp alert_period_mapper(alert) do
-    {current, start_time} = next_active_time(alert)
-
-    {period_start, period_end} =
-      alert.active_period
-      |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
-
-    {
-      if(current == :current, do: Util.now(), else: period_start),
-      period_end
-    }
   end
 
   defp assign_banner_alerts(
