@@ -241,4 +241,23 @@ defmodule Dotcom.UpcomingDepartures.ServerTest do
       topic: ^topic
     }
   end
+
+  describe "Dotcom.UpcomingDepartures integration" do
+    test "subscribe/1 and unsubscribe/1 correctly track and untrack presence", %{
+      params: params,
+      topic: topic
+    } do
+      # Subscribe
+      assert :ok = Dotcom.UpcomingDepartures.subscribe(params)
+
+      # Assert process is tracked in Presence
+      assert %{"upcoming_departures" => %{metas: [%{}]}} = DotcomWeb.Presence.list(topic)
+
+      # Unsubscribe
+      assert :ok = Dotcom.UpcomingDepartures.unsubscribe(params)
+
+      # Assert process is no longer tracked in Presence
+      assert %{} = DotcomWeb.Presence.list(topic)
+    end
+  end
 end

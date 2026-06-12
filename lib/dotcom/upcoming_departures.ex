@@ -23,10 +23,10 @@ defmodule Dotcom.UpcomingDepartures do
 
   @spec unsubscribe(map()) :: :ok
   def unsubscribe(params) do
-    :ok =
-      params
-      |> topic_name()
-      |> DotcomWeb.Endpoint.unsubscribe()
+    topic = topic_name(params)
+    _ = DotcomWeb.Presence.untrack(self(), topic, "upcoming_departures")
+
+    :ok = DotcomWeb.Endpoint.unsubscribe(topic)
   end
 
   def topic_name(%{route_id: route_id, direction_id: direction_id, stop_id: stop_id}) do

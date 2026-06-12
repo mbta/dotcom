@@ -38,6 +38,7 @@ defmodule Dotcom.Predictions.Manager do
 
   def unsubscribe(params) do
     topic = topic_name(params)
+    _ = DotcomWeb.Presence.untrack(self(), topic, "predictions")
 
     :ok = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, topic)
   end
