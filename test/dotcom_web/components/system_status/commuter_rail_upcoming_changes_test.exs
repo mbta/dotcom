@@ -47,9 +47,9 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
 
       # VERIFY
       assert String.contains?(
-        rendered_component,
-        "No changes posted for the next 7 days"
-      )
+               rendered_component,
+               "No changes posted for the next 7 days"
+             )
     end
 
     test "displays alerts earliest to latest, first on start time bounded by today, then by end time" do
@@ -70,7 +70,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
       ordered_alerts = [alert1, alert2, alert3, alert4, alert5]
 
       ordered_alerts
-      |> Enum.map(& DotcomWeb.Components.PlannedDisruptions.format_date_range_for_alert(&1))
+      |> Enum.map(&DotcomWeb.Components.PlannedDisruptions.format_date_range_for_alert(&1))
 
       # EXERCISE
       rendered_alert_text = upcoming_alert_rows(Enum.shuffle(ordered_alerts))
@@ -92,9 +92,9 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
 
       # VERIFY
       assert !String.contains?(
-        rendered_component,
-        "later change"
-      )
+               rendered_component,
+               "later change"
+             )
     end
 
     test "renders a link to alerts if there is at least one later alert" do
@@ -110,9 +110,9 @@ defmodule DotcomWeb.SystemStatus.CommuterRailUpcomingChangesTest do
 
       # VERIFY
       assert String.contains?(
-        rendered_component,
-        "later change"
-      )
+               rendered_component,
+               "later change"
+             )
     end
   end
 
