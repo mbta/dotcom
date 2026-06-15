@@ -171,6 +171,21 @@ defmodule Dotcom.Predictions.ManagerTest do
   # ---------------------------------------------------------------------------
 
   describe "unsubscribe/1" do
+    test "correctly untracks presence" do
+      params = unique_params()
+      topic = Manager.topic_name(params)
+
+      # Subscribe and track presence
+      Manager.subscribe(params)
+      assert %{"predictions" => %{metas: [%{}]}} = DotcomWeb.Presence.list(topic)
+
+      # Unsubscribe
+      Manager.unsubscribe(params)
+
+      # Assert process is no longer tracked in Presence
+      assert %{} = DotcomWeb.Presence.list(topic)
+    end
+
     test "server process terminates when the last subscriber unsubscribes" do
       params = unique_params()
 

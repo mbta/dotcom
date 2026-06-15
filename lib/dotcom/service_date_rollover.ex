@@ -43,8 +43,8 @@ defmodule Dotcom.ServiceDateRollover do
     {:noreply, state}
   end
 
-  def ms_to_next_rollover() do
-    end_of_service_day()
+  def ms_to_next_rollover(boundary_datetime \\ end_of_service_day()) do
+    boundary_datetime
     |> DateTime.shift(microsecond: {1, 4})
     |> DateTime.diff(@date_time_module.now(), :millisecond)
     |> max(1000)
