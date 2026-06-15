@@ -64,7 +64,6 @@ defmodule DotcomWeb.Components.DatePicker do
           <.icon name="calendar" type="regular" class="mbta-date-picker--icon" />
         </a>
       </div>
-      <.feedback :for={msg <- @errors} kind={:error}>{msg}</.feedback>
     </div>
     """
   end

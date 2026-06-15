@@ -91,6 +91,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             form={f}
             field={f[:time]}
             label={nil}
+            errors={f[:datetime].errors}
             id="time-picker"
           />
         </div>
