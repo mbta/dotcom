@@ -119,7 +119,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live])
 
     live_session :world_cup, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-      live("/", WorldCupTimetableLive)
+      live "/", WorldCupTimetableLive
     end
   end
 
@@ -335,20 +335,9 @@ defmodule DotcomWeb.Router do
     end
   end
 
-  scope "/", DotcomWeb do
+  scope "/departures", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
-
-    live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
-      live("/search", SearchPageLive)
-      live("/trip-planner", TripPlannerLive)
-    end
-  end
-
-  live_session :default, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-    scope "/", DotcomWeb do
-      import Phoenix.LiveView.Router
-      pipe_through([:browser, :browser_live])
 
     live_session :departures, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", ScheduleFinderLive
@@ -362,9 +351,9 @@ defmodule DotcomWeb.Router do
     live_session :default,
       layout: {DotcomWeb.LayoutView, :preview},
       on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-      live("/", PreviewLive)
-      live("/schedules/bostonstadium", WorldCupTimetableLive)
-      live("/stop-map", StopMapLive)
+      live "/", PreviewLive
+      live "/schedules/bostonstadium", WorldCupTimetableLive
+      live "/stop-map", StopMapLive
     end
   end
 
