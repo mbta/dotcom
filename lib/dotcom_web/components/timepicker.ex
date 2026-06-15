@@ -2,9 +2,6 @@ defmodule DotcomWeb.Components.TimePicker do
   use Phoenix.LiveComponent
   import MbtaMetro.Components.Feedback
   import MbtaMetro.Components.Input, only: [format_changeset_errors: 1]
-  import DotcomWeb.TripPlannerLive, only: [nearest_5_minutes: 0]
-
-  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   def mount(_params, _session, socket) do
     config = Map.get(socket.assigns, :config, %{})
@@ -32,7 +29,7 @@ defmodule DotcomWeb.Components.TimePicker do
         <option
           :for={hour <- 1..12}
           value={hour}
-          selected={option_selected?(@form, hour, :timepicker_hour)}
+          selected={@form[:timepicker_hour].value == hour |> Integer.to_string()}
         >
           {hour}
         </option>
@@ -46,21 +43,18 @@ defmodule DotcomWeb.Components.TimePicker do
           :for={minute <- 0..55//5}
           value={minute |> Integer.to_string() |> String.pad_leading(2, "0")}
           selected={
-            option_selected?(
-              @form,
-              minute |> Integer.to_string() |> String.pad_leading(2, "0"),
-              :timepicker_minute
-            )
+            minute |> Integer.to_string() |> String.pad_leading(2, "0") ==
+              @form[:timepicker_minute].value
           }
         >
           {minute |> Integer.to_string() |> String.pad_leading(2, "0")}
         </option>
       </select>
       <select class="c-select trip-plan-time" id="timepicker_ampm" name={@form[:timepicker_ampm].name}>
-        <option value="AM" selected={option_selected?(@form, "AM", :timepicker_ampm)}>
+        <option value="AM" selected={@form[:timepicker_ampm].value == "AM"}>
           AM
         </option>
-        <option value="PM" selected={option_selected?(@form, "PM", :timepicker_ampm)}>
+        <option value="PM" selected={@form[:timepicker_ampm].value == "PM"}>
           PM
         </option>
       </select>
@@ -77,48 +71,41 @@ defmodule DotcomWeb.Components.TimePicker do
     "trip-plan-time--error"
   end
 
-  def option_selected?(form, option, field = :timepicker_hour) do
-    dbg(form[field].value)
-
-    if is_nil(form[field].value) do
-      @date_time_module.now().hour |> hour_24_to_12() == option
-    else
-      form[field].value == option |> Integer.to_string()
-    end
+  def time_hour(value) when is_binary(value) do
+    value |> String.split(":") |> Enum.at(0)
   end
 
-  def option_selected?(form, option, field = :timepicker_minute) do
-    dbg(form[field].value)
+  def time_hour(_), do: "12"
 
-    if is_nil(form[field].value) do
-      nearest_5_minutes().minute ==
-        option |> Integer.parse() |> elem(0)
-    else
-      form[field].value == option
-    end
+  def time_minute(value) when is_binary(value) do
+    value |> String.split(":") |> Enum.at(1) |> String.slice(0..1)
   end
 
-  def option_selected?(form, option, field = :timepicker_ampm) do
-    dbg(form[field].value)
+  def time_minute(_), do: "00"
 
-    if is_nil(form[field].value) do
-      (@date_time_module.now().hour < 12 and "AM" == option) or
-        (@date_time_module.now().hour >= 12 and "PM" == option)
-    else
-      form[field].value == option |> Integer.to_string()
-    end
+  def time_ampm(value) when is_binary(value) do
+    value |> String.split(":") |> Enum.at(1) |> String.slice(2..3)
   end
 
-  def hour_24_to_12(hour24) do
+  def time_ampm(_), do: "AM"
+
+  def datetime_hour(value) when not is_nil(value) do
+    {:ok, datetime} = value |> DateTime.shift_zone("America/New_York")
+    hour_24 = datetime.hour
+
     cond do
-      hour24 > 12 ->
-        hour24 - 12
+      hour_24 > 12 ->
+        hour_24 - 12
 
-      hour24 == 0 ->
+      hour_24 == 0 ->
         12
 
       true ->
-        hour24
+        hour_24
     end
+  end
+
+  def datetime_hour(_) do
+    12
   end
 end
