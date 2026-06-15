@@ -393,7 +393,12 @@ defmodule DotcomWeb.TripPlannerLive do
          } = params
        ) do
     {:ok, old_datetime} =
-      datetime |> DateTime.from_iso8601() |> elem(1) |> DateTime.shift_zone("America/New_York")
+      if is_binary(datetime) do
+        datetime |> DateTime.from_iso8601() |> elem(1)
+      else
+        datetime
+      end
+      |> DateTime.shift_zone("America/New_York")
 
     date = old_datetime |> DateTime.to_date()
 
