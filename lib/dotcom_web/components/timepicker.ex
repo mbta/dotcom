@@ -78,8 +78,6 @@ defmodule DotcomWeb.Components.TimePicker do
   end
 
   def option_selected?(form, option, field = :timepicker_hour) do
-    dbg(form[field].value)
-
     if is_nil(form[field].value) do
       @date_time_module.now().hour |> hour_24_to_12() == option
     else
@@ -88,8 +86,6 @@ defmodule DotcomWeb.Components.TimePicker do
   end
 
   def option_selected?(form, option, field = :timepicker_minute) do
-    dbg(form[field].value)
-
     if is_nil(form[field].value) do
       nearest_5_minutes().minute ==
         option |> Integer.parse() |> elem(0)
@@ -99,8 +95,6 @@ defmodule DotcomWeb.Components.TimePicker do
   end
 
   def option_selected?(form, option, field = :timepicker_ampm) do
-    dbg(form[field].value)
-
     if is_nil(form[field].value) do
       (@date_time_module.now().hour < 12 and "AM" == option) or
         (@date_time_module.now().hour >= 12 and "PM" == option)
