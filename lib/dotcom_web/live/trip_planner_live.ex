@@ -508,7 +508,7 @@ defmodule DotcomWeb.TripPlannerLive do
   defp location_data_from_changeset(_), do: %{}
 
   # Round the current time to the nearest 5 minutes.
-  defp nearest_5_minutes do
+  def nearest_5_minutes do
     datetime = Timex.now("America/New_York")
     minutes = datetime.minute
     rounded_minutes = Float.ceil(minutes / 5) * 5
