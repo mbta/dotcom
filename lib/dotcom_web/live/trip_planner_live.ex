@@ -384,6 +384,9 @@ defmodule DotcomWeb.TripPlannerLive do
     params
   end
 
+  # Combines the date from datepicker (datetime) with the time
+  # from timepicker (timepicker_[hour,minute,ampm]) to form a
+  # new datetime that will be passed into OTP
   defp combine_date_and_time(
          %{
            "datetime" => datetime,
@@ -392,6 +395,7 @@ defmodule DotcomWeb.TripPlannerLive do
            "timepicker_ampm" => ampm
          } = params
        ) do
+    # Get the date from datepicker (datetime)
     {:ok, old_datetime} =
       if is_binary(datetime) do
         datetime |> DateTime.from_iso8601() |> elem(1)
@@ -401,25 +405,23 @@ defmodule DotcomWeb.TripPlannerLive do
       |> DateTime.shift_zone("America/New_York")
 
     date = old_datetime |> DateTime.to_date()
-
+    # Compute the time from timepicker
     hour24 =
       cond do
         ampm == "PM" and hour != "12" ->
-          {in_hour, _} = Integer.parse(hour)
-          in_hour + 12
+          (Integer.parse(hour) |> elem(0)) + 12
 
         ampm == "AM" and hour == "12" ->
           0
 
         true ->
-          {in_hour, _} = Integer.parse(hour)
-          in_hour
+          Integer.parse(hour) |> elem(0)
       end
 
     {mins, _} = Integer.parse(minute)
-
     {:ok, time} = Time.new(hour24, mins, 0)
 
+    # Combine date and time to make our new datetime
     {:ok, new_datetime} = DateTime.new(date, time, "America/New_York")
 
     params |> Map.put("datetime", new_datetime)
