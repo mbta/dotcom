@@ -179,7 +179,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
     %{
       default_date: ServiceDateTime.beginning_of_service_day(),
-      enable_time: true,
+      enable_time: false,
       max_date: end_of_rating_day,
       min_date: ServiceDateTime.beginning_of_service_day()
     }

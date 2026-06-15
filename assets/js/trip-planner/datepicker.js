@@ -7,17 +7,16 @@ import { Portuguese } from "../../node_modules/flatpickr/dist/l10n/pt.js"
 import { Spanish } from "../../node_modules/flatpickr/dist/l10n/es.js"
 
 const SERVER_DATE_FORMAT = "Z"
-console.log("datepicker.js");
 const CONFIG = {
   allowInvalidPreload: true, // needed on mobile to prevent the input from becoming blank when selecting a date outside the min/max
   altInput: true, // allow different format to be sent to server
+  altFormat: "D, F d",
   dateFormat: SERVER_DATE_FORMAT, // this gets sent to the server
   disableMobile: true, // native date pickers are not working well with LiveView
-  enableTime: false,
-  formatDate: (date, formatString, _) => {
+  /*formatDate: (date, formatString, _) => {
     if (formatString === "SERVER_DATE_FORMAT") {
       // Formats a date into a string in the format util.ex parse/1 expects.
-      return formatISO(date);
+      return formatISO(dateString);
     }
 
     const locale = document.querySelector(["[data-locale]"]).getAttribute("data-locale");
@@ -27,7 +26,7 @@ const CONFIG = {
     } else {
       return i18nDate(date, "en");
     }
-  },
+  },*/
   wrap: true // works with adjacent icon
 }
 
@@ -52,6 +51,10 @@ const i18nDate = (date, locale = "en") => {
   return formatter.format(date);
 }
 
+const time_string = () => {
+  return timepicker_hour.value + ":" + timepicker_minute.value + timepicker_ampm.value
+}
+
 /**
  * This is a LiveView hook that initializes a flatpickr date picker.
  */
@@ -74,8 +77,23 @@ export default {
       this.pickr.mobileInput.setAttribute("step", "any")
     }
 
-    this.handleEvent("set-datetime", ({datetime}) => {
-      this.pickr.setDate(datetime);
+    this.handleEvent("set-datetime", ({datetime}=event) => {
+      const d = new Date(datetime);
+      if(datetime.match(/[0-9\-]+T[0-9:\.\-]+/)){
+        console.log({datetime});
+        this.pickr.setDate(datetime);
+        let hour_val = d.getHours();
+        console.log({d});
+        if(hour_val>12){hour_val-=12;}
+        if(hour_val==0){hour_val=12;}
+        console.log(hour_val);
+        timepicker_hour.value = hour_val;
+        timepicker_minute.value = d.getMinutes();
+        timepicker_ampm.value = d.getHours()<12?"AM":"PM";
+
+      }else{
+        console.log(datetime);
+      }
     });
   },
   destroyed() {
