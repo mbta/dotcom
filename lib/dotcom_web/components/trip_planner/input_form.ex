@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
   alias Dotcom.Utils.ServiceDateTime
   alias DotcomWeb.Components.DatePicker
+  alias DotcomWeb.Components.TimePicker
 
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @timezone Application.compile_env!(:dotcom, :timezone)
@@ -81,6 +82,16 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             field={f[:datetime]}
             label={nil}
             id="date-picker"
+          />
+          <.live_component
+            :if={show_datepicker?(f)}
+            module={TimePicker}
+            config={datepicker_config()}
+            locale={Gettext.get_locale(Dotcom.Gettext)}
+            form={f}
+            field={f[:time]}
+            label={nil}
+            id="time-picker"
           />
         </div>
         <div class="col-start-3">

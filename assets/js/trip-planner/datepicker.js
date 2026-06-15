@@ -58,6 +58,14 @@ const time_string = () => {
 /**
  * This is a LiveView hook that initializes a flatpickr date picker.
  */
+
+const parseTime = () => {
+  document.getElementById("timepicker_input").value = 
+  document.getElementById("timepicker_hour").value + ":" +
+  document.getElementById("timepicker_minute").value +
+  document.getElementById("timepicker_ampm").value
+}
+
 export default {
   mounted() {
     const el = this.el;
@@ -77,24 +85,15 @@ export default {
       this.pickr.mobileInput.setAttribute("step", "any")
     }
 
-    this.handleEvent("set-datetime", ({datetime}=event) => {
-      const d = new Date(datetime);
-      if(datetime.match(/[0-9\-]+T[0-9:\.\-]+/)){
-        console.log({datetime});
-        this.pickr.setDate(datetime);
-        let hour_val = d.getHours();
-        console.log({d});
-        if(hour_val>12){hour_val-=12;}
-        if(hour_val==0){hour_val=12;}
-        console.log(hour_val);
-        timepicker_hour.value = hour_val;
-        timepicker_minute.value = d.getMinutes();
-        timepicker_ampm.value = d.getHours()<12?"AM":"PM";
-
-      }else{
-        console.log(datetime);
-      }
+    this.handleEvent("set-datetime", ({datetime}) => {
+      this.pickr.setDate(datetime);     
     });
+
+    //document.getElementById("timepicker_hour").addEventListener("change", parseTime);
+    //document.getElementById("timepicker_minute").addEventListener("change", parseTime);
+    //document.getElementById("timepicker_ampm").addEventListener("change", parseTime);
+
+
   },
   destroyed() {
     this.pickr.destroy();

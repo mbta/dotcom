@@ -209,6 +209,7 @@ defmodule DotcomWeb.TripPlannerLive do
       previous_params
       |> Map.merge(params)
       |> add_datetime_if_needed(previous_params)
+      |> combine_date_and_time()
 
     changeset = InputForm.changeset(params_with_datetime)
 
@@ -380,6 +381,50 @@ defmodule DotcomWeb.TripPlannerLive do
   end
 
   defp add_datetime_if_needed(params, _previous_params) do
+    params
+  end
+
+  defp combine_date_and_time(
+         %{
+           "datetime" => datetime,
+           "timepicker_hour" => hour,
+           "timepicker_minute" => minute,
+           "timepicker_ampm" => ampm
+         } = params
+       ) do
+    {:ok, old_datetime, _} = datetime |> DateTime.from_iso8601()
+    date = old_datetime |> DateTime.to_date()
+
+    hour24 =
+      cond do
+        ampm == "PM" and hour != "12" ->
+          {in_hour, _} = Integer.parse(hour)
+          in_hour + 12
+
+        ampm == "AM" and hour == "12" ->
+          0
+
+        true ->
+          {in_hour, _} = Integer.parse(hour)
+          in_hour
+      end
+
+    {mins, _} = Integer.parse(minute)
+
+    {:ok, time} = Time.new(hour24, mins, 0)
+
+    {:ok, new_datetime} = DateTime.new(date, time, "America/New_York")
+    dbg(datetime)
+    dbg(old_datetime)
+    dbg(date)
+    dbg(hour24)
+    dbg(mins)
+    dbg(new_datetime)
+    dbg("-------------")
+    params |> Map.put("datetime", new_datetime)
+  end
+
+  defp combine_date_and_time(params) do
     params
   end
 

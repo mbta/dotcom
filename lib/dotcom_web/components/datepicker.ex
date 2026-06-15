@@ -62,26 +62,6 @@ defmodule DotcomWeb.Components.DatePicker do
           <.icon name="calendar" type="regular" class="mbta-date-picker--icon" />
         </a>
       </div>
-      <div>
-        <select id="timepicker_hour">
-          <option :for={hour <- 1..12} value={hour}>
-            {hour}
-          </option>
-        </select>:
-        <select id="timepicker_minute">
-          <option :for={minute <- 0..55//5} value={minute}>
-            {minute |> Integer.to_string() |> String.pad_leading(2, "0")}
-          </option>
-        </select>
-        <select id="timepicker_ampm">
-          <option value="AM">
-            AM
-          </option>
-          <option value="AM">
-            PM
-          </option>
-        </select>
-      </div>
       <.feedback :for={msg <- @errors} kind={:error}>{msg}</.feedback>
     </div>
     """
