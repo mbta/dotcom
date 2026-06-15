@@ -18,7 +18,6 @@ defmodule DotcomWeb.Components.DatePicker do
 
   use Phoenix.LiveComponent
 
-  import MbtaMetro.Components.Feedback
   import MbtaMetro.Components.Icon, only: [icon: 1]
   import MbtaMetro.Components.Input, only: [format_changeset_errors: 1, label: 1]
 

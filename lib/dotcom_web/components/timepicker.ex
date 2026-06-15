@@ -1,7 +1,7 @@
 defmodule DotcomWeb.Components.TimePicker do
   use Phoenix.LiveComponent
   import MbtaMetro.Components.Feedback
-  import MbtaMetro.Components.Input, only: [format_changeset_errors: 1, label: 1]
+  import MbtaMetro.Components.Input, only: [format_changeset_errors: 1]
 
   def mount(_params, _session, socket) do
     config = Map.get(socket.assigns, :config, %{})
@@ -18,7 +18,6 @@ defmodule DotcomWeb.Components.TimePicker do
     assigns =
       assigns
       |> assign(:errors, format_changeset_errors(assigns.errors))
-      |> assign_new(:value, fn -> assigns.field.value end)
 
     ~H"""
     <div class={error_class?(@errors)}>
@@ -64,8 +63,12 @@ defmodule DotcomWeb.Components.TimePicker do
     """
   end
 
-  def error_class?(errors) do
-    if errors |> Enum.count() > 0, do: "trip-plan-time--error"
+  def error_class?([]) do
+    nil
+  end
+
+  def error_class?(_) do
+    "trip-plan-time--error"
   end
 
   def time_hour(value) when is_binary(value) do

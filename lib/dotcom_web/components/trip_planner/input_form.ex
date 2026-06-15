@@ -86,11 +86,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
           <.live_component
             :if={show_datepicker?(f)}
             module={TimePicker}
-            config={datepicker_config()}
-            locale={Gettext.get_locale(Dotcom.Gettext)}
             form={f}
-            field={f[:time]}
-            label={nil}
             errors={f[:datetime].errors}
             id="time-picker"
           />
