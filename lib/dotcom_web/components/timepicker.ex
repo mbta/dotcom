@@ -1,4 +1,12 @@
 defmodule DotcomWeb.Components.TimePicker do
+  @moduledoc """
+  A time picker live component, 12h hh:mmAM format, every 5 minutes
+
+  assigns:
+  :form - the form this component is in
+  :errors - the errors to render
+
+  """
   use Phoenix.LiveComponent
   import MbtaMetro.Components.Feedback
   import MbtaMetro.Components.Input, only: [format_changeset_errors: 1]
@@ -77,7 +85,7 @@ defmodule DotcomWeb.Components.TimePicker do
     "trip-plan-time--error"
   end
 
-  def option_selected?(form, option, field = :timepicker_hour) do
+  def option_selected?(form, option, :timepicker_hour = field) do
     if is_nil(form[field].value) do
       @date_time_module.now().hour |> hour_24_to_12() == option
     else
@@ -85,7 +93,7 @@ defmodule DotcomWeb.Components.TimePicker do
     end
   end
 
-  def option_selected?(form, option, field = :timepicker_minute) do
+  def option_selected?(form, option, :timepicker_minute = field) do
     if is_nil(form[field].value) do
       nearest_5_minutes().minute ==
         option |> Integer.parse() |> elem(0)
@@ -94,7 +102,7 @@ defmodule DotcomWeb.Components.TimePicker do
     end
   end
 
-  def option_selected?(form, option, field = :timepicker_ampm) do
+  def option_selected?(form, option, :timepicker_ampm = field) do
     if is_nil(form[field].value) do
       (@date_time_module.now().hour < 12 and "AM" == option) or
         (@date_time_module.now().hour >= 12 and "PM" == option)
