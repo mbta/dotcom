@@ -105,7 +105,7 @@ defmodule DotcomWeb.Components.TimePicker do
       (@date_time_module.now().hour < 12 and "AM" == option) or
         (@date_time_module.now().hour >= 12 and "PM" == option)
     else
-      form[field].value == option |> Integer.to_string()
+      form[field].value == option
     end
   end
 

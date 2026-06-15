@@ -13,43 +13,9 @@ const CONFIG = {
   altFormat: "D, F d",
   dateFormat: SERVER_DATE_FORMAT, // this gets sent to the server
   disableMobile: true, // native date pickers are not working well with LiveView
-  /*formatDate: (date, formatString, _) => {
-    if (formatString === "SERVER_DATE_FORMAT") {
-      // Formats a date into a string in the format util.ex parse/1 expects.
-      return formatISO(dateString);
-    }
-
-    const locale = document.querySelector(["[data-locale]"]).getAttribute("data-locale");
-
-    if (Object.keys(LOCALES).includes(locale)) {
-      return i18nDate(date, locale);
-    } else {
-      return i18nDate(date, "en");
-    }
-  },*/
   wrap: true // works with adjacent icon
 }
 
-const LOCALES = {
-  es: Spanish,
-  pt: Portuguese,
-  zh: Mandarin
-}
-
-/**
- * Formats a date into a string in the user's locale.
- */
-const i18nDate = (date, locale = "en") => {
-  const formatter = new Intl.DateTimeFormat(locale, {
-    month: "long",
-    weekday: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric"
-  });
-
-  return formatter.format(date);
-}
 
 
 /**
@@ -63,10 +29,6 @@ export default {
 
     var customConfig = this.el.dataset.config ? JSON.parse(this.el.dataset.config) : {};
     customConfig = camelcaseKeys(customConfig, {deep: true});
-
-    if (Object.keys(LOCALES).includes(this.el.dataset.locale)) {
-      customConfig.locale = LOCALES[this.el.dataset.locale]
-    }
 
     this.pickr = flatpickr(el, Object.assign(CONFIG, customConfig));
 
