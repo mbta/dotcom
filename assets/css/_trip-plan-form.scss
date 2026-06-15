@@ -5,6 +5,15 @@
 }
 
 
+
+.trip-plan-time {
+  width: 4em;
+  margin-top: var(--spacing-1);
+  border-radius: var(--spacing-1);
+  padding-left: 0.75em;
+}
+
+
 .c-trip-plan-widget {
   legend {
     color: $gray-dark;

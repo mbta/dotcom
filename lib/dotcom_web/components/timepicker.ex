@@ -24,7 +24,7 @@ defmodule DotcomWeb.Components.TimePicker do
 
     ~H"""
     <div>
-      <select id="timepicker_hour" name={@form[:timepicker_hour].name}>
+      <select class="c-select trip-plan-time" id="timepicker_hour" name={@form[:timepicker_hour].name}>
         <option
           :for={hour <- 1..12}
           value={hour}
@@ -32,8 +32,12 @@ defmodule DotcomWeb.Components.TimePicker do
         >
           {hour}
         </option>
-      </select>:
-      <select id="timepicker_minute" name={@form[:timepicker_minute].name}>
+      </select>
+      <select
+        class="c-select trip-plan-time"
+        id="timepicker_minute"
+        name={@form[:timepicker_minute].name}
+      >
         <option
           :for={minute <- 0..55//5}
           value={minute |> Integer.to_string() |> String.pad_leading(2, "0")}
@@ -45,7 +49,7 @@ defmodule DotcomWeb.Components.TimePicker do
           {minute |> Integer.to_string() |> String.pad_leading(2, "0")}
         </option>
       </select>
-      <select id="timepicker_ampm" name={@form[:timepicker_ampm].name}>
+      <select class="c-select trip-plan-time" id="timepicker_ampm" name={@form[:timepicker_ampm].name}>
         <option value="AM" selected={@form[:timepicker_ampm].value == "AM"}>
           AM
         </option>
