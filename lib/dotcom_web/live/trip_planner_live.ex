@@ -392,7 +392,9 @@ defmodule DotcomWeb.TripPlannerLive do
            "timepicker_ampm" => ampm
          } = params
        ) do
-    {:ok, old_datetime, _} = datetime |> DateTime.from_iso8601()
+    {:ok, old_datetime} =
+      datetime |> DateTime.from_iso8601() |> elem(1) |> DateTime.shift_zone("America/New_York")
+
     date = old_datetime |> DateTime.to_date()
 
     hour24 =
@@ -414,13 +416,7 @@ defmodule DotcomWeb.TripPlannerLive do
     {:ok, time} = Time.new(hour24, mins, 0)
 
     {:ok, new_datetime} = DateTime.new(date, time, "America/New_York")
-    dbg(datetime)
-    dbg(old_datetime)
-    dbg(date)
-    dbg(hour24)
-    dbg(mins)
-    dbg(new_datetime)
-    dbg("-------------")
+
     params |> Map.put("datetime", new_datetime)
   end
 

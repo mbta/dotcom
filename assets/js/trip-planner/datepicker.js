@@ -51,20 +51,11 @@ const i18nDate = (date, locale = "en") => {
   return formatter.format(date);
 }
 
-const time_string = () => {
-  return timepicker_hour.value + ":" + timepicker_minute.value + timepicker_ampm.value
-}
 
 /**
  * This is a LiveView hook that initializes a flatpickr date picker.
  */
 
-const parseTime = () => {
-  document.getElementById("timepicker_input").value = 
-  document.getElementById("timepicker_hour").value + ":" +
-  document.getElementById("timepicker_minute").value +
-  document.getElementById("timepicker_ampm").value
-}
 
 export default {
   mounted() {
@@ -89,9 +80,6 @@ export default {
       this.pickr.setDate(datetime);     
     });
 
-    //document.getElementById("timepicker_hour").addEventListener("change", parseTime);
-    //document.getElementById("timepicker_minute").addEventListener("change", parseTime);
-    //document.getElementById("timepicker_ampm").addEventListener("change", parseTime);
 
 
   },

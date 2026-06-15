@@ -37,7 +37,9 @@ defmodule DotcomWeb.Components.DatePicker do
     assigns =
       assigns
       |> assign(:errors, format_changeset_errors(assigns.field.errors))
-      |> assign_new(:value, fn -> assigns.field.value end)
+      |> assign_new(:value, fn ->
+        assigns.field.value
+      end)
 
     ~H"""
     <div class={["mbta-date-picker", @errors != [] && "mbta-date-picker--error"]}>
@@ -54,7 +56,7 @@ defmodule DotcomWeb.Components.DatePicker do
           type="datetime-local"
           name={@field.name}
           id={@field.id}
-          value={Phoenix.HTML.Form.normalize_value("datetime-local", @field.value)}
+          value={Phoenix.HTML.Form.normalize_value("datetime-local", @value)}
           class="mbta-input"
           data-input
         />
