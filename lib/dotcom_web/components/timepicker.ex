@@ -10,9 +10,8 @@ defmodule DotcomWeb.Components.TimePicker do
   use DotcomWeb, :component
   import MbtaMetro.Components.Feedback
   import MbtaMetro.Components.Input, only: [format_changeset_errors: 1]
-  import DotcomWeb.TripPlannerLive, only: [nearest_5_minutes: 0]
 
-  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc """
   Renders the time picker component.
@@ -73,6 +72,15 @@ defmodule DotcomWeb.Components.TimePicker do
     """
   end
 
+  def nearest_5_minutes do
+    datetime = Timex.now(@timezone)
+    minutes = datetime.minute
+    rounded_minutes = Float.ceil(minutes / 5) * 5
+    added_minutes = Kernel.trunc(rounded_minutes - minutes)
+
+    Timex.shift(datetime, minutes: added_minutes)
+  end
+
   def minute_pad(minute) do
     minute |> Integer.to_string() |> String.pad_leading(2, "0")
   end
@@ -82,7 +90,7 @@ defmodule DotcomWeb.Components.TimePicker do
   end
 
   def error_class?(_) do
-    "trip-plan-time--error"
+    "timepicker--error"
   end
 
   def option_selected?(form, option, :timepicker_hour = field) do
