@@ -7,25 +7,17 @@ defmodule DotcomWeb.Components.TimePicker do
   :errors - the errors to render
 
   """
-  use Phoenix.LiveComponent
+  use DotcomWeb, :component
   import MbtaMetro.Components.Feedback
   import MbtaMetro.Components.Input, only: [format_changeset_errors: 1]
   import DotcomWeb.TripPlannerLive, only: [nearest_5_minutes: 0]
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
-  def mount(_params, _session, socket) do
-    config = Map.get(socket.assigns, :config, %{})
-    {locale, new_config} = Map.pop(config, :locale, "en")
-    new_socket = assign(socket, config: new_config, locale: locale)
-
-    {:ok, new_socket}
-  end
-
   @doc """
   Renders the time picker component.
   """
-  def render(assigns) do
+  def timepicker(assigns) do
     assigns =
       assigns
       |> assign(:errors, format_changeset_errors(assigns.errors))
