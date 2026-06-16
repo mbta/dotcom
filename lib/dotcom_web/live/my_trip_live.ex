@@ -28,6 +28,7 @@ defmodule DotcomWeb.MyTripLive do
      socket
      |> assign(:trip_id, trip_id)
      |> assign(:vehicle, vehicle)
+     |> assign(:vehicles, vehicles)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:direction_id, direction_id)
@@ -36,6 +37,8 @@ defmodule DotcomWeb.MyTripLive do
   end
 
   def render(%{vehicle: vehicle} = assigns) when not is_nil(vehicle) do
+    dbg(@map_config)
+
     ~H"""
     <div>
       <a href={"/preview/my-trip?route_id=#{@route_id}&direction_id=#{@direction_id}&offset=#{@offset-1}"}>
@@ -50,15 +53,8 @@ defmodule DotcomWeb.MyTripLive do
       module={MbtaMetro.Live.Map}
       id="my-trip-map"
       class="h-[32rem] w-full"
-      config={@map_config}
-      icons={[
-        %{
-          class: "size-5 cursor-pointer",
-          coordinates: [@vehicle.longitude, @vehicle.latitude],
-          name: icon_name(assigns),
-          type: "system"
-        }
-      ]}
+      config={@map_config |> Map.put(:center, [@vehicle.longitude, @vehicle.latitude])}
+      icons={map_icons(assigns)}
     />
     """
   end
@@ -67,6 +63,18 @@ defmodule DotcomWeb.MyTripLive do
     ~H"""
     404
     """
+  end
+
+  def map_icons(%{vehicle: vehicle, vehicles: vehicles} = assigns) do
+    vehicles
+    |> Enum.map(fn v ->
+      %{
+        class: "size-5 cursor-pointer #{if v.id == vehicle.id, do: "mytrip-selected"}",
+        coordinates: [v.longitude, v.latitude],
+        name: icon_name(assigns),
+        type: "system"
+      }
+    end)
   end
 
   def icon_name(%{route_id: route_id}) do
