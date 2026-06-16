@@ -54,8 +54,8 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
         data-test="later_changes_link"
         patch={~p"/schedules/#{@route_id}/alerts"}
       >
-        {gettext("%{later_count} later %{change_text}",
-          later_count: @later_count,
+        {gettext("%{count} later %{change_text}",
+          count: @later_count,
           change_text: Inflex.inflect("change", @later_count)
         )
         |> Phoenix.HTML.raw()}
