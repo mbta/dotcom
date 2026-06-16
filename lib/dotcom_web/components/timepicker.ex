@@ -33,7 +33,7 @@ defmodule DotcomWeb.Components.TimePicker do
     ~H"""
     <div class={error_class?(@errors)}>
       <select
-        class="c-select trip-plan-time  .mbta-input"
+        class="c-select timepicker-select"
         id="timepicker_hour"
         name={@form[:timepicker_hour].name}
       >
@@ -46,25 +46,29 @@ defmodule DotcomWeb.Components.TimePicker do
         </option>
       </select>
       <select
-        class="c-select trip-plan-time"
+        class="c-select timepicker-select"
         id="timepicker_minute"
         name={@form[:timepicker_minute].name}
       >
         <option
           :for={minute <- 0..55//5}
-          value={minute |> Integer.to_string() |> String.pad_leading(2, "0")}
+          value={minute_pad(minute)}
           selected={
             option_selected?(
               @form,
-              minute |> Integer.to_string() |> String.pad_leading(2, "0"),
+              minute_pad(minute),
               :timepicker_minute
             )
           }
         >
-          {minute |> Integer.to_string() |> String.pad_leading(2, "0")}
+          {minute_pad(minute)}
         </option>
       </select>
-      <select class="c-select trip-plan-time" id="timepicker_ampm" name={@form[:timepicker_ampm].name}>
+      <select
+        class="c-select timepicker-select"
+        id="timepicker_ampm"
+        name={@form[:timepicker_ampm].name}
+      >
         <option value="AM" selected={option_selected?(@form, "AM", :timepicker_ampm)}>
           AM
         </option>
@@ -77,6 +81,10 @@ defmodule DotcomWeb.Components.TimePicker do
     """
   end
 
+  def minute_pad(minute) do
+    minute |> Integer.to_string() |> String.pad_leading(2, "0")
+  end
+
   def error_class?([]) do
     nil
   end
@@ -87,7 +95,7 @@ defmodule DotcomWeb.Components.TimePicker do
 
   def option_selected?(form, option, :timepicker_hour = field) do
     if is_nil(form[field].value) do
-      @date_time_module.now().hour |> hour_24_to_12() == option
+      nearest_5_minutes().hour |> hour_24_to_12() == option
     else
       form[field].value == option |> Integer.to_string()
     end
@@ -104,8 +112,8 @@ defmodule DotcomWeb.Components.TimePicker do
 
   def option_selected?(form, option, :timepicker_ampm = field) do
     if is_nil(form[field].value) do
-      (@date_time_module.now().hour < 12 and "AM" == option) or
-        (@date_time_module.now().hour >= 12 and "PM" == option)
+      (nearest_5_minutes().hour < 12 and "AM" == option) or
+        (nearest_5_minutes().hour >= 12 and "PM" == option)
     else
       form[field].value == option
     end

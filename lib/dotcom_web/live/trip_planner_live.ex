@@ -19,7 +19,7 @@ defmodule DotcomWeb.TripPlannerLive do
   alias OpenTripPlannerClient.ItineraryGroup
 
   @description ~t"Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
-
+  @timezone Application.compile_env!(:dotcom, :timezone)
   @state %{
     input_form: %{
       changeset: %Ecto.Changeset{}
@@ -377,7 +377,7 @@ defmodule DotcomWeb.TripPlannerLive do
   end
 
   defp add_datetime_if_needed(%{"datetime_type" => "now"} = params, _previous_params) do
-    params |> Map.put("datetime", Timex.now("America/New_York"))
+    params |> Map.put("datetime", Timex.now(@timezone))
   end
 
   defp add_datetime_if_needed(params, _previous_params) do
@@ -402,7 +402,7 @@ defmodule DotcomWeb.TripPlannerLive do
       else
         datetime
       end
-      |> DateTime.shift_zone("America/New_York")
+      |> DateTime.shift_zone(@timezone)
 
     date = old_datetime |> DateTime.to_date()
     # Compute the time from timepicker
@@ -422,7 +422,7 @@ defmodule DotcomWeb.TripPlannerLive do
     {:ok, time} = Time.new(hour24, mins, 0)
 
     # Combine date and time to make our new datetime
-    {:ok, new_datetime} = DateTime.new(date, time, "America/New_York")
+    {:ok, new_datetime} = DateTime.new(date, time, @timezone)
 
     params |> Map.put("datetime", new_datetime)
   end
@@ -511,7 +511,7 @@ defmodule DotcomWeb.TripPlannerLive do
 
   # Round the current time to the nearest 5 minutes.
   def nearest_5_minutes do
-    datetime = Timex.now("America/New_York")
+    datetime = Timex.now(@timezone)
     minutes = datetime.minute
     rounded_minutes = Float.ceil(minutes / 5) * 5
     added_minutes = Kernel.trunc(rounded_minutes - minutes)
