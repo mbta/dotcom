@@ -19,7 +19,7 @@ defmodule DotcomWeb.TripPlannerLive do
   alias OpenTripPlannerClient.ItineraryGroup
 
   @description ~t"Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
-
+  @timezone Application.compile_env!(:dotcom, :timezone)
   @state %{
     input_form: %{
       changeset: %Ecto.Changeset{}
@@ -209,6 +209,7 @@ defmodule DotcomWeb.TripPlannerLive do
       previous_params
       |> Map.merge(params)
       |> add_datetime_if_needed(previous_params)
+      |> combine_date_and_time()
 
     changeset = InputForm.changeset(params_with_datetime)
 
@@ -376,10 +377,57 @@ defmodule DotcomWeb.TripPlannerLive do
   end
 
   defp add_datetime_if_needed(%{"datetime_type" => "now"} = params, _previous_params) do
-    params |> Map.put("datetime", Timex.now("America/New_York"))
+    params |> Map.put("datetime", Timex.now(@timezone))
   end
 
   defp add_datetime_if_needed(params, _previous_params) do
+    params
+  end
+
+  # Combines the date from datepicker (datetime) with the time
+  # from timepicker (timepicker_[hour,minute,ampm]) to form a
+  # new datetime that will be passed into OTP
+  defp combine_date_and_time(
+         %{
+           "datetime" => datetime,
+           "timepicker_hour" => hour,
+           "timepicker_minute" => minute,
+           "timepicker_ampm" => ampm
+         } = params
+       ) do
+    # Get the date from datepicker (datetime)
+    {:ok, old_datetime} =
+      if is_binary(datetime) do
+        datetime |> DateTime.from_iso8601() |> elem(1)
+      else
+        datetime
+      end
+      |> DateTime.shift_zone(@timezone)
+
+    date = old_datetime |> DateTime.to_date()
+    # Compute the time from timepicker
+    hour24 =
+      cond do
+        ampm == "PM" and hour != "12" ->
+          (Integer.parse(hour) |> elem(0)) + 12
+
+        ampm == "AM" and hour == "12" ->
+          0
+
+        true ->
+          Integer.parse(hour) |> elem(0)
+      end
+
+    {mins, _} = Integer.parse(minute)
+    {:ok, time} = Time.new(hour24, mins, 0)
+
+    # Combine date and time to make our new datetime
+    {:ok, new_datetime} = DateTime.new(date, time, @timezone)
+
+    params |> Map.put("datetime", new_datetime)
+  end
+
+  defp combine_date_and_time(params) do
     params
   end
 
@@ -462,8 +510,8 @@ defmodule DotcomWeb.TripPlannerLive do
   defp location_data_from_changeset(_), do: %{}
 
   # Round the current time to the nearest 5 minutes.
-  defp nearest_5_minutes do
-    datetime = Timex.now("America/New_York")
+  def nearest_5_minutes do
+    datetime = Timex.now(@timezone)
     minutes = datetime.minute
     rounded_minutes = Float.ceil(minutes / 5) * 5
     added_minutes = Kernel.trunc(rounded_minutes - minutes)

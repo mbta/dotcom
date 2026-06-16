@@ -4,6 +4,7 @@ import PageVisibility from "./page-visibility";
 import ScrollIntoView from "./scroll-into-view";
 import TripPlannerForm from "./trip-planner-form";
 import TripPlannerMap from "./trip-planner-map";
+import TripPlannerDatePicker from "../../js/trip-planner/datepicker";
 
 /**
  * Configurations for usage with [Phoenix LiveView's
@@ -18,6 +19,7 @@ const Hooks = {
   MBTAGoCTABanner,
   PageVisibility,
   ScrollIntoView,
+  TripPlannerDatePicker,
   TripPlannerForm,
   TripPlannerMap
 };
