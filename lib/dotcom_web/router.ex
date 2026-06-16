@@ -75,6 +75,11 @@ defmodule DotcomWeb.Router do
     get("/_health", HealthController, :index)
   end
 
+  scope "/_flags", Laboratory do
+    pipe_through([:browser, :browser_live])
+    forward("/", Router)
+  end
+
   scope "/cache", DotcomWeb do
     pipe_through([:basic_auth])
 
@@ -95,11 +100,6 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb, host: "beta." do
     # no pipe
     get("/*path", WwwRedirector, [])
-  end
-
-  scope "/_flags", Laboratory do
-    pipe_through(:browser)
-    forward("/", Router)
   end
 
   scope "/", DotcomWeb do
