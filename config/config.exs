@@ -129,4 +129,15 @@ config :dotcom, DotcomWeb.Endpoint,
     signing_salt: "gsQiz0LdGqVmqDOR4snAgelIAAphhdfm"
   ]
 
+config :laboratory,
+  features: [
+    {:use_smartling_translations, "Smartling translations",
+     "Uses Smartling's translation workflows"}
+  ],
+  cookie: [
+    # one month,
+    max_age: 3600 * 24 * 30,
+    http_only: true
+  ]
+
 import_config "#{config_env()}.exs"
