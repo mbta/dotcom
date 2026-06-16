@@ -214,6 +214,7 @@ defmodule Fares.FareInfo do
       inner_harbor_month_price_reduced: "30.00",
       cross_harbor_price: "9.75",
       east_boston_price: "2.40",
+      harbor_loop_price: "2.40",
       lynn_price: "7.00",
       winthrop_price: "6.50",
       commuter_ferry_price: "9.75",
@@ -493,6 +494,7 @@ defmodule Fares.FareInfo do
         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
         east_boston_price: east_boston_price,
+        harbor_loop_price: harbor_loop_price,
         lynn_price: lynn_price,
         winthrop_price: winthrop_price,
         commuter_ferry_price: commuter_ferry_price,
@@ -664,6 +666,22 @@ defmodule Fares.FareInfo do
         reduced: :any,
         cents: dollars_to_cents(commuter_ferry_month_price_reduced),
         additional_valid_modes: [:subway, :bus, :commuter_rail]
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_harbor_loop,
+        duration: :single_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(harbor_loop_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_harbor_loop,
+        duration: :round_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(harbor_loop_price) * 2
       }
     ]
 

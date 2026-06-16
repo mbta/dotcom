@@ -17,6 +17,10 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  pipeline :get_flags do
+    plug(DotcomWeb.Plugs.PutFlagsInSession)
+  end
+
   pipeline :secure do
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
       plug(Plug.SSL, force_ssl)
@@ -26,6 +30,7 @@ defmodule DotcomWeb.Router do
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
+    plug(:get_flags)
     plug(:fetch_flash)
     plug(:fetch_cookies)
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
@@ -70,6 +75,11 @@ defmodule DotcomWeb.Router do
     get("/_health", HealthController, :index)
   end
 
+  scope "/_flags", Laboratory do
+    pipe_through([:browser, :browser_live])
+    forward("/", Router)
+  end
+
   scope "/cache", DotcomWeb do
     pipe_through([:basic_auth])
 
@@ -96,7 +106,9 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
 
-    live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
+    live_session :alerts,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live("/alerts/subway", SubwayAlertsLive)
       live("/alerts/commuter-rail", CommuterRailAlertsLive)
     end
@@ -106,7 +118,7 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
 
-    live_session :world_cup do
+    live_session :world_cup, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", WorldCupTimetableLive
     end
   end
@@ -203,6 +215,12 @@ defmodule DotcomWeb.Router do
       to: "/schedules/CR-NewBedford"
     )
 
+    # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
+    get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
+
+    # Redirect Boat-F1 to Boat-F2H until Boat-F1 can be unlisted
+    get("/schedules/Boat-F1/*path_params", Plugs.PathParamsRedirector, to: "/schedules/Boat-F2H")
+
     get("/", PageController, :index)
     get("/menu", PageController, :menu)
 
@@ -296,18 +314,22 @@ defmodule DotcomWeb.Router do
     # get("/vote", VoteController, :show)
   end
 
-  scope "/", DotcomWeb do
-    import Phoenix.LiveDashboard.Router
+  if Mix.env() != :prod do
+    scope "/", DotcomWeb do
+      import Phoenix.LiveDashboard.Router
 
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
-    live_dashboard("/dashboard")
+      pipe_through([:browser, :browser_live, :basic_auth_readonly])
+      live_dashboard("/dashboard")
+    end
   end
 
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
 
-    live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
+    live_session :rider,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live("/search", SearchPageLive)
       live("/trip-planner", TripPlannerLive)
     end
@@ -317,7 +339,7 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
 
-    live_session :departures do
+    live_session :departures, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", ScheduleFinderLive
     end
   end
@@ -326,7 +348,9 @@ defmodule DotcomWeb.Router do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live, :basic_auth_readonly])
 
-    live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
+    live_session :default,
+      layout: {DotcomWeb.LayoutView, :preview},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", PreviewLive
       live "/schedules/bostonstadium", WorldCupTimetableLive
       live "/stop-map", StopMapLive

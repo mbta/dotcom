@@ -1,4 +1,4 @@
-defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
+defmodule Dotcom.UpcomingDepartures.Processor do
   @moduledoc """
   This represents realtime data for upcoming departures, including trip details.
 
@@ -13,138 +13,26 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   import Dotcom.Utils.Time, only: [truncate: 2]
 
   alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
-  alias Dotcom.Utils.ServiceDateTime
+  alias Dotcom.UpcomingDepartures.{UpcomingDeparture, UpcomingTripDetails}
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Schedule
   alias Schedules.Trip
-  alias Stops.Stop
   alias Vehicles.Vehicle
 
+  @behaviour Dotcom.UpcomingDepartures.Behaviour
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
-  defmodule UpcomingDeparture do
-    @moduledoc """
-    A struct representing an upcoming departure.
-    """
-
-    defstruct [
-      :arrival_status,
-      :arrival_substatus,
-      :crowding,
-      :headsign,
-      :last_trip?,
-      :platform_name,
-      :route,
-      :stop_sequence,
-      :time,
-      :trip_id,
-      :trip_name,
-      :vehicle_name
-    ]
-
-    @type realtime_arrival_status_t ::
-            :arriving
-            | :boarding
-            | :now
-            | {:arrival_minutes, integer()}
-            | {:departure_minutes, integer()}
-
-    @type arrival_status_t ::
-            realtime_arrival_status_t()
-            | :hidden
-            | {:cancelled, DateTime.t()}
-            | {:scheduled, DateTime.t()}
-            | {:status, String.t()}
-            | {:time, DateTime.t()}
-
-    @type arrival_substatus_t ::
-            nil
-            | :on_time
-            | :scheduled
-            | :scheduled_sr_only
-            | {:scheduled_at, DateTime.t()}
-            | {:status, String.t()}
-
-    @type t :: %__MODULE__{
-            arrival_status: arrival_status_t(),
-            arrival_substatus: arrival_substatus_t(),
-            crowding: Vehicle.crowding(),
-            headsign: Schedules.Trip.headsign(),
-            last_trip?: boolean(),
-            platform_name: String.t() | nil,
-            route: Route.t(),
-            stop_sequence: non_neg_integer(),
-            time: DateTime.t(),
-            trip_id: Trip.id_t(),
-            trip_name: String.t(),
-            vehicle_name: String.t() | nil
-          }
-
-    defmodule UpcomingTripDetails do
-      @moduledoc """
-      A struct representing trip details, including a list of stops visited before and after
-      the stop specified, along with arrival times (or departure times when relevant).
-      """
-
-      defstruct [
-        :stop,
-        :stops_after,
-        :stops_before,
-        :vehicle_info
-      ]
-
-      @type t :: %__MODULE__{
-              stop: nil | TripDetails.TripStop.t(),
-              stops_after: [TripDetails.TripStop.t()],
-              stops_before: [TripDetails.TripStop.t()],
-              vehicle_info: TripDetails.VehicleInfo.t()
-            }
-    end
-  end
-
   @typep vehicle_at_stop_status_t() ::
            :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
 
-  @spec upcoming_departures(%{
-          direction_id: 0 | 1,
-          now: DateTime.t(),
-          route: Route.t(),
-          stop_id: Stop.id_t()
-        }) ::
-          [__MODULE__.UpcomingDeparture.t()]
-          | :no_realtime
-          | :no_service
-          | :service_ended
-          | {:before_service, __MODULE__.UpcomingDeparture.t()}
-          | {:no_realtime, [__MODULE__.UpcomingDeparture.t()]}
-  def upcoming_departures(%{
-        direction_id: direction_id,
-        now: now,
-        route: route,
-        stop_id: stop_id
-      }) do
+  @impl Dotcom.UpcomingDepartures.Behaviour
+  def upcoming_departures(predicted_schedules, %{route: route}) do
+    now = @date_time.now()
     route_type = Route.type_atom(route)
-
-    predictions =
-      @predictions_repo.all(
-        route: route.id,
-        direction_id: direction_id,
-        include_terminals: true,
-        discard_past_subway_predictions: false
-      )
-      |> Enum.filter(&(&1.stop.id == stop_id))
-
-    schedules =
-      @schedules_repo.by_route_ids([route.id],
-        direction_id: direction_id,
-        date: ServiceDateTime.service_date(now),
-        stop_ids: [stop_id]
-      )
-
-    predicted_schedules = PredictedSchedule.group(predictions, schedules)
 
     predicted_schedules_at_stop =
       predicted_schedules
@@ -222,6 +110,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     !prediction_departure_time && !schedule_departure_time
   end
 
+  defp past_schedule_keep_skipped?(
+         %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: prediction},
+         now
+       )
+       when time != nil do
+    is_nil(prediction) and DateTime.before?(time, now)
+  end
+
+  defp past_schedule_keep_skipped?(_, _), do: false
+
   defp past_schedule?(
          %PredictedSchedule{schedule: %Schedule{departure_time: time}, prediction: prediction},
          now
@@ -266,9 +164,10 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         route_type: route_type
       }) do
     trip = predicted_schedule |> PredictedSchedule.trip()
+    trip_id = predicted_schedule |> PredictedSchedule.trip_id()
     stop_sequence = PredictedSchedule.stop_sequence(predicted_schedule)
     vehicle = PredictedSchedule.vehicle(predicted_schedule)
-    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip.id, stop_sequence)
+    vehicle_at_stop_status = vehicle_at_stop_status(vehicle, trip_id, stop_sequence)
 
     predicted_schedule_route = PredictedSchedule.route(predicted_schedule)
 
@@ -283,6 +182,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           route_type: route_type,
           status: PredictedSchedule.status(predicted_schedule),
           now: now,
+          trip: trip,
           vehicle_at_stop_status: vehicle_at_stop_status
         }),
       arrival_substatus:
@@ -290,16 +190,16 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: predicted_schedule,
           route_type: route_type
         }),
-      crowding: crowding(vehicle, trip.id),
-      headsign: stop_headsign || trip.headsign,
+      crowding: crowding(vehicle, trip_id),
+      headsign: stop_headsign || (trip && trip.headsign),
       last_trip?: PredictedSchedule.last_trip?(predicted_schedule),
       platform_name: platform_name(predicted_schedule),
       route: predicted_schedule_route,
       stop_sequence: stop_sequence,
       time: PredictedSchedule.display_time(predicted_schedule),
-      trip_id: trip.id,
+      trip_id: trip_id,
       trip_name:
-        if(route_type == :commuter_rail,
+        if(route_type == :commuter_rail && trip,
           do: trip_name(predicted_schedule_route, trip.name),
           else: nil
         ),
@@ -358,6 +258,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
     )
   end
 
+  @impl Dotcom.UpcomingDepartures.Behaviour
   def trip_details(%{
         now: now,
         trip_id: trip_id,
@@ -375,7 +276,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
 
     predicted_schedules =
       PredictedSchedule.group(predictions, schedules)
-      |> Enum.reject(&past_schedule?(&1, now))
+      |> Enum.reject(&past_schedule_keep_skipped?(&1, now))
 
     vehicle =
       predicted_schedules
@@ -396,7 +297,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
         {bef, [st | aft]} -> {bef, st, aft}
       end
 
-    %__MODULE__.UpcomingDeparture.UpcomingTripDetails{
+    %UpcomingTripDetails{
       stops_before: stops_before,
       stop: stop,
       stops_after: stops_after,
@@ -434,8 +335,11 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type(),
           status: nil | String.t(),
+          trip: Schedules.Trip.t() | nil,
           vehicle_at_stop_status: vehicle_at_stop_status_t()
-        }) :: __MODULE__.UpcomingDeparture.arrival_status_t()
+        }) :: UpcomingDeparture.arrival_status_t()
+  defp arrival_status(%{trip: nil}), do: :hidden
+
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{prediction: nil},
          route_type: :subway
@@ -537,7 +441,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
           departure_seconds: integer(),
           route_type: Route.route_type(),
           vehicle_at_stop_status: vehicle_at_stop_status_t()
-        }) :: __MODULE__.UpcomingDeparture.realtime_arrival_status_t()
+        }) :: UpcomingDeparture.realtime_arrival_status_t()
 
   defp realtime_arrival_status(%{
          vehicle_at_stop_status: :after_stop
@@ -580,7 +484,7 @@ defmodule Dotcom.ScheduleFinder.UpcomingDepartures do
   @spec arrival_substatus(%{
           predicted_schedule: PredictedSchedule.t(),
           route_type: Route.route_type()
-        }) :: __MODULE__.UpcomingDeparture.arrival_substatus_t()
+        }) :: UpcomingDeparture.arrival_substatus_t()
 
   defp arrival_substatus(%{
          predicted_schedule: %PredictedSchedule{

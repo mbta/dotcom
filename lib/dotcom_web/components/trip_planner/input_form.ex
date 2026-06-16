@@ -160,7 +160,13 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
           />
         </.inputs_for>
         <.feedback :for={{msg, _} <- @field.errors} :if={@has_error?} kind={:error}>
-          {msg}
+          <label
+            aria-live
+            role="alert"
+            for={if @field.field == :from, do: "autocomplete-2-input", else: "autocomplete-3-input"}
+          >
+            {msg}
+          </label>
         </.feedback>
       </.algolia_autocomplete>
     </fieldset>

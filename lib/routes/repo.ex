@@ -52,6 +52,7 @@ defmodule Routes.Repo do
       {:error, _} -> nil
     end
     |> update_direction_destinations()
+    |> update_direction_names()
   end
 
   # Ferries F1 and F2H are functionally the same route for riders, but are treated separately
@@ -69,6 +70,18 @@ defmodule Routes.Repo do
   end
 
   defp update_direction_destinations(route), do: route
+
+  defp update_direction_names(%Route{id: "Boat-F10"} = route) do
+    %Route{
+      route
+      | direction_names:
+          route.direction_names
+          |> Map.put(0, "Counterclockwise (Morning)")
+          |> Map.put(1, "Clockwise (Evening)")
+    }
+  end
+
+  defp update_direction_names(route), do: route
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
 

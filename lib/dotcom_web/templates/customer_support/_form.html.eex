@@ -158,7 +158,7 @@
     <div class="form-group <%= class_for_error("recaptcha", @errors, "has-danger", "has-success") %>">
       <%= support_error_tag @errors, "recaptcha" %>
       <%= raw Recaptcha.Template.display(noscript: true) %>
-      <div class="error-indicator hidden">
+      <div class="error-indicator hidden" id="recaptcha-error-indicator">
         <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
       </div>
       <button class="btn btn-primary submit-button" type="submit" id="support-submit">

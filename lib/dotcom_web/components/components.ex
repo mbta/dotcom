@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components do
     endpoint: DotcomWeb.Endpoint,
     router: DotcomWeb.Router
 
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
   import MbtaMetro.Components.Badge, only: [badge: 1]
   import MbtaMetro.Components.Button, only: [button: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -113,6 +114,10 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
+  attr(:title, :string)
+  slot(:inner_block, required: true)
+
   def error_container(assigns) do
     assigns =
       assigns
@@ -122,7 +127,7 @@ defmodule DotcomWeb.Components do
       end)
 
     ~H"""
-    <div class={"error-container rounded #{@padding_class}"}>
+    <div class={"error-container rounded #{@padding_class}"} {@rest}>
       <p :if={@title} class="font-bold mb-2">{@title}</p>
       {render_slot(@inner_block)}
     </div>
@@ -131,6 +136,7 @@ defmodule DotcomWeb.Components do
 
   slot(:heading, required: false, doc: "Large title shown at top of container.")
   slot(:inner_block, required: true)
+  attr(:class, :string, default: "")
   attr(:hide_divider, :boolean, required: false, default: false)
 
   @doc """
@@ -166,7 +172,11 @@ defmodule DotcomWeb.Components do
   """
   def bordered_container(assigns) do
     ~H"""
-    <div class="px-2 py-3 md:px-5 md:py-4 border-[1px] bg-white border-gray-lightest rounded-lg">
+    <div class={[
+      @class,
+      "px-2 py-3 md:px-5 md:py-4 border-[1px]",
+      "bg-white border-gray-lightest rounded-lg"
+    ]}>
       <div :if={@heading} class="font-heading font-bold text-[1.75rem] leading-normal">
         {render_slot(@heading)}
       </div>
@@ -371,6 +381,60 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global, include: ~w(disabled))
+  attr(:class, :string, default: "")
+
+  @doc """
+  Same as above, but links to the timetable instead
+  """
+  def boston_stadium_intercept(assigns) do
+    ~H"""
+    <.descriptive_link
+      href="/schedules/bostonstadium"
+      class={@class}
+      {@rest}
+    >
+      <:title>
+        {~t(Taking the train to a World Cup match?)}
+      </:title>
+      <p class="c-descriptive-link__world-cup c-descriptive-link__boston-stadium">
+        {gettext("View %{timetable_link} for departure information.",
+          timetable_link: "<span class='underline font-medium'>Boston Stadium Train timetables</span>"
+        )
+        |> Phoenix.HTML.raw()}
+      </p>
+    </.descriptive_link>
+    """
+  end
+
+  attr(:rest, :global, include: ~w(disabled))
+  attr(:class, :string, default: "")
+
+  @doc """
+  Callout for commuter rail alerts during the world cup
+  """
+  def cr_alert_intercept(assigns) do
+    ~H"""
+    <.descriptive_link
+      href="/schedules/commuter-rail"
+      class={@class}
+      {@rest}
+    >
+      <:title>
+        {~t(Your Commuter Rail trip will be affected by the World Cup.)}
+      </:title>
+      <p class="c-descriptive-link__world-cup">
+        {gettext(
+          "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule.",
+          timetable_link: "<span class='underline font-medium'>timetable</span>"
+        )
+        |> Phoenix.HTML.raw()}
+      </p>
+    </.descriptive_link>
+    """
+  end
+
+  attr(:rest, :global)
   slot :inner_block, required: true
 
   @doc """
@@ -378,7 +442,7 @@ defmodule DotcomWeb.Components do
   """
   def callout(assigns) do
     ~H"""
-    <div class="callout font-bold text-center">
+    <div class="callout font-bold text-center" {@rest}>
       {render_slot(@inner_block)}
     </div>
     """
@@ -394,6 +458,37 @@ defmodule DotcomWeb.Components do
         {render_slot(@inner_block)}
       </div>
       <.icon type="solid" name="arrow-right" class="c-callout-link__arrow" />
+    </a>
+    """
+  end
+
+  attr :route_type_atom, :atom, required: true
+  @doc "Renders a banner with a call-to-action to download the MBTA Go app"
+  def mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :route_type_text,
+        route_type_atom
+        |> mode_name()
+        |> String.downcase()
+      )
+
+    ~H"""
+    <a
+      phx-hook="MBTAGoCTABanner"
+      id="mbta-go-cta-banner"
+      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+    >
+      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
+      <span class="leading-tight grow">
+        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+          route_type_text: @route_type_text
+        )
+        |> Phoenix.HTML.raw()}
+      </span>
+      <span aria-hidden="true">&#8594;</span>
     </a>
     """
   end

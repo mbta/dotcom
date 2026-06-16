@@ -48,6 +48,8 @@ config :dotcom, :repo_modules,
   stops: Stops.Repo,
   vehicles: Vehicles.Repo
 
+config :dotcom, :schedule_finder_module, Dotcom.ScheduleFinder
+
 config :dotcom, :system_status_cache_modules,
   commuter_rail: Dotcom.SystemStatus.CommuterRailCache,
   subway: Dotcom.SystemStatus.SubwayCache
@@ -56,7 +58,7 @@ config :dotcom, :req_module, Req
 
 config :dotcom, :search_service, Dotcom.SearchService
 
-config :dotcom, :timetable_loader_module, Dotcom.TimetableLoader
+config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures
 
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
@@ -67,7 +69,8 @@ config :dotcom, tile_server_url: tile_server_url
 
 config :dotcom, Dotcom.Cache.Multilevel.Local,
   max_size: 1_000_000,
-  allocated_memory: 2_000_000_000
+  allocated_memory: 2_000_000_000,
+  gc_interval: :timer.hours(12)
 
 config :elixir, ansi_enabled: true
 
@@ -114,5 +117,27 @@ config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5
+
+# Configures the endpoint
+config :dotcom, DotcomWeb.Endpoint,
+  adapter: Bandit.PhoenixAdapter,
+  check_origin: false,
+  secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
+  render_errors: [accepts: ~w(html), layout: {DotcomWeb.LayoutView, "root.html"}],
+  pubsub_server: Dotcom.PubSub,
+  live_view: [
+    signing_salt: "gsQiz0LdGqVmqDOR4snAgelIAAphhdfm"
+  ]
+
+config :laboratory,
+  features: [
+    {:use_smartling_translations, "Smartling translations",
+     "Uses Smartling's translation workflows"}
+  ],
+  cookie: [
+    # one month,
+    max_age: 3600 * 24 * 30,
+    http_only: true
+  ]
 
 import_config "#{config_env()}.exs"

@@ -4,13 +4,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Currently, we consider the most general case where service starts at 03:00:00am and ends at 02:59:59am.
 
   In the future, we aim to add route-specific service times.
-
-  The service range continuum:
-
-  <---before today---|---this week---|---next week---|---after next week--->
-                     today
-
-  Before today and after next week are open intervals. Today is included in this week.
   """
 
   use Dotcom.Gettext.Sigils
@@ -56,7 +49,12 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   @doc """
-  The service range for the given date_time.
+  The service range for the given date_time. The service range continuum:
+
+  <---before today---|---this week---|---next week---|---after next week--->
+                     today
+
+  Before today and after next week are open intervals. Today is included in this week.
   """
   @spec service_range(DateTime.t()) :: named_service_range()
   def service_range(date_time) do

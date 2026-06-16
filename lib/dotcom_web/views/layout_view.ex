@@ -97,6 +97,7 @@ defmodule DotcomWeb.LayoutView do
           %{
             sub_menu_section: ~t(Plan Your Journey),
             links: [
+              {~t(World Cup Guide), "/WorldCup", :internal_link},
               {~t(Trip Planner), "/trip-planner", :internal_link},
               {~t(Service Alerts), "/alerts", :internal_link},
               {~t(Sign Up for Service Alerts), "https://alerts.mbta.com/", :external_link},
@@ -209,7 +210,6 @@ defmodule DotcomWeb.LayoutView do
               {~t(Careers), "/careers", :internal_link},
               {~t(Institutional Sales), "/pass-program", :internal_link},
               {~t(Business Opportunities), "/business", :internal_link},
-              {~t(Innovation Proposals), "/innovation", :internal_link},
               {~t(Engineering Design Standards), "/engineering/design-standards-and-guidelines",
                :internal_link}
             ]
@@ -229,6 +229,23 @@ defmodule DotcomWeb.LayoutView do
         ]
       }
     ]
+
+  def render_nav_link({link_name, href = "/WorldCup", _}) do
+    icon =
+      content_tag(:img, "",
+        src: "/icon-svg/football.svg",
+        class: "icon-small-inline -top-[0.125em]"
+      )
+
+    link_content = [content_tag(:div, [icon, content_tag(:span, link_name)])]
+    attrs = ["data-nav": "link", href: href, class: "m-menu__link"]
+
+    content_tag(
+      :a,
+      link_content,
+      attrs
+    )
+  end
 
   def render_nav_link({link_name, href, link_host}) do
     link_content =

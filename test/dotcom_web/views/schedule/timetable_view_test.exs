@@ -99,7 +99,8 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         formatted_date: "March 1, 2017",
         blocking_alert: nil,
         suppress_timetable?: false,
-        status: :normal
+        status: :normal,
+        linear_timetable?: true
       ]
 
       {:ok, %{assigns: assigns}}
@@ -114,7 +115,11 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         %Schedules.Schedule{trip: trip}
       ]
 
-      assigns = Keyword.put(assigns, :header_schedules, header_schedules)
+      assigns =
+        assigns
+        |> Keyword.put(:header_schedules, header_schedules)
+        |> Keyword.put(:trip_count, 1)
+
       rendered = DotcomWeb.ScheduleView.render("_timetable.html", assigns)
       refute rendered_to_string(rendered) =~ "Earlier Trains"
       refute rendered_to_string(rendered) =~ "Later Trains"
@@ -130,7 +135,11 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         %Schedules.Schedule{trip: trip}
       ]
 
-      assigns = Keyword.put(assigns, :header_schedules, header_schedules)
+      assigns =
+        assigns
+        |> Keyword.put(:header_schedules, header_schedules)
+        |> Keyword.put(:trip_count, 2)
+
       rendered = DotcomWeb.ScheduleView.render("_timetable.html", assigns)
       assert rendered_to_string(rendered) =~ "Earlier Trains"
       assert rendered_to_string(rendered) =~ "Later Trains"
@@ -163,7 +172,8 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
           header_schedules: header_schedules,
           track_changes: track_changes,
           header_stops: [{original_stop, 0}],
-          trip_schedules: trip_schedules
+          trip_schedules: trip_schedules,
+          trip_count: 1
         )
 
       rendered = DotcomWeb.ScheduleView.render("_timetable.html", assigns)

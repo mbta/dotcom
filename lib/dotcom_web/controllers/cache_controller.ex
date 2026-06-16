@@ -54,13 +54,22 @@ defmodule DotcomWeb.CacheController do
     |> Map.update!(:structured_keys, &nest_by_mod_and_fun/1)
   end
 
-  defp parse_structured([mod, fun, base_64_args]),
-    do: %{
-      type: :structured_keys,
-      mod: mod,
-      fun: fun,
-      args: base_64_args |> Base.decode64!()
-    }
+  defp parse_structured([mod, fun, base_64_args]) do
+    base_64_args
+    |> Base.decode64()
+    |> case do
+      {:ok, decoded} ->
+        %{
+          type: :structured_keys,
+          mod: mod,
+          fun: fun,
+          args: decoded
+        }
+
+      _ ->
+        %{type: :unstructured_keys}
+    end
+  end
 
   defp parse_structured(_), do: %{type: :unstructured_keys}
 

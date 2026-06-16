@@ -16,6 +16,10 @@
       :if={@stop.name == "Foxboro"}
       class="mb-3"
     />
+    <.boston_stadium_intercept
+      :if={@stop.name == "South Station"}
+      class="mb-3"
+    />
     {DotcomWeb.AlertView.render(
       "group.html",
       alerts: @banner_alerts,

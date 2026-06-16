@@ -4,12 +4,12 @@
     "@playwright/test": "1.58.1",
     "@sentry/node": "7.109.0",
     "artillery": "2.0.30",
-    "axios": "1.15.0",
+    "axios": "1.16.0",
     "csv-parse": "^6.1.0",
     "hot-shots": "10.0.0",
     "node-cron": "3.0.3",
     "node-json-logger": "0.2.1",
-    "pm2": "5.3.1",
+    "pm2": "7.0.0",
     "redis": "4.6.13"
   },
   "scripts": {

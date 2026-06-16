@@ -57,13 +57,6 @@ export const changeOrigin = (
       selectedOrigin: origin
     }
   });
-  // reopen modal depending on choice:
-  dispatch({
-    type: "OPEN_MODAL",
-    newStoreValues: {
-      modalMode: origin ? "schedule" : "origin"
-    }
-  });
 };
 
 export const changeDirection = (
@@ -86,15 +79,6 @@ const closeModal = (dispatch: Dispatch): void => {
   });
   // clear parameters from URL when closing the modal:
   updateURL("");
-};
-
-export const handleOriginSelectClick = (dispatch: Dispatch): void => {
-  dispatch({
-    type: "OPEN_MODAL",
-    newStoreValues: {
-      modalMode: "origin"
-    }
-  });
 };
 
 const getDirectionAndMap = (
@@ -228,18 +212,12 @@ const ScheduleNote = ({
 
   return (
     <>
-      <HoursOfOperation
-        route={route}
-        pdfs={pdfs}
-        hours={hours}
-        scheduleNote={scheduleNote}
-      />
+      <HoursOfOperation route={route} pdfs={pdfs} hours={hours} />
       {modalOpen && (
         <ScheduleFinderModal
           closeModal={closeModal}
           directionChanged={changeDirection}
           initialDirection={currentDirection}
-          handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
@@ -261,7 +239,6 @@ const getAdditionalLineInfo = (
 ): JSX.Element => {
   const {
     route,
-    schedule_note: scheduleNote,
     teasers,
     pdfs,
     connections,
@@ -290,7 +267,6 @@ const getAdditionalLineInfo = (
       route={route}
       holidays={holidays}
       hours={hours}
-      scheduleNote={scheduleNote}
     />
   );
 };
