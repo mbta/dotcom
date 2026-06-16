@@ -58,6 +58,8 @@ config :dotcom, :req_module, Req
 
 config :dotcom, :search_service, Dotcom.SearchService
 
+config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures
+
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
@@ -67,7 +69,8 @@ config :dotcom, tile_server_url: tile_server_url
 
 config :dotcom, Dotcom.Cache.Multilevel.Local,
   max_size: 1_000_000,
-  allocated_memory: 2_000_000_000
+  allocated_memory: 2_000_000_000,
+  gc_interval: :timer.hours(12)
 
 config :elixir, ansi_enabled: true
 

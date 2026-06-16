@@ -18,6 +18,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   attr :alerts, :list, default: []
   attr :future, :boolean, default: false
   attr :hide_route_pill, :boolean, default: false
+  attr :remove_pill_col, :boolean, default: false
   attr :plural, :boolean, default: false
   attr :prefix, :string, default: nil
   attr :route_ids, :list, required: true
@@ -43,14 +44,18 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       |> assign(:subheading_text, subheading_text)
 
     ~H"""
-    <div class="grid grid-cols-[min-content_auto] items-start grow">
-      <.top_padding hide_route_pill={@hide_route_pill} />
+    <div class={[!assigns.remove_pill_col && "grid grid-cols-[min-content_auto]", "items-start grow"]}>
+      <.top_padding
+        hide_route_pill={@hide_route_pill}
+        remove_pill_col={@remove_pill_col}
+      />
 
       <.heading
         future={@future}
         hide_route_pill={@hide_route_pill}
         plural={@plural}
         prefix={@prefix}
+        remove_pill_col={@remove_pill_col}
         route_ids={@route_ids}
         severity={severity(@alerts)}
         status={@status}
@@ -58,14 +63,17 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         subheading_text={@subheading_text}
       />
 
-      <.bottom_padding hide_route_pill={@hide_route_pill} />
+      <.bottom_padding
+        hide_route_pill={@hide_route_pill}
+        remove_pill_col={@remove_pill_col}
+      />
     </div>
     """
   end
 
   defp bottom_padding(assigns) do
     ~H"""
-    <div class="h-3"></div>
+    <div :if={!@remove_pill_col} class="h-3"></div>
     <div class="h-3"></div>
     """
   end
@@ -87,7 +95,11 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       |> assign(:description, description)
 
     ~H"""
-    <div class={["flex items-center pl-1 pr-2", @hide_route_pill && "opacity-0"]} data-route-pill>
+    <div
+      :if={!@remove_pill_col}
+      class={["flex items-center pl-1 pr-2", @hide_route_pill && "opacity-0"]}
+      data-route-pill
+    >
       <.subway_route_pill class="group-hover/row:ring-brand-primary-lightest" route_ids={@route_ids} />
     </div>
 
@@ -229,7 +241,11 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp top_padding(assigns) do
     ~H"""
-    <div class={["h-3", !@hide_route_pill && "border-t-xs border-gray-lightest"]}></div>
+    <div
+      :if={!@remove_pill_col}
+      class={["h-3", !@hide_route_pill && "border-t-xs border-gray-lightest"]}
+    >
+    </div>
     <div class={["h-3", "border-t-xs border-gray-lightest"]}></div>
     """
   end

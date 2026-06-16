@@ -89,8 +89,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
   defp heading(assigns) do
     time_range_str =
       assigns.alert
-      |> alert_date_range()
-      |> formatted_date_range()
+      |> format_date_range_for_alert()
 
     assigns = assign(assigns, time_range_str: time_range_str)
 
@@ -103,6 +102,12 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       status={@alert.effect}
     />
     """
+  end
+
+  def format_date_range_for_alert(alert) do
+    alert
+    |> alert_date_range()
+    |> formatted_date_range()
   end
 
   defp formatted_date_range({nil, nil}), do: nil

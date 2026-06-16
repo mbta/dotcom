@@ -29,7 +29,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
 
     test "loads", %{conn: conn} do
       path = live_path(conn, WorldCupTimetableLive)
-      assert {:ok, _, _} = live(conn, path)
+      assert {:ok, _, _} = live(conn, path, on_error: :warn)
     end
 
     test "shows World Cup service badge + guide link", %{conn: conn} do

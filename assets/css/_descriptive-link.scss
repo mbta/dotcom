@@ -109,6 +109,10 @@
   }
 }
 
+.c-descriptive-link:has(.c-descriptive-link__boston-stadium) {
+  background-color: #d0e0f3;
+}
+
 .c-callout-link {
   background-color: var(--colors-cobalt-80);
   border-radius: $space-6;

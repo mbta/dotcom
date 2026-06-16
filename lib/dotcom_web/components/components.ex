@@ -136,6 +136,7 @@ defmodule DotcomWeb.Components do
 
   slot(:heading, required: false, doc: "Large title shown at top of container.")
   slot(:inner_block, required: true)
+  attr(:class, :string, default: "")
   attr(:hide_divider, :boolean, required: false, default: false)
 
   @doc """
@@ -171,7 +172,11 @@ defmodule DotcomWeb.Components do
   """
   def bordered_container(assigns) do
     ~H"""
-    <div class="px-2 py-3 md:px-5 md:py-4 border-[1px] bg-white border-gray-lightest rounded-lg">
+    <div class={[
+      @class,
+      "px-2 py-3 md:px-5 md:py-4 border-[1px]",
+      "bg-white border-gray-lightest rounded-lg"
+    ]}>
       <div :if={@heading} class="font-heading font-bold text-[1.75rem] leading-normal">
         {render_slot(@heading)}
       </div>
@@ -369,6 +374,59 @@ defmodule DotcomWeb.Components do
       <p class="c-descriptive-link__world-cup">
         {gettext("Read our %{world_cup_link}",
           world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
+        )
+        |> Phoenix.HTML.raw()}
+      </p>
+    </.descriptive_link>
+    """
+  end
+
+  attr(:rest, :global, include: ~w(disabled))
+  attr(:class, :string, default: "")
+
+  @doc """
+  Same as above, but links to the timetable instead
+  """
+  def boston_stadium_intercept(assigns) do
+    ~H"""
+    <.descriptive_link
+      href="/schedules/bostonstadium"
+      class={@class}
+      {@rest}
+    >
+      <:title>
+        {~t(Taking the train to a World Cup match?)}
+      </:title>
+      <p class="c-descriptive-link__world-cup c-descriptive-link__boston-stadium">
+        {gettext("View %{timetable_link} for departure information.",
+          timetable_link: "<span class='underline font-medium'>Boston Stadium Train timetables</span>"
+        )
+        |> Phoenix.HTML.raw()}
+      </p>
+    </.descriptive_link>
+    """
+  end
+
+  attr(:rest, :global, include: ~w(disabled))
+  attr(:class, :string, default: "")
+
+  @doc """
+  Callout for commuter rail alerts during the world cup
+  """
+  def cr_alert_intercept(assigns) do
+    ~H"""
+    <.descriptive_link
+      href="/schedules/commuter-rail"
+      class={@class}
+      {@rest}
+    >
+      <:title>
+        {~t(Your Commuter Rail trip will be affected by the World Cup.)}
+      </:title>
+      <p class="c-descriptive-link__world-cup">
+        {gettext(
+          "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule.",
+          timetable_link: "<span class='underline font-medium'>timetable</span>"
         )
         |> Phoenix.HTML.raw()}
       </p>

@@ -6,6 +6,8 @@ defmodule Dotcom.Timetables do
 
   use Memoize
 
+  alias __MODULE__.Timetable
+
   @doc """
   Given a list of structs of type `Schedules.Schedule`, returns a `Dotcom.Timetables.Timetable`
   that can be nicely slotted into a table. The `rows` attribute is a list of lists; the top-level
@@ -40,32 +42,38 @@ defmodule Dotcom.Timetables do
       %Dotcom.Timetables.Timetable{
         rows: [
           # First row is the visits to `first_stop`. It has two cells, one for each trip.
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_stop",
-              time: "12:05 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_stop",
-              time: "1:05 PM",
-              trip: %Schedules.Trip{id: "second_trip"}
-            }
-          ],
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "first_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:05 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "1:05 PM",
+                trip: %Schedules.Trip{id: "second_trip"}
+              }
+            ]
+          },
           # Second row is the visits to `second_stop`. It has cells for all the same trips
           # as the first row.
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "second_stop",
-              time: "12:25 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "second_stop",
-              time: "1:25 PM",
-              trip: %Schedules.Trip{id: "second_trip"}
-            }
-          ]
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "second_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:25 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "1:25 PM",
+                trip: %Schedules.Trip{id: "second_trip"}
+              }
+            ]
+          }
+        ],
+        trips: [
+          %Schedules.Trip{id: "first_trip"},
+          %Schedules.Trip{id: "second_trip"}
         ]
       }
 
@@ -105,44 +113,51 @@ defmodule Dotcom.Timetables do
       ...> )
       %Dotcom.Timetables.Timetable{
         rows: [
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_stop",
-              time: "12:05 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_stop",
-              time: "1:05 PM",
-              trip: %Schedules.Trip{id: "second_trip"}
-            },
-          ],
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "first_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:05 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "1:05 PM",
+                trip: %Schedules.Trip{id: "second_trip"}
+              }
+            ]
+          },
           # Second cell in this row, where the missing `second_trip`/`second_stop`
           # would be, is blank
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "second_stop",
-              time: "12:25 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "second_stop",
-              time: "",
-              trip: %{id: "second_trip", name: nil}
-            },
-          ],
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "third_stop",
-              time: "12:45 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "third_stop",
-              time: "1:35 PM",
-              trip: %Schedules.Trip{id: "second_trip"}
-            },
-          ]
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "second_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:25 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "",
+                trip: %{id: "second_trip", name: nil}
+              }
+            ]
+          },
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "third_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:45 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "1:35 PM",
+                trip: %Schedules.Trip{id: "second_trip"}
+              }
+            ]
+          }
+        ],
+        trips: [
+          %Schedules.Trip{id: "first_trip"},
+          %Schedules.Trip{id: "second_trip"}
         ]
       }
 
@@ -170,27 +185,36 @@ defmodule Dotcom.Timetables do
       ...> )
       %Dotcom.Timetables.Timetable{
         rows: [
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_and_last_stop",
-              time: "12:05 PM",
-              trip: %Schedules.Trip{id: "loop_trip"}
-            }
-          ],
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "second_stop",
-              time: "12:25 PM",
-              trip: %Schedules.Trip{id: "loop_trip"}
-            }
-          ],
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_and_last_stop",
-              time: "12:45 PM",
-              trip: %Schedules.Trip{id: "loop_trip"}
-            }
-          ]
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "first_and_last_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:05 PM",
+                trip: %Schedules.Trip{id: "loop_trip"}
+              }
+            ]
+          },
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "second_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:25 PM",
+                trip: %Schedules.Trip{id: "loop_trip"}
+              }
+            ]
+          },
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "first_and_last_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:45 PM",
+                trip: %Schedules.Trip{id: "loop_trip"}
+              }
+            ]
+          }
+        ],
+        trips: [
+          %Schedules.Trip{id: "loop_trip"}
         ]
       }
 
@@ -233,56 +257,64 @@ defmodule Dotcom.Timetables do
         rows: [
           # First row has a blank cell because `first_trip` doesn't visit
           # `first_or_last_stop` before `second_stop`.
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_or_last_stop",
-              time: "",
-              trip: %{id: "first_trip", name: nil}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_or_last_stop",
-              time: "1:05 PM",
-              trip: %Schedules.Trip{id: "second_trip"}
-            }
-          ],
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "second_stop",
-              time: "12:05 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "second_stop",
-              time: "1:25 PM",
-              trip: %Schedules.Trip{id: "second_trip"}
-            }
-          ],
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "third_stop",
-              time: "12:25 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "third_stop",
-              time: "1:45 PM",
-              trip: %Schedules.Trip{id: "second_trip"}
-            }
-          ],
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "first_or_last_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "",
+                trip: %{id: "first_trip", name: nil}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "1:05 PM",
+                trip: %Schedules.Trip{id: "second_trip"}
+              }
+            ]
+          },
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "second_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:05 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "1:25 PM",
+                trip: %Schedules.Trip{id: "second_trip"}
+              }
+            ]
+          },
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "third_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:25 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "1:45 PM",
+                trip: %Schedules.Trip{id: "second_trip"}
+              }
+            ]
+          },
           # Last row has a blank cell because `second_trip` doesn't visit
           # `first_or_last_stop` after `third_stop`.
-          [
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_or_last_stop",
-              time: "12:45 PM",
-              trip: %Schedules.Trip{id: "first_trip"}
-            },
-            %Dotcom.Timetables.Timetable.Cell{
-              stop_id: "first_or_last_stop",
-              time: "",
-              trip: %{id: "second_trip", name: nil}
-            }
-          ]
+          %Dotcom.Timetables.Timetable.Row{
+            stop: %Stops.Stop{id: "first_or_last_stop"},
+            cells: [
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "12:45 PM",
+                trip: %Schedules.Trip{id: "first_trip"}
+              },
+              %Dotcom.Timetables.Timetable.Cell{
+                time: "",
+                trip: %{id: "second_trip", name: nil}
+              }
+            ]
+          }
+        ],
+        trips: [
+          %Schedules.Trip{id: "first_trip"},
+          %Schedules.Trip{id: "second_trip"}
         ]
       }
   """
@@ -297,9 +329,9 @@ defmodule Dotcom.Timetables do
   #
   # Second, it uses `build_timetable_rows/2` to map each trip onto the
   # combined stop list, inserting gaps where necessary.
-  @spec from_schedules([Schedules.Schedule.t()]) :: __MODULE__.Timetable.t()
+  @spec from_schedules([Schedules.Schedule.t()]) :: Timetable.t()
   def from_schedules(schedules) do
-    trips =
+    schedule_lists_for_trips =
       schedules
       |> Enum.group_by(&%{id: &1.trip.id, name: &1.trip.name})
       |> Enum.map(fn {trip, schedules} ->
@@ -312,13 +344,30 @@ defmodule Dotcom.Timetables do
         DateTime
       )
 
-    %__MODULE__.Timetable{
-      rows:
-        trips
-        |> Enum.map(fn {_trip, schedules} -> schedules |> Enum.map(& &1.stop.id) end)
-        |> Enum.reduce([], &combine_stop_lists/2)
-        |> build_timetable_rows(trips)
-    }
+    stop_lists =
+      schedule_lists_for_trips
+      |> Enum.map(fn {_trip, schedules} ->
+        schedules
+        |> Enum.map(& &1.stop)
+      end)
+
+    stops_by_id =
+      stop_lists
+      |> Enum.flat_map(& &1)
+      |> Map.new(&{&1.id, &1})
+
+    rows =
+      stop_lists
+      |> Enum.map(fn stop_list -> stop_list |> Enum.map(& &1.id) end)
+      |> Enum.reduce([], &combine_stop_lists/2)
+      |> Enum.map(&(stops_by_id |> Map.get(&1)))
+      |> build_timetable_rows(schedule_lists_for_trips)
+
+    trips =
+      schedule_lists_for_trips
+      |> Enum.map(fn {_, [%Schedules.Schedule{trip: trip} | _]} -> trip end)
+
+    %Timetable{rows: rows, trips: trips}
   end
 
   # Given a list of stops (the list that goes on the left on the
@@ -337,9 +386,11 @@ defmodule Dotcom.Timetables do
   # It works recursively - for each trip, we take the first stop if it
   # matches the first stop of the stop list, or insert a blank cell if
   # it doesn't.
-  defp build_timetable_rows([first_stop_id | stop_ids], trips) do
+  defp build_timetable_rows([first_stop | stop_ids], schedule_lists_for_trips) do
+    first_stop_id = first_stop.id
+
     cells_at_stop =
-      trips
+      schedule_lists_for_trips
       |> Enum.map(fn
         {_trip, [%{stop: %{id: ^first_stop_id}} = first | _]} ->
           first
@@ -353,21 +404,24 @@ defmodule Dotcom.Timetables do
       end)
 
     trips_after_stop =
-      trips
+      schedule_lists_for_trips
       |> Enum.map(fn
         {trip, [%{stop: %{id: ^first_stop_id}} | rest]} -> {trip, rest}
         all -> all
       end)
 
     first_row =
-      cells_at_stop
-      |> Enum.map(
-        &%__MODULE__.Timetable.Cell{
-          time: &1 |> time() |> format!(),
-          trip: &1.trip,
-          stop_id: first_stop_id
-        }
-      )
+      %Timetable.Row{
+        stop: first_stop,
+        cells:
+          cells_at_stop
+          |> Enum.map(
+            &%Timetable.Cell{
+              time: &1 |> time() |> format!(),
+              trip: &1.trip
+            }
+          )
+      }
 
     [first_row | build_timetable_rows(stop_ids, trips_after_stop)]
   end
