@@ -2,7 +2,7 @@
   "name": "dotcom",
   "dependencies": {
     "@playwright/test": "1.58.1",
-    "@sentry/node": "7.109.0",
+    "@sentry/node": "10.58.0",
     "artillery": "2.0.30",
     "axios": "1.16.0",
     "csv-parse": "^6.1.0",
