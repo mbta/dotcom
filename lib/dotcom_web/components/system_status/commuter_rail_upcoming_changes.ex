@@ -54,7 +54,11 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges do
         data-test="later_changes_link"
         patch={~p"/schedules/#{@route_id}/alerts"}
       >
-        {@later_count} later {Inflex.inflect("change", @later_count)}
+        {gettext("%{count} later %{change_text}",
+          count: @later_count,
+          change_text: Inflex.inflect("change", @later_count)
+        )
+        |> Phoenix.HTML.raw()}
         <.icon name="chevron-right" class="h-3 w-3 fill-brand-primary shrink-0" />
       </.link>
     </div>
