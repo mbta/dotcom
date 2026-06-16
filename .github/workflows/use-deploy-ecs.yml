@@ -72,7 +72,7 @@ jobs:
             type=raw,priority=900,value=${{ inputs.extra-docker-tag }},enable=${{ inputs.extra-docker-tag != ''}}
 
       - name: Login to AWS ECR
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ secrets.docker-repo }}
 
