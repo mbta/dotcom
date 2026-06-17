@@ -9,7 +9,7 @@
     "hot-shots": "10.0.0",
     "node-cron": "3.0.3",
     "node-json-logger": "0.2.1",
-    "pm2": "7.0.0",
+    "pm2": "7.0.1",
     "redis": "4.6.13"
   },
   "scripts": {
