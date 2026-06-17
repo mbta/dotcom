@@ -121,7 +121,7 @@ config :sentry,
 # Configures the endpoint
 config :dotcom, DotcomWeb.Endpoint,
   adapter: Bandit.PhoenixAdapter,
-  check_origin: false,
+  check_origin: config_env() == :prod,
   secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
   render_errors: [accepts: ~w(html), layout: {DotcomWeb.LayoutView, "root.html"}],
   pubsub_server: Dotcom.PubSub,
