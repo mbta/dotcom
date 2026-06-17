@@ -18,7 +18,13 @@ defmodule Fares do
   @express_route_set MapSet.new(@express_routes)
 
   # For the time being, these stops are ONLY served by the Winthrop Ferry
-  @winthrop_ferry_stops ["Boat-Aquarium", "Boat-Fan", "Boat-Quincy", "Boat-Winthrop"]
+  @winthrop_ferry_stops [
+    "Boat-Aquarium",
+    "Boat-Fan",
+    "Boat-Quincy",
+    "Boat-Winthrop",
+    "Boat-Logan"
+  ]
 
   @loop_ferry_stops ["Boat-Commonwealth", "Boat-Aquarium", "Boat-Lovejoy", "Boat-Logan"]
 
@@ -108,6 +114,11 @@ defmodule Fares do
     long_way_around_trip_logic(between)
   end
 
+  def calculate_ferry(origin, destination, between)
+      when origin in @winthrop_ferry_stops and destination in @winthrop_ferry_stops do
+    long_way_around_trip_logic(between)
+  end
+
   def calculate_ferry(origin, destination, _) do
     calculate_ferry(origin, destination)
   end
@@ -117,7 +128,7 @@ defmodule Fares do
       "Hingham" in between or "Hull" in between ->
         :commuter_ferry
 
-      "Quincy" in between ->
+      "Quincy" in between or "Winthrop Landing" in between ->
         :ferry_winthrop
 
       true ->
@@ -134,11 +145,6 @@ defmodule Fares do
   def calculate_ferry(origin, destination)
       when "Boat-Blossom" in [origin, destination] do
     :ferry_lynn
-  end
-
-  def calculate_ferry(origin, destination)
-      when origin in @winthrop_ferry_stops or destination in @winthrop_ferry_stops do
-    :ferry_winthrop
   end
 
   def calculate_ferry(origin, destination)
