@@ -8,6 +8,17 @@ defmodule FaresTest do
 
   setup :verify_on_exit!
 
+  def assert_ferry(origin, destination, expected_fare) do
+    {_, received_fare} = Fares.fare_for_stops(:ferry, origin, destination)
+
+    if(origin != destination) do
+      assert received_fare == expected_fare,
+             "Unexpected fare for #{origin} to #{destination}, got #{received_fare} expected #{expected_fare}"
+    else
+      assert true
+    end
+  end
+
   describe "calculate_commuter_rail/2" do
     test "when the origin is zone 6, finds the zone 6 fares" do
       assert Fares.calculate_commuter_rail("6", "1A") == {:zone, "6"}
@@ -23,8 +34,12 @@ defmodule FaresTest do
   end
 
   describe "fare_for_stops/3" do
-    # a subset of possible ferry stops
-    @ferries ~w(Boat-Hingham Boat-Charlestown Boat-Logan Boat-Long-South Boat-Lewis Boat-Blossom Boat-Winthrop)
+    @winthrop_quincy_ferry ~W(Boat-Fan Boat-Winthrop Boat-Logan Boat-Aquarium Boat-Quincy)
+    @hingham_hull_ferry ~W(Boat-Hingham Boat-Logan Boat-Long Boat-Hull)
+    @charlestown_ferry ~W(Boat-Charlestown Boat-Long-South)
+    @harbor_loop_ferry ~W(Boat-Lovejoy Boat-Aquarium Boat-Commonwealth Boat-Logan)
+    @east_boston_ferry ~W(Boat-Lewis Boat-Long-North-5B)
+    @lynn_ferry ~W(Boat-Blossom Boat-Long-North-5C)
 
     test "returns the name of the commuter rail fare given the origin and destination" do
       zone_1a_stop = Stop.build(:stop, %{zone: "1A"})
@@ -65,32 +80,71 @@ defmodule FaresTest do
       assert Fares.fare_for_stops(:commuter_rail, cr_stop.id, other_stop.id) == :error
     end
 
-    test "returns the name of the ferry fare given the origin and destination" do
-      for origin_id <- @ferries,
-          destination_id <- @ferries do
-        both = [origin_id, destination_id]
-        has_logan? = "Boat-Logan" in both
-        has_charlestown? = "Boat-Charlestown" in both
-        has_long? = "Boat-Long" in both
-        has_long_south? = "Boat-Long-South" in both
-        has_east_boston? = "Boat-Lewis" in both
-        has_lynn? = "Boat-Blossom" in both
-        has_winthrop? = "Boat-Winthrop" in both
+    test "returns the proper fare given a valid origin and destination on the hingham/hull lines" do
+      for origin <- @hingham_hull_ferry,
+          destination <- @hingham_hull_ferry do
+        both = [origin, destination]
+        hingham? = "Boat-Hingham" in both
+        hull? = "Boat-Hull" in both
 
-        expected_name =
+        expected_fare =
           cond do
-            has_logan? and has_charlestown? -> :ferry_cross_harbor
-            has_long? and has_logan? -> :ferry_east_boston
-            has_long_south? and has_charlestown? -> :ferry_inner_harbor
-            has_long? and has_east_boston? -> :ferry_east_boston
-            has_lynn? -> :ferry_lynn
-            has_winthrop? -> :ferry_winthrop
-            has_logan? -> :commuter_ferry_logan
-            true -> :commuter_ferry
+            hingham? -> :commuter_ferry
+            hull? -> :commuter_ferry
+            true -> :ferry_inner_harbor
           end
 
-        assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name},
-               "Unexpected result for #{origin_id} to #{destination_id}, expected #{expected_name}"
+        assert_ferry(origin, destination, expected_fare)
+      end
+    end
+
+    test "returns the proper fare given a valid origin and destination on the charlestown line" do
+      for origin <- @charlestown_ferry,
+          destination <- @charlestown_ferry do
+        expected_fare = :ferry_inner_harbor
+        assert_ferry(origin, destination, expected_fare)
+      end
+    end
+
+    test "returns the proper fare given a valid origin and destination on the lynn line" do
+      for origin <- @lynn_ferry,
+          destination <- @lynn_ferry do
+        expected_fare = :ferry_lynn
+        assert_ferry(origin, destination, expected_fare)
+      end
+    end
+
+    test "returns the proper fare given a valid origin and destination on the east boston line" do
+      for origin <- @east_boston_ferry,
+          destination <- @east_boston_ferry do
+        expected_fare = :ferry_inner_harbor
+        assert_ferry(origin, destination, expected_fare)
+      end
+    end
+
+    test "returns the proper fare given a valid origin and destination on the harbor loop line" do
+      for origin <- @harbor_loop_ferry,
+          destination <- @harbor_loop_ferry do
+        expected_fare = :ferry_inner_harbor
+        assert_ferry(origin, destination, expected_fare)
+      end
+    end
+
+    test "returns the proper fare given a valid origin and destination on the winthrop or quincy lines" do
+      for origin <- @winthrop_quincy_ferry,
+          destination <- @winthrop_quincy_ferry do
+        both = [origin, destination]
+        winthrop? = "Boat-Winthrop" in both
+        quincy? = "Boat-Quincy" in both
+
+        expected_fare =
+          cond do
+            winthrop? -> :ferry_winthrop
+            quincy? -> :ferry_winthrop
+            true -> :ferry_inner_harbor
+          end
+
+        assert_ferry(origin, destination, expected_fare)
       end
     end
 

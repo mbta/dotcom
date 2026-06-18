@@ -25,7 +25,11 @@ defmodule Fares do
     "Boat-Winthrop",
     "Boat-Logan"
   ]
-
+  @inner_harbor_winthrop [
+    "Boat-Aquarium",
+    "Boat-Fan",
+    "Boat-Logan"
+  ]
   @loop_ferry_stops ["Boat-Commonwealth", "Boat-Aquarium", "Boat-Lovejoy", "Boat-Logan"]
 
   @type ferry_name ::
@@ -114,9 +118,41 @@ defmodule Fares do
     long_way_around_trip_logic(between)
   end
 
+  def calculate_ferry(origin, destination)
+      when origin in @inner_harbor_winthrop and destination in @inner_harbor_winthrop do
+    :ferry_inner_harbor
+  end
+
   def calculate_ferry(origin, destination, between)
       when origin in @winthrop_ferry_stops and destination in @winthrop_ferry_stops do
+    dbg({origin, destination, between})
     long_way_around_trip_logic(between)
+  end
+
+  def calculate_ferry(origin, destination)
+      when origin in @loop_ferry_stops and destination in @loop_ferry_stops and
+             origin != destination do
+    :ferry_inner_harbor
+  end
+
+  def calculate_ferry(origin, destination)
+      when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination] do
+    :ferry_inner_harbor
+  end
+
+  def calculate_ferry(origin, destination)
+      when "Boat-Long-North-5B" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
+    :ferry_inner_harbor
+  end
+
+  def calculate_ferry(origin, destination)
+      when origin in @inner_harbor_winthrop and destination in @inner_harbor_winthrop do
+    :ferry_inner_harbor
+  end
+
+  def calculate_ferry(origin, destination)
+      when origin in @winthrop_ferry_stops and destination in @winthrop_ferry_stops do
+    :ferry_winthrop
   end
 
   def calculate_ferry(origin, destination, _) do
@@ -132,7 +168,7 @@ defmodule Fares do
         :ferry_winthrop
 
       true ->
-        :ferry_harbor_loop
+        :ferry_inner_harbor
     end
   end
 
@@ -156,10 +192,6 @@ defmodule Fares do
       when "Boat-Charlestown" in [origin, destination] and
              "Boat-Long-South" in [origin, destination] do
     :ferry_inner_harbor
-  end
-
-  def calculate_ferry(origin, destination) when "Boat-Logan" in [origin, destination] do
-    :commuter_ferry_logan
   end
 
   def calculate_ferry(_origin, _destination) do
