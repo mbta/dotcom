@@ -29,7 +29,7 @@
   <%= extend_width :cards do %>
     <%= content_tag :div, class: card_classes do %>
       <div class="c-fare-card__header">
-        <div class="c-fare-card__icon">
+        <div class="c-fare-card__icon" aria-hidden="true">
           {mode_icon(group_fare.mode, :default)}
         </div>
 

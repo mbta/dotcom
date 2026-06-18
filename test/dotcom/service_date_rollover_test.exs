@@ -12,13 +12,13 @@ defmodule Dotcom.ServiceDateRolloverTest do
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @timezone Application.compile_env!(:dotcom, :timezone)
 
-  setup :verify_on_exit!
   # Global mode lets the GenServer process (a separate BEAM process) access the
   # stubs defined by the test process. Safe because async: false prevents concurrency.
   setup :set_mox_global
 
   setup do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+    on_exit(fn -> verify!() end)
 
     :ok
   end
