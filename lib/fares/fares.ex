@@ -125,7 +125,6 @@ defmodule Fares do
 
   def calculate_ferry(origin, destination, between)
       when origin in @winthrop_ferry_stops and destination in @winthrop_ferry_stops do
-    dbg({origin, destination, between})
     long_way_around_trip_logic(between)
   end
 

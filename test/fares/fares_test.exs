@@ -11,7 +11,7 @@ defmodule FaresTest do
   def assert_ferry(origin, destination, expected_fare) do
     {_, received_fare} = Fares.fare_for_stops(:ferry, origin, destination)
 
-    if(origin != destination) do
+    if origin != destination do
       assert received_fare == expected_fare,
              "Unexpected fare for #{origin} to #{destination}, got #{received_fare} expected #{expected_fare}"
     else
