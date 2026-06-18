@@ -278,7 +278,9 @@ defmodule Dotcom.ServicePatterns do
           group_label: pattern_group_label()
         }) :: service_label()
   defp similar_typical_items(%{dates: dates, service: service}),
-    do: {service.typicality, List.first(dates), service.description}
+    do:
+      {service.typicality, List.first(dates),
+       String.replace(service.description, " (no school)", "")}
 
   defp merge_items({{group_label, label}, [%{service: _, dates: dates}]}) do
     %{service_label: label, dates: dates, group_label: group_label}
