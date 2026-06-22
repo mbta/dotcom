@@ -38,7 +38,7 @@ defmodule DetailedStopGroup do
     mode
     |> Route.types_for_mode()
     |> @routes_repo.by_type()
-    |> Task.async_stream(&{&1, @stops_repo.by_route(&1.id, 0)})
+    |> Task.async_stream(&{&1, @stops_repo.by_route(&1.id, 1)})
     |> Enum.map(fn {:ok, stops} -> stops end)
   end
 
