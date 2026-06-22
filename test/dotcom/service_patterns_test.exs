@@ -84,7 +84,7 @@ defmodule Dotcom.ServicePatternsTest do
         ]
       end)
 
-      assert [%{service_label: {:typical, :weekday, "Weekday schedules"}}] =
+      assert [%{service_label: {_, _, "Weekdays"}}] =
                patterns_for_route(route_id)
     end
 

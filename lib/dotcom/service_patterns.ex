@@ -42,16 +42,14 @@ defmodule Dotcom.ServicePatterns do
     |> dedup_similar_services()
   end
 
-  @type typical_type :: :monday_thursday | :friday | :weekday | :saturday | :sunday | :weekend
-  @type typical_label :: {:typical, typical_type, String.t()}
-  @type atypical_label :: {Service.typicality(), Date.t(), String.t()}
   @type pattern_group ::
           :holiday_service | :extra_service | :planned_disruption | :current | :future | :other
   @type pattern_group_label :: {pattern_group(), String.t()}
+  @type service_label :: {Service.typicality(), Date.t(), String.t()}
   @type service_pattern :: %{
           group_label: pattern_group_label(),
           dates: [Date.t()],
-          service_label: typical_label() | atypical_label()
+          service_label: service_label()
         }
 
   @spec patterns_for_route(Routes.Route.id_t(), Date.t()) :: [service_pattern()]
@@ -278,35 +276,11 @@ defmodule Dotcom.ServicePatterns do
           service: Service.t(),
           dates: [Date.t()],
           group_label: pattern_group_label()
-        }) :: typical_label() | atypical_label()
-  defp similar_typical_items(%{
-         dates: dates,
-         service: %Service{typicality: :typical_service} = service
-       }) do
-    typical_groups = [
-      {:monday_thursday, ~t"Monday - Thursday schedules",
-       fn s ->
-         s.type == :weekday &&
-           (s.valid_days == [1, 2, 3, 4] || s.description =~ "Monday - Thursday")
-       end},
-      {:friday, ~t"Friday schedules",
-       fn s ->
-         s.type == :weekday && (s.valid_days == [5] || s.description =~ "Friday")
-       end},
-      {:weekday, ~t"Weekday schedules", fn s -> s.type == :weekday end},
-      {:saturday, ~t"Saturday schedules", fn s -> s.type == :saturday end},
-      {:sunday, ~t"Sunday schedules", fn s -> s.type == :sunday end},
-      {:weekend, ~t"Weekend schedules", fn s -> s.type == :weekend end}
-    ]
-
-    case Enum.find(typical_groups, fn {_, _, func} -> func.(service) end) do
-      {key, label, _} -> {:typical, key, label}
-      _ -> {service.typicality, List.first(dates), service.description}
-    end
-  end
-
+        }) :: service_label()
   defp similar_typical_items(%{dates: dates, service: service}),
-    do: {service.typicality, List.first(dates), service.description}
+    do:
+      {service.typicality, List.first(dates),
+       String.replace(service.description, " (no school)", "")}
 
   defp merge_items({{group_label, label}, [%{service: _, dates: dates}]}) do
     %{service_label: label, dates: dates, group_label: group_label}
