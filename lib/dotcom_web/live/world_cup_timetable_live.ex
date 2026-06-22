@@ -85,9 +85,11 @@ defmodule DotcomWeb.WorldCupTimetableLive do
     route = @routes_repo.get("CR-Foxboro")
     alerts = @alerts_repo.by_route_ids([route.id], now)
 
+    match_list = upcoming_matches()
+
     {:ok,
      assign(socket, %{
-       match_list: @match_list,
+       match_list: match_list,
        selected_match: nil,
        date_time: @date_time.now(),
        route: route,
@@ -121,5 +123,12 @@ defmodule DotcomWeb.WorldCupTimetableLive do
       />
     </svg>
     """
+  end
+
+  defp upcoming_matches() do
+    @match_list
+    |> Enum.reject(fn {date, _time, _title, _teams, _timetable} ->
+      Date.before?(date, Dotcom.Utils.ServiceDateTime.service_date())
+    end)
   end
 end
