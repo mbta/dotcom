@@ -103,7 +103,15 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   end
 
   defp selected_match(selected_date) do
-    Enum.find(@match_list, fn {date, _, _, _, _} -> Date.to_string(date) == selected_date end)
+    case upcoming_matches() do
+      [match] ->
+        match
+
+      matches ->
+        Enum.find(matches, fn {date, _, _, _, _} ->
+          Date.to_string(date) == selected_date
+        end)
+    end
   end
 
   defp ticket_icon(assigns) do

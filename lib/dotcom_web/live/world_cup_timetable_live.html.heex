@@ -34,6 +34,7 @@
     <%= case @selected_match do %>
       <% {date, time, label, teams, _} -> %>
         <.button
+          :if={Enum.count(@match_list) > 1}
           variant="secondary"
           class="self-start"
           phx-click={JS.patch(~p"/schedules/bostonstadium")}
