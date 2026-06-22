@@ -4,7 +4,7 @@
   <div
     :for={
       %{menu_section: menu_section, sub_menus: sub_menus} <-
-        DotcomWeb.LayoutView.nav_link_content()
+        DotcomWeb.LayoutView.nav_link_content(@conn)
     }
     class="page-section"
   >

@@ -7,6 +7,7 @@ defmodule Dotcom.Locales do
 
   @default_locale %Locale{code: "en", endonym: "English"}
   @development_locale %Locale{code: "es", endonym: "Español"}
+
   # @future_locales [
   #   %Locale{code: "ht", endonym: "Kreyòl Ayisyen"},
   #   %Locale{code: "pt", endonym: "Português"},

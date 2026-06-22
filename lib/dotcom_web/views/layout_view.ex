@@ -77,8 +77,9 @@ defmodule DotcomWeb.LayoutView do
     "#{module_class} #{template_class}"
   end
 
-  def nav_link_content,
-    do: [
+  # TODO: put languages menu content here unless it needs to be fully custom
+  def nav_link_content(conn) do
+    content = [
       %{
         menu_section: ~t(Transit),
         link: ~p"/menu#Transit-section",
@@ -229,6 +230,20 @@ defmodule DotcomWeb.LayoutView do
         ]
       }
     ]
+
+    if !Laboratory.enabled?(conn, :use_smartling_translations) do
+      content
+    else
+      content ++
+        [
+          %{
+            menu_section: ~t(Languages),
+            link: ~p"/menu#Languages-section",
+            sub_menus: []
+          }
+        ]
+    end
+  end
 
   def render_nav_link({link_name, href = "/WorldCup", _}) do
     icon =

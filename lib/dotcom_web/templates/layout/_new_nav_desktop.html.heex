@@ -1,5 +1,5 @@
 <nav id="navmenu-desktop" class="m-menu--desktop" aria-label="Main">
-  <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content() do %>
+  <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content(@conn) do %>
     <a
       class="m-menu--desktop__toggle"
       href={"#{ href }"}
@@ -57,5 +57,7 @@
       </div>
     </div>
   <% end %>
-  <div class="m-menu__language"></div>
+  <%= if !Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+    <div class="m-menu__language"></div>
+  <% end %>
 </nav>
