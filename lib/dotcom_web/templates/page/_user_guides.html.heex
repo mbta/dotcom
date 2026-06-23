@@ -23,7 +23,7 @@
         }
       ] %>
       <a :for={{header, image_path, link} <- guides} class="guide" href={link}>
-        <img src={Util.site_path(:static_url, image_path)} alt="" />
+        <img src={Util.site_path(:static_url, [image_path])} alt="" />
         <h3>{header}</h3>
       </a>
     </div>
