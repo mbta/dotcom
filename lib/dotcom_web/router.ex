@@ -76,7 +76,7 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/_flags", Laboratory do
-    pipe_through([:browser, :browser_live])
+    pipe_through([:basic_auth])
     forward("/", Router)
   end
 
