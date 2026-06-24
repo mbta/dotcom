@@ -115,6 +115,7 @@ defmodule DotCom.Mixfile do
       {:excoveralls, "0.18.5", only: :test},
       {:faker, "0.19.0-alpha.1"},
       {:floki, "0.38.0"},
+      {:flame_on, "~> 1.0"},
       {:gen_stage, "1.3.2"},
       {:gettext, "1.0.2", override: true},
       {:hammer, "7.2.0"},

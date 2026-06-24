@@ -6,6 +6,8 @@ defmodule DotcomWeb.Router do
 
   alias DotcomWeb.ControllerHelpers
 
+  import Phoenix.LiveDashboard.Router
+
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: reason}) do
     case reason do
@@ -100,6 +102,18 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb, host: "beta." do
     # no pipe
     get("/*path", WwwRedirector, [])
+  end
+
+  scope "/", DotcomWeb do
+    pipe_through([:browser, :browser_live])
+
+    live_dashboard("/dashboard",
+      allow_destructive_actions: true,
+      csp_nonce_assign_key: :csp_nonce,
+      additional_pages: [
+        flame_on: FlameOn.DashboardPage
+      ]
+    )
   end
 
   scope "/", DotcomWeb do
@@ -314,14 +328,7 @@ defmodule DotcomWeb.Router do
     # get("/vote", VoteController, :show)
   end
 
-  if Mix.env() != :prod do
-    scope "/", DotcomWeb do
-      import Phoenix.LiveDashboard.Router
 
-      pipe_through([:browser, :browser_live, :basic_auth_readonly])
-      live_dashboard("/dashboard")
-    end
-  end
 
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
