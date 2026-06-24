@@ -280,8 +280,13 @@ defmodule CMS.Repo do
   def teasers(opts \\ []) when is_list(opts) do
     opts
     |> teaser_path()
-    |> @cms_api.view(teaser_params(opts))
+    |> get_teaser_response(teaser_params(opts))
     |> do_teasers(opts)
+  end
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: :timer.minutes(5)])
+  defp get_teaser_response(path, params) do
+    @cms_api.view(path, params)
   end
 
   @spec teaser_path(Keyword.t()) :: String.t()
