@@ -6,10 +6,10 @@ config:
   phases:
     - name: "Warm Up"
       duration: 30
-      arrivalRate: 10
-    - name: "Sustained light-load test"
+      arrivalRate: 3
+    - name: "Measure page-load times"
       duration: 60
-      arrivalRate: 10
+      arrivalRate: 3
   environments:
     green:
       target: "http://dev-green.mbtace.com"
