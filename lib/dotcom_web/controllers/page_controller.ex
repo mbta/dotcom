@@ -21,6 +21,8 @@ defmodule DotcomWeb.PageController do
   @type content :: Banner.t() | Teaser.t() | WhatsHappeningItem.t()
   @type whats_happening_set :: {nil | [WhatsHappeningItem.t()], nil | [WhatsHappeningItem.t()]}
 
+  @subway_status_cache Application.compile_env!(:dotcom, :system_status_cache_modules)[:subway]
+
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
@@ -137,6 +139,6 @@ defmodule DotcomWeb.PageController do
   defp do_add_utm_url(item, url), do: %{item | utm_url: url}
 
   defp subway_status(conn, _opts) do
-    assign(conn, :subway_status, Dotcom.SystemStatus.subway_status())
+    assign(conn, :subway_status, @subway_status_cache.subway_status())
   end
 end
