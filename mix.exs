@@ -147,7 +147,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_live_view, "1.1.26", override: true},
       {:phoenix_pubsub, "2.2.0"},
       {:phoenix_view, "2.0.4"},
-      {:plug, "1.19.3"},
+      {:plug, "1.20.1"},
       {:plug_cowboy, "2.8.0"},
       {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
