@@ -77,7 +77,6 @@ defmodule DotcomWeb.LayoutView do
     "#{module_class} #{template_class}"
   end
 
-  # TODO: put languages menu content here unless it needs to be fully custom
   def nav_link_content(conn) do
     content = [
       %{
@@ -234,15 +233,30 @@ defmodule DotcomWeb.LayoutView do
     if !Laboratory.enabled?(conn, :use_smartling_translations) do
       content
     else
+      language_links =
+        Enum.map(
+          Dotcom.Locales.development_additional_locales(),
+          &language_link_tuple/1
+        )
+
       content ++
         [
           %{
             menu_section: ~t(Languages),
-            link: ~p"/menu#Languages-section",
-            sub_menus: []
+            link: ~p"/",
+            sub_menus: [
+              %{
+                sub_menu_section: ~t(Choose Your Language),
+                links: language_links
+              }
+            ]
           }
         ]
     end
+  end
+
+  def language_link_tuple(%Dotcom.Locale{code: code, endonym: endonym}) do
+    {endonym, "?locale=#{code}", :internal_link}
   end
 
   def render_nav_link({link_name, href = "/WorldCup", _}) do
