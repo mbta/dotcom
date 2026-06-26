@@ -101,19 +101,20 @@
               {render("_google_translate_plugin.html", conn: @conn)}
               <div class="m-menu__language"></div>
             <% else %>
-            <nav class="m-footer__group" aria-labelledby="footer-languages">
-              <h2 id="footer-languages" class="m-footer__group-title">{~t(Languages)}</h2>
+              <nav class="m-footer__group" aria-labelledby="footer-languages">
+                <h2 id="footer-languages" class="m-footer__group-title">{~t(Languages)}</h2>
 
-              <ul>
-                <%= for locale <- Dotcom.Locales.development_additional_locales() do %>
-                  <li>
-                    <%= link Gettext.gettext(Dotcom.Gettext, locale.endonym),
-                          to: "?locale=#{locale.code}",
-                          class: "m-footer__link m-menu__language" %>
-                  </li>
-                <% end %>
-              </ul>
-            </nav>
+                <ul>
+                  <%= for locale <- Dotcom.Locales.development_additional_locales() do %>
+                    <li>
+                      {link(Gettext.gettext(Dotcom.Gettext, locale.endonym),
+                        to: "?locale=#{locale.code}",
+                        class: "m-footer__link m-menu__language"
+                      )}
+                    </li>
+                  <% end %>
+                </ul>
+              </nav>
             <% end %>
 
             <div class="social-icons-container">

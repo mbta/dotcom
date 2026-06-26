@@ -230,9 +230,7 @@ defmodule DotcomWeb.LayoutView do
       }
     ]
 
-    if !Laboratory.enabled?(conn, :use_smartling_translations) do
-      content
-    else
+    if Laboratory.enabled?(conn, :use_smartling_translations) do
       language_links =
         Enum.map(
           Dotcom.Locales.development_additional_locales(),
@@ -252,6 +250,8 @@ defmodule DotcomWeb.LayoutView do
             ]
           }
         ]
+    else
+      content
     end
   end
 
