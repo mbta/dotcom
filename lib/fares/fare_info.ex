@@ -731,9 +731,9 @@ defmodule Fares.FareInfo do
       },
       %Fare{
         mode: :ferry,
-        name: :ferry_harbor_loop_1a,
+        name: :inner_harbor_1a,
         duration: :round_trip,
-        media: nil,
+        media: [],
         reduced: dollars_to_cents(inner_harbor_reduced_price),
         cents: dollars_to_cents(inner_harbor_price)
       }
