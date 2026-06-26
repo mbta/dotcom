@@ -243,7 +243,7 @@ defmodule DotcomWeb.LayoutView do
         [
           %{
             menu_section: ~t(Languages),
-            link: ~p"/",
+            link: ~p"/menu#Languages-section",
             sub_menus: [
               %{
                 sub_menu_section: ~t(Choose Your Language),

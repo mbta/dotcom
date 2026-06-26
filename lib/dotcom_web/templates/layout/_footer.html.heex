@@ -95,13 +95,25 @@
             )}
           </nav>
         </div>
-        <div class="container">
+        <div class="container m-footer-links">
           <div class="lower-footer">
             <%= unless assigns[:exclude_google_translate] || Laboratory.enabled?(@conn, :use_smartling_translations) do %>
               {render("_google_translate_plugin.html", conn: @conn)}
               <div class="m-menu__language"></div>
             <% else %>
-              New Language Picker
+            <nav class="m-footer__group" aria-labelledby="footer-languages">
+              <h2 id="footer-languages" class="m-footer__group-title">{~t(Languages)}</h2>
+
+              <ul>
+                <%= for locale <- Dotcom.Locales.development_additional_locales() do %>
+                  <li>
+                    <%= link Gettext.gettext(Dotcom.Gettext, locale.endonym),
+                          to: "?locale=#{locale.code}",
+                          class: "m-footer__link m-menu__language" %>
+                  </li>
+                <% end %>
+              </ul>
+            </nav>
             <% end %>
 
             <div class="social-icons-container">
