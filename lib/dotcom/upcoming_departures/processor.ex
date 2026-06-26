@@ -283,7 +283,6 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
-        now: now,
         predicted_schedules: predicted_schedules,
         trip_vehicle: vehicle
       })

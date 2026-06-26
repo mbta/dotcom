@@ -81,7 +81,6 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   alias Schedules.{Schedule, Trip}
   alias Vehicles.Vehicle
 
-  @date_time Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
@@ -90,7 +89,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           predicted_schedules: [PredictedSchedule.t()],
           trip_vehicle: Vehicles.Vehicle.t() | nil
         }) :: __MODULE__.t()
-  def trip_details(%{now: _now, predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
+  def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
     upcoming_predicted_schedules =
       predicted_schedules
       |> Enum.sort_by(&PredictedSchedule.stop_sequence(&1))
@@ -120,14 +119,6 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       stops: stops,
       vehicle_info: vehicle_info
     }
-  end
-
-  def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
-    trip_details(%{
-      now: @date_time.now(),
-      predicted_schedules: predicted_schedules,
-      trip_vehicle: vehicle
-    })
   end
 
   defp add_vehicle_name(vehicle_info, nil), do: vehicle_info
