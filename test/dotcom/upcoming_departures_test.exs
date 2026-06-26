@@ -2591,6 +2591,37 @@ defmodule Dotcom.UpcomingDeparturesTest do
       assert trip_details.vehicle_info.status == :waiting_to_depart
     end
 
+    test "does not show :scheduled_to_depart if the vehicle is underway, even when the first schedule is in the future" do
+      # Setup
+      %{
+        # Drop the first prediction, since the trip has begun
+        predictions: [_ | predictions],
+        scheduled_departure_times: [first_schedule_time, _, _],
+        schedules: schedules,
+        stop_sequences: [_, stop_seq, _],
+        stops: [_, stop, _],
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 1)
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: Generators.ServiceDateTime.earlier_on_day(first_schedule_time),
+          trip_id: trip_id,
+          stop_id: stop.id,
+          stop_sequence: stop_seq
+        })
+
+      # Verify
+      refute trip_details.vehicle_info.status == :scheduled_to_depart
+    end
+
     test "pulls trip details from schedules for scheduled trips" do
       # Setup
       %{
@@ -2635,13 +2666,14 @@ defmodule Dotcom.UpcomingDeparturesTest do
         schedules: schedules,
         stop_sequences: [stop_seq, _, _],
         stops: [stop_0, stop_1, stop_2],
-        trip_id: trip_id
+        trip_id: trip_id,
+        vehicle: vehicle
       } =
         PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
       expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
-      expect(Vehicles.Repo.Mock, :get, fn _ -> Factories.Vehicles.Vehicle.build(:vehicle) end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
       trip_details =
