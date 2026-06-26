@@ -6,7 +6,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
 
   IMPORTANT: Any atom changes in the Fares.Fare module need to also be made here, and should
   likewise be updated in the Content team's online legend for fare replacement usage here:
-  https://docs.google.com/spreadsheets/d/18DGY0es_12xy54oDE9lDTJwATx4jhodWkND7MuY7R6E?pli=1#gid=1197832395
+  https://mbta.sharepoint.com/:x:/r/sites/TID/_layouts/15/guestaccess.aspx?e=udCkdJ&share=ESbAg-LEWjRArC5DurkUNWEBrkIpdrte99FcSAGf2KWAsg
 
   """
 
