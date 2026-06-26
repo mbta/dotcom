@@ -199,8 +199,25 @@ defmodule Alerts.Alert do
   def current_active_period(%__MODULE__{} = alert, now) do
     alert.active_period
     |> Enum.find(fn {start, stop} ->
-      (DateTime.before?(start, now) and (is_nil(stop) or DateTime.after?(stop, now))) or
-        (is_nil(start) and DateTime.after?(stop, now))
+      cond do
+        is_nil(start) and DateTime.after?(stop, now) ->
+          true
+
+        is_nil(start) ->
+          false
+
+        is_nil(stop) and DateTime.before?(start, now) ->
+          true
+
+        is_nil(stop) ->
+          false
+
+        DateTime.before?(start, now) and DateTime.after?(stop, now) ->
+          true
+
+        true ->
+          false
+      end
     end)
   end
 
