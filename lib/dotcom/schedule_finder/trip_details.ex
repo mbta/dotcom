@@ -262,13 +262,14 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       predicted_schedules
       |> Enum.reject(&(PredictedSchedule.stop_sequence(&1) < vehicle.stop_sequence))
 
-  defp drop_first_trip_stop_if_vehicle_is_stopped(trip_stops, vehicle_info) do
-    if vehicle_info.status in [:stopped, :scheduled_to_depart, :waiting_to_depart] do
-      Enum.drop(trip_stops, 1)
-    else
-      trip_stops
-    end
-  end
+  defp drop_first_trip_stop_if_vehicle_is_stopped(
+         [_trip_stop_to_drop | remaining_trip_stops],
+         %VehicleInfo{status: status}
+       )
+       when status in [:stopped, :scheduled_to_depart, :waiting_to_depart],
+       do: remaining_trip_stops
+
+  defp drop_first_trip_stop_if_vehicle_is_stopped(trip_stops, _vehicle_info), do: trip_stops
 
   defp boat_name(nil = _name) do
     nil
