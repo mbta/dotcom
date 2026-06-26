@@ -85,7 +85,6 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec trip_details(%{
-          now: DateTime.t(),
           predicted_schedules: [PredictedSchedule.t()],
           trip_vehicle: Vehicles.Vehicle.t() | nil
         }) :: __MODULE__.t()
