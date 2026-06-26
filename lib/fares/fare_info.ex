@@ -210,11 +210,13 @@ defmodule Fares.FareInfo do
     %{
       mode: :ferry,
       inner_harbor_price: "2.40",
+      inner_harbor_reduced_price: "1.20",
       inner_harbor_month_price: "90.00",
       inner_harbor_month_price_reduced: "30.00",
       cross_harbor_price: "9.75",
       east_boston_price: "2.40",
       harbor_loop_price: "2.40",
+      harbor_loop_reduced_price: "1.10",
       lynn_price: "7.00",
       winthrop_price: "6.50",
       commuter_ferry_price: "9.75",
@@ -490,11 +492,13 @@ defmodule Fares.FareInfo do
   def mapper(%{
         mode: :ferry,
         inner_harbor_price: inner_harbor_price,
+        inner_harbor_reduced_price: inner_harbor_reduced_price,
         inner_harbor_month_price: inner_harbor_month_price,
         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
         east_boston_price: east_boston_price,
         harbor_loop_price: harbor_loop_price,
+        harbor_loop_reduced_price: harbor_loop_reduced_price,
         lynn_price: lynn_price,
         winthrop_price: winthrop_price,
         commuter_ferry_price: commuter_ferry_price,
@@ -672,7 +676,7 @@ defmodule Fares.FareInfo do
         name: :ferry_harbor_loop,
         duration: :single_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
-        reduced: nil,
+        reduced: dollars_to_cents(harbor_loop_reduced_price),
         cents: dollars_to_cents(harbor_loop_price)
       },
       %Fare{
@@ -680,8 +684,16 @@ defmodule Fares.FareInfo do
         name: :ferry_harbor_loop,
         duration: :round_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
-        reduced: nil,
+        reduced: dollars_to_cents(harbor_loop_reduced_price) * 2,
         cents: dollars_to_cents(harbor_loop_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_harbor_loop_1a,
+        duration: :round_trip,
+        media: nil,
+        reduced: dollars_to_cents(inner_harbor_reduced_price),
+        cents: dollars_to_cents(inner_harbor_price)
       }
     ]
 
