@@ -718,7 +718,7 @@ defmodule Fares.FareInfo do
         name: :ferry_harbor_loop,
         duration: :single_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
-        reduced: dollars_to_cents(harbor_loop_reduced_price),
+        reduced: :any,
         cents: dollars_to_cents(harbor_loop_price)
       },
       %Fare{
@@ -726,7 +726,7 @@ defmodule Fares.FareInfo do
         name: :ferry_harbor_loop,
         duration: :round_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
-        reduced: dollars_to_cents(harbor_loop_reduced_price) * 2,
+        reduced: :any,
         cents: dollars_to_cents(harbor_loop_price) * 2
       },
       %Fare{
@@ -734,7 +734,7 @@ defmodule Fares.FareInfo do
         name: :inner_harbor_1a,
         duration: :round_trip,
         media: [],
-        reduced: dollars_to_cents(inner_harbor_reduced_price),
+        reduced: :any,
         cents: dollars_to_cents(inner_harbor_price)
       }
     ]
@@ -850,6 +850,8 @@ defmodule Fares.FareInfo do
 
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :single_trip}), do: 110
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :round_trip}), do: 220
+  defp compute_reduced_fare(%Fare{name: :ferry_harbor_loop, duration: :single_trip}), do: 110
+
   defp compute_reduced_fare(%Fare{cents: cents}), do: floor_to_ten_cents(cents) / 2
 
   # Student and Senior fare prices are always the same.
