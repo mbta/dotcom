@@ -2747,6 +2747,43 @@ defmodule Dotcom.UpcomingDeparturesTest do
              "Unexpected number of stops_before, expected 0 got #{after_count}"
     end
 
+    test "includes skipped stops downstream of the vehicle even if their scheduled time is in the past" do
+      # Setup
+      %{
+        # Dropping the first prediction, since this represents the vehicle being past the first stop
+        predictions: [_ | predictions],
+        scheduled_departure_times: [_, scheduled_time, _],
+        schedules: schedules,
+        stop_sequences: [_, _, stop_seq],
+        stops: [_, skipped_stop, stop],
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:bus_route, :commuter_rail_route, :ferry_route],
+          skipped_stops: [1],
+          vehicle_stop_index: 1
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: Generators.ServiceDateTime.later_on_day(scheduled_time),
+          stop_id: stop.id,
+          stop_sequence: stop_seq,
+          trip_id: trip_id
+        })
+
+      # Verify
+      assert [trip_stop] = trip_details.stops_before
+      assert trip_stop.cancelled?
+      assert trip_stop.stop_id == skipped_stop.id
+    end
+
     test "uses `departure_time` as other_stop.time if `arrival_time` isn't available" do
       # Setup
       %{
