@@ -18,8 +18,18 @@ defmodule Fares do
   @express_route_set MapSet.new(@express_routes)
 
   # For the time being, these stops are ONLY served by the Winthrop Ferry
-  @winthrop_ferry_stops ["Boat-Aquarium", "Boat-Fan", "Boat-Quincy", "Boat-Winthrop"]
-
+  @winthrop_ferry_stops [
+    "Boat-Aquarium",
+    "Boat-Fan",
+    "Boat-Quincy",
+    "Boat-Winthrop",
+    "Boat-Logan"
+  ]
+  @inner_harbor_winthrop [
+    "Boat-Aquarium",
+    "Boat-Fan",
+    "Boat-Logan"
+  ]
   @loop_ferry_stops ["Boat-Commonwealth", "Boat-Aquarium", "Boat-Lovejoy", "Boat-Logan"]
 
   @type ferry_name ::
@@ -88,41 +98,31 @@ defmodule Fares do
   end
 
   def calculate_ferry(origin, destination, between)
-      when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination] do
-    long_way_around_trip_logic(between)
-  end
-
-  def calculate_ferry(origin, destination, between)
-      when "Boat-Long" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
-    long_way_around_trip_logic(between)
-  end
-
-  def calculate_ferry(origin, destination, between)
-      when "Boat-Long-North-5B" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
-    long_way_around_trip_logic(between)
-  end
-
-  def calculate_ferry(origin, destination, between)
+      when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination]
+      when "Boat-Long" in [origin, destination] and "Boat-Lewis" in [origin, destination]
+      when "Boat-Long-North-5B" in [origin, destination] and "Boat-Lewis" in [origin, destination]
       when origin in @loop_ferry_stops and destination in @loop_ferry_stops and
-             origin != destination do
+             origin != destination
+      when origin in @winthrop_ferry_stops and destination in @winthrop_ferry_stops do
     long_way_around_trip_logic(between)
+  end
+
+  def calculate_ferry(origin, destination)
+      when origin in @inner_harbor_winthrop and destination in @inner_harbor_winthrop
+      when origin in @loop_ferry_stops and destination in @loop_ferry_stops and
+             origin != destination
+      when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination]
+      when "Boat-Long-North-5B" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
+    :ferry_inner_harbor
+  end
+
+  def calculate_ferry(origin, destination)
+      when origin in @winthrop_ferry_stops and destination in @winthrop_ferry_stops do
+    :ferry_winthrop
   end
 
   def calculate_ferry(origin, destination, _) do
     calculate_ferry(origin, destination)
-  end
-
-  def long_way_around_trip_logic(between) do
-    cond do
-      "Hingham" in between or "Hull" in between ->
-        :commuter_ferry
-
-      "Quincy" in between ->
-        :ferry_winthrop
-
-      true ->
-        :ferry_harbor_loop
-    end
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
@@ -137,11 +137,6 @@ defmodule Fares do
   end
 
   def calculate_ferry(origin, destination)
-      when origin in @winthrop_ferry_stops or destination in @winthrop_ferry_stops do
-    :ferry_winthrop
-  end
-
-  def calculate_ferry(origin, destination)
       when "Boat-Charlestown" in [origin, destination] and "Boat-Logan" in [origin, destination] do
     :ferry_cross_harbor
   end
@@ -152,12 +147,21 @@ defmodule Fares do
     :ferry_inner_harbor
   end
 
-  def calculate_ferry(origin, destination) when "Boat-Logan" in [origin, destination] do
-    :commuter_ferry_logan
-  end
-
   def calculate_ferry(_origin, _destination) do
     :commuter_ferry
+  end
+
+  def long_way_around_trip_logic(between) do
+    cond do
+      "Hingham" in between or "Hull" in between ->
+        :commuter_ferry
+
+      "Quincy" in between or "Winthrop Landing" in between ->
+        :ferry_winthrop
+
+      true ->
+        :ferry_inner_harbor
+    end
   end
 
   @spec silver_line_rapid_transit?(Route.id_t()) :: boolean

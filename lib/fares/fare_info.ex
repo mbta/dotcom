@@ -209,7 +209,7 @@ defmodule Fares.FareInfo do
     },
     %{
       mode: :ferry,
-      inner_harbor_price: "3.70",
+      inner_harbor_price: "2.40",
       inner_harbor_month_price: "90.00",
       inner_harbor_month_price_reduced: "30.00",
       cross_harbor_price: "9.75",
