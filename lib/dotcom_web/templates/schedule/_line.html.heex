@@ -33,9 +33,7 @@
   {DotcomWeb.AlertView.group(
     alerts:
       @alerts
-      |> Enum.filter(fn %{created_at: created_at} ->
-        DateTime.after?(created_at, DateTime.add(@date_time, -5 * 7, :day))
-      end),
+      |> Enum.filter(fn %{stale?: stale?} -> !stale? end),
     route: @route,
     date_time: @date_time,
     priority_filter: :high
