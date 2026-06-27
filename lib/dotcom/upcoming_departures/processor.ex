@@ -25,6 +25,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   @typep vehicle_at_stop_status_t() ::
            :after_stop | :before_stop | :different_trip | Vehicles.Vehicle.status()
@@ -272,16 +273,13 @@ defmodule Dotcom.UpcomingDepartures.Processor do
         discard_past_subway_predictions: false
       )
 
+    vehicle = predictions |> lookup_vehicle()
+
     schedules = @schedules_repo.schedule_for_trip(trip_id)
 
     predicted_schedules =
       PredictedSchedule.group(predictions, schedules)
       |> Enum.reject(&past_schedule_keep_skipped?(&1, now))
-
-    vehicle =
-      predicted_schedules
-      |> List.first()
-      |> PredictedSchedule.vehicle()
 
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
@@ -304,6 +302,12 @@ defmodule Dotcom.UpcomingDepartures.Processor do
       vehicle_info: vehicle_info
     }
   end
+
+  defp lookup_vehicle([%Prediction{vehicle_id: vehicle_id} | _]) when not is_nil(vehicle_id) do
+    @vehicles_repo.get(vehicle_id)
+  end
+
+  defp lookup_vehicle(_), do: nil
 
   defp seconds_between(nil, _now), do: nil
   defp seconds_between(prediction_time, now), do: DateTime.diff(prediction_time, now, :second)
