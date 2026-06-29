@@ -210,13 +210,11 @@ defmodule Fares.FareInfo do
     %{
       mode: :ferry,
       inner_harbor_price: "2.40",
-      inner_harbor_reduced_price: "1.20",
       inner_harbor_month_price: "90.00",
       inner_harbor_month_price_reduced: "30.00",
       cross_harbor_price: "9.75",
       east_boston_price: "2.40",
       harbor_loop_price: "2.40",
-      harbor_loop_reduced_price: "1.10",
       lynn_price: "7.00",
       winthrop_price: "6.50",
       commuter_ferry_price: "9.75",

@@ -107,6 +107,10 @@ defmodule Fares do
     long_way_around_trip_logic(between)
   end
 
+  def calculate_ferry(origin, destination, _) do
+    calculate_ferry(origin, destination)
+  end
+
   def calculate_ferry(origin, destination)
       when origin in @inner_harbor_winthrop and destination in @inner_harbor_winthrop
       when origin in @loop_ferry_stops and destination in @loop_ferry_stops and
@@ -119,10 +123,6 @@ defmodule Fares do
   def calculate_ferry(origin, destination)
       when origin in @winthrop_ferry_stops and destination in @winthrop_ferry_stops do
     :ferry_winthrop
-  end
-
-  def calculate_ferry(origin, destination, _) do
-    calculate_ferry(origin, destination)
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
