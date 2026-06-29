@@ -178,7 +178,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   defp upcoming_matches() do
     @match_list
     |> Enum.reject(fn %{match_date: date} ->
-      Date.before?(date, Dotcom.Utils.ServiceDateTime.service_date())
+      Date.before?(date |> Date.shift(day: 1), Dotcom.Utils.ServiceDateTime.service_date())
     end)
   end
 end
