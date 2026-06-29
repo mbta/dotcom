@@ -32,8 +32,9 @@
     class="w-full flex flex-col gap-4"
   >
     <%= case @selected_match do %>
-      <% {date, time, label, teams, _} -> %>
+      <% %{match_date: date, match_time: time, match_number: label, teams: teams, match_title: match_title} -> %>
         <.button
+          :if={Enum.count(@match_list) > 1}
           variant="secondary"
           class="self-start"
           phx-click={JS.patch(~p"/schedules/bostonstadium")}
@@ -41,22 +42,37 @@
           <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
           {~t(View all matches)}
         </.button>
-        <.selected_match_banner date={date} time={time} label={label} teams={teams} />
+        <.selected_match_banner
+          date={date}
+          time={time}
+          label={label}
+          teams={teams}
+          match_title={match_title}
+        />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(min(16.5rem,100%),1fr))] gap-2">
           <.match_link
-            :for={{date, time, label, teams, _} <- @match_list}
+            :for={
+              %{
+                match_date: date,
+                match_time: time,
+                match_number: label,
+                teams: teams,
+                match_title: match_title
+              } <- @match_list
+            }
             date={date}
             time={time}
             label={label}
             teams={teams}
+            match_title={match_title}
           />
         </div>
     <% end %>
   </nav>
   <div :if={@selected_match} class="w-full overflow-x-auto">
-    <% {_, _, _, _, group_times} = @selected_match %>
+    <% %{boarding_groups: group_times} = @selected_match %>
     <h2 class="mt-0">{~t(Boarding Groups)}</h2>
     <table class="mbta-table max-w-fit ">
       <thead class="bg-brand-primary-lightest-contrast">

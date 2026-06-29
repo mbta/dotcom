@@ -14,7 +14,7 @@ defmodule DotcomWeb.WorldCupTimetableLiveTest do
         Test.Support.Factories.Routes.Route.commuter_rail_route_factory(%{id: "CR-Foxboro"})
       end)
 
-      datetime = Faker.DateTime.between(~D[2026-01-01], ~D[2026-12-30])
+      datetime = Faker.DateTime.between(~D[2026-01-01], ~D[2026-06-10])
 
       stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
         datetime
