@@ -196,6 +196,7 @@ defmodule Alerts.Alert do
     %__MODULE__{alert | stale?: stale?}
   end
 
+  # credo:disable-for-next-line
   def current_active_period(%__MODULE__{} = alert, now) do
     alert.active_period
     |> Enum.find(fn {start, stop} ->
