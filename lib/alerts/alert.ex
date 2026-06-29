@@ -214,7 +214,7 @@ defmodule Alerts.Alert do
           false
 
         DateTime.before?(start, now) and DateTime.after?(stop, now) ->
-          false
+          true
 
         true ->
           false
