@@ -42,17 +42,31 @@
           <.icon name="chevron-left" class="size-4 fill-current" aria-hidden />
           {~t(View all matches)}
         </.button>
-        <.selected_match_banner date={date} time={time} label={label} teams={teams} match_title={match_title} />
+        <.selected_match_banner
+          date={date}
+          time={time}
+          label={label}
+          teams={teams}
+          match_title={match_title}
+        />
       <% _ -> %>
         <div class="font-bold">Select a Match</div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(min(16.5rem,100%),1fr))] gap-2">
           <.match_link
-            :for={%{match_date: date, match_time: time, match_number: label, teams: teams, match_title: match_title} <- @match_list}
+            :for={
+              %{
+                match_date: date,
+                match_time: time,
+                match_number: label,
+                teams: teams,
+                match_title: match_title
+              } <- @match_list
+            }
             date={date}
             time={time}
             label={label}
             teams={teams}
-	    match_title={match_title}
+            match_title={match_title}
           />
         </div>
     <% end %>
