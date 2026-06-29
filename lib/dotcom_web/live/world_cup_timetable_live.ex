@@ -16,67 +16,109 @@ defmodule DotcomWeb.WorldCupTimetableLive do
   @date_time Application.compile_env!(:dotcom, :date_time_module)
 
   @match_list [
-    {~D[2026-06-13], ~T[21:00:00], ~t"Match 5", [:haiti, :scotland],
-     [
-       {~t"Boarding Group A", [~T[14:15:00], ~T[14:45:00]], [~T[16:15:00], ~T[17:00:00]]},
-       {~t"Boarding Group B", [~T[15:30:00], ~T[16:00:00]], [~T[17:15:00], ~T[18:00:00]]},
-       {~t"Boarding Group C", [~T[16:00:00], ~T[16:30:00]], [~T[18:15:00], ~T[19:00:00]]},
-       {~t"Boarding Group D", [~T[17:00:00], ~T[17:30:00]], [~T[19:15:00], ~T[19:30:00]]},
-       {~t"Boarding Group E", [~T[17:45:00], ~T[18:00:00]], [~T[19:15:00], ~T[19:30:00]]}
-     ]},
-    {~D[2026-06-16], ~T[18:00:00], ~t"Match 18", [:iraq, :norway],
-     [
-       {~t"Boarding Group A", [~T[11:15:00], ~T[12:00:00]], [~T[13:15:00], ~T[14:00:00]]},
-       {~t"Boarding Group B", [~T[12:30:00], ~T[13:00:00]], [~T[14:15:00], ~T[15:00:00]]},
-       {~t"Boarding Group C", [~T[13:00:00], ~T[13:30:00]], [~T[15:15:00], ~T[16:00:00]]},
-       {~t"Boarding Group D", [~T[14:00:00], ~T[14:30:00]], [~T[16:15:00], ~T[16:30:00]]},
-       {~t"Boarding Group E", [~T[14:45:00], ~T[15:00:00]], [~T[16:15:00], ~T[16:30:00]]}
-     ]},
-    {~D[2026-06-19], ~T[18:00:00], ~t"Match 30", [:scotland, :morocco],
-     [
-       {~t"Boarding Group A", [~T[11:15:00], ~T[12:00:00]], [~T[13:15:00], ~T[14:00:00]]},
-       {~t"Boarding Group B", [~T[12:30:00], ~T[13:00:00]], [~T[14:15:00], ~T[15:00:00]]},
-       {~t"Boarding Group C", [~T[13:00:00], ~T[13:30:00]], [~T[15:15:00], ~T[16:00:00]]},
-       {~t"Boarding Group D", [~T[14:00:00], ~T[14:30:00]], [~T[16:15:00], ~T[16:30:00]]},
-       {~t"Boarding Group E", [~T[14:45:00], ~T[15:00:00]], [~T[16:15:00], ~T[16:30:00]]}
-     ]},
-    {~D[2026-06-23], ~T[16:00:00], ~t"Match 45", [:england, :ghana],
-     [
-       {~t"Boarding Group A", [~T[09:15:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},
-       {~t"Boarding Group B", [~T[10:30:00], ~T[11:00:00]], [~T[12:15:00], ~T[13:00:00]]},
-       {~t"Boarding Group C", [~T[11:00:00], ~T[11:30:00]], [~T[13:15:00], ~T[14:00:00]]},
-       {~t"Boarding Group D", [~T[12:00:00], ~T[12:30:00]], [~T[14:15:00], ~T[14:30:00]]},
-       {~t"Boarding Group E", [~T[12:45:00], ~T[13:00:00]], [~T[14:15:00], ~T[14:30:00]]}
-     ]},
-    {~D[2026-06-26], ~T[15:00:00], ~t"Match 61", [:norway, :france],
-     [
-       {~t"Boarding Group A", [~T[08:15:00], ~T[09:00:00]], [~T[10:15:00], ~T[11:00:00]]},
-       {~t"Boarding Group B", [~T[09:30:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},
-       {~t"Boarding Group C", [~T[10:00:00], ~T[10:30:00]], [~T[12:15:00], ~T[13:00:00]]},
-       {~t"Boarding Group D", [~T[11:00:00], ~T[11:30:00]], [~T[13:15:00], ~T[13:30:00]]},
-       {~t"Boarding Group E", [~T[11:45:00], ~T[12:00:00]], [~T[13:15:00], ~T[13:30:00]]}
-     ]},
-    {~D[2026-06-29], ~T[16:30:00], ~t"Match 74", [~t"Round of 32"],
-     [
-       {~t"Boarding Group A", [~T[09:45:00], ~T[10:30:00]], [~T[11:45:00], ~T[12:30:00]]},
-       {~t"Boarding Group B", [~T[11:00:00], ~T[11:30:00]], [~T[12:45:00], ~T[13:30:00]]},
-       {~t"Boarding Group C", [~T[11:30:00], ~T[12:00:00]], [~T[13:45:00], ~T[14:30:00]]},
-       {~t"Boarding Group D", [~T[12:30:00], ~T[13:00:00]], [~T[14:45:00], ~T[15:00:00]]},
-       {~t"Boarding Group E", [~T[13:15:00], ~T[13:30:00]], [~T[14:45:00], ~T[15:00:00]]}
-     ]},
-    {~D[2026-07-09], ~T[16:00:00], ~t"Match 97", [~t"Quarter Finals"],
-     [
-       {~t"Boarding Group A", [~T[09:15:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},
-       {~t"Boarding Group B", [~T[10:30:00], ~T[11:00:00]], [~T[12:15:00], ~T[13:00:00]]},
-       {~t"Boarding Group C", [~T[11:00:00], ~T[11:30:00]], [~T[13:15:00], ~T[14:00:00]]},
-       {~t"Boarding Group D", [~T[12:00:00], ~T[12:30:00]], [~T[14:15:00], ~T[14:30:00]]},
-       {~t"Boarding Group E", [~T[12:45:00], ~T[13:00:00]], [~T[14:15:00], ~T[14:30:00]]}
-     ]}
+    %{
+      match_date: ~D[2026-06-13],
+      match_time: ~T[21:00:00],
+      match_number: ~t"Match 5",
+      teams: [:haiti, :scotland],
+      match_title: nil,
+      boarding_groups: [
+        {~t"Boarding Group A", [~T[14:15:00], ~T[14:45:00]], [~T[16:15:00], ~T[17:00:00]]},
+        {~t"Boarding Group B", [~T[15:30:00], ~T[16:00:00]], [~T[17:15:00], ~T[18:00:00]]},
+        {~t"Boarding Group C", [~T[16:00:00], ~T[16:30:00]], [~T[18:15:00], ~T[19:00:00]]},
+        {~t"Boarding Group D", [~T[17:00:00], ~T[17:30:00]], [~T[19:15:00], ~T[19:30:00]]},
+        {~t"Boarding Group E", [~T[17:45:00], ~T[18:00:00]], [~T[19:15:00], ~T[19:30:00]]}
+      ]
+    },
+    %{
+      match_date: ~D[2026-06-16],
+      match_time: ~T[18:00:00],
+      match_number: ~t"Match 18",
+      teams: [:iraq, :norway],
+      match_title: nil,
+      boarding_groups: [
+        {~t"Boarding Group A", [~T[11:15:00], ~T[12:00:00]], [~T[13:15:00], ~T[14:00:00]]},
+        {~t"Boarding Group B", [~T[12:30:00], ~T[13:00:00]], [~T[14:15:00], ~T[15:00:00]]},
+        {~t"Boarding Group C", [~T[13:00:00], ~T[13:30:00]], [~T[15:15:00], ~T[16:00:00]]},
+        {~t"Boarding Group D", [~T[14:00:00], ~T[14:30:00]], [~T[16:15:00], ~T[16:30:00]]},
+        {~t"Boarding Group E", [~T[14:45:00], ~T[15:00:00]], [~T[16:15:00], ~T[16:30:00]]}
+      ]
+    },
+    %{
+      match_date: ~D[2026-06-19],
+      match_time: ~T[18:00:00],
+      match_number: ~t"Match 30",
+      teams: [:scotland, :morocco],
+      match_title: nil,
+      boarding_groups: [
+        {~t"Boarding Group A", [~T[11:15:00], ~T[12:00:00]], [~T[13:15:00], ~T[14:00:00]]},
+        {~t"Boarding Group B", [~T[12:30:00], ~T[13:00:00]], [~T[14:15:00], ~T[15:00:00]]},
+        {~t"Boarding Group C", [~T[13:00:00], ~T[13:30:00]], [~T[15:15:00], ~T[16:00:00]]},
+        {~t"Boarding Group D", [~T[14:00:00], ~T[14:30:00]], [~T[16:15:00], ~T[16:30:00]]},
+        {~t"Boarding Group E", [~T[14:45:00], ~T[15:00:00]], [~T[16:15:00], ~T[16:30:00]]}
+      ]
+    },
+    %{
+      match_date: ~D[2026-06-23],
+      match_time: ~T[16:00:00],
+      match_number: ~t"Match 45",
+      teams: [:england, :ghana],
+      match_title: nil,
+      boarding_groups: [
+        {~t"Boarding Group A", [~T[09:15:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},
+        {~t"Boarding Group B", [~T[10:30:00], ~T[11:00:00]], [~T[12:15:00], ~T[13:00:00]]},
+        {~t"Boarding Group C", [~T[11:00:00], ~T[11:30:00]], [~T[13:15:00], ~T[14:00:00]]},
+        {~t"Boarding Group D", [~T[12:00:00], ~T[12:30:00]], [~T[14:15:00], ~T[14:30:00]]},
+        {~t"Boarding Group E", [~T[12:45:00], ~T[13:00:00]], [~T[14:15:00], ~T[14:30:00]]}
+      ]
+    },
+    %{
+      match_date: ~D[2026-06-26],
+      match_time: ~T[15:00:00],
+      match_number: ~t"Match 61",
+      teams: [:norway, :france],
+      match_title: nil,
+      boarding_groups: [
+        {~t"Boarding Group A", [~T[08:15:00], ~T[09:00:00]], [~T[10:15:00], ~T[11:00:00]]},
+        {~t"Boarding Group B", [~T[09:30:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},
+        {~t"Boarding Group C", [~T[10:00:00], ~T[10:30:00]], [~T[12:15:00], ~T[13:00:00]]},
+        {~t"Boarding Group D", [~T[11:00:00], ~T[11:30:00]], [~T[13:15:00], ~T[13:30:00]]},
+        {~t"Boarding Group E", [~T[11:45:00], ~T[12:00:00]], [~T[13:15:00], ~T[13:30:00]]}
+      ]
+    },
+    %{
+      match_date: ~D[2026-06-29],
+      match_time: ~T[16:30:00],
+      match_number: ~t"Match 74",
+      teams: [~t"Round of 32"],
+      match_title: nil,
+      boarding_groups: [
+        {~t"Boarding Group A", [~T[09:45:00], ~T[10:30:00]], [~T[11:45:00], ~T[12:30:00]]},
+        {~t"Boarding Group B", [~T[11:00:00], ~T[11:30:00]], [~T[12:45:00], ~T[13:30:00]]},
+        {~t"Boarding Group C", [~T[11:30:00], ~T[12:00:00]], [~T[13:45:00], ~T[14:30:00]]},
+        {~t"Boarding Group D", [~T[12:30:00], ~T[13:00:00]], [~T[14:45:00], ~T[15:00:00]]},
+        {~t"Boarding Group E", [~T[13:15:00], ~T[13:30:00]], [~T[14:45:00], ~T[15:00:00]]}
+      ]
+    },
+    %{
+      match_date: ~D[2026-07-09],
+      match_time: ~T[16:00:00],
+      match_number: ~t"Match 97",
+      teams: [~t"Quarter Finals"],
+      match_title: nil,
+      boarding_groups: [
+        {~t"Boarding Group A", [~T[09:15:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},
+        {~t"Boarding Group B", [~T[10:30:00], ~T[11:00:00]], [~T[12:15:00], ~T[13:00:00]]},
+        {~t"Boarding Group C", [~T[11:00:00], ~T[11:30:00]], [~T[13:15:00], ~T[14:00:00]]},
+        {~t"Boarding Group D", [~T[12:00:00], ~T[12:30:00]], [~T[14:15:00], ~T[14:30:00]]},
+        {~t"Boarding Group E", [~T[12:45:00], ~T[13:00:00]], [~T[14:15:00], ~T[14:30:00]]}
+      ]
+    }
   ]
 
   def match_day?() do
     date = Dotcom.Utils.ServiceDateTime.service_date(@date_time_module.now())
-    @match_list |> Enum.any?(fn {match_date, _, _, _, _} -> match_date == date end)
+    @match_list |> Enum.any?(fn %{match_date: match_date} -> match_date == date end)
   end
 
   @impl true
@@ -108,8 +150,8 @@ defmodule DotcomWeb.WorldCupTimetableLive do
         match
 
       matches ->
-        Enum.find(matches, fn {date, _, _, _, _} ->
-          Date.to_string(date) == selected_date
+        Enum.find(matches, fn %{match_date: match_date} ->
+          Date.to_string(match_date) == selected_date
         end)
     end
   end
@@ -135,7 +177,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
 
   defp upcoming_matches() do
     @match_list
-    |> Enum.reject(fn {date, _time, _title, _teams, _timetable} ->
+    |> Enum.reject(fn %{match_date: date} ->
       Date.before?(date, Dotcom.Utils.ServiceDateTime.service_date())
     end)
   end
