@@ -90,8 +90,8 @@ defmodule DotcomWeb.WorldCupTimetableLive do
       match_date: ~D[2026-06-29],
       match_time: ~T[16:30:00],
       match_number: ~t"Match 74",
-      teams: [~t"Round of 32"],
-      match_title: nil,
+      teams: [:germany, :paraguay],
+      match_title: ~t"Round of 32",
       boarding_groups: [
         {~t"Boarding Group A", [~T[09:45:00], ~T[10:30:00]], [~T[11:45:00], ~T[12:30:00]]},
         {~t"Boarding Group B", [~T[11:00:00], ~T[11:30:00]], [~T[12:45:00], ~T[13:30:00]]},
@@ -104,8 +104,8 @@ defmodule DotcomWeb.WorldCupTimetableLive do
       match_date: ~D[2026-07-09],
       match_time: ~T[16:00:00],
       match_number: ~t"Match 97",
-      teams: [~t"Quarter Finals"],
-      match_title: nil,
+      teams: nil,
+      match_title: ~t"Quarter Finals",
       boarding_groups: [
         {~t"Boarding Group A", [~T[09:15:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},
         {~t"Boarding Group B", [~T[10:30:00], ~T[11:00:00]], [~T[12:15:00], ~T[13:00:00]]},
