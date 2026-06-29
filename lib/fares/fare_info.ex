@@ -492,13 +492,11 @@ defmodule Fares.FareInfo do
   def mapper(%{
         mode: :ferry,
         inner_harbor_price: inner_harbor_price,
-        inner_harbor_reduced_price: inner_harbor_reduced_price,
         inner_harbor_month_price: inner_harbor_month_price,
         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
         east_boston_price: east_boston_price,
         harbor_loop_price: harbor_loop_price,
-        harbor_loop_reduced_price: harbor_loop_reduced_price,
         lynn_price: lynn_price,
         winthrop_price: winthrop_price,
         commuter_ferry_price: commuter_ferry_price,
@@ -718,7 +716,7 @@ defmodule Fares.FareInfo do
         name: :ferry_harbor_loop,
         duration: :single_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
-        reduced: :any,
+        reduced: nil,
         cents: dollars_to_cents(harbor_loop_price)
       },
       %Fare{
@@ -726,7 +724,7 @@ defmodule Fares.FareInfo do
         name: :ferry_harbor_loop,
         duration: :round_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
-        reduced: :any,
+        reduced: nil,
         cents: dollars_to_cents(harbor_loop_price) * 2
       },
       %Fare{
@@ -734,7 +732,7 @@ defmodule Fares.FareInfo do
         name: :inner_harbor_1a,
         duration: :round_trip,
         media: [],
-        reduced: :any,
+        reduced: nil,
         cents: dollars_to_cents(inner_harbor_price)
       }
     ]
