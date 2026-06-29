@@ -18,17 +18,14 @@ const metric = `${prefix}${workerData.name}`;
 
 parentPort.on("message", async (_) => {
   const browser = await chromium.launch();
-  const context = await browser.newContext({ userAgent: 'Playwright' });
+  const context = await browser.newContext({ userAgent: "Playwright" });
   const page = await context.newPage();
 
   const start = performance.now();
 
   try {
     await scenario({ page, baseURL });
-  } catch(exception) {
-    const screenshot = await page.screenshot({quality: 50, type: "jpeg"});
-
-    parentPort.postMessage({exception, metric, screenshot});
+  } catch (exception) {
     logger.error({ metric, error: exception.message });
   }
 
