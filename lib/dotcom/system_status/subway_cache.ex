@@ -41,7 +41,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
 
     status = status()
 
-    :ets.new(:subway_status, [:named_table, :set, :protected])
+    :ets.new(:subway_status, [:named_table, :set, :protected, read_concurrency: true])
     :ets.insert(:subway_status, {"status", status})
 
     {:ok, status}
