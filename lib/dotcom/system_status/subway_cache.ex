@@ -21,7 +21,11 @@ defmodule Dotcom.SystemStatus.SubwayCache do
 
   @impl Behaviour
   def subway_status() do
-    GenServer.call(__MODULE__, :subway_status)
+    :ets.lookup(:subway_status, "status")
+    |> case do
+      [{"status", status}] -> status
+      _ -> status()
+    end
   end
 
   @impl Behaviour
@@ -35,12 +39,12 @@ defmodule Dotcom.SystemStatus.SubwayCache do
   def init(_opts) do
     Alerts.Cache.Store.subscribe()
 
-    {:ok, status()}
-  end
+    status = status()
 
-  @impl true
-  def handle_call(:subway_status, _from, status) do
-    {:reply, status, status}
+    :ets.new(:subway_status, [:named_table, :set, :protected, read_concurrency: true])
+    :ets.insert(:subway_status, {"status", status})
+
+    {:ok, status}
   end
 
   @impl true
@@ -48,6 +52,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
     new_status = status()
 
     if new_status != old_status do
+      :ets.insert(:subway_status, {"status", new_status})
       DotcomWeb.Endpoint.broadcast(@pubsub_topic, "subway_status_updated", new_status)
     end
 
