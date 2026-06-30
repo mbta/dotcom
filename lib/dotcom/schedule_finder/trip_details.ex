@@ -259,7 +259,10 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   defp drop_predicted_schedules_before_current_station(predicted_schedules, %Vehicle{} = vehicle),
     do:
       predicted_schedules
-      |> Enum.reject(&(PredictedSchedule.stop_sequence(&1) < vehicle.stop_sequence))
+      |> Enum.reject(
+        &(PredictedSchedule.trip_id(&1) == vehicle.trip_id &&
+            PredictedSchedule.stop_sequence(&1) < vehicle.stop_sequence)
+      )
 
   defp drop_first_trip_stop_if_vehicle_is_stopped(
          [_trip_stop_to_drop | remaining_trip_stops],
