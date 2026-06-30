@@ -115,6 +115,8 @@ config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5,
+  enable_logs: false,
+  enable_metrics: false,
   before_send: {Dotcom.Sentry, :before_send}
 
 # Configures the endpoint
