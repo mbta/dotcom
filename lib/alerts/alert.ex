@@ -205,7 +205,6 @@ defmodule Alerts.Alert do
         {nil, stop} -> DateTime.after?(stop, now)
         {start, nil} -> DateTime.before?(start, now)
         {start, stop} -> DateTime.before?(start, now) and DateTime.after?(stop, now)
-        _ -> false
       end
     end)
   end
