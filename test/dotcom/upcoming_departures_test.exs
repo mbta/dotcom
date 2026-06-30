@@ -2415,6 +2415,38 @@ defmodule Dotcom.UpcomingDeparturesTest do
       assert trip_details.stops_before |> Enum.map(& &1.stop_id) == [stop_1.id, stop_2.id]
     end
 
+    test "drops all stops before the current vehicle" do
+      # Setup
+      %{
+        predicted_arrival_times: [_, _, _, arrival_time, _],
+        predictions: predictions,
+        stop_sequences: [_, _, _, stop_seq, _],
+        stops: [_stop_0, _stop_1, _stop_2, stop, _],
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          stop_count: 5,
+          vehicle_stop_index: 3
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: Generators.ServiceDateTime.earlier_on_day(arrival_time),
+          stop_id: stop.id,
+          stop_sequence: stop_seq,
+          trip_id: trip_id
+        })
+
+      # Verify
+      assert trip_details.stops_before == []
+    end
+
     test "shows a vehicle status of :scheduled_to_depart if the trip has no predictions and all schedules are in the future" do
       # Setup
       %{
