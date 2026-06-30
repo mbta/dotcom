@@ -5,7 +5,7 @@ defmodule Dotcom.Sentry do
 
   @spec before_send(Sentry.Event.t()) :: Sentry.Event.t() | nil
   def before_send(event) do
-    if not exclude_exception?(event.exception) do
+    if not exclude_exception?(event.original_exception) do
       event
     end
   end
