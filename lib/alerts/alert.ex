@@ -190,7 +190,7 @@ defmodule Alerts.Alert do
       if is_nil(current_active_period) do
         false
       else
-        current_active_period |> elem(0) |> DateTime.before?(five_weeks_ago)
+        (current_active_period |> elem(0) || now) |> DateTime.before?(five_weeks_ago)
       end
 
     %__MODULE__{alert | stale?: stale?}
@@ -200,24 +200,12 @@ defmodule Alerts.Alert do
   def current_active_period(%__MODULE__{} = alert, now) do
     alert.active_period
     |> Enum.find(fn {start, stop} ->
-      cond do
-        is_nil(start) and DateTime.after?(stop, now) ->
-          true
-
-        is_nil(start) ->
-          false
-
-        is_nil(stop) and DateTime.before?(start, now) ->
-          true
-
-        is_nil(stop) ->
-          false
-
-        DateTime.before?(start, now) and DateTime.after?(stop, now) ->
-          true
-
-        true ->
-          false
+      case {start, stop} do
+        # nil start should never happen, but some tests include it
+        {nil, stop} -> DateTime.after?(stop, now)
+        {start, nil} -> DateTime.before?(start, now)
+        {start, stop} -> DateTime.before?(start, now) and DateTime.after?(stop, now)
+        _ -> false
       end
     end)
   end
