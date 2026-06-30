@@ -253,6 +253,10 @@ defmodule DotcomWeb.StopController do
     json(conn, json_safe_routes)
   end
 
+  def api(conn, _params) do
+    json(conn, [])
+  end
+
   @doc "Redirect users who type in a URL with a slash to the correct URL"
   def stop_with_slash_redirect(conn, %{"path" => path}) do
     real_id = Enum.join(path, "/")
