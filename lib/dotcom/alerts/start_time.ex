@@ -41,6 +41,9 @@ defmodule Dotcom.Alerts.StartTime do
         time
       ) do
     cond do
+      is_nil(start_time) ->
+        next_active_period_active_time(rest_of_active_periods, time)
+
       ends_before?(end_time, time) ->
         next_active_period_active_time(rest_of_active_periods, time)
 
