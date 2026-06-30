@@ -162,7 +162,7 @@ We use Smartling as our department approved vendor to complete translations - th
 Smartling GitHub integration tracks main to see if changes are made to the translation files in PRs developers open. If this does happen, Smartling opens up seperate PRs to introduce the translated content for all of our supported languages to merge into the PR developers open.
 
 Here is the workflow for making updates to copy in Dotcom and completing translations:
-  1. Make your changes in a branch. Localize the content in Dotcom using `gettext` as described in the above section.
+  1. Make your changes in a branch (note that content branches should NOT begin with "smartling.") Localize the content in Dotcom using `gettext` as described in the above section.
   2. Run `mix localize` to update the `gettext` translation files. 
      * If this isn't run - we have a CI check to fail the build if the translation files are out of date, so there will be no 
       way to merge in changes without updated translations.
