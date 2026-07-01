@@ -166,10 +166,10 @@ Here is the workflow for making updates to copy in Dotcom and completing transla
   2. Run `mix localize` to update the `gettext` translation files. 
      * If this isn't run - we have a CI check to fail the build if the translation files are out of date, so there will be no 
       way to merge in changes without updated translations.
-  3. Put up the changes in your branch to a PR.
+  3. Put up the changes in your branch to a PR. You will notice a `Not ready for translation` label automatically gets applied to your PR. **When your PR is reviewed and approved (but before it is merged), remove the label.**
   3. After some time, a Smartling machine translation PR will be opened, merging the translated content into your PR.
-  4. Review the PR, approve, and merge. The translated content will now be available in your PR.
-  5. Get your PR reviewed and merged into main. 
+  4. Review the Smartling PR, approve, and merge it into your PR. The translated content will now be available in your PR.
+  5. Get your updated feature PR merged into main.
 
 ### How to review Smartling PRs
 
