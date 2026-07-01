@@ -172,6 +172,14 @@ Here is the workflow for making updates to copy in Dotcom and completing transla
   5. Get your updated feature PR merged into main.
 
 ### How to review Smartling PRs
+What's good to check for in review:
+* Making sure nothing is glaringly wrong or off
+  * Do the files have translations (as opposed to empty strings etc.)?
+  * Glance over the file and make sure its structure looks reasonable
+* Ensuring nothing is broken feature-wise/UX-wise
+
+What you _don't_ need to worry about:
+* Reviewing the translations themselves for correctness
 
 ## Algolia
 
