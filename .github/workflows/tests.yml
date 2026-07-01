@@ -43,8 +43,6 @@ jobs:
               - '**.heex'
             scss:
               - 'assets/css/**.scss'
-      - name: Check localizations up-to-date
-        run: mix gettext.extract --check-up-to-date
 
   build_image:
     name: Build Docker image
@@ -93,6 +91,8 @@ jobs:
       - uses: ./.github/actions/setup-all
       - run: git fetch origin main:main
       - run: npm run ci:lint:ex
+      - name: Check localizations up-to-date
+        run: mix gettext.extract --check-up-to-date
 
   build_app:
     name: Build application and assets
