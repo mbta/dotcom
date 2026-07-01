@@ -18,7 +18,7 @@ config :dotcom, :httpoison, HTTPoison
 
 config :dotcom,
   default_locale_code: "en",
-  locale_codes: ["en", "es-LA", "ht-HT", "pt-BR", "vi-VN", "zh-CN", "zh-TW", "fr-FR"]
+  locale_codes: ["en", "es", "ht", "pt-BR", "vi", "zh-CN", "zh-TW", "fr-FR"]
 
 config :dotcom, :location_service, LocationService
 
