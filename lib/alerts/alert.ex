@@ -58,6 +58,7 @@ defmodule Alerts.Alert do
             lifecycle: :unknown,
             priority: :low,
             severity: 5,
+            stale?: false,
             updated_at: Timex.now(),
             url: ""
 
@@ -116,6 +117,7 @@ defmodule Alerts.Alert do
           lifecycle: lifecycle,
           priority: Priority.priority_level(),
           severity: severity,
+          stale?: boolean(),
           updated_at: DateTime.t(),
           url: String.t() | nil
         }
@@ -135,6 +137,7 @@ defmodule Alerts.Alert do
     |> set_priority()
     |> set_direction_ids()
     |> ensure_entity_set()
+    |> check_freshness()
   end
 
   @spec update(t(), Keyword.t()) :: t()
@@ -176,6 +179,34 @@ defmodule Alerts.Alert do
   @spec set_priority(map) :: map
   defp set_priority(%__MODULE__{} = alert) do
     %__MODULE__{alert | priority: Priority.priority(alert)}
+  end
+
+  defp check_freshness(%__MODULE__{} = alert) do
+    now = Timex.now()
+    five_weeks_ago = DateTime.add(now, -5 * 7, :day)
+    current_active_period = current_active_period(alert, now)
+
+    stale? =
+      if is_nil(current_active_period) do
+        false
+      else
+        (current_active_period |> elem(0) || now) |> DateTime.before?(five_weeks_ago)
+      end
+
+    %__MODULE__{alert | stale?: stale?}
+  end
+
+  # credo:disable-for-next-line
+  def current_active_period(%__MODULE__{} = alert, now) do
+    alert.active_period
+    |> Enum.find(fn {start, stop} ->
+      case {start, stop} do
+        # nil start should never happen, but some tests include it
+        {nil, stop} -> DateTime.after?(stop, now)
+        {start, nil} -> DateTime.before?(start, now)
+        {start, stop} -> DateTime.before?(start, now) and DateTime.after?(stop, now)
+      end
+    end)
   end
 
   @spec build_struct(Keyword.t()) :: t()
