@@ -15,7 +15,7 @@ defmodule DotcomWeb.StopController do
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
   alias RoutePatterns.RoutePattern
-  alias Routes.{Group, Route}
+  alias Routes.Route
   alias Services.Service
   alias Stops.Stop
   alias Util.AndOr
@@ -244,15 +244,6 @@ defmodule DotcomWeb.StopController do
     Map.put(route_pattern, :representative_trip_polyline, polyline)
   end
 
-  @spec api(Conn.t(), map) :: Conn.t()
-  def api(conn, %{"id" => stop_id}) do
-    routes_by_stop = @routes_repo.by_stop(stop_id)
-    grouped_routes = grouped_routes(routes_by_stop)
-    routes_map = routes_map(grouped_routes, stop_id, conn.assigns.date_time)
-    json_safe_routes = json_safe_routes(routes_map)
-    json(conn, json_safe_routes)
-  end
-
   @doc "Redirect users who type in a URL with a slash to the correct URL"
   def stop_with_slash_redirect(conn, %{"path" => path}) do
     real_id = Enum.join(path, "/")
@@ -278,14 +269,6 @@ defmodule DotcomWeb.StopController do
       nil -> {nil, stop_info}
       mattapan -> {mattapan, List.delete(stop_info, mattapan)}
     end
-  end
-
-  @spec grouped_routes([Route.t()]) :: [{Route.gtfs_route_type(), [Route.t()]}]
-  defp grouped_routes(routes) do
-    routes
-    |> Enum.sort_by(& &1.sort_order)
-    |> Enum.group_by(&Route.type_atom/1)
-    |> Enum.sort_by(&Group.sorter/1)
   end
 
   @spec routes_map([{Route.gtfs_route_type(), [Route.t()]}], Stop.id_t(), DateTime.t()) :: [
@@ -366,30 +349,6 @@ defmodule DotcomWeb.StopController do
 
   defp alerts(conn, _opts) do
     assign(conn, :alerts, AlertsRepo.all(conn.assigns.date_time))
-  end
-
-  @type json_safe_routes :: %{
-          required(:group_name) => atom,
-          required(:routes) => map
-        }
-  @spec json_safe_routes([routes_map_t]) :: [json_safe_routes]
-  defp json_safe_routes(routes_map) do
-    Enum.map(routes_map, fn group_and_routes ->
-      safe_routes = Enum.map(group_and_routes.routes, &json_safe_route_with_directions(&1))
-
-      %{
-        group_name: group_and_routes.group_name,
-        routes: safe_routes
-      }
-    end)
-  end
-
-  @spec json_safe_route_with_directions(route_with_directions) :: map
-  defp json_safe_route_with_directions(%{route: route, directions: directions}) do
-    %{
-      route: Route.to_json_safe(route),
-      directions: directions
-    }
   end
 
   @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]
