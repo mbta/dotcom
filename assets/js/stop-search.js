@@ -1,18 +1,31 @@
 import accessibleAutocomplete from 'accessible-autocomplete'
 
 const sourceFn = (query, callbackFn) => {
+    fetch("/search/query", {
+        method: "POST",
+        body: JSON.stringify({
+            algoliaQuery: query,
+            algoliaIndexesWithParams: [ { stops: { hitsPerPage:5 } } ]
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(response => response.json( results => {
+        console.log({results})
+        callbackFn([{result: "I see the query", data: query}]);
+
+    }))
     console.log({query});
-    callbackFn([{result: "I see the query", data: query}]);
 }
 
 const inputTemplateFn = (selectedOption) => {
     console.log({selectedOption})
-    return selectedOption?.result;
+    return selectedOption?.stop?.name;
 }
 
 const suggestionTemplateFn = (suggestedOption) => {
     console.log({suggestedOption})
-    return `<div><b>${suggestedOption.result}</b><br/><i>${suggestedOption.data}</i></div>`;
+    return `<div><b>${suggestedOption.stop.name}</b><br/><i>${suggestedOption.stop.type}</i></div>`;
 }
 export default ()=>{
     window.addEventListener("load", ()=>{
