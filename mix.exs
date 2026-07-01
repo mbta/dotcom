@@ -50,7 +50,8 @@ defmodule DotCom.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      localize: ["gettext.extract", "gettext.merge priv/gettext --no-fuzzy"]
+      localize: ["gettext.extract", "gettext.merge priv/gettext --no-fuzzy"],
+      check_localized: ["gettext.extract --check-up-to-date"]
     ]
   end
 
