@@ -39,8 +39,10 @@ media =
         ~t", ",
         Fares.Format.media(:paper_ferry),
         ~t", ",
+        Fares.Format.media(:contactless_payment),
+        ~t", ",
         ~t"or ",
-        Fares.Format.media(:contactless_payment)
+        Fares.Format.media(:cash)
       ]
 
     %Fares.Summary{} ->

@@ -93,7 +93,7 @@ defmodule Fares.Format do
   def name(:ferry_harbor_loop), do: ~t"Harbor Loop Ferry"
   def name(:ferry_east_boston), do: ~t"East Boston Ferry"
   def name(:ferry_lynn), do: ~t"Lynn Ferry"
-  def name(:ferry_winthrop), do: ~t"Winthrop/Quincy Ferry"
+  def name(:ferry_winthrop), do: ~t"Winthrop and Quincy Ferry"
   def name(:ferry_george), do: ~t"Georges Island"
   def name(:inner_harbor_1a), do: ~t"Inner Harbor Zone 1A"
   def name(:commuter_ferry), do: ~t"Hingham/Hull Ferry"

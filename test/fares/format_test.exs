@@ -63,7 +63,7 @@ defmodule Fares.FormatTest do
       assert name(%Fare{name: :ferry_cross_harbor}) == "Cross Harbor Ferry"
       assert name(%Fare{name: :ferry_east_boston}) == "East Boston Ferry"
       assert name(%Fare{name: :ferry_lynn}) == "Lynn Ferry"
-      assert name(%Fare{name: :ferry_winthrop}) == "Winthrop/Quincy Ferry"
+      assert name(%Fare{name: :ferry_winthrop}) == "Winthrop and Quincy Ferry"
       assert name(%Fare{name: :commuter_ferry}) == "Hingham/Hull Ferry"
     end
 
