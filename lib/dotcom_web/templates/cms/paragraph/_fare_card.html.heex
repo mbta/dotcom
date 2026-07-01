@@ -86,7 +86,7 @@ card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration] %>
     {price}
   </div>
 
-  <%= if @fare_card.show_media do %>
+  <%= if @fare_card.show_media && media do %>
     <p class="c-fare-card__media">
       {~t(with)} {media}
     </p>

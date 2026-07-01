@@ -505,6 +505,48 @@ defmodule Fares.FareInfo do
     fares = [
       %Fare{
         mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :single_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :round_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :month,
+        media: [:charlie_ticket],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_month_price),
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :month,
+        media: [:senior_card, :student_card],
+        reduced: :any,
+        cents: dollars_to_cents(inner_harbor_month_price_reduced),
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :month,
+        media: [:mticket],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_month_price) - 1000
+      },
+      %Fare{
+        mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :single_trip,
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
@@ -682,6 +724,22 @@ defmodule Fares.FareInfo do
         media: [:mticket, :paper_ferry, :contactless_payment, :cash],
         reduced: nil,
         cents: dollars_to_cents(harbor_loop_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :inner_harbor_1a,
+        duration: :round_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :inner_harbor_1a,
+        duration: :single_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
       }
     ]
 
@@ -796,6 +854,9 @@ defmodule Fares.FareInfo do
 
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :single_trip}), do: 110
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :round_trip}), do: 220
+  defp compute_reduced_fare(%Fare{name: :ferry_harbor_loop, duration: :single_trip}), do: 110
+  defp compute_reduced_fare(%Fare{name: :inner_harbor_1a}), do: 110
+
   defp compute_reduced_fare(%Fare{cents: cents}), do: floor_to_ten_cents(cents) / 2
 
   # Student and Senior fare prices are always the same.
