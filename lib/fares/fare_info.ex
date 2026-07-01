@@ -732,6 +732,14 @@ defmodule Fares.FareInfo do
         media: [],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :inner_harbor_1a,
+        duration: :single_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
       }
     ]
 
@@ -847,6 +855,7 @@ defmodule Fares.FareInfo do
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :single_trip}), do: 110
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :round_trip}), do: 220
   defp compute_reduced_fare(%Fare{name: :ferry_harbor_loop, duration: :single_trip}), do: 110
+  defp compute_reduced_fare(%Fare{name: :inner_harbor_1a}), do: 110
 
   defp compute_reduced_fare(%Fare{cents: cents}), do: floor_to_ten_cents(cents) / 2
 

@@ -25,6 +25,8 @@ defmodule Fares.Format do
   def media(%Fare{reduced: :any}), do: ~t"reduced fare card"
   def media(%Fare{media: list}), do: media(list)
 
+  def media([]), do: nil
+
   def media(list) when is_list(list) do
     list
     |> Enum.map(&media/1)
@@ -93,6 +95,7 @@ defmodule Fares.Format do
   def name(:ferry_lynn), do: ~t"Lynn Ferry"
   def name(:ferry_winthrop), do: ~t"Winthrop/Quincy Ferry"
   def name(:ferry_george), do: ~t"Georges Island"
+  def name(:inner_harbor_1a), do: ~t"Inner Harbor Zone 1A"
   def name(:commuter_ferry), do: ~t"Hingham/Hull Ferry"
   def name(:commuter_ferry_logan), do: ~t"Commuter Ferry to Logan Airport"
   def name({:zone, zone}), do: gettext("Zone %{zone}", zone: zone)

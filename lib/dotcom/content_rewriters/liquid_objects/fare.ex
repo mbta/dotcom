@@ -72,6 +72,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     "ferry_winthrop",
     "foxboro",
     "express_bus",
+    "inner_harbor_1a",
     "local_bus",
     "subway"
   ]
