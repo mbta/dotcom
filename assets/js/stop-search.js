@@ -10,9 +10,9 @@ const sourceFn = (query, callbackFn) => {
         headers: {
             "Content-Type": "application/json"
         }
-    }).then(response => response.json( results => {
+    }).then(response => response.json().then( results => {
         console.log({results})
-        callbackFn([{result: "I see the query", data: query}]);
+        callbackFn(results.results);
 
     }))
     console.log({query});
