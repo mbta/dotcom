@@ -1,0 +1,5630 @@
+#: lib/dotcom_web/views/page_view.ex:182
+#, elixir-autogen, elixir-format
+msgid " & Stops"
+msgstr " 和站点"
+
+#: lib/dotcom/schedule_note.ex:100
+#, elixir-autogen, elixir-format
+msgid " It travels along limited stops between Foxboro and either Providence or Downtown Boston (South Station)"
+msgstr " 它沿途停靠站点有限，往返于Foxboro和Providence或波士顿Downtown （ South Station ）之间。"
+
+#: lib/dotcom_web/views/page_view.ex:197
+#, elixir-autogen, elixir-format
+msgid " Lines"
+msgstr " 线条"
+
+#: lib/dotcom_web/views/page_view.ex:208
+#, elixir-autogen, elixir-format
+msgid " Routes"
+msgstr " 路线"
+
+#: lib/dotcom_web/views/schedule_view.ex:404
+#, elixir-autogen, elixir-format
+msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
+msgstr " 活动结束后30分钟，列车将从Foxboro出发。"
+
+#: lib/dotcom_web/views/alert_view.ex:101
+#: lib/dotcom_web/views/alert_view.ex:110
+#, elixir-autogen, elixir-format
+msgid " alerts"
+msgstr " 警报"
+
+#: lib/dotcom_web/views/alert_view.ex:79
+#, elixir-autogen, elixir-format
+msgid " at "
+msgstr " 在 "
+
+#: lib/dotcom_web/controllers/stop_controller.ex:447
+#, elixir-autogen, elixir-format
+msgid " at %{address}"
+msgstr " 在%{address}"
+
+#: lib/dotcom_web/views/alert_view.ex:104
+#: lib/dotcom_web/views/alert_view.ex:112
+#, elixir-autogen, elixir-format
+msgid " at this time."
+msgstr " 此时。"
+
+#: lib/dotcom_web/controllers/mode/commuter.ex:20
+#, elixir-autogen, elixir-format
+msgid " depend on the distance traveled (zones). Refer to the information below:"
+msgstr " 取决于行驶距离（区域）。请参考以下信息："
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:129
+#, elixir-autogen, elixir-format
+msgid " for real-time track changes."
+msgstr " 用于实时跟踪更改。"
+
+#: lib/dotcom_web/views/alert_view.ex:70
+#, elixir-autogen, elixir-format
+msgid " for the "
+msgstr " 为了 "
+
+#: lib/vehicle_helpers.ex:143
+#, elixir-autogen, elixir-format
+msgid " has arrived at "
+msgstr " 已到达 "
+
+#: lib/vehicle_helpers.ex:142
+#, elixir-autogen, elixir-format
+msgid " is arriving at "
+msgstr " 正在到达 "
+
+#: lib/vehicle_helpers.ex:144
+#, elixir-autogen, elixir-format
+msgid " is on the way to "
+msgstr " 正在前往 "
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:17
+#, elixir-autogen, elixir-format
+msgid " may leave ahead of schedule at these stops."
+msgstr " 可能会在这些站点的时刻表之前出发。"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:107
+#, elixir-autogen, elixir-format
+msgid " minute walk"
+msgstr " 步行几分钟"
+
+#: lib/journey.ex:233
+#, elixir-autogen, elixir-format
+msgid " on "
+msgstr " 在 "
+
+#: lib/dotcom_web/views/alert_view.ex:83
+#, elixir-autogen, elixir-format
+msgid " on the "
+msgstr " 在 "
+
+#: lib/vehicle_helpers.ex:107
+#, elixir-autogen, elixir-format
+msgid " on track "
+msgstr " 进展顺利 "
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:47
+#: lib/dotcom_web/templates/error/error_layout.html.heex:26
+#, elixir-autogen, elixir-format
+msgid " or "
+msgstr " 或 "
+
+#: lib/dotcom_web/views/schedule_view.ex:179
+#, elixir-autogen, elixir-format
+msgid " schedule"
+msgstr " 时刻表"
+
+#: lib/dotcom_web/views/schedule_view.ex:180
+#, elixir-autogen, elixir-format
+msgid " schedule and map"
+msgstr " 时刻表和地图"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:127
+#, elixir-autogen, elixir-format
+msgid " symbol. Check "
+msgstr " 象征。查看 "
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:22
+#, elixir-autogen, elixir-format
+msgid " that they wish to leave. Passengers waiting to board must be visible on the platform for the "
+msgstr " 他们想离开。等待上车的乘客必须在车站台上可见 "
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:23
+#, elixir-autogen, elixir-format
+msgid " to stop."
+msgstr " 停止。"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:86
+#, elixir-autogen, elixir-format, fuzzy
+msgid "\"Walking distance\""
+msgstr "步行距离"
+
+#: lib/dotcom/schedule_note.ex:130
+#, elixir-autogen, elixir-format
+msgid "%{avg} minutes"
+msgstr "%{avg}分钟"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:211
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:220
+#, elixir-autogen, elixir-format
+msgid "%{count} Stops"
+msgstr "%{count}停止"
+
+#: lib/dotcom_web/views/helpers/alert_helpers.ex:28
+#, elixir-autogen, elixir-format
+msgid "%{count} alerts"
+msgstr "%{count}警报"
+
+#: lib/dotcom_web/views/cms_view.ex:57
+#, elixir-autogen, elixir-format
+msgid "%{date} at %{start_time} - %{end_time}"
+msgstr "%{date}在%{start_time} - %{end_time}"
+
+#: lib/dotcom_web/components/world_cup_timetable/match_link.ex:56
+#: lib/dotcom_web/views/cms_view.ex:50
+#, elixir-autogen, elixir-format
+msgid "%{date} at %{time}"
+msgstr "%{date}在%{time}"
+
+#: lib/dotcom_web/views/schedule_view.ex:73
+#, elixir-autogen, elixir-format
+msgid "%{date} is outside of our current schedule."
+msgstr "%{date}不在我们当前的时刻表之内。"
+
+#: lib/dotcom_web/components/planned_disruptions.ex:117
+#, elixir-autogen, elixir-format
+msgid "%{date} until further notice"
+msgstr "%{date}直至另行通知"
+
+#: lib/dotcom/schedule_note.ex:136
+#, elixir-autogen, elixir-format
+msgid "%{min} – %{max} minutes"
+msgstr "%{min} – %{max}分钟"
+
+#: lib/dotcom/trip_plan/input_form.ex:249
+#, elixir-autogen, elixir-format
+msgid "%{mode1} and %{mode2}"
+msgstr "%{mode1}和%{mode2}"
+
+#: lib/dotcom/trip_plan/input_form.ex:232
+#, elixir-autogen, elixir-format
+msgid "%{mode_label} Only"
+msgstr "%{mode_label}仅"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:62
+#, elixir-autogen, elixir-format
+msgid "%{name} Commuter Rail"
+msgstr "%{name}通勤铁路"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:237
+#, elixir-autogen, elixir-format
+msgid "%{route_name} to %{headsign}"
+msgstr "%{route_name}到%{headsign}"
+
+#: lib/dotcom_web/views/cms_view.ex:65
+#, elixir-autogen, elixir-format
+msgid "%{sdate} %{stime} - %{edate} %{etime}"
+msgstr "%{sdate} %{stime} - %{edate} %{etime}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:163
+#, elixir-autogen, elixir-format
+msgid "%{time} on %{date}"
+msgstr "%{time}在%{date}"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:39
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:41
+#: lib/vehicle_helpers.ex:166
+#, elixir-autogen, elixir-format
+msgid ", "
+msgstr "， "
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:34
+#, elixir-autogen, elixir-format
+msgid ", cash, or "
+msgstr "现金，或 "
+
+#: lib/dotcom_web/views/alert_view.ex:101
+#, elixir-autogen, elixir-format
+msgid "."
+msgstr "。"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:130
+#, elixir-autogen, elixir-format
+msgid "1 Accessible Route"
+msgid_plural "%{count} Accessible Routes"
+msgstr[0] "%{count}条无障碍路线"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:136
+#, elixir-autogen, elixir-format
+msgid "1 Inaccessible Route"
+msgid_plural "%{count} Inaccessible Routes"
+msgstr[0] "%{count}条无法通行的路线"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:119
+#, elixir-autogen, elixir-format
+msgid "1 Unavailable Route"
+msgid_plural "%{count} Unavailable Routes"
+msgstr[0] "%{count}条不可使用路线"
+
+#: lib/dotcom_web/views/helpers/alert_helpers.ex:27
+#, elixir-autogen, elixir-format
+msgid "1 alert"
+msgstr "1 条警报"
+
+#: lib/dotcom_web/components/search_results_live.ex:89
+#, elixir-autogen, elixir-format
+msgid "1 result"
+msgid_plural "%{count} results"
+msgstr[0] "共 %{count} 个结果"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:223
+#, elixir-autogen, elixir-format
+msgid "1 stop"
+msgid_plural "%{count} stops"
+msgstr[0] "%{count}站"
+
+#: lib/fares/format.ex:117
+#, elixir-autogen, elixir-format
+msgid "1-Day Pass"
+msgstr "1日通票"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:13
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "24 hours, 7 days a week"
+msgstr "每周 7 天，每天 24 小时"
+
+#: lib/dotcom_web/views/fare_view.ex:50
+#: lib/dotcom_web/views/fare_view.ex:73
+#: lib/fares/format.ex:64
+#: lib/fares/format.ex:116
+#, elixir-autogen, elixir-format
+msgid "7-Day Pass"
+msgstr "7天通票"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex:8
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "711 for TTY callers;  VRS for ASL callers"
+msgstr "TTY用户请拨打711；ASL用户请拨打VRS。"
+
+#: lib/fares/format.ex:104
+#, elixir-autogen, elixir-format
+msgid "ADA Ride"
+msgstr "ADA乘车"
+
+#: lib/fares/format.ex:118
+#, elixir-autogen, elixir-format
+msgid "ADA Ride Fare"
+msgstr "ADA乘车费用"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:23
+#, elixir-autogen, elixir-format
+msgid "ADA/Accessibility Complaints"
+msgstr "ADA/无障碍投诉"
+
+#: lib/dotcom_web/views/layout_view.ex:188
+#, elixir-autogen, elixir-format
+msgid "About"
+msgstr "关于"
+
+#: lib/dotcom_web/views/helpers.ex:249
+#, elixir-autogen, elixir-format
+msgid "Access"
+msgstr "使用权"
+
+#: lib/alerts/alert.ex:227
+#, elixir-autogen, elixir-format
+msgid "Access Issue"
+msgstr "访问问题"
+
+#: lib/alerts/accessibility.ex:16
+#, elixir-autogen, elixir-format
+msgid "Access Issues"
+msgstr "访问问题"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:9
+#: lib/dotcom_web/templates/page/_important_links.html.heex:7
+#: lib/dotcom_web/views/layout_view.ex:108
+#, elixir-autogen, elixir-format
+msgid "Accessibility"
+msgstr "无障碍"
+
+#: lib/dotcom_web/components/timetable.ex:281
+#: lib/dotcom_web/components/transit_icons.ex:15
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:78
+#, elixir-autogen, elixir-format
+msgid "Accessible"
+msgstr "无障碍"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Add"
+msgstr "添加"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Add event to calendar"
+msgstr "将事件添加到日历"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex:14
+#: lib/dotcom_web/templates/event/show.html.heex:114
+#, elixir-autogen, elixir-format
+msgid "Add to Calendar"
+msgstr "添加到日历"
+
+#: lib/dotcom_web/templates/layout/admin.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Admins Only"
+msgstr "仅限管理员"
+
+#: lib/fares/fare_info.ex:845
+#, elixir-autogen, elixir-format
+msgid "Adult"
+msgstr "成人"
+
+#: lib/dotcom_web/templates/event/show.html.heex:70
+#: lib/dotcom_web/templates/event/show.html.heex:131
+#: lib/dotcom_web/templates/event/show.html.heex:151
+#, elixir-autogen, elixir-format
+msgid "Agenda"
+msgstr "议程"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:185
+#, elixir-autogen, elixir-format
+msgid "Alert"
+msgstr "警报"
+
+#: lib/dotcom_web/components/layouts/alerts_layout.html.heex:3
+#: lib/dotcom_web/controllers/alert_controller.ex:96
+#: lib/dotcom_web/live/commuter_rail_alerts_live.ex:33
+#: lib/dotcom_web/live/subway_alerts_live.ex:31
+#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:49
+#: lib/dotcom_web/templates/schedule/_alerts.html.heex:15
+#: lib/dotcom_web/views/schedule_view.ex:300
+#, elixir-autogen, elixir-format
+msgid "Alerts"
+msgstr "警报"
+
+#: lib/dotcom_web/controllers/schedule/alerts_controller.ex:42
+#, elixir-autogen, elixir-format
+msgid "Alerts for MBTA %{description}"
+msgstr "MBTA %{description}的警报"
+
+#: lib/dotcom_web/templates/alert/show.html.heex:12
+#: lib/dotcom_web/views/partial_view.ex:191
+#, elixir-autogen, elixir-format
+msgid "All Alerts"
+msgstr "所有警报"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:160
+#, elixir-autogen, elixir-format
+msgid "All Inbound Trains"
+msgstr "所有进站列车"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "All Location Types"
+msgstr "所有位置类型"
+
+#: lib/dotcom_web/views/layout_view.ex:226
+#, elixir-autogen, elixir-format
+msgid "All MBTA Improvement Projects"
+msgstr "所有MBTA改进项目"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:154
+#, elixir-autogen, elixir-format
+msgid "All Outbound Trains"
+msgstr "所有出站列车"
+
+#: lib/dotcom_web/views/layout_view.ex:94
+#, elixir-autogen, elixir-format
+msgid "All Schedules & Maps"
+msgstr "所有时刻表和地图"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:166
+#, elixir-autogen, elixir-format
+msgid "All Trains"
+msgstr "所有列车"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:151
+#, elixir-autogen, elixir-format
+msgid "All Trains Cancelled"
+msgstr "所有列车取消"
+
+#: lib/dotcom_web/templates/project/updates.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "All Updates"
+msgstr "所有更新"
+
+#: lib/fares/format.ex:187
+#, elixir-autogen, elixir-format
+msgid "All ferry routes"
+msgstr "所有渡轮航线"
+
+#: lib/dotcom_web/views/customer_support_view.ex:46
+#, elixir-autogen, elixir-format
+msgid "All fields with an asterisk* are required."
+msgstr "标有星号*的字段均为必填项。"
+
+#: lib/dotcom/trip_plan/input_form.ex:229
+#: lib/dotcom/trip_plan/input_form.ex:238
+#, elixir-autogen, elixir-format
+msgid "All modes"
+msgstr "所有模式"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
+msgstr "所有拟定地点均需视场地适宜性、许可证办理情况和零售供应情况而定。"
+
+#: lib/alerts/alert.ex:228
+#, elixir-autogen, elixir-format
+msgid "Amber Alert"
+msgstr "安珀警报"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
+msgstr "Downtown Crossing车站入口的外部照片。 街道两旁飘扬着美国国旗，远处可见摩天大楼。许多行人正从旁边经过。"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:75
+#: lib/dotcom_web/components/trip_planner/results.ex:157
+#, elixir-autogen, elixir-format
+msgid "Arrive by"
+msgstr "到达时间"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:77
+#, elixir-autogen, elixir-format
+msgid "Arriving by %{time}"
+msgstr "到达时间： %{time}"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:122
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
+msgstr "在北行、南行、 Back Bay和Ruggles车站外有多条轨道的车站，进站列车从 2 号轨道上车，出站列车从 1 号轨道上车，除非另有说明。 计划中的轨道变更将以以下方式标示： "
+
+#: lib/dotcom_web/templates/event/show.html.heex:118
+#, elixir-autogen, elixir-format
+msgid "Attendees"
+msgstr "与会者"
+
+#: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex:72
+#, elixir-autogen, elixir-format
+msgid "Bad grouped fare card data"
+msgstr "错误的团体票价卡数据"
+
+#: lib/dotcom/utils/service_date_time.ex:85
+#, elixir-autogen, elixir-format
+msgid "Before Today"
+msgstr "今天之前"
+
+#: lib/dotcom_web/views/layout_view.ex:225
+#, elixir-autogen, elixir-format
+msgid "Better Bus Project"
+msgstr "更好的巴士项目"
+
+#: lib/dotcom_web/components/timetable.ex:82
+#, elixir-autogen, elixir-format
+msgid "Bicycles Allowed?"
+msgstr "允许骑自行车吗？"
+
+#: lib/dotcom_web/components/timetable.ex:101
+#: lib/dotcom_web/components/timetable.ex:105
+#, elixir-autogen, elixir-format
+msgid "Bicycles allowed"
+msgstr "允许骑自行车"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions."
+msgstr "列车车次下方带有自行车标志的列车允许携带自行车上车，但需遵守相关限制。"
+
+#: lib/dotcom_web/components/timetable.ex:107
+#, elixir-autogen, elixir-format
+msgid "Bicycles not allowed"
+msgstr "禁止骑自行车"
+
+#: lib/dotcom/alerts/commuter_rail.ex:17
+#: lib/dotcom/alerts/subway.ex:16
+#, elixir-autogen, elixir-format
+msgid "Bike"
+msgstr "自行车"
+
+#: lib/alerts/alert.ex:229
+#, elixir-autogen, elixir-format
+msgid "Bike Issue"
+msgstr "自行车问题"
+
+#: lib/dotcom_web/views/layout_view.ex:105
+#, elixir-autogen, elixir-format
+msgid "Bikes"
+msgstr "自行车"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:94
+#, elixir-autogen, elixir-format
+msgid "Bikes Allowed"
+msgstr "允许骑自行车"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:160
+#, elixir-autogen, elixir-format
+msgid "Bikes are allowed on all ferry boats"
+msgstr "所有渡轮都允许携带自行车。"
+
+#: lib/dotcom_web/views/helpers.ex:250
+#, elixir-autogen, elixir-format
+msgid "Blue Line"
+msgstr "Blue Line"
+
+#: lib/hub_stops.ex:41
+#, elixir-autogen, elixir-format
+msgid "Blue Line subway platform inside State Street"
+msgstr "Blue Line地铁站台位于State Street 内"
+
+#: lib/hub_stops.ex:43
+#, elixir-autogen, elixir-format
+msgid "Blue Line train departing Airport station"
+msgstr "Blue Line火车从Airport车站出发"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Boston Visitor's Guide to The T"
+msgstr "波士顿地铁游客指南"
+
+#: lib/dotcom/trip_plan/input_form.ex:201
+#: lib/dotcom_web/controllers/mode/bus.ex:14
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:33
+#: lib/dotcom_web/views/helpers.ex:238
+#: lib/dotcom_web/views/layout_view.ex:90
+#, elixir-autogen, elixir-format
+msgid "Bus"
+msgstr "巴士"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Bus Beginner's Guide"
+msgstr "巴士初学者指南"
+
+#: lib/dotcom_web/controllers/mode/bus.ex:28
+#: lib/dotcom_web/views/layout_view.ex:138
+#, elixir-autogen, elixir-format
+msgid "Bus Fares"
+msgstr "巴士票价"
+
+#: lib/dotcom_web/views/mode_view.ex:191
+#, elixir-autogen, elixir-format
+msgid "Bus Map"
+msgstr "巴士地图"
+
+#: lib/dotcom_web/views/schedule_view.ex:280
+#, elixir-autogen, elixir-format
+msgid "Bus Route"
+msgstr "巴士路线"
+
+#: lib/feedback/message.ex:19
+#: lib/feedback/message.ex:32
+#, elixir-autogen, elixir-format
+msgid "Bus Stop"
+msgstr "巴士站"
+
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Bus Stop Changes"
+msgstr "巴士站变更"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:55
+#, elixir-autogen, elixir-format
+msgid "Business"
+msgstr "商业"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:83
+#: lib/dotcom_web/views/layout_view.ex:212
+#, elixir-autogen, elixir-format
+msgid "Business Opportunities"
+msgstr "商业机会"
+
+#: lib/dotcom_web/templates/event/index.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Calendar view"
+msgstr "日历视图"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:18
+#: lib/dotcom_web/templates/layout/_footer.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Call Us"
+msgstr "致电我们"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "取消"
+
+#: lib/alerts/alert.ex:230
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:124
+#, elixir-autogen, elixir-format
+msgid "Cancellation"
+msgstr "取消"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:127
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:141
+#, elixir-autogen, elixir-format
+msgid "Cancellations"
+msgstr "取消"
+
+#: lib/dotcom_web/views/layout_view.ex:221
+#, elixir-autogen, elixir-format
+msgid "Capital Transformation"
+msgstr "资本转型"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:74
+#: lib/dotcom_web/templates/page/_important_links.html.heex:31
+#: lib/dotcom_web/views/layout_view.ex:210
+#, elixir-autogen, elixir-format
+msgid "Careers"
+msgstr "职业生涯"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:45
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:56
+#: lib/fares/retail_locations_data.ex:91
+#, elixir-autogen, elixir-format
+msgid "Cash"
+msgstr "现金"
+
+#: lib/dotcom_web/views/schedule_view.ex:561
+#, elixir-autogen, elixir-format
+msgid "Change"
+msgstr "改变"
+
+#: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Change Date"
+msgstr "更改日期"
+
+#: lib/dotcom_web/templates/schedule/_direction_select.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Change Direction of Trip."
+msgstr "改变行程方向。"
+
+#: lib/dotcom_web/views/schedule_view.ex:561
+#, elixir-autogen, elixir-format
+msgid "Changes"
+msgstr "变化"
+
+#: lib/fares/format.ex:89
+#, elixir-autogen, elixir-format
+msgid "Charlestown Ferry"
+msgstr "Charlestown Ferry"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Charlie Retailer"
+msgstr "查理零售商"
+
+#: lib/dotcom_web/views/layout_view.ex:146
+#, elixir-autogen, elixir-format
+msgid "Charlie Service Center"
+msgstr "Charlie 服务中心"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:69
+#: lib/fares/format.ex:35
+#, elixir-autogen, elixir-format
+msgid "CharlieCard"
+msgstr "查理卡"
+
+#: lib/feedback/message.ex:20
+#: lib/feedback/message.ex:33
+#: lib/feedback/message.ex:45
+#, elixir-autogen, elixir-format
+msgid "CharlieCards & Tickets"
+msgstr "查理卡和车票"
+
+#: lib/fares/format.ex:36
+#: lib/fares/format.ex:37
+#, elixir-autogen, elixir-format
+msgid "CharlieTicket"
+msgstr "CharlieTicket"
+
+#: lib/fares/retail_locations_data.ex:92
+#, elixir-autogen, elixir-format
+msgid "Check"
+msgstr "查看"
+
+#: lib/fares/fare_info.ex:846
+#, elixir-autogen, elixir-format
+msgid "Child"
+msgstr "孩子"
+
+#: lib/fares/fare_info.ex:847
+#, elixir-autogen, elixir-format
+msgid "Child under 3"
+msgstr "3岁以下儿童"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Civil Rights"
+msgstr "民权"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:76
+#, elixir-autogen, elixir-format
+msgid "Clickable graphic for User Guides"
+msgstr "用户可点击的图形指南"
+
+#: lib/dotcom_web/components/components.ex:309
+#: lib/dotcom_web/live/search_page_live.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "关闭"
+
+#: lib/dotcom_web/templates/event/_popup.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "关闭对话框"
+
+#: lib/fares/retail_locations_data.ex:93
+#, elixir-autogen, elixir-format
+msgid "Coin"
+msgstr "硬币"
+
+#: lib/feedback/message.ex:30
+#, elixir-autogen, elixir-format
+msgid "Comment"
+msgstr "评论"
+
+#: lib/fares/format.ex:97
+#, elixir-autogen, elixir-format
+msgid "Commuter Ferry to Logan Airport"
+msgstr "通勤渡轮到洛根Airport"
+
+#: lib/dotcom/trip_plan/input_form.ex:198
+#: lib/dotcom_web/components/route_symbols.ex:248
+#: lib/dotcom_web/controllers/mode/commuter.ex:13
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:29
+#: lib/dotcom_web/hooks/breadcrumbs.ex:24
+#: lib/dotcom_web/views/customer_support_view.ex:109
+#: lib/dotcom_web/views/helpers.ex:237
+#: lib/dotcom_web/views/layout_view.ex:91
+#: lib/dotcom_web/views/page_view.ex:191
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail"
+msgstr "通勤火车"
+
+#: lib/fares/format.ex:189
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail "
+msgstr "通勤火车 "
+
+#: lib/dotcom_web/controllers/mode/commuter.ex:31
+#: lib/dotcom_web/views/layout_view.ex:139
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Fares"
+msgstr "通勤铁路票价"
+
+#: lib/dotcom_web/views/mode_view.ex:189
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Map"
+msgstr "通勤铁路地图"
+
+#: lib/dotcom_web/views/fare_view.ex:84
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Monthly Pass"
+msgstr "通勤铁路月票 通票"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail One-Way"
+msgstr "通勤铁路单程票"
+
+#: lib/dotcom_web/views/layout_view.ex:223
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Positive Train Control"
+msgstr "通勤铁路正线控制系统"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:38
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Status"
+msgstr "通勤铁路状况"
+
+#: lib/dotcom_web/views/mode_view.ex:188
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Zones Map"
+msgstr "通勤铁路区域地图"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days."
+msgstr "通勤铁路座位可用性会定期更新，以反映过去 14-30 天的自动和乘务员数据所显示的典型客流量。"
+
+#: lib/feedback/message.ex:17
+#, elixir-autogen, elixir-format
+msgid "Complaint"
+msgstr "投诉"
+
+#: lib/feedback/message.ex:58
+#, elixir-autogen, elixir-format
+msgid "Compliment"
+msgstr "赞扬"
+
+#: lib/dotcom_web/views/layout_view.ex:158
+#, elixir-autogen, elixir-format
+msgid "Contact"
+msgstr "联系"
+
+#: lib/dotcom_web/templates/page/_contact_us.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Contact Us"
+msgstr "联系我们"
+
+#: lib/dotcom_web/views/layout_view.ex:184
+#, elixir-autogen, elixir-format
+msgid "Contact numbers"
+msgstr "联系电话"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:500
+#, elixir-autogen, elixir-format
+msgid "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, lost and found, and accessibility."
+msgstr "联系 MBTA 客户支持团队，并查看交通警察、失物招领处和无障碍设施的更多联系电话。"
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Contact the Transit Police"
+msgstr "请联系交通警察"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:204
+#, elixir-autogen, elixir-format
+msgid "Continue"
+msgstr "继续"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Create an Account"
+msgstr "创建一个帐户"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:54
+#: lib/fares/retail_locations_data.ex:94
+#, elixir-autogen, elixir-format
+msgid "Credit/Debit Card"
+msgstr "信用卡/借记卡"
+
+#: lib/fares/format.ex:90
+#, elixir-autogen, elixir-format
+msgid "Cross Harbor Ferry"
+msgstr "跨港渡轮"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Crosstown"
+msgstr "克罗斯敦"
+
+#: lib/dotcom_web/views/schedule_view.ex:172
+#, elixir-autogen, elixir-format
+msgid "Current"
+msgstr "当前的"
+
+#: lib/dotcom_web/views/partial_view.ex:192
+#, elixir-autogen, elixir-format
+msgid "Current Alerts"
+msgstr "当前警报"
+
+#: lib/dotcom_web/views/bus_stop_change_view.ex:75
+#, elixir-autogen, elixir-format
+msgid "Current Changes"
+msgstr "当前变化"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Current seat availability thresholds are:"
+msgstr "当前座位可用阈值为："
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:107
+#: lib/dotcom_web/controllers/customer_support_controller.ex:234
+#: lib/dotcom_web/controllers/customer_support_controller.ex:247
+#: lib/dotcom_web/controllers/customer_support_controller.ex:257
+#: lib/dotcom_web/templates/customer_support/index.html.heex:3
+#: lib/dotcom_web/templates/layout/_footer.html.heex:15
+#: lib/dotcom_web/views/layout_view.ex:162
+#, elixir-autogen, elixir-format
+msgid "Customer Support"
+msgstr "客户支持"
+
+#: lib/dotcom_web/templates/event/show.html.heex:107
+#, elixir-autogen, elixir-format
+msgid "Date"
+msgstr "日期"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Date and Time"
+msgstr "日期和时间"
+
+#: lib/fares/format.ex:60
+#, elixir-autogen, elixir-format
+msgid "Day Pass"
+msgstr "日通票"
+
+#: lib/alerts/alert.ex:231
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:130
+#, elixir-autogen, elixir-format
+msgid "Delay"
+msgstr "延误"
+
+#: lib/journey.ex:251
+#, elixir-autogen, elixir-format
+msgid "Delayed %{minutes}"
+msgstr "延迟%{minutes}"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:133
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:136
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:141
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:154
+#, elixir-autogen, elixir-format
+msgid "Delays"
+msgstr "延误"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:197
+#, elixir-autogen, elixir-format
+msgid "Depart"
+msgstr "出发"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:157
+#, elixir-autogen, elixir-format
+msgid "Depart at"
+msgstr "出发"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:73
+#, elixir-autogen, elixir-format
+msgid "Destination location is not close enough to any transit stops"
+msgstr "目的地距离任何公交站点都太远。"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:59
+#, elixir-autogen, elixir-format
+msgid "Destination location is outside of our service area"
+msgstr "目的地位于我们的服务区域之外"
+
+#: lib/dotcom_web/views/layout_view.ex:115
+#, elixir-autogen, elixir-format
+msgid "Destinations"
+msgstr "目的地"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:287
+#, elixir-autogen, elixir-format
+msgid "Details"
+msgstr "细节"
+
+#: lib/alerts/alert.ex:232
+#, elixir-autogen, elixir-format
+msgid "Detour"
+msgstr "绕行"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:91
+#, elixir-autogen, elixir-format
+msgid "Developers"
+msgstr "开发者"
+
+#: lib/dotcom_web/templates/schedule/_direction_select.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Direction of your trip"
+msgstr "您的旅行方向"
+
+#: lib/feedback/message.ex:46
+#, elixir-autogen, elixir-format
+msgid "Disability ID Cards"
+msgstr "残障身份证"
+
+#: lib/alerts/alert.ex:233
+#, elixir-autogen, elixir-format
+msgid "Dock Closure"
+msgstr "码头关闭"
+
+#: lib/alerts/alert.ex:234
+#, elixir-autogen, elixir-format
+msgid "Dock Issue"
+msgstr "码头问题"
+
+#: lib/dotcom_web/live/search_page_live.ex:87
+#, elixir-autogen, elixir-format
+msgid "Documents"
+msgstr "文件"
+
+#: lib/dotcom_web/components/timetable.ex:370
+#, elixir-autogen, elixir-format
+msgid "Does not stop at"
+msgstr "并未就此止步"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:127
+#, elixir-autogen, elixir-format
+msgid "Due to Single Tracking"
+msgstr "由于单轨"
+
+#: lib/fares/retail_locations_data.ex:95
+#, elixir-autogen, elixir-format
+msgid "EZ Pass"
+msgstr "EZ 通票"
+
+#: lib/dotcom_web/components/timetable.ex:33
+#: lib/dotcom_web/components/timetable.ex:179
+#, elixir-autogen, elixir-format
+msgid "Earlier"
+msgstr "早些时候"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:241
+#, elixir-autogen, elixir-format
+msgid "Earliest Arrival"
+msgstr "最早到达"
+
+#: lib/dotcom_web/components/timetable.ex:358
+#, elixir-autogen, elixir-format
+msgid "Early Departure"
+msgstr "提前出发"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:108
+#: lib/dotcom_web/views/schedule/timetable.ex:46
+#, elixir-autogen, elixir-format
+msgid "Early Departure Stop"
+msgstr "提前出发停靠站"
+
+#: lib/fares/format.ex:92
+#, elixir-autogen, elixir-format
+msgid "East Boston Ferry"
+msgstr "East Boston Ferry"
+
+#: lib/routes/parser.ex:69
+#: lib/routes/repo.ex:193
+#, elixir-autogen, elixir-format
+msgid "Eastbound"
+msgstr "东行"
+
+#: lib/alerts/alert.ex:215
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:52
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "Elevator"
+msgstr "电梯"
+
+#: lib/dotcom/alerts/commuter_rail.ex:16
+#: lib/dotcom/alerts/subway.ex:15
+#, elixir-autogen, elixir-format
+msgid "Elevator & Escalator"
+msgstr "电梯和自动扶梯"
+
+#: lib/alerts/alert.ex:235
+#, elixir-autogen, elixir-format
+msgid "Elevator Closure"
+msgstr "电梯关闭"
+
+#: lib/alerts/accessibility.ex:17
+#, elixir-autogen, elixir-format
+msgid "Elevator Closures"
+msgstr "电梯关闭"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Elevator/Escalator Hotline"
+msgstr "电梯/自动扶梯热线"
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Emergency"
+msgstr "紧急情况"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:12
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:30
+#: lib/dotcom_web/views/layout_view.ex:183
+#, elixir-autogen, elixir-format
+msgid "Emergency Contacts"
+msgstr "紧急情况 联系方式"
+
+#: lib/feedback/message.ex:60
+#, elixir-autogen, elixir-format
+msgid "Employee"
+msgstr "员工"
+
+#: lib/feedback/message.ex:21
+#, elixir-autogen, elixir-format
+msgid "Employee Complaint"
+msgstr "员工投诉"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Ended"
+msgstr "结束"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:87
+#: lib/dotcom_web/views/layout_view.ex:213
+#, elixir-autogen, elixir-format
+msgid "Engineering Design Standards"
+msgstr "工程设计标准"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:62
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Enter a destination location"
+msgstr "输入目的地"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:139
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:29
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Enter a location"
+msgstr "输入位置"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:43
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Enter an origin location"
+msgstr "输入起始位置"
+
+#: lib/dotcom_web/templates/project/index.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Enter keyword(s)"
+msgstr "输入关键词"
+
+#: lib/dotcom_web/templates/project/index.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Enter project keywords"
+msgstr "输入项目关键词"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:210
+#, elixir-autogen, elixir-format
+msgid "Enter the station"
+msgstr "进入车站"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:205
+#: lib/dotcom_web/components/trip_planner/helpers.ex:206
+#, elixir-autogen, elixir-format
+msgid "Enter the traffic circle"
+msgstr "进入交通圈"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "Enter your registered address"
+msgstr "请输入您的注册地址"
+
+#: lib/hub_stops.ex:31
+#, elixir-autogen, elixir-format
+msgid "Entrance to Blue and Green Lines outside Government Center"
+msgstr "Government Center外的Blue和Green线入口"
+
+#: lib/hub_stops.ex:21
+#: lib/hub_stops.ex:29
+#, elixir-autogen, elixir-format
+msgid "Entrance to Green and Red Lines outside Park Street"
+msgstr "Park Street外的Green和Red入口"
+
+#: lib/hub_stops.ex:23
+#, elixir-autogen, elixir-format
+msgid "Entrance to Orange and Red Lines outside Downtown Crossing"
+msgstr "Downtown Crossing外的Orange和Red入口"
+
+#: lib/hub_stops.ex:37
+#, elixir-autogen, elixir-format
+msgid "Entrance to Ruggles station"
+msgstr "进入Ruggles车站"
+
+#: lib/hub_stops.ex:12
+#: lib/hub_stops.ex:19
+#, elixir-autogen, elixir-format
+msgid "Entrances to Red Line and Commuter Rail outside South Station"
+msgstr "South Station外进入Red Line并通勤铁路"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Error"
+msgstr "错误"
+
+#: lib/alerts/alert.ex:215
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "Escalator"
+msgstr "自动扶梯"
+
+#: lib/alerts/alert.ex:236
+#, elixir-autogen, elixir-format
+msgid "Escalator Closure"
+msgstr "自动扶梯关闭"
+
+#: lib/alerts/accessibility.ex:18
+#, elixir-autogen, elixir-format
+msgid "Escalator Closures"
+msgstr "自动扶梯关闭"
+
+#: lib/dotcom_web/templates/event/show.html.heex:27
+#: lib/dotcom_web/templates/event/show.html.heex:123
+#, elixir-autogen, elixir-format
+msgid "Event Description"
+msgstr "活动描述"
+
+#: lib/dotcom_web/templates/event/_popup.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Event summary for "
+msgstr "事件概要 "
+
+#: lib/dotcom_web/controllers/event_controller.ex:28
+#: lib/dotcom_web/controllers/event_controller.ex:94
+#: lib/dotcom_web/live/search_page_live.ex:88
+#: lib/dotcom_web/templates/event/_month.html.heex:13
+#: lib/dotcom_web/templates/event/index.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Events"
+msgstr "活动"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:211
+#, elixir-autogen, elixir-format
+msgid "Exit the station"
+msgstr "离开车站"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:153
+#, elixir-autogen, elixir-format
+msgid "Expect Delays"
+msgstr "预计延误"
+
+#: lib/dotcom_web/templates/stop/index.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "Explore stations by mode"
+msgstr "按模式探索车站"
+
+#: lib/fares/format.ex:88
+#, elixir-autogen, elixir-format
+msgid "Express Bus"
+msgstr "快速巴士"
+
+#: lib/dotcom_web/views/fare_view.ex:65
+#, elixir-autogen, elixir-format
+msgid "Express Bus One-Way"
+msgstr "快速巴士单程票"
+
+#: lib/hub_stops.ex:42
+#, elixir-autogen, elixir-format
+msgid "Exterior of Wonderland station"
+msgstr "Wonderland车站外观"
+
+#: lib/alerts/alert.ex:237
+#: lib/dotcom/service_patterns.ex:212
+#, elixir-autogen, elixir-format
+msgid "Extra Service"
+msgstr "额外服务"
+
+#: lib/alerts/alert.ex:238
+#, elixir-autogen, elixir-format
+msgid "Facility Issue"
+msgstr "设施问题"
+
+#: lib/fares/fare_info.ex:851
+#, elixir-autogen, elixir-format
+msgid "Family 4-pack (2 adults, 2 children)"
+msgstr "家庭四人套餐（2 位成人，2 位儿童）"
+
+#: lib/feedback/message.ex:22
+#, elixir-autogen, elixir-format
+msgid "Fare Evasion"
+msgstr "逃票"
+
+#: lib/feedback/message.ex:34
+#: lib/feedback/message.ex:47
+#, elixir-autogen, elixir-format
+msgid "Fare Policy"
+msgstr "票价政策"
+
+#: lib/dotcom_web/controllers/fare_controller.ex:106
+#: lib/dotcom_web/views/layout_view.ex:131
+#, elixir-autogen, elixir-format
+msgid "Fare Transformation"
+msgstr "票价转换"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Fare Vending Machine"
+msgstr "自动售票机"
+
+#: lib/dotcom_web/controllers/fare_controller.ex:117
+#: lib/dotcom_web/templates/mode/hub.html.heex:35
+#: lib/dotcom_web/templates/mode/index.html.heex:37
+#: lib/dotcom_web/templates/page/_fares_passes.html.heex:4
+#: lib/dotcom_web/views/layout_view.ex:122
+#, elixir-autogen, elixir-format
+msgid "Fares"
+msgstr "票价"
+
+#: lib/dotcom_web/views/layout_view.ex:126
+#, elixir-autogen, elixir-format
+msgid "Fares Info"
+msgstr "票价信息"
+
+#: lib/dotcom_web/templates/page/_fares_passes.html.heex:14
+#: lib/dotcom_web/views/layout_view.ex:128
+#, elixir-autogen, elixir-format
+msgid "Fares Overview"
+msgstr "票价概览"
+
+#: lib/dotcom_web/views/layout_view.ex:135
+#, elixir-autogen, elixir-format
+msgid "Fares by Mode"
+msgstr "各交通方式票价"
+
+#: lib/dotcom_web/controllers/mode/ferry.ex:15
+#, elixir-autogen, elixir-format
+msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
+msgstr "Hingham / Hull渡轮和Charlestown渡轮之间的票价有所不同。 请参考以下信息："
+
+#: lib/dotcom_web/templates/page/_whats_happening.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Featured MBTA Updates and Projects"
+msgstr "MBTA 最新动态和项目"
+
+#: lib/dotcom/trip_plan/input_form.ex:202
+#: lib/dotcom_web/components/route_symbols.ex:249
+#: lib/dotcom_web/controllers/mode/ferry.ex:10
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:37
+#: lib/dotcom_web/views/customer_support_view.ex:111
+#: lib/dotcom_web/views/helpers.ex:239
+#: lib/dotcom_web/views/layout_view.ex:92
+#, elixir-autogen, elixir-format
+msgid "Ferry"
+msgstr "渡轮"
+
+#: lib/fares/format.ex:190
+#, elixir-autogen, elixir-format
+msgid "Ferry "
+msgstr "渡轮 "
+
+#: lib/dotcom_web/views/layout_view.ex:140
+#, elixir-autogen, elixir-format
+msgid "Ferry Fares"
+msgstr "渡轮票价"
+
+#: lib/dotcom_web/views/mode_view.ex:192
+#, elixir-autogen, elixir-format
+msgid "Ferry Map"
+msgstr "渡轮地图"
+
+#: lib/dotcom_web/views/fare_view.ex:95
+#, elixir-autogen, elixir-format
+msgid "Ferry Monthly Pass"
+msgstr "渡轮 月票 通票"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:72
+#, elixir-autogen, elixir-format
+msgid "Few Seats Available"
+msgstr "座位有限"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:28
+#, elixir-autogen, elixir-format
+msgid "File a Discrimination Complaint"
+msgstr "提交歧视投诉"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:81
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "Fill out the form"
+msgstr "填写表格"
+
+#: lib/dotcom_web/live/search_page_live.html.heex:37
+#: lib/dotcom_web/live/search_page_live.html.heex:41
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex:19
+#: lib/dotcom_web/views/partial_view.ex:154
+#, elixir-autogen, elixir-format
+msgid "Filter by type"
+msgstr "按类型筛选"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:49
+#: lib/dotcom_web/views/layout_view.ex:197
+#, elixir-autogen, elixir-format
+msgid "Financials"
+msgstr "财务"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Find Proposed Locations Near You"
+msgstr "查找您附近的拟建地点"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Find Your Polling Place"
+msgstr "查找您的投票地点"
+
+#: lib/dotcom_web/templates/page/_find_a_location.html.heex:4
+#: lib/dotcom_web/views/layout_view.ex:112
+#, elixir-autogen, elixir-format
+msgid "Find a Location"
+msgstr "查找位置"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Find a Store Near You"
+msgstr "查找您附近的门店"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Find out how to get involved"
+msgstr "了解如何参与"
+
+#: lib/dotcom_web/components/timetable.ex:354
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:101
+#: lib/dotcom_web/views/schedule/timetable.ex:50
+#, elixir-autogen, elixir-format
+msgid "Flag Stop"
+msgstr "旗停"
+
+#: lib/dotcom_web/views/schedule_view.ex:500
+#, elixir-autogen, elixir-format
+msgid "Flag the bus in any safe place along the route"
+msgstr "在沿途任何安全地点拦停巴士"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Follow @MBTA on Twitter"
+msgstr "请在 Twitter 上关注 @MBTA"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Follow @MBTA_CR on Twitter"
+msgstr "请在推特上关注@MBTA_CR"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:212
+#, elixir-autogen, elixir-format
+msgid "Follow signs"
+msgstr "遵循指示牌"
+
+#: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
+msgstr "请点击以下链接查找与您丢失物品的交通方式或路线相关的编号。"
+
+#: lib/dotcom_web/controllers/mode/bus.ex:19
+#, elixir-autogen, elixir-format
+msgid "For Express Bus fares, read the complete %{link} page."
+msgstr "有关快速巴士票价，请阅读完整的%{link}页面。"
+
+#: lib/dotcom_web/components/alerts.ex:48
+#, elixir-autogen, elixir-format
+msgid "For more information"
+msgstr "更多信息"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "For questions or comments about this press release, please contact"
+msgstr "如有任何关于此新闻稿的问题或意见，请联系我们。"
+
+#: lib/dotcom/schedule_note.ex:109
+#, elixir-autogen, elixir-format
+msgid "For regular weekday service to Foxboro please visit: "
+msgstr "如需前往Foxboro定期工作日服务，请访问： "
+
+#: lib/fares/format.ex:100
+#, elixir-autogen, elixir-format
+msgid "Foxboro Special Event"
+msgstr "Foxboro特别活动"
+
+#: lib/dotcom/schedule_note.ex:112
+#, elixir-autogen, elixir-format
+msgid "Franklin Line"
+msgstr "Franklin线"
+
+#: lib/dotcom_web/views/schedule_view.ex:360
+#: lib/fares/format.ex:17
+#: lib/fares/format.ex:20
+#, elixir-autogen, elixir-format
+msgid "Free"
+msgstr "免费"
+
+#: lib/dotcom_web/views/helpers.ex:251
+#: lib/fares/format.ex:102
+#, elixir-autogen, elixir-format
+msgid "Free Service"
+msgstr "免费服务"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "Friday"
+msgstr "星期五"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:144
+#, elixir-autogen, elixir-format
+msgid "From"
+msgstr "从"
+
+#: lib/fares/format.ex:95
+#, elixir-autogen, elixir-format
+msgid "Georges Island"
+msgstr "Georges Island"
+
+#: lib/dotcom_web/templates/fare/_nearby_locations.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Get Directions"
+msgstr "获取路线"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "Get Involved"
+msgstr "介入"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:38
+#, elixir-autogen, elixir-format
+msgid "Get Service Updates"
+msgstr "获取服务更新"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Get T-Alerts"
+msgstr "获取T-Alerts"
+
+#: lib/dotcom_web/views/layout_view.ex:149
+#, elixir-autogen, elixir-format
+msgid "Get a CharlieCard"
+msgstr "办一张查理卡"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:38
+#: lib/dotcom_web/views/layout_view.ex:192
+#, elixir-autogen, elixir-format
+msgid "Get to Know Us"
+msgstr "了解我们"
+
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Get trip suggestions"
+msgstr "获取旅行建议"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:213
+#, elixir-autogen, elixir-format
+msgid "Go"
+msgstr "去"
+
+#: lib/dotcom_web/views/helpers.ex:252
+#, elixir-autogen, elixir-format
+msgid "Green Line"
+msgstr "Green Line"
+
+#: lib/dotcom_web/components/route_symbols.ex:253
+#, elixir-autogen, elixir-format
+msgid "Green Line %{branch} Branch"
+msgstr "Green Line %{branch}支线"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:200
+#, elixir-autogen, elixir-format
+msgid "Hard left"
+msgstr "极左"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:203
+#, elixir-autogen, elixir-format
+msgid "Hard right"
+msgstr "极右翼"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:856
+#: lib/dotcom_web/templates/stop/index.html.heex:75
+#, elixir-autogen, elixir-format
+msgid "Hide"
+msgstr "隐藏"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:193
+#, elixir-autogen, elixir-format
+msgid "Hide Details"
+msgstr "隐藏详情"
+
+#: lib/fares/format.ex:96
+#, elixir-autogen, elixir-format
+msgid "Hingham/Hull Ferry"
+msgstr "Hingham/Hull Ferry"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:44
+#: lib/dotcom_web/views/layout_view.ex:196
+#, elixir-autogen, elixir-format
+msgid "History"
+msgstr "历史"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:29
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:89
+#: lib/dotcom_web/views/layout_view.ex:107
+#, elixir-autogen, elixir-format
+msgid "Holidays"
+msgstr "假期"
+
+#: lib/cms/breadcrumbs.ex:19
+#: lib/util/breadcrumb_html.ex:74
+#: lib/util/breadcrumb_html.ex:113
+#, elixir-autogen, elixir-format
+msgid "Home"
+msgstr "家"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "Home Address"
+msgstr "家庭住址"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:135
+#, elixir-autogen, elixir-format
+msgid "Icon Key"
+msgstr "图标图例"
+
+#: lib/dotcom_web/views/customer_support_view.ex:61
+#, elixir-autogen, elixir-format
+msgid "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
+msgstr "如有需要，请务必注明事件发生的时间和日期、路线以及车辆编号。"
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "If you provided your contact info, check your email for a confirmation with an incident number. If you don't receive a confirmation within 10 minutes, try submitting your feedback again or call us at"
+msgstr "如果您提供了联系方式，请查看您的电子邮件，您会收到一封包含事件编号的确认邮件。如果您在 10 分钟内没有收到确认信息，请尝试再次提交反馈或致电我们。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:74
+#, elixir-autogen, elixir-format
+msgid "If you'd like us to give you a call, please give us the best number where we can reach you."
+msgstr "如果您希望我们给您打电话，请提供我们能联系到您的最佳电话号码。"
+
+#: lib/dotcom_web/templates/customer_support/_discrimination_complaint.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "If your civil rights have been violated, you can file a complaint with the MBTA Office of Diversity and Civil Rights."
+msgstr "如果您的公民权利受到侵犯，您可以向 MBTA 多元化和公民权利办公室提出投诉。"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Important Links"
+msgstr "重要链接"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:148
+#, elixir-autogen, elixir-format
+msgid "Inbound Trains Cancelled"
+msgstr "进站列车取消"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Information & Support"
+msgstr "信息与支持"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:79
+#: lib/dotcom_web/views/layout_view.ex:211
+#, elixir-autogen, elixir-format
+msgid "Institutional Sales"
+msgstr "机构销售"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "Intended Audience"
+msgstr "目标受众"
+
+#: lib/fares/format.ex:99
+#, elixir-autogen, elixir-format
+msgid "Interzone %{zone}"
+msgstr "区域间%{zone}"
+
+#: lib/fares/format.ex:80
+#, elixir-autogen, elixir-format
+msgid "Invalid Duration"
+msgstr "无效持续时间"
+
+#: lib/fares/format.ex:106
+#, elixir-autogen, elixir-format
+msgid "Invalid Fare"
+msgstr "无效票价"
+
+#: lib/fares/retail_locations_data.ex:96
+#, elixir-autogen, elixir-format
+msgid "Invoice"
+msgstr "发票"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:252
+#, elixir-autogen, elixir-format
+msgid "Is this helpful? Send us feedback"
+msgstr "这有帮助吗？请向我们发送反馈"
+
+#: lib/dotcom_web/templates/event/_month_select.html.heex:2
+#: lib/dotcom_web/templates/event/_year_select.html.heex:2
+#: lib/dotcom_web/templates/event/index.html.heex:32
+#: lib/dotcom_web/templates/schedule/_alerts.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Jump to"
+msgstr "跳转至"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:79
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:60
+#, elixir-autogen, elixir-format
+msgid "Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf."
+msgstr "您认识有兴趣加入我们零售网络的本地店主吗？请推荐一家零售商，我们将代表您与他们联系。"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:32
+#: lib/dotcom_web/views/layout_view.ex:171
+#, elixir-autogen, elixir-format
+msgid "Language Services"
+msgstr "语言服务"
+
+#: lib/dotcom/utils/service_date_time.ex:89
+#: lib/dotcom_web/components/timetable.ex:41
+#: lib/dotcom_web/components/timetable.ex:187
+#, elixir-autogen, elixir-format
+msgid "Later"
+msgstr "之后"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:39
+#: lib/dotcom_web/templates/page/_important_links.html.heex:15
+#: lib/dotcom_web/views/layout_view.ex:195
+#, elixir-autogen, elixir-format
+msgid "Leadership"
+msgstr "领导"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:51
+#, elixir-autogen, elixir-format
+msgid "Learn more about MBTA fares"
+msgstr "了解更多关于MBTA票价的信息"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Learn more about bikes on Commuter Rail"
+msgstr "了解更多关于通勤铁路自行车的信息"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Learn more about fare prices, pass types, and how to pay your fare on the T."
+msgstr "了解更多关于地铁票价、通票类型以及如何支付车费的信息。"
+
+#: lib/dotcom_web/templates/customer_support/_discrimination_complaint.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Learn more about filing a complaint"
+msgstr "了解更多关于投诉流程的信息"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:84
+#, elixir-autogen, elixir-format
+msgid "Learn more about seat availability trends"
+msgstr "了解更多座位供应趋势"
+
+#: lib/dotcom_web/templates/project/updates.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "Learn more about this project"
+msgstr "了解更多关于此项目的信息"
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Learn what happens after you file a complaint"
+msgstr "了解提交投诉后会发生什么。"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:242
+#, elixir-autogen, elixir-format
+msgid "Least Walking"
+msgstr "步行最少"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:74
+#, elixir-autogen, elixir-format
+msgid "Leave at"
+msgstr "离开"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:79
+#, elixir-autogen, elixir-format
+msgid "Leaving at %{time}"
+msgstr "出发时间为%{time}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:199
+#, elixir-autogen, elixir-format
+msgid "Left"
+msgstr "左边"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:57
+#, elixir-autogen, elixir-format
+msgid "Let us know"
+msgstr "请告知我们"
+
+#: lib/dotcom_web/live/search_page_live.ex:84
+#, elixir-autogen, elixir-format
+msgid "Lines and Routes"
+msgstr "线路和路线"
+
+#: lib/dotcom_web/templates/event/index.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "List view"
+msgstr "列表视图"
+
+#: lib/dotcom_web/controllers/alert_controller.ex:90
+#: lib/dotcom_web/live/commuter_rail_alerts_live.ex:20
+#: lib/dotcom_web/live/subway_alerts_live.ex:29
+#, elixir-autogen, elixir-format
+msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+msgstr "针对所有 MBTA 交通方式的实时服务警报，包括地铁、巴士、通勤铁路和渡轮。 睡眠、建筑施工、电梯停运等方面的最新情况。"
+
+#: lib/dotcom_web/components/search_results_live.ex:113
+#, elixir-autogen, elixir-format
+msgid "Load more"
+msgstr "加载更多"
+
+#: lib/hub_stops.ex:15
+#: lib/hub_stops.ex:36
+#, elixir-autogen, elixir-format
+msgid "Lobby inside Back Bay station"
+msgstr "Back Bay车站内的大堂"
+
+#: lib/fares/format.ex:87
+#, elixir-autogen, elixir-format
+msgid "Local Bus"
+msgstr "当地巴士"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Local Bus One-Way"
+msgstr "本地巴士单程票"
+
+#: lib/dotcom_web/templates/event/_address.html.heex:2
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Location"
+msgstr "地点"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:76
+#, elixir-autogen, elixir-format
+msgid "Location is not close enough to any transit stops"
+msgstr "位置距离任何公交站点都不够近。"
+
+#: lib/dotcom_web/components/route_symbols.ex:250
+#: lib/dotcom_web/views/helpers.ex:242
+#: lib/fares/format.ex:108
+#, elixir-autogen, elixir-format
+msgid "Logan Express"
+msgstr "洛根快线"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:21
+#: lib/dotcom_web/views/layout_view.ex:170
+#, elixir-autogen, elixir-format
+msgid "Lost & Found"
+msgstr "失物招领"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:33
+#, elixir-autogen, elixir-format
+msgid "Lost and Found"
+msgstr "失物招领"
+
+#: lib/fares/format.ex:93
+#, elixir-autogen, elixir-format
+msgid "Lynn Ferry"
+msgstr "Lynn Ferry"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:265
+#: lib/util/breadcrumb_html.ex:77
+#, elixir-autogen, elixir-format
+msgid "MBTA"
+msgstr "MBTA"
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:266
+#, elixir-autogen, elixir-format
+msgid "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr "MBTA %{name} %{type}车站和时刻表，包括地图、实时更新、停车和无障碍信息以及换乘信息。"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:45
+#, elixir-autogen, elixir-format
+msgid "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections."
+msgstr "MBTA %{route_name} %{station_name}和时刻表，包括时刻表、地图、票价、实时更新、停车和无障碍信息以及换乘信息。"
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:250
+#, elixir-autogen, elixir-format
+msgid "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares."
+msgstr "MBTA %{text}站点和时刻表，包括地图、停车和无障碍信息以及票价。"
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:258
+#, elixir-autogen, elixir-format
+msgid "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr "MBTA %{type}路线%{name}的站点和时刻表，包括地图、实时更新、停车和无障碍信息以及换乘信息。"
+
+#: lib/util/breadcrumb_html.ex:82
+#, elixir-autogen, elixir-format
+msgid "MBTA - Massachusetts Bay Transportation Authority"
+msgstr "MBTA - 麻省湾交通管理局"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:124
+#, elixir-autogen, elixir-format
+msgid "MBTA Facebook"
+msgstr "MBTA Facebook"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:47
+#, elixir-autogen, elixir-format
+msgid "MBTA Fares"
+msgstr "MBTA票价"
+
+#: lib/dotcom_web/views/layout_view.ex:200
+#, elixir-autogen, elixir-format
+msgid "MBTA Gift Shop"
+msgstr "MBTA礼品店"
+
+#: lib/dotcom_web/controllers/schedule/green.ex:59
+#, elixir-autogen, elixir-format
+msgid "MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr "MBTA Green Line电车车站和时刻表，包括地图、实时更新、停车和无障碍信息以及换乘。"
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "MBTA Home Page"
+msgstr "MBTA主页"
+
+#: lib/dotcom_web/templates/page/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "MBTA Homepage"
+msgstr "MBTA主页"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:131
+#, elixir-autogen, elixir-format
+msgid "MBTA Instagram"
+msgstr "MBTA Instagram"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:145
+#, elixir-autogen, elixir-format
+msgid "MBTA LinkedIn"
+msgstr "MBTA LinkedIn"
+
+#: lib/dotcom_web/views/mode_view.ex:22
+#: lib/dotcom_web/views/mode_view.ex:132
+#, elixir-autogen, elixir-format
+msgid "MBTA Paratransit Program"
+msgstr "MBTA 辅助客运系统计划"
+
+#: lib/feedback/message.ex:36
+#: lib/feedback/message.ex:62
+#, elixir-autogen, elixir-format
+msgid "MBTA Projects/Programs"
+msgstr "MBTA项目/计划"
+
+#: lib/dotcom_web/templates/stop/index.html.heex:5
+#: lib/dotcom_web/views/layout_view.ex:114
+#, elixir-autogen, elixir-format
+msgid "MBTA Stations"
+msgstr "MBTA车站"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:138
+#, elixir-autogen, elixir-format
+msgid "MBTA Threads"
+msgstr "MBTA线程"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:162
+#, elixir-autogen, elixir-format
+msgid "MBTA TikTok"
+msgstr "MBTA TikTok"
+
+#: lib/dotcom_web/templates/page/_contact_us.html.heex:24
+#: lib/dotcom_web/views/layout_view.ex:177
+#, elixir-autogen, elixir-format
+msgid "MBTA Transit Police"
+msgstr "MBTA交通警察"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:60
+#, elixir-autogen, elixir-format
+msgid "MBTA Trip Planner"
+msgstr "MBTA行程规划器"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:156
+#, elixir-autogen, elixir-format
+msgid "MBTA Twitter"
+msgstr "MBTA 推特"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "MBTA User Guides"
+msgstr "MBTA 用户指南"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:152
+#, elixir-autogen, elixir-format
+msgid "MBTA YouTube"
+msgstr "MBTA YouTube"
+
+#: lib/dotcom_web/templates/layout/root.html.heex:57
+#, elixir-autogen, elixir-format
+msgid "MBTA.com Latest News"
+msgstr "MBTA.com 最新消息"
+
+#: lib/dotcom_web/templates/page/menu.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "MBTA.com Menu"
+msgstr "MBTA.com 菜单"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Main"
+msgstr "主要的"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Main Hotline"
+msgstr "总热线"
+
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Main Menu"
+msgstr "主菜单"
+
+#: lib/feedback/message.ex:35
+#: lib/feedback/message.ex:48
+#: lib/feedback/message.ex:61
+#, elixir-autogen, elixir-format
+msgid "Maintenance"
+msgstr "维护"
+
+#: lib/feedback/message.ex:23
+#, elixir-autogen, elixir-format
+msgid "Maintenance Complaint"
+msgstr "维护投诉"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:208
+#: lib/dotcom_web/components/trip_planner/helpers.ex:209
+#, elixir-autogen, elixir-format
+msgid "Make a U-turn"
+msgstr "掉头"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Many Seats Available"
+msgstr "座位充足"
+
+#: lib/dotcom_web/templates/mode/hub.html.heex:29
+#: lib/dotcom_web/templates/mode/index.html.heex:34
+#: lib/dotcom_web/templates/page/_find_a_location.html.heex:24
+#: lib/dotcom_web/views/layout_view.ex:116
+#, elixir-autogen, elixir-format
+msgid "Maps"
+msgstr "地图"
+
+#: lib/dotcom_web/templates/layout/root.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Massachusetts Bay Transportation Authority"
+msgstr "马萨诸塞湾交通管理局"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:169
+#, elixir-autogen, elixir-format
+msgid "Massachusetts Bay Transportation Authority, all rights reserved."
+msgstr "麻省海湾交通管理局，版权所有。"
+
+#: lib/dotcom_web/views/helpers.ex:245
+#: lib/dotcom_web/views/helpers.ex:247
+#: lib/fares/format.ex:107
+#: lib/fares/format.ex:109
+#, elixir-autogen, elixir-format
+msgid "Massport Shuttle"
+msgstr "Massport 摆渡巴士"
+
+#: lib/dotcom_web/components/route_symbols.ex:261
+#, elixir-autogen, elixir-format
+msgid "Massport Shuttle %{route_number}"
+msgstr "Massport 摆渡巴士%{route_number}"
+
+#: lib/dotcom_web/components/route_symbols.ex:255
+#: lib/dotcom_web/views/helpers.ex:253
+#: lib/dotcom_web/views/helpers.ex:254
+#, elixir-autogen, elixir-format
+msgid "Mattapan Trolley"
+msgstr "Mattapan Trolley"
+
+#: lib/dotcom_web/components/timetable.ex:293
+#, elixir-autogen, elixir-format
+msgid "May not be accessible"
+msgstr "可能不太方便"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Media Contact Information"
+msgstr "媒体联系信息"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:59
+#: lib/dotcom_web/views/layout_view.ex:199
+#, elixir-autogen, elixir-format
+msgid "Media Relations"
+msgstr "媒体关系"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex:2
+#: lib/dotcom_web/templates/event/show.html.heex:105
+#, elixir-autogen, elixir-format
+msgid "Meeting Info"
+msgstr "会议信息"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Members of the press can request to join our media list by emailing "
+msgstr "媒体成员可以通过发送电子邮件申请加入我们的媒体名单。 "
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request."
+msgstr "除某些例外情况外，公众有权索取 MBTA 文件的副本。需支付费用，费用可能因具体申请而异。"
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:10
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Menu"
+msgstr "菜单"
+
+#: lib/fares/fare_info.ex:869
+#, elixir-autogen, elixir-format
+msgid "Military"
+msgstr "军队"
+
+#: lib/dotcom_web/templates/event/show.html.heex:165
+#, elixir-autogen, elixir-format
+msgid "Minutes"
+msgstr "分钟"
+
+#: lib/fares/retail_locations_data.ex:97
+#, elixir-autogen, elixir-format
+msgid "Mobile App"
+msgstr "移动应用"
+
+#: lib/feedback/message.ex:24
+#: lib/feedback/message.ex:49
+#, elixir-autogen, elixir-format
+msgid "Mobile Ticketing"
+msgstr "手机车票"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:96
+#, elixir-autogen, elixir-format
+msgid "Modes"
+msgstr "模式"
+
+#: lib/dotcom_web/views/layout_view.ex:87
+#, elixir-autogen, elixir-format
+msgid "Modes of Transit"
+msgstr "交通方式"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:65
+#, elixir-autogen, elixir-format
+msgid "Monday"
+msgstr "星期一"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Monday - Friday"
+msgstr "周一至周五"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Monday thru Friday"
+msgstr "周一至周五"
+
+#: lib/dotcom_web/views/schedule/stop_list.ex:34
+#, elixir-autogen, elixir-format
+msgid "Monday to Friday"
+msgstr "周一至周五"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:8
+#: lib/dotcom_web/views/fare_view.ex:54
+#: lib/fares/format.ex:113
+#, elixir-autogen, elixir-format
+msgid "Monthly LinkPass"
+msgstr "月票LinkPass"
+
+#: lib/dotcom_web/views/fare_view.ex:69
+#: lib/fares/format.ex:114
+#, elixir-autogen, elixir-format
+msgid "Monthly Local Bus Pass"
+msgstr "月票 本地巴士 通票"
+
+#: lib/fares/format.ex:75
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass"
+msgstr "月票 通票"
+
+#: lib/fares/format.ex:73
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass on mTicket App"
+msgstr "mTicket App 上的月票 通票"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "More Guides"
+msgstr "更多指南"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "More Information"
+msgstr "更多信息"
+
+#: lib/dotcom_web/templates/cms/_sidebar_left.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "More from "
+msgstr "更多内容 "
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:243
+#, elixir-autogen, elixir-format
+msgid "Most Direct"
+msgstr "最直接"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:2
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:3
+#: lib/dotcom_web/views/layout_view.ex:154
+#, elixir-autogen, elixir-format
+msgid "Most popular fares"
+msgstr "最受欢迎的票价"
+
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Navigation Menu"
+msgstr "导航菜单"
+
+#: lib/alerts/alert.ex:265
+#, elixir-autogen, elixir-format
+msgid "New"
+msgstr "新"
+
+#: lib/dotcom_web/controllers/news_entry_controller.ex:92
+#: lib/dotcom_web/controllers/news_entry_controller.ex:97
+#: lib/dotcom_web/live/search_page_live.ex:89
+#: lib/dotcom_web/templates/mode/hub.html.heex:60
+#: lib/dotcom_web/templates/news_entry/index.html.heex:5
+#: lib/dotcom_web/templates/schedule/_cms_teasers.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "News"
+msgstr "消息"
+
+#: lib/dotcom_web/templates/news_entry/index.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Next"
+msgstr "下一步"
+
+#: lib/dotcom/utils/service_date_time.ex:88
+#, elixir-autogen, elixir-format
+msgid "Next Week"
+msgstr "下周"
+
+#: lib/dotcom_web/components/alerts/grouped.ex:40
+#, elixir-autogen, elixir-format
+msgid "No %{group} alerts"
+msgstr "没有%{group}警报"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:40
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:52
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:239
+#, elixir-autogen, elixir-format
+msgid "No Scheduled Service"
+msgstr "无计划服务"
+
+#: lib/dotcom_web/views/schedule/stop_list.ex:15
+#: lib/dotcom_web/views/schedule/stop_list.ex:19
+#, elixir-autogen, elixir-format
+msgid "No Service"
+msgstr "无服务"
+
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "No alerts here."
+msgstr "这里没有警报。"
+
+#: lib/dotcom_web/templates/event/_event_list.html.heex:35
+#, elixir-autogen, elixir-format
+msgid "No events"
+msgstr "无事件"
+
+#: lib/dotcom_web/components/timetable.ex:277
+#, elixir-autogen, elixir-format
+msgid "No parking"
+msgstr "禁止停车"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:34
+#, elixir-autogen, elixir-format
+msgid "No transit connection was found between the origin and destination on this date and time"
+msgstr "在此日期和时间，始发地和目的地之间未找到换乘。"
+
+#: lib/dotcom/trip_plan/input_form.ex:246
+#, elixir-autogen, elixir-format
+msgid "No transit modes selected"
+msgstr "未选择任何交通方式"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:44
+#, elixir-autogen, elixir-format
+msgid "No transit routes found within 2 hours of %{time_on_date}. Routes may be available at other times."
+msgstr "在%{time_on_date}周围 2 小时内未找到任何交通路线。其他时间可能也有路线可供选择。"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:57
+#, elixir-autogen, elixir-format
+msgid "No trips found"
+msgstr "未找到行程"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "No upcoming holidays"
+msgstr "没有即将进行的假期"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:32
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:48
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:236
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:146
+#, elixir-autogen, elixir-format
+msgid "Normal Service"
+msgstr "正常服务"
+
+#: lib/routes/parser.ex:67
+#, elixir-autogen, elixir-format
+msgid "Northbound"
+msgstr "北行"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:10
+#: lib/dotcom_web/components/timetable.ex:291
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:81
+#, elixir-autogen, elixir-format
+msgid "Not accessible"
+msgstr "不方便"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Note"
+msgstr "备注"
+
+#: lib/dotcom_web/views/schedule_view.ex:403
+#: lib/dotcom_web/views/schedule_view.ex:414
+#: lib/dotcom_web/views/schedule_view.ex:437
+#: lib/dotcom_web/views/schedule_view.ex:459
+#, elixir-autogen, elixir-format
+msgid "Note:"
+msgstr "注意："
+
+#: lib/dotcom_web/templates/event/show.html.heex:81
+#: lib/dotcom_web/templates/event/show.html.heex:140
+#, elixir-autogen, elixir-format
+msgid "Notes"
+msgstr "笔记"
+
+#: lib/dotcom_web/components/system_status/subway_status.ex:314
+#: lib/dotcom_web/components/trip_planner/input_form.ex:73
+#: lib/dotcom_web/live/schedule_finder_live.ex:418
+#: lib/dotcom_web/live/upcoming_departures_live.ex:720
+#, elixir-autogen, elixir-format
+msgid "Now"
+msgstr "现在"
+
+#: lib/dotcom_web/views/layout_view.ex:316
+#, elixir-autogen, elixir-format
+msgid "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
+msgstr "MBTA 官方网站 -- 大波士顿公共交通系统的时刻表、地图和票价信息，包括地铁、通勤铁路、巴士路线和船线。"
+
+#: lib/dotcom_web/live/trip_planner_live.ex:21
+#, elixir-autogen, elixir-format
+msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
+msgstr "MBTA官方网站——规划您在大波士顿地区的公共交通出行"
+
+#: lib/dotcom_web/views/error_view.ex:25
+#, elixir-autogen, elixir-format
+msgid "Oh no! We're experiencing delays."
+msgstr "糟糕！我们这边出现延误了。"
+
+#: lib/fares/format.ex:56
+#, elixir-autogen, elixir-format
+msgid "One-Day Pass"
+msgstr "一日通票"
+
+#: lib/fares/format.ex:48
+#, elixir-autogen, elixir-format
+msgid "One-Way"
+msgstr "单程票"
+
+#: lib/alerts/alert.ex:268
+#, elixir-autogen, elixir-format
+msgid "Ongoing"
+msgstr "正在进行"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Or,"
+msgstr "或者，"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Or, go to "
+msgstr "或者，前往 "
+
+#: lib/dotcom_web/views/helpers.ex:255
+#, elixir-autogen, elixir-format
+msgid "Orange Line"
+msgstr "Orange Line"
+
+#: lib/dotcom_web/views/layout_view.ex:148
+#, elixir-autogen, elixir-format
+msgid "Order Monthly Passes"
+msgstr "订购月票 通票"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:70
+#, elixir-autogen, elixir-format
+msgid "Origin location is not close enough to any transit stops"
+msgstr "出发地距离任何公交站点都太远。"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:56
+#, elixir-autogen, elixir-format
+msgid "Origin location is outside of our service area"
+msgstr "始发地位于我们的服务区域之外"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:62
+#, elixir-autogen, elixir-format
+msgid "Origin or destination location is outside of our service area"
+msgstr "出发地或目的地超出我们的服务区域。"
+
+#: lib/alerts/alert.ex:215
+#: lib/dotcom/alerts/commuter_rail.ex:19
+#: lib/dotcom/alerts/subway.ex:18
+#: lib/feedback/message.ex:28
+#: lib/feedback/message.ex:41
+#: lib/feedback/message.ex:56
+#: lib/feedback/message.ex:64
+#, elixir-autogen, elixir-format
+msgid "Other"
+msgstr "其他"
+
+#: lib/dotcom_web/views/layout_view.ex:218
+#, elixir-autogen, elixir-format
+msgid "Our Work"
+msgstr "我们的工作"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:83
+#, elixir-autogen, elixir-format
+msgid "Our user guides can help you learn how to navigate the system, get to local events, use accessibility features, and more."
+msgstr "我们的用户指南可以帮助您学习如何导航系统、参加本地活动、使用无障碍功能等等。"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:145
+#, elixir-autogen, elixir-format
+msgid "Outbound Trains Cancelled"
+msgstr "出站列车取消"
+
+#: lib/dotcom_web/views/layout_view.ex:194
+#, elixir-autogen, elixir-format
+msgid "Overview"
+msgstr "概述"
+
+#: lib/dotcom_web/templates/schedule/_pdf_schedules.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "PDF Schedules"
+msgstr "PDF表时刻"
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "PDF Upcoming"
+msgstr "PDF即将进行"
+
+#: lib/dotcom_web/views/layout_view.ex:333
+#, elixir-autogen, elixir-format
+msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
+msgstr "页面未找到 | MBTA - 麻省湾交通管理局"
+
+#: lib/dotcom_web/views/error_view.ex:10
+#, elixir-autogen, elixir-format
+msgid "Page not found"
+msgstr "找不到网页"
+
+#: lib/dotcom_web/live/search_page_live.ex:85
+#, elixir-autogen, elixir-format
+msgid "Pages"
+msgstr "页"
+
+#: lib/dotcom_web/views/layout_view.ex:93
+#, elixir-autogen, elixir-format
+msgid "Paratransit (The RIDE)"
+msgstr "辅助客运系统 ( The RIDE )"
+
+#: lib/dotcom/alerts/commuter_rail.ex:18
+#: lib/dotcom/alerts/subway.ex:17
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:4
+#: lib/dotcom_web/components/transit_icons.ex:25
+#: lib/dotcom_web/templates/page/_important_links.html.heex:63
+#: lib/dotcom_web/views/layout_view.ex:104
+#: lib/feedback/message.ex:25
+#: lib/feedback/message.ex:37
+#: lib/feedback/message.ex:50
+#, elixir-autogen, elixir-format
+msgid "Parking"
+msgstr "停車處"
+
+#: lib/alerts/alert.ex:240
+#, elixir-autogen, elixir-format
+msgid "Parking Closure"
+msgstr "停车场关闭"
+
+#: lib/alerts/alert.ex:241
+#, elixir-autogen, elixir-format
+msgid "Parking Issue"
+msgstr "停车问题"
+
+#: lib/dotcom_web/components/timetable.ex:269
+#, elixir-autogen, elixir-format
+msgid "Parking available"
+msgstr "提供停车位"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Passengers must tell "
+msgstr "乘客必须告知 "
+
+#: lib/dotcom_web/views/bus_stop_change_view.ex:74
+#, elixir-autogen, elixir-format
+msgid "Past Changes"
+msgstr "过去的变化"
+
+#: lib/dotcom_web/views/layout_view.ex:144
+#, elixir-autogen, elixir-format
+msgid "Pay Your Fare"
+msgstr "支付车费"
+
+#: lib/dotcom_web/controllers/cms_controller.ex:169
+#, elixir-autogen, elixir-format
+msgid "People"
+msgstr "人们"
+
+#: lib/hub_stops.ex:35
+#, elixir-autogen, elixir-format
+msgid "People waiting as orange line train arrives inside North Station"
+msgstr "人们在North Station内等候橙线列车进站。"
+
+#: lib/hub_stops.ex:14
+#, elixir-autogen, elixir-format
+msgid "People walking by train departure board inside North Station"
+msgstr "人们在North Station内步行经过上车出发线。"
+
+#: lib/hub_stops.ex:27
+#, elixir-autogen, elixir-format
+msgid "People walking towards Green Line train inside North Station"
+msgstr "在North Station内，人们正走向Green Line列车。"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:70
+#: lib/dotcom_web/templates/page/_important_links.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Performance"
+msgstr "表现"
+
+#: lib/dotcom_web/views/layout_view.ex:98
+#, elixir-autogen, elixir-format
+msgid "Plan Your Journey"
+msgstr "规划您的旅程"
+
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Plan a trip"
+msgstr "计划一次旅行"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:47
+#, elixir-autogen, elixir-format
+msgid "Plan your trip"
+msgstr "计划您的行程"
+
+#: lib/dotcom_web/views/partial_view.ex:193
+#, elixir-autogen, elixir-format
+msgid "Planned Service Alerts"
+msgstr "计划服务警报"
+
+#: lib/dotcom_web/components/planned_disruptions.ex:39
+#, elixir-autogen, elixir-format
+msgid "Planned Work"
+msgstr "计划工作"
+
+#: lib/dotcom_web/views/customer_support_view.ex:127
+#, elixir-autogen, elixir-format
+msgid "Please enter a comment to continue."
+msgstr "请输入评论以继续。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:133
+#, elixir-autogen, elixir-format
+msgid "Please enter a valid email."
+msgstr "请输入有效的电子邮件地址。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:131
+#, elixir-autogen, elixir-format
+msgid "Please enter a valid vehicle number with numeric characters only."
+msgstr "请输入有效的车辆号码，仅限数字。"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:36
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "Please enter an address that is within 100 miles of an MBTA service area."
+msgstr "请输入距离 MBTA 服务区域 100 英里以内的地址。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:134
+#, elixir-autogen, elixir-format
+msgid "Please enter your first name to continue."
+msgstr "请输入您的名字以继续。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:135
+#, elixir-autogen, elixir-format
+msgid "Please enter your last name to continue."
+msgstr "请输入您的末班车名称以继续。"
+
+#: lib/dotcom/trip_plan/input_form.ex:103
+#, elixir-autogen, elixir-format
+msgid "Please select a destination at a different location from the origin."
+msgstr "请选择与出发地不同的目的地。"
+
+#: lib/dotcom/trip_plan/input_form.ex:110
+#, elixir-autogen, elixir-format
+msgid "Please select a destination location."
+msgstr "请选择目的地。"
+
+#: lib/dotcom/trip_plan/input_form.ex:100
+#, elixir-autogen, elixir-format
+msgid "Please select an origin location."
+msgstr "请选择出发地。"
+
+#: lib/dotcom/trip_plan/input_form.ex:105
+#, elixir-autogen, elixir-format
+msgid "Please select at least one mode of transit."
+msgstr "请至少选择一种出行方式。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:126
+#, elixir-autogen, elixir-format
+msgid "Please select the type of concern."
+msgstr "请选择问题类型。"
+
+#: lib/dotcom/trip_plan/input_form.ex:108
+#, elixir-autogen, elixir-format
+msgid "Please specify a date and time in the future or select 'Now'."
+msgstr "请指定未来的日期和时间，或选择“立即”。"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:85
+#, elixir-autogen, elixir-format
+msgid "Please try again or send us feedback at mbta.com/customer-support"
+msgstr "请重试或通过 mbta.com/customer-support 向我们发送反馈。"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:64
+#: lib/dotcom_web/views/layout_view.ex:201
+#, elixir-autogen, elixir-format
+msgid "Policies & Civil Rights"
+msgstr "政策与公民权利"
+
+#: lib/alerts/alert.ex:242
+#, elixir-autogen, elixir-format
+msgid "Policy Change"
+msgstr "政策变更"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Posted on"
+msgstr "发布于"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:121
+#, elixir-autogen, elixir-format
+msgid "Prefer accessible routes"
+msgstr "优先选择方便路线"
+
+#: lib/fares/format.ex:105
+#, elixir-autogen, elixir-format
+msgid "Premium Ride"
+msgstr "高级乘车"
+
+#: lib/fares/format.ex:119
+#, elixir-autogen, elixir-format
+msgid "Premium Ride Fare"
+msgstr "高级乘车费用"
+
+#: lib/dotcom_web/templates/page/_news_and_updates.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Press Releases"
+msgstr "新闻稿"
+
+#: lib/dotcom_web/templates/layout/preview.html.heex:2
+#: lib/dotcom_web/templates/layout/preview.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Preview Version"
+msgstr "预览版"
+
+#: lib/dotcom_web/templates/news_entry/index.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Previous"
+msgstr "以前的"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:172
+#, elixir-autogen, elixir-format
+msgid "Privacy Policy"
+msgstr "隐私权政策"
+
+#: lib/dotcom_web/controllers/project_controller.ex:13
+#: lib/dotcom_web/live/search_page_live.ex:86
+#, elixir-autogen, elixir-format
+msgid "Projects"
+msgstr "项目"
+
+#: lib/dotcom_web/controllers/fare_controller.ex:109
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Proposed Sales Locations"
+msgstr "拟定销售地点"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:54
+#: lib/dotcom_web/views/layout_view.ex:198
+#, elixir-autogen, elixir-format
+msgid "Public Meetings"
+msgstr "公众会议"
+
+#: lib/dotcom_web/controllers/page_controller.ex:35
+#, elixir-autogen, elixir-format
+msgid "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, service alerts, real-time updates, and general information."
+msgstr "大波士顿地区的公共交通。路线、时刻表、旅行计划、票价、服务警报、实时更新和一般信息。"
+
+#: lib/dotcom_web/views/layout_view.ex:203
+#, elixir-autogen, elixir-format
+msgid "Quality, Compliance & Oversight"
+msgstr "质量、合规与监管"
+
+#: lib/feedback/message.ex:43
+#, elixir-autogen, elixir-format
+msgid "Question"
+msgstr "问题"
+
+#: lib/dotcom_web/views/alert_view.ex:247
+#, elixir-autogen, elixir-format
+msgid "Rail"
+msgstr "铁路"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Receive notifications of MBTA service alerts by email or text."
+msgstr "通过电子邮件或短信接收 MBTA 服务警报通知。"
+
+#: lib/dotcom_web/templates/news_entry/_recent_news.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Recent News on the T"
+msgstr "地铁最新消息"
+
+#: lib/dotcom_web/templates/partial/_recently_visited.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Recently Visited Schedules"
+msgstr "最近访问时刻表"
+
+#: lib/dotcom_web/views/helpers.ex:256
+#, elixir-autogen, elixir-format
+msgid "Red Line"
+msgstr "Red Line"
+
+#: lib/dotcom_web/templates/page/_fares_passes.html.heex:24
+#: lib/dotcom_web/views/layout_view.ex:129
+#, elixir-autogen, elixir-format
+msgid "Reduced Fares"
+msgstr "优惠票价"
+
+#: lib/dotcom_web/templates/event/show.html.heex:33
+#: lib/dotcom_web/templates/event/show.html.heex:179
+#, elixir-autogen, elixir-format
+msgid "Related Files"
+msgstr "相关文件"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Related Service Alerts"
+msgstr "相关服务警报"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:58
+#, elixir-autogen, elixir-format
+msgid "Report Fraud, Waste, or Abuse"
+msgstr "举报欺诈、浪费或滥用行为"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:63
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Report a Railroad Crossing Gate Issue"
+msgstr "报告铁路道口闸门问题"
+
+#: lib/dotcom_web/templates/customer_support/_report.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Report suspected fraud, waste, or abuse"
+msgstr "举报任何涉嫌欺诈、浪费或滥用行为"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:48
+#: lib/dotcom_web/templates/layout/_footer.html.heex:26
+#: lib/dotcom_web/views/layout_view.ex:167
+#, elixir-autogen, elixir-format
+msgid "Request Public Records"
+msgstr "申请公开记录"
+
+#: lib/dotcom_web/controllers/fare_controller.ex:118
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:4
+#: lib/dotcom_web/views/layout_view.ex:150
+#, elixir-autogen, elixir-format
+msgid "Retail Sales Locations"
+msgstr "零售销售地点"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:258
+#, elixir-autogen, elixir-format
+msgid "Ride the %{route} %{vehicle}"
+msgstr "乘坐%{route} %{vehicle}"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:256
+#, elixir-autogen, elixir-format
+msgid "Ride the %{route} Train %{train}"
+msgstr "乘坐%{route}列车%{train}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:202
+#, elixir-autogen, elixir-format
+msgid "Right"
+msgstr "正确的"
+
+#: lib/fares/format.ex:52
+#, elixir-autogen, elixir-format
+msgid "Round Trip"
+msgstr "往返"
+
+#: lib/dotcom_web/components/route_symbols.ex:270
+#, elixir-autogen, elixir-format
+msgid "Route %{name}"
+msgstr "路线%{name}"
+
+#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Routes"
+msgstr "路线"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Routes With High Priority Alerts"
+msgstr "高优先级警报路线"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:69
+#: lib/dotcom_web/views/layout_view.ex:202
+#, elixir-autogen, elixir-format
+msgid "Safety"
+msgstr "安全"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Saturday"
+msgstr "周六"
+
+#: lib/dotcom_web/views/schedule_view.ex:311
+#, elixir-autogen, elixir-format
+msgid "Schedule & Maps"
+msgstr "时刻表和地图"
+
+#: lib/alerts/alert.ex:243
+#, elixir-autogen, elixir-format
+msgid "Schedule Change"
+msgstr "时刻表变更"
+
+#: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Schedule for"
+msgstr "时刻表"
+
+#: lib/dotcom_web/controllers/mode/commuter.ex:9
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr "大波士顿地区 MBTA 通勤铁路线路的时刻表信息，包括实时更新和到站预测。"
+
+#: lib/dotcom_web/controllers/mode/bus.ex:10
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr "大波士顿地区 MBTA 公交线路时刻表信息，包括实时更新和到站预测。"
+
+#: lib/dotcom_web/controllers/mode/ferry.ex:6
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA ferry routes operating in Massachusetts Bay, including downloadable PDFs."
+msgstr "提供马萨诸塞湾地区 MBTA 渡轮航线的时刻表信息，包括可下载的 PDF 文件。"
+
+#: lib/dotcom_web/controllers/mode/subway.ex:8
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA subway lines in Greater Boston, including real-time updates and arrival predictions."
+msgstr "大波士顿地区 MBTA 地铁线路时刻表信息，包括实时更新和到站预测。"
+
+#: lib/dotcom_web/controllers/mode_controller.ex:34
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr "大波士顿地区 MBTA 地铁、巴士、通勤铁路 和 渡轮 的时刻表信息，包括实时更新和抵达预测。"
+
+#: lib/dotcom/timetable_blocking.ex:12
+#, elixir-autogen, elixir-format
+msgid "Schedule will be available soon on the MBTA website."
+msgstr "时刻表将很快在MBTA网站上公布。"
+
+#: lib/dotcom_web/templates/mode/hub.html.heex:21
+#: lib/feedback/message.ex:38
+#: lib/feedback/message.ex:51
+#, elixir-autogen, elixir-format
+msgid "Schedules"
+msgstr "时刻表"
+
+#: lib/dotcom_web/controllers/mode/hub.ex:51
+#: lib/dotcom_web/controllers/mode_controller.ex:29
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:18
+#: lib/dotcom_web/hooks/breadcrumbs.ex:23
+#: lib/dotcom_web/views/schedule_view.ex:316
+#, elixir-autogen, elixir-format
+msgid "Schedules & Maps"
+msgstr "时刻表和地图"
+
+#: lib/dotcom_web/templates/mode/index.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Schedules and Maps"
+msgstr "时刻表和地图"
+
+#: lib/dotcom_web/hooks/breadcrumbs.ex:13
+#: lib/dotcom_web/live/search_page_live.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Search"
+msgstr "搜索"
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Search MBTA.com"
+msgstr "搜索 MBTA.com"
+
+#: lib/dotcom_web/templates/stop/_search_bar.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Search for a stop or station"
+msgstr "查找站点或车站"
+
+#: lib/dotcom_web/live/search_page_live.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Search for routes, places, information, and more"
+msgstr "搜索路线、地点、信息等"
+
+#: lib/dotcom_web/components/search_results_live.ex:86
+#, elixir-autogen, elixir-format
+msgid "Search results for"
+msgstr "搜索结果"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Search the MBTA"
+msgstr "搜索 MBTA"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:116
+#, elixir-autogen, elixir-format
+msgid "Seat Availability"
+msgstr "座位供应情况"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:56
+#, elixir-autogen, elixir-format
+msgid "Secretary of State's official site"
+msgstr "State官方网站"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:154
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:147
+#, elixir-autogen, elixir-format
+msgid "See Alerts"
+msgstr "查看警报"
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex:12
+#: lib/dotcom_web/views/layout_view.ex:178
+#, elixir-autogen, elixir-format
+msgid "See Something, Say Something"
+msgstr "发现异常，立即报告"
+
+#: lib/dotcom_web/templates/page/_news_and_updates.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "See all press releases"
+msgstr "查看所有新闻稿"
+
+#: lib/dotcom_web/templates/page/_homepage-events.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "See all public meetings and events"
+msgstr "查看所有公开会议和活动"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:68
+#, elixir-autogen, elixir-format
+msgid "See all service alerts"
+msgstr "查看所有服务警报"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "See all user guides"
+msgstr "查看所有用户指南"
+
+#: lib/dotcom_web/views/customer_support_view.ex:114
+#, elixir-autogen, elixir-format
+msgid "Select"
+msgstr "选择"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:16
+#: lib/dotcom_web/templates/page/_contact_us.html.heex:14
+#: lib/dotcom_web/views/layout_view.ex:164
+#, elixir-autogen, elixir-format
+msgid "Send Us Feedback"
+msgstr "请向我们发送反馈"
+
+#: lib/fares/format.ex:41
+#, elixir-autogen, elixir-format
+msgid "Senior CharlieCard or TAP ID"
+msgstr "老年人查理卡或TAP ID"
+
+#: lib/feedback/message.ex:52
+#, elixir-autogen, elixir-format
+msgid "Senior ID Cards"
+msgstr "老年人身份证"
+
+#: lib/fares/fare_info.ex:863
+#, elixir-autogen, elixir-format
+msgid "Seniors"
+msgstr "老年人"
+
+#: lib/dotcom_web/views/error_view.ex:24
+#, elixir-autogen, elixir-format
+msgid "Server issue"
+msgstr "服务器问题"
+
+#: lib/dotcom/alerts/commuter_rail.ex:14
+#: lib/dotcom/alerts/subway.ex:14
+#: lib/feedback/message.ex:63
+#, elixir-autogen, elixir-format
+msgid "Service"
+msgstr "服务"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:175
+#: lib/dotcom_web/views/layout_view.ex:102
+#, elixir-autogen, elixir-format
+msgid "Service Alerts"
+msgstr "服务警报"
+
+#: lib/alerts/alert.ex:244
+#, elixir-autogen, elixir-format
+msgid "Service Change"
+msgstr "服务变更"
+
+#: lib/feedback/message.ex:26
+#, elixir-autogen, elixir-format
+msgid "Service Complaint"
+msgstr "服务投诉"
+
+#: lib/feedback/message.ex:39
+#: lib/feedback/message.ex:53
+#, elixir-autogen, elixir-format
+msgid "Service Inquiry"
+msgstr "服务查询"
+
+#: lib/dotcom_web/components/timetable.ex:299
+#, elixir-autogen, elixir-format
+msgid "Service alert or delay"
+msgstr "服务警报或间歇"
+
+#: lib/dotcom_web/views/alert_view.ex:62
+#, elixir-autogen, elixir-format
+msgid "Service is running as expected"
+msgstr "服务运行正常"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:244
+#, elixir-autogen, elixir-format
+msgid "Shortest Trip"
+msgstr "最短行程"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:190
+#, elixir-autogen, elixir-format
+msgid "Show Details"
+msgstr "显示详情"
+
+#: lib/dotcom_web/templates/stop/index.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "Showing all"
+msgstr "显示全部"
+
+#: lib/dotcom_web/templates/stop/index.html.heex:64
+#, elixir-autogen, elixir-format
+msgid "Showing major stops."
+msgstr "显示主要站点。"
+
+#: lib/alerts/alert.ex:245
+#: lib/fares/format.ex:103
+#: lib/fares/format.ex:112
+#, elixir-autogen, elixir-format
+msgid "Shuttle"
+msgstr "摆渡巴士"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:155
+#, elixir-autogen, elixir-format
+msgid "Shuttles"
+msgstr "摆渡巴士"
+
+#: lib/dotcom_web/views/layout_view.ex:103
+#, elixir-autogen, elixir-format
+msgid "Sign Up for Service Alerts"
+msgstr "注册服务"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Sign in"
+msgstr "登入"
+
+#: lib/dotcom_web/views/layout_view.ex:147
+#, elixir-autogen, elixir-format
+msgid "Sign up for Auto-pay"
+msgstr "注册自动付款"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Sign up for T-Alerts"
+msgstr "注册接收 T-Alerts"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:65
+#, elixir-autogen, elixir-format
+msgid "Sign up for alert notifications"
+msgstr "订阅警报通知"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex:2
+#: lib/dotcom_web/views/helpers.ex:257
+#, elixir-autogen, elixir-format
+msgid "Silver Line"
+msgstr "Silver Line"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:113
+#, elixir-autogen, elixir-format
+msgid "Similar trip arrives at %{time}"
+msgstr "类似行程到达%{time}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:110
+#, elixir-autogen, elixir-format
+msgid "Similar trip departs at %{time}"
+msgstr "类似行程于%{time}出发"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:119
+#, elixir-autogen, elixir-format
+msgid "Similar trips arrive at %{times}"
+msgstr "类似行程到达%{times}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:116
+#, elixir-autogen, elixir-format
+msgid "Similar trips depart at %{times}"
+msgstr "类似行程于%{times}出发"
+
+#: lib/alerts/alert.ex:246
+#, elixir-autogen, elixir-format
+msgid "Single Tracking"
+msgstr "单轨"
+
+#: lib/dotcom_web/templates/layout/root.html.heex:118
+#, elixir-autogen, elixir-format
+msgid "Skip to main content"
+msgstr "转向主要内容"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:198
+#, elixir-autogen, elixir-format
+msgid "Slightly left"
+msgstr "略微偏左"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:201
+#, elixir-autogen, elixir-format
+msgid "Slightly right"
+msgstr "略微偏右"
+
+#: lib/fares/retail_locations_data.ex:98
+#, elixir-autogen, elixir-format
+msgid "Smart Card"
+msgstr "智能卡"
+
+#: lib/alerts/alert.ex:247
+#, elixir-autogen, elixir-format
+msgid "Snow Route"
+msgstr "雪道"
+
+#: lib/alerts/alert.ex:252
+#, elixir-autogen, elixir-format
+msgid "Snow Shoveling"
+msgstr "铲雪"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:54
+#, elixir-autogen, elixir-format
+msgid "Some Seats Available"
+msgstr "部分座位尚有空位"
+
+#: lib/dotcom_web/views/error_view.ex:26
+#, elixir-autogen, elixir-format
+msgid "Something went wrong on our end."
+msgstr "我们这边出了点问题。"
+
+#: lib/dotcom_web/views/error_view.ex:11
+#, elixir-autogen, elixir-format
+msgid "Sorry! We missed your stop."
+msgstr "对不起！我们错过了您的站点。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:143
+#, elixir-autogen, elixir-format
+msgid "Sorry. Something went wrong. Please try again."
+msgstr "对不起。出问题了。请重试。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:128
+#, elixir-autogen, elixir-format
+msgid "Sorry. We had trouble uploading your image. Please try again."
+msgstr "对不起。上传您的图片时遇到问题。请重试。"
+
+#: lib/routes/parser.ex:68
+#, elixir-autogen, elixir-format
+msgid "Southbound"
+msgstr "南行"
+
+#: lib/fares/format.ex:42
+#, elixir-autogen, elixir-format
+msgid "Special Event Ticket"
+msgstr "特别活动车票"
+
+#: lib/dotcom_web/live/subway_alerts_live.ex:81
+#, elixir-autogen, elixir-format
+msgid "Station & Service Alerts"
+msgstr "车站及服务警报"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Station Accessibility"
+msgstr "车站无障碍设施"
+
+#: lib/alerts/alert.ex:248
+#, elixir-autogen, elixir-format
+msgid "Station Closure"
+msgstr "车站关闭"
+
+#: lib/alerts/alert.ex:249
+#, elixir-autogen, elixir-format
+msgid "Station Issue"
+msgstr "车站问题"
+
+#: lib/dotcom_web/controllers/stop_controller.ex:429
+#, elixir-autogen, elixir-format
+msgid "Station serving MBTA %{lines} lines%{location}."
+msgstr "服务于 MBTA %{lines}条线路%{location}的车站。"
+
+#: lib/dotcom_web/controllers/stop_controller.ex:52
+#: lib/dotcom_web/controllers/stop_controller.ex:414
+#: lib/dotcom_web/templates/stop/index.html.heex:21
+#: lib/dotcom_web/templates/stop/index.html.heex:41
+#: lib/dotcom_web/views/page_view.ex:181
+#, elixir-autogen, elixir-format
+msgid "Stations"
+msgstr "车站"
+
+#: lib/dotcom_web/templates/page/_find_a_location.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Stations and Parking"
+msgstr "车站和停车场"
+
+#: lib/dotcom_web/live/search_page_live.ex:83
+#, elixir-autogen, elixir-format
+msgid "Stations and Stops"
+msgstr "车站和站点"
+
+#: lib/dotcom_web/components/stops/header.ex:39
+#, elixir-autogen, elixir-format
+msgid "Stop %{id}"
+msgstr "停止%{id}"
+
+#: lib/alerts/alert.ex:250
+#, elixir-autogen, elixir-format
+msgid "Stop Closure"
+msgstr "站点关闭"
+
+#: lib/alerts/alert.ex:251
+#, elixir-autogen, elixir-format
+msgid "Stop Move"
+msgstr "站点迁移"
+
+#: lib/dotcom/alerts/endpoint_stops.ex:107
+#: lib/dotcom/alerts/endpoint_stops.ex:110
+#: lib/dotcom/alerts/endpoint_stops.ex:114
+#: lib/dotcom/alerts/endpoint_stops.ex:115
+#: lib/dotcom_web/components/timetable.ex:59
+#: lib/dotcom_web/components/timetable.ex:205
+#, elixir-autogen, elixir-format
+msgid "Stops"
+msgstr "停止"
+
+#: lib/fares/fare_info.ex:857
+#, elixir-autogen, elixir-format
+msgid "Student"
+msgstr "学生"
+
+#: lib/fares/format.ex:43
+#, elixir-autogen, elixir-format
+msgid "Student CharlieCard"
+msgstr "学生卡"
+
+#: lib/dotcom_web/live/search_page_live.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Submit"
+msgstr "提交"
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Submit a public records request to the MBTA"
+msgstr "向MBTA提交公共记录申请。"
+
+#: lib/dotcom/trip_plan/input_form.ex:199
+#: lib/dotcom/trip_plan/input_form.ex:200
+#: lib/dotcom_web/controllers/mode/subway.ex:22
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex:25
+#: lib/dotcom_web/views/customer_support_view.ex:108
+#: lib/dotcom_web/views/helpers.ex:236
+#: lib/dotcom_web/views/layout_view.ex:89
+#: lib/dotcom_web/views/page_view.ex:196
+#: lib/fares/format.ex:86
+#, elixir-autogen, elixir-format
+msgid "Subway"
+msgstr "地铁"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Subway Beginner's Guide"
+msgstr "地铁新手指南"
+
+#: lib/dotcom_web/views/layout_view.ex:137
+#, elixir-autogen, elixir-format
+msgid "Subway Fares"
+msgstr "地铁票价"
+
+#: lib/dotcom_web/views/mode_view.ex:190
+#, elixir-autogen, elixir-format
+msgid "Subway Map"
+msgstr "地铁线路图"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Subway One-Way"
+msgstr "单地铁程票"
+
+#: lib/dotcom_web/components/system_status/subway_status.ex:28
+#: lib/dotcom_web/components/system_status/subway_status.ex:59
+#, elixir-autogen, elixir-format
+msgid "Subway Status"
+msgstr "地铁状态"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:77
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:58
+#, elixir-autogen, elixir-format
+msgid "Suggest a Retailer"
+msgstr "推荐零售商"
+
+#: lib/alerts/alert.ex:253
+#, elixir-autogen, elixir-format
+msgid "Summary"
+msgstr "概括"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:64
+#, elixir-autogen, elixir-format
+msgid "Sunday"
+msgstr "星期日"
+
+#: lib/alerts/alert.ex:254
+#, elixir-autogen, elixir-format
+msgid "Suspension"
+msgstr "暂停"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex:47
+#: lib/dotcom_web/views/layout_view.ex:220
+#, elixir-autogen, elixir-format
+msgid "Sustainability"
+msgstr "可持续性"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:55
+#, elixir-autogen, elixir-format
+msgid "Swap origin and destination locations"
+msgstr "交换始发地和目的地"
+
+#: lib/dotcom_web/components/layouts/alerts_page_content_layout.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Systemwide"
+msgstr "全系统"
+
+#: lib/feedback/message.ex:27
+#, elixir-autogen, elixir-format
+msgid "TAlerts/Countdowns/Apps"
+msgstr "提醒/倒计时/应用"
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "TTY"
+msgstr "TTY"
+
+#: lib/dotcom_web/controllers/vote_controller.ex:56
+#: lib/dotcom_web/templates/vote/show.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Take the T to Vote"
+msgstr "乘坐地铁去投票"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:207
+#, elixir-autogen, elixir-format
+msgid "Take the elevator"
+msgstr "乘电梯"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:53
+#, elixir-autogen, elixir-format
+msgid "Tell Us What You Think"
+msgstr "请告诉我们您的想法"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
+msgstr "告诉我们您的日常出行情况，我们会根据您的需要，在您需要的时间向您发送相关的短信或电子邮件提醒。"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:233
+#, elixir-autogen, elixir-format
+msgid "Temporarily Unavailable"
+msgstr "暂时不可使用"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:173
+#, elixir-autogen, elixir-format
+msgid "Terms of Use"
+msgstr "使用条款"
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Thank you for submitting your feedback. Our Customer Support team will review your comments soon."
+msgstr "感谢您提交反馈意见。我们的客户支持团队将尽快查看您的评论。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "The "
+msgstr "这 "
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
+msgstr "The RIDE的全系统无障碍和无障碍联络中的无障碍参与协调员负责在收到 ADA/无障碍投诉后协调解决方案。"
+
+#: lib/dotcom/schedule_note.ex:98
+#, elixir-autogen, elixir-format
+msgid "The Foxboro Special Events line is only for occasional service."
+msgstr "Foxboro特别活动专线仅用于偶尔服务。"
+
+#: lib/dotcom_web/templates/customer_support/_report.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs."
+msgstr "监察长办公室内部特别审计部门负责监督马萨诸塞州交通部各项计划的质量、效率和诚信。"
+
+#: lib/dotcom_web/views/page_view.ex:187
+#, elixir-autogen, elixir-format
+msgid "The RIDE"
+msgstr "The RIDE"
+
+#: lib/dotcom_web/views/helpers.ex:258
+#, elixir-autogen, elixir-format
+msgid "The Ride"
+msgstr "旅程"
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "The interactive timetable for"
+msgstr "交互式时间表"
+
+#: lib/dotcom_web/templates/alert/show.html.heex:9
+#: lib/dotcom_web/templates/page/_alerts.html.heex:48
+#, elixir-autogen, elixir-format
+msgid "There are no"
+msgstr "没有"
+
+#: lib/dotcom_web/views/alert_view.ex:101
+#: lib/dotcom_web/views/alert_view.ex:108
+#, elixir-autogen, elixir-format
+msgid "There are no "
+msgstr "没有 "
+
+#: lib/dotcom_web/views/alert_view.ex:104
+#, elixir-autogen, elixir-format
+msgid "There are no alerts"
+msgstr "没有警报。"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "There are no high priority"
+msgstr "没有高优先级事项"
+
+#: lib/dotcom_web/live/commuter_rail_alerts_live.ex:79
+#, elixir-autogen, elixir-format
+msgid "There are no other commuter rail alerts at this time."
+msgstr "目前没有其他通勤铁路警报。"
+
+#: lib/dotcom_web/live/subway_alerts_live.ex:78
+#, elixir-autogen, elixir-format
+msgid "There are no other subway alerts at this time."
+msgstr "目前没有其他地铁警报。"
+
+#: lib/dotcom_web/views/schedule_view.ex:87
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled %{direction} trips on %{date}."
+msgstr "%{date}上没有安排%{direction}行程。"
+
+#: lib/dotcom_web/views/schedule_view.ex:94
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled %{direction} trips."
+msgstr "目前没有安排%{direction}次行程。"
+
+#: lib/dotcom_web/views/schedule_view.ex:105
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled trips on %{date}."
+msgstr "%{date}上没有预定的行程。"
+
+#: lib/dotcom_web/views/schedule_view.ex:108
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled trips."
+msgstr "没有预定的行程。"
+
+#: lib/dotcom_web/templates/project/updates.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "There are no updates at this time."
+msgstr "目前暂无更新信息。"
+
+#: lib/dotcom_web/components/planned_disruptions.ex:43
+#, elixir-autogen, elixir-format
+msgid "There is no planned work information at this time."
+msgstr "目前还没有计划工作信息。"
+
+#: lib/dotcom/utils/service_date_time.ex:87
+#, elixir-autogen, elixir-format
+msgid "This Week"
+msgstr "本星期"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
+msgstr "此列表不包含MBTA目前的零售商。要查看当前的零售店位置，请使用我们的"
+
+#: lib/dotcom_web/views/error_view.ex:12
+#, elixir-autogen, elixir-format
+msgid "This page is no longer in service."
+msgstr "此页面已停止使用。"
+
+#: lib/dotcom_web/views/schedule_view.ex:548
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
+msgstr "这趟列车通常有<br /> <strong>%{seats}座位可用</strong>"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:68
+#, elixir-autogen, elixir-format
+msgid "Thursday"
+msgstr "星期四"
+
+#: lib/dotcom_web/views/schedule_view.ex:310
+#, elixir-autogen, elixir-format
+msgid "Timetable"
+msgstr "时间表"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:145
+#, elixir-autogen, elixir-format
+msgid "To"
+msgstr "到"
+
+#: lib/dotcom_web/templates/customer_support/_rail_road.html.heex:2
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "To report a problem or emergency with a railroad crossing, call"
+msgstr "如需报告铁路道口的问题或紧急情况，请致电"
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "To submit an ADA/Accessibility complaint or feedback, please call"
+msgstr "如需提交 ADA/无障碍投诉或反馈，请致电"
+
+#: lib/dotcom/utils/service_date_time.ex:86
+#: lib/dotcom_web/components/planned_disruptions.ex:158
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:33
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:92
+#: lib/dotcom_web/views/helpers.ex:550
+#, elixir-autogen, elixir-format
+msgid "Today"
+msgstr "今天"
+
+#: lib/dotcom_web/views/alert_view.ex:163
+#, elixir-autogen, elixir-format
+msgid "Today at"
+msgstr "今天"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Toll Free"
+msgstr "免费电话"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:131
+#, elixir-autogen, elixir-format
+msgid "Track Boarding Change"
+msgstr "轨道登机变更"
+
+#: lib/alerts/alert.ex:255
+#: lib/dotcom/alerts/commuter_rail.ex:15
+#: lib/dotcom_web/components/timetable.ex:346
+#, elixir-autogen, elixir-format
+msgid "Track Change"
+msgstr "轨道变换"
+
+#: lib/dotcom_web/views/schedule/timetable.ex:59
+#, elixir-autogen, elixir-format
+msgid "Train scheduled to board from %{platform} at %{station}"
+msgstr "计划从%{platform}开往上车的列车将于%{station}时刻从"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:184
+#, elixir-autogen, elixir-format
+msgid "Transfer"
+msgstr "转移"
+
+#: lib/dotcom_web/views/layout_view.ex:130
+#, elixir-autogen, elixir-format
+msgid "Transfers"
+msgstr "转会"
+
+#: lib/dotcom_web/views/layout_view.ex:83
+#, elixir-autogen, elixir-format
+msgid "Transit"
+msgstr "交通"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:43
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex:15
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex:33
+#: lib/dotcom_web/views/layout_view.ex:175
+#, elixir-autogen, elixir-format
+msgid "Transit Police"
+msgstr "交通警察"
+
+#: lib/dotcom_web/controllers/mode/subway.ex:27
+#, elixir-autogen, elixir-format
+msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
+msgstr "乘坐Blue 、 Orange 、 Red和Green线，票价相同。"
+
+#: lib/dotcom_web/components/timetable.ex:70
+#: lib/dotcom_web/components/timetable.ex:216
+#, elixir-autogen, elixir-format
+msgid "Trip"
+msgstr "旅行"
+
+#: lib/dotcom_web/hooks/breadcrumbs.ex:17
+#: lib/dotcom_web/live/trip_planner_live.ex:115
+#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex:33
+#: lib/dotcom_web/views/layout_view.ex:101
+#: lib/feedback/message.ex:54
+#, elixir-autogen, elixir-format
+msgid "Trip Planner"
+msgstr "Trip planner"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex:65
+#, elixir-autogen, elixir-format
+msgid "Trips from %{from} to %{to}"
+msgstr "从%{from}到%{to}行程"
+
+#: lib/dotcom_web/views/error_view.ex:13
+#: lib/dotcom_web/views/error_view.ex:27
+#, elixir-autogen, elixir-format
+msgid "Try searching for what you're looking for below."
+msgstr "请尝试在下方搜索您要查找的内容。"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "Tuesday"
+msgstr "星期二"
+
+#: lib/dotcom_web/controllers/vote_controller.ex:73
+#: lib/dotcom_web/templates/vote/show.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
+msgstr "周二，11月5日是2024年大选投票的末日。 乘坐地铁前往投票站。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:76
+#, elixir-autogen, elixir-format
+msgid "Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)"
+msgstr "通常只有不到 33% 的座位可用，而且不太可能保持社交距离（每排约 3 人以上）。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:58
+#, elixir-autogen, elixir-format
+msgid "Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)"
+msgstr "通常情况下，超过 33% 的座位仍然空着，可以保持社交距离（每排约 2-3 人）。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)"
+msgstr "通常情况下，超过 66% 的座位可用，并且可以保持社交距离（每排约 0-2 人）。"
+
+#: lib/alerts/alert.ex:256
+#: lib/alerts/alert.ex:269
+#, elixir-autogen, elixir-format
+msgid "Unknown"
+msgstr "未知"
+
+#: lib/dotcom_web/views/schedule_view.ex:573
+#, elixir-autogen, elixir-format
+msgid "Unscheduled Track"
+msgstr "非计划赛道"
+
+#: lib/dotcom_web/components/planned_disruptions.ex:114
+#, elixir-autogen, elixir-format
+msgid "Until %{date}"
+msgstr "直到%{date}"
+
+#: lib/alerts/alert.ex:266
+#: lib/alerts/alert.ex:267
+#: lib/dotcom_web/views/schedule_view.ex:173
+#, elixir-autogen, elixir-format
+msgid "Upcoming"
+msgstr "即将进行"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex:36
+#: lib/dotcom_web/views/bus_stop_change_view.ex:76
+#, elixir-autogen, elixir-format
+msgid "Upcoming Changes"
+msgstr "即将进行变更"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Upcoming Holidays"
+msgstr "即将进行假期"
+
+#: lib/dotcom_web/templates/page/_homepage-events.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Upcoming Public Meetings and Events"
+msgstr "即将进行公开会议和活动"
+
+#: lib/dotcom_web/templates/cms/page/_project_update.html.heex:2
+#: lib/dotcom_web/templates/project/update.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Updated on"
+msgstr "更新于"
+
+#: lib/dotcom_web/views/alert_view.ex:170
+#, elixir-autogen, elixir-format
+msgid "Updated: "
+msgstr "更新： "
+
+#: lib/dotcom_web/controllers/cms_controller.ex:129
+#: lib/dotcom_web/controllers/project_controller.ex:105
+#: lib/dotcom_web/controllers/project_controller.ex:146
+#, elixir-autogen, elixir-format
+msgid "Updates"
+msgstr "更新"
+
+#: lib/dotcom_web/views/layout_view.ex:106
+#, elixir-autogen, elixir-format
+msgid "User Guides"
+msgstr "用户指南"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:517
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:520
+#, elixir-autogen, elixir-format
+msgid "Via"
+msgstr "通过"
+
+#: lib/dotcom_web/templates/schedule/_empty.html.heex:5
+#: lib/dotcom_web/templates/stop/index.html.heex:46
+#: lib/dotcom_web/templates/stop/index.html.heex:56
+#, elixir-autogen, elixir-format
+msgid "View"
+msgstr "看法"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:237
+#, elixir-autogen, elixir-format
+msgid "View Alerts"
+msgstr "查看警报"
+
+#: lib/dotcom_web/views/layout_view.ex:165
+#, elixir-autogen, elixir-format
+msgid "View All Contact Numbers"
+msgstr "查看所有联系电话"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:40
+#, elixir-autogen, elixir-format
+msgid "View All Options"
+msgstr "查看所有选项"
+
+#: lib/dotcom_web/templates/cms/paragraph/_person.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "View Bio"
+msgstr "查看个人简介"
+
+#: lib/dotcom_web/templates/alert/_summary_content.html.heex:19
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:5
+#: lib/dotcom_web/templates/schedule/_timetable_suppressed.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "View PDF Timetable"
+msgstr "查看PDF时间表"
+
+#: lib/dotcom/timetable_blocking.ex:11
+#, elixir-autogen, elixir-format
+msgid "View PDF Timetable on the MBTA website."
+msgstr "请在MBTA网站上查看PDF格式的时刻表。"
+
+#: lib/dotcom_web/templates/event/_month.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "View Previous"
+msgstr "查看上一页"
+
+#: lib/dotcom_web/templates/stop/index.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "View all"
+msgstr "查看全部"
+
+#: lib/dotcom_web/views/mode_view.ex:83
+#, elixir-autogen, elixir-format
+msgid "View all bus routes"
+msgstr "查看所有巴士路线"
+
+#: lib/dotcom_web/views/paragraph_view.ex:206
+#, elixir-autogen, elixir-format
+msgid "View all events"
+msgstr "查看所有活动"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:85
+#, elixir-autogen, elixir-format
+msgid "View all guides"
+msgstr "查看所有指南"
+
+#: lib/dotcom_web/views/paragraph_view.ex:213
+#, elixir-autogen, elixir-format
+msgid "View all news"
+msgstr "查看所有新闻"
+
+#: lib/dotcom_web/views/paragraph_view.ex:199
+#, elixir-autogen, elixir-format
+msgid "View all project updates"
+msgstr "查看所有项目更新"
+
+#: lib/dotcom_web/views/paragraph_view.ex:220
+#, elixir-autogen, elixir-format
+msgid "View all projects"
+msgstr "查看所有项目"
+
+#: lib/dotcom_web/controllers/fare_controller.ex:127
+#, elixir-autogen, elixir-format
+msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
+msgstr "查看 MBTA 巴士、地铁、通勤铁路、渡轮和The RIDE的常见票价信息。 在线查找 CharlieCard 服务并了解批量订购计划。"
+
+#: lib/dotcom_web/templates/mode/index.html.heex:43
+#: lib/dotcom_web/views/fare_view.ex:112
+#, elixir-autogen, elixir-format
+msgid "View fares overview"
+msgstr "查看票价概览"
+
+#: lib/dotcom_web/templates/fare/_nearby_locations.html.heex:51
+#, elixir-autogen, elixir-format
+msgid "View on Google Maps"
+msgstr "在谷歌地图上查看"
+
+#: lib/dotcom_web/templates/fare/_nearby_locations.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "View on MBTA Trip Planner"
+msgstr "在 MBTA 行程规划器上查看"
+
+#: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "View phone numbers"
+msgstr "查看电话号码"
+
+#: lib/dotcom_web/controllers/vote_controller.ex:64
+#, elixir-autogen, elixir-format
+msgid "Vote"
+msgstr "投票"
+
+#: lib/dotcom_web/components/trip_planner/results.ex:62
+#, elixir-autogen, elixir-format
+msgid "Waiting for results"
+msgstr "等待结果"
+
+#: lib/dotcom_web/components/trip_planner/walking_leg.ex:34
+#, elixir-autogen, elixir-format
+msgid "Walk"
+msgstr "走"
+
+#: lib/dotcom/trip_plan/input_form.ex:231
+#: lib/dotcom/trip_plan/input_form.ex:234
+#, elixir-autogen, elixir-format
+msgid "Walking directions only"
+msgstr "仅步行路线"
+
+#: lib/dotcom_web/views/schedule_view.ex:77
+#, elixir-autogen, elixir-format
+msgid "We can only provide trip data for the %{rating} schedule, valid until %{end_date}."
+msgstr "我们只能提供%{rating}时刻表的行程数据，有效期至%{end_date} 。"
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes."
+msgstr "提交您的反馈时出现问题——请拨打下面的主要热线电话，或稍后再试。"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:55
+#, elixir-autogen, elixir-format
+msgid "We want to make sure we're building a retail network that works for you. You can share your feedback using the form below."
+msgstr "我们希望确保我们构建的零售网络能够为您服务。您可以使用下面的表格分享您的反馈意见。"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:54
+#, elixir-autogen, elixir-format
+msgid "We weren't able to find a polling place for your address. You can also visit the"
+msgstr "我们未能找到您所在地址的投票站。您也可以访问"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "We'll send you MBTA press releases and media advisories directly."
+msgstr "我们将直接向您发送 MBTA 的新闻稿和媒体通告。"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:68
+#, elixir-autogen, elixir-format
+msgid "We're asking the public to help guide our decisions as we roll out the Fare Transformation project over the next several years."
+msgstr "在未来几年推行票价改革项目的过程中，我们希望公众能够帮助我们做出正确的决定。"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
+msgstr "我们正在扩大乘客可以办理或充值 CharlieCard 以及购买通票的地点网络。"
+
+#: lib/feedback/message.ex:40
+#: lib/feedback/message.ex:55
+#, elixir-autogen, elixir-format
+msgid "Website"
+msgstr "网站"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:67
+#, elixir-autogen, elixir-format
+msgid "Wednesday"
+msgstr "星期三"
+
+#: lib/fares/format.ex:68
+#: lib/fares/format.ex:115
+#, elixir-autogen, elixir-format
+msgid "Weekend Pass"
+msgstr "周末通票"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:24
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex:86
+#, elixir-autogen, elixir-format
+msgid "Weekends"
+msgstr "周末"
+
+#: lib/routes/parser.ex:70
+#: lib/routes/repo.ex:193
+#, elixir-autogen, elixir-format
+msgid "Westbound"
+msgstr "西行"
+
+#: lib/dotcom_web/templates/page/_whats_happening.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "What's Happening at the MBTA"
+msgstr "MBTA 发生了什么？"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex:69
+#, elixir-autogen, elixir-format
+msgid "When"
+msgstr "什么时候"
+
+#: lib/fares/format.ex:94
+#, elixir-autogen, elixir-format
+msgid "Winthrop/Quincy Ferry"
+msgstr "Winthrop/Quincy Ferry"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "Work With Us"
+msgstr "加入我们"
+
+#: lib/dotcom_web/views/layout_view.ex:208
+#, elixir-autogen, elixir-format
+msgid "Work with Us"
+msgstr "加入我们"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex:53
+#, elixir-autogen, elixir-format
+msgid "Write to Us"
+msgstr "请写信给我们"
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "You can also email"
+msgstr "您也可以通过电子邮件联系我。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:44
+#, elixir-autogen, elixir-format
+msgid "You can expect a response to most tickets within 5 business days. Certain complaints may require longer investigations, up to 30 days."
+msgstr "大多数车票申请会在 5 个工作日内得到回复。 某些投诉可能需要更长时间的调查，最长可达 30 天。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:138
+#, elixir-autogen, elixir-format
+msgid "You must agree to our Privacy Policy before submitting your feedback."
+msgstr "您必须同意我们的隐私政策才能提交反馈。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:141
+#, elixir-autogen, elixir-format
+msgid "You must complete the reCAPTCHA before submitting your feedback."
+msgstr "您必须先完成 reCAPTCHA 验证才能提交反馈。"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "Your Polling Place"
+msgstr "您的投票站"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Zone"
+msgstr "区"
+
+#: lib/dotcom_web/components/transit_icons.ex:36
+#: lib/fares/format.ex:98
+#, elixir-autogen, elixir-format
+msgid "Zone %{zone}"
+msgstr "区域%{zone}"
+
+#: lib/fares/format.ex:186
+#, elixir-autogen, elixir-format
+msgid "Zones 1A-10"
+msgstr "1A-10区"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "a crew member"
+msgstr "一名船员"
+
+#: lib/dotcom_web/templates/alert/show.html.heex:9
+#: lib/dotcom_web/templates/page/_alerts.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "alerts at this time"
+msgstr "此时发出警报"
+
+#: lib/util/and_or.ex:13
+#, elixir-autogen, elixir-format
+msgid "and"
+msgstr "和"
+
+#: lib/vehicle_helpers.ex:159
+#: lib/vehicle_helpers.ex:160
+#, elixir-autogen, elixir-format
+msgid "arrived at"
+msgstr "到达"
+
+#: lib/dotcom/transit_near_me.ex:109
+#: lib/dotcom/transit_near_me.ex:115
+#, elixir-autogen, elixir-format
+msgid "arriving"
+msgstr "抵达"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex:48
+#, elixir-autogen, elixir-format
+msgid "at this time"
+msgstr "此时"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:181
+#, elixir-autogen, elixir-format
+msgid "between %{first} and %{last}"
+msgstr "介于%{first}和%{last}之间"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:265
+#, elixir-autogen, elixir-format
+msgid "boat"
+msgstr "船"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:266
+#: lib/dotcom_web/controllers/schedule/alerts_controller.ex:61
+#: lib/dotcom_web/controllers/schedule/line_controller.ex:274
+#, elixir-autogen, elixir-format
+msgid "bus"
+msgstr "巴士"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:163
+#, elixir-autogen, elixir-format
+msgid "bus stop"
+msgstr "巴士站"
+
+#: lib/fares/format.ex:34
+#, elixir-autogen, elixir-format
+msgid "cash"
+msgstr "现金"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "change"
+msgstr "改变"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "changes"
+msgstr "变化"
+
+#: lib/fares/format.ex:38
+#, elixir-autogen, elixir-format
+msgid "contactless payment"
+msgstr "非接触式支付"
+
+#: lib/dotcom_web/views/alert_view.ex:92
+#, elixir-autogen, elixir-format
+msgid "current"
+msgstr "当前的"
+
+#: lib/vehicle_helpers.ex:159
+#, elixir-autogen, elixir-format
+msgid "departed"
+msgstr "已离开"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:67
+#, elixir-autogen, elixir-format
+msgid "docks"
+msgstr "码头"
+
+#: lib/dotcom_web/views/schedule_view.ex:126
+#, elixir-autogen, elixir-format
+msgid "east"
+msgstr "东方"
+
+#: lib/dotcom_web/views/schedule_view.ex:543
+#, elixir-autogen, elixir-format
+msgid "few"
+msgstr "很少"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:215
+#, elixir-autogen, elixir-format
+msgid "for"
+msgstr "为了"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:135
+#, elixir-autogen, elixir-format
+msgid "from %{origin}"
+msgstr "来自%{origin}"
+
+#: lib/vehicle_helpers.ex:160
+#, elixir-autogen, elixir-format
+msgid "has left"
+msgstr "已离开"
+
+#: lib/dotcom_web/views/schedule_view.ex:123
+#, elixir-autogen, elixir-format
+msgid "inbound"
+msgstr "进站"
+
+#: lib/dotcom_web/templates/stop/index.html.heex:46
+#: lib/dotcom_web/templates/stop/index.html.heex:56
+#, elixir-autogen, elixir-format
+msgid "info"
+msgstr "信息"
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "is temporarily unavailable due to a service change."
+msgstr "由于服务变更，暂时无法使用。"
+
+#: lib/dotcom_web/views/helpers.ex:559
+#, elixir-autogen, elixir-format
+msgid "line"
+msgstr "线"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:29
+#: lib/fares/format.ex:39
+#, elixir-autogen, elixir-format
+msgid "mTicket App"
+msgstr "mTicket App"
+
+#: lib/dotcom_web/views/schedule_view.ex:541
+#, elixir-autogen, elixir-format
+msgid "many"
+msgstr "许多"
+
+#: lib/dotcom_web/views/schedule_view.ex:127
+#, elixir-autogen, elixir-format
+msgid "north"
+msgstr "北"
+
+#: lib/alerts/alert.ex:289
+#, elixir-autogen, elixir-format
+msgid "of more than 30 min"
+msgstr "超过30分钟"
+
+#: lib/alerts/alert.ex:290
+#, elixir-autogen, elixir-format
+msgid "of more than an hour"
+msgstr "超过一个小时"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:218
+#, elixir-autogen, elixir-format
+msgid "onto"
+msgstr "到"
+
+#: lib/util/and_or.ex:17
+#, elixir-autogen, elixir-format
+msgid "or"
+msgstr "或"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "or "
+msgstr "或 "
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "or complete the feedback form on this page."
+msgstr "或者填写此页面上的反馈表。"
+
+#: lib/dotcom_web/views/schedule_view.ex:124
+#, elixir-autogen, elixir-format
+msgid "outbound"
+msgstr "出站"
+
+#: lib/fares/format.ex:40
+#, elixir-autogen, elixir-format
+msgid "paper ferry ticket"
+msgstr "纸质渡轮车票"
+
+#: lib/dotcom_web/views/alert_view.ex:88
+#, elixir-autogen, elixir-format
+msgid "planned"
+msgstr "计划"
+
+#: lib/fares/format.ex:25
+#, elixir-autogen, elixir-format
+msgid "reduced fare card"
+msgstr "减价票卡"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "report an issue"
+msgstr "报告问题"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "retail sales location finder"
+msgstr "零售店位置查找器"
+
+#: lib/dotcom_web/views/helpers.ex:558
+#, elixir-autogen, elixir-format
+msgid "route"
+msgstr "路线"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "see a map of all proposed sales locations"
+msgstr "查看所有拟定销售地点的地图"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "service"
+msgstr "服务"
+
+#: lib/dotcom_web/views/schedule_view.ex:542
+#, elixir-autogen, elixir-format
+msgid "some"
+msgstr "一些"
+
+#: lib/dotcom_web/views/schedule_view.ex:128
+#, elixir-autogen, elixir-format
+msgid "south"
+msgstr "南"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:174
+#: lib/dotcom_web/views/stop_view.ex:63
+#, elixir-autogen, elixir-format
+msgid "station"
+msgstr "车站"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex:68
+#, elixir-autogen, elixir-format
+msgid "stations"
+msgstr "车站"
+
+#: lib/dotcom_web/templates/stop/index.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "stops"
+msgstr "停止"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "the MBTA's home page"
+msgstr "MBTA主页"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "the conductor"
+msgstr "指挥家"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:216
+#, elixir-autogen, elixir-format
+msgid "through"
+msgstr "通过"
+
+#: lib/dotcom_web/components/timetable.ex:51
+#: lib/dotcom_web/components/timetable.ex:197
+#, elixir-autogen, elixir-format
+msgid "timetable for"
+msgstr "时间表"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex:70
+#: lib/dotcom_web/views/helpers.ex:227
+#, elixir-autogen, elixir-format
+msgid "to"
+msgstr "到"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:134
+#: lib/dotcom_web/live/schedule_finder_live.ex:579
+#, elixir-autogen, elixir-format
+msgid "to %{destination}"
+msgstr "至%{destination}"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:58
+#, elixir-autogen, elixir-format
+msgid "to find your polling place, and then use the"
+msgstr "找到你的投票地点，然后使用"
+
+#: lib/dotcom_web/templates/vote/show.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "to plan your trip"
+msgstr "计划您的行程"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex:217
+#: lib/dotcom_web/live/schedule_finder_live.ex:383
+#, elixir-autogen, elixir-format
+msgid "towards"
+msgstr "向"
+
+#: lib/journey.ex:234
+#, elixir-autogen, elixir-format
+msgid "track "
+msgstr "追踪 "
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:267
+#, elixir-autogen, elixir-format
+msgid "train"
+msgstr "火车"
+
+#: lib/dotcom_web/templates/schedule/_empty.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "trips for today"
+msgstr "今日行程"
+
+#: lib/alerts/alert.ex:284
+#, elixir-autogen, elixir-format
+msgid "up to 10 min"
+msgstr "最多 10 分钟"
+
+#: lib/alerts/alert.ex:285
+#, elixir-autogen, elixir-format
+msgid "up to 15 min"
+msgstr "最多 15 分钟"
+
+#: lib/alerts/alert.ex:286
+#, elixir-autogen, elixir-format
+msgid "up to 20 min"
+msgstr "最多 20 分钟"
+
+#: lib/alerts/alert.ex:287
+#, elixir-autogen, elixir-format
+msgid "up to 25 min"
+msgstr "最多 25 分钟"
+
+#: lib/alerts/alert.ex:288
+#, elixir-autogen, elixir-format
+msgid "up to 30 min"
+msgstr "最多 30 分钟"
+
+#: lib/dotcom_web/views/schedule_view.ex:129
+#, elixir-autogen, elixir-format
+msgid "west"
+msgstr "西方"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:91
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:117
+#: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex:56
+#, elixir-autogen, elixir-format
+msgid "with"
+msgstr "和"
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "with your request."
+msgstr "满足您的要求。"
+
+#: lib/dotcom_web/views/customer_support_view.ex:110
+#, elixir-autogen, elixir-format
+msgid "Bus Other"
+msgstr "巴士其他"
+
+#: lib/dotcom_web/templates/stop/show.html.heex:41
+#, elixir-autogen, elixir-format
+msgid "%{place} Information"
+msgstr "%{place}信息"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:11
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "%{y} of %{x} working"
+msgstr "%{y}的%{x}工作"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "2 areas where wheeled mobility devices can be secured"
+msgstr "2 个可以保护轮式助行设备的区域"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "Accessibility Resources"
+msgstr "无障碍资源"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "Accessibility at %{name}"
+msgstr "无障碍访问%{name}"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Apple Pay"
+msgstr "Apple Pay"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "At fare vending machines, you can"
+msgstr "在自动售票机上，您可以"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Bike Storage"
+msgstr "自行车存放处"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Bike Storage at %{name}"
+msgstr "自行车存放处%{name}"
+
+#: lib/dotcom_web/templates/stop/show.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Bringing your car or bike"
+msgstr "开车或骑自行车"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "Bus Features"
+msgstr "巴士特色"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:68
+#, elixir-autogen, elixir-format
+msgid "Buses that can be lowered for easier boarding and exiting"
+msgstr "可降低车身高度以便乘客上下车的巴士"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:82
+#, elixir-autogen, elixir-format
+msgid "Call"
+msgstr "称呼"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Cost"
+msgstr "成本"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "Covered bike racks"
+msgstr "带顶棚的自行车架"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Covered bike racks are available"
+msgstr "有带顶棚的自行车架。"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Credit/debit cards"
+msgstr "信用卡/借记卡"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Daily"
+msgstr "日常的"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:72
+#, elixir-autogen, elixir-format
+msgid "Digital displays and automated announcements that share key route and stop info"
+msgstr "共享主要线路和停靠信息的数字显示器和自动广播"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "EBT card"
+msgstr "EBT卡"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Elevators"
+msgstr "电梯"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Elevators at %{name}"
+msgstr "电梯位于%{name}"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Escalator (down only)"
+msgstr "扶梯（仅下行）"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "Escalator (up and down)"
+msgstr "自动扶梯（上下）"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:45
+#, elixir-autogen, elixir-format
+msgid "Escalator (up only)"
+msgstr "扶梯（仅上行）"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Escalators"
+msgstr "自动扶梯"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Escalators at %{name}"
+msgstr "扶梯位于%{name}"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:37
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "Facility Information"
+msgstr "设施信息"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Fare Options"
+msgstr "票价选项"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Fare Options at %{name}"
+msgstr "%{name}处的票价选项"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:48
+#, elixir-autogen, elixir-format
+msgid "Fare Retail Locations"
+msgstr "票价零售地点"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Fare Types"
+msgstr "票价类型"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "Fare Vending Machines"
+msgstr "自动售票机"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Free Pedal and Park secured parking"
+msgstr "免费踏板和停车安全停车场"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Full high level platform to provide level boarding to every car in a train set"
+msgstr "全高站台，为列车组中的每节车厢提供平缓的登车通道。"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:58
+#, elixir-autogen, elixir-format
+msgid "Get an invoice in the mail for a $1 fee"
+msgstr "您将收到一张邮寄的发票，费用为 1 美元。"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:92
+#, elixir-autogen, elixir-format
+msgid "Get directions to this parking facility"
+msgstr "获取前往此停车场的路线"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:41
+#, elixir-autogen, elixir-format
+msgid "Google Pay"
+msgstr "Google Pay"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:88
+#, elixir-autogen, elixir-format
+msgid "Learn more about accessibility on the T"
+msgstr "了解有关地铁方便的更多信息"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:54
+#, elixir-autogen, elixir-format
+msgid "Learn more about bike parking at the T"
+msgstr "了解更多关于地铁站自行车停车的信息"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Learn more about bike storage at this station."
+msgstr "了解有关该车站自行车存放处的更多信息。"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:93
+#, elixir-autogen, elixir-format
+msgid "Learn more about bus accessibility"
+msgstr "了解有关巴士无障碍的更多信息"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:59
+#, elixir-autogen, elixir-format
+msgid "Learn more about fares"
+msgstr "了解更多票价信息"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:83
+#, elixir-autogen, elixir-format
+msgid "Learn more about ferry accessibility"
+msgstr "了解更多关于渡轮无障碍设施的信息"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:96
+#, elixir-autogen, elixir-format
+msgid "Learn more about parking at the T"
+msgstr "了解更多关于地铁站停车的信息"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:62
+#, elixir-autogen, elixir-format
+msgid "Learn more about reduced fares and eligibility"
+msgstr "了解有关减价票和资格的更多信息"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Learn more about the accessibility features at this %{place}."
+msgstr "了解更多关于无障碍功能的信息，请访问%{place} 。"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:47
+#, elixir-autogen, elixir-format
+msgid "Long ramp"
+msgstr "长坡道"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "MBTA fare vending machines"
+msgstr "MBTA 自动售票机"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "Managed by"
+msgstr "由……管理"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:51
+#, elixir-autogen, elixir-format
+msgid "Mini high level platform to provide level boarding to certain cars in a train set"
+msgstr "迷你高站台为列车组中的某些车厢提供平整的登车通道。"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Monthly"
+msgstr "月票"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "Most, but not all, MBTA docks are accessible to riders with disabilities. Based on the tide level and the type of vessel used for travel, you may encounter significant slopes and narrow walkways, even at accessible docks. At all docks, wait until a crew member tells you it is safe to proceed."
+msgstr "大多数（但不是全部）MBTA 码头都易于通过残障进行上升。 根据潮汐水位和航行所用船只的类型，即使在无障碍码头，您也可能会遇到较大的坡度和狭窄的通道。在所有码头，请等待船员告知您可以安全通行后再继续前进。"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:6
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:6
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:6
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Not available"
+msgstr "无法使用"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "Onboard ramps at the front door of each bus"
+msgstr "每辆巴士前门都设有登车坡道。"
+
+#: lib/dotcom_web/components/stops.ex:78
+#, elixir-autogen, elixir-format
+msgid "Out of Order"
+msgstr "故障"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:45
+#, elixir-autogen, elixir-format
+msgid "Outdoor bike racks"
+msgstr "户外自行车架"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Outdoor bike racks are available"
+msgstr "户外自行车架可用"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Overnight"
+msgstr "过夜"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "Parking Rates"
+msgstr "停车收费标准"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Parking at %{name}"
+msgstr "停车场位于%{name}"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:46
+#, elixir-autogen, elixir-format
+msgid "Payment Methods"
+msgstr "支付方式"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:99
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:37
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Plan an accessible trip"
+msgstr "计划一次无障碍旅行"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:53
+#, elixir-autogen, elixir-format
+msgid "Portable boarding lift"
+msgstr "便携式登机升降机"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Purchase CharlieTickets"
+msgstr "购买查理票"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:35
+#, elixir-autogen, elixir-format
+msgid "Purchase a CharlieCard or reload an existing one"
+msgstr "购买查理卡或为现有查理卡充值"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Purchase fares at fare vending machines."
+msgstr "在自动售票机购买车票。"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "Purchase fares at nearby retail sales locations."
+msgstr "请在附近的零售售票点购买车票。"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "Register your CharlieCard for bike parking"
+msgstr "注册您的查理卡（CharlieCard）即可享受自行车停车服务"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:78
+#, elixir-autogen, elixir-format
+msgid "Report an accessibility issue"
+msgstr "报告无障碍问题"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Report an elevator issue"
+msgstr "报告电梯故障"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Report an escalator issue"
+msgstr "报告自动扶梯故障"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Samsung Pay"
+msgstr "Samsung Pay"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Secured parking is available but requires Charlie Card registration in advance."
+msgstr "提供安全停车位，但需提前注册查理卡。"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Station Features"
+msgstr "车站特色"
+
+#: lib/dotcom_web/components/stops.ex:75
+#, elixir-autogen, elixir-format
+msgid "Status"
+msgstr "地位"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "TTY Phone"
+msgstr "TTY电话"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:9
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Temporarily closed"
+msgstr "暂时已关闭"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:60
+#, elixir-autogen, elixir-format
+msgid "There are no additional accessibility features, but buses are always accessible to board."
+msgstr "没有额外的无障碍功能，但巴士总是无障碍上车。"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "This %{place} is not accessible."
+msgstr "此%{place}不方便。"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "This station does not have bike storage."
+msgstr "该车站没有自行车存放处。"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "This station does not have elevators."
+msgstr "这个车站没有电梯。"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "This station does not have escalators."
+msgstr "这家商店没有自动扶梯。"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "This station does not have parking."
+msgstr "这家商店没有停车场。"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:50
+#, elixir-autogen, elixir-format
+msgid "This stop does not have fare vending machines, but you can purchase fares at a"
+msgstr "本站没有自动售票机，但您可以在车站购买车票。"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Trip Type"
+msgstr "旅行类型"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:49
+#, elixir-autogen, elixir-format
+msgid "Use"
+msgstr "使用"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "View available elevators."
+msgstr "查看可用电梯。"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "View available escalators."
+msgstr "查看可用的自动扶梯。"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "View more payment information"
+msgstr "查看更多付款信息"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "View parking rates, facility information, and more."
+msgstr "查看停车费率、设施信息等。"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:76
+#, elixir-autogen, elixir-format
+msgid "Visit"
+msgstr "访问"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:104
+#, elixir-autogen, elixir-format
+msgid "Visit the Mobility Center"
+msgstr "参观行动中心"
+
+#: lib/dotcom_web/components/stops.ex:81
+#, elixir-autogen, elixir-format
+msgid "Working"
+msgstr "在职的"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "You can pay for your fare with"
+msgstr "您可以使用以下方式支付车费："
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:69
+#, elixir-autogen, elixir-format
+msgid "accessible spots"
+msgstr "无障碍设施"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:51
+#, elixir-autogen, elixir-format
+msgid "location"
+msgstr "地点"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:54
+#, elixir-autogen, elixir-format
+msgid "nearby retail location"
+msgstr "附近零售店"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex:56
+#, elixir-autogen, elixir-format
+msgid "or pay with cash on any bus"
+msgstr "或在任何巴士上用现金支付"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "registration in advance"
+msgstr "提前注册"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "requires"
+msgstr "需要"
+
+#: lib/dotcom_web/views/stop_view.ex:63
+#, elixir-autogen, elixir-format
+msgid "stop"
+msgstr "停止"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "total parking spots"
+msgstr "停车位总数"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:78
+#, elixir-autogen, elixir-format
+msgid "website"
+msgstr "网站"
+
+#: lib/dotcom/service_patterns.ex:215
+#, elixir-autogen, elixir-format
+msgid "%{rating} Planned Work"
+msgstr "%{rating}计划工作"
+
+#: lib/dotcom/service_patterns.ex:234
+#, elixir-autogen, elixir-format
+msgid "%{rating} Schedules, ends %{date}"
+msgstr "%{rating}时刻表，结束%{date}"
+
+#: lib/dotcom/service_patterns.ex:239
+#: lib/dotcom/service_patterns.ex:249
+#, elixir-autogen, elixir-format
+msgid "%{rating} Schedules, starts %{date}"
+msgstr "%{rating}时刻表，开始于%{date}"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:541
+#, elixir-autogen, elixir-format
+msgid "Approaching"
+msgstr "即将进站"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:718
+#, elixir-autogen, elixir-format
+msgid "Arriving"
+msgstr "到达"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:719
+#, elixir-autogen, elixir-format
+msgid "Boarding"
+msgstr "登机"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:226
+#, elixir-autogen, elixir-format
+msgid "Both Directions"
+msgstr "双向"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:775
+#, elixir-autogen, elixir-format
+msgid "Cancelled"
+msgstr "已取消"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:408
+#, elixir-autogen, elixir-format
+msgid "Choose a schedule type from the available options"
+msgstr "从可用选项中选择时刻表类型"
+
+#: lib/holiday/repo.ex:78
+#, elixir-autogen, elixir-format
+msgid "Christmas Day"
+msgstr "圣诞节"
+
+#: lib/holiday/repo.ex:75
+#, elixir-autogen, elixir-format
+msgid "Columbus Day"
+msgstr "哥伦布日"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:584
+#, elixir-autogen, elixir-format
+msgid "Crowded"
+msgstr "挤"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:129
+#, elixir-autogen, elixir-format
+msgid "Daily Schedules"
+msgstr "每日表时刻"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:544
+#, elixir-autogen, elixir-format
+msgid "Finishing another trip"
+msgstr "又一次旅行结束了"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:474
+#, elixir-autogen, elixir-format
+msgid "First %{vehicle}"
+msgstr "第一%{vehicle}"
+
+#: lib/dotcom/service_patterns.ex:209
+#, elixir-autogen, elixir-format
+msgid "Holiday Schedules"
+msgstr "假期表时刻"
+
+#: lib/holiday/repo.ex:73
+#, elixir-autogen, elixir-format
+msgid "Independence Day"
+msgstr "独立日"
+
+#: lib/holiday/repo.ex:72
+#, elixir-autogen, elixir-format
+msgid "Juneteenth Independence Day"
+msgstr "六月节独立日"
+
+#: lib/holiday/repo.ex:74
+#, elixir-autogen, elixir-format
+msgid "Labor Day"
+msgstr "劳动节"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:480
+#, elixir-autogen, elixir-format
+msgid "Last %{vehicle}"
+msgstr "末班车%{vehicle}"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:543
+#, elixir-autogen, elixir-format
+msgid "Loading arrivals..."
+msgstr "正在加载到货信息……"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:138
+#, elixir-autogen, elixir-format
+msgid "Loading schedules for selected service"
+msgstr "正在加载所选服务的时刻表"
+
+#: lib/holiday/repo.ex:68
+#, elixir-autogen, elixir-format
+msgid "Martin Luther King, Jr. Day"
+msgstr "马丁·路德·金纪念日"
+
+#: lib/holiday/repo.ex:71
+#, elixir-autogen, elixir-format
+msgid "Memorial Day"
+msgstr "纪念日"
+
+#: lib/holiday/repo.ex:67
+#, elixir-autogen, elixir-format
+msgid "New Year’s Day"
+msgstr "元旦"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:125
+#: lib/dotcom_web/live/upcoming_departures_live.ex:286
+#, elixir-autogen, elixir-format
+msgid "No service today"
+msgstr "今天暂停服务"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:582
+#, elixir-autogen, elixir-format
+msgid "Not crowded"
+msgstr "不拥挤。"
+
+#: lib/holiday/repo.ex:42
+#, elixir-autogen, elixir-format
+msgid "Observed"
+msgstr "观察到"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:773
+#, elixir-autogen, elixir-format
+msgid "On Time"
+msgstr "准时"
+
+#: lib/dotcom/service_patterns.ex:256
+#, elixir-autogen, elixir-format
+msgid "Other Schedules"
+msgstr "其他时刻"
+
+#: lib/holiday/repo.ex:70
+#, elixir-autogen, elixir-format
+msgid "Patriots’ Day"
+msgstr "爱国者日"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:273
+#, elixir-autogen, elixir-format
+msgid "Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip."
+msgstr "预计出发时间尚未公布，但会在首班航班出发前在此处显示。"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:587
+#, elixir-autogen, elixir-format
+msgid "Route %{route}"
+msgstr "路线%{route}"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:760
+#: lib/dotcom_web/live/upcoming_departures_live.ex:774
+#, elixir-autogen, elixir-format
+msgid "Scheduled"
+msgstr "已安排"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:525
+#, elixir-autogen, elixir-format
+msgid "School days only"
+msgstr "仅上学日运营"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:853
+#, elixir-autogen, elixir-format
+msgid "Show"
+msgstr "展示"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex:203
+#: lib/dotcom_web/live/upcoming_departures_live.ex:620
+#, elixir-autogen, elixir-format
+msgid "Skipped"
+msgstr "绕行"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:583
+#, elixir-autogen, elixir-format
+msgid "Some crowding"
+msgstr "有些拥挤"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:82
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:192
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:156
+#: lib/dotcom_web/live/upcoming_departures_live.ex:776
+#, elixir-autogen, elixir-format
+msgid "Stop Skipped"
+msgstr "停止 绕行"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex:197
+#: lib/dotcom_web/components/system_status/status_row_heading.ex:157
+#, elixir-autogen, elixir-format
+msgid "Stops Skipped"
+msgstr "停止 绕行"
+
+#: lib/holiday/repo.ex:77
+#, elixir-autogen, elixir-format
+msgid "Thanksgiving Day"
+msgstr "感恩节"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:592
+#, elixir-autogen, elixir-format
+msgid "There is currently no scheduled %{route_name}."
+msgstr "目前没有已安排的%{route_name} 。"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:594
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled %{route} service at %{stop} for this time period."
+msgstr "此时间段内， %{stop}没有安排%{route}服务。"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:547
+#, elixir-autogen, elixir-format
+msgid "There was a problem loading arrivals"
+msgstr "加载到达数据时出现问题"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:143
+#, elixir-autogen, elixir-format
+msgid "There was a problem loading schedules"
+msgstr "加载时刻表时出现问题"
+
+#: lib/dotcom/schedule_finder.ex:225
+#, elixir-autogen, elixir-format
+msgid "Track TBA"
+msgstr "赛道待定"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:531
+#, elixir-autogen, elixir-format
+msgid "Train"
+msgstr "火车"
+
+#: lib/dotcom/upcoming_departures/processor.ex:223
+#, elixir-autogen, elixir-format
+msgid "Train %{trip_name}"
+msgstr "列车%{trip_name}"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:114
+#, elixir-autogen, elixir-format
+msgid "Upcoming Departures"
+msgstr "即将进行 出发"
+
+#: lib/holiday/repo.ex:76
+#, elixir-autogen, elixir-format
+msgid "Veterans Day"
+msgstr "退伍军人节"
+
+#: lib/holiday/repo.ex:69
+#, elixir-autogen, elixir-format
+msgid "Washington’s Birthday"
+msgstr "华盛顿诞辰"
+
+#: lib/dotcom_web/views/schedule_view.ex:415
+#, elixir-autogen, elixir-format
+msgid " Additional service between Boston, Hingham, and Hull is available via the %{link}"
+msgstr " 波士顿、 Hingham和Hull之间可通过%{link}列车提供额外服务。"
+
+#: lib/dotcom_web/views/schedule_view.ex:438
+#, elixir-autogen, elixir-format
+msgid " Service continues later in the day in the opposite direction. %{link}"
+msgstr " 当天晚些时候，该服务将继续以相反的方向运行。%{link}"
+
+#: lib/dotcom_web/views/schedule_view.ex:460
+#, elixir-autogen, elixir-format
+msgid " Service is available earlier in the day in the opposite direction. %{link}"
+msgstr " 当天早些时候，反方向的服务也已开通。%{link}"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex:57
+#, elixir-autogen, elixir-format
+msgid "%{count} later %{change_text}"
+msgstr "%{count}稍后%{change_text}"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:845
+#, elixir-autogen, elixir-format
+msgid "1 trip later today"
+msgid_plural "%{count} trips later today"
+msgstr[0] "今天又去了%{count}趟"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Add %{title} to calendar"
+msgstr "将%{title}添加到日历"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:131
+#, elixir-autogen, elixir-format
+msgid "All Boston Stadium Train tickets include a return trip after the match. Trains will start leaving Foxboro Station 30 minutes after the final whistle. Return trains will leave the stadium roughly every 15 minutes until all trains have departed."
+msgstr "所有Boston Stadium火车车票均包含赛后返程车票。 列车将在终场哨响后 30 分钟开始从Foxboro车站出发。 返程列车大约每 15 分钟一班从体育场出发，直到所有列车都出发为止。"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:133
+#, elixir-autogen, elixir-format
+msgid "Bag Policy & Prohibited Items"
+msgstr "背包政策及违禁物品"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:127
+#, elixir-autogen, elixir-format
+msgid "Be at South Station at the time shown for your boarding group. Your boarding group is on your Boston Stadium Train ticket."
+msgstr "请按照您所在登车组别的指定时间到South Station 。 您的登车组号在您的Boston Stadium火车车票上。"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:26
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:40
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:54
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:68
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:82
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:96
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:110
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Boarding Group A"
+msgstr "A组登机"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:27
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:41
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:55
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:69
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:83
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:97
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:111
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Boarding Group B"
+msgstr "B组登机"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:28
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:42
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:56
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:70
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:84
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:98
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:112
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Boarding Group C"
+msgstr "C组登机"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:29
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:43
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:57
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:71
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:85
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:99
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:113
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Boarding Group D"
+msgstr "D组登机"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:30
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:44
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:58
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:72
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:86
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:100
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:114
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Boarding Group E"
+msgstr "E组登机"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:76
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Boarding Groups"
+msgstr "登船组"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:113
+#, elixir-autogen, elixir-format
+msgid "Boston Stadium Train Ticket Required"
+msgstr "Boston Stadium需要火车票"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:115
+#, elixir-autogen, elixir-format
+msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket app. For more information, read our %{world_cup_link}"
+msgstr "前往Boston Stadium火车车票必须提前在mTicket应用程序上购买。 欲了解更多信息，请阅读我们的%{world_cup_link}"
+
+#: lib/dotcom_web/hooks/breadcrumbs.ex:25
+#: lib/dotcom_web/views/page_view.ex:202
+#, elixir-autogen, elixir-format
+msgid "Boston Stadium Trains"
+msgstr "Boston Stadium专列"
+
+#: lib/dotcom/upcoming_departures/processor.ex:219
+#, elixir-autogen, elixir-format
+msgid "Bus %{trip_name}"
+msgstr "巴士%{trip_name}"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:11
+#, elixir-autogen, elixir-format, fuzzy
+msgid "CharlieCards"
+msgstr "CharlieCard"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:86
+#, elixir-autogen, elixir-format
+msgid "Check-In at South Station"
+msgstr "在South Station办理登机手续"
+
+#: lib/dotcom_web/views/layout_view.ex:247
+#, elixir-autogen, elixir-format
+msgid "Choose Your Language"
+msgstr "选择您的语言"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex:23
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Current Status"
+msgstr "当前状态"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:265
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Departures"
+msgstr "出港"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:89
+#, elixir-autogen, elixir-format
+msgid "Estimated Arrival at Foxboro Station"
+msgstr "预计抵达Foxboro车站"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "For all information about World Cup train service, read our %{world_cup_link}"
+msgstr "有关世界杯列车服务的全部信息，请阅读我们的%{world_cup_link}"
+
+#: lib/dotcom_web/components/components.ex:372
+#, elixir-autogen, elixir-format
+msgid "Going to a World Cup match at Boston Stadium?"
+msgstr "打算去Boston Stadium看世界杯比赛吗？"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:82
+#, elixir-autogen, elixir-format
+msgid "Group Name"
+msgstr "组名"
+
+#: lib/fares/format.ex:91
+#, elixir-autogen, elixir-format
+msgid "Harbor Loop Ferry"
+msgstr "港口环线渡轮"
+
+#: lib/dotcom_web/views/schedule_view.ex:419
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Hingham/Hull ferry"
+msgstr "Hingham / Hull渡轮"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:112
+#, elixir-autogen, elixir-format
+msgid "Important Information"
+msgstr "重要信息"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:125
+#, elixir-autogen, elixir-format
+msgid "Know Your Boarding Group"
+msgstr "了解你的登船组"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex:105
+#: lib/dotcom_web/views/layout_view.ex:243
+#, elixir-autogen, elixir-format
+msgid "Languages"
+msgstr "语言"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:382
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Last"
+msgstr "最后"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:71
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Learn more about CharlieCard"
+msgstr "了解更多关于查理卡的信息"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:423
+#, elixir-autogen, elixir-format
+msgid "Loading trip details"
+msgstr "正在加载行程详情"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:66
+#, elixir-autogen, elixir-format
+msgid "Loading upcoming departures"
+msgstr "正在加载即将进行的出发航班"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:543
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Location unavailable"
+msgstr "位置不可使用"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:6
+#, elixir-autogen, elixir-format, fuzzy
+msgid "MBTA riders can purchase CharlieTickets and reload and purchase %{charlie_card} for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
+msgstr "MBTA 乘客可以在大波士顿和Providence地区的零售商处购买 CharlieTickets 并充值并购买巴士、地铁、通火车站和渡轮的%{charlie_card} 。"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:36
+#, elixir-autogen, elixir-format
+msgid "Match 18"
+msgstr "第18场比赛"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:50
+#, elixir-autogen, elixir-format
+msgid "Match 30"
+msgstr "第30场比赛"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:64
+#, elixir-autogen, elixir-format
+msgid "Match 45"
+msgstr "第45场比赛"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:22
+#, elixir-autogen, elixir-format
+msgid "Match 5"
+msgstr "第五场比赛"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:78
+#, elixir-autogen, elixir-format
+msgid "Match 61"
+msgstr "第61场比赛"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:92
+#, elixir-autogen, elixir-format
+msgid "Match 74"
+msgstr "第74场比赛"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:106
+#, elixir-autogen, elixir-format
+msgid "Match 97"
+msgstr "第97场比赛"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:121
+#, elixir-autogen, elixir-format
+msgid "Match Ticket Required "
+msgstr "需要匹配车票 "
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:540
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Next stop"
+msgstr "下一站"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex:71
+#, elixir-autogen, elixir-format
+msgid "No changes posted for the next 7 days"
+msgstr "未来7天内无任何变更发布"
+
+#: lib/alerts/alert.ex:239
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Notice"
+msgstr "注意"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:542
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Now at"
+msgstr "现在在"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:135
+#, elixir-autogen, elixir-format
+msgid "Only wallets or small clear bags are permitted. Prohibited items must be discarded before boarding."
+msgstr "只允许携带钱包或小型透明袋。登机前必须丢弃违禁物品。"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:108
+#, elixir-autogen, elixir-format
+msgid "Quarter Finals"
+msgstr "四分之一决赛"
+
+#: lib/dotcom_web/components/components.ex:375
+#, elixir-autogen, elixir-format
+msgid "Read our %{world_cup_link}"
+msgstr "阅读我们的%{world_cup_link}"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:129
+#, elixir-autogen, elixir-format
+msgid "Return Trip Included"
+msgstr "包含往返机票"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:123
+#, elixir-autogen, elixir-format
+msgid "Riders without match tickets will not be permitted to board Boston Stadium Trains."
+msgstr "没有匹配车票的乘客将不被允许上车Boston Stadium Trains。"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex:94
+#, elixir-autogen, elixir-format
+msgid "Round of 32"
+msgstr "32强"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:823
+#, elixir-autogen, elixir-format
+msgid "Scheduled service continues until %{end_of_service}"
+msgstr "计划服务持续至%{end_of_service}"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:538
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Scheduled to depart"
+msgstr "计划出发"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_ferry.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Seasonal"
+msgstr "季节性"
+
+#: lib/dotcom_web/views/schedule_view.ex:514
+#, elixir-autogen, elixir-format
+msgid "Seasonal Service"
+msgstr "季节性服务"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:136
+#, elixir-autogen, elixir-format
+msgid "See what you can bring on Boston Stadium Trains"
+msgstr "看看你可以携带哪些物品乘坐Boston Stadium列车。"
+
+#: lib/dotcom_web/components/components.ex:427
+#, elixir-autogen, elixir-format
+msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
+msgstr "服务变更将于 6 月 6 日至 7 月 12 日生效。请查看您线路的%{timetable_link}以获取最新的时刻表。"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:280
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Service ended"
+msgstr "服务已结束"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Service to the World Cup"
+msgstr "为世界杯服务"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:484
+#, elixir-autogen, elixir-format
+msgid "Show fewer stops"
+msgstr "减少停靠次数"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:469
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Show more stops"
+msgstr "显示更多站点"
+
+#: lib/fares/format.ex:18
+#, elixir-autogen, elixir-format
+msgid "Special ticket required"
+msgstr "需要特殊车票"
+
+#: lib/dotcom_web/components/components.ex:398
+#, elixir-autogen, elixir-format
+msgid "Taking the train to a World Cup match?"
+msgstr "坐火车去看世界杯比赛？"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex:12
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Temporary Issue"
+msgstr "临时发行"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex:11
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Temporary issue"
+msgstr "临时问题"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:292
+#, elixir-autogen, elixir-format
+msgid "There are currently no realtime departures available."
+msgstr "目前没有实时出发信息。"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:303
+#, elixir-autogen, elixir-format
+msgid "There are currently no realtime departures available. Scheduled departures are shown below."
+msgstr "目前没有实时出发信息。以下显示的是预定出发时间。"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:427
+#, elixir-autogen, elixir-format, fuzzy
+msgid "There was a problem loading trip details"
+msgstr "加载行程详情时出现问题"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:59
+#: lib/dotcom_web/live/upcoming_departures_live.ex:71
+#, elixir-autogen, elixir-format, fuzzy
+msgid "There was a problem loading upcoming departures"
+msgstr "加载即将进行的出发航班时出现问题"
+
+#: lib/dotcom_web/components/components.ex:486
+#, elixir-autogen, elixir-format
+msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
+msgstr "使用<strong>MBTA Go</strong>应用程序实时追踪您的%{route_type_text}行程"
+
+#: lib/dotcom_web/components/components.ex:401
+#, elixir-autogen, elixir-format
+msgid "View %{timetable_link} for departure information."
+msgstr "查看%{timetable_link}以获取出发信息。"
+
+#: lib/dotcom_web/templates/cms/paragraph/_person.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "View Bio for %{name}"
+msgstr "查看%{name}的个人简介"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:43
+#, elixir-autogen, elixir-format, fuzzy
+msgid "View all matches"
+msgstr "查看所有比赛"
+
+#: lib/dotcom_web/views/schedule_view.ex:442
+#, elixir-autogen, elixir-format
+msgid "View evening timetable"
+msgstr "查看晚间时刻表"
+
+#: lib/dotcom_web/views/schedule_view.ex:464
+#, elixir-autogen, elixir-format
+msgid "View morning timetable"
+msgstr "查看早晨时刻表"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex:539
+#, elixir-autogen, elixir-format
+msgid "Waiting to depart"
+msgstr "等待出发"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:117
+#: lib/dotcom_web/views/layout_view.ex:100
+#, elixir-autogen, elixir-format
+msgid "World Cup Guide"
+msgstr "世界杯指南"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "World Cup Matches"
+msgstr "世界杯比赛"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_ferry.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Year-Round"
+msgstr "全年"
+
+#: lib/dotcom_web/components/components.ex:424
+#, elixir-autogen, elixir-format
+msgid "Your Commuter Rail trip will be affected by the World Cup."
+msgstr "世界杯将影响您的通勤铁路行程。"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex:484
+#, elixir-autogen, elixir-format
+msgid "the next morning"
+msgstr "第二天早上"
