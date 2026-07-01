@@ -23,12 +23,6 @@ defmodule Dotcom.Locales do
     @development_additional_locales
   end
 
-  # @future_locales [
-  #   %Locale{code: "ht", endonym: "Kreyòl Ayisyen"},
-  #   %Locale{code: "pt", endonym: "Português"},
-  #   %Locale{code: "vi", endonym: "Tiếng Việt"},
-  #   %Locale{code: "zh", endonym: "中文"}
-  # ]
   @locales [
     @default_locale,
     @development_locale

@@ -108,6 +108,8 @@ jobs:
       - run: npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
+      - name: Check localizations up-to-date
+        run: mix gettext.extract --check-up-to-date
 
   elixir_unit:
     name: Unit tests / Elixir / mix coveralls.html
