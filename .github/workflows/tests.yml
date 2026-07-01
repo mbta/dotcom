@@ -91,8 +91,6 @@ jobs:
       - uses: ./.github/actions/setup-all
       - run: git fetch origin main:main
       - run: npm run ci:lint:ex
-      - name: Check localizations up-to-date
-        run: mix gettext.extract --check-up-to-date
 
   build_app:
     name: Build application and assets
@@ -110,6 +108,8 @@ jobs:
       - run: npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
+      - name: Check localizations up-to-date
+        run: mix gettext.extract --check-up-to-date
 
   elixir_unit:
     name: Unit tests / Elixir / mix coveralls.html
