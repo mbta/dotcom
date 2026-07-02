@@ -174,7 +174,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   defp combine_rows(
          %{route_info: %{branch_ids: branch_ids1}} = row1,
-         %{route_info: %{branch_ids: branch_ids2}} = _row2
+         %{route_info: %{branch_ids: branch_ids2}} = row2
        ) do
     combined_branch_ids =
       if Enum.empty?(branch_ids1) || Enum.empty?(branch_ids2) do
@@ -185,10 +185,19 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         |> Enum.sort()
       end
 
+    # dbg(row1.status_entry)
+    # dbg(row2.status_entry)
+
     row1
-    |> Map.put(:status_entry, see_alerts_status())
+    |> Map.put(:status_entry, combine_status_entries(row1.status_entry, row2.status_entry))
+    |> Map.put(:alerts, row1.alerts ++ row2.alerts)
     |> put_in([:route_info, :branch_ids], combined_branch_ids)
   end
+
+  defp combine_status_entries(%{status: status1}, %{status: status2}) when status1 == status2,
+    do: %{status: status1, prefix: nil, plural: true, future: false}
+
+  defp combine_status_entries(_status_entry1, _status_entry2), do: see_alerts_status()
 
   defp add_url(row) do
     route_id = route_id_from_route_info(row.route_info)
