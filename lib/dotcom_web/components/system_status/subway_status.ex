@@ -191,8 +191,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
     |> put_in([:route_info, :branch_ids], combined_branch_ids)
   end
 
-  defp combine_status_entries(%{status: status1}, %{status: status2}) when status1 == status2,
-    do: %{status: status1, prefix: nil, plural: true, future: false}
+  defp combine_status_entries(
+         %{status: status1, prefix: prefix1, future: future1},
+         %{status: status2, prefix: prefix2, future: future2}
+       )
+       when status1 == status2 and prefix1 == prefix2 and future1 == future2,
+       do: %{status: status1, prefix: prefix1, plural: true, future: future1}
 
   defp combine_status_entries(_status_entry1, _status_entry2), do: see_alerts_status()
 

@@ -224,6 +224,86 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
                status_label_text_for_effect_plural(effect)
     end
 
+    test "shows 'See Alerts' for collapsed Green line alerts if they all have the same effect, but different prefixes" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      [branch_id1, branch_id2] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      {effect, _severity} = Faker.Util.pick(@effects_with_simple_descriptions)
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id1,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_now(),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id2,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert [affected_row, _normal_row] = rows |> for_route("Green")
+
+      assert status_label_text_for_row(affected_row) == "See Alerts"
+    end
+
+    test "shows the prefix and the effect label for collapsed Green line alerts if they all have the same effect, and the same prefix" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      [branch_id1, branch_id2] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      # Excluding `:station_closure` from this test because it follows
+      # different pluralizing rules than the other effects, we do care
+      # that other statuses are pluralized properly, and we're testing
+      # the `:station_closure` case below anyway.
+      {effect, _severity} =
+        Faker.Util.pick(@effects_with_simple_descriptions -- [station_closure: 1])
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id1,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id2,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert [affected_row, _normal_row] = rows |> for_route("Green")
+
+      expected_status_desc = effect |> status_label_text_for_effect_plural()
+      expected_prefix = Util.narrow_time(start_time)
+      expected_status_text = "#{expected_prefix}: #{expected_status_desc}"
+
+      assert status_label_text_for_row(affected_row) ==
+               expected_status_text
+    end
+
     test "groups Green line alerts correctly between normal and affected rows when collapsed" do
       # Setup
       affected_branches =
