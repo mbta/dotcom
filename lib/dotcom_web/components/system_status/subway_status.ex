@@ -185,9 +185,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
         |> Enum.sort()
       end
 
-    # dbg(row1.status_entry)
-    # dbg(row2.status_entry)
-
     row1
     |> Map.put(:status_entry, combine_status_entries(row1.status_entry, row2.status_entry))
     |> Map.put(:alerts, row1.alerts ++ row2.alerts)
