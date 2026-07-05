@@ -9,7 +9,6 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
 
   @valid_teams [
     :bolivia,
-    :canada,
     :england,
     :france,
     :germany,
