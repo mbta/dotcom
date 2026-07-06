@@ -189,11 +189,9 @@ config :recaptcha,
   public_key: System.get_env("RECAPTCHA_PUBLIC_KEY"),
   secret: System.get_env("RECAPTCHA_PRIVATE_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe")
 
-if config_env() == :prod do
-  config :sentry,
-    dsn: System.get_env("SENTRY_DSN"),
-    environment_name: System.get_env("SENTRY_ENVIRONMENT")
-end
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN"),
+  environment_name: System.get_env("SENTRY_ENVIRONMENT")
 
 config :dotcom,
   env: config_env(),
