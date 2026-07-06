@@ -1,0 +1,16 @@
+
+.stop_search-autocomplete_ul {
+    list-style-type: none;
+    padding-left: 0px;
+    li {
+        border: solid 1px #000;
+        &:hover {
+            background: #AAAAFF;
+        }
+    }
+    
+}
+
+.stop_search--autocomplete_suggestion {
+    padding: 1em;
+}
