@@ -257,7 +257,6 @@ defmodule DotcomWeb.StopController do
   defp get_stop_info do
     [:subway, :commuter_rail, :ferry]
     |> Stream.flat_map(&DetailedStopGroup.from_mode/1)
-    |> Enum.to_list()
     |> separate_mattapan()
   end
 
@@ -267,7 +266,7 @@ defmodule DotcomWeb.StopController do
   defp separate_mattapan(stop_info) do
     case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
       nil -> {nil, stop_info}
-      mattapan -> {mattapan, List.delete(stop_info, mattapan)}
+      mattapan -> {mattapan, Stream.reject(stop_info, & &1 == mattapan)}
     end
   end
 
