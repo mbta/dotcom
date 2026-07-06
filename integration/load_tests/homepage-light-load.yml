@@ -1,0 +1,22 @@
+config:
+  target: "http://localhost:4001"
+  http:
+    timeout: 300
+    maxSockets: 500
+  phases:
+    - name: "Warm Up"
+      duration: 30
+      arrivalRate: 3
+    - name: "Measure page-load times"
+      duration: 60
+      arrivalRate: 3
+  environments:
+    green:
+      target: "http://dev-green.mbtace.com"
+    blue:
+      target: "http://dev-blue.mbtace.com"
+scenarios:
+  - name: "Stress test single page"
+    flow:
+      - get:
+          url: "/"

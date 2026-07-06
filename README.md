@@ -150,10 +150,34 @@ npx playwright test all-scenarios --grep @search_for_a_subway_line
 
 ## Load Tests
 
+### Full load test
+
 ```
 npm install --ignore-scripts
 npx artillery run ./integration/load_tests/all-scenarios.yml --target http://localhost:4001
 ```
+
+### Light load test / performance test
+
+```
+npm install --ignore-scripts
+npx artillery run ./integration/load_tests/homepage-light-load.yml
+```
+
+This is unlikely to stress your locally-running instance, but it will present output that includes something like
+
+```
+http.response_time.2xx:
+  min: ......................................................................... 287
+  max: ......................................................................... 558
+  mean: ........................................................................ 416.7
+  median: ...................................................................... 424.2
+  p95: ......................................................................... 507.8
+  p99: ......................................................................... 539.2
+```
+
+This can be useful for comparing homepage load times across different commits or releases.
+
 
 ## Monitoring
 
