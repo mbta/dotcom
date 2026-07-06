@@ -162,6 +162,10 @@ npm install --ignore-scripts
 npx pm2-runtime ./integration/monitor/ecosystem.config.js
 ```
 
+## Flame On
+
+When running locally, navigate to the [Flame On pane in the dashboard](http://localhost:4001/dashboard/flame_on), click `Flame On`, and then do whatever action you're trying to profile (load a page, perform an action, invoke a function). This will generate a flamegraph that you examine to profile specific functions or page loads. See the [`flame_on` docs](https://github.com/DockYard/flame_on) for more information.
+
 ## Additional Resources
 
 New to the team, or looking for further developer resources?
