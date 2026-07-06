@@ -104,7 +104,7 @@ defmodule DotcomWeb.WorldCupTimetableLive do
       match_date: ~D[2026-07-09],
       match_time: ~T[16:00:00],
       match_number: ~t"Match 97",
-      teams: nil,
+      teams: [:france, :morocco],
       match_title: ~t"Quarter Finals",
       boarding_groups: [
         {~t"Boarding Group A", [~T[09:15:00], ~T[10:00:00]], [~T[11:15:00], ~T[12:00:00]]},

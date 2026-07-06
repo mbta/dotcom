@@ -51,7 +51,7 @@
               {Fares.Format.price(fare)}
             </div>
 
-            <%= if fare_card.show_media do %>
+            <%= if fare_card.show_media && Fares.Format.media(fare) do %>
               <p class="c-fare-card__media">
                 {~t(with)} {Fares.Format.media(fare)}
               </p>
