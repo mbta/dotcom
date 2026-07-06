@@ -144,8 +144,7 @@ This is done via [the `Gettext` Elixir library](https://hex.pm/packages/gettext)
 To internationalize a string in an interface, do the following:
 
 - Wrap strings to be translated in the `gettext` function, i.e. `gettext("your string here")`.
-  Note that you may need to wrap the function call in `{...}` for attribute strings and
-  `<%= ... %>` for text on the page.
+  Note that you may need to wrap the function call in `{...}` for attribute strings.
 
 #### Rules Of Gettext
 
