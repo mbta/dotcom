@@ -10,6 +10,7 @@ defmodule Dotcom.Gettext.Plural do
   """
   @behaviour Gettext.Plural
 
+  # TODO: Verify this assumption w/ translation reviewers
   # Haitian Creole is not supported by default by Gettext.Plural (which uses Expo.PluralForms)
   def nplurals("ht"), do: 2
 
@@ -20,6 +21,7 @@ defmodule Dotcom.Gettext.Plural do
   # Fall back to Gettext.Plural
   defdelegate nplurals(locale), to: Gettext.Plural
 
+  # TODO: Verify this assumption w/ translation reviewers
   # Haitian Creole is not supported by default by Gettext.Plural (which uses Expo.PluralForms)
   def plural("ht", 1), do: 0
   def plural("ht", _), do: 1
