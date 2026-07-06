@@ -2,6 +2,7 @@ defmodule DotcomWeb.Endpoint do
   @moduledoc false
 
   use Phoenix.Endpoint, otp_app: :dotcom
+  use Sentry.PlugCapture
 
   @session_options store: :cookie,
                    key: "_site_key",
