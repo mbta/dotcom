@@ -233,7 +233,7 @@ defmodule DotcomWeb.LayoutView do
     if Laboratory.enabled?(conn, :use_smartling_translations) do
       language_links =
         Enum.map(
-          Dotcom.Locales.development_additional_locales(),
+          Dotcom.Locales.locales(),
           &language_link_tuple/1
         )
 
