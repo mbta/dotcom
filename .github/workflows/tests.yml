@@ -108,6 +108,7 @@ jobs:
       - run: npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
+      - run: mix gettext.extract --check-up-to-date --verbose
 
   elixir_unit:
     name: Unit tests / Elixir / mix coveralls.html

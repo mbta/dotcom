@@ -62,7 +62,7 @@ msgstr ""
 msgid " at "
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex:447
+#: lib/dotcom_web/controllers/stop_controller.ex:406
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr ""
@@ -128,7 +128,7 @@ msgstr ""
 msgid " on track "
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:47
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:49
 #: lib/dotcom_web/templates/error/error_layout.html.heex:26
 #, elixir-autogen, elixir-format
 msgid " or "
@@ -270,6 +270,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:39
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:41
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:43
 #: lib/vehicle_helpers.ex:166
 #, elixir-autogen, elixir-format
 msgid ", "
@@ -332,7 +333,7 @@ msgid_plural "%{count} trips later today"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/fares/format.ex:117
+#: lib/fares/format.ex:120
 #, elixir-autogen, elixir-format
 msgid "1-Day Pass"
 msgstr ""
@@ -350,8 +351,8 @@ msgstr ""
 
 #: lib/dotcom_web/views/fare_view.ex:50
 #: lib/dotcom_web/views/fare_view.ex:73
-#: lib/fares/format.ex:64
-#: lib/fares/format.ex:116
+#: lib/fares/format.ex:66
+#: lib/fares/format.ex:119
 #, elixir-autogen, elixir-format
 msgid "7-Day Pass"
 msgstr ""
@@ -362,12 +363,12 @@ msgstr ""
 msgid "711 for TTY callers;  VRS for ASL callers"
 msgstr ""
 
-#: lib/fares/format.ex:104
+#: lib/fares/format.ex:107
 #, elixir-autogen, elixir-format
 msgid "ADA Ride"
 msgstr ""
 
-#: lib/fares/format.ex:118
+#: lib/fares/format.ex:121
 #, elixir-autogen, elixir-format
 msgid "ADA Ride Fare"
 msgstr ""
@@ -447,7 +448,7 @@ msgstr ""
 msgid "Admins Only"
 msgstr ""
 
-#: lib/fares/fare_info.ex:845
+#: lib/fares/fare_info.ex:906
 #, elixir-autogen, elixir-format
 msgid "Adult"
 msgstr ""
@@ -531,7 +532,7 @@ msgstr ""
 msgid "All Updates"
 msgstr ""
 
-#: lib/fares/format.ex:187
+#: lib/fares/format.ex:190
 #, elixir-autogen, elixir-format
 msgid "All ferry routes"
 msgstr ""
@@ -945,7 +946,7 @@ msgstr ""
 msgid "Changes"
 msgstr ""
 
-#: lib/fares/format.ex:89
+#: lib/fares/format.ex:91
 #, elixir-autogen, elixir-format
 msgid "Charlestown Ferry"
 msgstr ""
@@ -961,7 +962,7 @@ msgid "Charlie Service Center"
 msgstr ""
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:69
-#: lib/fares/format.ex:35
+#: lib/fares/format.ex:37
 #, elixir-autogen, elixir-format
 msgid "CharlieCard"
 msgstr ""
@@ -978,8 +979,8 @@ msgstr ""
 msgid "CharlieCards & Tickets"
 msgstr ""
 
-#: lib/fares/format.ex:36
-#: lib/fares/format.ex:37
+#: lib/fares/format.ex:38
+#: lib/fares/format.ex:39
 #, elixir-autogen, elixir-format
 msgid "CharlieTicket"
 msgstr ""
@@ -994,12 +995,12 @@ msgstr ""
 msgid "Check-In at South Station"
 msgstr ""
 
-#: lib/fares/fare_info.ex:846
+#: lib/fares/fare_info.ex:907
 #, elixir-autogen, elixir-format
 msgid "Child"
 msgstr ""
 
-#: lib/fares/fare_info.ex:847
+#: lib/fares/fare_info.ex:908
 #, elixir-autogen, elixir-format
 msgid "Child under 3"
 msgstr ""
@@ -1055,7 +1056,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: lib/fares/format.ex:97
+#: lib/fares/format.ex:100
 #, elixir-autogen, elixir-format
 msgid "Commuter Ferry to Logan Airport"
 msgstr ""
@@ -1073,7 +1074,7 @@ msgstr ""
 msgid "Commuter Rail"
 msgstr ""
 
-#: lib/fares/format.ex:189
+#: lib/fares/format.ex:192
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail "
 msgstr ""
@@ -1190,7 +1191,7 @@ msgstr ""
 msgid "Credit/debit cards"
 msgstr ""
 
-#: lib/fares/format.ex:90
+#: lib/fares/format.ex:92
 #, elixir-autogen, elixir-format
 msgid "Cross Harbor Ferry"
 msgstr ""
@@ -1261,7 +1262,7 @@ msgstr ""
 msgid "Date and Time"
 msgstr ""
 
-#: lib/fares/format.ex:60
+#: lib/fares/format.ex:62
 #, elixir-autogen, elixir-format
 msgid "Day Pass"
 msgstr ""
@@ -1402,7 +1403,7 @@ msgstr ""
 msgid "Early Departure Stop"
 msgstr ""
 
-#: lib/fares/format.ex:92
+#: lib/fares/format.ex:94
 #, elixir-autogen, elixir-format
 msgid "East Boston Ferry"
 msgstr ""
@@ -1642,7 +1643,7 @@ msgstr ""
 msgid "Explore stations by mode"
 msgstr ""
 
-#: lib/fares/format.ex:88
+#: lib/fares/format.ex:90
 #, elixir-autogen, elixir-format
 msgid "Express Bus"
 msgstr ""
@@ -1674,7 +1675,7 @@ msgstr ""
 msgid "Facility Issue"
 msgstr ""
 
-#: lib/fares/fare_info.ex:851
+#: lib/fares/fare_info.ex:912
 #, elixir-autogen, elixir-format
 msgid "Family 4-pack (2 adults, 2 children)"
 msgstr ""
@@ -1772,7 +1773,7 @@ msgstr ""
 msgid "Ferry"
 msgstr ""
 
-#: lib/fares/format.ex:190
+#: lib/fares/format.ex:193
 #, elixir-autogen, elixir-format
 msgid "Ferry "
 msgstr ""
@@ -1915,7 +1916,7 @@ msgstr ""
 msgid "For regular weekday service to Foxboro please visit: "
 msgstr ""
 
-#: lib/fares/format.ex:100
+#: lib/fares/format.ex:103
 #, elixir-autogen, elixir-format
 msgid "Foxboro Special Event"
 msgstr ""
@@ -1938,7 +1939,7 @@ msgid "Free Pedal and Park secured parking"
 msgstr ""
 
 #: lib/dotcom_web/views/helpers.ex:251
-#: lib/fares/format.ex:102
+#: lib/fares/format.ex:105
 #, elixir-autogen, elixir-format
 msgid "Free Service"
 msgstr ""
@@ -1958,7 +1959,7 @@ msgstr ""
 msgid "Full high level platform to provide level boarding to every car in a train set"
 msgstr ""
 
-#: lib/fares/format.ex:95
+#: lib/fares/format.ex:97
 #, elixir-autogen, elixir-format
 msgid "Georges Island"
 msgstr ""
@@ -2039,7 +2040,7 @@ msgstr ""
 msgid "Group Name"
 msgstr ""
 
-#: lib/fares/format.ex:91
+#: lib/fares/format.ex:93
 #, elixir-autogen, elixir-format
 msgid "Harbor Loop Ferry"
 msgstr ""
@@ -2065,7 +2066,7 @@ msgstr ""
 msgid "Hide Details"
 msgstr ""
 
-#: lib/fares/format.ex:96
+#: lib/fares/format.ex:99
 #, elixir-autogen, elixir-format
 msgid "Hingham/Hull Ferry"
 msgstr ""
@@ -2166,17 +2167,17 @@ msgstr ""
 msgid "Intended Audience"
 msgstr ""
 
-#: lib/fares/format.ex:99
+#: lib/fares/format.ex:102
 #, elixir-autogen, elixir-format
 msgid "Interzone %{zone}"
 msgstr ""
 
-#: lib/fares/format.ex:80
+#: lib/fares/format.ex:82
 #, elixir-autogen, elixir-format
 msgid "Invalid Duration"
 msgstr ""
 
-#: lib/fares/format.ex:106
+#: lib/fares/format.ex:109
 #, elixir-autogen, elixir-format
 msgid "Invalid Fare"
 msgstr ""
@@ -2414,7 +2415,7 @@ msgstr ""
 msgid "Lobby inside Back Bay station"
 msgstr ""
 
-#: lib/fares/format.ex:87
+#: lib/fares/format.ex:89
 #, elixir-autogen, elixir-format
 msgid "Local Bus"
 msgstr ""
@@ -2442,7 +2443,7 @@ msgstr ""
 
 #: lib/dotcom_web/components/route_symbols.ex:250
 #: lib/dotcom_web/views/helpers.ex:242
-#: lib/fares/format.ex:108
+#: lib/fares/format.ex:111
 #, elixir-autogen, elixir-format
 msgid "Logan Express"
 msgstr ""
@@ -2463,7 +2464,7 @@ msgstr ""
 msgid "Lost and Found"
 msgstr ""
 
-#: lib/fares/format.ex:93
+#: lib/fares/format.ex:95
 #, elixir-autogen, elixir-format
 msgid "Lynn Ferry"
 msgstr ""
@@ -2681,8 +2682,8 @@ msgstr ""
 
 #: lib/dotcom_web/views/helpers.ex:245
 #: lib/dotcom_web/views/helpers.ex:247
-#: lib/fares/format.ex:107
-#: lib/fares/format.ex:109
+#: lib/fares/format.ex:110
+#: lib/fares/format.ex:112
 #, elixir-autogen, elixir-format
 msgid "Massport Shuttle"
 msgstr ""
@@ -2782,7 +2783,7 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-#: lib/fares/fare_info.ex:869
+#: lib/fares/fare_info.ex:930
 #, elixir-autogen, elixir-format
 msgid "Military"
 msgstr ""
@@ -2845,23 +2846,23 @@ msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:8
 #: lib/dotcom_web/views/fare_view.ex:54
-#: lib/fares/format.ex:113
+#: lib/fares/format.ex:116
 #, elixir-autogen, elixir-format
 msgid "Monthly LinkPass"
 msgstr ""
 
 #: lib/dotcom_web/views/fare_view.ex:69
-#: lib/fares/format.ex:114
+#: lib/fares/format.ex:117
 #, elixir-autogen, elixir-format
 msgid "Monthly Local Bus Pass"
 msgstr ""
 
-#: lib/fares/format.ex:75
+#: lib/fares/format.ex:77
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass"
 msgstr ""
 
-#: lib/fares/format.ex:73
+#: lib/fares/format.ex:75
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass on mTicket App"
 msgstr ""
@@ -3064,7 +3065,7 @@ msgstr ""
 msgid "Notice"
 msgstr ""
 
-#: lib/dotcom_web/components/system_status/subway_status.ex:314
+#: lib/dotcom_web/components/system_status/subway_status.ex:324
 #: lib/dotcom_web/components/trip_planner/input_form.ex:73
 #: lib/dotcom_web/live/schedule_finder_live.ex:418
 #: lib/dotcom_web/live/upcoming_departures_live.ex:720
@@ -3107,12 +3108,12 @@ msgstr ""
 msgid "Onboard ramps at the front door of each bus"
 msgstr ""
 
-#: lib/fares/format.ex:56
+#: lib/fares/format.ex:58
 #, elixir-autogen, elixir-format
 msgid "One-Day Pass"
 msgstr ""
 
-#: lib/fares/format.ex:48
+#: lib/fares/format.ex:50
 #, elixir-autogen, elixir-format
 msgid "One-Way"
 msgstr ""
@@ -3466,12 +3467,12 @@ msgstr ""
 msgid "Prefer accessible routes"
 msgstr ""
 
-#: lib/fares/format.ex:105
+#: lib/fares/format.ex:108
 #, elixir-autogen, elixir-format
 msgid "Premium Ride"
 msgstr ""
 
-#: lib/fares/format.ex:119
+#: lib/fares/format.ex:122
 #, elixir-autogen, elixir-format
 msgid "Premium Ride Fare"
 msgstr ""
@@ -3677,7 +3678,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: lib/fares/format.ex:52
+#: lib/fares/format.ex:54
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
 msgstr ""
@@ -3915,7 +3916,7 @@ msgstr ""
 msgid "Send Us Feedback"
 msgstr ""
 
-#: lib/fares/format.ex:41
+#: lib/fares/format.ex:43
 #, elixir-autogen, elixir-format
 msgid "Senior CharlieCard or TAP ID"
 msgstr ""
@@ -3925,7 +3926,7 @@ msgstr ""
 msgid "Senior ID Cards"
 msgstr ""
 
-#: lib/fares/fare_info.ex:863
+#: lib/fares/fare_info.ex:924
 #, elixir-autogen, elixir-format
 msgid "Seniors"
 msgstr ""
@@ -4025,8 +4026,8 @@ msgid "Showing major stops."
 msgstr ""
 
 #: lib/alerts/alert.ex:245
-#: lib/fares/format.ex:103
-#: lib/fares/format.ex:112
+#: lib/fares/format.ex:106
+#: lib/fares/format.ex:115
 #, elixir-autogen, elixir-format
 msgid "Shuttle"
 msgstr ""
@@ -4163,7 +4164,7 @@ msgstr ""
 msgid "Southbound"
 msgstr ""
 
-#: lib/fares/format.ex:42
+#: lib/fares/format.ex:44
 #, elixir-autogen, elixir-format
 msgid "Special Event Ticket"
 msgstr ""
@@ -4198,13 +4199,13 @@ msgstr ""
 msgid "Station Issue"
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex:429
+#: lib/dotcom_web/controllers/stop_controller.ex:388
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex:52
-#: lib/dotcom_web/controllers/stop_controller.ex:414
+#: lib/dotcom_web/controllers/stop_controller.ex:51
+#: lib/dotcom_web/controllers/stop_controller.ex:373
 #: lib/dotcom_web/templates/stop/index.html.heex:21
 #: lib/dotcom_web/templates/stop/index.html.heex:41
 #: lib/dotcom_web/views/page_view.ex:181
@@ -4266,12 +4267,12 @@ msgstr ""
 msgid "Stops Skipped"
 msgstr ""
 
-#: lib/fares/fare_info.ex:857
+#: lib/fares/fare_info.ex:918
 #, elixir-autogen, elixir-format
 msgid "Student"
 msgstr ""
 
-#: lib/fares/format.ex:43
+#: lib/fares/format.ex:45
 #, elixir-autogen, elixir-format
 msgid "Student CharlieCard"
 msgstr ""
@@ -4294,7 +4295,7 @@ msgstr ""
 #: lib/dotcom_web/views/helpers.ex:236
 #: lib/dotcom_web/views/layout_view.ex:89
 #: lib/dotcom_web/views/page_view.ex:196
-#: lib/fares/format.ex:86
+#: lib/fares/format.ex:88
 #, elixir-autogen, elixir-format
 msgid "Subway"
 msgstr ""
@@ -5119,8 +5120,8 @@ msgstr ""
 msgid "Wednesday"
 msgstr ""
 
-#: lib/fares/format.ex:68
-#: lib/fares/format.ex:115
+#: lib/fares/format.ex:70
+#: lib/fares/format.ex:118
 #, elixir-autogen, elixir-format
 msgid "Weekend Pass"
 msgstr ""
@@ -5145,11 +5146,6 @@ msgstr ""
 #: lib/dotcom_web/components/trip_planner/input_form.ex:69
 #, elixir-autogen, elixir-format
 msgid "When"
-msgstr ""
-
-#: lib/fares/format.ex:94
-#, elixir-autogen, elixir-format
-msgid "Winthrop/Quincy Ferry"
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:73
@@ -5229,12 +5225,12 @@ msgid "Zone"
 msgstr ""
 
 #: lib/dotcom_web/components/transit_icons.ex:36
-#: lib/fares/format.ex:98
+#: lib/fares/format.ex:101
 #, elixir-autogen, elixir-format
 msgid "Zone %{zone}"
 msgstr ""
 
-#: lib/fares/format.ex:186
+#: lib/fares/format.ex:189
 #, elixir-autogen, elixir-format
 msgid "Zones 1A-10"
 msgstr ""
@@ -5299,7 +5295,7 @@ msgstr ""
 msgid "bus stop"
 msgstr ""
 
-#: lib/fares/format.ex:34
+#: lib/fares/format.ex:36
 #, elixir-autogen, elixir-format
 msgid "cash"
 msgstr ""
@@ -5314,7 +5310,7 @@ msgstr ""
 msgid "changes"
 msgstr ""
 
-#: lib/fares/format.ex:38
+#: lib/fares/format.ex:40
 #, elixir-autogen, elixir-format
 msgid "contactless payment"
 msgstr ""
@@ -5386,7 +5382,7 @@ msgid "location"
 msgstr ""
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:29
-#: lib/fares/format.ex:39
+#: lib/fares/format.ex:41
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr ""
@@ -5426,7 +5422,7 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:42
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "or "
 msgstr ""
@@ -5446,7 +5442,7 @@ msgstr ""
 msgid "outbound"
 msgstr ""
 
-#: lib/fares/format.ex:40
+#: lib/fares/format.ex:42
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr ""
@@ -5636,8 +5632,8 @@ msgstr ""
 msgid "west"
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:91
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:117
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:93
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:119
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex:56
 #, elixir-autogen, elixir-format
 msgid "with"
@@ -5646,4 +5642,14 @@ msgstr ""
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex:11
 #, elixir-autogen, elixir-format
 msgid "with your request."
+msgstr ""
+
+#: lib/fares/format.ex:98
+#, elixir-autogen, elixir-format
+msgid "Inner Harbor Zone 1A"
+msgstr ""
+
+#: lib/fares/format.ex:96
+#, elixir-autogen, elixir-format
+msgid "Winthrop and Quincy Ferry"
 msgstr ""

@@ -62,7 +62,7 @@ msgstr " cảnh báo"
 msgid " at "
 msgstr " Tại "
 
-#: lib/dotcom_web/controllers/stop_controller.ex:447
+#: lib/dotcom_web/controllers/stop_controller.ex:406
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " tại %{address}"
@@ -128,7 +128,7 @@ msgstr " trên "
 msgid " on track "
 msgstr " trên đường ray "
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:47
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:49
 #: lib/dotcom_web/templates/error/error_layout.html.heex:26
 #, elixir-autogen, elixir-format
 msgid " or "
@@ -270,6 +270,7 @@ msgstr "%{y} trong số %{x} đang làm việc"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:39
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:41
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:43
 #: lib/vehicle_helpers.ex:166
 #, elixir-autogen, elixir-format
 msgid ", "
@@ -326,7 +327,7 @@ msgid "1 trip later today"
 msgid_plural "%{count} trips later today"
 msgstr[0] "%{count} chuyến đi nữa vào hôm nay"
 
-#: lib/fares/format.ex:117
+#: lib/fares/format.ex:120
 #, elixir-autogen, elixir-format
 msgid "1-Day Pass"
 msgstr "Vé 1 ngày"
@@ -344,8 +345,8 @@ msgstr "24 giờ một ngày, 7 ngày một tuần"
 
 #: lib/dotcom_web/views/fare_view.ex:50
 #: lib/dotcom_web/views/fare_view.ex:73
-#: lib/fares/format.ex:64
-#: lib/fares/format.ex:116
+#: lib/fares/format.ex:66
+#: lib/fares/format.ex:119
 #, elixir-autogen, elixir-format
 msgid "7-Day Pass"
 msgstr "Vé 7 ngày"
@@ -356,12 +357,12 @@ msgstr "Vé 7 ngày"
 msgid "711 for TTY callers;  VRS for ASL callers"
 msgstr "711 cho người gọi TTY;  VRS cho người gọi ASL"
 
-#: lib/fares/format.ex:104
+#: lib/fares/format.ex:107
 #, elixir-autogen, elixir-format
 msgid "ADA Ride"
 msgstr "Xe dành cho người khuyết tật"
 
-#: lib/fares/format.ex:118
+#: lib/fares/format.ex:121
 #, elixir-autogen, elixir-format
 msgid "ADA Ride Fare"
 msgstr "Giá vé xe ADA"
@@ -441,7 +442,7 @@ msgstr "Thêm vào lịch"
 msgid "Admins Only"
 msgstr "Chỉ dành cho quản trị viên"
 
-#: lib/fares/fare_info.ex:845
+#: lib/fares/fare_info.ex:906
 #, elixir-autogen, elixir-format
 msgid "Adult"
 msgstr "Người lớn"
@@ -526,7 +527,7 @@ msgstr "Tất cả các chuyến tàu bị hủy"
 msgid "All Updates"
 msgstr "Tất cả các bản cập nhật"
 
-#: lib/fares/format.ex:187
+#: lib/fares/format.ex:190
 #, elixir-autogen, elixir-format
 msgid "All ferry routes"
 msgstr "Tất cả các tuyến phà"
@@ -942,7 +943,7 @@ msgstr "Thay đổi hướng đi của chuyến đi."
 msgid "Changes"
 msgstr "Thay đổi"
 
-#: lib/fares/format.ex:89
+#: lib/fares/format.ex:91
 #, elixir-autogen, elixir-format
 msgid "Charlestown Ferry"
 msgstr "Charlestown Ferry"
@@ -958,7 +959,7 @@ msgid "Charlie Service Center"
 msgstr "Trung Tâm Dịch Vụ Charlie"
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex:69
-#: lib/fares/format.ex:35
+#: lib/fares/format.ex:37
 #, elixir-autogen, elixir-format
 msgid "CharlieCard"
 msgstr "CharlieCard"
@@ -975,8 +976,8 @@ msgstr "CharlieCard"
 msgid "CharlieCards & Tickets"
 msgstr "CharlieCards & vé"
 
-#: lib/fares/format.ex:36
-#: lib/fares/format.ex:37
+#: lib/fares/format.ex:38
+#: lib/fares/format.ex:39
 #, elixir-autogen, elixir-format
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
@@ -991,12 +992,12 @@ msgstr "Kiểm tra"
 msgid "Check-In at South Station"
 msgstr "Nhận phòng tại South Station"
 
-#: lib/fares/fare_info.ex:846
+#: lib/fares/fare_info.ex:907
 #, elixir-autogen, elixir-format
 msgid "Child"
 msgstr "Đứa trẻ"
 
-#: lib/fares/fare_info.ex:847
+#: lib/fares/fare_info.ex:908
 #, elixir-autogen, elixir-format
 msgid "Child under 3"
 msgstr "Trẻ em dưới 3 tuổi"
@@ -1052,7 +1053,7 @@ msgstr "Ngày Columbus"
 msgid "Comment"
 msgstr "Bình luận"
 
-#: lib/fares/format.ex:97
+#: lib/fares/format.ex:100
 #, elixir-autogen, elixir-format
 msgid "Commuter Ferry to Logan Airport"
 msgstr "Commuter phà đến Logan Airport"
@@ -1070,7 +1071,7 @@ msgstr "Commuter phà đến Logan Airport"
 msgid "Commuter Rail"
 msgstr "Đi lại bằng Đường sắt"
 
-#: lib/fares/format.ex:189
+#: lib/fares/format.ex:192
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail "
 msgstr "Đi lại bằng Đường sắt "
@@ -1188,7 +1189,7 @@ msgstr "Thẻ tín dụng/thẻ ghi nợ"
 msgid "Credit/debit cards"
 msgstr "Thẻ tín dụng/thẻ ghi nợ"
 
-#: lib/fares/format.ex:90
+#: lib/fares/format.ex:92
 #, elixir-autogen, elixir-format
 msgid "Cross Harbor Ferry"
 msgstr "Băng qua cảng phà"
@@ -1259,7 +1260,7 @@ msgstr "Ngày"
 msgid "Date and Time"
 msgstr "Ngày và giờ"
 
-#: lib/fares/format.ex:60
+#: lib/fares/format.ex:62
 #, elixir-autogen, elixir-format
 msgid "Day Pass"
 msgstr "Đĩa vé"
@@ -1400,7 +1401,7 @@ msgstr "Khởi hành sớm"
 msgid "Early Departure Stop"
 msgstr "Điểm dừng khởi hành sớm"
 
-#: lib/fares/format.ex:92
+#: lib/fares/format.ex:94
 #, elixir-autogen, elixir-format
 msgid "East Boston Ferry"
 msgstr "East Boston Ferry"
@@ -1640,7 +1641,7 @@ msgstr "dự kiến trễ chuyến"
 msgid "Explore stations by mode"
 msgstr "Khám phá nhà ga theo chế độ"
 
-#: lib/fares/format.ex:88
+#: lib/fares/format.ex:90
 #, elixir-autogen, elixir-format
 msgid "Express Bus"
 msgstr "Xe buýt tốc hành"
@@ -1672,7 +1673,7 @@ msgstr "Thông tin về cơ sở"
 msgid "Facility Issue"
 msgstr "Vấn đề cơ sở vật chất"
 
-#: lib/fares/fare_info.ex:851
+#: lib/fares/fare_info.ex:912
 #, elixir-autogen, elixir-format
 msgid "Family 4-pack (2 adults, 2 children)"
 msgstr "Gói gia đình 4 người (2 người lớn, 2 trẻ em)"
@@ -1770,7 +1771,7 @@ msgstr "Các cập nhật và dự án nổi bật của MBTA"
 msgid "Ferry"
 msgstr "Phà"
 
-#: lib/fares/format.ex:190
+#: lib/fares/format.ex:193
 #, elixir-autogen, elixir-format
 msgid "Ferry "
 msgstr "Phà "
@@ -1913,7 +1914,7 @@ msgstr "Mọi thắc mắc hoặc góp ý về thông cáo báo chí này, vui l
 msgid "For regular weekday service to Foxboro please visit: "
 msgstr "Đối với dịch vụ thường xuyên trong tuần đến Foxboro vui lòng truy cập: "
 
-#: lib/fares/format.ex:100
+#: lib/fares/format.ex:103
 #, elixir-autogen, elixir-format
 msgid "Foxboro Special Event"
 msgstr "Sự kiện đặc biệt của Foxboro"
@@ -1936,7 +1937,7 @@ msgid "Free Pedal and Park secured parking"
 msgstr "Đỗ xe an toàn miễn phí cho chương trình Pedal and Park"
 
 #: lib/dotcom_web/views/helpers.ex:251
-#: lib/fares/format.ex:102
+#: lib/fares/format.ex:105
 #, elixir-autogen, elixir-format
 msgid "Free Service"
 msgstr "Dịch vụ miễn phí"
@@ -1956,7 +1957,7 @@ msgstr "Từ"
 msgid "Full high level platform to provide level boarding to every car in a train set"
 msgstr "Sân ga cao đầy đủ để cung cấp khả năng lên máy bay ngang bằng cho mọi toa trong một đoàn tàu"
 
-#: lib/fares/format.ex:95
+#: lib/fares/format.ex:97
 #, elixir-autogen, elixir-format
 msgid "Georges Island"
 msgstr "Georges Island"
@@ -2037,7 +2038,7 @@ msgstr "Chi nhánh %{branch} Green Line"
 msgid "Group Name"
 msgstr "Tên nhóm"
 
-#: lib/fares/format.ex:91
+#: lib/fares/format.ex:93
 #, elixir-autogen, elixir-format
 msgid "Harbor Loop Ferry"
 msgstr "Harbor Loop phà"
@@ -2063,7 +2064,7 @@ msgstr "Trốn"
 msgid "Hide Details"
 msgstr "Ẩn chi tiết"
 
-#: lib/fares/format.ex:96
+#: lib/fares/format.ex:99
 #, elixir-autogen, elixir-format
 msgid "Hingham/Hull Ferry"
 msgstr "Hingham/Hull Ferry"
@@ -2165,17 +2166,17 @@ msgstr "Bán hàng cho tổ chức"
 msgid "Intended Audience"
 msgstr "Đối tượng mục tiêu"
 
-#: lib/fares/format.ex:99
+#: lib/fares/format.ex:102
 #, elixir-autogen, elixir-format
 msgid "Interzone %{zone}"
 msgstr "Vùng xen kẽ %{zone}"
 
-#: lib/fares/format.ex:80
+#: lib/fares/format.ex:82
 #, elixir-autogen, elixir-format
 msgid "Invalid Duration"
 msgstr "Thời lượng không hợp lệ"
 
-#: lib/fares/format.ex:106
+#: lib/fares/format.ex:109
 #, elixir-autogen, elixir-format
 msgid "Invalid Fare"
 msgstr "Giá vé không hợp lệ"
@@ -2415,7 +2416,7 @@ msgstr "Đang tải các chuyến khởi hành sắp tới"
 msgid "Lobby inside Back Bay station"
 msgstr "Sảnh bên trong Back Bay nhà ga"
 
-#: lib/fares/format.ex:87
+#: lib/fares/format.ex:89
 #, elixir-autogen, elixir-format
 msgid "Local Bus"
 msgstr "Xe buýt địa phương"
@@ -2443,7 +2444,7 @@ msgstr "Vị trí không có sẵn"
 
 #: lib/dotcom_web/components/route_symbols.ex:250
 #: lib/dotcom_web/views/helpers.ex:242
-#: lib/fares/format.ex:108
+#: lib/fares/format.ex:111
 #, elixir-autogen, elixir-format
 msgid "Logan Express"
 msgstr "Logan Express"
@@ -2464,7 +2465,7 @@ msgstr "Đồ Thất Lạc & Tìm Thấy"
 msgid "Lost and Found"
 msgstr "Đồ thất lạc"
 
-#: lib/fares/format.ex:93
+#: lib/fares/format.ex:95
 #, elixir-autogen, elixir-format
 msgid "Lynn Ferry"
 msgstr "Lynn Ferry"
@@ -2685,8 +2686,8 @@ msgstr "Cơ quan Giao thông Vận tải Vịnh Massachusetts, mọi quyền đ�
 
 #: lib/dotcom_web/views/helpers.ex:245
 #: lib/dotcom_web/views/helpers.ex:247
-#: lib/fares/format.ex:107
-#: lib/fares/format.ex:109
+#: lib/fares/format.ex:110
+#: lib/fares/format.ex:112
 #, elixir-autogen, elixir-format
 msgid "Massport Shuttle"
 msgstr "Massport xe đưa đón"
@@ -2786,7 +2787,7 @@ msgstr "Ngày tưởng niệm"
 msgid "Menu"
 msgstr "Menu"
 
-#: lib/fares/fare_info.ex:869
+#: lib/fares/fare_info.ex:930
 #, elixir-autogen, elixir-format
 msgid "Military"
 msgstr "Quân đội"
@@ -2849,23 +2850,23 @@ msgstr "vé tháng"
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex:8
 #: lib/dotcom_web/views/fare_view.ex:54
-#: lib/fares/format.ex:113
+#: lib/fares/format.ex:116
 #, elixir-autogen, elixir-format
 msgid "Monthly LinkPass"
 msgstr "vé tháng LinkPass"
 
 #: lib/dotcom_web/views/fare_view.ex:69
-#: lib/fares/format.ex:114
+#: lib/fares/format.ex:117
 #, elixir-autogen, elixir-format
 msgid "Monthly Local Bus Pass"
 msgstr "vé tháng Local xe buýt vé"
 
-#: lib/fares/format.ex:75
+#: lib/fares/format.ex:77
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass"
 msgstr "vé tháng vé"
 
-#: lib/fares/format.ex:73
+#: lib/fares/format.ex:75
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass on mTicket App"
 msgstr "vé tháng vé trên ứng dụng mTicket"
@@ -3070,7 +3071,7 @@ msgstr "Ghi chú"
 msgid "Notice"
 msgstr "Để ý"
 
-#: lib/dotcom_web/components/system_status/subway_status.ex:314
+#: lib/dotcom_web/components/system_status/subway_status.ex:324
 #: lib/dotcom_web/components/trip_planner/input_form.ex:73
 #: lib/dotcom_web/live/schedule_finder_live.ex:418
 #: lib/dotcom_web/live/upcoming_departures_live.ex:720
@@ -3114,12 +3115,12 @@ msgstr "Đúng giờ"
 msgid "Onboard ramps at the front door of each bus"
 msgstr "Đường dốc trên xe ở cửa trước của mỗi xe buýt"
 
-#: lib/fares/format.ex:56
+#: lib/fares/format.ex:58
 #, elixir-autogen, elixir-format
 msgid "One-Day Pass"
 msgstr "Một ngày vé"
 
-#: lib/fares/format.ex:48
+#: lib/fares/format.ex:50
 #, elixir-autogen, elixir-format
 msgid "One-Way"
 msgstr "vé một chiều"
@@ -3474,12 +3475,12 @@ msgstr "Hiện tại chưa có thông tin về thời gian khởi hành dự ki�
 msgid "Prefer accessible routes"
 msgstr "Prefer có thể tiếp cận được routes"
 
-#: lib/fares/format.ex:105
+#: lib/fares/format.ex:108
 #, elixir-autogen, elixir-format
 msgid "Premium Ride"
 msgstr "Chuyến đi cao cấp"
 
-#: lib/fares/format.ex:119
+#: lib/fares/format.ex:122
 #, elixir-autogen, elixir-format
 msgid "Premium Ride Fare"
 msgstr "Giá vé xe hạng sang"
@@ -3686,7 +3687,7 @@ msgstr "hành khách không có vé phù hợp sẽ không được phép lên x
 msgid "Right"
 msgstr "Phải"
 
-#: lib/fares/format.ex:52
+#: lib/fares/format.ex:54
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
 msgstr "vé khứ hồi"
@@ -3925,7 +3926,7 @@ msgstr "Lựa chọn"
 msgid "Send Us Feedback"
 msgstr "Gửi phản hồi cho chúng tôi"
 
-#: lib/fares/format.ex:41
+#: lib/fares/format.ex:43
 #, elixir-autogen, elixir-format
 msgid "Senior CharlieCard or TAP ID"
 msgstr "người cao tuổi CharlieCard hoặc TAP ID"
@@ -3935,7 +3936,7 @@ msgstr "người cao tuổi CharlieCard hoặc TAP ID"
 msgid "Senior ID Cards"
 msgstr "Thẻ ID người cao tuổi"
 
-#: lib/fares/fare_info.ex:863
+#: lib/fares/fare_info.ex:924
 #, elixir-autogen, elixir-format
 msgid "Seniors"
 msgstr "Người cao tuổi"
@@ -4036,8 +4037,8 @@ msgid "Showing major stops."
 msgstr "Hiển thị các điểm dừng chính."
 
 #: lib/alerts/alert.ex:245
-#: lib/fares/format.ex:103
-#: lib/fares/format.ex:112
+#: lib/fares/format.ex:106
+#: lib/fares/format.ex:115
 #, elixir-autogen, elixir-format
 msgid "Shuttle"
 msgstr "xe đưa đón"
@@ -4174,7 +4175,7 @@ msgstr "Lấy làm tiếc. Chúng tôi đã gặp sự cố khi tải lên hình
 msgid "Southbound"
 msgstr "Hướng Nam"
 
-#: lib/fares/format.ex:42
+#: lib/fares/format.ex:44
 #, elixir-autogen, elixir-format
 msgid "Special Event Ticket"
 msgstr "Special Event vé"
@@ -4209,13 +4210,13 @@ msgstr "Tính năng nhà ga"
 msgid "Station Issue"
 msgstr "Nhà ga Vấn đề"
 
-#: lib/dotcom_web/controllers/stop_controller.ex:429
+#: lib/dotcom_web/controllers/stop_controller.ex:388
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
 msgstr "nhà ga phục vụ MBTA %{lines} dây chuyền%{location}."
 
-#: lib/dotcom_web/controllers/stop_controller.ex:52
-#: lib/dotcom_web/controllers/stop_controller.ex:414
+#: lib/dotcom_web/controllers/stop_controller.ex:51
+#: lib/dotcom_web/controllers/stop_controller.ex:373
 #: lib/dotcom_web/templates/stop/index.html.heex:21
 #: lib/dotcom_web/templates/stop/index.html.heex:41
 #: lib/dotcom_web/views/page_view.ex:181
@@ -4277,12 +4278,12 @@ msgstr "Dừng lại"
 msgid "Stops Skipped"
 msgstr "Stops đường vòng"
 
-#: lib/fares/fare_info.ex:857
+#: lib/fares/fare_info.ex:918
 #, elixir-autogen, elixir-format
 msgid "Student"
 msgstr "Học sinh"
 
-#: lib/fares/format.ex:43
+#: lib/fares/format.ex:45
 #, elixir-autogen, elixir-format
 msgid "Student CharlieCard"
 msgstr "Thẻ sinh viên Charlie"
@@ -4305,7 +4306,7 @@ msgstr "Gửi yêu cầu cung cấp hồ sơ công khai đến MBTA."
 #: lib/dotcom_web/views/helpers.ex:236
 #: lib/dotcom_web/views/layout_view.ex:89
 #: lib/dotcom_web/views/page_view.ex:196
-#: lib/fares/format.ex:86
+#: lib/fares/format.ex:88
 #, elixir-autogen, elixir-format
 msgid "Subway"
 msgstr "tàu điện ngầm"
@@ -5133,8 +5134,8 @@ msgstr "Trang web"
 msgid "Wednesday"
 msgstr "Thứ Tư"
 
-#: lib/fares/format.ex:68
-#: lib/fares/format.ex:115
+#: lib/fares/format.ex:70
+#: lib/fares/format.ex:118
 #, elixir-autogen, elixir-format
 msgid "Weekend Pass"
 msgstr "Ngày cuối tuần vé"
@@ -5160,11 +5161,6 @@ msgstr "Điều gì đang xảy ra tại MBTA?"
 #, elixir-autogen, elixir-format
 msgid "When"
 msgstr "Khi"
-
-#: lib/fares/format.ex:94
-#, elixir-autogen, elixir-format
-msgid "Winthrop/Quincy Ferry"
-msgstr "Winthrop/Quincy Ferry"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex:73
 #, elixir-autogen, elixir-format
@@ -5243,12 +5239,12 @@ msgid "Zone"
 msgstr "Vùng"
 
 #: lib/dotcom_web/components/transit_icons.ex:36
-#: lib/fares/format.ex:98
+#: lib/fares/format.ex:101
 #, elixir-autogen, elixir-format
 msgid "Zone %{zone}"
 msgstr "Khu vực %{zone}"
 
-#: lib/fares/format.ex:186
+#: lib/fares/format.ex:189
 #, elixir-autogen, elixir-format
 msgid "Zones 1A-10"
 msgstr "Khu vực 1A-10"
@@ -5313,7 +5309,7 @@ msgstr "xe buýt"
 msgid "bus stop"
 msgstr "trạm xe buýt"
 
-#: lib/fares/format.ex:34
+#: lib/fares/format.ex:36
 #, elixir-autogen, elixir-format
 msgid "cash"
 msgstr "Tiền mặt"
@@ -5328,7 +5324,7 @@ msgstr "thay đổi"
 msgid "changes"
 msgstr "thay đổi"
 
-#: lib/fares/format.ex:38
+#: lib/fares/format.ex:40
 #, elixir-autogen, elixir-format
 msgid "contactless payment"
 msgstr "thanh toán không tiếp xúc"
@@ -5400,7 +5396,7 @@ msgid "location"
 msgstr "vị trí"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:29
-#: lib/fares/format.ex:39
+#: lib/fares/format.ex:41
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "Ứng dụng mTicket"
@@ -5440,7 +5436,7 @@ msgstr "lên"
 msgid "or"
 msgstr "hoặc là"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:42
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "or "
 msgstr "hoặc là "
@@ -5460,7 +5456,7 @@ msgstr "hoặc thanh toán bằng Tiền mặt trên bất kỳ xe buýt nào"
 msgid "outbound"
 msgstr "hướng đi ra ngoại thành"
 
-#: lib/fares/format.ex:40
+#: lib/fares/format.ex:42
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr "paper phà vé"
@@ -5650,8 +5646,8 @@ msgstr "trang web"
 msgid "west"
 msgstr "phía tây"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:91
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:117
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:93
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex:119
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex:56
 #, elixir-autogen, elixir-format
 msgid "with"
@@ -5661,3 +5657,13 @@ msgstr "với"
 #, elixir-autogen, elixir-format
 msgid "with your request."
 msgstr "Theo yêu cầu của bạn."
+
+#: lib/fares/format.ex:98
+#, elixir-autogen, elixir-format
+msgid "Inner Harbor Zone 1A"
+msgstr ""
+
+#: lib/fares/format.ex:96
+#, elixir-autogen, elixir-format
+msgid "Winthrop and Quincy Ferry"
+msgstr ""
