@@ -5519,9 +5519,9 @@ msgstr "满足您的要求。"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr ""
+msgstr "内港区 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr ""
+msgstr "Winthrop和Quincy Ferry"
