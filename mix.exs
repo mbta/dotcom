@@ -21,6 +21,7 @@ defmodule DotCom.Mixfile do
         flags: [:unmatched_returns]
       ],
       deps: deps(),
+      gettext: [write_reference_line_numbers: false],
       listeners: [Phoenix.CodeReloader],
       # docs
       name: "MBTA Website",
