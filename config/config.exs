@@ -114,7 +114,8 @@ config :mbta_metro, :map, %{
 config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
-  context_lines: 5
+  context_lines: 5,
+  before_send: {Dotcom.Sentry, :before_send}
 
 # Configures the endpoint
 config :dotcom, DotcomWeb.Endpoint,
