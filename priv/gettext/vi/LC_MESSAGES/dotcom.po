@@ -5539,9 +5539,9 @@ msgstr "Theo yêu cầu của bạn."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr ""
+msgstr "Khu vực cảng nội địa 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr ""
+msgstr "Winthrop và Quincy Ferry"
