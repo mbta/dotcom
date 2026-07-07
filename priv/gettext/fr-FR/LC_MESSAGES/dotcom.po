@@ -5548,9 +5548,9 @@ msgstr "Avec ta demande."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr ""
+msgstr "Zone 1A du port intérieur"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr ""
+msgstr "Winthrop et Quincy Ferry"
