@@ -184,29 +184,14 @@ defmodule Alerts.Alert do
   defp check_freshness(%__MODULE__{} = alert) do
     now = Timex.now()
     five_weeks_ago = DateTime.add(now, -5 * 7, :day)
-    current_active_period = current_active_period(alert, now)
 
     stale? =
-      if is_nil(current_active_period) do
-        false
-      else
-        (current_active_period |> elem(0) || now) |> DateTime.before?(five_weeks_ago)
+      case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
+        {:current, datetime} -> datetime |> DateTime.before?(five_weeks_ago)
+        _ -> false
       end
 
     %__MODULE__{alert | stale?: stale?}
-  end
-
-  # credo:disable-for-next-line
-  def current_active_period(%__MODULE__{} = alert, now) do
-    alert.active_period
-    |> Enum.find(fn {start, stop} ->
-      case {start, stop} do
-        # nil start should never happen, but some tests include it
-        {nil, stop} -> DateTime.after?(stop, now)
-        {start, nil} -> DateTime.before?(start, now)
-        {start, stop} -> DateTime.before?(start, now) and DateTime.after?(stop, now)
-      end
-    end)
   end
 
   @spec build_struct(Keyword.t()) :: t()
