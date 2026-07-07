@@ -5535,9 +5535,9 @@ msgstr "avèk demann ou an."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr ""
+msgstr "Zòn Pò Enteryè 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr ""
+msgstr "Winthrop ak Quincy Ferry"
