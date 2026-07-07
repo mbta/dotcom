@@ -8,7 +8,7 @@ defmodule Dotcom.Locales do
   @default_locale %Locale{code: "en", endonym: "English"}
   @development_locale %Locale{code: "es", endonym: "Español"}
 
-  @development_additional_locales [
+  @locales [
     @default_locale,
     @development_locale,
     %Locale{code: "ht", endonym: "Kreyòl Ayisyen (Haitian Creole)"},
@@ -17,21 +17,6 @@ defmodule Dotcom.Locales do
     %Locale{code: "zh-CN", endonym: "中文简体 (Chinese Simplified)"},
     %Locale{code: "zh-TW", endonym: "中文繁體 (Chinese Traditional)"},
     %Locale{code: "fr-FR", endonym: "Français (French)"}
-  ]
-
-  def development_additional_locales do
-    @development_additional_locales
-  end
-
-  # @future_locales [
-  #   %Locale{code: "ht", endonym: "Kreyòl Ayisyen"},
-  #   %Locale{code: "pt", endonym: "Português"},
-  #   %Locale{code: "vi", endonym: "Tiếng Việt"},
-  #   %Locale{code: "zh", endonym: "中文"}
-  # ]
-  @locales [
-    @default_locale,
-    @development_locale
   ]
 
   @doc """

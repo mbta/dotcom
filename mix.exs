@@ -15,6 +15,7 @@ defmodule DotCom.Mixfile do
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
+      aliases: aliases(),
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro, :laboratory],
         flags: [:unmatched_returns]
@@ -38,6 +39,19 @@ defmodule DotCom.Mixfile do
         "gettext.extract": :prod,
         "gettext.translate": :prod
       ]
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    [
+      localize: ["gettext.extract", "gettext.merge priv/gettext --no-fuzzy"],
+      check_localized: ["gettext.extract --check-up-to-date --verbose"]
     ]
   end
 
