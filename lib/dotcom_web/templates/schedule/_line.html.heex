@@ -33,7 +33,7 @@
   {DotcomWeb.AlertView.group(
     alerts:
       @alerts
-      |> Enum.filter(fn alert -> !alert.stale?() end),
+      |> Enum.filter(fn alert -> !Alerts.Alert.stale?(alert) end),
     route: @route,
     date_time: @date_time,
     priority_filter: :high
