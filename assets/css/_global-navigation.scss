@@ -23,6 +23,30 @@ header {
   }
 }
 
+
+.top-tier-header--new {
+  .navbar-logo,
+  .navbar-logo:hover,
+  .navbar-logo:focus {
+    color: $white;
+    text-decoration: none;
+  }
+
+  .c-svg__mbta-logo,
+  .c-svg__mbta-name-and-logo {
+    path,
+    text {
+      fill: $white;
+    }
+  }
+
+  &.top-tier-nav {
+    background-color: $brand-primary-darkest;
+    color: $white;
+  }
+}
+
+
 [data-nav-open] {
   .body-wrapper {
     overflow: inherit; // same value as on body
@@ -44,7 +68,7 @@ nav.m-menu--desktop {
   @include base-font__new();
 
   display: flex;
-  margin-left: $base-spacing;
+  /* margin-left: $base-spacing; */
   padding: 0 calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-down(md) {
@@ -139,7 +163,7 @@ nav.m-menu--desktop {
   overflow: hidden;
   position: absolute;
   right: 0;
-  top: $header-navbar-height-new;
+  top: $header-navbar-height-new * 2;
   z-index: 102;
 
   // opened
