@@ -498,6 +498,7 @@ defmodule DotcomWeb.Components do
   attr :classes, :string, required: false, default: nil
   attr :icon, :string, required: false, default: nil
   attr :icon_type, :string, required: false, default: "icon-svg"
+  attr :rest, :global
 
   def cta(assigns) do
     ~H"""
@@ -505,6 +506,7 @@ defmodule DotcomWeb.Components do
       id="cta-banner"
       href={@link}
       class={"cta-a gap-2 " <> @classes}
+      {@rest}
     >
       <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
       <span class="leading-tight grow">
