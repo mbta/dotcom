@@ -63,7 +63,6 @@
     <% true -> %>
       <%= if assigns[:linear_timetable?] do %>
         <DotcomWeb.Components.Timetable.linear_timetable
-          alerts={@alerts}
           date={@date}
           direction_id={@direction_id}
           direction_name={@direction_name}
@@ -79,7 +78,6 @@
         />
       <% else %>
         <DotcomWeb.Components.Timetable.timetable
-          alerts={@alerts}
           date={@date}
           direction_id={@direction_id}
           direction_name={@direction_name}
