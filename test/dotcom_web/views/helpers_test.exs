@@ -3,7 +3,7 @@ defmodule DotcomWeb.ViewHelpersTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.ViewHelpers
-  import PhoenixHTMLHelpers.Tag, only: [tag: 2, content_tag: 3]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   alias Routes.{Repo, Route}
 
@@ -43,71 +43,6 @@ defmodule DotcomWeb.ViewHelpersTest do
     test "words don't get processed to a link" do
       assert tel_link("Hello") ==
                content_tag(:span, "Hello", [])
-    end
-  end
-
-  describe "hidden_query_params/2" do
-    test "creates a hidden tag for each query parameter", %{conn: conn} do
-      actual = hidden_query_params(%{conn | query_params: %{"one" => "value", "two" => "other"}})
-
-      expected = [
-        tag(:input, type: "hidden", name: "one", value: "value"),
-        tag(:input, type: "hidden", name: "two", value: "other")
-      ]
-
-      assert expected == actual
-    end
-
-    test "can handle nested params", %{conn: conn} do
-      query_params = %{"location" => %{"address" => "value"}}
-      actual = hidden_query_params(%{conn | query_params: query_params})
-
-      expected = [
-        tag(:input, type: "hidden", name: "location[address]", value: "value")
-      ]
-
-      assert actual == expected
-    end
-
-    test "can handle lists of params", %{conn: conn} do
-      query_params = %{"address" => ["one", "two"]}
-      actual = hidden_query_params(%{conn | query_params: query_params})
-
-      expected = [
-        tag(:input, type: "hidden", name: "address[]", value: "one"),
-        tag(:input, type: "hidden", name: "address[]", value: "two")
-      ]
-
-      assert actual == expected
-    end
-  end
-
-  describe "stop_link/1" do
-    test "given a stop, returns a link to that stop" do
-      link =
-        %Stops.Stop{id: "place-sstat", name: "South Station"}
-        |> stop_link
-        |> safe_to_string
-
-      assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
-    end
-
-    @tag :external
-    test "given a stop ID, returns a link to that stop" do
-      link =
-        "place-sstat"
-        |> stop_link
-        |> safe_to_string
-
-      assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
-    end
-  end
-
-  describe "external_link/1" do
-    test "Protocol is added when one is not included" do
-      assert external_link("http://www.google.com") == "http://www.google.com"
-      assert external_link("www.google.com") == "http://www.google.com"
-      assert external_link("https://google.com") == "https://google.com"
     end
   end
 
@@ -210,23 +145,6 @@ defmodule DotcomWeb.ViewHelpersTest do
         |> cms_static_page_path("/cms/path")
 
       assert path == "/cms/path"
-    end
-  end
-
-  describe "fare_group/1" do
-    test "return correct fare group for all modes" do
-      assert fare_group(:bus) == "bus_subway"
-      assert fare_group(:subway) == "bus_subway"
-      assert fare_group(:commuter_rail) == "commuter_rail"
-      assert fare_group(:ferry) == "ferry"
-    end
-
-    test "return correct fare group when route type given (as integer)" do
-      assert fare_group(0) == "bus_subway"
-      assert fare_group(1) == "bus_subway"
-      assert fare_group(2) == "commuter_rail"
-      assert fare_group(3) == "bus_subway"
-      assert fare_group(4) == "ferry"
     end
   end
 
