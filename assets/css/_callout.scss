@@ -78,3 +78,14 @@
     margin-bottom: -2.25rem;
   }
 }
+
+.cta-a {
+  margin-bottom: var(--spacing-5);
+  color: black;
+  text-decoration: none;
+  padding: var(--spacing-3);
+  display: flex;
+  align-items: center;
+  background-color: #e2ecf8;
+  justify-content: space-between;
+}

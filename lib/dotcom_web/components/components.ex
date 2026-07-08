@@ -492,4 +492,28 @@ defmodule DotcomWeb.Components do
     </a>
     """
   end
+
+  attr :link, :any, required: false, default: nil
+  attr :arrow, :boolean, required: false, default: false
+  attr :classes, :string, required: false, default: ""
+  attr :icon, :string, required: false, default: nil
+  attr :icon_type, :string, required: false, default: "icon-svg"
+  attr :rest, :global
+
+  def cta(assigns) do
+    ~H"""
+    <a
+      id="cta-banner"
+      href={@link}
+      class={"cta-a gap-2 " <> @classes}
+      {@rest}
+    >
+      <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
+      <span class="leading-tight grow">
+        {render_slot(@inner_block)}
+      </span>
+      <span :if={@arrow} aria-hidden="true">&#8594;</span>
+    </a>
+    """
+  end
 end

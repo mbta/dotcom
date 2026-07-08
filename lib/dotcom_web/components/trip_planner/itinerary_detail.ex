@@ -28,7 +28,17 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
 
     ~H"""
     <div class="mt-4">
-      <.callout :if={@dtx_note?}>A11y note!</.callout>
+      <.cta
+        :if={@dtx_note?}
+        style="background-color: #fff5bf"
+        icon="triangle-exclamation"
+        icon_type="solid"
+      >
+        {gettext(
+          "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
+        )
+        |> Phoenix.HTML.raw()}
+      </.cta>
       <div :for={segment <- @segments}>
         <.segment segment={segment} alerts={@alerts} />
       </div>
