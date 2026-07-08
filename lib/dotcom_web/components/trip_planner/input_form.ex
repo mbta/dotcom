@@ -157,26 +157,32 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
     ~H"""
     <fieldset class={"mb-sm -mt-md #{if(@has_error?, do: "text-danger")}"} id={"#{@name}-wrapper"}>
       <legend class="text-charcoal-40 m-0 py-sm">{@field_label}</legend>
-      <.algolia_autocomplete config_type="trip-planner" placeholder={@placeholder} id={@name}>
-        <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
-          <input
-            :for={subfield <- @location_keys}
-            type="hidden"
-            id={location_f[subfield].id}
-            value={location_f[subfield].value}
-            name={location_f[subfield].name}
-          />
-        </.inputs_for>
-        <.feedback :for={{msg, _} <- @field.errors} :if={@has_error?} kind={:error}>
-          <label
-            aria-live
-            role="alert"
-            for={if @field.field == :from, do: "autocomplete-2-input", else: "autocomplete-3-input"}
-          >
-            {msg}
-          </label>
-        </.feedback>
-      </.algolia_autocomplete>
+      <.live_component
+        module={DotcomWeb.Components.LocationSearch}
+        locale={Gettext.get_locale(Dotcom.Gettext)}
+        field={@field}
+        id={@field.id}
+        name={@field.name}
+      />
+
+      <.inputs_for :let={location_f} field={@field} skip_hidden={true}>
+        <input
+          :for={subfield <- @location_keys}
+          type="hidden"
+          id={location_f[subfield].id}
+          value={location_f[subfield].value}
+          name={location_f[subfield].name}
+        />
+      </.inputs_for>
+      <.feedback :for={{msg, _} <- @field.errors} :if={@has_error?} kind={:error}>
+        <label
+          aria-live
+          role="alert"
+          for={if @field.field == :from, do: "autocomplete-2-input", else: "autocomplete-3-input"}
+        >
+          {msg}
+        </label>
+      </.feedback>
     </fieldset>
     """
   end
