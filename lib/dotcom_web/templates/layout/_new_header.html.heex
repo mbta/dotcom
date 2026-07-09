@@ -1,6 +1,7 @@
 <aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
-<header class="top-tier-header--new new top-tier-nav">
-  <div class="container new">
+<%= if Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+  <header class="top-tier-header--new new top-tier-nav">
+    <div class="container new">
       <nav id="languages-menu" class="header-navbar new m-menu--desktop">
         <a class="navbar-logo" href="/" data-nav="logo">
           <span class="sr-only">{~t(MBTA Home Page)}</span>
@@ -44,8 +45,9 @@
           </div>
         <% end %>
       </nav>
-  </div>
-</header>
+    </div>
+  </header>
+<% end %>
 <header class="header--new">
   <div class="container new">
     <div class="header-navbar new">
@@ -65,6 +67,15 @@
       >
         {~t(Menu)}
       </button>
+      <%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+        <a class="navbar-logo" href="/" data-nav="logo">
+          <span class="sr-only">{~t(MBTA Home Page)}</span>
+          <div class="svg-container" aria-hidden="true">
+            {svg("mbta-logo.svg")}
+            {svg("mbta-name-and-logo.svg")}
+          </div>
+        </a>
+      <% end %>
 
       {render("_new_nav_desktop.html", assigns)}
       <div class="search-wrapper">
