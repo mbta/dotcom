@@ -1,54 +1,9 @@
 <aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
 <%= if Laboratory.enabled?(@conn, :use_smartling_translations) do %>
-  <header class="top-tier-header--new new top-tier-nav">
-    <div class="container new">
-      <nav id="languages-menu" class="header-navbar new m-menu--desktop">
-        <a class="navbar-logo" href="/" data-nav="logo">
-          <span class="sr-only">{~t(MBTA Home Page)}</span>
-          <div class="svg-container" aria-hidden="true">
-            <%!-- {svg("mbta-logo.svg")} --%>
-            {svg("mbta-name-and-logo.svg")}
-          </div>
-        </a>
-
-        <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.language_nav_link_content do %>
-          <a
-            class="m-menu--desktop__toggle"
-            href={"#{ href }"}
-            data-nav="toggle-desktop-nav"
-            role="button"
-            aria-expanded="false"
-            aria-controls={"#{ to_camelcase(name) }"}
-          >
-            {name}
-            <span class="c-indicator--angle"></span>
-          </a>
-
-          <div class="m-menu--desktop__menu">
-            <div class="container">
-              <div id={"#{ to_camelcase(name) }"}>
-                <div
-                  class={"m-menu-desktop__section #{ to_camelcase(name) }"}
-                  data-nav="desktop-section"
-                >
-                  <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
-                    <div class="m-menu__section-heading">
-                      {section_name}
-                    </div>
-                    <div class="m-menu-desktop__submenu-section" aria-label={"#{ section_name }"}>
-                      {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </nav>
-    </div>
-  </header>
+  {render("_top_tier_nav_mobile.html", assigns)}
+  {render("_top_tier_nav_desktop.html", assigns)}
 <% end %>
-<header class="header--new">
+<header class="header--new" id="header-with-search">
   <div class="container new">
     <div class="header-navbar new">
       <a
@@ -84,17 +39,33 @@
         </div>
       </div>
 
-      <button
-        class="header-search__toggle"
-        data-nav="toggle-nav-search"
-        type="button"
-        aria-expanded="false"
-        aria-controls="search-header-mobile__container"
-        aria-label={~t(Search MBTA.com)}
-      >
-        <i class="fa fa-fw fa-search" aria-hidden="true"></i>
-        <i class="fa fa-fw fa-close" aria-hidden="true"></i>
-      </button>
+      <%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+        <button
+          class="header-search__toggle"
+          data-nav="toggle-nav-search"
+          type="button"
+          aria-expanded="false"
+          aria-controls="search-header-mobile__container"
+          aria-label={~t(Search MBTA.com)}
+        >
+          <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+          <i class="fa fa-fw fa-close" aria-hidden="true"></i>
+        </button>
+      <% else %>
+        <div class="header-search__toggle__container">
+          <button
+            class="header-search__toggle header-search__toggle_with_top_tier_nav"
+            data-nav="toggle-nav-search"
+            type="button"
+            aria-expanded="false"
+            aria-controls="search-header-mobile__container"
+            aria-label={~t(Search MBTA.com)}
+          >
+            <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+            <i class="fa fa-fw fa-close" aria-hidden="true"></i>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
   {render("_new_nav_mobile.html", assigns)}

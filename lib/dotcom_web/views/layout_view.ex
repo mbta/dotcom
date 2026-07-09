@@ -77,7 +77,7 @@ defmodule DotcomWeb.LayoutView do
     "#{module_class} #{template_class}"
   end
 
-  def nav_link_content(conn) do
+  def nav_link_content do
     [
       %{
         menu_section: ~t(Transit),

@@ -24,7 +24,7 @@ header {
 }
 
 
-.top-tier-header--new {
+.top-tier-header {
   .navbar-logo,
   .navbar-logo:hover,
   .navbar-logo:focus {
@@ -40,10 +40,8 @@ header {
     }
   }
 
-  &.top-tier-nav {
-    background-color: $brand-primary-darkest;
-    color: $white;
-  }
+  background-color: $brand-primary-darkest;
+  color: $white;
 }
 
 
@@ -68,7 +66,6 @@ nav.m-menu--desktop {
   @include base-font__new();
 
   display: flex;
-  /* margin-left: $base-spacing; */
   padding: 0 calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-down(md) {
@@ -77,6 +74,16 @@ nav.m-menu--desktop {
 
   .m-menu__language {
     margin-left: calc(#{$base-spacing} / 2);
+  }
+}
+
+nav.m-top-tier-menu--mobile {
+  @include base-font__new();
+
+  display: flex;
+
+  @include media-breakpoint-up(md) {
+    display: none;
   }
 }
 
@@ -127,7 +134,6 @@ nav.m-menu--desktop {
   font-weight: bold;
   margin-right: calc(#{$base-spacing} / 2);
 
-
   // place for up/down arrows
   .c-indicator--angle {
     @include fa-icon-solid($fa-var-caret-down);
@@ -137,7 +143,6 @@ nav.m-menu--desktop {
       margin-left: .5rem;
     }
   }
-
   // in expanded menu state
   &[aria-expanded='true'],
   &[aria-expanded='true']:focus,
@@ -154,6 +159,39 @@ nav.m-menu--desktop {
   }
 }
 
+.m-menu--top-tier-mobile__toggle {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  flex-wrap: nowrap;
+  font-weight: bold;
+
+  // place for up/down arrows
+  .c-indicator--angle {
+     @include fa-icon-solid($fa-var-caret-down);
+     margin-left: .25rem;
+     pointer-events: none;
+     @include media-breakpoint-only(xxl) {
+       margin-left: .5rem;
+      }
+    }
+  // in expanded menu state
+  &[aria-expanded='true'],
+  &[aria-expanded='true']:focus,
+  &[aria-expanded='true']:hover {
+    background: $white;
+    border-color: $white;
+    color: $brand-primary-dark;
+    outline: none;
+
+    .c-indicator--angle {
+      @include fa-icon-solid($fa-var-caret-up);
+      pointer-events: none;
+    }
+    margin-right: 0px;
+  }
+}
+
 // Desktop menu expanded area
 .m-menu--desktop__menu {
   background-color: $brand-primary-lightest-contrast;
@@ -163,12 +201,26 @@ nav.m-menu--desktop {
   overflow: hidden;
   position: absolute;
   right: 0;
-  top: $header-navbar-height-new * 2;
+  top: $header-navbar-height-new * 2; // TODO this doesn't work when the flag is turned off!
   z-index: 102;
 
   // opened
   .m-menu--desktop__toggle[aria-expanded='true'] + & {
     display: initial;
+  }
+}
+
+.m-top-tier-menu__menu {
+  left: unset;
+  right: 20px;
+  padding: 0 1rem;
+  top: $header-navbar-height-new;
+
+  @include media-breakpoint-only(xs) {
+    left: unset;
+    right: 20px;
+    padding: 0 1rem;
+    top: $header-navbar-height-xs;
   }
 }
 
