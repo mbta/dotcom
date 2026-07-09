@@ -29,30 +29,10 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
     route_list =
       routes
       |> String.split("|")
-      |> Task.async_stream(&get_route/1)
-      |> Enum.reduce([], &parse_route_response/2)
-      |> Enum.reverse()
+      |> Task.async_stream(&@routes_repo.get/1, max_concurrency: 4, on_timeout: :kill_task)
+      |> Stream.filter(&match?({:ok, %Route{listed?: true}}, &1))
+      |> Stream.map(fn {:ok, route} -> route end)
 
     Conn.assign(conn, :recently_visited, route_list)
-  end
-
-  @spec get_route(String.t()) :: Route.t() | nil
-  defp get_route("Green") do
-    "Green-B"
-    |> @routes_repo.get()
-    |> Route.to_naive()
-  end
-
-  defp get_route(route) do
-    @routes_repo.get(route)
-  end
-
-  @spec parse_route_response({:ok, Route.t() | nil} | {:error, any}, [Route.t()]) :: [Route.t()]
-  defp parse_route_response({:ok, %Route{listed?: true} = route}, acc) do
-    [route | acc]
-  end
-
-  defp parse_route_response(_, acc) do
-    acc
   end
 end

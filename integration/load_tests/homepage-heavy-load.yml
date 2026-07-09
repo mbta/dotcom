@@ -1,0 +1,22 @@
+config:
+  target: "http://localhost:4001"
+  http:
+    timeout: 300
+    maxSockets: 500
+  phases:
+    - name: "Sustained high-load test"
+      duration: 300
+      arrivalRate: 100
+  environments:
+    green:
+      target: "http://dev-green.mbtace.com"
+    blue:
+      target: "http://dev-blue.mbtace.com"
+scenarios:
+  - name: "Stress test single page"
+    flow:
+      - loop:
+          - get:
+              url: "/"
+          - think: 1
+        count: 100

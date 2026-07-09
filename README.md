@@ -131,6 +131,55 @@ Then, start the server with `iex -S mix phx.server`
 
 Then, visit the site at http://localhost:4001.
 
+## How to support translations
+
+### Internationalizing strings in the application
+
+User-facing interfaces in Dotcom are internationalized, supporting 6 key languages.
+
+This is done via [the `Gettext` Elixir library](https://hex.pm/packages/gettext), which uses
+[the GNU `gettext` tool](https://www.gnu.org/software/gettext) under the hood,
+[managing `.po` files for message strings](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html).
+
+To internationalize a string in an interface, do the following:
+
+- Wrap strings to be translated in the `gettext` function, i.e. `gettext("your string here")`.
+  Note that you may need to wrap the function call in `{...}` for attribute strings.
+
+#### Rules Of Gettext
+
+1. No newlines inside a gettext call. Newlines are a new gettext call.
+2. Don't start or end with whitespace. If you break a sentence up, leave the whitespace in the HTML untranslated.
+3. If you break apart a sentence across multiple gettext calls, use `pgettext` and add context including the full sentence to help translators. Grep the app for `pgettext` for examples.
+
+Note that new strings will default to English language until translations are provided for them.
+
+### Preparing for Translations
+
+We use Smartling as our department approved vendor to complete translations - this is done through GitHub integrations.
+
+Smartling GitHub integration tracks main to see if changes are made to the translation files in PRs developers open. If this does happen, Smartling opens up seperate PRs to introduce the translated content for all of our supported languages to merge into the PR developers open.
+
+Here is the workflow for making updates to copy in Dotcom and completing translations:
+  1. Make your changes in a branch (note that content branches should NOT begin with "smartling.") Localize the content in Dotcom using `gettext` as described in the above section.
+  2. Run `mix localize` to update the `gettext` translation files. 
+     * If this isn't run - we have a CI check to fail the build if the translation files are out of date, so there will be no 
+      way to merge in changes without updated translations.
+  3. Put up the changes in your branch to a PR. You will notice a `Not ready for translation` label automatically gets applied to your PR. **When your PR is reviewed and approved (but before it is merged), remove the label.**
+  3. After some time, a Smartling machine translation PR will be opened, merging the translated content into your PR.
+  4. Review the Smartling PR, approve, and merge it into your PR. The translated content will now be available in your PR.
+  5. Get your updated feature PR merged into main.
+
+### How to review Smartling PRs
+What's good to check for in review:
+* Making sure nothing is glaringly wrong or off
+  * Do the files have translations (as opposed to empty strings etc.)?
+  * Glance over the file and make sure its structure looks reasonable
+* Ensuring nothing is broken feature-wise/UX-wise
+
+What you _don't_ need to worry about:
+* Reviewing the translations themselves for correctness
+
 ## Algolia
 
 [Algolia](https://www.algolia.com) powers our search features. Sometimes after content updates or GTFS releases we will find that the search results do not contain up-to-date results. When this happens you can re-index the Algolia data by running: `mix algolia.update`.
@@ -150,10 +199,34 @@ npx playwright test all-scenarios --grep @search_for_a_subway_line
 
 ## Load Tests
 
+### Full load test
+
 ```
 npm install --ignore-scripts
 npx artillery run ./integration/load_tests/all-scenarios.yml --target http://localhost:4001
 ```
+
+### Light load test / performance test
+
+```
+npm install --ignore-scripts
+npx artillery run ./integration/load_tests/homepage-light-load.yml
+```
+
+This is unlikely to stress your locally-running instance, but it will present output that includes something like
+
+```
+http.response_time.2xx:
+  min: ......................................................................... 287
+  max: ......................................................................... 558
+  mean: ........................................................................ 416.7
+  median: ...................................................................... 424.2
+  p95: ......................................................................... 507.8
+  p99: ......................................................................... 539.2
+```
+
+This can be useful for comparing homepage load times across different commits or releases.
+
 
 ## Monitoring
 
@@ -161,6 +234,10 @@ npx artillery run ./integration/load_tests/all-scenarios.yml --target http://loc
 npm install --ignore-scripts
 npx pm2-runtime ./integration/monitor/ecosystem.config.js
 ```
+
+## Flame On
+
+When running locally, navigate to the [Flame On pane in the dashboard](http://localhost:4001/dashboard/flame_on), click `Flame On`, and then do whatever action you're trying to profile (load a page, perform an action, invoke a function). This will generate a flamegraph that you examine to profile specific functions or page loads. See the [`flame_on` docs](https://github.com/DockYard/flame_on) for more information.
 
 ## Additional Resources
 

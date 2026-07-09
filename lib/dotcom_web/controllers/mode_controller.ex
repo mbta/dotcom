@@ -6,9 +6,8 @@ defmodule DotcomWeb.ModeController do
 
   alias CMS.{Partial.Teaser, Repo}
   alias DotcomWeb.Mode
+  alias DotcomWeb.Plugs.RecentlyVisited
   alias Routes.Route
-
-  plug(DotcomWeb.Plugs.RecentlyVisited)
 
   def subway(conn, params), do: Mode.Hub.index(Mode.SubwayController, conn, params)
   def bus(conn, params), do: Mode.Hub.index(Mode.BusController, conn, params)
@@ -23,6 +22,7 @@ defmodule DotcomWeb.ModeController do
 
   def index(conn, _params) do
     conn
+    |> RecentlyVisited.call(RecentlyVisited.init([]))
     |> async_assign_default(:alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end, [])
     |> async_assign_default(:green_routes, fn -> green_routes() end)
     |> async_assign_default(:grouped_routes, fn -> filtered_grouped_routes([:bus]) end)

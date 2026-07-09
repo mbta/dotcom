@@ -247,7 +247,6 @@ defmodule DotcomWeb.Router do
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/place-dudly", Redirector, to: "/stops/place-nubn")
 
-    get("/stops/api", StopController, :api)
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
@@ -317,8 +316,15 @@ defmodule DotcomWeb.Router do
     scope "/", DotcomWeb do
       import Phoenix.LiveDashboard.Router
 
-      pipe_through([:browser, :browser_live, :basic_auth_readonly])
-      live_dashboard("/dashboard")
+      pipe_through([:browser, :browser_live])
+
+      live_dashboard("/dashboard",
+        allow_destructive_actions: true,
+        csp_nonce_assign_key: :csp_nonce,
+        additional_pages: [
+          flame_on: FlameOn.DashboardPage
+        ]
+      )
     end
   end
 
@@ -351,7 +357,6 @@ defmodule DotcomWeb.Router do
       layout: {DotcomWeb.LayoutView, :preview},
       on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", PreviewLive
-      live "/schedules/bostonstadium", WorldCupTimetableLive
       live "/stop-map", StopMapLive
     end
   end

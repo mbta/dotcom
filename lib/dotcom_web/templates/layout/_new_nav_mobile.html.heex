@@ -1,7 +1,7 @@
 <nav class="m-menu--mobile" id="navmenu" aria-label={~t(Navigation Menu)}>
   <div class="m-menu__content" data-nav="mobile-content">
     <h1 class="m-menu__title h2">{~t(Main Menu)}</h1>
-    <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content()) do %>
+    <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content(@conn)) do %>
       <nav aria-labelledby={"section-heading-#{menu_section}"} class="m-menu__section">
         <h2 id={"section-heading-#{menu_section}"} class="m-menu__section-heading">
           {menu_section}
@@ -32,6 +32,9 @@
           <% end %>
         <% end %>
       </nav>
+    <% end %>
+    <%= if !Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+      <div class="m-menu__language m-menu__section"></div>
     <% end %>
     <div class="m-menu__language m-menu__section"></div>
   </div>
