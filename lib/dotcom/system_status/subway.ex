@@ -137,9 +137,7 @@ defmodule Dotcom.SystemStatus.Subway do
 
   defp filter_stale_alerts(alerts) do
     alerts
-    |> Enum.filter(fn %{stale?: stale?} ->
-      !stale?
-    end)
+    |> Enum.reject(&Alerts.Alert.stale?/1)
   end
 
   # Returns a map corresponding to a single item in the array returned
