@@ -113,10 +113,7 @@ defmodule DotcomWeb.TripPlannerLive do
     ~H"""
     <div class="container">
       <h1>{~t(Trip Planner)}</h1>
-      <.world_cup_intercept
-        class="mb-5"
-        style="background-color: var(--colors-cobalt-80)"
-      />
+
       <div>
         <.input_form class="mb-4" changeset={@input_form.changeset} />
         <div>
