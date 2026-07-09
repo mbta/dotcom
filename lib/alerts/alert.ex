@@ -58,7 +58,6 @@ defmodule Alerts.Alert do
             lifecycle: :unknown,
             priority: :low,
             severity: 5,
-            stale?: false,
             updated_at: Timex.now(),
             url: ""
 
@@ -117,7 +116,6 @@ defmodule Alerts.Alert do
           lifecycle: lifecycle,
           priority: Priority.priority_level(),
           severity: severity,
-          stale?: boolean(),
           updated_at: DateTime.t(),
           url: String.t() | nil
         }
@@ -137,7 +135,6 @@ defmodule Alerts.Alert do
     |> set_priority()
     |> set_direction_ids()
     |> ensure_entity_set()
-    |> check_freshness()
   end
 
   @spec update(t(), Keyword.t()) :: t()
@@ -181,17 +178,14 @@ defmodule Alerts.Alert do
     %__MODULE__{alert | priority: Priority.priority(alert)}
   end
 
-  defp check_freshness(%__MODULE__{} = alert) do
-    now = Timex.now()
-    five_weeks_ago = DateTime.add(now, -5 * 7, :day)
+  def stale?(%__MODULE__{} = alert) do
+    now = Dotcom.Utils.DateTime.now()
+    five_weeks_ago = DateTime.shift(now, week: -5)
 
-    stale? =
-      case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
-        {:current, datetime} -> datetime |> DateTime.before?(five_weeks_ago)
-        _ -> false
-      end
-
-    %__MODULE__{alert | stale?: stale?}
+    case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
+      {:current, datetime} -> datetime |> DateTime.before?(five_weeks_ago)
+      _ -> false
+    end
   end
 
   @spec build_struct(Keyword.t()) :: t()

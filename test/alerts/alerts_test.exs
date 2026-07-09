@@ -30,7 +30,7 @@ defmodule AlertsTest do
       stale_start_date = Timex.now() |> DateTime.add(Enum.random(-10..-6) * 7, :day)
       alert = new(effect: :delay, active_period: [{stale_start_date, nil}])
 
-      assert alert.stale?,
+      assert Alerts.Alert.stale?(alert),
              "Alert with no end was expected to be stale, but was not"
     end
 
@@ -39,7 +39,7 @@ defmodule AlertsTest do
       stale_end_date = Timex.now() |> DateTime.add(Enum.random(1..10), :day)
       alert = new(effect: :delay, active_period: [{stale_start_date, stale_end_date}])
 
-      assert alert.stale?,
+      assert Alerts.Alert.stale?(alert),
              "Alert with an end was expected to be stale, but was not #{stale_start_date}"
     end
 
@@ -58,7 +58,7 @@ defmodule AlertsTest do
           ]
         )
 
-      assert alert.stale?,
+      assert Alerts.Alert.stale?(alert),
              "Alert with an end was expected to be stale, but was not #{stale_start_date}"
     end
 
@@ -66,7 +66,7 @@ defmodule AlertsTest do
       fresh_start_date = Timex.now() |> DateTime.add(Enum.random(-4..-1) * 7, :day)
       alert = new(effect: :delay, active_period: [{fresh_start_date, nil}])
 
-      assert !alert.stale?,
+      assert !Alerts.Alert.stale?(alert),
              "Alert with no end was expected to be fresh, but was not"
     end
 
@@ -76,7 +76,7 @@ defmodule AlertsTest do
 
       alert = new(effect: :delay, active_period: [{fresh_start_date, fresh_end_date}])
 
-      assert !alert.stale?,
+      assert !Alerts.Alert.stale?(alert),
              "Alert with an end was expected to be fresh, but was not"
     end
   end
