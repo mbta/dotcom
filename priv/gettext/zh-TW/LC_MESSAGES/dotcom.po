@@ -1948,11 +1948,6 @@ msgstr "獲取旅行建議"
 msgid "Go"
 msgstr "去"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Going to a World Cup match at Boston Stadium?"
-msgstr "打算去Boston Stadium看世界盃比賽嗎？"
-
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Google Pay"
@@ -3464,11 +3459,6 @@ msgstr "問題"
 #, elixir-autogen, elixir-format
 msgid "Rail"
 msgstr "鐵路"
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Read our %{world_cup_link}"
-msgstr "閱讀我們的%{world_cup_link}"
 
 #: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
 #, elixir-autogen, elixir-format

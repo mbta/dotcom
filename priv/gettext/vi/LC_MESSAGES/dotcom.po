@@ -1952,11 +1952,6 @@ msgstr "Nhận gợi ý chuyến đi"
 msgid "Go"
 msgstr "Đi"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Going to a World Cup match at Boston Stadium?"
-msgstr "Đi xem một trận đấu World Cup tại Boston Stadium?"
-
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Google Pay"
@@ -3479,11 +3474,6 @@ msgstr "Câu hỏi"
 #, elixir-autogen, elixir-format
 msgid "Rail"
 msgstr "đường ray"
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Read our %{world_cup_link}"
-msgstr "Đọc %{world_cup_link}của chúng tôi"
 
 #: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
 #, elixir-autogen, elixir-format
