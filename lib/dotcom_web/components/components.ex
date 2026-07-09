@@ -359,32 +359,6 @@ defmodule DotcomWeb.Components do
   attr(:class, :string, default: "")
 
   @doc """
-  A banner tailor made for the world cup. Default styling color is yellow.
-  """
-  def world_cup_intercept(assigns) do
-    ~H"""
-    <.descriptive_link
-      href="/WorldCup"
-      class={@class}
-      {@rest}
-    >
-      <:title>
-        {~t(Going to a World Cup match at Boston Stadium?)}
-      </:title>
-      <p class="c-descriptive-link__world-cup">
-        {gettext("Read our %{world_cup_link}",
-          world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
-        )
-        |> Phoenix.HTML.raw()}
-      </p>
-    </.descriptive_link>
-    """
-  end
-
-  attr(:rest, :global, include: ~w(disabled))
-  attr(:class, :string, default: "")
-
-  @doc """
   Same as above, but links to the timetable instead
   """
   def boston_stadium_intercept(assigns) do
