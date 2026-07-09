@@ -10,13 +10,13 @@ defmodule Util do
 
   @endpoint endpoint
   @route_helper_module route_helper_module
-  @local_tz "America/New_York"
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc "The current datetime in the America/New_York timezone."
   @spec now() :: DateTime.t()
   @spec now((String.t() -> DateTime.t())) :: DateTime.t()
   def now(utc_now_fn \\ &Timex.now/1) do
-    @local_tz
+    @timezone
     |> utc_now_fn.()
     |> to_local_time()
 
@@ -151,7 +151,7 @@ defmodule Util do
 
   def to_local_time(%DateTime{zone_abbr: "UTC"} = time) do
     time
-    |> Timex.Timezone.convert(@local_tz)
+    |> Timex.Timezone.convert(@timezone)
     |> handle_ambiguous_time()
   end
 
