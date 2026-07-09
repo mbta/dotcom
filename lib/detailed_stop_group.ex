@@ -42,7 +42,7 @@ defmodule DetailedStopGroup do
       max_concurrency: 10,
       on_timeout: :kill_task
     )
-    |> Stream.map(fn {:ok, stops} -> stops end)
+    |> Enum.map(fn {:ok, stops} -> stops end)
   end
 
   @spec from_grouped_stops([grouped_stops]) :: [
@@ -51,6 +51,7 @@ defmodule DetailedStopGroup do
   defp from_grouped_stops(grouped_stops) do
     grouped_stops
     |> Stream.map(&build_featured_stops/1)
+    |> Enum.to_list()
   end
 
   @spec build_featured_stops(grouped_stops) :: DetailedStopGroup.t()
