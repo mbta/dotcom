@@ -179,8 +179,8 @@ defmodule Alerts.Alert do
   end
 
   def stale?(%__MODULE__{} = alert) do
-    now = Timex.now()
-    five_weeks_ago = DateTime.add(now, -5 * 7, :day)
+    now = Dotcom.Utils.DateTime.now()
+    five_weeks_ago = DateTime.shift(now, week: -5)
 
     case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
       {:current, datetime} -> datetime |> DateTime.before?(five_weeks_ago)
