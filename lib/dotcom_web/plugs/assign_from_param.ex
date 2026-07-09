@@ -29,7 +29,7 @@ defmodule DotcomWeb.Plugs.AssignFromParam do
 
   Would do the following:
   - "?color=RED" -> assigns `:color` to `"red"`
-  - "?color=BLUE" -> assigns `:color` to `"black"` (fallback)
+  - "?color=BLUE" -> assigns `:color` to `"black"`, removes the `"color=BLUE"` param from the query string and redirects
   - (color param not present) -> assigns `:color` to `"black"` (fallback)
   """
 
@@ -59,7 +59,9 @@ defmodule DotcomWeb.Plugs.AssignFromParam do
         assign(conn, param_atom, value)
 
       _ ->
-        assign(conn, param_atom, fallback_fn.())
+        conn
+        |> DotcomWeb.ControllerHelpers.redirect_sans_param(param)
+        |> validate_call(param, validator_fn, fallback_fn)
     end
   end
 

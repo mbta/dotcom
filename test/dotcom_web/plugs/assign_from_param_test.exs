@@ -44,8 +44,9 @@ defmodule DotcomWeb.Plugs.AssignFromParamTest do
       ]
 
       conn = with_query_params(conn, %{param_name => "value"})
-      conn = AssignFromParam.call(conn, opts)
-      assigned_value = conn.assigns[String.to_atom(param_name)]
+      redirected_conn = AssignFromParam.call(conn, opts)
+      assert redirected_conn.status == 302
+      assigned_value = redirected_conn.assigns[String.to_atom(param_name)]
       assert assigned_value == "fallback value"
     end
 
