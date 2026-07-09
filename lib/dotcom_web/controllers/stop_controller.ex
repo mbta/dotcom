@@ -266,7 +266,7 @@ defmodule DotcomWeb.StopController do
   defp separate_mattapan(stop_info) do
     case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
       nil -> {nil, stop_info}
-      mattapan -> {mattapan, Stream.reject(stop_info, & &1 == mattapan)}
+      mattapan -> {mattapan, Stream.reject(stop_info, &(&1 == mattapan))}
     end
   end
 

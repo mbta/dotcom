@@ -38,7 +38,10 @@ defmodule DetailedStopGroup do
     mode
     |> Route.types_for_mode()
     |> @routes_repo.by_type()
-    |> Task.async_stream(&{&1, @stops_repo.by_route(&1.id, 1)}, max_concurrency: 10, on_timeout: :kill_task)
+    |> Task.async_stream(&{&1, @stops_repo.by_route(&1.id, 1)},
+      max_concurrency: 10,
+      on_timeout: :kill_task
+    )
     |> Stream.map(fn {:ok, stops} -> stops end)
   end
 
@@ -54,7 +57,10 @@ defmodule DetailedStopGroup do
   defp build_featured_stops({route, stops}) do
     featured_stops =
       stops
-      |> Task.async_stream(&build_featured_stop(route, &1), max_concurrency: 10, on_timeout: :kill_task)
+      |> Task.async_stream(&build_featured_stop(route, &1),
+        max_concurrency: 10,
+        on_timeout: :kill_task
+      )
       |> Stream.map(fn {:ok, featured_stop} -> featured_stop end)
       |> Enum.sort_by(& &1.stop.name)
 
