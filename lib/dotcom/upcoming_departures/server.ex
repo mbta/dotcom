@@ -31,23 +31,11 @@ defmodule Dotcom.UpcomingDepartures.Server do
     _ = Dotcom.Predictions.Manager.subscribe(params)
 
     schedules_fn = fn date ->
-      yesterday_late_night_schedules =
-        if date == ~D[2026-06-14] do
-          @schedules_repo.by_route_ids([route_id],
-            direction_id: direction_id,
-            date: ~D[2026-06-13],
-            stop_ids: [stop_id]
-          )
-        else
-          []
-        end
-
-      yesterday_late_night_schedules ++
-        @schedules_repo.by_route_ids([route_id],
-          direction_id: direction_id,
-          date: date,
-          stop_ids: [stop_id]
-        )
+      @schedules_repo.by_route_ids([route_id],
+        direction_id: direction_id,
+        date: date,
+        stop_ids: [stop_id]
+      )
     end
 
     upcoming_departures_fn = fn predicted_schedules ->
