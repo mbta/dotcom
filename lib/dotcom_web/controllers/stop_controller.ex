@@ -31,7 +31,6 @@ defmodule DotcomWeb.StopController do
           routes: [route_with_directions]
         }
 
-  plug(DotcomWeb.Plugs.DateTime)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
   def index(conn, _params) do
