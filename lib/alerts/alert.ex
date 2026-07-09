@@ -58,7 +58,6 @@ defmodule Alerts.Alert do
             lifecycle: :unknown,
             priority: :low,
             severity: 5,
-            stale?: false,
             updated_at: Timex.now(),
             url: ""
 
@@ -117,7 +116,6 @@ defmodule Alerts.Alert do
           lifecycle: lifecycle,
           priority: Priority.priority_level(),
           severity: severity,
-          stale?: boolean(),
           updated_at: DateTime.t(),
           url: String.t() | nil
         }
