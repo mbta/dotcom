@@ -73,13 +73,6 @@ defmodule DotcomWeb.ControllerHelpers do
     |> filter_routes(filters)
   end
 
-  @spec get_grouped_route_ids([{atom, [Route.t()]}]) :: [String.t()]
-  def get_grouped_route_ids(grouped_routes) do
-    grouped_routes
-    |> Enum.flat_map(fn {_mode, routes} -> routes end)
-    |> Enum.map(& &1.id)
-  end
-
   @spec green_routes() :: [Route.t()]
   def green_routes, do: Enum.map(GreenLine.branch_ids(), &@routes_repo.get(&1))
 

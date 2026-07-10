@@ -67,10 +67,9 @@ defmodule Alerts.MatchTest do
           %InformedEntity{stop: "1"}
         ],
         active_period: [
-          {nil, ~N[2016-06-01T00:00:00]},
-          {NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}}),
-           NaiveDateTime.from_erl!({{2016, 6, 2}, {1, 0, 0}})},
-          {NaiveDateTime.from_erl!({{2016, 6, 3}, {0, 0, 0}}), nil}
+          {nil, ~U(2016-06-01 00:00:00Z)},
+          {~U(2016-06-02 00:00:00Z), ~U(2016-06-02 01:00:00Z)},
+          {~U(2016-06-03 00:00:00Z), nil}
         ]
       )
     ]
@@ -79,28 +78,28 @@ defmodule Alerts.MatchTest do
 
     assert Alerts.Match.match(alerts, ie) == alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 1}, {0, 0, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-06-01 00:00:00Z)) ==
              alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-06-02 00:00:00Z)) ==
              alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 30, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-06-02 00:30:00Z)) ==
              alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 3}, {0, 0, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-06-03 00:00:00Z)) ==
              alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 4}, {0, 0, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-06-04 00:00:00Z)) ==
              alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 5, 20}, {0, 0, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-05-20 00:00:00Z)) ==
              alerts
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 1}, {12, 0, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-06-01 12:00:00Z)) ==
              []
 
-    assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {12, 0, 0}})) ==
+    assert Alerts.Match.match(alerts, ie, ~U(2016-06-02 12:00:00Z)) ==
              []
   end
 

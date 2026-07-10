@@ -25,6 +25,62 @@ defmodule AlertsTest do
     end
   end
 
+  describe "check_freshness/1" do
+    test "Marks alerts with no end older than 5 weeks as stale" do
+      stale_start_date = Timex.now() |> DateTime.add(Enum.random(-10..-6) * 7, :day)
+      alert = new(effect: :delay, active_period: [{stale_start_date, nil}])
+
+      assert Alerts.Alert.stale?(alert),
+             "Alert with no end was expected to be stale, but was not"
+    end
+
+    test "Marks alerts with an end older than 5 weeks as stale" do
+      stale_start_date = Timex.now() |> DateTime.add(Enum.random(-10..-6) * 7, :day)
+      stale_end_date = Timex.now() |> DateTime.add(Enum.random(1..10), :day)
+      alert = new(effect: :delay, active_period: [{stale_start_date, stale_end_date}])
+
+      assert Alerts.Alert.stale?(alert),
+             "Alert with an end was expected to be stale, but was not #{stale_start_date}"
+    end
+
+    test "Handles alerts with multiple active periods correctly" do
+      stale_start_date = Timex.now() |> DateTime.add(Enum.random(-10..-6) * 7, :day)
+      stale_end_date = Timex.now() |> DateTime.add(Enum.random(1..10), :day)
+      future_start_date = Timex.now() |> DateTime.add(Enum.random(1..30), :day)
+      future_end_date = future_start_date |> DateTime.add(Enum.random(1..30), :day)
+
+      alert =
+        new(
+          effect: :delay,
+          active_period: [
+            {stale_start_date, stale_end_date},
+            {future_start_date, future_end_date}
+          ]
+        )
+
+      assert Alerts.Alert.stale?(alert),
+             "Alert with an end was expected to be stale, but was not #{stale_start_date}"
+    end
+
+    test "Marks alerts with no end younger than 5 weeks as fresh" do
+      fresh_start_date = Timex.now() |> DateTime.add(Enum.random(-4..-1) * 7, :day)
+      alert = new(effect: :delay, active_period: [{fresh_start_date, nil}])
+
+      assert !Alerts.Alert.stale?(alert),
+             "Alert with no end was expected to be fresh, but was not"
+    end
+
+    test "Marks alerts with an end younger than 5 weeks as fresh" do
+      fresh_start_date = Timex.now() |> DateTime.add(Enum.random(-4..-1) * 7, :day)
+      fresh_end_date = Timex.now() |> DateTime.add(Enum.random(1..10), :day)
+
+      alert = new(effect: :delay, active_period: [{fresh_start_date, fresh_end_date}])
+
+      assert !Alerts.Alert.stale?(alert),
+             "Alert with an end was expected to be fresh, but was not"
+    end
+  end
+
   describe "ongoing_effects/0" do
     test "returns a list" do
       assert is_list(ongoing_effects())

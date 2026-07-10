@@ -31,8 +31,6 @@ defmodule DotcomWeb.StopController do
           routes: [route_with_directions]
         }
 
-  plug(:alerts)
-  plug(DotcomWeb.Plugs.DateTime)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
   def index(conn, _params) do
@@ -81,6 +79,7 @@ defmodule DotcomWeb.StopController do
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
+        |> assign_alerts()
         |> render("show.html", %{
           stop: stop,
           amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
@@ -330,11 +329,11 @@ defmodule DotcomWeb.StopController do
   @spec includes_predictions?(TransitNearMe.headsign_data()) :: boolean
   defp includes_predictions?(%{times: times}), do: Enum.any?(times, &(&1.prediction != nil))
 
-  defp alerts(%{assigns: %{alerts: alerts}} = conn, _opts) do
+  defp assign_alerts(%{assigns: %{alerts: alerts}} = conn) do
     assign(conn, :all_alerts_count, length(alerts))
   end
 
-  defp alerts(%{path_params: %{"id" => id}} = conn, _opts) do
+  defp assign_alerts(%{path_params: %{"id" => id}} = conn) do
     stop_id = URI.decode_www_form(id)
 
     alerts =
@@ -347,7 +346,7 @@ defmodule DotcomWeb.StopController do
     |> assign(:all_alerts_count, length(alerts))
   end
 
-  defp alerts(conn, _opts) do
+  defp assign_alerts(conn) do
     assign(conn, :alerts, AlertsRepo.all(conn.assigns.date_time))
   end
 
