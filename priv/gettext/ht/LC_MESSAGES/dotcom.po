@@ -5526,3 +5526,8 @@ msgstr "Zòn Pò Enteryè 1A"
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
 msgstr "Winthrop ak Quincy Ferry"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Something went wrong. Please try again later."
+msgstr ""
