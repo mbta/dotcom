@@ -5511,7 +5511,12 @@ msgstr "內港區 1A"
 msgid "Winthrop and Quincy Ferry"
 msgstr "Winthrop和Quincy Ferry"
 
+#: lib/dotcom_web/live/trip_planner_live.ex
+#, elixir-autogen, elixir-format
+msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
+msgstr "<strong>請謹慎使用：</strong>輪椅-使用方向不會因電梯暫時停駛而調整。 如有電梯警報，將在行程建議中顯示。"
+
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr ""
+msgstr "出問題了。請稍後再試。"

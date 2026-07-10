@@ -5531,7 +5531,13 @@ msgstr "Khu vực cảng nội địa 1A"
 msgid "Winthrop and Quincy Ferry"
 msgstr "Winthrop và Quincy Ferry"
 
+#: lib/dotcom_web/live/trip_planner_live.ex
+#, elixir-autogen, elixir-format
+msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
+msgstr "<strong>Sử dụng thận trọng:</strong> xe lăn-có thể tiếp cận được chỉ đường không được điều chỉnh cho thang máy tạm thờitages. Cảnh báo thang máy được hiển"
+" thị trong đề xuất chuyến đi khi có sẵn."
+
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr ""
+msgstr "Đã xảy ra lỗi. Vui lòng thử lại sau."
