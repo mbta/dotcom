@@ -5549,4 +5549,4 @@ msgstr "<strong>Soyez prudent :</strong> fauteuil roulant -accessible directions
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr ""
+msgstr "Quelque chose a mal tourné. Veuillez réessayer plus tard."

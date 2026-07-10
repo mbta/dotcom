@@ -5535,4 +5535,4 @@ msgstr "<strong>Fè atansyon:</strong> direksyon pou kay asansè a pa ajiste pou
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr ""
+msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."

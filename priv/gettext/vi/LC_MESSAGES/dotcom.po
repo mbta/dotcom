@@ -5540,4 +5540,4 @@ msgstr "<strong>Sử dụng thận trọng:</strong> xe lăn-có thể tiếp c�
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr ""
+msgstr "Đã xảy ra lỗi. Vui lòng thử lại sau."
