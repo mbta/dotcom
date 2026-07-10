@@ -443,8 +443,7 @@ defmodule DotcomWeb.Components do
   def callout(assigns) do
     ~H"""
     <.cta
-      classes="callout font-bold text-center"
-      style="background-color: var(--colors-charcoal-90)"
+      classes="callout font-bold text-center bg-charcoal-80"
       {@rest}
     >
       {render_slot(@inner_block)}
