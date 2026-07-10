@@ -5527,14 +5527,10 @@ msgstr "Zòn Pò Enteryè 1A"
 msgid "Winthrop and Quincy Ferry"
 msgstr "Winthrop ak Quincy Ferry"
 
-<<<<<<< lev/feat/trip_planner/a11y_notice
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
 msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
-msgstr "<strong>Fè atansyon:</strong> direksyon pou kay asansè a pa ajiste pou pann asansè tanporè. Yo montre sijesyon vwayaj pou asansè a lè yo disponib."
-=======
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr ""
->>>>>>> main
+msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."
