@@ -5538,4 +5538,5 @@ msgstr "Balsa Winthrop e Quincy Ferry"
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
 msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
-msgstr ""
+msgstr "<strong>Tenha cuidado:</strong> as direções da cadeira de rodas-acessível não são ajustadas para interrupções temporárias do elevador. Os alertas de elevador"
+" são exibidos nas sugestões de viagem quando disponíveis."
