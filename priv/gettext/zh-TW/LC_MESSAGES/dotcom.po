@@ -729,7 +729,6 @@ msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket 
 msgstr "Boston Stadium火車票必須提前在mTicket應用程式上購買。 欲了解更多信息，請閱讀我們的%{world_cup_link}"
 
 #: lib/dotcom_web/hooks/breadcrumbs.ex
-#: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid "Boston Stadium Trains"
 msgstr "Boston Stadium專列"

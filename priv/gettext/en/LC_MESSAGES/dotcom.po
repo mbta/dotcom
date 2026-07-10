@@ -735,7 +735,6 @@ msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket 
 msgstr ""
 
 #: lib/dotcom_web/hooks/breadcrumbs.ex
-#: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid "Boston Stadium Trains"
 msgstr ""
