@@ -3876,11 +3876,6 @@ msgstr "Reclamações de serviço"
 msgid "Service Inquiry"
 msgstr "Consulta de serviço"
 
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "Service alert or delay"
-msgstr "alertas de serviço ou atraso"
-
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
