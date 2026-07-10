@@ -6,6 +6,10 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
   alias Fares.{Fare, Format, Repo, Summary}
 
   describe "fare_request/1" do
+    test "it handles request strings that include trailing spaces" do
+      assert fare_request("subway ") == {:ok, "$2.40"}
+    end
+
     test "it handles fare requests for a given mode name and media" do
       assert [
                name: :local_bus,
@@ -362,6 +366,10 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
   end
 
   describe "fare_object_request" do
+    test "it handles fare requests with trailing spaces" do
+      assert fare_request("subway ") == {:ok, "$2.40"}
+    end
+
     test "it handles fare requests for a given mode name and media" do
       result =
         Repo.all(name: :local_bus, includes_media: :cash, reduced: nil, duration: :single_trip)
