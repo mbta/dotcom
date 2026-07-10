@@ -443,7 +443,7 @@ defmodule DotcomWeb.Components do
   def callout(assigns) do
     ~H"""
     <.cta
-      classes="callout font-bold text-center bg-charcoal-80"
+      classes="callout font-bold text-center bg-charcoal-90"
       {@rest}
     >
       {render_slot(@inner_block)}
@@ -503,7 +503,14 @@ defmodule DotcomWeb.Components do
 
   def cta(assigns) do
     ~H"""
-    <a
+    <.dynamic_tag
+      tag_name={
+        if @link do
+          "a"
+        else
+          "div"
+        end
+      }
       id="cta-banner"
       href={@link}
       class={"cta-a gap-2 " <> @classes}
@@ -514,7 +521,7 @@ defmodule DotcomWeb.Components do
         {render_slot(@inner_block)}
       </span>
       <span :if={@arrow} aria-hidden="true">&#8594;</span>
-    </a>
+    </.dynamic_tag>
     """
   end
 end
