@@ -5543,4 +5543,5 @@ msgstr "Winthrop et Quincy Ferry"
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
 msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
-msgstr ""
+msgstr "<strong>Soyez prudent :</strong> fauteuil roulant -accessible directions ne sont pas ajustées pour les pannes temporaires de l’ascenseur. Les alertes ascenseur"
+" sont affichées dans les suggestions de trajet lorsque disponibles."
