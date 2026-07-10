@@ -39,8 +39,19 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.ClearCookies)
     plug(DotcomWeb.Plugs.Cookies)
     plug(DotcomWeb.Plugs.ContentSecurityPolicy)
-    plug(DotcomWeb.Plugs.Date)
-    plug(DotcomWeb.Plugs.DateTime)
+
+    plug(DotcomWeb.Plugs.AssignFromParam,
+      param: "date",
+      validator_fn: &Util.parse_valid_date/1,
+      fallback_fn: &Dotcom.Utils.ServiceDateTime.service_date/0
+    )
+
+    plug(DotcomWeb.Plugs.AssignFromParam,
+      param: "date_time",
+      validator_fn: &Util.parse_valid_datetime/1,
+      fallback_fn: &Dotcom.Utils.DateTime.now/0
+    )
+
     plug(DotcomWeb.Plugs.RewriteUrls)
     plug(DotcomWeb.Plugs.SecureHeaders)
     plug(DotcomWeb.Plugs.SetLocale)

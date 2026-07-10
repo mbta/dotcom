@@ -5539,8 +5539,15 @@ msgstr "Zona 1A del Puerto Interior"
 msgid "Winthrop and Quincy Ferry"
 msgstr "Winthrop y Quincy Ferry"
 
+<<<<<<< lev/feat/trip_planner/a11y_notice
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
 msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
 msgstr "<strong>Ten precaución:</strong> Las direcciones accesibles de persona en silla de ruedas no se ajustan para cortes temporales de ascensores. Las alertas"
 " de ascensor aparecen en las sugerencias de viaje cuando están disponibles."
+=======
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Something went wrong. Please try again later."
+msgstr ""
+>>>>>>> main
