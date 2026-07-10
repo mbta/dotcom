@@ -1,16 +1,27 @@
 <%= if @fare_cards && length(@fare_cards) == 2 do %>
   <% group_fare_card = List.first(@fare_cards)
 
-  group_fare = fare_from_token(group_fare_card.fare_token)
+  group_fare = fare_from_token(group_fare_card.fare_token) |> dbg()
+
+  group_fare_info =
+    case group_fare do
+      # Put info from Fares.Summary into a more Fares.Fare-like format
+      %{modes: _} ->
+        %{
+          mode: List.first(group_fare.modes),
+          link: %{url: group_fare.url},
+        }
+      _ -> group_fare
+    end
 
   link_class =
-    case group_fare_card.link do
+    case group_fare_info.link do
       nil -> "static"
       _ -> "linked"
     end
 
   card_classes =
-    ["c-fare-card", "grouped", CSSHelpers.atom_to_class(group_fare.mode), link_class]
+    ["c-fare-card", "grouped", CSSHelpers.atom_to_class(group_fare_info.mode), link_class]
     |> Enum.intersperse(" c-fare-card--")
     |> Enum.join("")
 
@@ -20,17 +31,25 @@
       _ -> "u-linked-card #{card_classes}"
     end
 
-  card_title = [
-    content_tag(:span, Fares.Format.name(group_fare), class: "c-fare-card__mode"),
-    " ",
-    content_tag(:span, Fares.Format.duration(group_fare), class: "c-fare-card__duration")
-  ] %>
+  duration = Fares.Format.duration(group_fare)
+
+  card_title =
+    if is_binary(group_fare.name) do
+      group_fare.name
+    else
+      [
+        content_tag(:span, Fares.Format.name(group_fare), class: "c-fare-card__mode"),
+        " ",
+        content_tag(:span, Fares.Format.duration(group_fare), class: "c-fare-card__duration")
+      ]
+    end
+%>
 
   <%= extend_width :cards do %>
     <%= content_tag :div, class: card_classes do %>
       <div class="c-fare-card__header">
         <div class="c-fare-card__icon" aria-hidden="true">
-          {mode_icon(group_fare.mode, :default)}
+          {mode_icon(group_fare_info.mode, :default)}
         </div>
 
         <h3 class="c-fare-card__name">
@@ -44,11 +63,18 @@
 
       <div class="c-multi-column__row row">
         <%= for fare_card <- @fare_cards do %>
-          <% fare = fare_from_token(fare_card.fare_token) %>
+          <%
+            fare = fare_from_token(fare_card.fare_token)
+            price =
+              case fare do
+                %{fares: _} -> Fares.Summary.price_range(fare)
+                _ -> Fares.Format.price(fare)
+              end
+          %>
 
           <div class="c-multi-column__column col-sm-6">
             <div class="c-fare-card__fare h3">
-              {Fares.Format.price(fare)}
+              {price}
             </div>
 
             <%= if fare_card.show_media && Fares.Format.media(fare) do %>
