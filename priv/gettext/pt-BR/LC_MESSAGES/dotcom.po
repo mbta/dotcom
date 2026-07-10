@@ -3876,11 +3876,6 @@ msgstr "Reclamações de serviço"
 msgid "Service Inquiry"
 msgstr "Consulta de serviço"
 
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "Service alert or delay"
-msgstr "alertas de serviço ou atraso"
-
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
@@ -5539,3 +5534,8 @@ msgstr "Zona 1A do Porto Interior"
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
 msgstr "Balsa Winthrop e Quincy Ferry"
+
+#: lib/dotcom_web/live/trip_planner_live.ex
+#, elixir-autogen, elixir-format
+msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
+msgstr ""

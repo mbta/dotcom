@@ -3855,11 +3855,6 @@ msgstr "服務投訴"
 msgid "Service Inquiry"
 msgstr "服務查詢"
 
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "Service alert or delay"
-msgstr "服務警報或間歇"
-
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
@@ -5515,3 +5510,8 @@ msgstr "內港區 1A"
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
 msgstr "Winthrop和Quincy Ferry"
+
+#: lib/dotcom_web/live/trip_planner_live.ex
+#, elixir-autogen, elixir-format
+msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
+msgstr ""
