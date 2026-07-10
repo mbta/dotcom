@@ -181,6 +181,7 @@ export function setup(rootElement: HTMLElement): void {
           // eslint-disable-next-line no-param-reassign
           delete header.dataset.navOpen;
         } else if (observedDataAttributes.includes(TOGGLE_NAMES.search)) {
+          console.log("hi");
           // eslint-disable-next-line no-param-reassign
           delete header.dataset.searchOpen;
         }
