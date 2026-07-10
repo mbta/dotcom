@@ -485,7 +485,6 @@ defmodule DotcomWeb.Components do
           "div"
         end
       }
-      id="cta-banner"
       href={@link}
       class={"cta-a gap-2 " <> @classes}
       {@rest}
