@@ -36,11 +36,21 @@ defmodule DotcomWeb.Components.TripPlanner.ResultsSummary do
     """
   end
 
-  defp results_feedback(%{results: %{error: error}} = assigns) when not is_nil(error) do
+  defp results_feedback(%{results: %{error: error}} = assigns) when is_binary(error) do
     ~H"""
     <.feedback kind={:error}>
       <span data-test="results-summary:error">
         {@results.error}
+      </span>
+    </.feedback>
+    """
+  end
+
+  defp results_feedback(%{results: %{error: error}} = assigns) when not is_nil(error) do
+    ~H"""
+    <.feedback kind={:error}>
+      <span data-test="results-summary:error">
+        {~t"Something went wrong. Please try again later."}
       </span>
     </.feedback>
     """
