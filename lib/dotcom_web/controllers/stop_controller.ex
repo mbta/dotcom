@@ -31,8 +31,6 @@ defmodule DotcomWeb.StopController do
           routes: [route_with_directions]
         }
 
-  plug(DotcomWeb.Plugs.AlertsByTimeframe)
-
   def index(conn, _params) do
     redirect(conn, to: stop_path(conn, :show, :subway))
   end
