@@ -738,7 +738,6 @@ msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket 
 msgstr "Boston Stadium Boleto de Tren debe comprar con antelación en la app mTicket . Para más información, lee nuestro %{world_cup_link}"
 
 #: lib/dotcom_web/hooks/breadcrumbs.ex
-#: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid "Boston Stadium Trains"
 msgstr "Boston Stadium Trenes"
