@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Deploy.Prod do
   def run(_) do
     # This is necessary in order to call
     # `Dotcom.Utils.DateTime.today/0` below.
-    Application.ensure_all_started(:tzdata)
+    _ = Application.ensure_all_started(:tzdata)
 
     %{"previous_date" => previous_date, "previous_count" => previous_count} =
       latest_tag() |> parse_previous_date_and_count()
@@ -36,7 +36,7 @@ defmodule Mix.Tasks.Deploy.Prod do
   # description of the form `<latest_tag>-<other_stuff>`... with
   # `-<other_stuff>` trimmed off by `--abbrev=0`).
   defp latest_tag() do
-    System.cmd("git", ["fetch"])
+    _ = System.cmd("git", ["fetch"])
 
     System.cmd("git", ["describe", "origin/main", "--tags", "--abbrev=0"])
     |> then(fn {tag, 0} -> tag end)
