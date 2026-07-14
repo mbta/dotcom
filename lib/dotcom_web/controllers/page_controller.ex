@@ -27,7 +27,6 @@ defmodule DotcomWeb.PageController do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
     date = conn.assigns.date
-    date_time = conn.assigns.date_time
 
     conn
     |> assign(
@@ -42,9 +41,7 @@ defmodule DotcomWeb.PageController do
     |> async_assign_default(
       :alerts,
       fn ->
-        date_time
-        |> Alerts.Repo.all()
-        |> Enum.filter(&Alerts.Match.any_time_match?(&1, date_time))
+        Alerts.Cache.Store.current_alerts_unsorted()
       end,
       []
     )

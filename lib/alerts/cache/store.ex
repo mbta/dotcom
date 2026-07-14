@@ -103,6 +103,12 @@ defmodule Alerts.Cache.Store do
     |> List.first()
   end
 
+  def current_alerts_unsorted do
+    :alert_id_to_alert
+    |> :ets.select([{{:_, :"$1"}, [], [:"$1"]}])
+    |> Enum.filter(&Dotcom.Alerts.in_effect_now?/1)
+  end
+
   @doc """
   Retrieves the full set of current alerts in priority sorted order.
   """
