@@ -366,8 +366,17 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
   end
 
   describe "fare_object_request" do
-    test "it handles fare requests with trailing spaces" do
-      assert fare_request("subway ") == {:ok, "$2.40"}
+    test "it handles fare object requests with trailing spaces" do
+      result =
+        Repo.all(
+          name: :ferry_winthrop,
+          includes_media: :mticket,
+          reduced: nil,
+          duration: :single_trip
+        )
+        |> List.first()
+
+      assert fare_object_request("ferry_winthrop ") == result
     end
 
     test "it handles fare requests for a given mode name and media" do
