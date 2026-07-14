@@ -491,4 +491,61 @@ defmodule Dotcom.AlertsTest do
 
     assert systemwide_mode_alert?(alert_without_route, mode)
   end
+
+  describe "routes_with_high_priority_alerts_by_mode/1" do
+    setup do
+      {:ok, %{alerts: Factories.Alerts.Alert.build_list(50, :alert)}}
+    end
+
+    test "builds list of routes by mode", %{alerts: alerts} do
+      stub(Routes.Repo.Mock, :get, fn _ -> Factories.Routes.Route.build(:route) end)
+
+      for {mode, routes} <- routes_with_high_priority_alerts_by_mode(alerts) do
+        # valid mode
+        assert Routes.Route.types_for_mode(mode)
+
+        if routes != [] do
+          assert [%Routes.Route{} | _] = routes
+        end
+      end
+    end
+
+    test "doesn't error if nil routes", %{alerts: alerts} do
+      stub(Routes.Repo.Mock, :get, fn _ -> nil end)
+
+      assert routes_with_high_priority_alerts_by_mode(alerts) == [
+               subway: [],
+               bus: [],
+               commuter_rail: [],
+               ferry: []
+             ]
+    end
+  end
+
+  describe "stops_with_access_alerts_by_effect/1" do
+    setup do
+      {:ok, %{alerts: Factories.Alerts.Alert.build_list(50, :alert)}}
+    end
+
+    test "builds list of stops by accessibility effect", %{alerts: alerts} do
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
+
+      stops_by_effect = stops_with_access_alerts_by_effect(alerts)
+
+      for {effect, stops} <- stops_by_effect do
+        assert effect in Alerts.Accessibility.effect_types()
+
+        if stops != [] do
+          assert [%Stops.Stop{} | _] = stops
+        end
+      end
+    end
+
+    test "doesn't error if nil stops", %{alerts: alerts} do
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> nil end)
+
+      stops_by_effect = stops_with_access_alerts_by_effect(alerts)
+      assert stops_by_effect == [elevator_closure: [], escalator_closure: [], access_issue: []]
+    end
+  end
 end
