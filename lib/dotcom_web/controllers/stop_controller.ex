@@ -253,8 +253,8 @@ defmodule DotcomWeb.StopController do
   @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
   defp get_stop_info do
     [:subway, :commuter_rail, :ferry]
-    |> Task.async_stream(&DetailedStopGroup.from_mode/1)
-    |> Enum.flat_map(fn {:ok, stops} -> stops end)
+    |> Stream.flat_map(&DetailedStopGroup.from_mode/1)
+    |> Enum.to_list()
     |> separate_mattapan()
   end
 
@@ -264,7 +264,7 @@ defmodule DotcomWeb.StopController do
   defp separate_mattapan(stop_info) do
     case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
       nil -> {nil, stop_info}
-      mattapan -> {mattapan, List.delete(stop_info, mattapan)}
+      mattapan -> {mattapan, Enum.reject(stop_info, &(&1 == mattapan))}
     end
   end
 
