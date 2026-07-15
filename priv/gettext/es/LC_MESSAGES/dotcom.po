@@ -5052,7 +5052,6 @@ msgid "Working"
 msgstr "Funcionamiento"
 
 #: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "World Cup Guide"
 msgstr "Guía de la Copa del Mundo"
