@@ -477,18 +477,6 @@ defmodule DotcomWeb.Components do
 
   slot :inner_block
 
-  def cta(%{link: link} = assigns) when link != nil do
-    ~H"""
-    <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
-      <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
-      <span class="leading-tight grow">
-        {render_slot(@inner_block)}
-      </span>
-      <span :if={@arrow} aria-hidden="true">&#8594;</span>
-    </.cta_wrapper>
-    """
-  end
-
   def cta(assigns) do
     ~H"""
     <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
