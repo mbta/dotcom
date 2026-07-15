@@ -203,10 +203,14 @@ export function setup(rootElement: HTMLElement): void {
           oldValue !== "true"
       ) !== undefined;
 
+    // adjust theme color
     rootElement
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", aMenuIsBeingExpanded ? "#0b2f4c" : "#165c96");
 
+    // add/remove data attributes based on which menu is expanded
+    // nav-open on the document body
+    // nav-open or search-open on the header
     if (aMenuIsBeingExpanded) {
       // eslint-disable-next-line no-param-reassign
       rootElement.dataset.navOpen = "true";
@@ -264,6 +268,20 @@ export function setup(rootElement: HTMLElement): void {
       desktopHeaders.forEach(header => {
         disableBodyScroll(header, { reserveScrollBarGap: true });
       });
+
+      const veil = rootElement.querySelector<HTMLElement>("[data-nav='veil']");
+      if (
+        veil &&
+        !veil.style.paddingRight &&
+        rootElement.dataset.navOpen === "true"
+      ) {
+        const bodyPaddingRight = rootElement.querySelector("body")?.style
+          .paddingRight;
+
+        if (bodyPaddingRight) {
+          veil.style.width = `calc(100% - ${bodyPaddingRight})`;
+        }
+      }
 
       const controls = (mutations[0].target as Element).getAttribute(
         "aria-controls"

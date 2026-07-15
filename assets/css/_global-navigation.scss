@@ -232,13 +232,13 @@ nav.m-top-tier-menu--mobile {
   left: unset;
   right: 15px;
   padding: 0 1rem;
-  top: $header-navbar-height-new - 1.375; // menu padding + padding of button on desktop
+  top: $header-navbar-height-new - $base-spacing;
 
   @include media-breakpoint-only(xs) {
     left: unset;
     right: 15px;
     padding: 0 1rem;
-    top: $header-navbar-height-xs - 1;
+    top: $header-navbar-height-xs - 0.5;
   }
 }
 
