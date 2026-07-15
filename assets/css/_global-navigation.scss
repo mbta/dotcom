@@ -160,6 +160,8 @@ nav.m-top-tier-menu--mobile {
 }
 
 .m-menu--top-tier-mobile__toggle {
+    margin-right: 0px;
+
   align-items: center;
   color: inherit;
   display: flex;
@@ -188,7 +190,6 @@ nav.m-top-tier-menu--mobile {
       @include fa-icon-solid($fa-var-caret-up);
       pointer-events: none;
     }
-    margin-right: 0px;
   }
 }
 
@@ -201,7 +202,24 @@ nav.m-top-tier-menu--mobile {
   overflow: hidden;
   position: absolute;
   right: 0;
-  top: $header-navbar-height-new * 2; // TODO this doesn't work when the flag is turned off!
+  top: $header-navbar-height-new;
+  z-index: 102;
+
+  // opened
+  .m-menu--desktop__toggle[aria-expanded='true'] + & {
+    display: initial;
+  }
+}
+
+.m-menu--multiple_tiered_desktop__menu {
+  background-color: $brand-primary-lightest-contrast;
+  box-shadow: 0 7px 14px 0 $gray-shadow;
+  display: none; // start off closed
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: $header-navbar-height-new * 2;
   z-index: 102;
 
   // opened
@@ -212,15 +230,15 @@ nav.m-top-tier-menu--mobile {
 
 .m-top-tier-menu__menu {
   left: unset;
-  right: 20px;
+  right: 15px;
   padding: 0 1rem;
-  top: $header-navbar-height-new;
+  top: $header-navbar-height-new - 1.375; // menu padding + padding of button on desktop
 
   @include media-breakpoint-only(xs) {
     left: unset;
-    right: 20px;
+    right: 15px;
     padding: 0 1rem;
-    top: $header-navbar-height-xs;
+    top: $header-navbar-height-xs - 1;
   }
 }
 

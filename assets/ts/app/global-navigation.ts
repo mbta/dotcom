@@ -32,7 +32,7 @@ const TOGGLE_SELECTORS = Object.fromEntries(
   Object.entries(TOGGLE_NAMES).map(([key, name]) => [key, `[data-nav=${name}]`])
 );
 
-const allTogglesSelector = Object.values(TOGGLE_SELECTORS).join(", ");
+const allTogglesSelector: string = Object.values(TOGGLE_SELECTORS).join(", ");
 
 export function setHeaderElementPositions(
   header: HTMLElement,
@@ -52,15 +52,20 @@ export function setHeaderElementPositions(
   const content = header.querySelector(
     "[data-nav='mobile-content']"
   ) as HTMLElement | null;
-  if (content) content.style.top = bottomPx;
+  if (content) {
+    content.style.top = bottomPx;
+  }
 
   const cover = rootElement.querySelector(
     "[data-nav='veil']"
   ) as HTMLElement | null;
-  if (cover) cover.style.top = bottomPx;
+  if (cover) {
+    cover.style.top = bottomPx;
+  }
 }
 
 export function setup(rootElement: HTMLElement): void {
+  // This clears any existing  body locks on page loading
   clearAllBodyScrollLocks();
   if (!rootElement) return;
 
@@ -191,25 +196,18 @@ export function setup(rootElement: HTMLElement): void {
       m => (m.target as HTMLElement).dataset.nav || ""
     );
 
-    const isExpanding =
+    const aMenuIsBeingExpanded: boolean =
       mutations.find(
         ({ oldValue, target }) =>
           (target as Element).getAttribute("aria-expanded") === "true" &&
           oldValue !== "true"
       ) !== undefined;
 
-    // Adjust theme color
-    const themeColorMeta = rootElement.querySelector(
-      'meta[name="theme-color"]'
-    );
-    if (themeColorMeta) {
-      themeColorMeta.setAttribute(
-        "content",
-        isExpanding ? "#0b2f4c" : "#165c96"
-      );
-    }
+    rootElement
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", aMenuIsBeingExpanded ? "#0b2f4c" : "#165c96");
 
-    if (isExpanding) {
+    if (aMenuIsBeingExpanded) {
       // eslint-disable-next-line no-param-reassign
       rootElement.dataset.navOpen = "true";
 
@@ -234,7 +232,7 @@ export function setup(rootElement: HTMLElement): void {
         });
       }
     } else {
-      // CLOSING logic
+      // only do this if no other menu is expanded
       const anyOpen = Array.from(
         rootElement.querySelectorAll(allTogglesSelector)
       ).some(el => el.getAttribute("aria-expanded") === "true");
@@ -260,7 +258,7 @@ export function setup(rootElement: HTMLElement): void {
     // DESKTOP: close other desktop menus
     //
     const expandingDesktop =
-      isExpanding && observedNames.includes(TOGGLE_NAMES.desktop);
+      aMenuIsBeingExpanded && observedNames.includes(TOGGLE_NAMES.desktop);
 
     if (expandingDesktop) {
       desktopHeaders.forEach(header => {
@@ -277,7 +275,7 @@ export function setup(rootElement: HTMLElement): void {
 
       desktopToggles
         .filter(
-          el =>
+          (el: Element) =>
             el.getAttribute("aria-controls") !== controls &&
             el.getAttribute("aria-expanded") === "true"
         )
@@ -294,6 +292,44 @@ export function setup(rootElement: HTMLElement): void {
     });
   });
 
+  mobileMenuHeaders.forEach(header => {
+    const menuContent = header.querySelector("[data-nav='mobile-content']");
+    if (!menuContent) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+      menuContent
+        ?.querySelectorAll("[data-accordion] h3 > button")
+        .forEach(btn => {
+          btn.addEventListener("click", event => {
+            const el = event.target as HTMLElement;
+
+            if (btn.getAttribute("aria-expanded") === "false") {
+              return;
+            }
+
+            const drawerId = el.getAttribute("aria-controls");
+            const drawer = drawerId
+              ? menuContent.querySelector(`#${drawerId}`)
+              : null;
+
+            const targetBB = el.getBoundingClientRect();
+            const drawerBB = drawer?.getBoundingClientRect();
+
+            const yOffset =
+              drawer && drawerBB!.y < targetBB.y ? drawerBB!.height : 0;
+
+            const targetY = el.offsetTop - targetBB.height / 2 - yOffset;
+
+            menuContent.scrollTo({
+              behavior: "smooth",
+              left: 0,
+              top: targetY
+            });
+          });
+        });
+    }
+  });
+
   //
   // STANDARD CLOSING
   //
@@ -308,7 +344,7 @@ export function setup(rootElement: HTMLElement): void {
   function closeVeil(): void {
     if (rootElement.dataset.navOpen === "true") {
       // eslint-disable-next-line no-param-reassign
-      delete rootElement.dataset.navOpen;
+      delete rootElement?.dataset.navOpen;
     }
   }
 
@@ -317,19 +353,61 @@ export function setup(rootElement: HTMLElement): void {
     closeVeil();
   }
 
+  // Close on link click
   rootElement
-    .querySelector("[data-nav='veil']")
+    ?.querySelectorAll("[data-nav='link']")
+    .forEach(link => link.addEventListener("click", resetPage));
+
+  // Close on logo click
+  headers.forEach(header => {
+    header
+      ?.querySelector("[data-nav='logo']")
+      ?.addEventListener("click", resetPage);
+  });
+
+  // Close on veil click
+  rootElement
+    ?.querySelector("[data-nav='veil']")
     ?.addEventListener("click", resetPage);
 
+  // ESC closes all
   rootElement.addEventListener("keydown", e =>
     handleNativeEscapeKeyPress(e, resetPage)
   );
 
+  // autocomplete closes all
   document.addEventListener("autocomplete:selected", closeAllMenus);
+
+  desktopHeaders.forEach(header => {
+    header.addEventListener("keydown", e => {
+      const activeSection = document.activeElement?.closest(
+        "[data-nav='desktop-section']"
+      );
+      if (!activeSection) return;
+
+      const openSectionId = activeSection.parentElement!.id;
+
+      const activeButton = header.querySelector(
+        `${TOGGLE_SELECTORS.desktop}[aria-controls="${openSectionId}"]`
+      ) as HTMLButtonElement | null;
+
+      handleNativeEscapeKeyPress(e, () => {
+        resetPage();
+        if (activeButton) {
+          activeButton.focus();
+          e.stopPropagation();
+        }
+      });
+    });
+  });
 }
 
 export default function setupGlobalNavigation(): void {
-  window.addEventListener("load", () => setup(document.documentElement), {
-    passive: true
-  });
+  window.addEventListener(
+    "load",
+    () => {
+      setup(document.documentElement);
+    },
+    { passive: true }
+  );
 }
