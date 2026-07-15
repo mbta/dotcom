@@ -738,7 +738,6 @@ msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket 
 msgstr "Boston Stadium Boleto de Tren debe comprar con antelación en la app mTicket . Para más información, lee nuestro %{world_cup_link}"
 
 #: lib/dotcom_web/hooks/breadcrumbs.ex
-#: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid "Boston Stadium Trains"
 msgstr "Boston Stadium Trenes"
@@ -5053,7 +5052,6 @@ msgid "Working"
 msgstr "Funcionamiento"
 
 #: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "World Cup Guide"
 msgstr "Guía de la Copa del Mundo"
@@ -5538,3 +5536,14 @@ msgstr "Zona 1A del Puerto Interior"
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
 msgstr "Winthrop y Quincy Ferry"
+
+#: lib/dotcom_web/live/trip_planner_live.ex
+#, elixir-autogen, elixir-format
+msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
+msgstr "<strong>Ten precaución:</strong> Las direcciones accesibles de persona en silla de ruedas no se ajustan para cortes temporales de ascensores. Las alertas"
+" de ascensor aparecen en las sugerencias de viaje cuando están disponibles."
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Something went wrong. Please try again later."
+msgstr "Algo salió mal. Por favor, inténtalo de nuevo más tarde."

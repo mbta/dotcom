@@ -416,9 +416,12 @@ defmodule DotcomWeb.Components do
   """
   def callout(assigns) do
     ~H"""
-    <div class="callout font-bold text-center" {@rest}>
+    <.cta
+      classes="callout font-bold text-center bg-charcoal-90"
+      {@rest}
+    >
       {render_slot(@inner_block)}
-    </div>
+    </.cta>
     """
   end
 
@@ -449,21 +452,49 @@ defmodule DotcomWeb.Components do
       )
 
     ~H"""
-    <a
+    <.cta
       phx-hook="MBTAGoCTABanner"
       id="mbta-go-cta-banner"
-      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
-      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+      link="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      icon="icon-mbta-go"
+      arrow
+      classes="hidden"
     >
-      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
+      {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+        route_type_text: @route_type_text
+      )
+      |> Phoenix.HTML.raw()}
+    </.cta>
+    """
+  end
+
+  attr :link, :any, required: false, default: nil
+  attr :arrow, :boolean, required: false, default: false
+  attr :classes, :string, required: false, default: nil
+  attr :icon, :string, required: false, default: nil
+  attr :icon_type, :string, required: false, default: "icon-svg"
+  attr :rest, :global
+
+  def cta(assigns) do
+    ~H"""
+    <.dynamic_tag
+      tag_name={
+        if @link do
+          "a"
+        else
+          "div"
+        end
+      }
+      href={@link}
+      class={"cta-a gap-2 " <> @classes}
+      {@rest}
+    >
+      <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
       <span class="leading-tight grow">
-        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
-          route_type_text: @route_type_text
-        )
-        |> Phoenix.HTML.raw()}
+        {render_slot(@inner_block)}
       </span>
-      <span aria-hidden="true">&#8594;</span>
-    </a>
+      <span :if={@arrow} aria-hidden="true">&#8594;</span>
+    </.dynamic_tag>
     """
   end
 end
