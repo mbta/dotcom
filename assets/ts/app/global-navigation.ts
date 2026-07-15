@@ -310,6 +310,10 @@ export function setup(rootElement: HTMLElement): void {
     });
   });
 
+  // Scroll accordion into view on click
+  // Note: we can't use `scrollIntoView`, Safari doesn't support it as of
+  // 2022-02-28, and even if it did, the opening/closing animations of the
+  // accordions makes the behavior janky on other browsers
   mobileMenuHeaders.forEach(header => {
     const menuContent = header.querySelector("[data-nav='mobile-content']");
     if (!menuContent) return;
@@ -325,16 +329,16 @@ export function setup(rootElement: HTMLElement): void {
               return;
             }
 
-            const drawerId = el.getAttribute("aria-controls");
-            const drawer = drawerId
-              ? menuContent.querySelector(`#${drawerId}`)
+            const expandedDrawerId = el.getAttribute("aria-controls");
+            const expandedDrawer = expandedDrawerId
+              ? menuContent.querySelector(`#${expandedDrawerId}`)
               : null;
 
             const targetBB = el.getBoundingClientRect();
-            const drawerBB = drawer?.getBoundingClientRect();
+            const drawerBB = expandedDrawer?.getBoundingClientRect();
 
             const yOffset =
-              drawer && drawerBB!.y < targetBB.y ? drawerBB!.height : 0;
+              expandedDrawer && drawerBB!.y < targetBB.y ? drawerBB!.height : 0;
 
             const targetY = el.offsetTop - targetBB.height / 2 - yOffset;
 
