@@ -475,26 +475,37 @@ defmodule DotcomWeb.Components do
   attr :icon_type, :string, required: false, default: "icon-svg"
   attr :rest, :global
 
+  slot :inner_block
+
   def cta(assigns) do
     ~H"""
-    <.dynamic_tag
-      tag_name={
-        if @link do
-          "a"
-        else
-          "div"
-        end
-      }
-      href={@link}
-      class={"cta-a gap-2 " <> @classes}
-      {@rest}
-    >
+    <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
       <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
       <span class="leading-tight grow">
         {render_slot(@inner_block)}
       </span>
       <span :if={@arrow} aria-hidden="true">&#8594;</span>
-    </.dynamic_tag>
+    </.cta_wrapper>
+    """
+  end
+
+  attr :link, :any, required: false, default: nil
+  attr :rest, :global
+  slot :inner_block
+
+  defp cta_wrapper(%{link: link} = assigns) when link != nil do
+    ~H"""
+    <a href={@link} {@rest}>
+      {render_slot(@inner_block)}
+    </a>
+    """
+  end
+
+  defp cta_wrapper(assigns) do
+    ~H"""
+    <div {@rest}>
+      {render_slot(@inner_block)}
+    </div>
     """
   end
 end
