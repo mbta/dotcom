@@ -2194,6 +2194,44 @@ defmodule Dotcom.UpcomingDeparturesTest do
              ]
     end
 
+    test "puts a status in other stops' times for subway trips when present" do
+      # Setup
+      %{
+        predictions: predictions,
+        predicted_arrival_times: [_, time, _],
+        prediction_statuses: [status_before, status_here, status_after],
+        stops: [_, stop, _],
+        stop_sequences: [_, seq, _],
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          include_prediction_statuses: true,
+          route_factory_types: [:subway_route],
+          vehicle_stop_index: 0
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: Generators.ServiceDateTime.earlier_on_day(time),
+          trip_id: trip_id,
+          stop_sequence: seq,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert trip_details.stops_before |> Enum.map(& &1.time) == [{:status, status_before}]
+
+      assert trip_details.stop.time == {:status, status_here}
+
+      assert trip_details.stops_after |> Enum.map(& &1.time) == [{:status, status_after}]
+    end
+
     test "splits stops_before and stops_after based on stop_sequence if a trip visits a stop multiple times" do
       # Setup
       [stop_id_multi, stop_id_1, stop_id_2, stop_id_3] =
