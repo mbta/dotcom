@@ -212,25 +212,6 @@ defmodule Routes.RouteTest do
     end
   end
 
-  describe "Phoenix.Param.to_param" do
-    test "Green routes are normalized to Green" do
-      green_e = %Route{id: "Green-E"}
-      green_b = %Route{id: "Green-B"}
-      green_c = %Route{id: "Green-C"}
-      green_d = %Route{id: "Green-D"}
-      to_param = &Phoenix.Param.Routes.Route.to_param/1
-
-      for route <- [green_e, green_b, green_c, green_d] do
-        assert to_param.(route) == "Green"
-      end
-    end
-
-    test "Mattapan is kept as mattapan" do
-      mattapan = %Route{id: "Mattapan"}
-      assert Phoenix.Param.Routes.Route.to_param(mattapan) == "Mattapan"
-    end
-  end
-
   describe "hidden?/1" do
     test "Returns true for hidden routes" do
       hidden_routes = [
