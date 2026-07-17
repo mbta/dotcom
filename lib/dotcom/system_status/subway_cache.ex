@@ -44,7 +44,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
     :ets.new(:subway_status, [:named_table, :set, :protected, read_concurrency: true])
     :ets.insert(:subway_status, {"status", status})
 
-    {:ok, status}
+    {:ok, status, :hibernate}
   end
 
   @impl true
@@ -56,7 +56,7 @@ defmodule Dotcom.SystemStatus.SubwayCache do
       DotcomWeb.Endpoint.broadcast(@pubsub_topic, "subway_status_updated", new_status)
     end
 
-    {:noreply, new_status}
+    {:noreply, new_status, :hibernate}
   end
 
   defp status() do
