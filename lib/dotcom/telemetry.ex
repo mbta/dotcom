@@ -47,21 +47,7 @@ defmodule Dotcom.Telemetry do
       Metrics.last_value("vm.memory.ets", unit: {:byte, :kilobyte}),
       Metrics.last_value("vm.total_run_queue_lengths.total"),
       Metrics.last_value("vm.total_run_queue_lengths.cpu"),
-      Metrics.last_value("vm.system_counts.process_count"),
-      Metrics.summary("phoenix.router_dispatch.stop.duration",
-        tags: [:controller_action],
-        tag_values: &tag_controller_action/1,
-        unit: {:native, :millisecond}
-      )
+      Metrics.last_value("vm.system_counts.process_count")
     ]
-  end
-
-  # Extracts controller#action from route dispatch
-  defp tag_controller_action(%{plug: plug, plug_opts: plug_opts}) when is_atom(plug_opts) do
-    %{controller_action: "#{inspect(plug)}##{plug_opts}"}
-  end
-
-  defp tag_controller_action(%{plug: plug}) do
-    %{controller_action: inspect(plug)}
   end
 end
