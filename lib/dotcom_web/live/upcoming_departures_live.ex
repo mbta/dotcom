@@ -427,7 +427,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
           />
         </div>
         <div :if={@trip_details.vehicle_info.departure_time}>
-          <Departures.formatted_time time={@trip_details.vehicle_info.departure_time} />
+          <.trip_stop_time time={@trip_details.vehicle_info.departure_time} />
         </div>
       </.lined_list_item>
       <details
