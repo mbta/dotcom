@@ -207,7 +207,6 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
            %PredictedSchedule{
              prediction: %Prediction{
                arrival_time: nil,
-               departure_time: departure_time,
                trip: %Trip{id: prediction_trip_id}
              }
            } = ps
@@ -219,7 +218,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     %VehicleInfo{
       crowding: crowding,
-      departure_time: {:time, departure_time |> truncate(:minute)},
+      departure_time: trip_stop_time(ps),
       platform_name: platform_name(ps),
       status: :waiting_to_depart,
       stop_id: stop.parent_id || stop.id,
