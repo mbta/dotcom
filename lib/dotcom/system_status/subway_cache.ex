@@ -23,8 +23,14 @@ defmodule Dotcom.SystemStatus.SubwayCache do
   def subway_status() do
     :ets.lookup(:subway_status, "status")
     |> case do
-      [{"status", status}] -> status
-      _ -> status()
+      [{"status", status}] ->
+        status
+
+      _ ->
+        status = status()
+        :ets.insert(:subway_status, {"status", status})
+
+        status
     end
   end
 
