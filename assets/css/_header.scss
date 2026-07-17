@@ -84,11 +84,6 @@
     height: $header-navbar-height-xs;
   }
 
-  .c-svg__mbta-name-and-logo {
-    @include media-breakpoint-down(md) {
-    }
-  }
-
   .navbar-logo {
     .svg-container {
       align-items: center;
@@ -101,7 +96,7 @@
     }
 
     // At XS size, use T logo only
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-only(xs) {
       flex-grow: 1;
 
       svg {

@@ -82,7 +82,7 @@ nav.m-top-tier-menu--mobile {
 
   display: flex;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     display: none;
   }
 }
