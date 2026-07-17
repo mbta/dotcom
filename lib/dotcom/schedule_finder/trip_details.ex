@@ -215,7 +215,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     %VehicleInfo{
       crowding: crowding,
-      departure_time: departure_time,
+      departure_time: departure_time |> truncate(:minute),
       platform_name: platform_name(ps),
       status: :waiting_to_depart,
       stop_id: stop.parent_id || stop.id,

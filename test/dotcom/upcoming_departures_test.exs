@@ -2511,6 +2511,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       assert trip_details.vehicle_info.status == :scheduled_to_depart
+      assert trip_details.vehicle_info.departure_time == departure_time |> truncate(:minute)
     end
 
     test "shows a vehicle status of :location_unavailable if the trip has no predictions and some schedules are in the past" do
@@ -2658,6 +2659,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       assert trip_details.vehicle_info.status == :waiting_to_depart
+      assert trip_details.vehicle_info.departure_time == time |> truncate(:minute)
     end
 
     test "does not show :scheduled_to_depart if the vehicle is underway, even when the first schedule is in the future" do
