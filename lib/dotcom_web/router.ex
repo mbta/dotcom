@@ -334,7 +334,8 @@ defmodule DotcomWeb.Router do
         csp_nonce_assign_key: :csp_nonce,
         additional_pages: [
           flame_on: FlameOn.DashboardPage
-        ]
+        ],
+        metrics: Dotcom.Telemetry
       )
     end
   end
