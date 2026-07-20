@@ -124,15 +124,6 @@ defmodule DotcomWeb.Router do
     end
   end
 
-  scope "/schedules/bostonstadium", DotcomWeb do
-    import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
-
-    live_session :world_cup, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
-      live "/", WorldCupTimetableLive
-    end
-  end
-
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
@@ -227,6 +218,9 @@ defmodule DotcomWeb.Router do
 
     # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
     get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
+
+    # Redirect away from Boston Stadium Timetable now that the 2026 World Cup is over
+    get("/schedules/bostonstadium", Redirector, to: "/schedules/commuter-rail")
 
     # Redirect Boat-F1 to Boat-F2H until Boat-F1 can be unlisted
     get("/schedules/Boat-F1/*path_params", Plugs.PathParamsRedirector, to: "/schedules/Boat-F2H")
