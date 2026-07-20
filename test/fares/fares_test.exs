@@ -8,7 +8,7 @@ defmodule FaresTest do
 
   setup :verify_on_exit!
 
-  def assert_ferry(origin, destination, expected_fare) do
+  defp assert_ferry(origin, destination, expected_fare) do
     {_, received_fare} = Fares.fare_for_stops(:ferry, origin, destination)
 
     if origin != destination do
@@ -34,7 +34,6 @@ defmodule FaresTest do
   end
 
   describe "fare_for_stops/3" do
-    @winthrop_quincy_ferry ~W(Boat-Fan Boat-Winthrop Boat-Logan Boat-Aquarium Boat-Quincy)
     @hingham_hull_ferry ~W(Boat-Hingham Boat-Logan Boat-Long Boat-Hull)
     @charlestown_ferry ~W(Boat-Charlestown Boat-Long-South)
     @harbor_loop_ferry ~W(Boat-Lovejoy Boat-Aquarium Boat-Commonwealth Boat-Logan)
@@ -129,41 +128,34 @@ defmodule FaresTest do
         assert_ferry(origin, destination, expected_fare)
       end
     end
+  end
 
-    test "returns the proper fare given a valid origin and destination on the winthrop or quincy lines" do
-      for origin <- @winthrop_quincy_ferry,
-          destination <- @winthrop_quincy_ferry do
-        both = [origin, destination]
-        winthrop? = "Boat-Winthrop" in both
-        quincy? = "Boat-Quincy" in both
+  describe "calculate_ferry/3" do
+    test "returns the proper fare for trips that are entirely in the inner harbor" do
+      origin = "Boat-Lovejoy"
+      destination = "Boat-Logan"
+      between = ["Boat-Aquarium", "Boat-Commonwealth"]
 
-        expected_fare =
-          cond do
-            winthrop? -> :ferry_winthrop
-            quincy? -> :ferry_winthrop
-            true -> :ferry_inner_harbor
-          end
-
-        assert_ferry(origin, destination, expected_fare)
-      end
+      expected_fare = :ferry_inner_harbor
+      assert Fares.calculate_ferry(origin, destination, between) == expected_fare
     end
 
-    test "detects long-way-around ferry trips and charges appropriately" do
-      origin_id = "Boat-Long"
-      destination_id = Faker.Util.pick(["Boat-Logan", "Boat-Lewis"])
-      between_ids = Faker.Util.pick([["Quincy"], ["Hingham"], ["Hingham", "Hull"]])
+    test "returns the proper fare for trips that begin and end in the inner harbor, but exit the inner harbor and come back" do
+      origin = "Boat-Fan"
+      destination = "Boat-Logan"
+      between = ["Boat-Aquarium", "Boat-Quincy"]
 
-      expected_name =
-        if "Quincy" in between_ids do
-          :ferry_winthrop
-        else
-          :commuter_ferry
-        end
+      expected_fare = :ferry_winthrop
+      assert Fares.calculate_ferry(origin, destination, between) == expected_fare
+    end
 
-      {_, received_name} = Fares.fare_for_stops(:ferry, origin_id, destination_id, between_ids)
+    test "returns the proper fare for trips that begin or end in Zone 5 (Winthrop zone)" do
+      origin = "Boat-Winthrop"
+      destination = "Boat-Aquarium"
+      between = ["Boat-Logan"]
 
-      assert received_name == expected_name,
-             "Unexpected result for #{origin_id} to #{destination_id} with #{between_ids} in between, expected #{expected_name} got #{received_name}"
+      expected_fare = :ferry_winthrop
+      assert Fares.calculate_ferry(origin, destination, between) == expected_fare
     end
   end
 
