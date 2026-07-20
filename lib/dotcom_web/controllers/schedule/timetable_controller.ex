@@ -664,21 +664,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "Boat-Long-North-5A" => {:after, "Rowes Wharf"},
     "Boat-Long-North-5B" => {:after, "Lewis Mall Wharf"},
     "Boat-Long-North-5C" => {:after, "Blossom Street Pier"},
-    # ----Franklin/Foxboro WC shuttle----
-    # Franklin Station - Bus Shuttle
-    "31330" => {:after, "Forge Park/495"},
-    "31331" => {:after, "Forge Park/495"},
-    # Norfolk Station - Bus Shuttle
-    "92133" => {:after, "Franklin Station - Bus Shuttle"},
-    "39213" => {:after, "Franklin Station - Bus Shuttle"},
-    # Walpole Station - Bus Shuttle
-    "81668" => {:after, "Norfolk Station - Bus Shuttle"},
-    "81698" => {:after, "Norfolk Station - Bus Shuttle"},
-    # Washington Street
-    "91637" => {:after, "Walpole Station - Bus Shuttle"},
-    "71689" => {:after, "Walpole Station - Bus Shuttle"},
-    # Canton Junction
-    "place-NEC-2139" => {:before, "Readville"},
     # ----Providence/Stoughton WC shuttle----
     # Stoughton Station - Bus Shuttle
     "36133" => {:after, "Sharon"},
