@@ -25,7 +25,7 @@ function toggleMenu(el: Element): void {
 const TOGGLE_NAMES = {
   mobile: "toggle-mobile-nav",
   search: "toggle-nav-search",
-  desktop: "toggle-desktop-nav"
+  desktop: "toggle-desktop-nav",
 };
 
 const TOGGLE_SELECTORS = Object.fromEntries(

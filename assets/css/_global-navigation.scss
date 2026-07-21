@@ -25,21 +25,6 @@ header {
 
 
 .top-tier-header {
-  .navbar-logo,
-  .navbar-logo:hover,
-  .navbar-logo:focus {
-    color: $white;
-    text-decoration: none;
-  }
-
-  .c-svg__mbta-logo,
-  .c-svg__mbta-name-and-logo {
-    path,
-    text {
-      fill: $white;
-    }
-  }
-
   background-color: $brand-primary-darkest;
   color: $white;
 }
@@ -55,6 +40,7 @@ header {
     display: block; // display veil
   }
 
+  // TODO we don't want this to happen when we have a two-tiered menu
   .header--new {
     @include media-breakpoint-down(md) {
       background-color: $brand-primary-darkest;
@@ -132,6 +118,7 @@ nav.m-top-tier-menu--mobile {
   display: flex;
   flex-wrap: nowrap;
   font-weight: bold;
+  // TODO we don't want this margin-right on the new languages menu!
   margin-right: calc(#{$base-spacing} / 2);
 
   // place for up/down arrows
@@ -160,7 +147,7 @@ nav.m-top-tier-menu--mobile {
 }
 
 .m-menu--top-tier-mobile__toggle {
-    margin-right: 0px;
+  margin-right: 0px;
 
   align-items: center;
   color: inherit;
