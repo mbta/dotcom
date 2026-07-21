@@ -18,6 +18,7 @@ header {
   }
 
   &.header--new {
+    position: relative;
     background-color: $brand-primary-dark;
     color: $white;
   }
@@ -190,23 +191,6 @@ nav.m-top-tier-menu--mobile {
   position: absolute;
   right: 0;
   top: $header-navbar-height-new;
-  z-index: 102;
-
-  // opened
-  .m-menu--desktop__toggle[aria-expanded='true'] + & {
-    display: initial;
-  }
-}
-
-.m-menu--multiple_tiered_desktop__menu {
-  background-color: $brand-primary-lightest-contrast;
-  box-shadow: 0 7px 14px 0 $gray-shadow;
-  display: none; // start off closed
-  left: 0;
-  overflow: hidden;
-  position: absolute;
-  right: 0;
-  top: $header-navbar-height-new * 2;
   z-index: 102;
 
   // opened
