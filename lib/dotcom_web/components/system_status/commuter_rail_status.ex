@@ -7,7 +7,6 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
 
   import DotcomWeb.Components, only: [bordered_container: 1]
   import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
-  import DotcomWeb.WorldCupTimetableLive, only: [match_day?: 0]
 
   alias Dotcom.SystemStatus.CommuterRail
 
@@ -214,44 +213,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # For cases where we have alerts, we have to show the first alert along with route information
   # and then show subsequent rows without the route information.
 
-  def rows_for_line(%{status: %{route_id: "CR-Foxboro"}} = assigns) do
-    match_status =
-      %{
-        name: "Boston Stadium Trains",
-        status:
-          if match_day?() do
-            if is_map(assigns.status.status) do
-              assigns.status.status
-            else
-              :normal
-            end
-          else
-            :no_scheduled_service
-          end,
-        rows:
-          if match_day?() do
-            if is_map(assigns.status.status) do
-              assigns.status.rows
-            else
-              [%{label: ~t"Normal Service", icon_atom: :normal}]
-            end
-          else
-            [%{label: ~t"No Scheduled Service", icon_atom: :no_scheduled_service}]
-          end,
-        url: "/schedules/bostonstadium",
-        route_id: "CR-Foxboro"
-      }
-
-    assigns = assigns |> assign(:status, match_status)
-
-    do_rows_for_line(assigns)
-  end
-
-  def rows_for_line(assigns) do
-    do_rows_for_line(assigns)
-  end
-
-  defp do_rows_for_line(assigns) do
+  defp rows_for_line(assigns) do
     ~H"""
     <.row
       :for={
