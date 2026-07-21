@@ -84,14 +84,41 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
     end
   end
 
-  def dtx_transfer?(segment) do
-    segment.from.stop.parent_station.gtfs_id == "mbta-ma-us:place-dwnxg" and
-      segment.to.stop.parent_station.gtfs_id == "mbta-ma-us:place-dwnxg"
+  def dtx_transfer?(%{
+        from: %{stop: %{parent_station: %{gtfs_id: from_id}}},
+        to: %{stop: %{parent_station: %{gtfs_id: to_id}}}
+      }) do
+    from_id == "mbta-ma-us:place-dwnxg" and
+      to_id == "mbta-ma-us:place-dwnxg"
   end
 
-  def dtx_subway?(segment) do
-    (segment.from.stop.parent_station.gtfs_id == "mbta-ma-us:place-dwnxg" or
-       segment.to.stop.parent_station.gtfs_id == "mbta-ma-us:place-dwnxg") and
-      segment.mode == :SUBWAY
+  def dtx_transfer?(_), do: false
+
+  def dtx_subway?(%{
+        from: %{stop: %{parent_station: %{gtfs_id: from_id}}},
+        to: %{stop: %{parent_station: %{gtfs_id: to_id}}},
+        mode: mode
+      }) do
+    (from_id == "mbta-ma-us:place-dwnxg" or
+       to_id == "mbta-ma-us:place-dwnxg") and
+      mode == :SUBWAY
+  end
+
+  def dtx_subway?(%{from: %{stop: %{parent_station: %{gtfs_id: from_id}}}, mode: mode} = segment) do
+    dbg({from_id, mode, segment})
+
+    from_id == "mbta-ma-us:place-dwnxg" and
+      mode == :SUBWAY
+  end
+
+  def dtx_subway?(%{to: %{stop: %{parent_station: %{gtfs_id: to_id}}}, mode: mode} = segment) do
+    dbg({to_id, mode, segment})
+
+    to_id == "mbta-ma-us:place-dwnxg" and
+      mode == :SUBWAY
+  end
+
+  def dtx_subway?(_segment) do
+    false
   end
 end
