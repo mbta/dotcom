@@ -10,13 +10,13 @@ defmodule Util do
 
   @endpoint endpoint
   @route_helper_module route_helper_module
-  @local_tz "America/New_York"
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc "The current datetime in the America/New_York timezone."
   @spec now() :: DateTime.t()
   @spec now((String.t() -> DateTime.t())) :: DateTime.t()
   def now(utc_now_fn \\ &Timex.now/1) do
-    @local_tz
+    @timezone
     |> utc_now_fn.()
     |> to_local_time()
 
@@ -151,7 +151,7 @@ defmodule Util do
 
   def to_local_time(%DateTime{zone_abbr: "UTC"} = time) do
     time
-    |> Timex.Timezone.convert(@local_tz)
+    |> Timex.Timezone.convert(@timezone)
     |> handle_ambiguous_time()
   end
 
@@ -458,5 +458,97 @@ defmodule Util do
       end)
 
     result
+  end
+
+  @doc """
+
+  Parses a string into a valid date, or returns an error.
+
+  ## Examples
+      iex> Util.parse_valid_date("2025-12-25")
+      {:ok, ~D[2025-12-25]}
+
+      iex> Util.parse_valid_date("-2342025-12-25")
+      {:error, :invalid_format}
+
+      iex> Util.parse_valid_date("2025-13-35")
+      {:error, :invalid_date}
+
+  """
+  @spec parse_valid_date(String.t()) :: {:ok, Date.t()} | {:error, any}
+  def parse_valid_date(str) do
+    with {:ok, date} <- Date.from_iso8601(str) do
+      if Timex.is_valid?(date) do
+        {:ok, date}
+      else
+        {:error, :invalid_date}
+      end
+    end
+  end
+
+  @doc """
+
+  Parses a string into a valid datetime, or returns an error.
+
+  ## Examples
+      iex> {:ok, d} = Util.parse_valid_datetime("2025-12-25T12:00:00+00:00")
+      iex> d.time_zone
+      # America/New York
+      "#{@timezone}"
+      iex> DateTime.to_date(d)
+      ~D[2025-12-25]
+      iex> DateTime.to_time(d)
+      # Converted from the input time offset (result differs pre/post DST)
+      ~T[07:00:00] || ~T[08:00:00]
+
+      iex> Util.parse_valid_datetime("2026-11-01T02:01:00-0000004:00")
+      {:error, :invalid_format}
+
+      iex> Util.parse_valid_datetime("2025-13-45T12:00:00+00:00")
+      {:error, :invalid_date}
+
+  If the input doesn't contain offset information, the local timezone is assumed.
+
+  ## Examples
+      iex> {:ok, d} = Util.parse_valid_datetime("2025-12-25T12:00:00")
+      iex> d.time_zone
+      "#{@timezone}"
+      iex> DateTime.to_date(d)
+      ~D[2025-12-25]
+      iex> DateTime.to_time(d)
+      ~T[12:00:00]
+
+      iex> Util.parse_valid_datetime("2025-13-35T12:00:00")
+      {:error, :invalid_date}
+
+      iex> Util.parse_valid_datetime("2025-10-05T26:00:00")
+      {:error, :invalid_time}
+
+      iex> Util.parse_valid_datetime("-22025-12-25T12:00:00")
+      {:error, :invalid_format}
+
+  """
+  @spec parse_valid_datetime(String.t()) :: {:ok, DateTime.t()} | {:error, any}
+  def parse_valid_datetime(str) do
+    case DateTime.from_iso8601(str) do
+      {:ok, datetime, _} ->
+        if Timex.is_valid?(datetime) do
+          DateTime.shift_zone(datetime, @timezone)
+        else
+          {:error, :invalid_date}
+        end
+
+      {:error, :missing_offset} ->
+        case NaiveDateTime.from_iso8601(str) do
+          {:ok, naive_datetime} ->
+            DateTime.from_naive(naive_datetime, @timezone)
+
+          error ->
+            error
+        end
+
+      error ->
+        error
+    end
   end
 end

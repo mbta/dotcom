@@ -262,4 +262,84 @@ defmodule Dotcom.Alerts do
       %{} -> false
     end)
   end
+
+  def routes_with_high_priority_alerts_by_mode(alerts) do
+    modes = [:subway, :bus, :commuter_rail, :ferry]
+    empty_by_mode = Map.new(modes, fn mode -> {mode, MapSet.new()} end)
+
+    route_ids_by_mode =
+      alerts
+      |> Enum.filter(&(Alerts.Priority.priority(&1) == :high))
+      |> Enum.reduce(empty_by_mode, fn alert, acc ->
+        route_ids = Alert.get_entity(alert, :route) |> MapSet.delete(nil)
+
+        alert
+        |> alert_route_type()
+        |> Enum.map(&Route.type_atom/1)
+        |> Enum.reduce(acc, fn mode, acc2 ->
+          Map.update!(acc2, mode, &MapSet.union(&1, route_ids))
+        end)
+      end)
+
+    Enum.map(modes, fn mode_key ->
+      route_ids =
+        route_ids_by_mode
+        |> Map.fetch!(mode_key)
+        |> MapSet.to_list()
+
+      {mode_key,
+       get_many(route_ids, &@routes_repo_module.get/1)
+       |> Stream.filter(&match?({:ok, %Route{}}, &1))
+       |> Stream.map(fn {:ok, route} -> route end)
+       |> Enum.sort_by(& &1.sort_order)}
+    end)
+  end
+
+  defp get_many([], _), do: []
+
+  defp get_many(ids, func) do
+    Task.async_stream(ids, func, max_concurrency: 8, on_timeout: :kill_task, ordered: false)
+  end
+
+  def stops_with_access_alerts_by_effect(alerts) do
+    access_effects = Alerts.Accessibility.effect_types()
+    empty_by_effect = Map.new(access_effects, &{&1, MapSet.new()})
+
+    stop_ids_by_effect =
+      alerts
+      |> Enum.reduce(empty_by_effect, fn alert, acc ->
+        if Map.has_key?(acc, alert.effect) do
+          stop_id = alert_stop_ids(alert) |> List.last()
+          Map.update!(acc, alert.effect, &MapSet.put(&1, stop_id))
+        else
+          acc
+        end
+      end)
+
+    Enum.map(access_effects, fn effect ->
+      stops =
+        stop_ids_by_effect
+        |> Map.fetch!(effect)
+        |> get_many(&@stops_repo_module.get_parent/1)
+        |> Stream.filter(&match?({:ok, %Stop{}}, &1))
+        |> Stream.map(fn {:ok, stop} -> stop end)
+        |> Enum.sort_by(& &1.name)
+
+      {effect, stops}
+    end)
+  end
+
+  def alert_route_type(alert) do
+    alert
+    |> Alert.get_entity(:route_type)
+    |> MapSet.delete(nil)
+    |> MapSet.to_list()
+  end
+
+  def alert_stop_ids(alert) do
+    alert
+    |> Alert.get_entity(:stop)
+    |> MapSet.delete(nil)
+    |> MapSet.to_list()
+  end
 end

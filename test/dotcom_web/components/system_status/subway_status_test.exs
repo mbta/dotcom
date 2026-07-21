@@ -145,7 +145,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
         |> Enum.map(fn branch_id ->
           Factories.Alerts.Alert.build(:alert_for_route,
             route_id: branch_id,
-            effect: Faker.Util.pick(service_impacting_effects())
+            effect:
+              Faker.Util.pick(service_impacting_effects())
+              |> then(fn {effect, _severity} -> effect end)
           )
           |> Factories.Alerts.Alert.active_now()
         end)
@@ -154,9 +156,152 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       rows = status_rows_for_alerts(alerts)
 
       # Verify
-      assert rows
-             |> for_route("Green")
-             |> Enum.map(&status_label_text_for_row/1) == ["See Alerts", "Normal Service"]
+      assert [affected_row, normal_row] = rows |> for_route("Green")
+
+      assert status_label_text_for_row(normal_row) == "Normal Service"
+      refute status_label_text_for_row(affected_row) == "Normal Service"
+    end
+
+    test "combines collapsed Green line alerts into 'See Alerts' if their effects are different" do
+      # Setup
+      affected_branches =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      effects =
+        Faker.Util.sample_uniq(2, fn ->
+          Faker.Util.pick(service_impacting_effects())
+          |> then(fn {effect, _severity} -> effect end)
+        end)
+
+      alerts =
+        Enum.zip(affected_branches, effects)
+        |> Enum.map(fn {branch_id, effect} ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_now()
+        end)
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert [affected_row, _normal_row] = rows |> for_route("Green")
+
+      assert status_label_text_for_row(affected_row) == "See Alerts"
+    end
+
+    test "shows effect label for collapsed Green line alerts if they all have the same effect" do
+      # Setup
+      affected_branches =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      # Excluding `:station_closure` from this test because it follows
+      # different pluralizing rules than the other effects, we do care
+      # that other statuses are pluralized properly, and we're testing
+      # the `:station_closure` case below anyway.
+      {effect, _severity} =
+        Faker.Util.pick(@effects_with_simple_descriptions -- [station_closure: 1])
+
+      alerts =
+        affected_branches
+        |> Enum.map(fn branch_id ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_now()
+        end)
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert [affected_row, _normal_row] = rows |> for_route("Green")
+
+      assert status_label_text_for_row(affected_row) ==
+               status_label_text_for_effect_plural(effect)
+    end
+
+    test "shows 'See Alerts' for collapsed Green line alerts if they all have the same effect, but different prefixes" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      [branch_id1, branch_id2] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      {effect, _severity} = Faker.Util.pick(@effects_with_simple_descriptions)
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id1,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_now(),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id2,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert [affected_row, _normal_row] = rows |> for_route("Green")
+
+      assert status_label_text_for_row(affected_row) == "See Alerts"
+    end
+
+    test "shows the prefix and the effect label for collapsed Green line alerts if they all have the same effect, and the same prefix" do
+      # Setup
+      now = Dotcom.Utils.DateTime.now()
+
+      start_time =
+        random_time_range_date_time({now, Dotcom.Utils.ServiceDateTime.end_of_service_day(now)})
+
+      [branch_id1, branch_id2] =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      # Excluding `:station_closure` from this test because it follows
+      # different pluralizing rules than the other effects, we do care
+      # that other statuses are pluralized properly, and we're testing
+      # the `:station_closure` case below anyway.
+      {effect, _severity} =
+        Faker.Util.pick(@effects_with_simple_descriptions -- [station_closure: 1])
+
+      alerts =
+        [
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id1,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time),
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id2,
+            effect: effect
+          )
+          |> Factories.Alerts.Alert.active_starting_at(start_time)
+        ]
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert [affected_row, _normal_row] = rows |> for_route("Green")
+
+      expected_status_desc = effect |> status_label_text_for_effect_plural()
+      expected_prefix = Util.narrow_time(start_time)
+      expected_status_text = "#{expected_prefix}: #{expected_status_desc}"
+
+      assert status_label_text_for_row(affected_row) ==
+               expected_status_text
     end
 
     test "groups Green line alerts correctly between normal and affected rows when collapsed" do
@@ -250,7 +395,12 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
     test "collapses Green line rows if there is a Mattapan alert" do
       # Setup
-      {effect, severity} = Faker.Util.pick(service_impacting_effects())
+      # Excluding `:station_closure` from this test because it follows
+      # different pluralizing rules than the other effects, we do care
+      # that other statuses are pluralized properly, and we're testing
+      # the `:station_closure` case below anyway.
+      {effect, severity} =
+        Faker.Util.pick(@effects_with_simple_descriptions -- [station_closure: 1])
 
       alerts = [
         Factories.Alerts.Alert.build(:alert_for_route,
@@ -280,7 +430,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
       assert rows
              |> for_route("Green")
              |> Enum.map(&status_label_text_for_row/1) == [
-               "See Alerts"
+               status_label_text_for_effect_plural(effect)
              ]
     end
 
@@ -605,6 +755,45 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       # Exercise
       status_rows_for_alerts([alert])
+    end
+
+    test "shows all affected stops for collapsed green line station closures" do
+      # Setup
+      affected_branches =
+        Faker.Util.sample_uniq(2, fn -> Faker.Util.pick(GreenLine.branch_ids()) end)
+
+      alerts =
+        affected_branches
+        |> Enum.map(fn branch_id ->
+          Factories.Alerts.Alert.build(:alert_for_route,
+            route_id: branch_id,
+            effect: :station_closure
+          )
+          |> Factories.Alerts.Alert.active_now()
+        end)
+
+      stops = Factories.Stops.Stop.build_list(2, :stop)
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn
+        [_], _ ->
+          stops |> Enum.take(1) |> Enum.map(&%{stop: &1, direction: :all})
+
+        [_, _], _ ->
+          stops |> Enum.map(&%{stop: &1, direction: :all})
+      end)
+
+      # Exercise
+      rows = status_rows_for_alerts(alerts)
+
+      # Verify
+      assert [affected_row, _normal_row] = rows |> for_route("Green")
+
+      [stop1, stop2] = stops
+
+      assert status_label_text_for_row(affected_row) == "Stops Skipped"
+
+      assert status_subheading_for_row(affected_row) ==
+               "#{stop1.name} & #{stop2.name}"
     end
 
     test "shows 'Stop Skipped' singular if a single station is closed" do
@@ -1304,6 +1493,11 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
   defp status_label_text_for_effect(:shuttle), do: "Shuttles"
   defp status_label_text_for_effect(:station_closure), do: "Stop Skipped"
   defp status_label_text_for_effect(effect), do: effect |> Atom.to_string() |> Recase.to_title()
+
+  defp status_label_text_for_effect_plural(:station_closure), do: "Stops Skipped"
+
+  defp status_label_text_for_effect_plural(effect),
+    do: effect |> status_label_text_for_effect() |> Inflex.pluralize()
 
   defp human_delay_severity(severity) do
     Alerts.Alert.human_severity(%Alerts.Alert{effect: :delay, severity: severity})

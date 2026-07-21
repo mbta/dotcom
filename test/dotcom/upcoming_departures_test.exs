@@ -2194,6 +2194,44 @@ defmodule Dotcom.UpcomingDeparturesTest do
              ]
     end
 
+    test "puts a status in other stops' times for subway trips when present" do
+      # Setup
+      %{
+        predictions: predictions,
+        predicted_arrival_times: [_, time, _],
+        prediction_statuses: [status_before, status_here, status_after],
+        stops: [_, stop, _],
+        stop_sequences: [_, seq, _],
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          include_prediction_statuses: true,
+          route_factory_types: [:subway_route],
+          vehicle_stop_index: 0
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: Generators.ServiceDateTime.earlier_on_day(time),
+          trip_id: trip_id,
+          stop_sequence: seq,
+          stop_id: stop.id
+        })
+
+      # Verify
+      assert trip_details.stops_before |> Enum.map(& &1.time) == [{:status, status_before}]
+
+      assert trip_details.stop.time == {:status, status_here}
+
+      assert trip_details.stops_after |> Enum.map(& &1.time) == [{:status, status_after}]
+    end
+
     test "splits stops_before and stops_after based on stop_sequence if a trip visits a stop multiple times" do
       # Setup
       [stop_id_multi, stop_id_1, stop_id_2, stop_id_3] =
@@ -2511,6 +2549,9 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       assert trip_details.vehicle_info.status == :scheduled_to_depart
+
+      assert trip_details.vehicle_info.departure_time ==
+               {:time, departure_time |> truncate(:minute)}
     end
 
     test "shows a vehicle status of :location_unavailable if the trip has no predictions and some schedules are in the past" do
@@ -2658,6 +2699,43 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       assert trip_details.vehicle_info.status == :waiting_to_depart
+      assert trip_details.vehicle_info.departure_time == {:time, time |> truncate(:minute)}
+    end
+
+    test "shows a prediction status with a :waiting_to_depart subway vehicle when present" do
+      # Setup
+      %{
+        predictions: predictions,
+        predicted_departure_times: [time | _],
+        prediction_statuses: [origin_prediction_status, _, _],
+        stop_sequences: [_, stop_seq, _],
+        stops: [_, stop, _],
+        trip_id: trip_id,
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          include_prediction_statuses: true,
+          route_factory_types: [:subway_route],
+          vehicle_stop_index: 0,
+          vehicle_statuses: [:stopped]
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: Generators.ServiceDateTime.earlier_on_day(time),
+          stop_id: stop.id,
+          stop_sequence: stop_seq,
+          trip_id: trip_id
+        })
+
+      # Verify
+      assert trip_details.vehicle_info.status == :waiting_to_depart
+      assert trip_details.vehicle_info.departure_time == {:status, origin_prediction_status}
     end
 
     test "does not show :scheduled_to_depart if the vehicle is underway, even when the first schedule is in the future" do

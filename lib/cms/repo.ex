@@ -55,8 +55,8 @@ defmodule CMS.Repo do
   @spec news_entry_by(Keyword.t()) :: NewsEntry.t() | :not_found
   def news_entry_by(opts) do
     case do_news_entry_by(opts) do
-      [record | _] -> record
-      [] -> :not_found
+      {:ok, api_data} -> Enum.map(api_data, &NewsEntry.from_api/1) |> List.first(:not_found)
+      _ -> :not_found
     end
   end
 
@@ -66,8 +66,13 @@ defmodule CMS.Repo do
               opts: [ttl: 60_000]
             )
   def do_news_entry_by(opts) do
-    case @cms_api.view("/cms/news", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &NewsEntry.from_api/1)
+    @cms_api.view("/cms/news", opts)
+  end
+
+  @spec events(Keyword.t()) :: [Event.t()]
+  def events(opts \\ []) do
+    case do_events(opts) do
+      {:ok, api_data} -> Enum.map(api_data, &Event.from_api/1)
       _ -> []
     end
   end
@@ -78,11 +83,8 @@ defmodule CMS.Repo do
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
-  def events(opts \\ []) do
-    case @cms_api.view("/cms/events", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &Event.from_api/1)
-      _ -> []
-    end
+  defp do_events(opts) do
+    @cms_api.view("/cms/events", opts)
   end
 
   @spec event(integer) :: Event.t() | :not_found
@@ -101,17 +103,21 @@ defmodule CMS.Repo do
     end
   end
 
+  def whats_happening do
+    case do_whats_happening() do
+      {:ok, api_data} -> Enum.map(api_data, &WhatsHappeningItem.from_api/1)
+      _ -> []
+    end
+  end
+
   @decorate cacheable(
               cache: @cache,
               key: "cms.repo|whats-happening",
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
-  def whats_happening do
-    case @cms_api.view("/cms/whats-happening", []) do
-      {:ok, api_data} -> Enum.map(api_data, &WhatsHappeningItem.from_api/1)
-      _ -> []
-    end
+  def do_whats_happening do
+    @cms_api.view("/cms/whats-happening", [])
   end
 
   @spec banner() :: Banner.t() | nil

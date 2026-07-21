@@ -307,12 +307,6 @@ defmodule Routes.Route do
   end
 end
 
-defimpl Phoenix.Param, for: Routes.Route do
-  alias Routes.Route
-  def to_param(%Route{id: "Green" <> _rest}), do: "Green"
-  def to_param(%Route{id: id}), do: id
-end
-
 defimpl Poison.Encoder, for: Routes.Route do
   def encode(
         %Routes.Route{

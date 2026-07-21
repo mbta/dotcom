@@ -118,6 +118,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
   @spec fare_request(String.t()) :: {:ok, String.t()} | request_error
   def fare_request(string) do
     string
+    |> String.trim()
     |> String.split(":", trim: true)
     |> parse_tokens()
     |> compose_args()
@@ -129,6 +130,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
   def fare_object_request(string) do
     tokens =
       string
+      |> String.trim()
       |> String.split(":", trim: true)
       |> parse_tokens()
 

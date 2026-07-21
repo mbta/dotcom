@@ -113,12 +113,20 @@ defmodule DotcomWeb.TripPlannerLive do
     ~H"""
     <div class="container">
       <h1>{~t(Trip Planner)}</h1>
-      <.world_cup_intercept
-        class="mb-5"
-        style="background-color: var(--colors-cobalt-80)"
-      />
+
       <div>
         <.input_form class="mb-4" changeset={@input_form.changeset} />
+        <.cta
+          :if={@accessible_grouping?}
+          classes="col-span-full"
+          icon="circle-info"
+          icon_type="solid"
+        >
+          {gettext(
+            "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
+          )
+          |> Phoenix.HTML.raw()}
+        </.cta>
         <div>
           <.results_summary class="mt-2 mb-6" changeset={@input_form.changeset} results={@results} />
           <div class={[

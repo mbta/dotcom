@@ -15,11 +15,13 @@ defmodule DotCom.Mixfile do
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
+      aliases: aliases(),
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro, :laboratory],
         flags: [:unmatched_returns]
       ],
       deps: deps(),
+      gettext: [write_reference_line_numbers: false],
       listeners: [Phoenix.CodeReloader],
       # docs
       name: "MBTA Website",
@@ -38,6 +40,19 @@ defmodule DotCom.Mixfile do
         "gettext.extract": :prod,
         "gettext.translate": :prod
       ]
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    [
+      localize: ["gettext.extract", "gettext.merge priv/gettext --no-fuzzy"],
+      check_localized: ["gettext.extract --check-up-to-date --verbose"]
     ]
   end
 
@@ -137,7 +152,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.17.2"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.18.0"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.8.6", override: true},
@@ -162,7 +177,7 @@ defmodule DotCom.Mixfile do
       {:redix, "1.5.3"},
       {:req, "0.5.17"},
       {:rstar, github: "armon/erl-rstar"},
-      {:sentry, "12.0.2"},
+      {:sentry, "13.2.0"},
       {:server_sent_event_stage, "1.2.1"},
       {:sizeable, "1.0.2"},
       {:stream_data, "1.2.0", only: [:dev, :test]},

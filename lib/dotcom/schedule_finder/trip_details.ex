@@ -15,10 +15,14 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
           vehicle_info: nil | __MODULE__.VehicleInfo.t()
         }
 
+  @type time_t() :: {:time, DateTime.t()} | {:status, String.t()}
+
   defmodule TripStop do
     @moduledoc """
     A simple struct representing the stops visited and arrival times as part of a `TripDetails`.
     """
+
+    alias Dotcom.ScheduleFinder.TripDetails
 
     defstruct [
       :cancelled?,
@@ -29,15 +33,13 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
       :time
     ]
 
-    @type time_t() :: {:time, DateTime.t()} | {:status, String.t()}
-
     @type t :: %__MODULE__{
             cancelled?: boolean(),
             platform_name: nil | String.t(),
             stop_id: Stops.Stop.id_t(),
             stop_name: String.t(),
             stop_sequence: non_neg_integer(),
-            time: time_t()
+            time: TripDetails.time_t()
           }
   end
 
@@ -45,6 +47,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     @moduledoc """
     A struct representing the status of a vehicle associated with the trip
     """
+
+    alias Dotcom.ScheduleFinder.TripDetails
 
     defstruct [
       :crowding,
@@ -63,7 +67,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     @type t :: %__MODULE__{
             crowding: Vehicles.Vehicle.crowding(),
-            departure_time: DateTime.t(),
+            departure_time: TripDetails.time_t(),
             platform_name: nil | String.t(),
             status: trip_vehicle_status_t(),
             stop_id: Stops.Stop.id_t(),
@@ -179,7 +183,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
          | _
        ]) do
     %VehicleInfo{
-      departure_time: departure_time |> truncate(:minute),
+      departure_time: {:time, departure_time |> truncate(:minute)},
       platform_name: platform_name(ps),
       status: :scheduled_to_depart,
       stop_id: stop.id,
@@ -203,7 +207,6 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
            %PredictedSchedule{
              prediction: %Prediction{
                arrival_time: nil,
-               departure_time: departure_time,
                trip: %Trip{id: prediction_trip_id}
              }
            } = ps
@@ -215,7 +218,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     %VehicleInfo{
       crowding: crowding,
-      departure_time: departure_time,
+      departure_time: trip_stop_time(ps),
       platform_name: platform_name(ps),
       status: :waiting_to_depart,
       stop_id: stop.parent_id || stop.id,

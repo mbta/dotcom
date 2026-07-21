@@ -39,8 +39,19 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.ClearCookies)
     plug(DotcomWeb.Plugs.Cookies)
     plug(DotcomWeb.Plugs.ContentSecurityPolicy)
-    plug(DotcomWeb.Plugs.Date)
-    plug(DotcomWeb.Plugs.DateTime)
+
+    plug(DotcomWeb.Plugs.AssignFromParam,
+      param: "date",
+      validator_fn: &Util.parse_valid_date/1,
+      fallback_fn: &Dotcom.Utils.ServiceDateTime.service_date/0
+    )
+
+    plug(DotcomWeb.Plugs.AssignFromParam,
+      param: "date_time",
+      validator_fn: &Util.parse_valid_datetime/1,
+      fallback_fn: &Dotcom.Utils.DateTime.now/0
+    )
+
     plug(DotcomWeb.Plugs.RewriteUrls)
     plug(DotcomWeb.Plugs.SecureHeaders)
     plug(DotcomWeb.Plugs.SetLocale)
@@ -214,9 +225,6 @@ defmodule DotcomWeb.Router do
       to: "/schedules/CR-NewBedford"
     )
 
-    # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
-    get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
-
     # Redirect Boat-F1 to Boat-F2H until Boat-F1 can be unlisted
     get("/schedules/Boat-F1/*path_params", Plugs.PathParamsRedirector, to: "/schedules/Boat-F2H")
 
@@ -323,7 +331,8 @@ defmodule DotcomWeb.Router do
         csp_nonce_assign_key: :csp_nonce,
         additional_pages: [
           flame_on: FlameOn.DashboardPage
-        ]
+        ],
+        metrics: Dotcom.Telemetry
       )
     end
   end

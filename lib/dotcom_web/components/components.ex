@@ -359,32 +359,6 @@ defmodule DotcomWeb.Components do
   attr(:class, :string, default: "")
 
   @doc """
-  A banner tailor made for the world cup. Default styling color is yellow.
-  """
-  def world_cup_intercept(assigns) do
-    ~H"""
-    <.descriptive_link
-      href="/WorldCup"
-      class={@class}
-      {@rest}
-    >
-      <:title>
-        {~t(Going to a World Cup match at Boston Stadium?)}
-      </:title>
-      <p class="c-descriptive-link__world-cup">
-        {gettext("Read our %{world_cup_link}",
-          world_cup_link: "<span class='underline font-medium'>World Cup Guide</span>"
-        )
-        |> Phoenix.HTML.raw()}
-      </p>
-    </.descriptive_link>
-    """
-  end
-
-  attr(:rest, :global, include: ~w(disabled))
-  attr(:class, :string, default: "")
-
-  @doc """
   Same as above, but links to the timetable instead
   """
   def boston_stadium_intercept(assigns) do
@@ -442,9 +416,12 @@ defmodule DotcomWeb.Components do
   """
   def callout(assigns) do
     ~H"""
-    <div class="callout font-bold text-center" {@rest}>
+    <.cta
+      classes="callout font-bold text-center bg-charcoal-90"
+      {@rest}
+    >
       {render_slot(@inner_block)}
-    </div>
+    </.cta>
     """
   end
 
@@ -475,45 +452,60 @@ defmodule DotcomWeb.Components do
       )
 
     ~H"""
-    <a
+    <.cta
       phx-hook="MBTAGoCTABanner"
       id="mbta-go-cta-banner"
-      href="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
-      class="hidden block text-black no-underline p-3 leading-none flex gap-2 items-center bg-cobalt-90 space-between"
+      link="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      icon="icon-mbta-go"
+      arrow
+      classes="hidden"
     >
-      <.icon type="icon-svg" name="icon-mbta-go" class="size-11 shrink-0" aria-hidden />
-      <span class="leading-tight grow">
-        {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
-          route_type_text: @route_type_text
-        )
-        |> Phoenix.HTML.raw()}
-      </span>
-      <span aria-hidden="true">&#8594;</span>
-    </a>
+      {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+        route_type_text: @route_type_text
+      )
+      |> Phoenix.HTML.raw()}
+    </.cta>
     """
   end
 
   attr :link, :any, required: false, default: nil
   attr :arrow, :boolean, required: false, default: false
-  attr :classes, :string, required: false, default: ""
+  attr :classes, :string, required: false, default: nil
   attr :icon, :string, required: false, default: nil
   attr :icon_type, :string, required: false, default: "icon-svg"
   attr :rest, :global
 
+  slot :inner_block
+
   def cta(assigns) do
     ~H"""
-    <a
-      id="cta-banner"
-      href={@link}
-      class={"cta-a gap-2 " <> @classes}
-      {@rest}
-    >
+    <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
       <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
       <span class="leading-tight grow">
         {render_slot(@inner_block)}
       </span>
       <span :if={@arrow} aria-hidden="true">&#8594;</span>
+    </.cta_wrapper>
+    """
+  end
+
+  attr :link, :any, required: false, default: nil
+  attr :rest, :global
+  slot :inner_block
+
+  defp cta_wrapper(%{link: link} = assigns) when link != nil do
+    ~H"""
+    <a href={@link} {@rest}>
+      {render_slot(@inner_block)}
     </a>
+    """
+  end
+
+  defp cta_wrapper(assigns) do
+    ~H"""
+    <div {@rest}>
+      {render_slot(@inner_block)}
+    </div>
     """
   end
 end

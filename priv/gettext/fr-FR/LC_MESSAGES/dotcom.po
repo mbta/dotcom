@@ -1,0 +1,5550 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#: lib/dotcom_web/views/page_view.ex
+#, elixir-autogen, elixir-format
+msgid " & Stops"
+msgstr " & Arrêts"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid " Additional service between Boston, Hingham, and Hull is available via the %{link}"
+msgstr " Un service supplémentaire entre Boston, Hingham et Hull est disponible via la %{link}"
+
+#: lib/dotcom/schedule_note.ex
+#, elixir-autogen, elixir-format
+msgid " It travels along limited stops between Foxboro and either Providence or Downtown Boston (South Station)"
+msgstr " Elle circule sur des arrêts limités entre Foxboro et soit Providence soit Downtown Boston (South Station)"
+
+#: lib/dotcom_web/views/page_view.ex
+#, elixir-autogen, elixir-format
+msgid " Lines"
+msgstr " Lignes"
+
+#: lib/dotcom_web/views/page_view.ex
+#, elixir-autogen, elixir-format
+msgid " Routes"
+msgstr " Itinéraires"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid " Service continues later in the day in the opposite direction. %{link}"
+msgstr " Le service se poursuit plus tard dans la journée dans la direction opposée. %{link}"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid " Service is available earlier in the day in the opposite direction. %{link}"
+msgstr " Le service est disponible plus tôt dans la journée dans la direction opposée. %{link}"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
+msgstr " Les trains partent de Foxboro 30 minutes après la fin des événements"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid " alerts"
+msgstr " alerte"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid " at "
+msgstr " à "
+
+#: lib/dotcom_web/controllers/stop_controller.ex
+#, elixir-autogen, elixir-format
+msgid " at %{address}"
+msgstr " à %{address}"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid " at this time."
+msgstr " À ce moment-là."
+
+#: lib/dotcom_web/controllers/mode/commuter.ex
+#, elixir-autogen, elixir-format
+msgid " depend on the distance traveled (zones). Refer to the information below:"
+msgstr " Cela dépend de la distance parcourue (zones). Veuillez consulter les informations ci-dessous :"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid " for real-time track changes."
+msgstr " pour les modifications de suivi en temps réel."
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid " for the "
+msgstr " pour le "
+
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid " has arrived at "
+msgstr " est arrivé à "
+
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid " is arriving at "
+msgstr " arrive à "
+
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid " is on the way to "
+msgstr " est en route vers "
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid " may leave ahead of schedule at these stops."
+msgstr " peut partir avant l’horaire à ces arrêts."
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid " minute walk"
+msgstr " Minute à pied"
+
+#: lib/journey.ex
+#, elixir-autogen, elixir-format
+msgid " on "
+msgstr " sur "
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid " on the "
+msgstr " sur le "
+
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid " on track "
+msgstr " Sur la piste "
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#: lib/dotcom_web/templates/error/error_layout.html.heex
+#, elixir-autogen, elixir-format
+msgid " or "
+msgstr " ou "
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid " schedule"
+msgstr " horaire"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid " schedule and map"
+msgstr " Horaire et carte"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid " symbol. Check "
+msgstr " symbole. Vérifié "
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid " that they wish to leave. Passengers waiting to board must be visible on the platform for the "
+msgstr " qu’ils souhaitent partir. le passage en attente de monter à bord doit être visible sur le quai pour le "
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid " to stop."
+msgstr " D’arrêter."
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "\"Walking distance\""
+msgstr "« Distance à pied »"
+
+#: lib/dotcom/schedule_note.ex
+#, elixir-autogen, elixir-format
+msgid "%{avg} minutes"
+msgstr "%{avg} minutes"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "%{count} Stops"
+msgstr "%{count} Arrêts"
+
+#: lib/dotcom_web/views/helpers/alert_helpers.ex
+#, elixir-autogen, elixir-format
+msgid "%{count} alerts"
+msgstr "%{count} alerte"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex
+#, elixir-autogen, elixir-format
+msgid "%{count} later %{change_text}"
+msgstr "%{count} plus tard %{change_text}"
+
+#: lib/dotcom_web/views/cms_view.ex
+#, elixir-autogen, elixir-format
+msgid "%{date} at %{start_time} - %{end_time}"
+msgstr "%{date} à %{start_time} - %{end_time}"
+
+#: lib/dotcom_web/components/world_cup_timetable/match_link.ex
+#: lib/dotcom_web/views/cms_view.ex
+#, elixir-autogen, elixir-format
+msgid "%{date} at %{time}"
+msgstr "%{date} à %{time}"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "%{date} is outside of our current schedule."
+msgstr "%{date} est en dehors de notre horaire actuel."
+
+#: lib/dotcom_web/components/planned_disruptions.ex
+#, elixir-autogen, elixir-format
+msgid "%{date} until further notice"
+msgstr "%{date} jusqu’à nouvel ordre"
+
+#: lib/dotcom/schedule_note.ex
+#, elixir-autogen, elixir-format
+msgid "%{min} – %{max} minutes"
+msgstr "%{min} – %{max} minutes"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "%{mode1} and %{mode2}"
+msgstr "%{mode1} et %{mode2}"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "%{mode_label} Only"
+msgstr "%{mode_label} Seulement"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#, elixir-autogen, elixir-format
+msgid "%{name} Commuter Rail"
+msgstr "%{name} Train de banlieue"
+
+#: lib/dotcom_web/templates/stop/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "%{place} Information"
+msgstr "%{place} Informations"
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "%{rating} Planned Work"
+msgstr "%{rating} travaux planifiés"
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "%{rating} Schedules, ends %{date}"
+msgstr "%{rating} horaire, fin %{date}"
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "%{rating} Schedules, starts %{date}"
+msgstr "%{rating} horaire, commence %{date}"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "%{route_name} to %{headsign}"
+msgstr "%{route_name} à %{headsign}"
+
+#: lib/dotcom_web/views/cms_view.ex
+#, elixir-autogen, elixir-format
+msgid "%{sdate} %{stime} - %{edate} %{etime}"
+msgstr "%{sdate} %{stime} - %{edate} %{etime}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "%{time} on %{date}"
+msgstr "%{time} sur %{date}"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "%{y} of %{x} working"
+msgstr "%{y} de %{x} de travailler"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid ", "
+msgstr ", "
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid ", cash, or "
+msgstr ", Espèces, ou "
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "."
+msgstr "."
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "1 Accessible Route"
+msgid_plural "%{count} Accessible Routes"
+msgstr[0] "1 Itinéraire accessible"
+msgstr[1] "%{count} itinéraires accessibles"
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "1 Inaccessible Route"
+msgid_plural "%{count} Inaccessible Routes"
+msgstr[0] "1 Itinéraire inaccessible"
+msgstr[1] "%{count} Itinéraires inaccessibles"
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unavailable Route"
+msgid_plural "%{count} Unavailable Routes"
+msgstr[0] "1 Itinéraire indisponible"
+msgstr[1] "%{count} itinéraires indisponibles"
+
+#: lib/dotcom_web/views/helpers/alert_helpers.ex
+#, elixir-autogen, elixir-format
+msgid "1 alert"
+msgstr "1 alerte"
+
+#: lib/dotcom_web/components/search_results_live.ex
+#, elixir-autogen, elixir-format
+msgid "1 result"
+msgid_plural "%{count} results"
+msgstr[0] "1 résultat"
+msgstr[1] "%{count} résultats"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "1 stop"
+msgid_plural "%{count} stops"
+msgstr[0] "1 arrêt"
+msgstr[1] "%{count} arrêts"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "1 trip later today"
+msgid_plural "%{count} trips later today"
+msgstr[0] "Un voyage plus tard aujourd’hui"
+msgstr[1] "%{count} voyages plus tard aujourd’hui"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "1-Day Pass"
+msgstr "Titre de transport d’un jour"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "2 areas where wheeled mobility devices can be secured"
+msgstr "2 zones où l’aide à la mobilité à roues peut être sécurisée"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#, elixir-autogen, elixir-format
+msgid "24 hours, 7 days a week"
+msgstr "24 heures sur 24, 7 jours sur 7"
+
+#: lib/dotcom_web/views/fare_view.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "7-Day Pass"
+msgstr "Titre de transport de 7 jours"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#, elixir-autogen, elixir-format
+msgid "711 for TTY callers;  VRS for ASL callers"
+msgstr "711 pour les appelants TTY ;  VRS pour les appelants ASL"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "ADA Ride"
+msgstr "Attraction ADA"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "ADA Ride Fare"
+msgstr "Tarif des courses ADA"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#, elixir-autogen, elixir-format
+msgid "ADA/Accessibility Complaints"
+msgstr "ADA/accessibilité Réclamations"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "About"
+msgstr "À propos"
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Access"
+msgstr "Accès"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Access Issue"
+msgstr "Problème d’accès"
+
+#: lib/alerts/accessibility.ex
+#, elixir-autogen, elixir-format
+msgid "Access Issues"
+msgstr "Problèmes d’accès"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Accessibility"
+msgstr "accessibilité"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Accessibility Resources"
+msgstr "Ressources d’accessibilité"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Accessibility at %{name}"
+msgstr "L’accessibilité chez %{name}"
+
+#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/transit_icons.ex
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Accessible"
+msgstr "accessible"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex
+#, elixir-autogen, elixir-format
+msgid "Add"
+msgstr "Ajouter"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex
+#, elixir-autogen, elixir-format
+msgid "Add %{title} to calendar"
+msgstr "Ajouter %{title} au calendrier"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex
+#, elixir-autogen, elixir-format
+msgid "Add event to calendar"
+msgstr "Ajouter un événement au calendrier"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Add to Calendar"
+msgstr "Ajouter au calendrier"
+
+#: lib/dotcom_web/templates/layout/admin.html.heex
+#, elixir-autogen, elixir-format
+msgid "Admins Only"
+msgstr "Réservé aux administrateurs"
+
+#: lib/fares/fare_info.ex
+#, elixir-autogen, elixir-format
+msgid "Adult"
+msgstr "Adulte"
+
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Agenda"
+msgstr "Ordre du jour"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "Alert"
+msgstr "alerte"
+
+#: lib/dotcom_web/components/layouts/alerts_layout.html.heex
+#: lib/dotcom_web/controllers/alert_controller.ex
+#: lib/dotcom_web/live/commuter_rail_alerts_live.ex
+#: lib/dotcom_web/live/subway_alerts_live.ex
+#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/templates/schedule/_alerts.html.heex
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Alerts"
+msgstr "alerte"
+
+#: lib/dotcom_web/controllers/schedule/alerts_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Alerts for MBTA %{description}"
+msgstr "alerte pour le MBTA %{description}"
+
+#: lib/dotcom_web/templates/alert/show.html.heex
+#: lib/dotcom_web/views/partial_view.ex
+#, elixir-autogen, elixir-format
+msgid "All Alerts"
+msgstr "Tous en alerte"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Boston Stadium Train tickets include a return trip after the match. Trains will start leaving Foxboro Station 30 minutes after the final whistle. Return trains will leave the stadium roughly every 15 minutes until all trains have departed."
+msgstr "Tous les postes Boston Stadium train incluent un aller-retour après le match. Les trains commenceront à partir de Foxboro gare 30 minutes après le coup"
+" de sifflet final. Les trains de retour quitteront le stade environ toutes les 15 minutes jusqu’à ce que tous les trains soient partis."
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#, elixir-autogen, elixir-format
+msgid "All Inbound Trains"
+msgstr "Tous à l’arrivée Trains"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Location Types"
+msgstr "Tous les types de lieux"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "All MBTA Improvement Projects"
+msgstr "Tous les projets d’amélioration du MBTA"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#, elixir-autogen, elixir-format
+msgid "All Outbound Trains"
+msgstr "Tous en partance Trains"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "All Schedules & Maps"
+msgstr "Tout horaire et cartes"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#, elixir-autogen, elixir-format
+msgid "All Trains"
+msgstr "Tous les trains"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "All Trains Cancelled"
+msgstr "Tous les trains annulés"
+
+#: lib/dotcom_web/templates/project/updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Updates"
+msgstr "Toutes les mises à jour"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "All ferry routes"
+msgstr "Toutes les routes de ferry"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "All fields with an asterisk* are required."
+msgstr "Tous les champs avec un astérisque* sont obligatoires."
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "All modes"
+msgstr "Tous les modes"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
+msgstr "Tous les emplacements proposés sont soumis à l’adéquation du site, aux autorisations et à la disponibilité en magasin."
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Amber Alert"
+msgstr "Alerte Amber"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
+msgstr "Une photo extérieure de l’entrée de la station Downtown Crossing. Des drapeaux américains bordent la rue, et des gratte-ciel sont visibles en arrière-plan."
+" Beaucoup de piétons passent à côté."
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Apple Pay"
+msgstr "Apple Pay"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Approaching"
+msgstr "proche"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "Arrive by"
+msgstr "Arrivée par"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Arriving"
+msgstr "Arrivée"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Arriving by %{time}"
+msgstr "Arrivée par %{time}"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "At fare vending machines, you can"
+msgstr "Chez distributeur de titres de transport, vous pouvez"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
+msgstr "À la gare avec plusieurs voies à l’extérieur des gares Nord, Sud, Back Bayet Ruggles , les trains à l’arrivée montent à bord depuis la voie 2, et en partance"
+" trains montent à bord depuis la voie 1, sauf indication contraire. Les changements de voie programmés seront indiqués par le "
+
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Attendees"
+msgstr "Participants"
+
+#: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bad grouped fare card data"
+msgstr "Données de cartes tarifaires regroupées incorrectes"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bag Policy & Prohibited Items"
+msgstr "Politique des sacs et articles interdits"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Be at South Station at the time shown for your boarding group. Your boarding group is on your Boston Stadium Train ticket."
+msgstr "Sois à South Station heure indiquée pour ton groupe d’embarquement. Votre groupe d’embarquement est inscrit sur votre billet pour le Boston Stadium Train."
+
+#: lib/dotcom/utils/service_date_time.ex
+#, elixir-autogen, elixir-format
+msgid "Before Today"
+msgstr "Avant aujourd’hui"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Better Bus Project"
+msgstr "Projet Better Bus"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Bicycles Allowed?"
+msgstr "Les vélos sont-ils autorisés ?"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Bicycles allowed"
+msgstr "Vélos autorisés"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions."
+msgstr "Les vélos sont autorisés dans les trains avec le symbole vélo sous le numéro du train, sous réserve de restrictions."
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Bicycles not allowed"
+msgstr "Les vélos sont interdits"
+
+#: lib/dotcom/alerts/commuter_rail.ex
+#: lib/dotcom/alerts/subway.ex
+#, elixir-autogen, elixir-format
+msgid "Bike"
+msgstr "vélo"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Bike Issue"
+msgstr "Problème de vélo"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bike Storage"
+msgstr "vélo Storage"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bike Storage at %{name}"
+msgstr "vélo Storage à %{name}"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Bikes"
+msgstr "vélo"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bikes Allowed"
+msgstr "vélo autorisé"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bikes are allowed on all ferry boats"
+msgstr "Les vélo sont autorisés sur tous les ferry bateaux"
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Blue Line"
+msgstr "Blue Line"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Blue Line subway platform inside State Street"
+msgstr "Blue Line métro quai à l’intérieur de State Street"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Blue Line train departing Airport station"
+msgstr "Blue Line train au départ Airport station"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Boarding"
+msgstr "Internat"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Boarding Group A"
+msgstr "Groupe d’Embarquement A"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Boarding Group B"
+msgstr "Groupe d’accueil B"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Boarding Group C"
+msgstr "Groupe d’embarquement C"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Boarding Group D"
+msgstr "Groupe d’accueil D"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Boarding Group E"
+msgstr "Groupe d’accueil E"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Boarding Groups"
+msgstr "Groupes d’accueil"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Boston Stadium Train Ticket Required"
+msgstr "Boston Stadium Poste de train requis"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket app. For more information, read our %{world_cup_link}"
+msgstr "Boston Stadium billet de train doit être acheté à l’avance sur l’application mTicket . Pour plus d’informations, consultez notre %{world_cup_link}"
+
+#: lib/dotcom_web/hooks/breadcrumbs.ex
+#, elixir-autogen, elixir-format
+msgid "Boston Stadium Trains"
+msgstr "Boston Stadium Trains"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex
+#, elixir-autogen, elixir-format
+msgid "Boston Visitor's Guide to The T"
+msgstr "Guide du visiteur de Boston pour le métro"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "Both Directions"
+msgstr "Les deux directions"
+
+#: lib/dotcom_web/templates/stop/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bringing your car or bike"
+msgstr "Emmener votre voiture ou votre vélo"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#: lib/dotcom_web/controllers/mode/bus.ex
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/views/helpers.ex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Bus"
+msgstr "bus"
+
+#: lib/dotcom/upcoming_departures/processor.ex
+#, elixir-autogen, elixir-format
+msgid "Bus %{trip_name}"
+msgstr "bus %{trip_name}"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bus Beginner's Guide"
+msgstr "Guide du débutant dans le bus"
+
+#: lib/dotcom_web/controllers/mode/bus.ex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Fares"
+msgstr "Tarifs de bus"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bus Features"
+msgstr "Caractéristiques des bus"
+
+#: lib/dotcom_web/views/mode_view.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Map"
+msgstr "Carte des bus"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Other"
+msgstr "bus Autres"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Route"
+msgstr "Ligne de bus"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Stop"
+msgstr "arrêt de bus"
+
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bus Stop Changes"
+msgstr "Changements d’arrêt de bus"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Buses that can be lowered for easier boarding and exiting"
+msgstr "Bus abaissable pour faciliter l’embarquement et la sortie"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#, elixir-autogen, elixir-format
+msgid "Business"
+msgstr "Affaires"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Business Opportunities"
+msgstr "Opportunités d’affaires"
+
+#: lib/dotcom_web/templates/event/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Calendar view"
+msgstr "Vue calendrier"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Call"
+msgstr "Appel"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "Call Us"
+msgstr "Appelez-nous"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Annuler"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "Cancellation"
+msgstr "annulation"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "Cancellations"
+msgstr "annulation"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Cancelled"
+msgstr "Annulé"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Capital Transformation"
+msgstr "Capital Transformation"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Careers"
+msgstr "Carrières"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "Cash"
+msgstr "Espèces"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Change"
+msgstr "Changement"
+
+#: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
+#, elixir-autogen, elixir-format
+msgid "Change Date"
+msgstr "Date de changement"
+
+#: lib/dotcom_web/templates/schedule/_direction_select.html.heex
+#, elixir-autogen, elixir-format
+msgid "Change Direction of Trip."
+msgstr "Changer de direction du voyage."
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Changes"
+msgstr "Changements"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Charlestown Ferry"
+msgstr "Charlestown Ferry"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Charlie Retailer"
+msgstr "Charlie Retailer"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Charlie Service Center"
+msgstr "Charlie Service Center"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "CharlieCard"
+msgstr "CharlieCard"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "CharlieCards"
+msgstr "CharlieCards"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "CharlieCards & Tickets"
+msgstr "CharlieCards & poste"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "CharlieTicket"
+msgstr "CharlieTicket"
+
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "Check"
+msgstr "Vérifié"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Check-In at South Station"
+msgstr "Enregistrement à South Station"
+
+#: lib/fares/fare_info.ex
+#, elixir-autogen, elixir-format
+msgid "Child"
+msgstr "Enfant"
+
+#: lib/fares/fare_info.ex
+#, elixir-autogen, elixir-format
+msgid "Child under 3"
+msgstr "Enfants de moins de 3 ans"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Choose Your Language"
+msgstr "Choisissez votre langue"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Choose a schedule type from the available options"
+msgstr "Choisissez un type horaire parmi les options disponibles"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Christmas Day"
+msgstr "Le jour de Noël"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#, elixir-autogen, elixir-format
+msgid "Civil Rights"
+msgstr "Droits civiques"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Clickable graphic for User Guides"
+msgstr "Graphique cliquable pour les usagers Guides"
+
+#: lib/dotcom_web/components/components.ex
+#: lib/dotcom_web/live/search_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Fermer"
+
+#: lib/dotcom_web/templates/event/_popup.html.heex
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Dialogue fermé"
+
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "Coin"
+msgstr "Pièce"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Columbus Day"
+msgstr "Journée de Christophe Provincial"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Comment"
+msgstr "Commentaire"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Ferry to Logan Airport"
+msgstr "Ferry-banlieue vers Logan Airport"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#: lib/dotcom_web/components/route_symbols.ex
+#: lib/dotcom_web/controllers/mode/commuter.ex
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
+#: lib/dotcom_web/views/customer_support_view.ex
+#: lib/dotcom_web/views/helpers.ex
+#: lib/dotcom_web/views/layout_view.ex
+#: lib/dotcom_web/views/page_view.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail"
+msgstr "Train de banlieue"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail "
+msgstr "Train de banlieue "
+
+#: lib/dotcom_web/controllers/mode/commuter.ex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Fares"
+msgstr "Train de banlieue Fares"
+
+#: lib/dotcom_web/views/mode_view.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Map"
+msgstr "Carte du Train de banlieue"
+
+#: lib/dotcom_web/views/fare_view.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Monthly Pass"
+msgstr "Train de banlieue mensuel titre de transport"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail One-Way"
+msgstr "Train de banlieue aller simple"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Positive Train Control"
+msgstr "Train de banlieue Contrôle positif de train"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Status"
+msgstr "Train de banlieue Statut"
+
+#: lib/dotcom_web/views/mode_view.ex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail Zones Map"
+msgstr "Carte des zones du Train de banlieue"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days."
+msgstr "La disponibilité des sièges du train de banlieue est régulièrement mise à jour pour refléter la fréquentation typique d’un trajet basée sur les données"
+" automatisées et des contrôleurs des 14 à 30 derniers jours."
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Complaint"
+msgstr "Réclamations"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Compliment"
+msgstr "Compliment"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Contact"
+msgstr "Contact"
+
+#: lib/dotcom_web/templates/page/_contact_us.html.heex
+#, elixir-autogen, elixir-format
+msgid "Contact Us"
+msgstr "Contactez-nous"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Contact numbers"
+msgstr "Numéros de contact"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, lost and found, and accessibility."
+msgstr "Contactez l’équipe client du service MBTA et consultez les numéros de contact supplémentaires pour la Police des Transports, les Objets trouvés et l’accessibilité."
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex
+#, elixir-autogen, elixir-format
+msgid "Contact the Transit Police"
+msgstr "Contactez la police des transports"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Continue"
+msgstr "Continuez"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Cost"
+msgstr "Coût"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Covered bike racks"
+msgstr "Supports vélo couverts"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Covered bike racks are available"
+msgstr "Des supports vélo couverts sont disponibles"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Create an Account"
+msgstr "Créez un compte"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "Credit/Debit Card"
+msgstr "Carte de crédit/débit"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Credit/debit cards"
+msgstr "Cartes de crédit/débit"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Cross Harbor Ferry"
+msgstr "Ferry de Cross Harbor"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex
+#, elixir-autogen, elixir-format
+msgid "Crosstown"
+msgstr "Crosstown"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Crowded"
+msgstr "Bondé"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Current"
+msgstr "Actuel"
+
+#: lib/dotcom_web/views/partial_view.ex
+#, elixir-autogen, elixir-format
+msgid "Current Alerts"
+msgstr "Alerte actuelle"
+
+#: lib/dotcom_web/views/bus_stop_change_view.ex
+#, elixir-autogen, elixir-format
+msgid "Current Changes"
+msgstr "Évolutions actuelles"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#, elixir-autogen, elixir-format
+msgid "Current Status"
+msgstr "Situation actuelle"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Current seat availability thresholds are:"
+msgstr "Les seuils actuels de disponibilité des sièges sont :"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Customer Support"
+msgstr "Service client"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Daily"
+msgstr "Quotidien"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Daily Schedules"
+msgstr "Horaire quotidien"
+
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Date"
+msgstr "Date"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex
+#, elixir-autogen, elixir-format
+msgid "Date and Time"
+msgstr "Date et heure"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Day Pass"
+msgstr "Day titre de transport"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "Delay"
+msgstr "retard"
+
+#: lib/journey.ex
+#, elixir-autogen, elixir-format
+msgid "Delayed %{minutes}"
+msgstr "Retard %{minutes}"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "Delays"
+msgstr "retard"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Depart"
+msgstr "Départ"
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "Depart at"
+msgstr "Départ à"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Departures"
+msgstr "Départs"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Destination location is not close enough to any transit stops"
+msgstr "L’emplacement de la destination n’est pas assez proche des arrêts de transit"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Destination location is outside of our service area"
+msgstr "La destination se trouve en dehors de notre zone de service"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Destinations"
+msgstr "Destinations"
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "Details"
+msgstr "Détails"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Detour"
+msgstr "déviation"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "Developers"
+msgstr "Développeurs"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Digital displays and automated announcements that share key route and stop info"
+msgstr "Affichages numériques et annonces automatisées qui partagent les lignes principales et les informations des arrêts"
+
+#: lib/dotcom_web/templates/schedule/_direction_select.html.heex
+#, elixir-autogen, elixir-format
+msgid "Direction of your trip"
+msgstr "Direction de votre voyage"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Disability ID Cards"
+msgstr "Cartes d’identité de handicap"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Dock Closure"
+msgstr "quai fermeture"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Dock Issue"
+msgstr "Problème de quai"
+
+#: lib/dotcom_web/live/search_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Documents"
+msgstr "Documents"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Does not stop at"
+msgstr "Ça ne s’arrête pas à"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "Due to Single Tracking"
+msgstr "En raison du suivi unique"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "EBT card"
+msgstr "Carte EBT"
+
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "EZ Pass"
+msgstr "EZ titre de transport"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Earlier"
+msgstr "Plus tôt"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Earliest Arrival"
+msgstr "Première arrivée"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Early Departure"
+msgstr "Départ anticipé"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#: lib/dotcom_web/views/schedule/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Early Departure Stop"
+msgstr "Arrêt de départ anticipé"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "East Boston Ferry"
+msgstr "East Boston Ferry"
+
+#: lib/routes/parser.ex
+#: lib/routes/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Eastbound"
+msgstr "Direction est"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Elevator"
+msgstr "Ascenseur"
+
+#: lib/dotcom/alerts/commuter_rail.ex
+#: lib/dotcom/alerts/subway.ex
+#, elixir-autogen, elixir-format
+msgid "Elevator & Escalator"
+msgstr "Ascenseur & Escalator"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Elevator Closure"
+msgstr "Fermeture de l’ascenseur"
+
+#: lib/alerts/accessibility.ex
+#, elixir-autogen, elixir-format
+msgid "Elevator Closures"
+msgstr "Fermeture de l’ascenseur"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex
+#, elixir-autogen, elixir-format
+msgid "Elevator/Escalator Hotline"
+msgstr "Ligne d’assistance ascenseur/escalators"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Elevators"
+msgstr "Ascenseurs"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Elevators at %{name}"
+msgstr "Ascenseurs à %{name}"
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex
+#, elixir-autogen, elixir-format
+msgid "Emergency"
+msgstr "situation d’urgence"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Emergency Contacts"
+msgstr "situation d’urgence Contacts"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Employee"
+msgstr "Employé"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Employee Complaint"
+msgstr "Réclamations des employés"
+
+#: lib/dotcom_web/templates/event/_add_button.html.heex
+#, elixir-autogen, elixir-format
+msgid "Ended"
+msgstr "Terminé"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Engineering Design Standards"
+msgstr "Normes de conception technique"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
+#, elixir-autogen, elixir-format
+msgid "Enter a destination location"
+msgstr "Saisissez une destination"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Enter a location"
+msgstr "Entrée d’un lieu"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
+#, elixir-autogen, elixir-format
+msgid "Enter an origin location"
+msgstr "Entrer un lieu d’origine"
+
+#: lib/dotcom_web/templates/project/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Enter keyword(s)"
+msgstr "Saisissez le ou les mots-clés"
+
+#: lib/dotcom_web/templates/project/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Enter project keywords"
+msgstr "Saisissez les mots-clés du projet"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Enter the station"
+msgstr "Voici le station"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Enter the traffic circle"
+msgstr "Entrez dans le cercle routier"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Enter your registered address"
+msgstr "Saisissez votre adresse enregistrée"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Entrance to Blue and Green Lines outside Government Center"
+msgstr "entrée à Blue et Green Lines à l’extérieur de Government Center"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Entrance to Green and Red Lines outside Park Street"
+msgstr "entrée à Green et Red Lines à l’extérieur de Park Street"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Entrance to Orange and Red Lines outside Downtown Crossing"
+msgstr "entrée à Orange et Red Lines à l’extérieur de Downtown Crossing"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Entrance to Ruggles station"
+msgstr "Entrée à Ruggles station"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Entrances to Red Line and Commuter Rail outside South Station"
+msgstr "entrée à Red Line et Train de banlieue à l’extérieur de South Station"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex
+#, elixir-autogen, elixir-format
+msgid "Error"
+msgstr "Erreur"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Escalator"
+msgstr "Escalatore"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Escalator (down only)"
+msgstr "Escalator (seulement en descente)"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Escalator (up and down)"
+msgstr "Escalator (montée et descente)"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Escalator (up only)"
+msgstr "Escalater (uniquement en montée)"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Escalator Closure"
+msgstr "Fermeture de l’escalator"
+
+#: lib/alerts/accessibility.ex
+#, elixir-autogen, elixir-format
+msgid "Escalator Closures"
+msgstr "Fermeture de l’escalator"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Escalators"
+msgstr "Escalators"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Escalators at %{name}"
+msgstr "Escalators à %{name}"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Estimated Arrival at Foxboro Station"
+msgstr "Arrivée estimée à la station de Foxboro"
+
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Event Description"
+msgstr "Description de l’événement"
+
+#: lib/dotcom_web/templates/event/_popup.html.heex
+#, elixir-autogen, elixir-format
+msgid "Event summary for "
+msgstr "Résumé de l’événement pour "
+
+#: lib/dotcom_web/controllers/event_controller.ex
+#: lib/dotcom_web/live/search_page_live.ex
+#: lib/dotcom_web/templates/event/_month.html.heex
+#: lib/dotcom_web/templates/event/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Events"
+msgstr "Événements"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Exit the station"
+msgstr "Sortez de la station"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "Expect Delays"
+msgstr "retard attendu"
+
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Explore stations by mode"
+msgstr "Explorez la station par mode"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Express Bus"
+msgstr "Bus express"
+
+#: lib/dotcom_web/views/fare_view.ex
+#, elixir-autogen, elixir-format
+msgid "Express Bus One-Way"
+msgstr "Bus express aller simple"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Exterior of Wonderland station"
+msgstr "Extérieur de Wonderland station"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Extra Service"
+msgstr "Service supplémentaire"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Facility Information"
+msgstr "Informations sur l’installation"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Facility Issue"
+msgstr "Problème d’installation"
+
+#: lib/fares/fare_info.ex
+#, elixir-autogen, elixir-format
+msgid "Family 4-pack (2 adults, 2 children)"
+msgstr "Famille 4-pack (2 adultes, 2 enfants)"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Fare Evasion"
+msgstr "Évasion tarifaire"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Fare Options"
+msgstr "Options tarifaires"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Fare Options at %{name}"
+msgstr "Options tarifaires à %{name}"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Fare Policy"
+msgstr "Politique tarifaire"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Fare Retail Locations"
+msgstr "Points de vente au détail tarifaires"
+
+#: lib/dotcom_web/controllers/fare_controller.ex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Fare Transformation"
+msgstr "Transformation tarifaire"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Fare Types"
+msgstr "Types tarifaires"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Fare Vending Machine"
+msgstr "distributeur de titres de transport"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Fare Vending Machines"
+msgstr "distributeur de titres de transport"
+
+#: lib/dotcom_web/controllers/fare_controller.ex
+#: lib/dotcom_web/templates/mode/hub.html.heex
+#: lib/dotcom_web/templates/mode/index.html.heex
+#: lib/dotcom_web/templates/page/_fares_passes.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Fares"
+msgstr "Tarifs"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Fares Info"
+msgstr "Informations sur les tarifs"
+
+#: lib/dotcom_web/templates/page/_fares_passes.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Fares Overview"
+msgstr "Aperçu des tarifs"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Fares by Mode"
+msgstr "Tarifs par mode"
+
+#: lib/dotcom_web/controllers/mode/ferry.ex
+#, elixir-autogen, elixir-format
+msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
+msgstr "Les tarifs diffèrent entre les ferries Hingham/Hull et Charlestown ferrys. Veuillez consulter les informations ci-dessous :"
+
+#: lib/dotcom_web/templates/page/_whats_happening.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured MBTA Updates and Projects"
+msgstr "Mises à jour et projets MBTA à l’honneur"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#: lib/dotcom_web/components/route_symbols.ex
+#: lib/dotcom_web/controllers/mode/ferry.ex
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/views/customer_support_view.ex
+#: lib/dotcom_web/views/helpers.ex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Ferry"
+msgstr "ferry"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Ferry "
+msgstr "ferry "
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Ferry Fares"
+msgstr "Tarifs du ferry"
+
+#: lib/dotcom_web/views/mode_view.ex
+#, elixir-autogen, elixir-format
+msgid "Ferry Map"
+msgstr "Carte des ferries"
+
+#: lib/dotcom_web/views/fare_view.ex
+#, elixir-autogen, elixir-format
+msgid "Ferry Monthly Pass"
+msgstr "Ferry mensuel titre de transport"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Few Seats Available"
+msgstr "Peu de places disponibles"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#, elixir-autogen, elixir-format
+msgid "File a Discrimination Complaint"
+msgstr "Déposez une plainte pour discrimination"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Fill out the form"
+msgstr "Remplissez le formulaire"
+
+#: lib/dotcom_web/live/search_page_live.html.heex
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex
+#: lib/dotcom_web/views/partial_view.ex
+#, elixir-autogen, elixir-format
+msgid "Filter by type"
+msgstr "Filtrer par type"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Financials"
+msgstr "Finances"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Find Proposed Locations Near You"
+msgstr "Trouvez les emplacements proposés près de chez vous"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Find Your Polling Place"
+msgstr "Trouvez votre bureau de vote"
+
+#: lib/dotcom_web/templates/page/_find_a_location.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Find a Location"
+msgstr "Trouver un lieu"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Find a Store Near You"
+msgstr "Trouvez un magasin près de chez vous"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Find out how to get involved"
+msgstr "Découvrez comment vous impliquer"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Finishing another trip"
+msgstr "Terminer un autre voyage"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "First %{vehicle}"
+msgstr "Première %{vehicle}"
+
+#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#: lib/dotcom_web/views/schedule/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Flag Stop"
+msgstr "Arrêt du drapeau"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Flag the bus in any safe place along the route"
+msgstr "Signalez le bus dans n’importe quel endroit sûr le long de la route"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "Follow @MBTA on Twitter"
+msgstr "Suivez@MBTA sur Twitter"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "Follow @MBTA_CR on Twitter"
+msgstr "Suivez@MBTA_CR sur Twitter"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Follow signs"
+msgstr "Suivez les panneaux"
+
+#: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
+#, elixir-autogen, elixir-format
+msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
+msgstr "Suivez le lien ci-dessous pour trouver le numéro associé au mode ou à l’itinéraire où vous avez perdu votre objet."
+
+#: lib/dotcom_web/controllers/mode/bus.ex
+#, elixir-autogen, elixir-format
+msgid "For Express Bus fares, read the complete %{link} page."
+msgstr "Pour les tarifs des bus express, lisez la page complète de %{link} ."
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "For all information about World Cup train service, read our %{world_cup_link}"
+msgstr "Pour toutes les informations sur le service ferroviaire pour la Coupe du Monde, consultez notre %{world_cup_link}"
+
+#: lib/dotcom_web/components/alerts.ex
+#, elixir-autogen, elixir-format
+msgid "For more information"
+msgstr "Pour plus d’informations"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "For questions or comments about this press release, please contact"
+msgstr "Pour toute question ou commentaire concernant ce communiqué de presse, veuillez contacter"
+
+#: lib/dotcom/schedule_note.ex
+#, elixir-autogen, elixir-format
+msgid "For regular weekday service to Foxboro please visit: "
+msgstr "Pour un service régulier en semaine vers Foxboro veuillez visiter : "
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Foxboro Special Event"
+msgstr "Événement spécial de Foxboro"
+
+#: lib/dotcom/schedule_note.ex
+#, elixir-autogen, elixir-format
+msgid "Franklin Line"
+msgstr "Ligne Franklin"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Free"
+msgstr "Gratuit"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Free Pedal and Park secured parking"
+msgstr "Parking sécurisé gratuit pour pédales et parking"
+
+#: lib/dotcom_web/views/helpers.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Free Service"
+msgstr "Service gratuit"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Friday"
+msgstr "Vendredi"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "From"
+msgstr "De"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Full high level platform to provide level boarding to every car in a train set"
+msgstr "Quai surélevé complet pour assurer l’embarquement à niveau de chaque wagon d’un train"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Georges Island"
+msgstr "Georges Island"
+
+#: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get Directions"
+msgstr "Obtenez votre itinéraire"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get Involved"
+msgstr "Impliquez-vous"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Get Service Updates"
+msgstr "Recevez des mises à jour sur le service"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get T-Alerts"
+msgstr "Va T-Alerts"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Get a CharlieCard"
+msgstr "Procurez-vous une CharlieCard"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get an invoice in the mail for a $1 fee"
+msgstr "Recevez une facture par la poste moyennant des frais de 1 $"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get directions to this parking facility"
+msgstr "Obtenez votre chemin vers ce parking"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Get to Know Us"
+msgstr "Faites connaissance avec nous"
+
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get trip suggestions"
+msgstr "Obtenez des suggestions de voyage"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Go"
+msgstr "Allez"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Google Pay"
+msgstr "Google Pay"
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Green Line"
+msgstr "Green Line"
+
+#: lib/dotcom_web/components/route_symbols.ex
+#, elixir-autogen, elixir-format
+msgid "Green Line %{branch} Branch"
+msgstr "Green Line %{branch} Branche"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Group Name"
+msgstr "Nom du groupe"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Harbor Loop Ferry"
+msgstr "Ferry Harbor Loop"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Hard left"
+msgstr "Virage à gauche serrée"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Hard right"
+msgstr "À droite complètement"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Hide"
+msgstr "Cache-toi"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "Hide Details"
+msgstr "Masquer les détails"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Hingham/Hull Ferry"
+msgstr "Hingham/Hull Ferry"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Hingham/Hull ferry"
+msgstr "Hingham/Hull ferry"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "History"
+msgstr "Histoire"
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Holiday Schedules"
+msgstr "Horaire de vacances"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Holidays"
+msgstr "Fêtes"
+
+#: lib/cms/breadcrumbs.ex
+#: lib/util/breadcrumb_html.ex
+#, elixir-autogen, elixir-format
+msgid "Home"
+msgstr "Accueil"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Home Address"
+msgstr "Adresse domiciliaire"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Icon Key"
+msgstr "Touche d’icône"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
+msgstr "Si applicable, veuillez indiquer l’heure et la date de l’incident, l’itinéraire et le numéro du véhicule."
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "If you provided your contact info, check your email for a confirmation with an incident number. If you don't receive a confirmation within 10 minutes, try submitting your feedback again or call us at"
+msgstr "Si vous avez fourni vos coordonnées, vérifiez votre e-mail pour une confirmation avec un numéro d’incident. Si vous ne recevez pas de confirmation dans"
+" les 10 minutes, essayez de soumettre à nouveau votre retour ou appelez-nous à"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "If you'd like us to give you a call, please give us the best number where we can reach you."
+msgstr "Si vous souhaitez que nous vous appelions, veuillez nous indiquer le meilleur numéro où nous pouvons vous joindre."
+
+#: lib/dotcom_web/templates/customer_support/_discrimination_complaint.html.heex
+#, elixir-autogen, elixir-format
+msgid "If your civil rights have been violated, you can file a complaint with the MBTA Office of Diversity and Civil Rights."
+msgstr "Si vos droits civils ont été violés, vous pouvez déposer une plainte auprès du Bureau de la diversité et des droits civils de la MBTA."
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Important Information"
+msgstr "Informations importantes"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#, elixir-autogen, elixir-format
+msgid "Important Links"
+msgstr "Liens importants"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "Inbound Trains Cancelled"
+msgstr "à l’arrivée Trains annulés"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Independence Day"
+msgstr "Fête de l’Indépendance"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#, elixir-autogen, elixir-format
+msgid "Information & Support"
+msgstr "Informations et support"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Institutional Sales"
+msgstr "Ventes institutionnelles"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex
+#, elixir-autogen, elixir-format
+msgid "Intended Audience"
+msgstr "Public visé"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Interzone %{zone}"
+msgstr "Interzone %{zone}"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Invalid Duration"
+msgstr "Durée invalide"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Invalid Fare"
+msgstr "Tarif invalide"
+
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "Invoice"
+msgstr "Facture"
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "Is this helpful? Send us feedback"
+msgstr "Est-ce utile ? Envoyez-nous vos retours"
+
+#: lib/dotcom_web/templates/event/_month_select.html.heex
+#: lib/dotcom_web/templates/event/_year_select.html.heex
+#: lib/dotcom_web/templates/event/index.html.heex
+#: lib/dotcom_web/templates/schedule/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Jump to"
+msgstr "Sauter à"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Juneteenth Independence Day"
+msgstr "Journée de l’Indépendance du Juneteenth"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Know Your Boarding Group"
+msgstr "Connaissez votre groupe d’embarquement"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf."
+msgstr "Vous connaissez un propriétaire de magasin local qui pourrait être intéressé par notre réseau de vente au détail ? Suggérez un revendeur et nous le contacterons"
+" en votre nom."
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Labor Day"
+msgstr "Fête du Travail"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Language Services"
+msgstr "Services linguistiques"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Languages"
+msgstr "Langues"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last"
+msgstr "Dernier"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last %{vehicle}"
+msgstr "Dernier %{vehicle}"
+
+#: lib/dotcom/utils/service_date_time.ex
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Later"
+msgstr "Plus tard"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Leadership"
+msgstr "Direction"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about CharlieCard"
+msgstr "En savoir plus sur CharlieCard"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about MBTA fares"
+msgstr "En savoir plus sur les tarifs MBTA"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about accessibility on the T"
+msgstr "En savoir plus sur l’accessibilité dans le métro"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about bike parking at the T"
+msgstr "En savoir plus sur le stationnement vélo au métro"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about bike storage at this station."
+msgstr "En savoir plus sur le stockage vélo à ce station."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about bikes on Commuter Rail"
+msgstr "En savoir plus sur le vélo sur Train de banlieue"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about bus accessibility"
+msgstr "En savoir plus sur l’accessibilité des bus"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about fare prices, pass types, and how to pay your fare on the T."
+msgstr "En savoir plus sur les tarifs, les types de titre de transport et comment payer votre billet dans le métro."
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about fares"
+msgstr "En savoir plus sur les tarifs"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about ferry accessibility"
+msgstr "En savoir plus sur l’accessibilité ferry"
+
+#: lib/dotcom_web/templates/customer_support/_discrimination_complaint.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about filing a complaint"
+msgstr "En savoir plus sur le dépôt d’une réclamation"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about parking at the T"
+msgstr "En savoir plus sur le stationnement au métro"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about reduced fares and eligibility"
+msgstr "En savoir plus sur le tarif réduit et son éligibilité"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about seat availability trends"
+msgstr "En savoir plus sur les tendances de disponibilité des places"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about the accessibility features at this %{place}."
+msgstr "En savoir plus sur les fonctionnalités d’accessibilité à ce %{place}."
+
+#: lib/dotcom_web/templates/project/updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn more about this project"
+msgstr "En savoir plus sur ce projet"
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
+#, elixir-autogen, elixir-format
+msgid "Learn what happens after you file a complaint"
+msgstr "Découvrez ce qui se passe après avoir déposé une réclamation"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Least Walking"
+msgstr "Moins de marches"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Leave at"
+msgstr "Laisser à"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Leaving at %{time}"
+msgstr "Partir à %{time}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Left"
+msgstr "À gauche"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Let us know"
+msgstr "Faites-le nous savoir"
+
+#: lib/dotcom_web/live/search_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Lines and Routes"
+msgstr "Lignes et itinéraires"
+
+#: lib/dotcom_web/templates/event/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "List view"
+msgstr "Vue de liste"
+
+#: lib/dotcom_web/controllers/alert_controller.ex
+#: lib/dotcom_web/live/commuter_rail_alerts_live.ex
+#: lib/dotcom_web/live/subway_alerts_live.ex
+#, elixir-autogen, elixir-format
+msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
+msgstr "Alertes de service en direct pour tous les modes de transport de la MBTA, y compris le métro, le bus, le Train de banlieue et ferry. Mises à jour sur les"
+" retardés, travaux, pannes d’ascenseur, et plus encore."
+
+#: lib/dotcom_web/components/search_results_live.ex
+#, elixir-autogen, elixir-format
+msgid "Load more"
+msgstr "Chargez plus"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Loading arrivals..."
+msgstr "Chargement des arrivées..."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Loading schedules for selected service"
+msgstr "Chargement de l’horaire pour un service sélectionné"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Loading trip details"
+msgstr "Détails du trajet de chargement"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Loading upcoming departures"
+msgstr "Chargement des départs à venir"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "Lobby inside Back Bay station"
+msgstr "Hall d’entrée à l’intérieur de la station Back Bay"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Local Bus"
+msgstr "Bus local"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
+#, elixir-autogen, elixir-format
+msgid "Local Bus One-Way"
+msgstr "Aller de bus local simple"
+
+#: lib/dotcom_web/templates/event/_address.html.heex
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex
+#, elixir-autogen, elixir-format
+msgid "Location"
+msgstr "Emplacement"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Location is not close enough to any transit stops"
+msgstr "L’emplacement n’est pas assez proche des arrêts de transit"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Location unavailable"
+msgstr "Emplacement indisponible"
+
+#: lib/dotcom_web/components/route_symbols.ex
+#: lib/dotcom_web/views/helpers.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Logan Express"
+msgstr "Logan Express"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Long ramp"
+msgstr "Longue rampe"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Lost & Found"
+msgstr "Objets Trouvés et Objets Trouvés"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Lost and Found"
+msgstr "Objets trouvés"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Lynn Ferry"
+msgstr "Lynn Ferry"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/util/breadcrumb_html.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA"
+msgstr "MBTA"
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr "La MBTA %{name} %{type} gare et horaire, incluant cartes, mises à jour en temps réel, informations sur le stationnement et l’accessibilité, ainsi que correspondances."
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections."
+msgstr "%{route_name} %{station_name} et horaire MBTA, incluant horaires, cartes, tarifs, mises à jour en temps réel, informations sur le stationnement et l’accessibilité,"
+" ainsi que correspondance."
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares."
+msgstr "Les arrêts et horaires du MBTA %{text} , incluant cartes, informations sur le stationnement et l’accessibilité, ainsi que les tarifs."
+
+#: lib/dotcom_web/controllers/schedule/line_controller.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr "La MBTA %{type} itinéraire %{name} arrêts et horaires, incluant cartes, mises à jour en temps réel, informations sur le stationnement et l’accessibilité,"
+" ainsi que correspondances."
+
+#: lib/util/breadcrumb_html.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA - Massachusetts Bay Transportation Authority"
+msgstr "MBTA - Autorité des transports de la baie du Massachusetts"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Facebook"
+msgstr "MBTA Facebook"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Fares"
+msgstr "Tarifs MBTA"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA Gift Shop"
+msgstr "Boutique de souvenirs MBTA"
+
+#: lib/dotcom_web/controllers/schedule/green.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+msgstr "La MBTA Green Line la station de tramway et l’horaire, incluant cartes, mises à jour en temps réel, informations sur le stationnement et l’accessibilité,"
+" ainsi que correspondance."
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Home Page"
+msgstr "Page d’accueil de la MBTA"
+
+#: lib/dotcom_web/templates/page/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Homepage"
+msgstr "Page d’accueil de la MBTA"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Instagram"
+msgstr "MBTA Instagram"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA LinkedIn"
+msgstr "MBTA LinkedIn"
+
+#: lib/dotcom_web/views/mode_view.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA Paratransit Program"
+msgstr "Programme adapté MBTA Transport"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA Projects/Programs"
+msgstr "Projets/programmes MBTA"
+
+#: lib/dotcom_web/templates/stop/index.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA Stations"
+msgstr "Station MBTA"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Threads"
+msgstr "Fils de discussion MBTA"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA TikTok"
+msgstr "MBTA TikTok"
+
+#: lib/dotcom_web/templates/page/_contact_us.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "MBTA Transit Police"
+msgstr "Police de transport de la MBTA"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Trip Planner"
+msgstr "MBTA Planificateur de trajet"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA Twitter"
+msgstr "MBTA Twitter"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA User Guides"
+msgstr "Guides d’utilisation du MBTA"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA YouTube"
+msgstr "MBTA YouTube"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA fare vending machines"
+msgstr "MBTA distributeur de titres de transport"
+
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA riders can purchase CharlieTickets and reload and purchase %{charlie_card} for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
+msgstr "Les voyageurs MBTA peuvent acheter des CharlieTickets, recharger et acheter %{charlie_card} pour le bus, le métro, le Train de banlieue et ferry dans des"
+" détaillants de toute la Grande Boston et Providence régions."
+
+#: lib/dotcom_web/templates/layout/root.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA.com Latest News"
+msgstr "MBTA.com Dernières actualités"
+
+#: lib/dotcom_web/templates/page/menu.html.heex
+#, elixir-autogen, elixir-format
+msgid "MBTA.com Menu"
+msgstr "MBTA.com Menu"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#, elixir-autogen, elixir-format
+msgid "Main"
+msgstr "Principaux"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex
+#, elixir-autogen, elixir-format
+msgid "Main Hotline"
+msgstr "Ligne directe principale"
+
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#, elixir-autogen, elixir-format
+msgid "Main Menu"
+msgstr "Menu principal"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Maintenance"
+msgstr "maintenance"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Maintenance Complaint"
+msgstr "Réclamations de maintenance"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Make a U-turn"
+msgstr "Fais demi-tour"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Managed by"
+msgstr "Dirigé par"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Many Seats Available"
+msgstr "De nombreux sièges disponibles"
+
+#: lib/dotcom_web/templates/mode/hub.html.heex
+#: lib/dotcom_web/templates/mode/index.html.heex
+#: lib/dotcom_web/templates/page/_find_a_location.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Maps"
+msgstr "Cartes"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Martin Luther King, Jr. Day"
+msgstr "Jour de Martin Luther King, Jr."
+
+#: lib/dotcom_web/templates/layout/root.html.heex
+#, elixir-autogen, elixir-format
+msgid "Massachusetts Bay Transportation Authority"
+msgstr "Autorité des transports de la baie du Massachusetts"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "Massachusetts Bay Transportation Authority, all rights reserved."
+msgstr "Massachusetts Bay Transportation Authority, tous droits réservés."
+
+#: lib/dotcom_web/views/helpers.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Massport Shuttle"
+msgstr "Massport navette"
+
+#: lib/dotcom_web/components/route_symbols.ex
+#, elixir-autogen, elixir-format
+msgid "Massport Shuttle %{route_number}"
+msgstr "Massport navette %{route_number}"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Match 18"
+msgstr "Match 18"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Match 30"
+msgstr "Match 30"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Match 45"
+msgstr "Match 45"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Match 5"
+msgstr "Match 5"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Match 61"
+msgstr "Match 61"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Match 74"
+msgstr "Match 74"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Match 97"
+msgstr "Match 97"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Match Ticket Required "
+msgstr "Poste de correspondance requis "
+
+#: lib/dotcom_web/components/route_symbols.ex
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Mattapan Trolley"
+msgstr "Mattapan Trolley"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "May not be accessible"
+msgstr "Ce n’est peut-être pas accessible"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Media Contact Information"
+msgstr "Informations de contact médias"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Media Relations"
+msgstr "Relations avec les médias"
+
+#: lib/dotcom_web/templates/event/_meeting_info.html.heex
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Meeting Info"
+msgstr "Informations sur la réunion"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Members of the press can request to join our media list by emailing "
+msgstr "Les membres de la presse peuvent demander à rejoindre notre liste média en envoyant un e-mail "
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
+#, elixir-autogen, elixir-format
+msgid "Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request."
+msgstr "Les membres du public ont le droit de demander des copies des documents MBTA, à quelques exceptions près. Des frais s’appliquent et peuvent varier selon"
+" la demande."
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Memorial Day"
+msgstr "Memorial Day"
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
+#, elixir-autogen, elixir-format
+msgid "Menu"
+msgstr "Menu"
+
+#: lib/fares/fare_info.ex
+#, elixir-autogen, elixir-format
+msgid "Military"
+msgstr "Militaire"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Mini high level platform to provide level boarding to certain cars in a train set"
+msgstr "Mini quai surélevé pour assurer l’embarquement à niveau de certains wagons dans un train"
+
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Minutes"
+msgstr "Procès-verbal"
+
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "Mobile App"
+msgstr "Application mobile"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Mobile Ticketing"
+msgstr "Poste mobile"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Modes"
+msgstr "Modes"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Modes of Transit"
+msgstr "Modes de transport"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Monday"
+msgstr "lundi"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex
+#, elixir-autogen, elixir-format
+msgid "Monday - Friday"
+msgstr "Du lundi au vendredi"
+
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#, elixir-autogen, elixir-format
+msgid "Monday thru Friday"
+msgstr "Du lundi au vendredi"
+
+#: lib/dotcom_web/views/schedule/stop_list.ex
+#, elixir-autogen, elixir-format
+msgid "Monday to Friday"
+msgstr "Du lundi au vendredi"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Monthly"
+msgstr "mensuel"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
+#: lib/dotcom_web/views/fare_view.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Monthly LinkPass"
+msgstr "LinkPass mensuel"
+
+#: lib/dotcom_web/views/fare_view.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Monthly Local Bus Pass"
+msgstr "mensuel Titre de transport de bus local"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass"
+msgstr "mensuel titre de transport"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Monthly Pass on mTicket App"
+msgstr "mensuel titre de transport sur mTicket App"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "More Guides"
+msgstr "Plus de guides"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "More Information"
+msgstr "Plus d’informations"
+
+#: lib/dotcom_web/templates/cms/_sidebar_left.html.heex
+#, elixir-autogen, elixir-format
+msgid "More from "
+msgstr "Plus de "
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Most Direct"
+msgstr "Les plus directs"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Most popular fares"
+msgstr "Tarifs les plus populaires"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Most, but not all, MBTA docks are accessible to riders with disabilities. Based on the tide level and the type of vessel used for travel, you may encounter significant slopes and narrow walkways, even at accessible docks. At all docks, wait until a crew member tells you it is safe to proceed."
+msgstr "La plupart, mais pas tous, des quai MBTA sont accessible à un passager avec un handicap. Selon le niveau de marée et le type de navire utilisé pour la"
+" navigation, vous pouvez rencontrer des pentes importantes et des passerelles étroites, même à accessible quai. Au quai, attendez qu’un membre d’équipage"
+" vous dise qu’il est sûr de continuer."
+
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#, elixir-autogen, elixir-format
+msgid "Navigation Menu"
+msgstr "Navigation Menu"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "New"
+msgstr "Nouveau"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "New Year’s Day"
+msgstr "Jour de l’An"
+
+#: lib/dotcom_web/controllers/news_entry_controller.ex
+#: lib/dotcom_web/live/search_page_live.ex
+#: lib/dotcom_web/templates/mode/hub.html.heex
+#: lib/dotcom_web/templates/news_entry/index.html.heex
+#: lib/dotcom_web/templates/schedule/_cms_teasers.html.heex
+#, elixir-autogen, elixir-format
+msgid "News"
+msgstr "Actualités"
+
+#: lib/dotcom_web/templates/news_entry/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Next"
+msgstr "Suivant"
+
+#: lib/dotcom/utils/service_date_time.ex
+#, elixir-autogen, elixir-format
+msgid "Next Week"
+msgstr "La semaine prochaine"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Next stop"
+msgstr "Prochain arrêt"
+
+#: lib/dotcom_web/components/alerts/grouped.ex
+#, elixir-autogen, elixir-format
+msgid "No %{group} alerts"
+msgstr "Aucune alerte %{group}"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "No Scheduled Service"
+msgstr "Aucun service programmé"
+
+#: lib/dotcom_web/views/schedule/stop_list.ex
+#, elixir-autogen, elixir-format
+msgid "No Service"
+msgstr "Aucun service"
+
+#: lib/dotcom_web/templates/bus_stop_change/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "No alerts here."
+msgstr "Aucune alerte ici."
+
+#: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex
+#, elixir-autogen, elixir-format
+msgid "No changes posted for the next 7 days"
+msgstr "Aucun changement n’a été publié pour les 7 jours suivants"
+
+#: lib/dotcom_web/templates/event/_event_list.html.heex
+#, elixir-autogen, elixir-format
+msgid "No events"
+msgstr "Aucun événement"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "No parking"
+msgstr "Pas de stationnement"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "No service today"
+msgstr "Pas de service aujourd’hui"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "No transit connection was found between the origin and destination on this date and time"
+msgstr "Aucune correspondance de transit n’a été trouvée entre l’origine et la destination à cette date et heure"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "No transit modes selected"
+msgstr "Aucun mode de transport n’est sélectionné"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "No transit routes found within 2 hours of %{time_on_date}. Routes may be available at other times."
+msgstr "Aucun itinéraire de transit n’a été trouvé dans les 2 heures suivant %{time_on_date}. Des itinéraires peuvent être disponibles à d’autres moments."
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "No trips found"
+msgstr "Aucun trajet trouvé"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "No upcoming holidays"
+msgstr "Pas de fêtes à venir"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "Normal Service"
+msgstr "service normal"
+
+#: lib/routes/parser.ex
+#, elixir-autogen, elixir-format
+msgid "Northbound"
+msgstr "Direction nord"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Not accessible"
+msgstr "Non accessible"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Not available"
+msgstr "Non disponible"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Not crowded"
+msgstr "Pas bondé"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Note"
+msgstr "Note"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Note:"
+msgstr "Note :"
+
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Notes"
+msgstr "Notes"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Notice"
+msgstr "Avis"
+
+#: lib/dotcom_web/components/system_status/subway_status.ex
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Now"
+msgstr "Maintenant"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Now at"
+msgstr "Maintenant à"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Observed"
+msgstr "Observé"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
+msgstr "Site officiel de la MBTA — horaire, cartes et informations tarifaires pour le système de transport en commun du Grand Boston, y compris le métro, le Train"
+" de banlieue, les itinéraires bus et les lignes de bateaux."
+
+#: lib/dotcom_web/live/trip_planner_live.ex
+#, elixir-autogen, elixir-format
+msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
+msgstr "Site officiel de la MBTA — Planifiez un voyage en transports en commun dans la région du Grand Boston"
+
+#: lib/dotcom_web/views/error_view.ex
+#, elixir-autogen, elixir-format
+msgid "Oh no! We're experiencing delays."
+msgstr "Oh non ! Nous sommes en train de souffrir de retard."
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "On Time"
+msgstr "À l’heure"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Onboard ramps at the front door of each bus"
+msgstr "Rampes d’embarquement à la porte d’entrée de chaque bus"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "One-Day Pass"
+msgstr "Titre de transport d’un jour"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "One-Way"
+msgstr "aller simple"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Ongoing"
+msgstr "en cours"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Only wallets or small clear bags are permitted. Prohibited items must be discarded before boarding."
+msgstr "Seuls les portefeuilles ou petits sacs transparents sont autorisés. Les objets interdits doivent être jetés avant l’embarquement."
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Or,"
+msgstr "Ou,"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex
+#, elixir-autogen, elixir-format
+msgid "Or, go to "
+msgstr "Ou, allez à "
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Orange Line"
+msgstr "Orange Line"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Order Monthly Passes"
+msgstr "Ordre mensuel titre de transport"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Origin location is not close enough to any transit stops"
+msgstr "L’emplacement d’origine n’est pas assez proche des arrêts de transit"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Origin location is outside of our service area"
+msgstr "L’emplacement d’origine est situé en dehors de notre zone de service"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Origin or destination location is outside of our service area"
+msgstr "L’origine ou le lieu de destination se situe en dehors de notre zone de service"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom/alerts/commuter_rail.ex
+#: lib/dotcom/alerts/subway.ex
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Other"
+msgstr "Autres"
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Other Schedules"
+msgstr "Autres horaires"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Our Work"
+msgstr "Notre travail"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Our user guides can help you learn how to navigate the system, get to local events, use accessibility features, and more."
+msgstr "Nos guides d’utilisation peuvent vous aider à apprendre à naviguer dans le système, à vous rendre aux événements locaux, à utiliser les fonctionnalités"
+" d’accessibilité, et bien plus encore."
+
+#: lib/dotcom_web/components/stops.ex
+#, elixir-autogen, elixir-format
+msgid "Out of Order"
+msgstr "Hors de l’ordre"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#, elixir-autogen, elixir-format
+msgid "Outbound Trains Cancelled"
+msgstr "Trains en partance annulés"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Outdoor bike racks"
+msgstr "Supports vélo extérieurs"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Outdoor bike racks are available"
+msgstr "Des supports vélo extérieurs sont disponibles"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Overnight"
+msgstr "Une nuit"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Overview"
+msgstr "Aperçu"
+
+#: lib/dotcom_web/templates/schedule/_pdf_schedules.html.heex
+#, elixir-autogen, elixir-format
+msgid "PDF Schedules"
+msgstr "PDF horaire"
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
+#, elixir-autogen, elixir-format
+msgid "PDF Upcoming"
+msgstr "PDF à venir"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
+msgstr "Page non trouvée | MBTA - Autorité des transports de la baie du Massachusetts"
+
+#: lib/dotcom_web/views/error_view.ex
+#, elixir-autogen, elixir-format
+msgid "Page not found"
+msgstr "Page non trouvée"
+
+#: lib/dotcom_web/live/search_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Pages"
+msgstr "Pages"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Paratransit (The RIDE)"
+msgstr "Transport adapté (The RIDE)"
+
+#: lib/dotcom/alerts/commuter_rail.ex
+#: lib/dotcom/alerts/subway.ex
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#: lib/dotcom_web/components/transit_icons.ex
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Parking"
+msgstr "Stationnement"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Parking Closure"
+msgstr "Fermeture de stationnement"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Parking Issue"
+msgstr "Problème de stationnement"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Parking Rates"
+msgstr "Tarifs de stationnement"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Parking at %{name}"
+msgstr "Parking à %{name}"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Parking available"
+msgstr "Places de stationnement disponibles"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Passengers must tell "
+msgstr "Le passager doit le dire "
+
+#: lib/dotcom_web/views/bus_stop_change_view.ex
+#, elixir-autogen, elixir-format
+msgid "Past Changes"
+msgstr "Changements passés"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Patriots’ Day"
+msgstr "Journée des patriotes"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Pay Your Fare"
+msgstr "Payez votre billet"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Payment Methods"
+msgstr "Méthodes de paiement"
+
+#: lib/dotcom_web/controllers/cms_controller.ex
+#, elixir-autogen, elixir-format
+msgid "People"
+msgstr "Personnalités"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "People waiting as orange line train arrives inside North Station"
+msgstr "Des gens attendent l’arrivée du train de la ligne orange à l’intérieur North Station"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "People walking by train departure board inside North Station"
+msgstr "Les gens marchant au départ du train monter à bord à l’intérieur North Station"
+
+#: lib/hub_stops.ex
+#, elixir-autogen, elixir-format
+msgid "People walking towards Green Line train inside North Station"
+msgstr "Des gens marchant vers Green Line train à l’intérieur North Station"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#, elixir-autogen, elixir-format
+msgid "Performance"
+msgstr "Performances"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Plan Your Journey"
+msgstr "Planifiez votre parcours"
+
+#: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
+#, elixir-autogen, elixir-format
+msgid "Plan a trip"
+msgstr "Planifiez un voyage"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Plan an accessible trip"
+msgstr "Planifiez un voyage accessible"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Plan your trip"
+msgstr "Planifiez votre voyage"
+
+#: lib/dotcom_web/views/partial_view.ex
+#, elixir-autogen, elixir-format
+msgid "Planned Service Alerts"
+msgstr "Alertes de service planifiées"
+
+#: lib/dotcom_web/components/planned_disruptions.ex
+#, elixir-autogen, elixir-format
+msgid "Planned Work"
+msgstr "travaux planifiés"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Please enter a comment to continue."
+msgstr "Veuillez entrer un commentaire pour continuer."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Please enter a valid email."
+msgstr "Veuillez entrer un e-mail valide."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Please enter a valid vehicle number with numeric characters only."
+msgstr "Veuillez entrer un numéro de véhicule valide avec uniquement des caractères numériques."
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Please enter an address that is within 100 miles of an MBTA service area."
+msgstr "Veuillez entrer une adresse située à moins de 100 miles d’une zone de service MBTA."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Please enter your first name to continue."
+msgstr "Veuillez entrer votre prénom pour continuer."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Please enter your last name to continue."
+msgstr "Veuillez entrer votre nom Dernier pour continuer."
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Please select a destination at a different location from the origin."
+msgstr "Veuillez sélectionner une destination à un endroit différent de celui d’origine."
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Please select a destination location."
+msgstr "Veuillez sélectionner un lieu de destination."
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Please select an origin location."
+msgstr "Veuillez sélectionner un lieu d’origine."
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Please select at least one mode of transit."
+msgstr "Veuillez sélectionner au moins un mode de transport."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Please select the type of concern."
+msgstr "Veuillez sélectionner le type de préoccupation."
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Please specify a date and time in the future or select 'Now'."
+msgstr "Veuillez préciser une date et une heure à l’avenir ou sélectionner « Maintenant »."
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Please try again or send us feedback at mbta.com/customer-support"
+msgstr "Veuillez réessayer ou nous envoyer vos retours à mbta.com/customer-support"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Policies & Civil Rights"
+msgstr "Politiques et droits civils"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Policy Change"
+msgstr "Changement de politique"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Portable boarding lift"
+msgstr "Ascenseur d’embarquement portable"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Posted on"
+msgstr "Publié sur"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip."
+msgstr "Les heures de départ prévues ne sont pas encore disponibles, mais elles apparaîtront ici avant le premier voyage prévu."
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Prefer accessible routes"
+msgstr "Préfère accessible itinéraires"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Premium Ride"
+msgstr "Attraction Premium"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Premium Ride Fare"
+msgstr "Tarif Premium Ride"
+
+#: lib/dotcom_web/templates/page/_news_and_updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "Press Releases"
+msgstr "Communiqués de presse"
+
+#: lib/dotcom_web/templates/layout/preview.html.heex
+#, elixir-autogen, elixir-format
+msgid "Preview Version"
+msgstr "Version Aperçu"
+
+#: lib/dotcom_web/templates/news_entry/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Previous"
+msgstr "Précédent"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: lib/dotcom_web/controllers/project_controller.ex
+#: lib/dotcom_web/live/search_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Projects"
+msgstr "Projets"
+
+#: lib/dotcom_web/controllers/fare_controller.ex
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Proposed Sales Locations"
+msgstr "Emplacements de vente proposés"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Public Meetings"
+msgstr "Réunions publiques"
+
+#: lib/dotcom_web/controllers/page_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, service alerts, real-time updates, and general information."
+msgstr "Les transports en commun dans la région du Grand Boston. Itinéraires, horaire, Planificateur de trajet, tarifs, alertes de service, mises à jour en temps"
+" réel et informations générales."
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase CharlieTickets"
+msgstr "Achetez des billets pour Charlie"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase a CharlieCard or reload an existing one"
+msgstr "Achetez une CharlieCard ou rechargez une existante"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase fares at fare vending machines."
+msgstr "Achetez les tarifs sur distributeur de titres de transport."
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase fares at nearby retail sales locations."
+msgstr "Achetez les tarifs dans les points de vente au détail à proximité."
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Quality, Compliance & Oversight"
+msgstr "Qualité, conformité et supervision"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Quarter Finals"
+msgstr "Quarts de finale"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Question"
+msgstr "Question"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "Rail"
+msgstr "rail"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "Receive notifications of MBTA service alerts by email or text."
+msgstr "Recevez des notifications d’alertes de service MBTA par e-mail ou SMS."
+
+#: lib/dotcom_web/templates/news_entry/_recent_news.html.heex
+#, elixir-autogen, elixir-format
+msgid "Recent News on the T"
+msgstr "Dernières actualités sur le métro"
+
+#: lib/dotcom_web/templates/partial/_recently_visited.html.heex
+#, elixir-autogen, elixir-format
+msgid "Recently Visited Schedules"
+msgstr "Horaire récemment visité"
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Red Line"
+msgstr "Red Line"
+
+#: lib/dotcom_web/templates/page/_fares_passes.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Reduced Fares"
+msgstr "Tarif réduit"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Register your CharlieCard for bike parking"
+msgstr "Inscrivez votre CharlieCard pour le parking vélo"
+
+#: lib/dotcom_web/templates/event/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Related Files"
+msgstr "Fichiers associés"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Related Service Alerts"
+msgstr "Alertes de service connexes"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Report Fraud, Waste, or Abuse"
+msgstr "Signaler la fraude, le gaspillage ou les abus"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#, elixir-autogen, elixir-format
+msgid "Report a Railroad Crossing Gate Issue"
+msgstr "Signaler un problème de porte de passage à niveau"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Report an accessibility issue"
+msgstr "Signaler un problème d’accessibilité"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Report an elevator issue"
+msgstr "Signaler un problème d’ascenseur"
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Report an escalator issue"
+msgstr "Signalez un problème escalator"
+
+#: lib/dotcom_web/templates/customer_support/_report.html.heex
+#, elixir-autogen, elixir-format
+msgid "Report suspected fraud, waste, or abuse"
+msgstr "Signaler une fraude, un gaspillage ou un abus suspecté"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Request Public Records"
+msgstr "Demande de documents publics"
+
+#: lib/dotcom_web/controllers/fare_controller.ex
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Retail Sales Locations"
+msgstr "Points de vente au détail"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Return Trip Included"
+msgstr "Voyage retour inclus"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "Ride the %{route} %{vehicle}"
+msgstr "Roulez sur le %{route} %{vehicle}"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "Ride the %{route} Train %{train}"
+msgstr "Prenez le train %{route} %{train}"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Riders without match tickets will not be permitted to board Boston Stadium Trains."
+msgstr "les passagers sans billet de correspondance ne seront pas autorisés à monter à bord Boston Stadium les trains."
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Right"
+msgstr "Exact"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Round Trip"
+msgstr "aller-retour"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.ex
+#, elixir-autogen, elixir-format
+msgid "Round of 32"
+msgstr "Huitièmes de finale"
+
+#: lib/dotcom_web/components/route_symbols.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{name}"
+msgstr "Itinéraire %{name}"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{route}"
+msgstr "Itinéraire %{route}"
+
+#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#, elixir-autogen, elixir-format
+msgid "Routes"
+msgstr "Itinéraires"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Routes With High Priority Alerts"
+msgstr "Itinéraires avec alerte haute priorité"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Safety"
+msgstr "Sécurité"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Samsung Pay"
+msgstr "Samsung Pay"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Saturday"
+msgstr "Samedi"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule & Maps"
+msgstr "Horaire & Cartes"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule Change"
+msgstr "Changement d’horaire"
+
+#: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
+#, elixir-autogen, elixir-format
+msgid "Schedule for"
+msgstr "horaire pour"
+
+#: lib/dotcom_web/controllers/mode/commuter.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr "informations horaires pour les lignes MBTA Train de banlieue dans la région du Grand Boston, incluant des mises à jour en temps réel et des prédictions"
+" d’arrivée."
+
+#: lib/dotcom_web/controllers/mode/bus.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr "informations horaires pour les itinéraires MBTA bus dans la région du Grand Boston, incluant des mises à jour en temps réel et des prévisions d’arrivée."
+
+#: lib/dotcom_web/controllers/mode/ferry.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA ferry routes operating in Massachusetts Bay, including downloadable PDFs."
+msgstr "informations horaires pour les itinéraires MBTA ferry opérant dans la baie du Massachusetts, y compris des PDF téléchargeables."
+
+#: lib/dotcom_web/controllers/mode/subway.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA subway lines in Greater Boston, including real-time updates and arrival predictions."
+msgstr "informations horaires pour les lignes de métro MBTA dans le Grand Boston, incluant des mises à jour en temps réel et des prévisions d’arrivée."
+
+#: lib/dotcom_web/controllers/mode_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, including real-time updates and arrival predictions."
+msgstr "informations horaire pour le métro, bus, Train de banlieue et ferry MBTA dans la région du Grand Boston, incluant des mises à jour en temps réel et des"
+" prévisions d’arrivée."
+
+#: lib/dotcom/timetable_blocking.ex
+#, elixir-autogen, elixir-format
+msgid "Schedule will be available soon on the MBTA website."
+msgstr "horaire sera bientôt disponible sur le site web de la MBTA."
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Scheduled"
+msgstr "Programmé"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Scheduled service continues until %{end_of_service}"
+msgstr "Le service régulier se poursuit jusqu’à %{end_of_service}"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Scheduled to depart"
+msgstr "Départ prévu"
+
+#: lib/dotcom_web/templates/mode/hub.html.heex
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Schedules"
+msgstr "horaire"
+
+#: lib/dotcom_web/controllers/mode/hub.ex
+#: lib/dotcom_web/controllers/mode_controller.ex
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Schedules & Maps"
+msgstr "Horaire & Cartes"
+
+#: lib/dotcom_web/templates/mode/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Schedules and Maps"
+msgstr "Horaire et cartes"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "School days only"
+msgstr "Uniquement les jours scolaires"
+
+#: lib/dotcom_web/hooks/breadcrumbs.ex
+#: lib/dotcom_web/live/search_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Search"
+msgstr "Recherche"
+
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
+#, elixir-autogen, elixir-format
+msgid "Search MBTA.com"
+msgstr "Recherche MBTA.com"
+
+#: lib/dotcom_web/templates/stop/_search_bar.html.heex
+#, elixir-autogen, elixir-format
+msgid "Search for a stop or station"
+msgstr "Recherche d’un arrêt ou d’une station"
+
+#: lib/dotcom_web/live/search_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Search for routes, places, information, and more"
+msgstr "Recherchez des itinéraires, des lieux, des informations et plus encore"
+
+#: lib/dotcom_web/components/search_results_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search results for"
+msgstr "Résultats de recherche pour"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex
+#, elixir-autogen, elixir-format
+msgid "Search the MBTA"
+msgstr "Recherche dans le MBTA"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_ferry.html.heex
+#, elixir-autogen, elixir-format
+msgid "Seasonal"
+msgstr "Saisonnier"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Seasonal Service"
+msgstr "Service saisonnier"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Seat Availability"
+msgstr "Disponibilité des sièges"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Secretary of State's official site"
+msgstr "Site officiel du secrétaire de State"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Secured parking is available but requires Charlie Card registration in advance."
+msgstr "Un parking sécurisé est disponible mais nécessite l’enregistrement préalable de la carte Charlie."
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "See Alerts"
+msgstr "Voir alerte"
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "See Something, Say Something"
+msgstr "Tu vois quelque chose, dis quelque chose"
+
+#: lib/dotcom_web/templates/page/_news_and_updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "See all press releases"
+msgstr "Voir tous les communiqués de presse"
+
+#: lib/dotcom_web/templates/page/_homepage-events.html.heex
+#, elixir-autogen, elixir-format
+msgid "See all public meetings and events"
+msgstr "Voir toutes les réunions et événements publics"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "See all service alerts"
+msgstr "Voir toutes les alertes de service"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex
+#, elixir-autogen, elixir-format
+msgid "See all user guides"
+msgstr "Voir tous les guides d’utilisation"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "See what you can bring on Boston Stadium Trains"
+msgstr "Voyez ce que vous pouvez apporter sur Boston Stadium Trains"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Select"
+msgstr "Sélectionner"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/page/_contact_us.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Send Us Feedback"
+msgstr "Envoyez-nous vos retours"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Senior CharlieCard or TAP ID"
+msgstr "personnes âgées CharlieCard ou TAP ID"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Senior ID Cards"
+msgstr "Cartes d’identité personnes âgées"
+
+#: lib/fares/fare_info.ex
+#, elixir-autogen, elixir-format
+msgid "Seniors"
+msgstr "personnes âgées"
+
+#: lib/dotcom_web/views/error_view.ex
+#, elixir-autogen, elixir-format
+msgid "Server issue"
+msgstr "Problème de serveur"
+
+#: lib/dotcom/alerts/commuter_rail.ex
+#: lib/dotcom/alerts/subway.ex
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Service"
+msgstr "Service"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Service Alerts"
+msgstr "alertes de service"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Service Change"
+msgstr "changement de service"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Service Complaint"
+msgstr "Service Réclamations"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Service Inquiry"
+msgstr "Demande de service"
+
+#: lib/dotcom_web/components/components.ex
+#, elixir-autogen, elixir-format
+msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
+msgstr "changement de service est en vigueur du 6 juin au 12 juillet. Vérifiez chaque jour de la %{timetable_link} de votre ligne pour trouver l’horaire le plus"
+" récent."
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Service ended"
+msgstr "Service terminé"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "Service is running as expected"
+msgstr "Le service fonctionne comme prévu"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Service to the World Cup"
+msgstr "Service à la Coupe du Monde"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Shortest Trip"
+msgstr "Voyage le plus court"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Show"
+msgstr "Émission"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "Show Details"
+msgstr "Détails de l’émission"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Show fewer stops"
+msgstr "Moins d’arrêts"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Show more stops"
+msgstr "Montrer plus d’arrêts"
+
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Showing all"
+msgstr "Affichage de tout"
+
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Showing major stops."
+msgstr "On voit des arrêts majeurs."
+
+#: lib/alerts/alert.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Shuttle"
+msgstr "navette"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "Shuttles"
+msgstr "navettes"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Sign Up for Service Alerts"
+msgstr "Inscrivez-vous à alertes de service"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Sign in"
+msgstr "Connexion"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Sign up for Auto-pay"
+msgstr "Inscrivez-vous au paiement automatique"
+
+#: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "Sign up for T-Alerts"
+msgstr "Inscrivez-vous aux T-Alerts"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Sign up for alert notifications"
+msgstr "Inscrivez-vous pour recevoir des notifications d’alerte"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Silver Line"
+msgstr "Silver Line"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Similar trip arrives at %{time}"
+msgstr "Un voyage similaire arrive à %{time}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Similar trip departs at %{time}"
+msgstr "Un trajet similaire part à %{time}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Similar trips arrive at %{times}"
+msgstr "Des trajets similaires arrivent à %{times}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Similar trips depart at %{times}"
+msgstr "Des trajets similaires partent à %{times}"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Single Tracking"
+msgstr "Suivi simple"
+
+#: lib/dotcom_web/templates/layout/root.html.heex
+#, elixir-autogen, elixir-format
+msgid "Skip to main content"
+msgstr "Contourner vers le contenu principal"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Skipped"
+msgstr "contourner"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Slightly left"
+msgstr "Légèrement à gauche"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Slightly right"
+msgstr "Légèrement à droite"
+
+#: lib/fares/retail_locations_data.ex
+#, elixir-autogen, elixir-format
+msgid "Smart Card"
+msgstr "Carte à puce"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Snow Route"
+msgstr "Route de la neige"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Snow Shoveling"
+msgstr "Pelletage de neige"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Some Seats Available"
+msgstr "Quelques sièges disponibles"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Some crowding"
+msgstr "Un peu de surpeuplement"
+
+#: lib/dotcom_web/views/error_view.ex
+#, elixir-autogen, elixir-format
+msgid "Something went wrong on our end."
+msgstr "Quelque chose a mal tourné de notre côté."
+
+#: lib/dotcom_web/views/error_view.ex
+#, elixir-autogen, elixir-format
+msgid "Sorry! We missed your stop."
+msgstr "Désolé ! On a raté ton arrêt."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Sorry. Something went wrong. Please try again."
+msgstr "Désolé. Quelque chose a mal tourné. Veuillez réessayer."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "Sorry. We had trouble uploading your image. Please try again."
+msgstr "Désolé. Nous avons eu des difficultés à télécharger votre image. Veuillez réessayer."
+
+#: lib/routes/parser.ex
+#, elixir-autogen, elixir-format
+msgid "Southbound"
+msgstr "Direction sud"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Special Event Ticket"
+msgstr "Poste d’événement spécial"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Special ticket required"
+msgstr "Poste spécial requis"
+
+#: lib/dotcom_web/live/subway_alerts_live.ex
+#, elixir-autogen, elixir-format
+msgid "Station & Service Alerts"
+msgstr "Station & alertes de service"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Station Accessibility"
+msgstr "Accessibilité de la station"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Station Closure"
+msgstr "Fermeture de la station"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Station Features"
+msgstr "Caractéristiques de la station"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Station Issue"
+msgstr "Problème de la station"
+
+#: lib/dotcom_web/controllers/stop_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Station serving MBTA %{lines} lines%{location}."
+msgstr "station desservant les lignes MBTA %{lines} %{location}."
+
+#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/templates/stop/index.html.heex
+#: lib/dotcom_web/views/page_view.ex
+#, elixir-autogen, elixir-format
+msgid "Stations"
+msgstr "station"
+
+#: lib/dotcom_web/templates/page/_find_a_location.html.heex
+#, elixir-autogen, elixir-format
+msgid "Stations and Parking"
+msgstr "gare et stationnement"
+
+#: lib/dotcom_web/live/search_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Stations and Stops"
+msgstr "Gare et arrêts"
+
+#: lib/dotcom_web/components/stops.ex
+#, elixir-autogen, elixir-format
+msgid "Status"
+msgstr "Statut"
+
+#: lib/dotcom_web/components/stops/header.ex
+#, elixir-autogen, elixir-format
+msgid "Stop %{id}"
+msgstr "Arrête %{id}"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Stop Closure"
+msgstr "fermeture de l’arrêt"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Stop Move"
+msgstr "arrêt reporté"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Stop Skipped"
+msgstr "Contourner d’arrêt"
+
+#: lib/dotcom/alerts/endpoint_stops.ex
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Stops"
+msgstr "Arrêts"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_status.ex
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "Stops Skipped"
+msgstr "Contourner des jeux"
+
+#: lib/fares/fare_info.ex
+#, elixir-autogen, elixir-format
+msgid "Student"
+msgstr "Étudiant"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Student CharlieCard"
+msgstr "CharlieCard étudiante"
+
+#: lib/dotcom_web/live/search_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Submit"
+msgstr "Soumettre"
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
+#, elixir-autogen, elixir-format
+msgid "Submit a public records request to the MBTA"
+msgstr "Soumettez une demande de documents publics auprès de la MBTA"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#: lib/dotcom_web/controllers/mode/subway.ex
+#: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/views/customer_support_view.ex
+#: lib/dotcom_web/views/helpers.ex
+#: lib/dotcom_web/views/layout_view.ex
+#: lib/dotcom_web/views/page_view.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Subway"
+msgstr "métro"
+
+#: lib/dotcom_web/templates/page/_user_guides.html.heex
+#, elixir-autogen, elixir-format
+msgid "Subway Beginner's Guide"
+msgstr "Guide du débutant dans le métro"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Subway Fares"
+msgstr "Tarifs du métro"
+
+#: lib/dotcom_web/views/mode_view.ex
+#, elixir-autogen, elixir-format
+msgid "Subway Map"
+msgstr "Carte du métro"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
+#, elixir-autogen, elixir-format
+msgid "Subway One-Way"
+msgstr "métro aller simple"
+
+#: lib/dotcom_web/components/system_status/subway_status.ex
+#, elixir-autogen, elixir-format
+msgid "Subway Status"
+msgstr "Statut du métro"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Suggest a Retailer"
+msgstr "Suggérez un détaillant"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Summary"
+msgstr "Résumé"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Suspension"
+msgstr "Suspension"
+
+#: lib/dotcom_web/templates/page/_important_links.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Sustainability"
+msgstr "Durabilité"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Swap origin and destination locations"
+msgstr "Lieux d’origine et de destination de l’échange"
+
+#: lib/dotcom_web/components/layouts/alerts_page_content_layout.html.heex
+#, elixir-autogen, elixir-format
+msgid "Systemwide"
+msgstr "À l’échelle du système"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "TAlerts/Countdowns/Apps"
+msgstr "TAlerts/Comptes/Applications"
+
+#: lib/dotcom_web/templates/customer_support/_transit_police.html.heex
+#, elixir-autogen, elixir-format
+msgid "TTY"
+msgstr "TTY"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "TTY Phone"
+msgstr "Téléphone TTY"
+
+#: lib/dotcom_web/controllers/vote_controller.ex
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Take the T to Vote"
+msgstr "Prenez le métro pour voter"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Take the elevator"
+msgstr "Prends l’ascenseur"
+
+#: lib/dotcom_web/components/components.ex
+#, elixir-autogen, elixir-format
+msgid "Taking the train to a World Cup match?"
+msgstr "Prendre le train pour un match de Coupe du Monde ?"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "Tell Us What You Think"
+msgstr "Dites-nous ce que vous en pensez"
+
+#: lib/dotcom_web/templates/alert/_t-alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
+msgstr "Parlez-nous de vos déplacements réguliers et recevez des SMS ou des alertes par email qui vous concernent, au moment où vous en avez besoin."
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "Temporarily Unavailable"
+msgstr "Temporairement indisponible"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Temporarily closed"
+msgstr "Temporairement fermé"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Temporary Issue"
+msgstr "Issue temporaire"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Temporary issue"
+msgstr "Issue temporaire"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "Terms of Use"
+msgstr "Conditions d’utilisation"
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "Thank you for submitting your feedback. Our Customer Support team will review your comments soon."
+msgstr "Merci d’avoir envoyé votre retour. Notre équipe client Service examinera bientôt vos commentaires."
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Thanksgiving Day"
+msgstr "Jour de Thanksgiving"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "The "
+msgstr "Le "
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
+#, elixir-autogen, elixir-format
+msgid "The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
+msgstr "Le coordinateur de l’engagement client en accessibilité à l’échelle du système et liaison client pour The RIDE est responsable de coordonner les résolutions"
+" des réclamations ADA/accessibilité une fois qu’elles sont reçues."
+
+#: lib/dotcom/schedule_note.ex
+#, elixir-autogen, elixir-format
+msgid "The Foxboro Special Events line is only for occasional service."
+msgstr "La file des événements spéciaux de Foxboro est réservée à des services occasionnels."
+
+#: lib/dotcom_web/templates/customer_support/_report.html.heex
+#, elixir-autogen, elixir-format
+msgid "The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs."
+msgstr "L’Unité d’audit spécial interne au sein du Bureau de l’Inspecteur général surveille la qualité, l’efficacité et l’intégrité des programmes MassDOT."
+
+#: lib/dotcom_web/views/page_view.ex
+#, elixir-autogen, elixir-format
+msgid "The RIDE"
+msgstr "The RIDE"
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "The Ride"
+msgstr "Le manège"
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
+#, elixir-autogen, elixir-format
+msgid "The interactive timetable for"
+msgstr "Le planning interactif pour"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "There are currently no realtime departures available."
+msgstr "Il n’y a actuellement aucun départ en temps réel disponible."
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "There are currently no realtime departures available. Scheduled departures are shown below."
+msgstr "Il n’y a actuellement aucun départ en temps réel disponible. Les départs programmés sont indiqués ci-dessous."
+
+#: lib/dotcom_web/templates/alert/show.html.heex
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no"
+msgstr "Il n’y en a pas"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no "
+msgstr "Il n’y en a pas "
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no additional accessibility features, but buses are always accessible to board."
+msgstr "Il n’y a pas de fonctionnalités d’accessibilité supplémentaires, mais les bus sont toujours accessible au monter à bord."
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts"
+msgstr "Il n’y a aucune alerte"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no high priority"
+msgstr "Il n’y a pas de priorité élevée"
+
+#: lib/dotcom_web/live/commuter_rail_alerts_live.ex
+#, elixir-autogen, elixir-format
+msgid "There are no other commuter rail alerts at this time."
+msgstr "Il n’y a pas d’autres alertes Train de banlieue pour le moment."
+
+#: lib/dotcom_web/live/subway_alerts_live.ex
+#, elixir-autogen, elixir-format
+msgid "There are no other subway alerts at this time."
+msgstr "Il n’y a pas d’autre alerte métro pour le moment."
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled %{direction} trips on %{date}."
+msgstr "Il n’y a pas de %{direction} prévus pour %{date}."
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled %{direction} trips."
+msgstr "Il n’y a pas de voyages %{direction} prévus."
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled trips on %{date}."
+msgstr "Il n’y a pas de trajets programmés sur %{date}."
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no scheduled trips."
+msgstr "Il n’y a pas de voyages programmés."
+
+#: lib/dotcom_web/templates/project/updates.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no updates at this time."
+msgstr "Il n’y a pas de mises à jour pour le moment."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is currently no scheduled %{route_name}."
+msgstr "Il n’y a actuellement aucun %{route_name}programmé."
+
+#: lib/dotcom_web/components/planned_disruptions.ex
+#, elixir-autogen, elixir-format
+msgid "There is no planned work information at this time."
+msgstr "Il n’y a pas d’informations sur les travaux planifiés pour le moment."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled %{route} service at %{stop} for this time period."
+msgstr "Il n’y a pas de service %{route} régulier à %{stop} pour cette période."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There was a problem loading arrivals"
+msgstr "Il y a eu un problème de chargement des arrivées"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There was a problem loading schedules"
+msgstr "Il y a eu un problème de chargement horaire"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "There was a problem loading trip details"
+msgstr "Il y a eu un problème pour charger les détails du trajet"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "There was a problem loading upcoming departures"
+msgstr "Il y a eu un problème de chargement des départs à venir"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "This %{place} is not accessible."
+msgstr "Cette %{place} n’est pas accessible."
+
+#: lib/dotcom/utils/service_date_time.ex
+#, elixir-autogen, elixir-format
+msgid "This Week"
+msgstr "Cette semaine"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
+msgstr "Cette liste n’inclut pas les détaillants MBTA actuels. Pour voir les points de vente actuels, utilisez notre"
+
+#: lib/dotcom_web/views/error_view.ex
+#, elixir-autogen, elixir-format
+msgid "This page is no longer in service."
+msgstr "Cette page n’est plus en service."
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "This station does not have bike storage."
+msgstr "Ce station ne dispose pas de stockage vélo."
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "This station does not have elevators."
+msgstr "Cette station ne possède pas d’ascenseurs."
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "This station does not have escalators."
+msgstr "Cette station n’a pas d’escalators."
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "This station does not have parking."
+msgstr "Ce station n’a pas de stationnement."
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "This stop does not have fare vending machines, but you can purchase fares at a"
+msgstr "Cet arrêt ne dispose pas de distributeur de titres de transport, mais vous pouvez acheter des tarifs à un"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
+msgstr "Ce train a généralement<br /><strong>%{seats} places disponibles</strong>"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Timetable"
+msgstr "Horaire"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "To"
+msgstr "À"
+
+#: lib/dotcom_web/templates/customer_support/_rail_road.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#, elixir-autogen, elixir-format
+msgid "To report a problem or emergency with a railroad crossing, call"
+msgstr "Pour signaler un problème ou une situation d’urgence à un passage à niveau, appelez"
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
+#, elixir-autogen, elixir-format
+msgid "To submit an ADA/Accessibility complaint or feedback, please call"
+msgstr "Pour soumettre une réclamation ou un retour selon l’ADA/accessibilité, veuillez appeler"
+
+#: lib/dotcom/utils/service_date_time.ex
+#: lib/dotcom_web/components/planned_disruptions.ex
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Today"
+msgstr "Aujourd’hui"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "Today at"
+msgstr "Aujourd’hui à"
+
+#: lib/dotcom_web/templates/customer_support/_call_us.html.heex
+#, elixir-autogen, elixir-format
+msgid "Toll Free"
+msgstr "Gratuit"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Track Boarding Change"
+msgstr "Changement de planche sur voie"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom/alerts/commuter_rail.ex
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Track Change"
+msgstr "Changement de voie"
+
+#: lib/dotcom/schedule_finder.ex
+#, elixir-autogen, elixir-format
+msgid "Track TBA"
+msgstr "Piste à déterminer"
+
+#: lib/dotcom_web/components/components.ex
+#, elixir-autogen, elixir-format
+msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
+msgstr "Suivez votre %{route_type_text} voyage en direct avec l’application <strong>MBTA Go</strong>"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Train"
+msgstr "Train"
+
+#: lib/dotcom/upcoming_departures/processor.ex
+#, elixir-autogen, elixir-format
+msgid "Train %{trip_name}"
+msgstr "Train %{trip_name}"
+
+#: lib/dotcom_web/views/schedule/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Train scheduled to board from %{platform} at %{station}"
+msgstr "Train prévu pour un monter à bord au départ de %{platform} à %{station}"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Transfer"
+msgstr "Transfert"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Transfers"
+msgstr "Transferts"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Transit"
+msgstr "Transport en commun"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Transit Police"
+msgstr "Police des transports"
+
+#: lib/dotcom_web/controllers/mode/subway.ex
+#, elixir-autogen, elixir-format
+msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
+msgstr "Voyagez partout sur les lignes Blue, Orange, Redet Green pour le même prix."
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Trip"
+msgstr "Voyage"
+
+#: lib/dotcom_web/hooks/breadcrumbs.ex
+#: lib/dotcom_web/live/trip_planner_live.ex
+#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/views/layout_view.ex
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Trip Planner"
+msgstr "Planificateur de trajet"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Trip Type"
+msgstr "Type de trajet"
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Trips from %{from} to %{to}"
+msgstr "Voyages de %{from} à %{to}"
+
+#: lib/dotcom_web/views/error_view.ex
+#, elixir-autogen, elixir-format
+msgid "Try searching for what you're looking for below."
+msgstr "Essayez de chercher ce que vous cherchez ci-dessous."
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: lib/dotcom_web/controllers/vote_controller.ex
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
+msgstr "Mardi, le 5 novembre est le dernier jour pour voter lors des élections générales de 2024. Utilisez le métro pour vous rendre à votre bureau de vote."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)"
+msgstr "En général, moins de 33 % des places sont disponibles et la distanciation est peu probable (~3+ personnes par rangée)"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)"
+msgstr "En général, plus de 33 % des sièges restent disponibles et il peut être possible de mettre de l’écart (~2-3 personnes par rangée)"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)"
+msgstr "En général, plus de 66 % des sièges sont disponibles et la distanciation est possible (~0-2 personnes par rangée)"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Unscheduled Track"
+msgstr "Piste non programmée"
+
+#: lib/dotcom_web/components/planned_disruptions.ex
+#, elixir-autogen, elixir-format
+msgid "Until %{date}"
+msgstr "Jusqu’à %{date}"
+
+#: lib/alerts/alert.ex
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Upcoming"
+msgstr "à venir"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex
+#: lib/dotcom_web/views/bus_stop_change_view.ex
+#, elixir-autogen, elixir-format
+msgid "Upcoming Changes"
+msgstr "Changements à venir"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Upcoming Departures"
+msgstr "Départs à venir"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Upcoming Holidays"
+msgstr "Fêtes à venir"
+
+#: lib/dotcom_web/templates/page/_homepage-events.html.heex
+#, elixir-autogen, elixir-format
+msgid "Upcoming Public Meetings and Events"
+msgstr "Réunions et événements publics à venir"
+
+#: lib/dotcom_web/templates/cms/page/_project_update.html.heex
+#: lib/dotcom_web/templates/project/update.html.heex
+#, elixir-autogen, elixir-format
+msgid "Updated on"
+msgstr "Mis à jour le"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "Updated: "
+msgstr "Mise à jour : "
+
+#: lib/dotcom_web/controllers/cms_controller.ex
+#: lib/dotcom_web/controllers/project_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Updates"
+msgstr "Mises à jour"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Use"
+msgstr "Utilisation"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "User Guides"
+msgstr "Guides utilisateurs"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Veterans Day"
+msgstr "Jour des anciens combattants"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Via"
+msgstr "Via"
+
+#: lib/dotcom_web/templates/schedule/_empty.html.heex
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "View"
+msgstr "Vue"
+
+#: lib/dotcom_web/components/components.ex
+#, elixir-autogen, elixir-format
+msgid "View %{timetable_link} for departure information."
+msgstr "Consultez %{timetable_link} pour les informations sur les départs."
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "View Alerts"
+msgstr "Alerte de vue"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "View All Contact Numbers"
+msgstr "Voir tous les numéros de contact"
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "View All Options"
+msgstr "Voir toutes les options"
+
+#: lib/dotcom_web/templates/cms/paragraph/_person.html.heex
+#, elixir-autogen, elixir-format
+msgid "View Bio"
+msgstr "Voir la bio"
+
+#: lib/dotcom_web/templates/cms/paragraph/_person.html.heex
+#, elixir-autogen, elixir-format
+msgid "View Bio for %{name}"
+msgstr "Voir la biographie pour %{name}"
+
+#: lib/dotcom_web/templates/alert/_summary_content.html.heex
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
+#: lib/dotcom_web/templates/schedule/_timetable_suppressed.html.heex
+#, elixir-autogen, elixir-format
+msgid "View PDF Timetable"
+msgstr "Voir le PDF Horaire"
+
+#: lib/dotcom/timetable_blocking.ex
+#, elixir-autogen, elixir-format
+msgid "View PDF Timetable on the MBTA website."
+msgstr "Consultez le calendrier PDF sur le site web de la MBTA."
+
+#: lib/dotcom_web/templates/event/_month.html.heex
+#, elixir-autogen, elixir-format
+msgid "View Previous"
+msgstr "Voir Précédent"
+
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "View all"
+msgstr "Voir tout"
+
+#: lib/dotcom_web/views/mode_view.ex
+#, elixir-autogen, elixir-format
+msgid "View all bus routes"
+msgstr "Voir toutes les lignes de bus"
+
+#: lib/dotcom_web/views/paragraph_view.ex
+#, elixir-autogen, elixir-format
+msgid "View all events"
+msgstr "Voir tous les événements"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "View all guides"
+msgstr "Voir tous les guides"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "View all matches"
+msgstr "Voir tous les matchs"
+
+#: lib/dotcom_web/views/paragraph_view.ex
+#, elixir-autogen, elixir-format
+msgid "View all news"
+msgstr "Voir toutes les actualités"
+
+#: lib/dotcom_web/views/paragraph_view.ex
+#, elixir-autogen, elixir-format
+msgid "View all project updates"
+msgstr "Voir toutes les mises à jour du projet"
+
+#: lib/dotcom_web/views/paragraph_view.ex
+#, elixir-autogen, elixir-format
+msgid "View all projects"
+msgstr "Voir tous les projets"
+
+#: lib/dotcom_web/components/stops/elevator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "View available elevators."
+msgstr "Consultez les ascenseurs disponibles."
+
+#: lib/dotcom_web/components/stops/escalator_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "View available escalators."
+msgstr "Consultez les escalators disponibles."
+
+#: lib/dotcom_web/controllers/fare_controller.ex
+#, elixir-autogen, elixir-format
+msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
+msgstr "Consultez les informations tarifaires courantes pour le MBTA bus, le métro, le Train de banlieue, ferryet The RIDE. Trouvez en ligne les services CharlieCard"
+" et découvrez les programmes de commande en gros."
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "View evening timetable"
+msgstr "Voir l’horaire du soir"
+
+#: lib/dotcom_web/templates/mode/index.html.heex
+#: lib/dotcom_web/views/fare_view.ex
+#, elixir-autogen, elixir-format
+msgid "View fares overview"
+msgstr "Voir l’aperçu des tarifs"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "View more payment information"
+msgstr "Voir plus d’informations sur les paiements"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "View morning timetable"
+msgstr "Voir l’horaire du matin"
+
+#: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "View on Google Maps"
+msgstr "Voir sur Google Maps"
+
+#: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "View on MBTA Trip Planner"
+msgstr "Voir sur MBTA Planificateur de trajet"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "View parking rates, facility information, and more."
+msgstr "Consultez les tarifs de stationnement, les informations sur les installations, et bien plus encore."
+
+#: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
+#, elixir-autogen, elixir-format
+msgid "View phone numbers"
+msgstr "Voir les numéros de téléphone"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Visit"
+msgstr "Visite"
+
+#: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "Visit the Mobility Center"
+msgstr "Visitez le Centre de Mobilité"
+
+#: lib/dotcom_web/controllers/vote_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Vote"
+msgstr "Votez"
+
+#: lib/dotcom_web/components/trip_planner/results.ex
+#, elixir-autogen, elixir-format
+msgid "Waiting for results"
+msgstr "Attente des résultats"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Waiting to depart"
+msgstr "En attente de partir"
+
+#: lib/dotcom_web/components/trip_planner/walking_leg.ex
+#, elixir-autogen, elixir-format
+msgid "Walk"
+msgstr "Marche"
+
+#: lib/dotcom/trip_plan/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "Walking directions only"
+msgstr "Itinéraires à pied uniquement"
+
+#: lib/holiday/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Washington’s Birthday"
+msgstr "L’anniversaire de Washington"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "We can only provide trip data for the %{rating} schedule, valid until %{end_date}."
+msgstr "Nous ne pouvons fournir que les données de trajet pour l’horaire %{rating} , valables jusqu’à %{end_date}."
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes."
+msgstr "Nous avons eu un problème pour soumettre vos retours — veuillez nous appeler à la ligne principale ci-dessous, ou réessayer dans quelques minutes."
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "We want to make sure we're building a retail network that works for you. You can share your feedback using the form below."
+msgstr "Nous voulons nous assurer de construire un réseau de vente au détail qui vous convient. Vous pouvez partager vos retours via le formulaire ci-dessous."
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "We weren't able to find a polling place for your address. You can also visit the"
+msgstr "Nous n’avons pas réussi à trouver de bureau de vote pour votre adresse. Vous pouvez également visiter le"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "We'll send you MBTA press releases and media advisories directly."
+msgstr "Nous vous enverrons directement les communiqués de presse et les avis médias de la MBTA."
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "We're asking the public to help guide our decisions as we roll out the Fare Transformation project over the next several years."
+msgstr "Nous demandons au public de nous aider à guider nos décisions alors que nous déployons le projet de Transformation Tarifaire au cours des prochaines années."
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
+msgstr "Nous élargissons notre réseau d’endroits où les passagers peuvent obtenir ou charger une CharlieCard et acheter un titre de transport."
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Website"
+msgstr "Site web"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Weekend Pass"
+msgstr "Titre de transport week-end"
+
+#: lib/dotcom_web/templates/schedule/_date_picker.html.heex
+#, elixir-autogen, elixir-format
+msgid "Weekends"
+msgstr "Week-ends"
+
+#: lib/routes/parser.ex
+#: lib/routes/repo.ex
+#, elixir-autogen, elixir-format
+msgid "Westbound"
+msgstr "Direction ouest"
+
+#: lib/dotcom_web/templates/page/_whats_happening.html.heex
+#, elixir-autogen, elixir-format
+msgid "What's Happening at the MBTA"
+msgstr "Que se passe-t-il au MBTA"
+
+#: lib/dotcom_web/components/trip_planner/input_form.ex
+#, elixir-autogen, elixir-format
+msgid "When"
+msgstr "Quand"
+
+#: lib/dotcom_web/templates/layout/_footer.html.heex
+#, elixir-autogen, elixir-format
+msgid "Work With Us"
+msgstr "Travaillez avec nous"
+
+#: lib/dotcom_web/views/layout_view.ex
+#, elixir-autogen, elixir-format
+msgid "Work with Us"
+msgstr "Travaillez avec nous"
+
+#: lib/dotcom_web/components/stops.ex
+#, elixir-autogen, elixir-format
+msgid "Working"
+msgstr "Fonctionnement"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "World Cup Guide"
+msgstr "Guide de la Coupe du Monde"
+
+#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "World Cup Matches"
+msgstr "Matchs de la Coupe du Monde"
+
+#: lib/dotcom_web/controllers/customer_support_controller.ex
+#, elixir-autogen, elixir-format
+msgid "Write to Us"
+msgstr "Écrivez-nous"
+
+#: lib/dotcom_web/templates/mode/_grid_buttons_ferry.html.heex
+#, elixir-autogen, elixir-format
+msgid "Year-Round"
+msgstr "Toute l’année"
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
+#, elixir-autogen, elixir-format
+msgid "You can also email"
+msgstr "Vous pouvez aussi envoyer un e-mail"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "You can expect a response to most tickets within 5 business days. Certain complaints may require longer investigations, up to 30 days."
+msgstr "Vous pouvez vous attendre à une réponse à la plupart des postes sous 5 jours ouvrés. Certaines réclamations peuvent nécessiter des enquêtes plus longues,"
+" jusqu’à 30 jours."
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "You can pay for your fare with"
+msgstr "Vous pouvez payer votre billet avec"
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "You must agree to our Privacy Policy before submitting your feedback."
+msgstr "Vous devez accepter notre Politique de confidentialité avant de soumettre votre retour."
+
+#: lib/dotcom_web/views/customer_support_view.ex
+#, elixir-autogen, elixir-format
+msgid "You must complete the reCAPTCHA before submitting your feedback."
+msgstr "Vous devez remplir le reCAPTCHA avant de soumettre vos retours."
+
+#: lib/dotcom_web/components/components.ex
+#, elixir-autogen, elixir-format
+msgid "Your Commuter Rail trip will be affected by the World Cup."
+msgstr "Votre voyage au Train de banlieue sera affecté par la Coupe du Monde."
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Your Polling Place"
+msgstr "Votre bureau de vote"
+
+#: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
+#, elixir-autogen, elixir-format
+msgid "Zone"
+msgstr "Zone"
+
+#: lib/dotcom_web/components/transit_icons.ex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Zone %{zone}"
+msgstr "Zone %{zone}"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Zones 1A-10"
+msgstr "Zones 1A-10"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "a crew member"
+msgstr "un membre d’équipage"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "accessible spots"
+msgstr "accessible Spots"
+
+#: lib/dotcom_web/templates/alert/show.html.heex
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "alerts at this time"
+msgstr "alerte à ce moment"
+
+#: lib/util/and_or.ex
+#, elixir-autogen, elixir-format
+msgid "and"
+msgstr "et"
+
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid "arrived at"
+msgstr "arrivé à"
+
+#: lib/dotcom/transit_near_me.ex
+#, elixir-autogen, elixir-format
+msgid "arriving"
+msgstr "Arrivée"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "at this time"
+msgstr "À cette époque"
+
+#: lib/dotcom_web/components/system_status/status_row_heading.ex
+#, elixir-autogen, elixir-format
+msgid "between %{first} and %{last}"
+msgstr "entre %{first} et %{last}"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "boat"
+msgstr "Bateau"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#: lib/dotcom_web/controllers/schedule/alerts_controller.ex
+#: lib/dotcom_web/controllers/schedule/line_controller.ex
+#, elixir-autogen, elixir-format
+msgid "bus"
+msgstr "bus"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "bus stop"
+msgstr "arrêt de bus"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "cash"
+msgstr "Espèces"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "change"
+msgstr "Changement"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "changes"
+msgstr "Changements"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "contactless payment"
+msgstr "paiement sans contact"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "current"
+msgstr "Actuel"
+
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid "departed"
+msgstr "Départ"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#, elixir-autogen, elixir-format
+msgid "docks"
+msgstr "quai"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "east"
+msgstr "Est"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "few"
+msgstr "peu"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "for"
+msgstr "pour"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#, elixir-autogen, elixir-format
+msgid "from %{origin}"
+msgstr "de %{origin}"
+
+#: lib/vehicle_helpers.ex
+#, elixir-autogen, elixir-format
+msgid "has left"
+msgstr "est parti"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "inbound"
+msgstr "à l’arrivée"
+
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "info"
+msgstr "infos"
+
+#: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
+#, elixir-autogen, elixir-format
+msgid "is temporarily unavailable due to a service change."
+msgstr "est temporairement indisponible en raison d’un changement de service."
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "line"
+msgstr "Ligne"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "location"
+msgstr "Emplacement"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "mTicket App"
+msgstr "application mTicket"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "many"
+msgstr "beaucoup"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "nearby retail location"
+msgstr "Magasin commercial à proximité"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "north"
+msgstr "Nord"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "of more than 30 min"
+msgstr "de plus de 30 minutes"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "of more than an hour"
+msgstr "de plus d’une heure"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "onto"
+msgstr "On"
+
+#: lib/util/and_or.ex
+#, elixir-autogen, elixir-format
+msgid "or"
+msgstr "ou"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "or "
+msgstr "ou "
+
+#: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
+#, elixir-autogen, elixir-format
+msgid "or complete the feedback form on this page."
+msgstr "Ou remplissez le formulaire de retour sur cette page."
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "or pay with cash on any bus"
+msgstr "ou payer avec des Espèces sur n’importe quel bus"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "outbound"
+msgstr "en partance"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "paper ferry ticket"
+msgstr "Poste ferry papier"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "planned"
+msgstr "Prévu"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "reduced fare card"
+msgstr "Tarif réduit card"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "registration in advance"
+msgstr "Inscription préalable"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex
+#, elixir-autogen, elixir-format
+msgid "report an issue"
+msgstr "signaler un problème"
+
+#: lib/dotcom_web/components/stops/bike_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "requires"
+msgstr "nécessite"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "retail sales location finder"
+msgstr "Localisation de vente au détail"
+
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "route"
+msgstr "Tracé"
+
+#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
+#, elixir-autogen, elixir-format
+msgid "see a map of all proposed sales locations"
+msgstr "Voir une carte de tous les emplacements de vente proposés"
+
+#: lib/dotcom_web/templates/cms/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "service"
+msgstr "Service"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "some"
+msgstr "certains"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "south"
+msgstr "Sud"
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#: lib/dotcom_web/views/stop_view.ex
+#, elixir-autogen, elixir-format
+msgid "station"
+msgstr "station"
+
+#: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#, elixir-autogen, elixir-format
+msgid "stations"
+msgstr "station"
+
+#: lib/dotcom_web/views/stop_view.ex
+#, elixir-autogen, elixir-format
+msgid "stop"
+msgstr "Stop"
+
+#: lib/dotcom_web/templates/stop/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "stops"
+msgstr "arrêts"
+
+#: lib/dotcom_web/templates/error/error_layout.html.heex
+#, elixir-autogen, elixir-format
+msgid "the MBTA's home page"
+msgstr "la page d’accueil de la MBTA"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "the conductor"
+msgstr "Le chef d’orchestre"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "the next morning"
+msgstr "Le lendemain matin"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "through"
+msgstr "à travers"
+
+#: lib/dotcom_web/components/timetable.ex
+#, elixir-autogen, elixir-format
+msgid "timetable for"
+msgstr "Calendrier pour"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#: lib/dotcom_web/views/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "to"
+msgstr "à"
+
+#: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "to %{destination}"
+msgstr "pour %{destination}"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "to find your polling place, and then use the"
+msgstr "pour trouver votre bureau de vote, puis utiliser le"
+
+#: lib/dotcom_web/templates/vote/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "to plan your trip"
+msgstr "pour planifier votre voyage"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "total parking spots"
+msgstr "Places de stationnement totales"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "towards"
+msgstr "vers"
+
+#: lib/journey.ex
+#, elixir-autogen, elixir-format
+msgid "track "
+msgstr "Piste "
+
+#: lib/dotcom_web/components/trip_planner/transit_leg.ex
+#, elixir-autogen, elixir-format
+msgid "train"
+msgstr "train"
+
+#: lib/dotcom_web/templates/schedule/_empty.html.heex
+#, elixir-autogen, elixir-format
+msgid "trips for today"
+msgstr "Voyages pour aujourd’hui"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "up to 10 min"
+msgstr "jusqu’à 10 minutes"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "up to 15 min"
+msgstr "jusqu’à 15 minutes"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "up to 20 min"
+msgstr "jusqu’à 20 minutes"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "up to 25 min"
+msgstr "jusqu’à 25 minutes"
+
+#: lib/alerts/alert.ex
+#, elixir-autogen, elixir-format
+msgid "up to 30 min"
+msgstr "jusqu’à 30 minutes"
+
+#: lib/dotcom_web/components/stops/parking_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "website"
+msgstr "Site web"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "west"
+msgstr "Ouest"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with"
+msgstr "avec"
+
+#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
+#, elixir-autogen, elixir-format
+msgid "with your request."
+msgstr "Avec ta demande."
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Inner Harbor Zone 1A"
+msgstr "Zone 1A du port intérieur"
+
+#: lib/fares/format.ex
+#, elixir-autogen, elixir-format
+msgid "Winthrop and Quincy Ferry"
+msgstr "Winthrop et Quincy Ferry"
+
+#: lib/dotcom_web/live/trip_planner_live.ex
+#, elixir-autogen, elixir-format
+msgid "<strong>Use caution:</strong> Wheelchair-accessible directions are not adjusted for temporary elevator outages. Elevator alerts are shown in trip suggestions when available."
+msgstr "<strong>Soyez prudent :</strong> fauteuil roulant -accessible directions ne sont pas ajustées pour les pannes temporaires de l’ascenseur. Les alertes ascenseur"
+" sont affichées dans les suggestions de trajet lorsque disponibles."
+
+#: lib/dotcom_web/components/trip_planner/results_summary.ex
+#, elixir-autogen, elixir-format
+msgid "Something went wrong. Please try again later."
+msgstr "Quelque chose a mal tourné. Veuillez réessayer plus tard."

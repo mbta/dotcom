@@ -11,73 +11,19 @@ defmodule DotcomWeb.PageView do
   alias CMS.Partial.Banner
   alias DotcomWeb.PartialView
 
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
-  def get_route(id) do
-    case DotcomWeb.ScheduleController.Line.Helpers.get_route(id) do
-      {:ok, route} -> route
-      _ -> nil
-    end
-  end
-
-  @spec sort_routes({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) ::
-          {Routes.Route.gtfs_route_type(), [Routes.Route.t()]}
-  defp sort_routes({mode, routes}) do
-    {mode, Enum.sort_by(routes, & &1.sort_order)}
-  end
-
-  @spec get_mode_order({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) :: integer()
-  defp get_mode_order({:subway, _}), do: 0
-  defp get_mode_order({:bus, _}), do: 1
-  defp get_mode_order({:commuter_rail, _}), do: 2
-  defp get_mode_order({:ferry, _}), do: 3
-
-  @spec get_access_issue_order({Alerts.Accessibility.effect_type(), [Stops.Stop.t()]}) ::
-          integer()
-  defp get_access_issue_order({:elevator_closure, _}), do: 0
-  defp get_access_issue_order({:escalator_closure, _}), do: 1
-  defp get_access_issue_order({:access_issue, _}), do: 2
-
   @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
   def alerts(alerts) do
-    routes_with_high_priority_alerts_by_mode =
-      alerts
-      |> Enum.filter(&(Alerts.Priority.priority(&1) == :high))
-      |> Enum.reduce(MapSet.new(), fn alert, routes ->
-        MapSet.union(routes, Alerts.Alert.get_entity(alert, :route))
-      end)
-      |> Enum.filter(& &1)
-      |> Enum.map(&get_route/1)
-      |> Enum.filter(& &1)
-      |> Enum.group_by(&Routes.Route.type_atom(&1.type))
-      |> (&Map.merge(%{bus: [], subway: [], ferry: [], commuter_rail: []}, &1)).()
-      |> Enum.map(&sort_routes/1)
-      |> Enum.sort_by(&get_mode_order/1)
-
-    stops_with_accessibility_alerts_by_issue =
-      alerts
-      |> Enum.filter(&Alerts.Accessibility.accessibility?/1)
-      |> Enum.reduce(
-        Map.new(Alerts.Accessibility.effect_types(), fn t -> {t, MapSet.new()} end),
-        fn alert, types ->
-          stops = Alerts.Alert.get_entity(alert, :stop)
-          type = alert.effect
-
-          Map.put(types, type, MapSet.union(Map.get(types, type), stops))
-        end
-      )
-      |> Enum.map(fn {type, stops} ->
-        {type,
-         Enum.map(stops, &@stops_repo.get_parent/1)
-         |> Enum.filter(& &1)
-         |> Enum.uniq_by(& &1.id)
-         |> Enum.sort_by(& &1.name)}
-      end)
-      |> Enum.sort_by(&get_access_issue_order/1)
+    [routes, stops] =
+      [
+        &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
+        &Dotcom.Alerts.stops_with_access_alerts_by_effect/1
+      ]
+      |> Task.async_stream(& &1.(alerts), timeout: 10_000)
+      |> Enum.map(fn {:ok, result} -> result end)
 
     render("_alerts.html",
-      routes_with_high_priority_alerts_by_mode: routes_with_high_priority_alerts_by_mode,
-      stops_with_accessibility_alerts_by_issue: stops_with_accessibility_alerts_by_issue
+      routes_with_high_priority_alerts_by_mode: routes,
+      stops_with_accessibility_alerts_by_issue: stops
     )
   end
 
@@ -144,7 +90,7 @@ defmodule DotcomWeb.PageView do
   end
 
   def shortcut_icons do
-    [:commuter_rail, :subway, :bus, :ferry, :the_ride, :football]
+    [:commuter_rail, :subway, :bus, :ferry, :the_ride]
     |> Enum.map(&shortcut_icon/1)
   end
 
@@ -169,9 +115,6 @@ defmodule DotcomWeb.PageView do
 
   defp shortcut_link(:commuter_rail),
     do: schedule_path(DotcomWeb.Endpoint, :show, :"commuter-rail")
-
-  defp shortcut_link(:football),
-    do: ~p"/schedules/bostonstadium"
 
   defp shortcut_link(mode), do: schedule_path(DotcomWeb.Endpoint, :show, mode)
 
@@ -198,10 +141,6 @@ defmodule DotcomWeb.PageView do
     ]
   end
 
-  defp shortcut_text(:football) do
-    content_tag(:span, ~t"Boston Stadium Trains")
-  end
-
   defp shortcut_text(mode) do
     [
       mode_name(mode),
@@ -212,7 +151,6 @@ defmodule DotcomWeb.PageView do
   defp shortcut_svg_name(:stations), do: "icon-circle-t-default.svg"
   defp shortcut_svg_name(:the_ride), do: "icon-the-ride-default.svg"
   defp shortcut_svg_name(:commuter_rail), do: shortcut_svg_name(:"commuter-rail")
-  defp shortcut_svg_name(:football), do: "football.svg"
   defp shortcut_svg_name(mode), do: "icon-mode-#{mode}-default.svg"
 
   def schedule_separator do

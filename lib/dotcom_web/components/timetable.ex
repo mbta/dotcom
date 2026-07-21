@@ -125,15 +125,6 @@ defmodule DotcomWeb.Components.Timetable do
           <.stop_header_cell
             cell_background={cell_background(idx)}
             stop={stop}
-            alert_for_stop?={
-              fn stop_id ->
-                Alerts.Stop.match(@alerts, stop_id,
-                  route: @route.id,
-                  time: @date,
-                  direction_id: @direction_id
-                ) != []
-              end
-            }
           />
 
           <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
@@ -225,15 +216,6 @@ defmodule DotcomWeb.Components.Timetable do
           <.stop_header_cell
             cell_background={cell_background(idx)}
             stop={row.stop}
-            alert_for_stop?={
-              fn stop_id ->
-                Alerts.Stop.match(@alerts, stop_id,
-                  route: @route.id,
-                  time: @date,
-                  direction_id: @direction_id
-                ) != []
-              end
-            }
           />
           <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
             <div class="m-timetable__row-header"></div>
@@ -293,14 +275,6 @@ defmodule DotcomWeb.Components.Timetable do
               <span class="sr-only">{~t(May not be accessible)}</span>
             <% end %>
           <% end %>
-
-          <.tooltip
-            :if={@alert_for_stop?.(@stop.id)}
-            title={~t(Service alert or delay)}
-            placement={:top}
-          >
-            <.icon name="triangle-exclamation" class="h-4 w-4" aria-hidden="true" />
-          </.tooltip>
         </div>
       </div>
     </th>
