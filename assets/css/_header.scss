@@ -78,11 +78,7 @@
 }
 
 .top-tier-header-navbar.new {
-  height: $header-navbar-height-new;
-
-  @include media-breakpoint-only(xs) {
-    height: $header-navbar-height-xs;
-  }
+  padding: var(--spacing-sm);
 
   .navbar-logo {
     .svg-container {
