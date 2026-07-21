@@ -216,9 +216,6 @@ defmodule DotcomWeb.Router do
       to: "/schedules/CR-NewBedford"
     )
 
-    # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
-    get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
-
     # Redirect away from Boston Stadium Timetable now that the 2026 World Cup is over
     get("/schedules/bostonstadium", Redirector, to: "/schedules/commuter-rail")
 

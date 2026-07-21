@@ -115,9 +115,9 @@ defmodule Dotcom.TripPlan.Fares do
   defp fare_filter_for_route(route, from, to, between) when route.type == 4 do
     origin_id = mbta_id(from.stop)
     destination_id = mbta_id(to.stop)
+    between_ids = between |> Enum.map(&mbta_id/1)
 
-    between_names = between |> Enum.map(fn stop -> stop.name end)
-    [name: Fares.calculate_ferry(origin_id, destination_id, between_names)]
+    [name: Fares.calculate_ferry(origin_id, destination_id, between_ids)]
   end
 
   defp fare_filter_for_route(route, _, _, _) when mbta_shuttle?(route) do
