@@ -105,15 +105,11 @@ defmodule DotcomWeb.Components.TripPlanner.ItineraryDetail do
   end
 
   def dtx_subway?(%{from: %{stop: %{parent_station: %{gtfs_id: from_id}}}, mode: mode} = segment) do
-    dbg({from_id, mode, segment})
-
     from_id == "mbta-ma-us:place-dwnxg" and
       mode == :SUBWAY
   end
 
   def dtx_subway?(%{to: %{stop: %{parent_station: %{gtfs_id: to_id}}}, mode: mode} = segment) do
-    dbg({to_id, mode, segment})
-
     to_id == "mbta-ma-us:place-dwnxg" and
       mode == :SUBWAY
   end
