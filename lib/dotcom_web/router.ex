@@ -225,9 +225,6 @@ defmodule DotcomWeb.Router do
       to: "/schedules/CR-NewBedford"
     )
 
-    # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
-    get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
-
     # Redirect Boat-F1 to Boat-F2H until Boat-F1 can be unlisted
     get("/schedules/Boat-F1/*path_params", Plugs.PathParamsRedirector, to: "/schedules/Boat-F2H")
 
