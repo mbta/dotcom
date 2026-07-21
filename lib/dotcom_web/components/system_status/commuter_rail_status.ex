@@ -213,7 +213,7 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailStatus do
   # For cases where we have alerts, we have to show the first alert along with route information
   # and then show subsequent rows without the route information.
 
-  defp rows_for_line(assigns) do
+  def rows_for_line(assigns) do
     ~H"""
     <.row
       :for={
