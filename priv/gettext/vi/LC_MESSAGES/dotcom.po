@@ -5539,3 +5539,8 @@ msgstr "<strong>Sử dụng thận trọng:</strong> xe lăn-có thể tiếp c�
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
 msgstr "Đã xảy ra lỗi. Vui lòng thử lại sau."
+
+#: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
+#, elixir-autogen, elixir-format
+msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
+msgstr ""
