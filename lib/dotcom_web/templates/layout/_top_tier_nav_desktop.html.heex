@@ -18,7 +18,7 @@
       <div id="languages-toggle">
         <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.language_nav_link_content do %>
           <a
-            class="m-menu--desktop__toggle"
+            class="m-menu--desktop__toggle m-menu--top-tier__toggle"
             href={"#{ href }"}
             data-nav="toggle-desktop-nav"
             role="button"

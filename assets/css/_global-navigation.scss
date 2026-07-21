@@ -40,13 +40,6 @@ header {
   .m-menu--cover {
     display: block; // display veil
   }
-
-  // TODO we don't want this to happen when we have a two-tiered menu
-  .header--new {
-    @include media-breakpoint-down(md) {
-      background-color: $brand-primary-darkest;
-    }
-  }
 }
 
 nav.m-menu--desktop {
@@ -119,7 +112,6 @@ nav.m-top-tier-menu--mobile {
   display: flex;
   flex-wrap: nowrap;
   font-weight: bold;
-  // TODO we don't want this margin-right on the new languages menu!
   margin-right: calc(#{$base-spacing} / 2);
 
   // place for up/down arrows
@@ -147,40 +139,9 @@ nav.m-top-tier-menu--mobile {
   }
 }
 
-.m-menu--top-tier-mobile__toggle {
+.m-menu--top-tier__toggle {
   margin-right: 0px;
-
-  align-items: center;
-  color: inherit;
-  display: flex;
-  flex-wrap: nowrap;
-  font-weight: bold;
-
-  // place for up/down arrows
-  .c-indicator--angle {
-     @include fa-icon-solid($fa-var-caret-down);
-     margin-left: .25rem;
-     pointer-events: none;
-     @include media-breakpoint-only(xxl) {
-       margin-left: .5rem;
-      }
-    }
-  // in expanded menu state
-  &[aria-expanded='true'],
-  &[aria-expanded='true']:focus,
-  &[aria-expanded='true']:hover {
-    background: $white;
-    border-color: $white;
-    color: $brand-primary-dark;
-    outline: none;
-
-    .c-indicator--angle {
-      @include fa-icon-solid($fa-var-caret-up);
-      pointer-events: none;
-    }
-  }
 }
-
 // Desktop menu expanded area
 .m-menu--desktop__menu {
   background-color: $brand-primary-lightest-contrast;
@@ -201,7 +162,6 @@ nav.m-top-tier-menu--mobile {
 
 .m-top-tier-menu__menu {
   left: unset;
-  right: 15px;
   padding: 0 1rem;
   top: $header-navbar-height-new - $base-spacing;
 
