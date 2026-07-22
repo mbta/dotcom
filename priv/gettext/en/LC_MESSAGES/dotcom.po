@@ -477,11 +477,6 @@ msgstr ""
 msgid "All Alerts"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "All Boston Stadium Train tickets include a return trip after the match. Trains will start leaving Foxboro Station 30 minutes after the final whistle. Return trains will leave the stadium roughly every 15 minutes until all trains have departed."
-msgstr ""
-
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "All Inbound Trains"
@@ -598,16 +593,6 @@ msgstr ""
 msgid "Bad grouped fare card data"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Bag Policy & Prohibited Items"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Be at South Station at the time shown for your boarding group. Your boarding group is on your Boston Stadium Train ticket."
-msgstr ""
-
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
 msgid "Before Today"
@@ -692,51 +677,6 @@ msgstr ""
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Boarding"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group A"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group B"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group C"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group D"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group E"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boarding Groups"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Train Ticket Required"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket app. For more information, read our %{world_cup_link}"
-msgstr ""
-
-#: lib/dotcom_web/hooks/breadcrumbs.ex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Trains"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
@@ -942,11 +882,6 @@ msgstr ""
 msgid "Check"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Check-In at South Station"
-msgstr ""
-
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
@@ -1017,7 +952,6 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
-#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1546,11 +1480,6 @@ msgstr ""
 msgid "Escalators at %{name}"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Estimated Arrival at Foxboro Station"
-msgstr ""
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Event Description"
@@ -1835,11 +1764,6 @@ msgstr ""
 msgid "For Express Bus fares, read the complete %{link} page."
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "For all information about World Cup train service, read our %{world_cup_link}"
-msgstr ""
-
 #: lib/dotcom_web/components/alerts.ex
 #, elixir-autogen, elixir-format
 msgid "For more information"
@@ -1968,11 +1892,6 @@ msgstr ""
 msgid "Green Line %{branch} Branch"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Group Name"
-msgstr ""
-
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Harbor Loop Ferry"
@@ -2062,11 +1981,6 @@ msgstr ""
 msgid "If your civil rights have been violated, you can file a complaint with the MBTA Office of Diversity and Civil Rights."
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Important Information"
-msgstr ""
-
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Important Links"
@@ -2134,11 +2048,6 @@ msgstr ""
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Juneteenth Independence Day"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Know Your Boarding Group"
 msgstr ""
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
@@ -2615,46 +2524,6 @@ msgstr ""
 msgid "Massport Shuttle %{route_number}"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 18"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 30"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 45"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 5"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 61"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 74"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 97"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Match Ticket Required "
-msgstr ""
-
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
@@ -3031,11 +2900,6 @@ msgstr ""
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Ongoing"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Only wallets or small clear bags are permitted. Prohibited items must be discarded before boarding."
 msgstr ""
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
@@ -3450,11 +3314,6 @@ msgstr ""
 msgid "Quality, Compliance & Oversight"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Quarter Finals"
-msgstr ""
-
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Question"
@@ -3551,11 +3410,6 @@ msgstr ""
 msgid "Retail Sales Locations"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Return Trip Included"
-msgstr ""
-
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "Ride the %{route} %{vehicle}"
@@ -3566,11 +3420,6 @@ msgstr ""
 msgid "Ride the %{route} Train %{train}"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Riders without match tickets will not be permitted to board Boston Stadium Trains."
-msgstr ""
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right"
@@ -3579,11 +3428,6 @@ msgstr ""
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Round of 32"
 msgstr ""
 
 #: lib/dotcom_web/components/route_symbols.ex
@@ -3691,7 +3535,6 @@ msgstr ""
 #: lib/dotcom_web/controllers/mode/hub.ex
 #: lib/dotcom_web/controllers/mode_controller.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
-#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps"
@@ -3795,11 +3638,6 @@ msgstr ""
 msgid "See all user guides"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "See what you can bring on Boston Stadium Trains"
-msgstr ""
-
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Select"
@@ -3873,11 +3711,6 @@ msgstr ""
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "Service is running as expected"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Service to the World Cup"
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
@@ -4828,11 +4661,6 @@ msgstr ""
 msgid "View all guides"
 msgstr ""
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "View all matches"
-msgstr ""
-
 #: lib/dotcom_web/views/paragraph_view.ex
 #, elixir-autogen, elixir-format
 msgid "View all news"
@@ -5028,16 +4856,6 @@ msgstr ""
 #: lib/dotcom_web/components/stops.ex
 #, elixir-autogen, elixir-format
 msgid "Working"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "World Cup Guide"
-msgstr ""
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "World Cup Matches"
 msgstr ""
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex

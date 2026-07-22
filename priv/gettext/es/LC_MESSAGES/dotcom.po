@@ -477,12 +477,6 @@ msgstr "alerta para la MBTA %{description}"
 msgid "All Alerts"
 msgstr "Todos alerta"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "All Boston Stadium Train tickets include a return trip after the match. Trains will start leaving Foxboro Station 30 minutes after the final whistle. Return trains will leave the stadium roughly every 15 minutes until all trains have departed."
-msgstr "Todos Boston Stadium Train Boleto incluyen un viaje de regreso tras el combate. Los trenes comenzarán a salir de la estación Foxboro 30 minutos luego del"
-" pitido final. Los trenes de regreso saldrán del estadio aproximadamente cada 15 minutos hasta que todos los trenes salieron."
-
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "All Inbound Trains"
@@ -601,16 +595,6 @@ msgstr "Asistentes"
 msgid "Bad grouped fare card data"
 msgstr "Datos malos agrupados de tarjetas de tarifa"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Bag Policy & Prohibited Items"
-msgstr "Política de bolsas y artículos prohibidos"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Be at South Station at the time shown for your boarding group. Your boarding group is on your Boston Stadium Train ticket."
-msgstr "Estate en South Station a la hora que se muestra para tu grupo de abordaje. Tu grupo de embarque está en tu Boston Stadium Tren Boleto."
-
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
 msgid "Before Today"
@@ -696,51 +680,6 @@ msgstr "Blue Line tren que sale de Airport estación"
 #, elixir-autogen, elixir-format
 msgid "Boarding"
 msgstr "Internado"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group A"
-msgstr "Grupo de Abordaje A"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group B"
-msgstr "Grupo de Abordaje B"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group C"
-msgstr "Grupo de Abordaje C"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group D"
-msgstr "Grupo de Abordaje D"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group E"
-msgstr "Grupo de Embarque E"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boarding Groups"
-msgstr "Grupos de internado"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Train Ticket Required"
-msgstr "Boston Stadium Boleto de tren necesario"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket app. For more information, read our %{world_cup_link}"
-msgstr "Boston Stadium Boleto de Tren debe comprar con antelación en la app mTicket . Para más información, lee nuestro %{world_cup_link}"
-
-#: lib/dotcom_web/hooks/breadcrumbs.ex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Trains"
-msgstr "Boston Stadium Trenes"
 
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
@@ -945,11 +884,6 @@ msgstr "CharlieTicket"
 msgid "Check"
 msgstr "Comprobado"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Check-In at South Station"
-msgstr "Registro en South Station"
-
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
@@ -1020,7 +954,6 @@ msgstr "Ferry de cercanías a Logan Airport"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
-#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1550,11 +1483,6 @@ msgstr "Escaleras mecánicas"
 msgid "Escalators at %{name}"
 msgstr "Escaleras mecánicas en %{name}"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Estimated Arrival at Foxboro Station"
-msgstr "Llegada estimada a la estación de Foxboro"
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Event Description"
@@ -1839,11 +1767,6 @@ msgstr "Sigue el enlace de abajo para encontrar el número asociado al modo o ru
 msgid "For Express Bus fares, read the complete %{link} page."
 msgstr "Para las tarifas de Colectivo exprés, lee la página completa de %{link} ."
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "For all information about World Cup train service, read our %{world_cup_link}"
-msgstr "Para toda la información sobre el servicio de trenes en la Copa del Mundo, lee nuestro %{world_cup_link}"
-
 #: lib/dotcom_web/components/alerts.ex
 #, elixir-autogen, elixir-format
 msgid "For more information"
@@ -1972,11 +1895,6 @@ msgstr "Green Line"
 msgid "Green Line %{branch} Branch"
 msgstr "Green Line %{branch} Rama"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Group Name"
-msgstr "Nombre del grupo"
-
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Harbor Loop Ferry"
@@ -2067,11 +1985,6 @@ msgstr "Si desea que le llamemos, por favor díganos el mejor número donde poda
 msgid "If your civil rights have been violated, you can file a complaint with the MBTA Office of Diversity and Civil Rights."
 msgstr "Si se violaron tus derechos civiles, puedes presentar una quejas ante la Oficina de Diversidad y Derechos Civiles de la MBTA."
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Important Information"
-msgstr "Información importante"
-
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Important Links"
@@ -2140,11 +2053,6 @@ msgstr "Saltar a"
 #, elixir-autogen, elixir-format
 msgid "Juneteenth Independence Day"
 msgstr "Día de la Independencia del Juneteenth"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Know Your Boarding Group"
-msgstr "Conoce tu grupo de abordaje"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
@@ -2625,46 +2533,6 @@ msgstr "Massport enlace"
 msgid "Massport Shuttle %{route_number}"
 msgstr "Massport enlace %{route_number}"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 18"
-msgstr "Partido 18"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 30"
-msgstr "Partido 30"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 45"
-msgstr "Partido 45"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 5"
-msgstr "Partido 5"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 61"
-msgstr "Partido 61"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 74"
-msgstr "Partido 74"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 97"
-msgstr "Partido 97"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Match Ticket Required "
-msgstr "Match Boleto Required "
-
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
@@ -3046,11 +2914,6 @@ msgstr "solo ida"
 #, elixir-autogen, elixir-format
 msgid "Ongoing"
 msgstr "en curso"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Only wallets or small clear bags are permitted. Prohibited items must be discarded before boarding."
-msgstr "Solo se permiten carteras o bolsas transparentes pequeñas. Los objetos prohibidos deben descartar antes de embarcar."
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -3465,11 +3328,6 @@ msgstr "Compra tarifas en los puntos de venta cercanos."
 msgid "Quality, Compliance & Oversight"
 msgstr "Calidad, Cumplimiento y Supervisión"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Quarter Finals"
-msgstr "Cuartos de final"
-
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Question"
@@ -3566,11 +3424,6 @@ msgstr "Aplicar Registros Públicos"
 msgid "Retail Sales Locations"
 msgstr "Ubicaciones de venta minorista"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Return Trip Included"
-msgstr "Viaje de ida y vuelta incluido"
-
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "Ride the %{route} %{vehicle}"
@@ -3581,11 +3434,6 @@ msgstr "Súbete a la %{route} %{vehicle}"
 msgid "Ride the %{route} Train %{train}"
 msgstr "Viaja en el tren %{route} %{train}"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Riders without match tickets will not be permitted to board Boston Stadium Trains."
-msgstr "no se permitirá el pasajero sin boleto de coincidencia para abordar Boston Stadium trenes."
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right"
@@ -3595,11 +3443,6 @@ msgstr "Derecha"
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
 msgstr "ida y vuelta"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Round of 32"
-msgstr "Octavos de final"
 
 #: lib/dotcom_web/components/route_symbols.ex
 #, elixir-autogen, elixir-format
@@ -3709,7 +3552,6 @@ msgstr "horario"
 #: lib/dotcom_web/controllers/mode/hub.ex
 #: lib/dotcom_web/controllers/mode_controller.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
-#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps"
@@ -3813,11 +3655,6 @@ msgstr "Ver todas las alertas de servicio"
 msgid "See all user guides"
 msgstr "Consulta todas las guías de Usuario"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "See what you can bring on Boston Stadium Trains"
-msgstr "Descubre qué puedes traer en Boston Stadium Trains"
-
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Select"
@@ -3892,11 +3729,6 @@ msgstr "Finalización del servicio"
 #, elixir-autogen, elixir-format
 msgid "Service is running as expected"
 msgstr "El servicio funciona según lo esperado"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Service to the World Cup"
-msgstr "Servicio en la Copa del Mundo"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -4847,11 +4679,6 @@ msgstr "Ver todos los eventos"
 msgid "View all guides"
 msgstr "Ver todas las guías"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "View all matches"
-msgstr "Ver todos los partidos"
-
 #: lib/dotcom_web/views/paragraph_view.ex
 #, elixir-autogen, elixir-format
 msgid "View all news"
@@ -5050,16 +4877,6 @@ msgstr "Trabaja con nosotros"
 #, elixir-autogen, elixir-format
 msgid "Working"
 msgstr "Funcionamiento"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "World Cup Guide"
-msgstr "Guía de la Copa del Mundo"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "World Cup Matches"
-msgstr "Partidos de la Copa del Mundo"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
