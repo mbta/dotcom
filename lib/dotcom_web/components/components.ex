@@ -470,7 +470,7 @@ defmodule DotcomWeb.Components do
 
   attr :link, :any, required: false, default: nil
   attr :arrow, :boolean, required: false, default: false
-  attr :classes, :string, required: false, default: nil
+  attr :classes, :string, required: false, default: ""
   attr :icon, :string, required: false, default: nil
   attr :icon_type, :string, required: false, default: "icon-svg"
   attr :rest, :global

@@ -5534,3 +5534,9 @@ msgstr "<strong>Fè atansyon:</strong> direksyon pou kay asansè a pa ajiste pou
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
 msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."
+
+#: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
+#, elixir-autogen, elixir-format
+msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
+msgstr "sekirite woulant-aksesib transfè nan Downtown Crossing ka mande pou <strong>sòti nan pòt tarif la.</strong> Al wè pèsonèl estasyon an pou evite peye yon"
+" lòt tikè."
