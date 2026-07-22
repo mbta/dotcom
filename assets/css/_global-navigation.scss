@@ -5,8 +5,13 @@ header {
   .navbar-logo,
   .navbar-logo:hover,
   .navbar-logo:focus {
+    @include base-font__new();
     color: inherit;
     text-decoration: none;
+
+    @include media-breakpoint-up(sm) {
+      padding-right: calc(#{$base-spacing});
+    }
   }
 
   .c-svg__mbta-logo,
@@ -46,7 +51,6 @@ nav.m-menu--desktop {
   @include base-font__new();
 
   display: flex;
-  padding: 0 calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-down(md) {
     display: none;
