@@ -1,7 +1,9 @@
-<aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
 <%= if Laboratory.enabled?(@conn, :use_smartling_translations) do %>
   {render("_top_tier_nav_mobile.html", assigns)}
   {render("_top_tier_nav_desktop.html", assigns)}
+<% end %>
+<%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+  <aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
 <% end %>
 <header class="header--new" id="header-with-search">
   <div class="container new">
