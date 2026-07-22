@@ -5523,3 +5523,33 @@ msgstr "出问题了。请稍后再试。"
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "在Downtown Crossing无障碍换乘可能需要<strong>退出闸机。</strong> 请向车站工作人员咨询，以免支付额外费用。"
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Friday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Monday - Thursday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Saturday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Sunday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekend schedules"
+msgstr ""
