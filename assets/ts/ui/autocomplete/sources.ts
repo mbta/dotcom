@@ -174,7 +174,7 @@ export const algoliaSource = (
         })
       })
         .then(res => res.json())
-        .then(({ results }) =>  results)
+        .then(({ results }) => results)
         .catch(() => []);
     },
     ...(withLink && {
