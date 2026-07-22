@@ -90,8 +90,6 @@ export function contentIcon(hit) {
 
   if (hit.search_api_datasource === "entity:file") {
     icon = _fileIcon(hit);
-  } else if (hit._content_url === "/guides/world-cup-guide") {
-    return worldCupIcon();
   } else {
     const iconMapper = {
       search_result: "fa-info",
@@ -109,10 +107,6 @@ export function contentIcon(hit) {
   }
 
   return TEMPLATES.fontAwesomeIcon.render({ icon });
-}
-
-function worldCupIcon() {
-  return TEMPLATES.worldCupIcon.render();
 }
 
 function _getStopOrStationIcon(hit) {
@@ -395,8 +389,5 @@ const TEMPLATES = {
   ),
   formattedDate: hogan.compile(
     `<span class="c-search-result__event-date">{{date}}</span>`
-  ),
-  worldCupIcon: hogan.compile(
-    `<img src="/icon-svg/football.svg" class="c-search-result__content-icon worldcup" />`
   )
 };

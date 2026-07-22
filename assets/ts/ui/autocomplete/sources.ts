@@ -174,22 +174,7 @@ export const algoliaSource = (
         })
       })
         .then(res => res.json())
-        .then(({ results }) => {
-          // Find World Cup content and move it to the front
-          const worldCupIndex = results.findIndex(
-            (item: AutocompleteItem) =>
-              (item as any)._content_url === "/guides/world-cup-guide" // eslint-disable-line
-          );
-
-          if (worldCupIndex > 0) {
-            // Remove World Cup item from its current position
-            const worldCupItem = results.splice(worldCupIndex, 1)[0];
-            // Add it to the front
-            results.unshift(worldCupItem);
-          }
-
-          return results;
-        })
+        .then(({ results }) =>  results)
         .catch(() => []);
     },
     ...(withLink && {
