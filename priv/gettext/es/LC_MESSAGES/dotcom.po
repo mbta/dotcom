@@ -5551,4 +5551,5 @@ msgstr "Algo salió mal. Por favor, inténtalo de nuevo más tarde."
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr ""
+msgstr "Persona en silla de ruedas-accesible transfers en Downtown Crossing puede requerir <strong>salir de la puerta de acceso.</strong> Consulta al personal"
+" de la estación para evitar pagar una tarifa adicional."
