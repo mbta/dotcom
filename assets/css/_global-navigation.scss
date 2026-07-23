@@ -145,6 +145,12 @@ nav.m-top-tier-menu--mobile {
 
 .m-menu--top-tier__toggle {
   margin-right: 0px;
+
+  &:focus,
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 // Desktop menu expanded area
 .m-menu--desktop__menu {
