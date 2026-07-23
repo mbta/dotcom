@@ -5357,3 +5357,33 @@ msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "sekirite woulant-aksesib transfè nan Downtown Crossing ka mande pou <strong>sòti nan pòt tarif la.</strong> Al wè pèsonèl estasyon an pou evite peye yon"
 " lòt tikè."
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Friday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Monday - Thursday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Saturday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Sunday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekend schedules"
+msgstr ""

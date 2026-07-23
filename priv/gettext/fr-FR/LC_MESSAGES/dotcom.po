@@ -5371,3 +5371,33 @@ msgstr "Quelque chose a mal tourné. Veuillez réessayer plus tard."
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "Fauteuil Roulant -accessible transferts à Downtown Crossing peuvent <strong>nécessiter de sortir du portique.</strong> Consultez station personnel pour"
 " éviter de payer un tarif supplémentaire."
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Friday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Monday - Thursday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Saturday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Sunday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekend schedules"
+msgstr ""
