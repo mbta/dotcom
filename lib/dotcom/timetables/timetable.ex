@@ -25,7 +25,7 @@ defmodule Dotcom.Timetables.Timetable do
     @moduledoc """
     A struct representing timetable cells. See `Dotcom.Timetables` for more information.
     """
-    defstruct [:time, :trip, :stop_id]
+    defstruct [:time, :trip]
 
     @type t() :: %__MODULE__{
             time: String.t(),

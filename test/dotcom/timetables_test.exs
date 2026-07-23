@@ -47,7 +47,7 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1] = row_1.cells
       assert row_1.stop == stop_1
 
-      assert entry_1.time == format!(time_1)
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip.id
     end
 
@@ -85,13 +85,13 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1] = row_1.cells
       assert row_1.stop == stop_1
 
-      assert entry_1.time == format!(time_1)
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip.id
 
       assert [entry_2] = row_2.cells
       assert row_2.stop == stop_2
 
-      assert entry_2.time == format!(time_2)
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip.id
     end
 
@@ -129,13 +129,13 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1] = row_1.cells
       assert row_1.stop == stop_1
 
-      assert entry_1.time == format!(time_1)
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip.id
 
       assert [entry_2] = row_2.cells
       assert row_2.stop == stop_2
 
-      assert entry_2.time == format!(time_2)
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip.id
     end
 
@@ -171,10 +171,10 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1, entry_2] = row_1.cells
       assert row_1.stop == stop
 
-      assert entry_1.time == format!(time_1)
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip_1.id
 
-      assert entry_2.time == format!(time_2)
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip_2.id
     end
 
@@ -215,10 +215,10 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1, entry_2] = row_1.cells
       assert row_1.stop == stop
 
-      assert entry_1.time == format!(time_1)
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip_1.id
 
-      assert entry_2.time == format!(time_2)
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip_2.id
     end
 
@@ -260,19 +260,19 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1_1, entry_2_1] = row_1.cells
       assert row_1.stop == stop_1
 
-      assert entry_1_1.time == format!(time_1_1)
+      assert entry_1_1.time == time_1_1
       assert entry_1_1.trip.id == trip_1.id
 
-      assert entry_2_1.time == format!(time_2_1)
+      assert entry_2_1.time == time_2_1
       assert entry_2_1.trip.id == trip_2.id
 
       assert [entry_1_2, entry_2_2] = row_2.cells
       assert row_2.stop == stop_2
 
-      assert entry_1_2.time == format!(time_1_2)
+      assert entry_1_2.time == time_1_2
       assert entry_1_2.trip.id == trip_1.id
 
-      assert entry_2_2.time == ""
+      assert entry_2_2.time == nil
       assert entry_2_2.trip.id == trip_2.id
     end
 
@@ -314,19 +314,19 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1_1, entry_2_1] = row_1.cells
       assert row_1.stop == stop_1
 
-      assert entry_1_1.time == format!(time_1_1)
+      assert entry_1_1.time == time_1_1
       assert entry_1_1.trip.id == trip_1.id
 
-      assert entry_2_1.time == ""
+      assert entry_2_1.time == nil
       assert entry_2_1.trip.id == trip_2.id
 
       assert [entry_1_2, entry_2_2] = row_2.cells
       assert row_2.stop == stop_2
 
-      assert entry_1_2.time == format!(time_1_2)
+      assert entry_1_2.time == time_1_2
       assert entry_1_2.trip.id == trip_1.id
 
-      assert entry_2_2.time == format!(time_2_2)
+      assert entry_2_2.time == time_2_2
       assert entry_2_2.trip.id == trip_2.id
     end
 
@@ -368,19 +368,19 @@ defmodule Dotcom.TimetablesTest do
       assert [entry_1_1, entry_2_1] = row_1.cells
       assert row_1.stop == stop_1
 
-      assert entry_1_1.time == ""
+      assert entry_1_1.time == nil
       assert entry_1_1.trip.id == trip_1.id
 
-      assert entry_2_1.time == format!(time_2_1)
+      assert entry_2_1.time == time_2_1
       assert entry_2_1.trip.id == trip_2.id
 
       assert [entry_1_2, entry_2_2] = row_2.cells
       assert row_2.stop == stop_2
 
-      assert entry_1_2.time == format!(time_1_2)
+      assert entry_1_2.time == time_1_2
       assert entry_1_2.trip.id == trip_1.id
 
-      assert entry_2_2.time == format!(time_2_2)
+      assert entry_2_2.time == time_2_2
       assert entry_2_2.trip.id == trip_2.id
     end
   end
@@ -402,9 +402,5 @@ defmodule Dotcom.TimetablesTest do
       })
     end)
     |> Enum.sort(DateTime)
-  end
-
-  defp format!(time) do
-    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
   end
 end

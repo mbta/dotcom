@@ -224,7 +224,7 @@ defmodule DotcomWeb.Components.Timetable do
             :for={cell <- row.cells}
             class="js-tt-cell m-timetable__cell px-lg"
           >
-            {cell.time}
+            {format!(cell.time)}
           </td>
         </tr>
       </table>
@@ -353,4 +353,7 @@ defmodule DotcomWeb.Components.Timetable do
       "gray"
     end
   end
+
+  defp format!(nil), do: ""
+  defp format!(time), do: Dotcom.Utils.Time.format!(time, :hour_12_minutes)
 end
