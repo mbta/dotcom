@@ -471,12 +471,6 @@ msgstr "cảnh báo for MBTA %{description}"
 msgid "All Alerts"
 msgstr "Tất cả cảnh báo"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "All Boston Stadium Train tickets include a return trip after the match. Trains will start leaving Foxboro Station 30 minutes after the final whistle. Return trains will leave the stadium roughly every 15 minutes until all trains have departed."
-msgstr "Tất cả vé Boston Stadium Train đều bao gồm một chuyến trở về sau trận đấu. Các chuyến tàu sẽ bắt đầu khởi hành Foxboro nhà ga 30 phút sau tiếng còi mãn"
-" cuộc. Các chuyến tàu trở về sẽ rời sân vận động khoảng 15 phút một chuyến cho đến khi tất cả các chuyến tàu đã khởi hành."
-
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "All Inbound Trains"
@@ -595,16 +589,6 @@ msgstr "Người tham dự"
 msgid "Bad grouped fare card data"
 msgstr "Dữ liệu thẻ thanh toán được nhóm không chính xác"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Bag Policy & Prohibited Items"
-msgstr "Quy định về túi xách và các vật dụng bị cấm"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Be at South Station at the time shown for your boarding group. Your boarding group is on your Boston Stadium Train ticket."
-msgstr "Có mặt tại South Station vào thời gian hiển thị cho nhóm nội trú của quý vị. Nhóm lên máy bay của bạn đang ở trên Boston Stadium Train vé."
-
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
 msgid "Before Today"
@@ -690,51 +674,6 @@ msgstr "Blue Line tàu khởi hành Airport nhà ga"
 #, elixir-autogen, elixir-format
 msgid "Boarding"
 msgstr "Lên tàu"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group A"
-msgstr "Nhóm lên máy bay A"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group B"
-msgstr "Nhóm lên máy bay B"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group C"
-msgstr "Nhóm lên máy bay C"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group D"
-msgstr "Nhóm lên máy bay D"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Boarding Group E"
-msgstr "Nhóm lên máy bay E"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boarding Groups"
-msgstr "Nhóm lên máy bay"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Train Ticket Required"
-msgstr "Boston Stadium Train vé Required"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Train tickets must be purchased in advance on the mTicket app. For more information, read our %{world_cup_link}"
-msgstr "Boston Stadium Train vé phải được mua trước trên ứng dụng mTicket . Để biết thêm thông tin, hãy đọc %{world_cup_link}của chúng tôi."
-
-#: lib/dotcom_web/hooks/breadcrumbs.ex
-#, elixir-autogen, elixir-format
-msgid "Boston Stadium Trains"
-msgstr "Boston Stadium Tàu hỏa"
 
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
@@ -939,11 +878,6 @@ msgstr "CharlieTicket"
 msgid "Check"
 msgstr "Kiểm tra"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Check-In at South Station"
-msgstr "Nhận phòng tại South Station"
-
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
@@ -1014,7 +948,6 @@ msgstr "Commuter phà đến Logan Airport"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
-#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1544,11 +1477,6 @@ msgstr "Thang cuốn"
 msgid "Escalators at %{name}"
 msgstr "Thang cuốn tại %{name}"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Estimated Arrival at Foxboro Station"
-msgstr "Dự kiến đến nhà Foxboro ga"
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Event Description"
@@ -1833,11 +1761,6 @@ msgstr "Hãy nhấp vào đường dẫn bên dưới để tìm số hiệu li�
 msgid "For Express Bus fares, read the complete %{link} page."
 msgstr "Để biết giá vé Xe buýt tốc hành, hãy đọc trang %{link} đầy đủ."
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "For all information about World Cup train service, read our %{world_cup_link}"
-msgstr "Để biết tất cả thông tin về dịch vụ tàu hỏa World Cup, hãy đọc %{world_cup_link}của chúng tôi."
-
 #: lib/dotcom_web/components/alerts.ex
 #, elixir-autogen, elixir-format
 msgid "For more information"
@@ -1966,11 +1889,6 @@ msgstr "Green Line"
 msgid "Green Line %{branch} Branch"
 msgstr "Chi nhánh %{branch} Green Line"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Group Name"
-msgstr "Tên nhóm"
-
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Harbor Loop Ferry"
@@ -2061,11 +1979,6 @@ msgstr "Nếu bạn muốn chúng tôi gọi lại, vui lòng cung cấp số đ
 msgid "If your civil rights have been violated, you can file a complaint with the MBTA Office of Diversity and Civil Rights."
 msgstr "Nếu quyền công dân của bạn bị vi phạm, bạn có thể nộp đơn khiếu nại cho Văn phòng Đa dạng và Dân quyền MBTA."
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Important Information"
-msgstr "Thông tin quan trọng"
-
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Important Links"
@@ -2134,11 +2047,6 @@ msgstr "Chuyển đến"
 #, elixir-autogen, elixir-format
 msgid "Juneteenth Independence Day"
 msgstr "Ngày Độc lập Juneteenth"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Know Your Boarding Group"
-msgstr "Tìm hiểu về nhóm lên máy bay của bạn"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
@@ -2619,46 +2527,6 @@ msgstr "Massport xe đưa đón"
 msgid "Massport Shuttle %{route_number}"
 msgstr "Massport xe đưa đón %{route_number}"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 18"
-msgstr "Trận đấu 18"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 30"
-msgstr "Trận đấu 30"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 45"
-msgstr "Trận đấu thứ 45"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 5"
-msgstr "Trận đấu 5"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 61"
-msgstr "Trận đấu 61"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 74"
-msgstr "Trận đấu 74"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Match 97"
-msgstr "Trận đấu 97"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Match Ticket Required "
-msgstr "Yêu cầu vé trận đấu "
-
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
@@ -3039,11 +2907,6 @@ msgstr "vé một chiều"
 #, elixir-autogen, elixir-format
 msgid "Ongoing"
 msgstr "đang diễn ra"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Only wallets or small clear bags are permitted. Prohibited items must be discarded before boarding."
-msgstr "Chỉ được phép mang ví hoặc túi nhỏ trong suốt. Các vật dụng bị cấm phải được bỏ lại trước khi lên máy bay."
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -3459,11 +3322,6 @@ msgstr "Mua vé tại các điểm bán lẻ gần đó."
 msgid "Quality, Compliance & Oversight"
 msgstr "Chất lượng, Tuân thủ & Giám sát"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Quarter Finals"
-msgstr "Tứ kết"
-
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Question"
@@ -3560,11 +3418,6 @@ msgstr "Yêu cầu hồ sơ công khai"
 msgid "Retail Sales Locations"
 msgstr "Địa điểm bán lẻ"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Return Trip Included"
-msgstr "Bao gồm vé khứ hồi"
-
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "Ride the %{route} %{vehicle}"
@@ -3575,11 +3428,6 @@ msgstr "Đi %{route} %{vehicle}"
 msgid "Ride the %{route} Train %{train}"
 msgstr "Đi tàu %{route} %{train}"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Riders without match tickets will not be permitted to board Boston Stadium Trains."
-msgstr "hành khách không có vé phù hợp sẽ không được phép lên xe Boston Stadium Tàu."
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right"
@@ -3589,11 +3437,6 @@ msgstr "Phải"
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
 msgstr "vé khứ hồi"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.ex
-#, elixir-autogen, elixir-format
-msgid "Round of 32"
-msgstr "Vòng 32"
 
 #: lib/dotcom_web/components/route_symbols.ex
 #, elixir-autogen, elixir-format
@@ -3701,7 +3544,6 @@ msgstr "lịch trình"
 #: lib/dotcom_web/controllers/mode/hub.ex
 #: lib/dotcom_web/controllers/mode_controller.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
-#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps"
@@ -3805,11 +3647,6 @@ msgstr "Xem tất cả cảnh báo dịch vụ"
 msgid "See all user guides"
 msgstr "Xem tất cả hướng dẫn người dùng"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "See what you can bring on Boston Stadium Trains"
-msgstr "Xem những gì bạn có thể mang theo trên Boston Stadium Tàu"
-
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Select"
@@ -3885,11 +3722,6 @@ msgstr "Dịch vụ đã kết thúc"
 #, elixir-autogen, elixir-format
 msgid "Service is running as expected"
 msgstr "Dịch vụ đang hoạt động như mong đợi."
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Service to the World Cup"
-msgstr "Cống hiến cho World Cup"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -4840,11 +4672,6 @@ msgstr "Xem tất cả sự kiện"
 msgid "View all guides"
 msgstr "Xem tất cả hướng dẫn"
 
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "View all matches"
-msgstr "Xem tất cả các trận đấu"
-
 #: lib/dotcom_web/views/paragraph_view.ex
 #, elixir-autogen, elixir-format
 msgid "View all news"
@@ -5043,16 +4870,6 @@ msgstr "Làm việc với chúng tôi"
 #, elixir-autogen, elixir-format
 msgid "Working"
 msgstr "Đang làm việc"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "World Cup Guide"
-msgstr "Hướng dẫn World Cup"
-
-#: lib/dotcom_web/live/world_cup_timetable_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "World Cup Matches"
-msgstr "Các trận đấu World Cup"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
