@@ -2453,6 +2453,8 @@ msgid "MBTA Green Line trolley stations and schedules, including maps, real-time
 msgstr "MBTA Green Line xe đẩy nhà ga và lịch trình, bao gồm bản đồ, cập nhật thời gian thực, thông tin đỗ xe và khả năng tiếp cận cũng như các điểm kết nối."
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav_mobile.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Home Page"
 msgstr "Trang chủ MBTA"

@@ -1,5 +1,11 @@
-<aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
-<header class="header--new">
+<%= if Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+  {render("_top_tier_nav_mobile.html", assigns)}
+  {render("_top_tier_nav_desktop.html", assigns)}
+<% end %>
+<%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+  <aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
+<% end %>
+<header class="header--new" id="header-with-search">
   <div class="container new">
     <div class="header-navbar new">
       <a
@@ -18,13 +24,15 @@
       >
         {~t(Menu)}
       </button>
-      <a class="navbar-logo" href="/" data-nav="logo">
-        <span class="sr-only">{~t(MBTA Home Page)}</span>
-        <div class="svg-container" aria-hidden="true">
-          {svg("mbta-logo.svg")}
-          {svg("mbta-name-and-logo.svg")}
-        </div>
-      </a>
+      <%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+        <a class="navbar-logo" href="/" data-nav="logo">
+          <span class="sr-only">{~t(MBTA Home Page)}</span>
+          <div class="svg-container" aria-hidden="true">
+            {svg("mbta-logo.svg")}
+            {svg("mbta-name-and-logo.svg")}
+          </div>
+        </a>
+      <% end %>
 
       {render("_new_nav_desktop.html", assigns)}
       <div class="search-wrapper">
@@ -33,17 +41,33 @@
         </div>
       </div>
 
-      <button
-        class="header-search__toggle"
-        data-nav="toggle-nav-search"
-        type="button"
-        aria-expanded="false"
-        aria-controls="search-header-mobile__container"
-        aria-label={~t(Search MBTA.com)}
-      >
-        <i class="fa fa-fw fa-search" aria-hidden="true"></i>
-        <i class="fa fa-fw fa-close" aria-hidden="true"></i>
-      </button>
+      <%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+        <button
+          class="header-search__toggle"
+          data-nav="toggle-nav-search"
+          type="button"
+          aria-expanded="false"
+          aria-controls="search-header-mobile__container"
+          aria-label={~t(Search MBTA.com)}
+        >
+          <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+          <i class="fa fa-fw fa-close" aria-hidden="true"></i>
+        </button>
+      <% else %>
+        <div class="header-search__toggle__container">
+          <button
+            class="header-search__toggle"
+            data-nav="toggle-nav-search"
+            type="button"
+            aria-expanded="false"
+            aria-controls="search-header-mobile__container"
+            aria-label={~t(Search MBTA.com)}
+          >
+            <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+            <i class="fa fa-fw fa-close" aria-hidden="true"></i>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
   {render("_new_nav_mobile.html", assigns)}

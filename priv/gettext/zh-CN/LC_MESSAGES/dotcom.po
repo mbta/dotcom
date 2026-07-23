@@ -2444,6 +2444,8 @@ msgid "MBTA Green Line trolley stations and schedules, including maps, real-time
 msgstr "MBTA Green Line电车车站和时刻表，包括地图、实时更新、停车和无障碍信息以及换乘。"
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav_mobile.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Home Page"
 msgstr "MBTA主页"

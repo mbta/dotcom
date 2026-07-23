@@ -2460,6 +2460,8 @@ msgstr "La MBTA Green Line la station de tramway et l’horaire, incluant cartes
 " ainsi que correspondance."
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav_mobile.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Home Page"
 msgstr "Page d’accueil de la MBTA"

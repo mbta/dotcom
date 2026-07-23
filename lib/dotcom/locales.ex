@@ -11,12 +11,12 @@ defmodule Dotcom.Locales do
   @locales [
     @default_locale,
     @development_locale,
-    %Locale{code: "ht", endonym: "Kreyòl Ayisyen (Haitian Creole)"},
     %Locale{code: "pt-BR", endonym: "Português (Portuguese)"},
-    %Locale{code: "vi", endonym: "Tiếng Việt (Vietnamese)"},
     %Locale{code: "zh-CN", endonym: "中文简体 (Chinese Simplified)"},
     %Locale{code: "zh-TW", endonym: "中文繁體 (Chinese Traditional)"},
-    %Locale{code: "fr-FR", endonym: "Français (French)"}
+    %Locale{code: "ht", endonym: "Kreyòl Ayisyen (Haitian Creole)"},
+    %Locale{code: "fr-FR", endonym: "Français (French)"},
+    %Locale{code: "vi", endonym: "Tiếng Việt (Vietnamese)"}
   ]
 
   @doc """
