@@ -3,7 +3,7 @@ defmodule DotcomWeb.UserSocket do
 
   ## Channels
   channel("vehicles:*", DotcomWeb.VehicleMapMarkerChannel)
-  channel("vehicles-v2:*", DotcomWeb.VehicleChannel)
+  # channel("vehicles-v2:*", DotcomWeb.VehicleChannel)
   channel("predictions:*", DotcomWeb.PredictionsChannel)
 
   # Socket params are passed from the client and can

@@ -37,11 +37,12 @@ defmodule Dotcom.Application do
               {Dotcom.Stream.Vehicles,
                name: :vehicle_marker_channel_broadcaster, topic: "vehicles"},
               id: :vehicle_marker_channel_broadcaster
-            ),
-            Supervisor.child_spec(
-              {Dotcom.Stream.Vehicles, name: :vehicles_channel_broadcaster, topic: "vehicles-v2"},
-              id: :vehicles_channel_broadcaster
             )
+            # re-enable vehicles-v2 channel in UserSocket when ready to consume vehicle data
+            # Supervisor.child_spec(
+            #   {Dotcom.Stream.Vehicles, name: :vehicles_channel_broadcaster, topic: "vehicles-v2"},
+            #   id: :vehicles_channel_broadcaster
+            # )
           ]
         else
           []
