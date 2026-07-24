@@ -201,7 +201,7 @@ defmodule DotcomWeb.Components.Timetable do
           <th
             :for={{trip, index} <- Enum.with_index(@timetable.trips)}
             class="m-timetable__header-cell"
-            data-scroll-to={index == @offset}
+            data-scroll-to={index == @timetable.offset}
             scope="col"
           >
             <span class="sr-only left-0">{~t(Trip)}</span>

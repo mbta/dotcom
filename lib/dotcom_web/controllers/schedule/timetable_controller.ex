@@ -251,6 +251,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   def assign_trip_schedules(
         %{
           assigns: %{
+            date_time: date_time,
             route: route,
             blocking_alert: nil,
             date_in_rating?: true
@@ -265,7 +266,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     timetable =
       conn
       |> timetable_schedules()
-      |> Timetables.from_schedules()
+      |> Timetables.from_schedules(date_time: date_time)
 
     conn
     |> assign(:linear_timetable?, false)

@@ -15,9 +15,10 @@ defmodule Dotcom.TimetablesTest do
     :ok
   end
 
-  describe "from_schedules/1" do
+  describe "from_schedules/2" do
     test "returns an empty list of rows if there are no schedules" do
-      assert %Timetables.Timetable{rows: []} = Timetables.from_schedules([])
+      now = Dotcom.Utils.DateTime.now()
+      assert %Timetables.Timetable{rows: []} = Timetables.from_schedules([], date_time: now)
     end
 
     test "serializes a single schedule into a single-cell timetable" do
@@ -26,6 +27,7 @@ defmodule Dotcom.TimetablesTest do
 
       [time_1] = generate_times(1)
       trip = Factories.Schedules.Trip.build(:trip)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules = [
         Factories.Schedules.Schedule.build(:schedule,
@@ -36,7 +38,7 @@ defmodule Dotcom.TimetablesTest do
       ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -58,6 +60,7 @@ defmodule Dotcom.TimetablesTest do
 
       [time_1, time_2] = generate_times(2)
       trip = Factories.Schedules.Trip.build(:trip)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules =
         [
@@ -74,7 +77,7 @@ defmodule Dotcom.TimetablesTest do
         ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -102,6 +105,7 @@ defmodule Dotcom.TimetablesTest do
 
       [time_1, time_2] = generate_times(2)
       trip = Factories.Schedules.Trip.build(:trip)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules =
         [
@@ -118,7 +122,7 @@ defmodule Dotcom.TimetablesTest do
         ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -145,6 +149,7 @@ defmodule Dotcom.TimetablesTest do
 
       [time_1, time_2] = generate_times(2)
       [trip_1, trip_2] = generate_trips(2)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules = [
         Factories.Schedules.Schedule.build(:schedule,
@@ -160,7 +165,7 @@ defmodule Dotcom.TimetablesTest do
       ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -189,6 +194,7 @@ defmodule Dotcom.TimetablesTest do
       # this test mostly passed even without the sorting logic when
       # these were assigned as `[trip_1, trip2]`.
       [trip_2, trip_1] = generate_trips(2)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules = [
         Factories.Schedules.Schedule.build(:schedule,
@@ -204,7 +210,7 @@ defmodule Dotcom.TimetablesTest do
       ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -229,6 +235,7 @@ defmodule Dotcom.TimetablesTest do
 
       [time_1_1, time_1_2, time_2_1] = generate_times(3)
       [trip_1, trip_2] = generate_trips(2)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules = [
         Factories.Schedules.Schedule.build(:schedule,
@@ -249,7 +256,7 @@ defmodule Dotcom.TimetablesTest do
       ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -283,6 +290,7 @@ defmodule Dotcom.TimetablesTest do
 
       [time_1_1, time_1_2, time_2_2] = generate_times(3)
       [trip_1, trip_2] = generate_trips(2)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules = [
         Factories.Schedules.Schedule.build(:schedule,
@@ -303,7 +311,7 @@ defmodule Dotcom.TimetablesTest do
       ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -337,6 +345,7 @@ defmodule Dotcom.TimetablesTest do
 
       [time_1_2, time_2_1, time_2_2] = generate_times(3)
       [trip_1, trip_2] = generate_trips(2)
+      now = Dotcom.Utils.DateTime.now()
 
       schedules = [
         Factories.Schedules.Schedule.build(:schedule,
@@ -357,7 +366,7 @@ defmodule Dotcom.TimetablesTest do
       ]
 
       # Exercise
-      timetable = Timetables.from_schedules(schedules)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
       assert %Timetables.Timetable{
@@ -382,6 +391,156 @@ defmodule Dotcom.TimetablesTest do
 
       assert entry_2_2.time == time_2_2
       assert entry_2_2.trip.id == trip_2.id
+    end
+
+    test "assigns an offset of 0 for empty schedule list" do
+      # Setup
+      today = Generators.Date.random_date()
+
+      # Exercise
+      now =
+        Generators.DateTime.random_time_range_date_time({
+          ServiceDateTime.beginning_of_service_day(today),
+          ServiceDateTime.end_of_service_day(today)
+        })
+
+      timetable = Timetables.from_schedules([], date_time: now)
+
+      # Verify
+      assert timetable.offset == 0
+    end
+
+    test "assigns an offset of 0 when date_time is before all trips" do
+      # Setup
+      stop = Factories.Stops.Stop.build(:stop)
+      [time_1, time_2] = generate_times(2)
+      [trip_1, trip_2] = generate_trips(2)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2,
+          stop: stop
+        )
+      ]
+
+      # Exercise
+      now = Generators.ServiceDateTime.earlier_on_day(time_1)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
+
+      # Verify
+      assert timetable.offset == 0
+    end
+
+    test "assigns an offset of index of first trip with future stop when date_time is between trips" do
+      # Setup
+      stop = Factories.Stops.Stop.build(:stop)
+      [time_1, time_2, time_3] = generate_times(3)
+      [trip_1, trip_2, trip_3] = generate_trips(3)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_3,
+          departure_time: time_3,
+          stop: stop
+        )
+      ]
+
+      # Exercise / Verify
+      now = Generators.DateTime.random_time_range_date_time({time_1, time_2})
+      timetable = Timetables.from_schedules(schedules, date_time: now)
+      assert timetable.offset == 1
+
+      now = Generators.DateTime.random_time_range_date_time({time_2, time_3})
+      timetable = Timetables.from_schedules(schedules, date_time: now)
+      assert timetable.offset == 2
+    end
+
+    test "assigns an offset of last index when all trips are in the past" do
+      # Setup
+      stop = Factories.Stops.Stop.build(:stop)
+      [time_1, time_2, time_3] = generate_times(3)
+      [trip_1, trip_2, trip_3] = generate_trips(3)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_3,
+          departure_time: time_3,
+          stop: stop
+        )
+      ]
+
+      # Exercise
+      now = Generators.ServiceDateTime.later_on_day(time_3)
+      timetable = Timetables.from_schedules(schedules, date_time: now)
+
+      # Verify
+      assert timetable.offset == 2
+    end
+
+    test "considers any stop in the future for a trip" do
+      # Setup - trip with multiple stops, only last one is in the future
+      stop_1 = Factories.Stops.Stop.build(:stop)
+      stop_2 = Factories.Stops.Stop.build(:stop)
+      stop_3 = Factories.Stops.Stop.build(:stop)
+
+      [time_1_1, time_1_2, time_1_3, time_2_1] = generate_times(4)
+      [trip_1, trip_2] = generate_trips(2)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1_1,
+          stop: stop_1
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1_2,
+          stop: stop_2
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1_3,
+          stop: stop_3
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2_1,
+          stop: stop_1
+        )
+      ]
+
+      # Exercise
+      now = Generators.DateTime.random_time_range_date_time({time_1_1, time_1_3})
+      timetable = Timetables.from_schedules(schedules, date_time: now)
+
+      # Verify - should return 0 because trip_1 has at least one future stop
+      assert timetable.offset == 0
     end
   end
 
