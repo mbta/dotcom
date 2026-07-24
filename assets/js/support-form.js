@@ -585,7 +585,6 @@ export function handleSubjectChange($) {
 export const saveCache = ()=>{
   const { elements } = document.getElementById("support")
   const cacheString = JSON.stringify({time: Date.now(), data: Array.from(elements).map(elem => [elem.id, elem.checked || elem.value])})
-  console.log({cacheString})
   localStorage.setItem("support-form-cache", cacheString)
 
 }
@@ -593,21 +592,22 @@ export const saveCache = ()=>{
 export const loadCache = ()=>{
   const cacheString = localStorage.getItem("support-form-cache")
 
-  if(!cacheString || cacheString.length<10){console.log("No data");return;}//No data, bail
+  if(!cacheString || cacheString.length<10){return;}//No data, bail
   const cacheData = JSON.parse(cacheString)
-  if(cacheData.time < Date.now()-86400000){console.log("Old data");return;}//Data is too old, bail
+  if(cacheData.time < Date.now()-86400000){return;}//Data is too old, bail
   cacheData.data.forEach(([id, value])=>{
+    const elem = document.getElementById(id);
     if(id && document.getElementById(id)){
       if(value===true){
-        document.getElementById(id).click();
+        elem.click();
       }else{
-        document.getElementById(id).value = value;
+        elem.value = value;
+        elem.dispatchEvent(new Event("change"))
       }
     }
   });
 }
 
 export const clearCache = ()=>{
-  console.log("CLEAR");
   localStorage.setItem("support-form-cache","");
 }
