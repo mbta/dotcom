@@ -23,6 +23,7 @@ export default function($ = window.jQuery) {
         handleSubjectChange($);
         loadCache();
         document.getElementById("support").addEventListener("change", saveCache)
+        document.getElementById("support").addEventListener("keypress", saveCache)
         document.getElementById("support").addEventListener("submit", clearCache)
 
       });
@@ -597,7 +598,8 @@ export const loadCache = ()=>{
   if(cacheData.time < Date.now()-86400000){return;}//Data is too old, bail
   cacheData.data.forEach(([id, value])=>{
     const elem = document.getElementById(id);
-    if(id && document.getElementById(id)){
+    if(id && elem){
+      if(elem.type == "file"){return;}
       if(value===true){
         elem.click();
       }else{
