@@ -65,10 +65,6 @@ nav.m-top-tier-menu--mobile {
   @include base-font__new();
 
   display: flex;
-
-  @include media-breakpoint-up(lg) {
-    display: none;
-  }
 }
 
 .m-menu__language {
