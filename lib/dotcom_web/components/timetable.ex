@@ -15,6 +15,8 @@ defmodule DotcomWeb.Components.Timetable do
 
   import MbtaMetro.Components.Icon
 
+  alias Dotcom.Timetables
+
   def linear_timetable(assigns) do
     ~H"""
     <div class="m-timetable__header hidden-no-js">
@@ -153,6 +155,10 @@ defmodule DotcomWeb.Components.Timetable do
   # `:if={!ferry?(@route)}`, which means that that section will need
   # to be added here before we can use this for non-ferry routes.
   def timetable(assigns) do
+    assigns =
+      assigns
+      |> assign(:offset, Timetables.first_unfinished_trip_index(assigns.timetable, assigns.now))
+
     ~H"""
     <div class="m-timetable__header hidden-no-js">
       <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
@@ -201,7 +207,7 @@ defmodule DotcomWeb.Components.Timetable do
           <th
             :for={{trip, index} <- Enum.with_index(@timetable.trips)}
             class="m-timetable__header-cell"
-            data-scroll-to={index == @timetable.offset}
+            data-scroll-to={index == @offset}
             scope="col"
           >
             <span class="sr-only left-0">{~t(Trip)}</span>
