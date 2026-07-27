@@ -27,6 +27,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(DotcomWeb.ScheduleController.DatePicker)
   plug(DotcomWeb.ScheduleController.Core)
   plug(:alert_blocks)
+  plug(:assign_new_timetables_flag)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.ScheduleError)
   plug(:assign_trip_count)
@@ -56,6 +57,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign_banner_alerts()
     |> put_view(ScheduleView)
     |> render("show.html", [])
+  end
+
+  defp assign_new_timetables_flag(conn, _) do
+    conn |> assign(:new_timetables?, Laboratory.enabled?(conn, :new_timetables))
   end
 
   defp route_name_for_description(%Route{type: 2} = route) do
@@ -125,6 +130,32 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         conn.assigns.date
       )
     )
+  end
+
+  def assign_trip_schedules(
+        %{
+          assigns: %{
+            new_timetables?: new_timetables?,
+            route: route,
+            blocking_alert: nil,
+            date_in_rating?: true
+          }
+        } = conn
+      )
+      when route.id in [
+             "Boat-F6",
+             "Boat-F7",
+             "Boat-F10"
+           ] or new_timetables? == true do
+    timetable =
+      conn
+      |> timetable_schedules()
+      |> Timetables.from_schedules()
+
+    conn
+    |> assign(:linear_timetable?, false)
+    |> assign(:timetable, timetable)
+    |> assign(:trip_count, Enum.count(timetable.trips))
   end
 
   def assign_trip_schedules(
@@ -246,31 +277,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:track_changes, track_changes)
     |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
-  end
-
-  def assign_trip_schedules(
-        %{
-          assigns: %{
-            route: route,
-            blocking_alert: nil,
-            date_in_rating?: true
-          }
-        } = conn
-      )
-      when route.id in [
-             "Boat-F6",
-             "Boat-F7",
-             "Boat-F10"
-           ] do
-    timetable =
-      conn
-      |> timetable_schedules()
-      |> Timetables.from_schedules()
-
-    conn
-    |> assign(:linear_timetable?, false)
-    |> assign(:timetable, timetable)
-    |> assign(:trip_count, Enum.count(timetable.trips))
   end
 
   def assign_trip_schedules(
