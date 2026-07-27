@@ -383,10 +383,13 @@ defmodule Dotcom.TimetablesTest do
       assert entry_2_2.time == time_2_2
       assert entry_2_2.trip.id == trip_2.id
     end
+  end
 
-    test "assigns an offset of 0 for empty schedule list" do
+  describe "first_unfinished_trip_index/2" do
+    test "returns 0 for empty schedule list" do
       # Setup
       today = Generators.Date.random_date()
+      timetable = Timetables.from_schedules([])
 
       # Exercise
       now =
@@ -395,13 +398,13 @@ defmodule Dotcom.TimetablesTest do
           ServiceDateTime.end_of_service_day(today)
         })
 
-      timetable = Timetables.from_schedules([])
+      index = Timetables.first_unfinished_trip_index(timetable, now)
 
       # Verify
-      assert Timetables.first_unfinished_trip_index(timetable, now) == 0
+      assert index == 0
     end
 
-    test "assigns an offset of 0 when date_time is before all trips" do
+    test "returns 0 when now is before all trips" do
       # Setup
       stop = Factories.Stops.Stop.build(:stop)
       [time_1, time_2] = generate_times(2)
@@ -420,15 +423,17 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      timetable = Timetables.from_schedules(schedules)
+
       # Exercise
       now = Generators.ServiceDateTime.earlier_on_day(time_1)
-      timetable = Timetables.from_schedules(schedules)
+      index = Timetables.first_unfinished_trip_index(timetable, now)
 
       # Verify
-      assert Timetables.first_unfinished_trip_index(timetable, now) == 0
+      assert index == 0
     end
 
-    test "assigns an offset of index of first trip with future stop when date_time is between trips" do
+    test "returns index of first trip with future stop when date_time is between trips" do
       # Setup
       stop = Factories.Stops.Stop.build(:stop)
       [time_1, time_2, time_3] = generate_times(3)
@@ -451,18 +456,22 @@ defmodule Dotcom.TimetablesTest do
           stop: stop
         )
       ]
+
+      timetable = Timetables.from_schedules(schedules)
 
       # Exercise / Verify
-      now = Generators.DateTime.random_time_range_date_time({time_1, time_2})
-      timetable = Timetables.from_schedules(schedules)
-      assert Timetables.first_unfinished_trip_index(timetable, now) == 1
+      assert Timetables.first_unfinished_trip_index(
+               timetable,
+               Generators.DateTime.random_time_range_date_time({time_1, time_2})
+             ) == 1
 
-      now = Generators.DateTime.random_time_range_date_time({time_2, time_3})
-      timetable = Timetables.from_schedules(schedules)
-      assert Timetables.first_unfinished_trip_index(timetable, now) == 2
+      assert Timetables.first_unfinished_trip_index(
+               timetable,
+               Generators.DateTime.random_time_range_date_time({time_2, time_3})
+             ) == 2
     end
 
-    test "assigns an offset of last index when all trips are in the past" do
+    test "returns the last index when all trips are in the past" do
       # Setup
       stop = Factories.Stops.Stop.build(:stop)
       [time_1, time_2, time_3] = generate_times(3)
@@ -485,13 +494,16 @@ defmodule Dotcom.TimetablesTest do
           stop: stop
         )
       ]
+
+      timetable = Timetables.from_schedules(schedules)
 
       # Exercise
       now = Generators.ServiceDateTime.later_on_day(time_3)
-      timetable = Timetables.from_schedules(schedules)
+
+      index = Timetables.first_unfinished_trip_index(timetable, now)
 
       # Verify
-      assert Timetables.first_unfinished_trip_index(timetable, now) == 2
+      assert index == 2
     end
 
     test "considers any stop in the future for a trip" do
@@ -526,12 +538,14 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
-      # Exercise
-      now = Generators.DateTime.random_time_range_date_time({time_1_1, time_1_3})
       timetable = Timetables.from_schedules(schedules)
 
+      # Exercise
+      now = Generators.DateTime.random_time_range_date_time({time_1_1, time_1_3})
+      index = Timetables.first_unfinished_trip_index(timetable, now)
+
       # Verify - should return 0 because trip_1 has at least one future stop
-      assert Timetables.first_unfinished_trip_index(timetable, now) == 0
+      assert index == 0
     end
   end
 
