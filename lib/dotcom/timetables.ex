@@ -422,6 +422,34 @@ defmodule Dotcom.Timetables do
     %Timetable{rows: rows, trips: trips, offset: offset}
   end
 
+  @doc """
+  Calculates the index of the first trip that has at least one stop
+  in the future.  If the offset would go past the end of the list,
+  returns the index of the last element.
+  """
+  @spec first_unfinished_trip_index(Timetable.t(), DateTime.t()) :: non_neg_integer()
+  def first_unfinished_trip_index(%Timetable{} = timetable, %DateTime{} = now) do
+    trip_end_times =
+      timetable.rows
+      |> Enum.reduce(
+        timetable.trips |> Enum.map(fn _ -> nil end),
+        fn %{cells: cells}, last_times ->
+          Enum.zip(cells, last_times)
+          |> Enum.map(fn
+            {%{time: nil}, time} -> time
+            {%{time: time}, _} -> time
+          end)
+        end
+      )
+
+    trip_end_times
+    |> Enum.find_index(fn end_time -> DateTime.after?(end_time, now) end)
+    |> case do
+      nil -> max(Enum.count(trip_end_times) - 1, 0)
+      index -> index
+    end
+  end
+
   # Calculates the offset: the index of the first trip that has at least one stop in the future.
   # If the offset would go past the end of the list, returns the index of the last element.
   defp calculate_offset(schedule_lists_for_trips, date_time) do

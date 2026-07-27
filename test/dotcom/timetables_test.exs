@@ -407,7 +407,7 @@ defmodule Dotcom.TimetablesTest do
       timetable = Timetables.from_schedules([], date_time: now)
 
       # Verify
-      assert timetable.offset == 0
+      assert Timetables.first_unfinished_trip_index(timetable, now) == 0
     end
 
     test "assigns an offset of 0 when date_time is before all trips" do
@@ -434,7 +434,7 @@ defmodule Dotcom.TimetablesTest do
       timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
-      assert timetable.offset == 0
+      assert Timetables.first_unfinished_trip_index(timetable, now) == 0
     end
 
     test "assigns an offset of index of first trip with future stop when date_time is between trips" do
@@ -464,11 +464,11 @@ defmodule Dotcom.TimetablesTest do
       # Exercise / Verify
       now = Generators.DateTime.random_time_range_date_time({time_1, time_2})
       timetable = Timetables.from_schedules(schedules, date_time: now)
-      assert timetable.offset == 1
+      assert Timetables.first_unfinished_trip_index(timetable, now) == 1
 
       now = Generators.DateTime.random_time_range_date_time({time_2, time_3})
       timetable = Timetables.from_schedules(schedules, date_time: now)
-      assert timetable.offset == 2
+      assert Timetables.first_unfinished_trip_index(timetable, now) == 2
     end
 
     test "assigns an offset of last index when all trips are in the past" do
@@ -500,7 +500,7 @@ defmodule Dotcom.TimetablesTest do
       timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify
-      assert timetable.offset == 2
+      assert Timetables.first_unfinished_trip_index(timetable, now) == 2
     end
 
     test "considers any stop in the future for a trip" do
@@ -540,7 +540,7 @@ defmodule Dotcom.TimetablesTest do
       timetable = Timetables.from_schedules(schedules, date_time: now)
 
       # Verify - should return 0 because trip_1 has at least one future stop
-      assert timetable.offset == 0
+      assert Timetables.first_unfinished_trip_index(timetable, now) == 0
     end
   end
 
