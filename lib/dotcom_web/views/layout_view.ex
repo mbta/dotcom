@@ -77,8 +77,8 @@ defmodule DotcomWeb.LayoutView do
     "#{module_class} #{template_class}"
   end
 
-  def nav_link_content(conn) do
-    content = [
+  def nav_link_content do
+    [
       %{
         menu_section: ~t(Transit),
         link: ~p"/menu#Transit-section",
@@ -228,34 +228,31 @@ defmodule DotcomWeb.LayoutView do
         ]
       }
     ]
-
-    if Laboratory.enabled?(conn, :use_smartling_translations) do
-      language_links =
-        Enum.map(
-          Dotcom.Locales.locales(),
-          &language_link_tuple/1
-        )
-
-      content ++
-        [
-          %{
-            menu_section: ~t(Languages),
-            link: ~p"/menu#Languages-section",
-            sub_menus: [
-              %{
-                sub_menu_section: ~t(Choose Your Language),
-                links: language_links
-              }
-            ]
-          }
-        ]
-    else
-      content
-    end
   end
 
   def language_link_tuple(%Dotcom.Locale{code: code, endonym: endonym}) do
     {endonym, "?locale=#{code}", :internal_link}
+  end
+
+  def language_nav_link_content do
+    language_links =
+      Enum.map(
+        Dotcom.Locales.locales(),
+        &language_link_tuple/1
+      )
+
+    [
+      %{
+        menu_section: ~t(Languages),
+        link: ~p"/menu#Languages-section",
+        sub_menus: [
+          %{
+            sub_menu_section: ~t(Choose Your Language),
+            links: language_links
+          }
+        ]
+      }
+    ]
   end
 
   def render_nav_link({link_name, href, link_host}) do

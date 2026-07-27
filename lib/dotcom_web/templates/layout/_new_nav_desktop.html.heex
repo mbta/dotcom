@@ -1,5 +1,5 @@
 <nav id="navmenu-desktop" class="m-menu--desktop" aria-label="Main">
-  <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content(@conn) do %>
+  <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content do %>
     <a
       class="m-menu--desktop__toggle"
       href={"#{ href }"}

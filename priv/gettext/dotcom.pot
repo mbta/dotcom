@@ -2359,6 +2359,7 @@ msgid "MBTA Green Line trolley stations and schedules, including maps, real-time
 msgstr ""
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Home Page"
 msgstr ""
