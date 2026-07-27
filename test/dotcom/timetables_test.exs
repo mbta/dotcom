@@ -15,7 +15,7 @@ defmodule Dotcom.TimetablesTest do
     :ok
   end
 
-  describe "from_schedules/2" do
+  describe "from_schedules/1" do
     test "returns an empty list of rows if there are no schedules" do
       assert %Timetables.Timetable{rows: []} = Timetables.from_schedules([])
     end
