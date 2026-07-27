@@ -15,18 +15,12 @@ defmodule Dotcom.Timetables do
   The entries in each list correspond to the trips that visit that stop, so, for instance, the
   second item in each list will all be visits from the same trip.
 
-  ## Options
-
-  * `:date_time` - (required) A DateTime to use when calculating the offset. The offset will be
-    the index of the first trip in the trips list that has at least one stop in the future.
-
   ## Examples
 
       iex> time_1_1 = ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_1_2 = ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_2_1 = ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_2_2 = ~N[2026-05-27T13:25:00] |> Timex.Timezone.convert("America/New_York")
-      iex> now = ~N[2026-05-27T11:00:00] |> Timex.Timezone.convert("America/New_York")
       iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
@@ -50,8 +44,7 @@ defmodule Dotcom.Timetables do
       ...>       stop: %Stops.Stop{id: "second_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     }
-      ...>   ],
-      ...>   date_time: now
+      ...>   ]
       ...> )
       %Dotcom.Timetables.Timetable{
         rows: [
@@ -88,8 +81,7 @@ defmodule Dotcom.Timetables do
         trips: [
           %Schedules.Trip{id: "first_trip"},
           %Schedules.Trip{id: "second_trip"}
-        ],
-        offset: 0
+        ]
       }
 
   For trips that don't visit all of the stops, `from_schedules/2` inserts empty cells (with
@@ -100,7 +92,6 @@ defmodule Dotcom.Timetables do
       iex> time_1_3 = ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_2_1 = ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_2_3 = ~N[2026-05-27T13:35:00] |> Timex.Timezone.convert("America/New_York")
-      iex> now = ~N[2026-05-27T11:00:00] |> Timex.Timezone.convert("America/New_York")
       iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
@@ -131,8 +122,7 @@ defmodule Dotcom.Timetables do
       ...>       stop: %Stops.Stop{id: "third_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     }
-      ...>   ],
-      ...>   date_time: now
+      ...>   ]
       ...> )
       %Dotcom.Timetables.Timetable{
         rows: [
@@ -181,8 +171,7 @@ defmodule Dotcom.Timetables do
         trips: [
           %Schedules.Trip{id: "first_trip"},
           %Schedules.Trip{id: "second_trip"}
-        ],
-        offset: 0
+        ]
       }
 
   When different trips visit the same stops in a different order, or when a single trip visits the same stop
@@ -191,7 +180,6 @@ defmodule Dotcom.Timetables do
       iex> time_1 = ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_2 = ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_3 = ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York")
-      iex> now = ~N[2026-05-27T11:00:00] |> Timex.Timezone.convert("America/New_York")
       iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
@@ -210,8 +198,7 @@ defmodule Dotcom.Timetables do
       ...>       stop: %Stops.Stop{id: "first_and_last_stop"},
       ...>       trip: %Schedules.Trip{id: "loop_trip"}
       ...>     }
-      ...>   ],
-      ...>   date_time: now
+      ...>   ]
       ...> )
       %Dotcom.Timetables.Timetable{
         rows: [
@@ -245,8 +232,7 @@ defmodule Dotcom.Timetables do
         ],
         trips: [
           %Schedules.Trip{id: "loop_trip"}
-        ],
-        offset: 0
+        ]
       }
 
       iex> time_1_2 = ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York")
@@ -255,7 +241,6 @@ defmodule Dotcom.Timetables do
       iex> time_2_1 = ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_2_2 = ~N[2026-05-27T13:25:00] |> Timex.Timezone.convert("America/New_York")
       iex> time_2_3 = ~N[2026-05-27T13:45:00] |> Timex.Timezone.convert("America/New_York")
-      iex> now = ~N[2026-05-27T11:00:00] |> Timex.Timezone.convert("America/New_York")
       iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
@@ -290,8 +275,7 @@ defmodule Dotcom.Timetables do
       ...>       stop: %Stops.Stop{id: "third_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     },
-      ...>   ],
-      ...>   date_time: now
+      ...>   ]
       ...> )
       %Dotcom.Timetables.Timetable{
         rows: [
@@ -355,8 +339,7 @@ defmodule Dotcom.Timetables do
         trips: [
           %Schedules.Trip{id: "first_trip"},
           %Schedules.Trip{id: "second_trip"}
-        ],
-        offset: 0
+        ]
       }
   """
 
@@ -370,17 +353,8 @@ defmodule Dotcom.Timetables do
   #
   # Second, it uses `build_timetable_rows/2` to map each trip onto the
   # combined stop list, inserting gaps where necessary.
-  @spec from_schedules([Schedules.Schedule.t()], keyword()) :: Timetable.t()
-  def from_schedules(schedules, opts \\ [])
-
-  def from_schedules([], opts) do
-    _date_time = Keyword.fetch!(opts, :date_time)
-    %Timetable{rows: [], trips: [], offset: 0}
-  end
-
-  def from_schedules(schedules, opts) do
-    date_time = Keyword.fetch!(opts, :date_time)
-
+  @spec from_schedules([Schedules.Schedule.t()]) :: Timetable.t()
+  def from_schedules(schedules) do
     schedule_lists_for_trips =
       schedules
       |> Enum.group_by(&%{id: &1.trip.id, name: &1.trip.name})
@@ -417,9 +391,7 @@ defmodule Dotcom.Timetables do
       schedule_lists_for_trips
       |> Enum.map(fn {_, [%Schedules.Schedule{trip: trip} | _]} -> trip end)
 
-    offset = calculate_offset(schedule_lists_for_trips, date_time)
-
-    %Timetable{rows: rows, trips: trips, offset: offset}
+    %Timetable{rows: rows, trips: trips}
   end
 
   @doc """
@@ -446,29 +418,6 @@ defmodule Dotcom.Timetables do
     |> Enum.find_index(fn end_time -> DateTime.after?(end_time, now) end)
     |> case do
       nil -> max(Enum.count(trip_end_times) - 1, 0)
-      index -> index
-    end
-  end
-
-  # Calculates the offset: the index of the first trip that has at least one stop in the future.
-  # If the offset would go past the end of the list, returns the index of the last element.
-  defp calculate_offset(schedule_lists_for_trips, date_time) do
-    trip_count = length(schedule_lists_for_trips)
-
-    offset =
-      schedule_lists_for_trips
-      |> Enum.find_index(fn {_trip, schedules} ->
-        schedules
-        |> Enum.any?(fn schedule ->
-          schedule_time = time(schedule)
-          schedule_time && DateTime.compare(schedule_time, date_time) == :gt
-        end)
-      end)
-
-    # If no future trips found, return the index of the last element
-    # If offset is found, use it as-is
-    case offset do
-      nil -> max(trip_count - 1, 0)
       index -> index
     end
   end
