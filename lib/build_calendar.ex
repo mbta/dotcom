@@ -196,10 +196,6 @@ defmodule BuildCalendar do
   end
 
   @spec build_url(url_fn, Date.t(), Date.t()) :: String.t()
-  defp build_url(url_fn, today, today) do
-    url_fn.(date: nil, date_select: nil, shift: nil)
-  end
-
   defp build_url(url_fn, date, _) do
     url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil)
   end
