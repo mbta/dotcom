@@ -149,7 +149,7 @@ defmodule Alerts.Cache.Store do
     # no cover
     _ = :ets.new(:alert_banner, [:set, :protected, :named_table, read_concurrency: true])
 
-    {:ok, []}
+    {:ok, [], :hibernate}
   end
 
   @impl true
