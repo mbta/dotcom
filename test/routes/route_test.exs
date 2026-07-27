@@ -156,6 +156,20 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "vehicle_name/2" do
+    test "returns the appropriate type of vehicle when plural is specified" do
+      for {type, name} <- [
+            {0, "Trains"},
+            {1, "Trains"},
+            {2, "Trains"},
+            {3, "Buses"},
+            {4, "Boats"}
+          ] do
+        assert vehicle_name(%Route{type: type}, plural: true) == name
+      end
+    end
+  end
+
   describe "frequent_route?" do
     test "true if rapid transit or key bus route" do
       assert frequent_route?(%Route{description: :frequent_bus_route})

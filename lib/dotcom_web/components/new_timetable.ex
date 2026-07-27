@@ -139,5 +139,5 @@ defmodule DotcomWeb.Components.NewTimetable do
   defp format!(nil), do: ""
   defp format!(time), do: Dotcom.Utils.Time.format!(time, :hour_12_minutes)
 
-  defp vehicle_name(route), do: Routes.Route.vehicle_name(route) <> "s"
+  defp vehicle_name(route), do: Routes.Route.vehicle_name(route, plural: true)
 end

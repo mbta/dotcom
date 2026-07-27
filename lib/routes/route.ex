@@ -1,6 +1,8 @@
 defmodule Routes.Route do
   @moduledoc "Data model and helpers corresponding to the V3 API Route resource."
 
+  use Dotcom.Gettext.Sigils
+
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @derive Jason.Encoder
@@ -215,18 +217,15 @@ defmodule Routes.Route do
     Map.get(destinations, direction_id)
   end
 
+  @spec vehicle_name(t, Keyword.t()) :: String.t()
   @spec vehicle_name(t) :: String.t()
-  def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do
-    "Train"
-  end
+  def vehicle_name(%__MODULE__{type: type}, plural: true) when type in [0, 1, 2], do: ~t"Trains"
+  def vehicle_name(%__MODULE__{type: 3}, plural: true), do: ~t"Buses"
+  def vehicle_name(%__MODULE__{type: 4}, plural: true), do: ~t"Boats"
 
-  def vehicle_name(%__MODULE__{type: 3}) do
-    "Bus"
-  end
-
-  def vehicle_name(%__MODULE__{type: 4}) do
-    "Boat"
-  end
+  def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2], do: ~t"Train"
+  def vehicle_name(%__MODULE__{type: 3}), do: ~t"Bus"
+  def vehicle_name(%__MODULE__{type: 4}), do: ~t"Boat"
 
   @spec vehicle_atom(0..4) :: atom
   def vehicle_atom(0), do: :trolley
