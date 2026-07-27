@@ -99,7 +99,10 @@ defmodule DotcomWeb.CacheController do
     uuid = UUID.uuid4(:hex) |> String.upcase() |> String.to_atom()
     key = Enum.join(path, "|")
 
-    case GenServer.start_link(Dotcom.Cache.Inspector.Publisher, uuid, name: uuid) do
+    case GenServer.start_link(Dotcom.Cache.Inspector.Publisher, uuid,
+           name: uuid,
+           hibernate_after: 15_000
+         ) do
       {:ok, _} ->
         GenServer.cast(uuid, {:load, key})
 

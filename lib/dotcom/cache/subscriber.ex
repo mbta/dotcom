@@ -16,7 +16,7 @@ defmodule Dotcom.Cache.Subscriber do
   @redix_pub_sub Application.compile_env!(:dotcom, :redix_pub_sub)
 
   def start_link(uuid) do
-    GenServer.start_link(__MODULE__, uuid, [])
+    GenServer.start_link(__MODULE__, uuid, hibernate_after: 15_000)
   end
 
   @impl GenServer
