@@ -108,7 +108,6 @@ jobs:
       - run: npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
-      - run: mix gettext.extract --check-up-to-date --verbose
 
   elixir_unit:
     name: Unit tests / Elixir / mix coveralls.html
@@ -193,3 +192,21 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-all
       - run: npm run ci:format:ts
+
+  check_translations:
+    name: Translations / Check
+    runs-on: ubuntu-latest
+    needs: [file_changes, build_app]
+    if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-all
+      - uses: actions/cache/restore@v5
+        with:
+          path: |
+            _build
+            priv
+          key: ci-application-cache-${{ github.sha }}
+          restore-keys: |
+            ci-application-cache-
+      - run: mix gettext.extract --check-up-to-date --verbose
