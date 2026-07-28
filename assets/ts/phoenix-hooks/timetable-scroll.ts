@@ -17,7 +17,7 @@ const TimetableScroll: Partial<ViewHook> = {
       element.addEventListener("click", _event => {
         const scrollDirection =
           (element.dataset.scrollDirection &&
-            parseInt(element.dataset.scrollDirection)) ||
+            parseInt(element.dataset.scrollDirection, 10)) ||
           0;
 
         if (animating) {
