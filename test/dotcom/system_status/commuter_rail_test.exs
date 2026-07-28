@@ -29,16 +29,14 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
       ]
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-      [
-        %Schedules.ScheduleCondensed{
-          time: Dotcom.Utils.DateTime.now()
-        }
-      ]
-    end)
-
     stub(Schedules.Repo.Mock, :schedule_for_trip, fn _, "filter[stop_sequence]": "first,last" ->
       Factories.Schedules.Schedule.build_list(2, :schedule)
+    end)
+
+    current_date = Dotcom.Utils.ServiceDateTime.service_date()
+
+    stub(Services.Repo.Mock, :by_route_id, fn _ ->
+      [Factories.Services.Service.build(:service, date: current_date)]
     end)
 
     :ok
@@ -222,12 +220,8 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
         ]
       end)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-        [
-          %Schedules.ScheduleCondensed{
-            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
-          }
-        ]
+      expect(Services.Repo.Mock, :by_route_id, fn _ ->
+        []
       end)
 
       # EXERCISE
@@ -257,13 +251,17 @@ defmodule Dotcom.SystemStatus.CommuterRailTest do
     test "returns :no_scheduled_service if there's no scheduled service for today" do
       # SETUP
       commuter_rail_id = Faker.Color.fancy_name()
+      date = Faker.Date.forward(3)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-        [
-          %Schedules.ScheduleCondensed{
-            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
-          }
-        ]
+      other_date_attrs = %{
+        rating_end_date: Date.shift(date, day: 20),
+        rating_start_date: Date.shift(date, day: 1),
+        end_date: Date.shift(date, day: 10),
+        start_date: Date.shift(date, day: 5)
+      }
+
+      expect(Services.Repo.Mock, :by_route_id, fn _ ->
+        [Factories.Services.Service.build(:service, other_date_attrs)]
       end)
 
       # EXERCISE

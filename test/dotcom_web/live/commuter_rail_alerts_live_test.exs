@@ -33,14 +33,6 @@ defmodule DotcomWeb.CommuterRailAlertsLiveTest do
       [Factories.Routes.Route.build(:route, type: @cr_route_type)]
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-      [
-        %Schedules.ScheduleCondensed{
-          time: Dotcom.Utils.DateTime.now()
-        }
-      ]
-    end)
-
     Dotcom.SystemStatus.CommuterRailCache.Mock
     |> stub(:commuter_rail_status, fn ->
       []

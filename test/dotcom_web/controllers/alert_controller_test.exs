@@ -41,8 +41,10 @@ defmodule DotcomWeb.AlertControllerTest do
       Factories.Routes.Route.build_list(2, :route, %{type: route_type})
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _route_ids ->
-      []
+    current_date = Dotcom.Utils.ServiceDateTime.service_date()
+
+    stub(Services.Repo.Mock, :by_route_id, fn _ ->
+      [Factories.Services.Service.build(:service, date: current_date)]
     end)
 
     stub(Stops.Repo.Mock, :get, fn id ->
