@@ -41,46 +41,51 @@ import mobileSearchA11y from "./mobile-search-a11y.js";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 
+import websocketPage from "./websocket_pages";
+
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 
 import storageOptions from "./storage.js";
 
-let liveSocket = new LiveSocket("/live", Socket, {
-  params: { _csrf_token: csrfToken },
-  hooks: { ...Hooks, ...DotcomHooks },
-  dom: {
-    onBeforeElUpdated(from, to) {
-      /*
-      By default the open/closed state of a <details> element will not
-      be preserved across LiveView rerenders. This creates some surprising
-      behavior in the mode selector on the trip planner, where each time you
-      change your selected mode, the accordion closes.
-      This code forces the `<details>` tag (what the accordion uses under the
-      hood) to remember its open/closed state to avoid that bug.
-      */
-      if (from.tagName == "DETAILS") {
-        const openState = from.getAttribute("open");
-        if (openState == "") {
-          to.setAttribute("open", "");
-        } else {
-          to.removeAttribute("open");
+if (websocketPage()) {
+  let liveSocket = new LiveSocket("/live", Socket, {
+    params: { _csrf_token: csrfToken },
+    hooks: { ...Hooks, ...DotcomHooks },
+    dom: {
+      onBeforeElUpdated(from, to) {
+        /*
+        By default the open/closed state of a <details> element will not
+        be preserved across LiveView rerenders. This creates some surprising
+        behavior in the mode selector on the trip planner, where each time you
+        change your selected mode, the accordion closes.
+        This code forces the `<details>` tag (what the accordion uses under the
+        hood) to remember its open/closed state to avoid that bug.
+        */
+        if (from.tagName == "DETAILS") {
+          const openState = from.getAttribute("open");
+          if (openState == "") {
+            to.setAttribute("open", "");
+          } else {
+            to.removeAttribute("open");
+          }
         }
       }
-    }
-  },
-  ...storageOptions
-});
+    },
+    ...storageOptions
+  });
 
-// connect if there are any LiveViews on the page
-liveSocket.connect();
+  // connect if there are any LiveViews on the page
+  liveSocket.connect();
 
-// expose liveSocket on window for web console debug logs and latency simulation:
-// >> liveSocket.enableDebug()
-// >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
-// >> liveSocket.disableLatencySim()
-window.liveSocket = liveSocket;
+
+  // expose liveSocket on window for web console debug logs and latency simulation:
+  // >> liveSocket.enableDebug()
+  // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
+  // >> liveSocket.disableLatencySim()
+  window.liveSocket = liveSocket;
+}
 
 document.body.className = document.body.className.replace("no-js", "js");
 
