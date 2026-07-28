@@ -79,11 +79,6 @@ describe("datepicker-input", () => {
   });
 
   it("displays date picker", () => {
-    // eslint-disable-next-line no-unused-vars
-    const input = new DatePickerInput({
-      selectors: { dateEl, month, day, year }
-    });
-
     assert.notEqual($("#test").html(), initial_markup);
 
     const datepicker_calendar = document.getElementById(
