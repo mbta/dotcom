@@ -5371,3 +5371,13 @@ msgstr "Quelque chose a mal tourné. Veuillez réessayer plus tard."
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "Fauteuil Roulant -accessible transferts à Downtown Crossing peuvent <strong>nécessiter de sortir du portique.</strong> Consultez station personnel pour"
 " éviter de payer un tarif supplémentaire."
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Earlier %{vehicle_name}"
+msgstr ""
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Later %{vehicle_name}"
+msgstr ""
