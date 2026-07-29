@@ -15,25 +15,32 @@ defmodule Dotcom.Timetables do
   The entries in each list correspond to the trips that visit that stop, so, for instance, the
   second item in each list will all be visits from the same trip.
 
+  ## Examples
+
+      iex> time_1_1 = ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_1_2 = ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2_1 = ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2_2 = ~N[2026-05-27T13:25:00] |> Timex.Timezone.convert("America/New_York")
+      iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_1,
       ...>       stop: %Stops.Stop{id: "first_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_2,
       ...>       stop: %Stops.Stop{id: "second_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2_1,
       ...>       stop: %Stops.Stop{id: "first_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T13:25:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2_2,
       ...>       stop: %Stops.Stop{id: "second_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     }
@@ -46,11 +53,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:05 PM",
+                time: time_1_1,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "1:05 PM",
+                time: time_2_1,
                 trip: %Schedules.Trip{id: "second_trip"}
               }
             ]
@@ -61,11 +68,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:25 PM",
+                time: time_1_2,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "1:25 PM",
+                time: time_2_2,
                 trip: %Schedules.Trip{id: "second_trip"}
               }
             ]
@@ -77,35 +84,41 @@ defmodule Dotcom.Timetables do
         ]
       }
 
-  For trips that don't visit all of the stops, `from_schedules/1` inserts empty cells (with
-  `time = ""`) in order to make the rows and columns line up:
+  For trips that don't visit all of the stops, `from_schedules/2` inserts empty cells (with
+  `time = nil`) in order to make the rows and columns line up:
 
+      iex> time_1_1 = ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_1_2 = ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_1_3 = ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2_1 = ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2_3 = ~N[2026-05-27T13:35:00] |> Timex.Timezone.convert("America/New_York")
+      iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
       ...>     # First trip visits all of the stops
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_1,
       ...>       stop: %Stops.Stop{id: "first_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_2,
       ...>       stop: %Stops.Stop{id: "second_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_3,
       ...>       stop: %Stops.Stop{id: "third_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     # Second trip doesn't visit `second_stop`.
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2_1,
       ...>       stop: %Stops.Stop{id: "first_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T13:35:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2_3,
       ...>       stop: %Stops.Stop{id: "third_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     }
@@ -117,11 +130,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:05 PM",
+                time: time_1_1,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "1:05 PM",
+                time: time_2_1,
                 trip: %Schedules.Trip{id: "second_trip"}
               }
             ]
@@ -132,11 +145,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:25 PM",
+                time: time_1_2,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "",
+                time: nil,
                 trip: %{id: "second_trip", name: nil}
               }
             ]
@@ -145,11 +158,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "third_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:45 PM",
+                time: time_1_3,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "1:35 PM",
+                time: time_2_3,
                 trip: %Schedules.Trip{id: "second_trip"}
               }
             ]
@@ -162,22 +175,26 @@ defmodule Dotcom.Timetables do
       }
 
   When different trips visit the same stops in a different order, or when a single trip visits the same stop
-  multiple times, `from_schedules/1` add multiple rows for the same stop.
+  multiple times, `from_schedules/2` add multiple rows for the same stop.
 
+      iex> time_1 = ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2 = ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_3 = ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York")
+      iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1,
       ...>       stop: %Stops.Stop{id: "first_and_last_stop"},
       ...>       trip: %Schedules.Trip{id: "loop_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2,
       ...>       stop: %Stops.Stop{id: "second_stop"},
       ...>       trip: %Schedules.Trip{id: "loop_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_3,
       ...>       stop: %Stops.Stop{id: "first_and_last_stop"},
       ...>       trip: %Schedules.Trip{id: "loop_trip"}
       ...>     }
@@ -189,7 +206,7 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_and_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:05 PM",
+                time: time_1,
                 trip: %Schedules.Trip{id: "loop_trip"}
               }
             ]
@@ -198,7 +215,7 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:25 PM",
+                time: time_2,
                 trip: %Schedules.Trip{id: "loop_trip"}
               }
             ]
@@ -207,7 +224,7 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_and_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:45 PM",
+                time: time_3,
                 trip: %Schedules.Trip{id: "loop_trip"}
               }
             ]
@@ -218,36 +235,43 @@ defmodule Dotcom.Timetables do
         ]
       }
 
+      iex> time_1_2 = ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_1_3 = ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_1_1 = ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2_1 = ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2_2 = ~N[2026-05-27T13:25:00] |> Timex.Timezone.convert("America/New_York")
+      iex> time_2_3 = ~N[2026-05-27T13:45:00] |> Timex.Timezone.convert("America/New_York")
+      iex>
       iex> Dotcom.Timetables.from_schedules(
       ...>   [
       ...>     # First trip visits `first_or_last_stop` last.
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:05:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_2,
       ...>       stop: %Stops.Stop{id: "second_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:25:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_3,
       ...>       stop: %Stops.Stop{id: "third_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T12:45:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_1_1,
       ...>       stop: %Stops.Stop{id: "first_or_last_stop"},
       ...>       trip: %Schedules.Trip{id: "first_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T13:05:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2_1,
       ...>       stop: %Stops.Stop{id: "first_or_last_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T13:25:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2_2,
       ...>       stop: %Stops.Stop{id: "second_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     },
       ...>     %Schedules.Schedule{
-      ...>       departure_time: ~N[2026-05-27T13:45:00] |> Timex.Timezone.convert("America/New_York"),
+      ...>       departure_time: time_2_3,
       ...>       stop: %Stops.Stop{id: "third_stop"},
       ...>       trip: %Schedules.Trip{id: "second_trip"}
       ...>     },
@@ -261,11 +285,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_or_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "",
+                time: nil,
                 trip: %{id: "first_trip", name: nil}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "1:05 PM",
+                time: time_2_1,
                 trip: %Schedules.Trip{id: "second_trip"}
               }
             ]
@@ -274,11 +298,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "second_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:05 PM",
+                time: time_1_2,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "1:25 PM",
+                time: time_2_2,
                 trip: %Schedules.Trip{id: "second_trip"}
               }
             ]
@@ -287,11 +311,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "third_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:25 PM",
+                time: time_1_3,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "1:45 PM",
+                time: time_2_3,
                 trip: %Schedules.Trip{id: "second_trip"}
               }
             ]
@@ -302,11 +326,11 @@ defmodule Dotcom.Timetables do
             stop: %Stops.Stop{id: "first_or_last_stop"},
             cells: [
               %Dotcom.Timetables.Timetable.Cell{
-                time: "12:45 PM",
+                time: time_1_1,
                 trip: %Schedules.Trip{id: "first_trip"}
               },
               %Dotcom.Timetables.Timetable.Cell{
-                time: "",
+                time: nil,
                 trip: %{id: "second_trip", name: nil}
               }
             ]
@@ -370,6 +394,34 @@ defmodule Dotcom.Timetables do
     %Timetable{rows: rows, trips: trips}
   end
 
+  @doc """
+  Calculates the index of the first trip that has at least one stop
+  in the future.  If the offset would go past the end of the list,
+  returns the index of the last element.
+  """
+  @spec first_unfinished_trip_index(Timetable.t(), DateTime.t()) :: non_neg_integer()
+  def first_unfinished_trip_index(%Timetable{} = timetable, %DateTime{} = now) do
+    trip_end_times =
+      timetable.rows
+      |> Enum.reduce(
+        timetable.trips |> Enum.map(fn _ -> nil end),
+        fn %{cells: cells}, last_times ->
+          Enum.zip(cells, last_times)
+          |> Enum.map(fn
+            {%{time: nil}, time} -> time
+            {%{time: time}, _} -> time
+          end)
+        end
+      )
+
+    trip_end_times
+    |> Enum.find_index(fn end_time -> DateTime.after?(end_time, now) end)
+    |> case do
+      nil -> max(Enum.count(trip_end_times) - 1, 0)
+      index -> index
+    end
+  end
+
   # Given a list of stops (the list that goes on the left on the
   # timetable, constructed from `combine_stop_lists/2, and a list of
   # trips (where a trip is a list of `Schedule`'s), this function
@@ -417,7 +469,7 @@ defmodule Dotcom.Timetables do
           cells_at_stop
           |> Enum.map(
             &%Timetable.Cell{
-              time: &1 |> time() |> format!(),
+              time: &1 |> time(),
               trip: &1.trip
             }
           )
@@ -431,9 +483,6 @@ defmodule Dotcom.Timetables do
   defp time(schedule) do
     schedule.departure_time || schedule.arrival_time
   end
-
-  defp format!(nil), do: ""
-  defp format!(time), do: Dotcom.Utils.Time.format!(time, :hour_12_minutes)
 
   # This function combines two lists of stops into a single list that
   # has all of the stops for both lists in the right order, possibly

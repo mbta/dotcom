@@ -15,6 +15,8 @@ defmodule DotcomWeb.Components.Timetable do
 
   import MbtaMetro.Components.Icon
 
+  alias Dotcom.Timetables
+
   def linear_timetable(assigns) do
     ~H"""
     <div class="m-timetable__header hidden-no-js">
@@ -153,6 +155,10 @@ defmodule DotcomWeb.Components.Timetable do
   # `:if={!ferry?(@route)}`, which means that that section will need
   # to be added here before we can use this for non-ferry routes.
   def timetable(assigns) do
+    assigns =
+      assigns
+      |> assign(:offset, Timetables.first_unfinished_trip_index(assigns.timetable, assigns.now))
+
     ~H"""
     <div class="m-timetable__header hidden-no-js">
       <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty">
@@ -224,7 +230,7 @@ defmodule DotcomWeb.Components.Timetable do
             :for={cell <- row.cells}
             class="js-tt-cell m-timetable__cell px-lg"
           >
-            {cell.time}
+            {format!(cell.time)}
           </td>
         </tr>
       </table>
@@ -353,4 +359,7 @@ defmodule DotcomWeb.Components.Timetable do
       "gray"
     end
   end
+
+  defp format!(nil), do: ""
+  defp format!(time), do: Dotcom.Utils.Time.format!(time, :hour_12_minutes)
 end
