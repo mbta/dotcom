@@ -2366,6 +2366,7 @@ msgid "MBTA Green Line trolley stations and schedules, including maps, real-time
 msgstr "Estação e localização do bonde Green Line MBTA, incluindo mapas, atualizações em tempo real, informações de estacionamento e acessibilidade e conexões."
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Home Page"
 msgstr "Página inicial do MBTA"
@@ -5366,6 +5367,36 @@ msgstr "Algo deu errado. Por favor, tente novamente mais tarde."
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "Os traslados de rodas acessíveis no Downtown Crossing podem exigir <strong>a saída da cadeira de acesso.</strong> Consulte os funcionários da estação para"
 " evitar o pagamento de uma tarifa adicional."
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Friday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Monday - Thursday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Saturday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Sunday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekend schedules"
+msgstr ""
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format

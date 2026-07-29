@@ -68,6 +68,67 @@
       display: flex;
       flex-grow: 1;
       height: 100%;
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.top-tier-nav-container {
+  position: relative;
+}
+
+.top-tier-header-navbar.new {
+  padding: var(--spacing-sm) 0;
+
+  .navbar-logo {
+    .svg-container {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      justify-content: flex-start;
+    }
+    .c-svg__mbta-logo {
+      display: none;
+    }
+
+    // At XS size, use T logo only
+    @include media-breakpoint-only(xs) {
+      flex-grow: 1;
+
+      svg {
+        display: unset;
+        height: 1.5rem;
+      }
+      .c-svg__mbta-logo {
+        display: unset;
+        height: 1.5rem;
+      }
+      .c-svg__mbta-name-and-logo {
+        display: none;
+      }
+    }
+
+    svg {
+      @include media-breakpoint-between(xs, md) {
+        width: unset;
+      }
+      @include media-breakpoint-only(sm) {
+        height: 1.5rem;
+      }
+      @include media-breakpoint-up(md) {
+        height: 2.5rem;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    .search-wrapper {
+      align-items: center;
+      display: flex;
+      flex-grow: 1;
+      height: 100%;
+      width: 100%;
       justify-content: flex-end;
     }
   }
@@ -101,6 +162,7 @@
   display: block;
   padding-left: 1.5rem;
   width: 100%;
+  max-width: 400px;
 
   @include media-breakpoint-only(xs) {
     display: none;
@@ -434,4 +496,14 @@ nav.m-menu--mobile {
   margin-left: calc(4rem - 1.875rem);
   padding: unset;
   width: 1.875rem;
+}
+
+.header-search__toggle__container {
+  align-items:center;
+  display:flex;
+  justify-content: flex-end;
+
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
 }

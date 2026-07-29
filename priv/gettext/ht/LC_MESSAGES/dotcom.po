@@ -2364,6 +2364,7 @@ msgid "MBTA Green Line trolley stations and schedules, including maps, real-time
 msgstr "Estasyon ak zòn tramway Green Line MBTA a, ki gen ladan kat, dènye enfòmasyon an tan reyèl, enfòmasyon sou pakin ak aksè, ak koneksyon."
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Home Page"
 msgstr "Paj Akèy MBTA a"
@@ -5357,6 +5358,36 @@ msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "sekirite woulant-aksesib transfè nan Downtown Crossing ka mande pou <strong>sòti nan pòt tarif la.</strong> Al wè pèsonèl estasyon an pou evite peye yon"
 " lòt tikè."
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Friday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Monday - Thursday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Saturday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Sunday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekend schedules"
+msgstr ""
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format

@@ -2361,6 +2361,7 @@ msgid "MBTA Green Line trolley stations and schedules, including maps, real-time
 msgstr "MBTA Green Line xe đẩy nhà ga và lịch trình, bao gồm bản đồ, cập nhật thời gian thực, thông tin đỗ xe và khả năng tiếp cận cũng như các điểm kết nối."
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
+#: lib/dotcom_web/templates/layout/_top_tier_nav.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Home Page"
 msgstr "Trang chủ MBTA"
@@ -5362,6 +5363,36 @@ msgstr "Đã xảy ra lỗi. Vui lòng thử lại sau."
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "xe lăn-có thể tiếp cận được chuyển tại Downtown Crossing có thể yêu cầu <strong>thoát khỏi cổng soát vé.</strong> Gặp nhân viên nhà ga để tránh phải trả"
 " thêm tiền vé."
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Friday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Monday - Thursday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Saturday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Sunday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekday schedules"
+msgstr ""
+
+#: lib/dotcom/service_patterns.ex
+#, elixir-autogen, elixir-format
+msgid "Weekend schedules"
+msgstr ""
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
