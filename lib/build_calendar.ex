@@ -201,7 +201,7 @@ defmodule BuildCalendar do
   end
 
   defp build_url(url_fn, date, _) do
-    url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil)
+    url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil, random: :rand.uniform())
   end
 
   @spec month_relation(Date.t(), Date.t(), Date.t()) :: __MODULE__.Day.month_relation()
