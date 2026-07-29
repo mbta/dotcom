@@ -590,24 +590,39 @@ export const saveCache = ()=>{
 
 }
 
+const CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
+
 export const loadCache = ()=>{
   const cacheString = localStorage.getItem("support-form-cache")
 
   if(!cacheString || cacheString.length<10){return;}//No data, bail
-  const cacheData = JSON.parse(cacheString)
-  if(cacheData.time < Date.now()-86400000){return;}//Data is too old, bail
-  cacheData.data.forEach(([id, value])=>{
-    const elem = document.getElementById(id);
-    if(id && elem){
-      if(elem.type == "file"){return;}
-      if(value===true){
-        elem.click();
-      }else{
-        elem.value = value;
-        elem.dispatchEvent(new Event("change"))
+  try{
+
+    const cacheData = JSON.parse(cacheString)
+    if(!cacheData.data || 
+      !cacheData.time || 
+      isNaN(cacheData.time) || 
+      cacheData.time < Date.now()-CACHE_MAX_AGE
+    ){
+      return;
+    }//Data is invalid or too old, bail
+
+    cacheData.data.forEach(([id, value])=>{
+      const elem = document.getElementById(id);
+      if(id && elem){
+        if(elem.type == "file"){return;}
+        if(value===true){
+          elem.click();
+        }else{
+          elem.value = value;
+          elem.dispatchEvent(new Event("change"))
+        }
       }
-    }
-  });
+    });
+
+  }catch(e){
+    console.log(`Error parsing saved form data: ${e.message}`)
+  }
 }
 
 export const clearCache = ()=>{
