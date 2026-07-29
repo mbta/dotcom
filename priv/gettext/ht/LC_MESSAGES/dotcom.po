@@ -5362,29 +5362,39 @@ msgstr "sekirite woulant-aksesib transfè nan Downtown Crossing ka mande pou <st
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr ""
+msgstr "Vandredi orè"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr ""
+msgstr "Lendi - Jedi orè"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr ""
+msgstr "Samdi orè"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr ""
+msgstr "Dimanch orè"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr ""
+msgstr "Ou lasemèn orè"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr ""
+msgstr "Wikenn orè"
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Earlier %{vehicle_name}"
+msgstr "Pi bonè %{vehicle_name}"
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Later %{vehicle_name}"
+msgstr "Pita %{vehicle_name}"

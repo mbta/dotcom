@@ -100,7 +100,8 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         blocking_alert: nil,
         suppress_timetable?: false,
         status: :normal,
-        linear_timetable?: true
+        linear_timetable?: true,
+        new_timetables?: false
       ]
 
       {:ok, %{assigns: assigns}}

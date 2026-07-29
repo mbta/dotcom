@@ -130,6 +130,8 @@ config :dotcom, DotcomWeb.Endpoint,
 
 config :laboratory,
   features: [
+    {:new_timetables, "New timetables",
+     "Uses the new timetable component and logic for all timetables"},
     {:use_smartling_translations, "Smartling translations",
      "Uses Smartling's translation workflows"}
   ],

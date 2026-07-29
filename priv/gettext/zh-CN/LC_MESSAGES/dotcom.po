@@ -5346,29 +5346,39 @@ msgstr "在Downtown Crossing无障碍换乘可能需要<strong>退出闸机。</
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr ""
+msgstr "周五表时刻"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr ""
+msgstr "星期一 - 星期四时刻表"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr ""
+msgstr "周六时刻"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr ""
+msgstr "周日表时刻"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr ""
+msgstr "工作日时刻表"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr ""
+msgstr "周末时刻表"
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Earlier %{vehicle_name}"
+msgstr "较早 %{vehicle_name}"
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Later %{vehicle_name}"
+msgstr "稍后 %{vehicle_name}"

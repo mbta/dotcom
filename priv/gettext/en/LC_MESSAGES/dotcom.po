@@ -5378,3 +5378,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
 msgstr ""
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Earlier %{vehicle_name}"
+msgstr ""
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "Later %{vehicle_name}"
+msgstr ""
