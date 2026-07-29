@@ -76,7 +76,7 @@ defmodule DotcomWeb.Plugs.Cookies do
   routes, separated by a pipe ("|"), in order of most recently visited.
   """
   @spec set_route_cookie(Conn.t()) :: Conn.t()
-  def set_route_cookie(%Conn{path_info: ["schedules", route | _]} = conn)
+  def set_route_cookie(%Conn{path_info: ["schedules", route, _]} = conn)
       when route not in @modes do
     conn.cookies
     |> Map.get(@route_cookie_name, "")

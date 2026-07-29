@@ -83,13 +83,15 @@ defmodule Routes.Repo do
 
   defp update_direction_names(route), do: route
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-
+  @decorate cacheable(cache: @cache, on_error: :nothing, match: &match_route/1)
   defp cached_get(id, opts) do
     with %{data: [route]} <- MBTA.Api.Routes.get(id, opts) do
       {:ok, parse_route(route)}
     end
   end
+
+  defp match_route({:error, _}), do: {true, nil, ttl: :timer.seconds(30)}
+  defp match_route(route), do: {true, route, ttl: @ttl}
 
   @impl Routes.Repo.Behaviour
   def get_shapes(route_id, opts) do
