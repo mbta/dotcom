@@ -79,6 +79,10 @@ describe("datepicker-input", () => {
   });
 
   it("displays date picker", () => {
+    new DatePickerInput({
+      selectors: { dateEl, month, day, year }
+    });
+
     assert.notEqual($("#test").html(), initial_markup);
 
     const datepicker_calendar = document.getElementById(
