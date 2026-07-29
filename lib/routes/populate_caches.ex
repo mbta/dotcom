@@ -15,7 +15,7 @@ defmodule Routes.PopulateCaches do
   @spec start_link([]) :: GenServer.on_start()
   def start_link([]) do
     # no cover
-    GenServer.start_link(__MODULE__, @routes_repo)
+    GenServer.start_link(__MODULE__, @routes_repo, hibernate_after: 15_000)
   end
 
   @impl GenServer

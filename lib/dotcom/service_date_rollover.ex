@@ -40,7 +40,7 @@ defmodule Dotcom.ServiceDateRollover do
   @impl GenServer
   def handle_continue(:schedule_next_run, state) do
     Process.send_after(self(), :dispatch_change, ms_to_next_rollover())
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
 
   def ms_to_next_rollover(boundary_datetime \\ end_of_service_day()) do

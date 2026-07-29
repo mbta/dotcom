@@ -35,12 +35,12 @@ defmodule Dotcom.SystemStatus.CommuterRailCache do
   def init(_opts) do
     Alerts.Cache.Store.subscribe()
 
-    {:ok, CommuterRail.commuter_rail_status()}
+    {:ok, CommuterRail.commuter_rail_status(), :hibernate}
   end
 
   @impl true
   def handle_call(:commuter_rail_status, _from, status) do
-    {:reply, status, status}
+    {:reply, status, status, :hibernate}
   end
 
   @impl true
@@ -51,6 +51,6 @@ defmodule Dotcom.SystemStatus.CommuterRailCache do
       DotcomWeb.Endpoint.broadcast(@pubsub_topic, "commuter_rail_status_updated", new_status)
     end
 
-    {:noreply, new_status}
+    {:noreply, new_status, :hibernate}
   end
 end
