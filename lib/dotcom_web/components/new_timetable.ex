@@ -91,7 +91,7 @@ defmodule DotcomWeb.Components.NewTimetable do
   end
 
   attr :id, :string, required: true
-  attr :scroll_direction, :integer, required: true
+  attr :scroll_direction, :integer, required: true, values: [-1, 1]
   attr :timetable_id, :string, required: true
   slot :inner_block
 
