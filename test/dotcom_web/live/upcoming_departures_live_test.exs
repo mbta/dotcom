@@ -266,11 +266,8 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     end)
 
     {:ok, view, _} = start_live_view(conn, route_id_param, direction_id, stop_id_param)
-    pid = view.pid
-    :erlang.trace(pid, true, [:receive])
 
-    assert_receive {:trace, ^pid, :receive,
-                    %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
+    assert render(view) =~ "There was a problem loading upcoming departures"
   end
 
   defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
