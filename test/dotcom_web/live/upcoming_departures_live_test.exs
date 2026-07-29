@@ -248,6 +248,31 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     assert render(view) =~ "There was a problem loading upcoming departures"
   end
 
+  test "doesn't crash if schedules are nil", %{conn: conn} do
+    stub(Schedules.Repo.Mock, :by_route_ids, fn _, _ -> nil end)
+
+    route_id_param = FactoryHelpers.build(:id)
+    stop_id_param = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+
+    expect(Routes.Repo.Mock, :get, 3, fn route_id ->
+      assert route_id == route_id_param
+      Factories.Routes.Route.build(:route)
+    end)
+
+    expect(Stops.Repo.Mock, :get, 2, fn stop_id ->
+      assert stop_id == stop_id_param
+      Factories.Stops.Stop.build(:stop, %{id: stop_id})
+    end)
+
+    {:ok, view, _} = start_live_view(conn, route_id_param, direction_id, stop_id_param)
+    pid = view.pid
+    :erlang.trace(pid, true, [:receive])
+
+    assert_receive {:trace, ^pid, :receive,
+                    %Phoenix.Socket.Broadcast{event: "upcoming_departures"}}
+  end
+
   defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
     route_id = route_id || FactoryHelpers.build(:id)
     direction_id = direction_id || FactoryHelpers.build(:direction_id)

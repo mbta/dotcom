@@ -215,7 +215,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     assign(socket, :last_trip_time, get_last_trip_time(socket.assigns, date))
   end
 
-  def get_last_trip_time(assigns, date) do
+  defp get_last_trip_time(assigns, date) do
     schedules =
       [assigns.route_id]
       |> @schedules_repo.by_route_ids(

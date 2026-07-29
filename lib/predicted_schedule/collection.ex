@@ -86,6 +86,10 @@ defmodule PredictedSchedule.Collection do
   @doc """
   Constructs a new `Collection` from a list of schedules.
   """
+  def new(nil) do
+    %{base: %{}, populated: %{}}
+  end
+
   def new(schedules) do
     predicted_schedule_map =
       schedules
