@@ -157,7 +157,7 @@ defmodule Routes.RouteTest do
   end
 
   describe "vehicle_name/2" do
-    test "returns the appropriate type of vehicle when plural is specified" do
+    test "returns the appropriate type of vehicle when plural: true is specified" do
       for {type, name} <- [
             {0, "Trains"},
             {1, "Trains"},
@@ -166,6 +166,18 @@ defmodule Routes.RouteTest do
             {4, "Boats"}
           ] do
         assert vehicle_name(%Route{type: type}, plural: true) == name
+      end
+    end
+
+    test "returns the appropriate type of vehicle when plural: false is specified" do
+      for {type, name} <- [
+            {0, "Train"},
+            {1, "Train"},
+            {2, "Train"},
+            {3, "Bus"},
+            {4, "Boat"}
+          ] do
+        assert vehicle_name(%Route{type: type}, plural: false) == name
       end
     end
   end

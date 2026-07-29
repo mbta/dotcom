@@ -223,6 +223,8 @@ defmodule Routes.Route do
   def vehicle_name(%__MODULE__{type: 3}, plural: true), do: ~t"Buses"
   def vehicle_name(%__MODULE__{type: 4}, plural: true), do: ~t"Boats"
 
+  def vehicle_name(%__MODULE__{} = route, _opts), do: vehicle_name(route)
+
   def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2], do: ~t"Train"
   def vehicle_name(%__MODULE__{type: 3}), do: ~t"Bus"
   def vehicle_name(%__MODULE__{type: 4}), do: ~t"Boat"
