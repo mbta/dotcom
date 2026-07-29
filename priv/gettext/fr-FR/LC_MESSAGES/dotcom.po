@@ -5376,39 +5376,39 @@ msgstr "Fauteuil Roulant -accessible transferts à Downtown Crossing peuvent <st
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr ""
+msgstr "Horaire du vendredi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr ""
+msgstr "Lundi - Jeudi horaire"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr ""
+msgstr "Horaire du samedi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr ""
+msgstr "Horaire du dimanche"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr ""
+msgstr "En semaine horaire"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr ""
+msgstr "Horaire week-end"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Earlier %{vehicle_name}"
-msgstr ""
+msgstr "Plus tôt %{vehicle_name}"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Later %{vehicle_name}"
-msgstr ""
+msgstr "Plus tard %{vehicle_name}"
