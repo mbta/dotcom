@@ -224,12 +224,12 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         date: date
       )
 
-    if is_nil(schedules) do
-      nil
-    else
+    if is_list(schedules) do
       schedules
       |> List.last(%{})
       |> Map.get(:time)
+    else
+      nil
     end
   end
 
