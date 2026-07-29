@@ -5414,19 +5414,19 @@ msgstr "Plus tard %{vehicle_name}"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boat"
-msgstr ""
+msgstr "Bateau"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr ""
+msgstr "Bateaux"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Buses"
-msgstr ""
+msgstr "Bus"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Trains"
-msgstr ""
+msgstr "Trains"
