@@ -5400,19 +5400,19 @@ msgstr "Pita %{vehicle_name}"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boat"
-msgstr ""
+msgstr "Bato"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr ""
+msgstr "Bato"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Buses"
-msgstr ""
+msgstr "Bis yo"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Trains"
-msgstr ""
+msgstr "Tren yo"

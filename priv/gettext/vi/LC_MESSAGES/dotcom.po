@@ -5405,19 +5405,19 @@ msgstr "Sau đó %{vehicle_name}"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boat"
-msgstr ""
+msgstr "Thuyền"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr ""
+msgstr "Thuyền"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Buses"
-msgstr ""
+msgstr "Xe buýt"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Trains"
-msgstr ""
+msgstr "Tàu hỏa"
