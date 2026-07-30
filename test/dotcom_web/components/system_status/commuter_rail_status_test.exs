@@ -4,7 +4,7 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
   import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_status: 0]
 
   import DotcomWeb.Components.SystemStatus.CommuterRailStatus,
-    only: [alerts_commuter_rail_status: 1, rows_for_line: 1]
+    only: [alerts_commuter_rail_status: 1]
 
   import Mox
   import Phoenix.LiveViewTest
