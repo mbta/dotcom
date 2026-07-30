@@ -3,12 +3,13 @@ defmodule DotcomWeb.ModeView do
 
   use DotcomWeb, :view
 
-  alias Alerts.Match
   alias Dotcom.MapHelpers
   alias DotcomWeb.PartialView
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Plug.Conn
   alias Routes.Route
+
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
 
   def get_route_group(:commuter_rail = route_type, route_groups) do
     # Note that we do not sort the commuter rail routes by name as we
@@ -137,19 +138,14 @@ defmodule DotcomWeb.ModeView do
   end
 
   # Returns true if there is a non-notice alert for the given route on `date`
-  @spec has_alert?(Route.t() | :the_ride, [Alerts.Alert.t()], DateTime.t() | nil) :: boolean
-  def has_alert?(:the_ride, _, _) do
+  @spec has_alert?(Route.id_t() | :the_ride) :: boolean
+  def has_alert?(:the_ride) do
     false
   end
 
-  def has_alert?(%Route{} = route, alerts, date) do
-    date = date || Util.now()
-    entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
-
-    Enum.any?(alerts, fn alert ->
-      Alerts.Alert.high_severity_or_high_priority?(alert) and
-        Match.match([alert], entity, date) == [alert]
-    end)
+  def has_alert?(route_id) do
+    @alerts_repo.by_route_id_and_priority(route_id, :high)
+    |> Enum.any?(&Dotcom.Alerts.in_effect_now?/1)
   end
 
   def map_buttons(types) do
