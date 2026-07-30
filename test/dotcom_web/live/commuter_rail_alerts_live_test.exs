@@ -23,7 +23,7 @@ defmodule DotcomWeb.CommuterRailAlertsLiveTest do
   setup _ do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
-    stub(Alerts.Repo.Mock, :all, fn _ -> [] end)
+    stub(Alerts.Repo.Mock, :by_route_types, fn _, _ -> [] end)
     stub(Alerts.Repo.Mock, :banner, fn -> nil end)
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
@@ -55,7 +55,7 @@ defmodule DotcomWeb.CommuterRailAlertsLiveTest do
     test "does not show a 'no alerts' message when an alert is present", %{conn: conn} do
       route = Factories.Routes.Route.build(:route, %{type: @cr_route_type})
 
-      stub(Alerts.Repo.Mock, :all, fn date ->
+      stub(Alerts.Repo.Mock, :by_route_types, fn [@cr_route_type], date ->
         Factories.Alerts.Alert.build_list(1, :alert, %{
           active_period: [Utils.ServiceDateTime.service_range_day(date)],
           effect: Faker.Util.pick(@non_service_effects),
@@ -113,7 +113,7 @@ defmodule DotcomWeb.CommuterRailAlertsLiveTest do
          %{conn: conn} do
       route = Factories.Routes.Route.build(:route, %{type: @cr_route_type})
 
-      stub(Alerts.Repo.Mock, :all, fn date ->
+      stub(Alerts.Repo.Mock, :by_route_types, fn [@cr_route_type], date ->
         Factories.Alerts.Alert.build_list(1, :alert, %{
           active_period: [
             date |> DateTime.shift(day: 2) |> Utils.ServiceDateTime.service_range_day()

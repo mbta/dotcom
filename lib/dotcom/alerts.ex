@@ -127,7 +127,7 @@ defmodule Dotcom.Alerts do
   @spec subway_alert_groups() :: [{Route.t(), [Alert.t()]}]
   def subway_alert_groups() do
     alerts =
-      @alerts_repo_module.all(@date_time_module.now())
+      @alerts_repo_module.by_route_types([0, 1], @date_time_module.now())
       |> Enum.reject(&service_impacting_alert?/1)
 
     non_banner_alerts = excluding_banner(@alerts_repo_module.banner(), alerts)
@@ -143,7 +143,7 @@ defmodule Dotcom.Alerts do
     now = @date_time_module.now()
 
     alerts =
-      @alerts_repo_module.all(now)
+      @alerts_repo_module.by_route_types([2], now)
       |> Enum.reject(&SystemStatus.status_alert?(&1, now))
 
     non_banner_alerts = excluding_banner(@alerts_repo_module.banner(), alerts)

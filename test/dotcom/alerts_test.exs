@@ -147,9 +147,7 @@ defmodule Dotcom.AlertsTest do
 
   describe "subway_alert_groups/0" do
     setup do
-      stub(Alerts.Repo.Mock, :all, fn _ -> [] end)
       stub(Alerts.Repo.Mock, :banner, fn -> nil end)
-      stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
       :ok
     end
@@ -169,7 +167,10 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_2.id, route_type: route_2.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn [0, 1] -> [route_1, route_2] end)
 
       groups = subway_alert_groups()
@@ -196,7 +197,10 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: non_subway_route.id, route_type: non_subway_route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn [0, 1] -> [subway_route] end)
 
       refute subway_alert_groups() |> Enum.any?(fn {route, _} -> route == non_subway_route end)
@@ -211,7 +215,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_with_alerts.id, route_type: route_with_alerts.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ -> alerts end)
 
       expect(Routes.Repo.Mock, :by_type, fn [0, 1] ->
         [route_with_alerts, route_without_alerts]
@@ -231,7 +235,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route.id, route_type: route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ -> alerts end)
 
       expect(Alerts.Repo.Mock, :banner, fn ->
         Factories.Alerts.Banner.build(:banner, id: banner_alert.id)
@@ -263,7 +267,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route.id, route_type: route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
         (service_alerts ++ non_service_alerts) |> Enum.shuffle()
       end)
 
@@ -292,7 +296,7 @@ defmodule Dotcom.AlertsTest do
         )
         |> Enum.map(&Factories.Alerts.Alert.active_upcoming/1)
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
         (service_alerts ++ non_service_alerts) |> Enum.shuffle()
       end)
 
@@ -307,9 +311,7 @@ defmodule Dotcom.AlertsTest do
 
   describe "commuter_rail_alert_groups/0" do
     setup do
-      stub(Alerts.Repo.Mock, :all, fn _ -> [] end)
       stub(Alerts.Repo.Mock, :banner, fn -> nil end)
-      stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
       :ok
     end
@@ -329,7 +331,10 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_2.id, route_type: route_2.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn 2 -> [route_1, route_2] end)
 
       groups = commuter_rail_alert_groups()
@@ -360,7 +365,10 @@ defmodule Dotcom.AlertsTest do
           }
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn 2 -> [commuter_rail_route] end)
 
       refute commuter_rail_alert_groups()
@@ -376,7 +384,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_with_alerts.id, route_type: route_with_alerts.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ -> alerts end)
 
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
         [route_with_alerts, route_without_alerts]
@@ -396,7 +404,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route.id, route_type: route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ -> alerts end)
 
       expect(Alerts.Repo.Mock, :banner, fn ->
         Factories.Alerts.Banner.build(:banner, id: banner_alert.id)
@@ -429,7 +437,7 @@ defmodule Dotcom.AlertsTest do
         )
         |> Enum.map(&Factories.Alerts.Alert.active_now/1)
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
         (service_alerts ++ non_service_alerts) |> Enum.shuffle()
       end)
 
@@ -460,7 +468,7 @@ defmodule Dotcom.AlertsTest do
 
       all_alerts = service_alerts ++ non_service_alerts
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
         all_alerts |> Enum.shuffle()
       end)
 
