@@ -1,4 +1,11 @@
 defmodule DotcomWeb.FlagsController do
+  @moduledoc """
+  A view for the `/_flags` page. It supports three endpoints:
+  - `/_flags`, which loads the existing feature flags
+  - `/_flags/disable/:flag_id`, a POST that disables a feature flag and redirects back to `/_flags`
+  - `/_flags/enable/:flag_id`, a POST that enables a feature flag and redirects back to `/_flags`
+  """
+
   use DotcomWeb, :controller
 
   use Phoenix.VerifiedRoutes,
