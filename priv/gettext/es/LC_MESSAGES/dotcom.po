@@ -3716,11 +3716,6 @@ msgstr "Quejas de servicio"
 msgid "Service Inquiry"
 msgstr "Consulta de servicio"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
-msgstr "El cambio de servicio está en vigor del 6 de junio al 12 de julio. Consulta cada día de tu %{timetable_link} de línea para encontrar el horario más actualizado."
-
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Service ended"
@@ -4120,11 +4115,6 @@ msgstr "Lleva a Subterráneo a votar"
 #, elixir-autogen, elixir-format
 msgid "Take the elevator"
 msgstr "Toma el ascensor"
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Taking the train to a World Cup match?"
-msgstr "¿Vas en tren a un partido de la Copa del Mundo?"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4613,11 +4603,6 @@ msgstr "Vía"
 msgid "View"
 msgstr "Vista"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "View %{timetable_link} for departure information."
-msgstr "Consulta %{timetable_link} para información sobre las salidas."
-
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "View Alerts"
@@ -4914,11 +4899,6 @@ msgstr "Debes aceptar nuestra Política de Privacidad antes de enviar tus coment
 #, elixir-autogen, elixir-format
 msgid "You must complete the reCAPTCHA before submitting your feedback."
 msgstr "Debes completar el reCAPTCHA antes de enviar tu feedback."
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Your Commuter Rail trip will be affected by the World Cup."
-msgstr "Tu viaje al Tren de cercanías se verá afectado por el Mundial."
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format

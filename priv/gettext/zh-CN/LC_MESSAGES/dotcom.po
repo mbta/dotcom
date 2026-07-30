@@ -3693,11 +3693,6 @@ msgstr "服务投诉"
 msgid "Service Inquiry"
 msgstr "服务查询"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
-msgstr "服务变更将于 6 月 6 日至 7 月 12 日生效。请查看您线路的%{timetable_link}以获取最新的时刻表。"
-
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Service ended"
@@ -4097,11 +4092,6 @@ msgstr "乘坐地铁去投票"
 #, elixir-autogen, elixir-format
 msgid "Take the elevator"
 msgstr "乘电梯"
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Taking the train to a World Cup match?"
-msgstr "坐火车去看世界杯比赛？"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4589,11 +4579,6 @@ msgstr "通过"
 msgid "View"
 msgstr "看法"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "View %{timetable_link} for departure information."
-msgstr "查看%{timetable_link}以获取出发信息。"
-
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "View Alerts"
@@ -4887,11 +4872,6 @@ msgstr "您必须同意我们的隐私政策才能提交反馈。"
 #, elixir-autogen, elixir-format
 msgid "You must complete the reCAPTCHA before submitting your feedback."
 msgstr "您必须先完成 reCAPTCHA 验证才能提交反馈。"
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Your Commuter Rail trip will be affected by the World Cup."
-msgstr "世界杯将影响您的通勤铁路行程。"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format

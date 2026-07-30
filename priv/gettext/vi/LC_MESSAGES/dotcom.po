@@ -3708,12 +3708,6 @@ msgstr "Khiếu nại dịch vụ"
 msgid "Service Inquiry"
 msgstr "Yêu cầu dịch vụ"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
-msgstr "thay đổi dịch vụ có hiệu lực từ ngày 6 tháng 6 đến ngày 12 tháng 7. Kiểm tra từng ngày trong %{timetable_link} của dây chuyền của bạn để biết lịch trình"
-" cập nhật nhất."
-
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Service ended"
@@ -4113,11 +4107,6 @@ msgstr "Đi tàu điện ngầm để bỏ phiếu"
 #, elixir-autogen, elixir-format
 msgid "Take the elevator"
 msgstr "Đi thang máy"
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Taking the train to a World Cup match?"
-msgstr "Đi tàu đến xem một trận đấu World Cup?"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4606,11 +4595,6 @@ msgstr "Thông qua"
 msgid "View"
 msgstr "Xem"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "View %{timetable_link} for departure information."
-msgstr "Xem %{timetable_link} để biết thông tin khởi hành."
-
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "View Alerts"
@@ -4906,11 +4890,6 @@ msgstr "Bạn phải đồng ý với Chính sách Bảo mật của chúng tôi
 #, elixir-autogen, elixir-format
 msgid "You must complete the reCAPTCHA before submitting your feedback."
 msgstr "Bạn phải hoàn thành xác minh reCAPTCHA trước khi gửi phản hồi."
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Your Commuter Rail trip will be affected by the World Cup."
-msgstr "Chuyến đi Đường sắt ngoại ô của bạn sẽ bị ảnh hưởng bởi World Cup."
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format

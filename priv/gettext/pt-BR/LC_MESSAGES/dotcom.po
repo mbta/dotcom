@@ -3713,11 +3713,6 @@ msgstr "Reclamações de serviço"
 msgid "Service Inquiry"
 msgstr "Consulta de serviço"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
-msgstr "As alterações de serviço estão em vigor de 6 de junho a 12 de julho. Verifique cada dia da %{timetable_link} da sua linha para obter o horário mais atualizado."
-
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Service ended"
@@ -4117,11 +4112,6 @@ msgstr "Pegue o metrô para votar."
 #, elixir-autogen, elixir-format
 msgid "Take the elevator"
 msgstr "Pegue o elevador."
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Taking the train to a World Cup match?"
-msgstr "Vai de trem para um jogo da Copa do Mundo?"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4610,11 +4600,6 @@ msgstr "Via"
 msgid "View"
 msgstr "Visualizar"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "View %{timetable_link} for departure information."
-msgstr "Veja %{timetable_link} para informações de partida."
-
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "View Alerts"
@@ -4910,11 +4895,6 @@ msgstr "Você precisa concordar com nossa Política de Privacidade antes de envi
 #, elixir-autogen, elixir-format
 msgid "You must complete the reCAPTCHA before submitting your feedback."
 msgstr "Você precisa completar o reCAPTCHA antes de enviar seu feedback."
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Your Commuter Rail trip will be affected by the World Cup."
-msgstr "Sua viagem de Trem Suburbano será afetada pela Copa do Mundo."
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
