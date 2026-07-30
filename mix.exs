@@ -195,8 +195,7 @@ defmodule DotCom.Mixfile do
       {:wallaby, "0.30.12", [runtime: false, only: [:dev, :test]]},
       {:yaml_elixir, "2.12.1", only: [:dev]},
       {:ymlr, "5.1.4", only: [:dev]},
-      {:laboratory,
-       [github: "mbta/laboratory", ref: "jdl/feat/more-flag-management-in-the-public-interface"]}
+      {:laboratory, [github: "mbta/laboratory", ref: "master"]}
     ]
   end
 end
