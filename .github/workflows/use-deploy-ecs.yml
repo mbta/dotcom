@@ -179,3 +179,11 @@ jobs:
     secrets:
       aws-account-id: ${{ secrets.aws-account-id }}
       aws-role-arn: ${{ secrets.aws-role-arn }}
+  load-test:
+    uses: ./.github/workflows/push-load-test.yml
+    if: ${{ inputs.deployment-env == 'dev-green' || inputs.deployment-env == 'dev-blue' }}
+    with:
+      deployment-env: ${{ inputs.deployment-env }}
+    secrets:
+      aws-account-id: ${{ secrets.aws-account-id }}
+      aws-role-arn: ${{ secrets.aws-role-arn }}
