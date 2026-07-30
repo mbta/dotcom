@@ -26,23 +26,21 @@ defmodule DotcomWeb.Components.Timetable do
         <% # only show scroll controllers if we have 2 or more schedules %>
         <%= if @trip_count >= 2 do %>
           <span class="m-timetable__trains-label">
-            {Routes.Route.vehicle_name(@route) <> "s"}
+            {vehicle_name(@route)}
           </span>
           <button
             class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm"
             data-scroll="earlier"
           >
-            {fa("angle-left m-timetable__scroll-btn-arrow")} {~t(Earlier)} {Routes.Route.vehicle_name(
-              @route
-            ) <> "s"}
+            {fa("angle-left m-timetable__scroll-btn-arrow")}
+            {gettext("Earlier %{vehicle_name}", vehicle_name: vehicle_name(@route))}
           </button>
           <button
             class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm"
             data-scroll="later"
           >
-            {~t(Later)} {Routes.Route.vehicle_name(@route) <> "s"} {fa(
-              "angle-right m-timetable__scroll-btn-arrow"
-            )}
+            {gettext("Later %{vehicle_name}", vehicle_name: vehicle_name(@route))}
+            {fa("angle-right m-timetable__scroll-btn-arrow")}
           </button>
         <% end %>
       </div>
@@ -167,23 +165,21 @@ defmodule DotcomWeb.Components.Timetable do
         <% # only show scroll controllers if we have 2 or more schedules %>
         <%= if @trip_count >= 2 do %>
           <span class="m-timetable__trains-label">
-            {Routes.Route.vehicle_name(@route) <> "s"}
+            {vehicle_name(@route)}
           </span>
           <button
             class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm"
             data-scroll="earlier"
           >
-            {fa("angle-left m-timetable__scroll-btn-arrow")} {~t(Earlier)} {Routes.Route.vehicle_name(
-              @route
-            ) <> "s"}
+            {fa("angle-left m-timetable__scroll-btn-arrow")}
+            {gettext("Earlier %{vehicle_name}", vehicle_name: vehicle_name(@route))}
           </button>
           <button
             class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm"
             data-scroll="later"
           >
-            {~t(Later)} {Routes.Route.vehicle_name(@route) <> "s"} {fa(
-              "angle-right m-timetable__scroll-btn-arrow"
-            )}
+            {gettext("Later %{vehicle_name}", vehicle_name: vehicle_name(@route))}
+            {fa("angle-right m-timetable__scroll-btn-arrow")}
           </button>
         <% end %>
       </div>
@@ -362,4 +358,6 @@ defmodule DotcomWeb.Components.Timetable do
 
   defp format!(nil), do: ""
   defp format!(time), do: Dotcom.Utils.Time.format!(time, :hour_12_minutes)
+
+  defp vehicle_name(route), do: Routes.Route.vehicle_name(route, plural: true)
 end

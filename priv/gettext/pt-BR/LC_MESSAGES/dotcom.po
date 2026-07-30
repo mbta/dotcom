@@ -701,6 +701,7 @@ msgstr "Traga seu carro ou bicicleta."
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Bus"
 msgstr "ônibus"
@@ -1264,11 +1265,6 @@ msgstr "Cartão EBT"
 #, elixir-autogen, elixir-format
 msgid "EZ Pass"
 msgstr "Passe fácil"
-
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "Earlier"
-msgstr "Mais cedo"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -2089,7 +2085,6 @@ msgid "Last %{vehicle}"
 msgstr "Último %{vehicle}"
 
 #: lib/dotcom/utils/service_date_time.ex
-#: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Later"
 msgstr "Mais tarde"
@@ -4428,6 +4423,7 @@ msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong>
 msgstr "Acompanhe sua viagem %{route_type_text} em tempo real com o aplicativo <strong>MBTA Go.</strong>"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Train"
 msgstr "Trem"
@@ -5399,11 +5395,33 @@ msgid "Weekend schedules"
 msgstr "Horário de fim de semana"
 
 #: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Earlier %{vehicle_name}"
 msgstr "Anteriormente %{vehicle_name}"
 
 #: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Later %{vehicle_name}"
 msgstr "Mais tarde %{vehicle_name}"
+
+#: lib/routes/route.ex
+#, elixir-autogen, elixir-format
+msgid "Boat"
+msgstr "Barco"
+
+#: lib/routes/route.ex
+#, elixir-autogen, elixir-format
+msgid "Boats"
+msgstr "Barcos"
+
+#: lib/routes/route.ex
+#, elixir-autogen, elixir-format
+msgid "Buses"
+msgstr "ônibus"
+
+#: lib/routes/route.ex
+#, elixir-autogen, elixir-format
+msgid "Trains"
+msgstr "Trens"
