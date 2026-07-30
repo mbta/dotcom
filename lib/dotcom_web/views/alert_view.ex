@@ -180,7 +180,7 @@ defmodule DotcomWeb.AlertView do
     |> String.replace(~r/^(.*:)(\r\n|\r|\n)/, "<strong>\\1</strong>\n")
     # all other start with a line break
     |> String.replace(~r/\n(.*:)(\r\n|\r|\n)/, "<br /><strong>\\1</strong>\n")
-    |> String.replace(~r/\s*\n/s, "<br />")
+    |> String.replace(~r/\s*\n/s, " <br />")
     |> replace_urls_with_links
   end
 

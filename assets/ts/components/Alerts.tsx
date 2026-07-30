@@ -91,7 +91,7 @@ const htmlInsertFormatting = (str: string): string => {
   return str
     .replace(/^(.*:)\s/, "<strong>$1</strong>\n")
     .replace(/\n(.*:)\s/, "<br /><strong>$1</strong>\n")
-    .replace(/\s*\n/g, "<br />");
+    .replace(/\s*\n/g, " <br />");
 };
 
 // Strips off trailing periods of URLs (i guess the regex above matches the period if the URL is at the end of the sentence.)
