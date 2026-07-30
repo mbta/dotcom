@@ -86,7 +86,8 @@ defmodule PredictedSchedule.Collection do
   @doc """
   Constructs a new `Collection` from a list of schedules.
   """
-  def new(schedules) do
+
+  def new(schedules) when is_list(schedules) do
     predicted_schedule_map =
       schedules
       |> Map.new(fn schedule ->
@@ -94,6 +95,10 @@ defmodule PredictedSchedule.Collection do
       end)
 
     %{base: predicted_schedule_map, populated: predicted_schedule_map}
+  end
+
+  def new(_) do
+    %{base: %{}, populated: %{}}
   end
 
   @spec put_prediction(t(), Predictions.Prediction.t()) :: t()
