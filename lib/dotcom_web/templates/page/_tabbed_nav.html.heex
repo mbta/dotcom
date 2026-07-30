@@ -60,8 +60,6 @@
       {render(DotcomWeb.PartialView, "_recently_visited.html",
         conn: @conn,
         routes: Map.get(assigns, :recently_visited, []),
-        alerts: @alerts,
-        date_time: @date_time,
         header_class: "h3"
       )}
       <%= unless Enum.empty?(Map.get(assigns, :recently_visited, [])) do %>

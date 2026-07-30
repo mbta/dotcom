@@ -10,9 +10,7 @@
         <div class="m-mode__recently-visited">
           {render(DotcomWeb.PartialView, "_recently_visited.html",
             conn: @conn,
-            routes: Map.get(assigns, :recently_visited, []),
-            alerts: @alerts,
-            date_time: @date_time
+            routes: Map.get(assigns, :recently_visited, [])
           )}
         </div>
         <%= for {route_type, mode_page} <- route_types ++ the_ride do %>
@@ -25,8 +23,6 @@
               routes: Keyword.get(@grouped_routes, route_type, [:the_ride]),
               show_icons?: false,
               conn: @conn,
-              date_time: @date_time,
-              alerts: @alerts,
               sub_routes: if(route_type == :subway, do: @green_routes, else: [])
             )}
           </div>
