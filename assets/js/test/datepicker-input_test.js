@@ -79,8 +79,7 @@ describe("datepicker-input", () => {
   });
 
   it("displays date picker", () => {
-    // eslint-disable-next-line no-unused-vars
-    const input = new DatePickerInput({
+    new DatePickerInput({
       selectors: { dateEl, month, day, year }
     });
 
