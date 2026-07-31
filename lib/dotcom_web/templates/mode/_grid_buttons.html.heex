@@ -5,7 +5,12 @@
       route: route,
       show_icon?: @show_icons?,
       link_path: grid_button_path(route, @conn),
-      has_alert?: has_alert?(route.id),
+      has_alert?:
+        if route == :the_ride do
+          has_alert?(:the_ride)
+        else
+          has_alert?(route.id)
+        end,
       id_prefix: assigns[:id_prefix],
       index: idx
     )}
