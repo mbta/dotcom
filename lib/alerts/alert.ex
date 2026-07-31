@@ -319,14 +319,6 @@ defmodule Alerts.Alert do
 
   def image_alternative_text(_), do: nil
 
-  @spec high_severity_or_high_priority?(t) :: boolean()
-  def high_severity_or_high_priority?(%{priority: :high}), do: true
-
-  def high_severity_or_high_priority?(%{severity: severity}) when severity >= 7,
-    do: true
-
-  def high_severity_or_high_priority?(_), do: false
-
   @spec municipality(t) :: String.t() | nil
   def municipality(alert) do
     alert
