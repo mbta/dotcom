@@ -301,32 +301,37 @@ defmodule Dotcom.Alerts do
     Task.async_stream(ids, func, max_concurrency: 8, on_timeout: :kill_task, ordered: false)
   end
 
-  def stops_with_access_alerts_by_effect(alerts) do
-    access_effects = Alerts.Accessibility.effect_types()
-    empty_by_effect = Map.new(access_effects, &{&1, MapSet.new()})
-
-    stop_ids_by_effect =
-      alerts
-      |> Enum.reduce(empty_by_effect, fn alert, acc ->
-        if Map.has_key?(acc, alert.effect) do
-          stop_id = alert_stop_ids(alert) |> List.last()
-          Map.update!(acc, alert.effect, &MapSet.put(&1, stop_id))
-        else
-          acc
-        end
-      end)
-
-    Enum.map(access_effects, fn effect ->
+  def stops_with_access_alerts_by_effect() do
+    Alerts.Accessibility.effect_types()
+    |> Enum.map(fn effect ->
       stops =
-        stop_ids_by_effect
-        |> Map.fetch!(effect)
-        |> get_many(&@stops_repo_module.get_parent/1)
-        |> Stream.filter(&match?({:ok, %Stop{}}, &1))
-        |> Stream.map(fn {:ok, stop} -> stop end)
-        |> Enum.sort_by(& &1.name)
+        effect
+        |> Alerts.Cache.Store.active_stop_ids_for_effect()
+        |> Enum.reduce(%{ids: [], stop_names: []}, &parent_stops/2)
+        |> Map.get(:stop_names)
+        |> Enum.sort_by(fn {_, name} -> name end)
 
       {effect, stops}
     end)
+  end
+
+  # alerts reference both parent stop and all child stop ids, and we don't want
+  # to repeat fetches for the same parent stops, so we keep track of already
+  # evaluated stops while we traverse the list of IDs
+  defp parent_stops(stop_id, stop_data) do
+    if stop_id in stop_data.ids do
+      stop_data
+    else
+      case @stops_repo_module.get_parent(stop_id) do
+        %Stops.Stop{id: id, child_ids: child_ids, name: name} ->
+          new_ids = [id | child_ids]
+          all_ids = Enum.concat(new_ids, stop_data.ids)
+          %{ids: all_ids, stop_names: [{id, name} | stop_data.stop_names]}
+
+        _ ->
+          stop_data
+      end
+    end
   end
 
   def alert_route_type(alert) do

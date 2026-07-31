@@ -80,15 +80,6 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  @spec alerts_stop_url(Stops.Stop.t()) :: String.t()
-  defp alerts_stop_url(stop) do
-    DotcomWeb.Router.Helpers.stop_url(
-      DotcomWeb.Endpoint,
-      :show,
-      stop.id
-    )
-  end
-
   def shortcut_icons do
     [:commuter_rail, :subway, :bus, :ferry, :the_ride]
     |> Enum.map(&shortcut_icon/1)

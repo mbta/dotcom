@@ -49,8 +49,8 @@
               </p>
             <% else %>
               <ul class="m-homepage__alerts-stops">
-                <%= for stop <- stops do %>
-                  <li><a href={"#{ alerts_stop_url(stop) }"}>{stop.name}</a></li>
+                <%= for {stop_id, stop_name} <- stops do %>
+                  <li><a href={~p"/stops/#{stop_id}"}>{stop_name}</a></li>
                 <% end %>
               </ul>
             <% end %>

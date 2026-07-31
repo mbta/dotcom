@@ -524,27 +524,31 @@ defmodule Dotcom.AlertsTest do
 
   describe "stops_with_access_alerts_by_effect/1" do
     setup do
-      {:ok, %{alerts: Factories.Alerts.Alert.build_list(50, :alert)}}
+      Factories.Alerts.Alert.build_list(50, :alert,
+        effect: fn -> Faker.Util.pick(Alerts.Accessibility.effect_types()) end,
+        priority: :high
+      )
+      |> Enum.map(&Factories.Alerts.Alert.active_now/1)
+      |> Alerts.Cache.Store.update(nil)
+
+      {:ok, %{}}
     end
 
-    test "builds list of stops by accessibility effect", %{alerts: alerts} do
+    test "builds list of stops by accessibility effect" do
       stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
 
-      stops_by_effect = stops_with_access_alerts_by_effect(alerts)
+      stops_by_effect = stops_with_access_alerts_by_effect()
 
       for {effect, stops} <- stops_by_effect do
         assert effect in Alerts.Accessibility.effect_types()
-
-        if stops != [] do
-          assert [%Stops.Stop{} | _] = stops
-        end
+        assert [{<<_stop_id::binary>>, <<_stop_name::binary>>} | _] = stops
       end
     end
 
-    test "doesn't error if nil stops", %{alerts: alerts} do
+    test "doesn't error if nil stops" do
       stub(Stops.Repo.Mock, :get_parent, fn _ -> nil end)
 
-      stops_by_effect = stops_with_access_alerts_by_effect(alerts)
+      stops_by_effect = stops_with_access_alerts_by_effect()
       assert stops_by_effect == [elevator_closure: [], escalator_closure: [], access_issue: []]
     end
   end
