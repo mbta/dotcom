@@ -88,7 +88,12 @@
       class="m-tabbed-nav__content-item"
       data-tab-content-type="alerts"
     >
-      {alerts(@conn.assigns.alerts)}
+      {render("_alerts.html",
+        routes_with_high_priority_alerts_by_mode:
+          Dotcom.Alerts.routes_with_high_priority_alerts_by_mode(),
+        stops_with_accessibility_alerts_by_issue:
+          Dotcom.Alerts.stops_with_access_alerts_by_effect()
+      )}
     </div>
   </div>
 </nav>

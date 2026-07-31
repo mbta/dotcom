@@ -27,7 +27,6 @@ defmodule DotcomWeb.PageController do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
     date = conn.assigns.date
-    date_time = conn.assigns.date_time
 
     conn
     |> assign(
@@ -39,15 +38,6 @@ defmodule DotcomWeb.PageController do
     |> assign(:whats_happening_items, remainder)
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:photo, &photo/0)
-    |> async_assign_default(
-      :alerts,
-      fn ->
-        date_time
-        |> Alerts.Repo.all()
-        |> Enum.filter(&Alerts.Match.any_time_match?(&1, date_time))
-      end,
-      []
-    )
     |> async_assign_default(
       :event_teasers,
       fn -> CMS.Repo.next_n_event_teasers(date, 6) end,

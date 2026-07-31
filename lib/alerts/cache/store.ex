@@ -18,6 +18,8 @@ defmodule Alerts.Cache.Store do
   """
 
   alias Alerts.{Alert, Priority}
+  alias Routes.Route
+  alias Stops.Stop
 
   use GenServer
 
@@ -82,6 +84,51 @@ defmodule Alerts.Cache.Store do
   def alert_ids_for_stop_id(stop_id) do
     keys = [{{stop_id, :"$1"}, [], [:"$1"]}]
     :ets.select(:stop_id_to_alert_ids, keys)
+  end
+
+  @doc """
+  Retrieves all active alerts for a given effect.
+  """
+  @spec active_alerts_for_effect(Alert.effect()) :: [Alert.t()]
+  def active_alerts_for_effect(effect) do
+    :ets.select(:alert_id_to_alert, [
+      {{:_, :"$1"}, [{:==, {:map_get, :effect, :"$1"}, effect}], [:"$1"]}
+    ])
+    |> Enum.filter(&Dotcom.Alerts.in_effect_now?/1)
+  end
+
+  @doc """
+  Retrieves all stop ids associated with alerts for a given effect.
+  """
+  @spec active_stop_ids_for_effect(Alert.effect()) :: [Stop.id_t()]
+  def active_stop_ids_for_effect(effect) do
+    effect
+    |> active_alerts_for_effect()
+    |> Enum.map(&{{:"$1", &1.id}, [], [:"$1"]})
+    |> then(fn stop_ids_from_alert_ids_match_spec ->
+      :ets.select(:stop_id_to_alert_ids, stop_ids_from_alert_ids_match_spec)
+    end)
+    |> Enum.reject(&Kernel.is_nil/1)
+    |> Enum.uniq()
+  end
+
+  @doc """
+  Retrieves all the alerts of a given priority for the given list of alert ids.
+  """
+  @spec route_ids_for_high_priority_alerts_for_route_types([Route.type_int()]) :: [Route.id_t()]
+  def route_ids_for_high_priority_alerts_for_route_types(route_types) do
+    route_types
+    |> Enum.map(&{{:_, &1, :"$1"}, [], [:"$1"]})
+    |> then(fn alert_ids_from_route_type_match_spec ->
+      :ets.select(:route_id_and_type_to_alert_ids, alert_ids_from_route_type_match_spec)
+    end)
+    |> priority_alerts_from_alert_ids(:high)
+    |> Enum.filter(&Dotcom.Alerts.in_effect_now?/1)
+    |> Enum.map(&{{:"$1", :_, &1.id}, [], [:"$1"]})
+    |> then(fn route_ids_from_alert_ids_match_spec ->
+      :ets.select(:route_id_and_type_to_alert_ids, route_ids_from_alert_ids_match_spec)
+    end)
+    |> Enum.uniq()
   end
 
   @doc """
