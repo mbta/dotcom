@@ -11,22 +11,6 @@ defmodule DotcomWeb.PageView do
   alias CMS.Partial.Banner
   alias DotcomWeb.PartialView
 
-  @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
-  def alerts(alerts) do
-    [routes, stops] =
-      [
-        &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
-        &Dotcom.Alerts.stops_with_access_alerts_by_effect/1
-      ]
-      |> Task.async_stream(& &1.(alerts), timeout: 10_000)
-      |> Enum.map(fn {:ok, result} -> result end)
-
-    render("_alerts.html",
-      routes_with_high_priority_alerts_by_mode: routes,
-      stops_with_accessibility_alerts_by_issue: stops
-    )
-  end
-
   @spec alerts_mode_url(Routes.Route.gtfs_route_type()) :: String.t()
   defp alerts_mode_url(mode) do
     path =
