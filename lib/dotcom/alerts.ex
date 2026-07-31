@@ -263,33 +263,15 @@ defmodule Dotcom.Alerts do
     end)
   end
 
-  def routes_with_high_priority_alerts_by_mode(alerts) do
-    modes = [:subway, :bus, :commuter_rail, :ferry]
-    empty_by_mode = Map.new(modes, fn mode -> {mode, MapSet.new()} end)
-
-    route_ids_by_mode =
-      alerts
-      |> Enum.filter(&(Alerts.Priority.priority(&1) == :high))
-      |> Enum.reduce(empty_by_mode, fn alert, acc ->
-        route_ids = Alert.get_entity(alert, :route) |> MapSet.delete(nil)
-
-        alert
-        |> alert_route_type()
-        |> Enum.map(&Route.type_atom/1)
-        |> Enum.reduce(acc, fn mode, acc2 ->
-          Map.update!(acc2, mode, &MapSet.union(&1, route_ids))
-        end)
-      end)
-
-    Enum.map(modes, fn mode_key ->
-      route_ids =
-        route_ids_by_mode
-        |> Map.fetch!(mode_key)
-        |> MapSet.to_list()
-
+  def routes_with_high_priority_alerts_by_mode() do
+    [:subway, :bus, :commuter_rail, :ferry]
+    |> Enum.map(fn mode_key ->
       {mode_key,
-       get_many(route_ids, &@routes_repo_module.get/1)
-       |> Stream.filter(&match?({:ok, %Route{}}, &1))
+       mode_key
+       |> Route.types_for_mode()
+       |> Alerts.Cache.Store.route_ids_for_high_priority_alerts_for_route_types()
+       |> get_many(&@routes_repo_module.get/1)
+       |> Stream.filter(&match?({:ok, %Route{listed?: true}}, &1))
        |> Stream.map(fn {:ok, route} -> route end)
        |> Enum.sort_by(& &1.sort_order)}
     end)
