@@ -94,9 +94,8 @@ defmodule Dotcom.Alerts do
   """
   @spec in_effect_now?(Alerts.Alert.t()) :: boolean()
   def in_effect_now?(%Alerts.Alert{active_period: active_period}) do
-    Enum.any?(active_period, fn {start, stop} ->
-      in_range?({start, stop}, @date_time_module.now())
-    end)
+    now = @date_time_module.now()
+    Enum.any?(active_period, &in_range?(&1, now))
   end
 
   @doc """
