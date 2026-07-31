@@ -35,12 +35,12 @@
 
       <div class="ml-auto">
         <form :if={feature.enabled} action={~p"/_flags/disable/#{feature.id}"} method="post">
-	  <input type="hidden" name="redirect" value={~p"/_flags"} />
+          <input type="hidden" name="redirect" value={~p"/_flags"} />
           <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
           <.button>Disable</.button>
         </form>
         <form :if={!feature.enabled} action={~p"/_flags/enable/#{feature.id}"} method="post">
-	  <input type="hidden" name="redirect" value={~p"/_flags"} />
+          <input type="hidden" name="redirect" value={~p"/_flags"} />
           <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
           <.button>Enable</.button>
         </form>
