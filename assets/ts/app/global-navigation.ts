@@ -265,9 +265,11 @@ export function setup(rootElement: HTMLElement): void {
       aMenuIsBeingExpanded && observedNames.includes(TOGGLE_NAMES.desktop);
 
     if (expandingDesktop) {
-      desktopHeaders.forEach(header => {
-        disableBodyScroll(header, { reserveScrollBarGap: true });
-      });
+      desktopHeaders
+        .filter(header => header.querySelector("[data-nav='mobile-content']"))
+        .forEach(header => {
+          disableBodyScroll(header, { reserveScrollBarGap: true });
+        });
 
       const veil = rootElement.querySelector<HTMLElement>("[data-nav='veil']");
       if (
