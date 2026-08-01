@@ -56,7 +56,7 @@ runs:
   - name: Install Node dependencies (if needed)
     if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
     shell: bash
-    run: |
+    run: | # zizmor: ignore[adhoc-packages] Zizmor is incorrectly pattern-matching the npm command as something like npm install foo@1.0, which would be an adhoc package installation worth avoiding
       git config --global url."https://github.com/".insteadOf ssh://git@github.com/
       npm install --prefix assets --package-lock-only
       npm run install:ci

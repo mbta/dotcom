@@ -135,7 +135,8 @@ jobs:
             _build
             priv
           key: ci-application-cache-${{ github.sha }}
-      - run: npm install --prefix assets
+      - run: | # zizmor: ignore[adhoc-packages] Zizmor is incorrectly pattern-matching the npm command as something like npm install foo@1.0, which would be an adhoc package installation worth avoiding
+          npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
 
