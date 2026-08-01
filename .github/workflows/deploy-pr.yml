@@ -55,9 +55,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ env.DO_DEPLOY }}
         run: |
-          gh pr list --repo ${{ github.repository }} --state all --label "${{ env.DEPLOY_ENV }}" --json number --jq ".[].number"| while read -r pr_number ;  do
+          gh pr list --repo ${{ github.repository }} --state all --label "${DEPLOY_ENV}" --json number --jq ".[].number"| while read -r pr_number ;  do
             if [[ "${pr_number}" != "${{ github.event.pull_request.number }}" ]]; then
-              echo "=== PR ${pr_number} : remove ${{ env.DEPLOY_ENV }} label ==="
-              gh pr edit "${pr_number}" --repo ${{ github.repository }} --remove-label "${{ env.DEPLOY_ENV }}"
+              echo "=== PR ${pr_number} : remove ${DEPLOY_ENV} label ==="
+              gh pr edit "${pr_number}" --repo ${{ github.repository }} --remove-label "${DEPLOY_ENV}"
             fi
           done
