@@ -56,7 +56,9 @@ jobs:
           role-to-assume: ${{ secrets.aws-role-arn }}
           aws-region: us-east-1
       - run: |
-          echo "inputs: ${{ toJson(inputs) }}"
+          echo "inputs: $INPUTS_JSON"
+        env:
+          INPUTS_JSON: ${{ toJson(inputs) }}
 
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         if: ${{ inputs.deployment-env != '' }}
