@@ -8,6 +8,9 @@ on:
       - synchronize
       - labeled
 
+permissions:
+  contents: read
+
 env:
   # deploy only if any PR label is "dev-green" or "dev-blue"
   DO_DEPLOY: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}

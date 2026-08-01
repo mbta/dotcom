@@ -31,6 +31,8 @@ jobs:
   check:
     name: Check for changes in monitoring setup
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       changed: ${{ steps.changes.outputs.monitor == 'true' }}
     steps:

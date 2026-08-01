@@ -13,6 +13,9 @@ env:
   MBTA_API_BASE_URL: ${{ secrets.MBTA_API_BASE_URL }}
   MBTA_API_KEY: ${{ secrets.MBTA_API_KEY }}
 
+permissions:
+  contents: read
+
 jobs:
   file_changes:
     runs-on: ubuntu-latest

@@ -6,6 +6,9 @@ on:
     types:
       - released
 
+permissions:
+  contents: read
+
 jobs:
   release:
     uses: ./.github/workflows/use-deploy-ecs.yml

@@ -174,11 +174,15 @@ jobs:
           path: playwright-report
           retention-days: 30
   crawl:
+    permissions:
+      contents: read
     needs: deploy
     uses: ./.github/workflows/crawler.yml
     with:
       deployment-env: ${{ inputs.deployment-env }}
   monitor:
+    permissions:
+      contents: read
     uses: ./.github/workflows/push-monitor.yml
     with:
       deployment-env: ${{ inputs.deployment-env }}

@@ -11,6 +11,9 @@ on:
         required: true
         default: dev-blue
 
+permissions:
+  contents: read
+
 jobs:
   branch:
     uses: ./.github/workflows/use-deploy-ecs.yml
