@@ -17,8 +17,17 @@ defmodule DotcomWeb.Plugs.DateInRating do
   def call(%Conn{assigns: %{date: date}, query_params: %{"date" => _}} = conn, dates_fn: dates_fn) do
     in_rating? =
       case dates_fn.() do
+        %{start_date: nil, end_date: end_date} ->
+          Date.before?(date, end_date)
+
+        %{start_date: start_date, end_date: nil} ->
+          Date.after?(date, start_date)
+
         %{start_date: start_date, end_date: end_date} ->
           Date.compare(start_date, date) != :gt and Date.compare(end_date, date) != :lt
+
+        %{start_date: nil, end_date: nil} ->
+          true
 
         :error ->
           true
