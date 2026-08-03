@@ -77,7 +77,9 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         snap.licdn.com
         translate.google.com/translate_a/element.js
         translate-pa.googleapis.com
+        translate.googleapis.com
         www.instagram.com
+        www.google.com/sorry/index
         https://cdn.jsdelivr.net/
         analytics.tiktok.com
       ],
@@ -106,11 +108,8 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   defp runtime_directives do
     drupal_url = Util.config(:dotcom, :cms_api)[:base_url]
     endpoint_config = Util.config(:dotcom, DotcomWeb.Endpoint)
-    websocket_url = "#{Keyword.get(endpoint_config, :url, [])[:host]}"
 
     [
-      {:connect_src, "ws://#{websocket_url}"},
-      {:connect_src, "wss://#{websocket_url}"},
       {:img_src, drupal_url}
     ]
     |> static_host(Keyword.get(endpoint_config, :static_url))
