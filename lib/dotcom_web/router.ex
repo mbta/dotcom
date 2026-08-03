@@ -80,9 +80,12 @@ defmodule DotcomWeb.Router do
     get("/_health", HealthController, :index)
   end
 
-  scope "/_flags", Laboratory do
+  scope "/_flags", DotcomWeb do
     pipe_through([:browser, :browser_live])
-    forward("/", Router)
+
+    get("/", FlagsController, :index)
+    post("/disable/:flag_id", FlagsController, :disable)
+    post("/enable/:flag_id", FlagsController, :enable)
   end
 
   scope "/cache", DotcomWeb do
