@@ -108,7 +108,6 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
   defp runtime_directives do
     drupal_url = Util.config(:dotcom, :cms_api)[:base_url]
     endpoint_config = Util.config(:dotcom, DotcomWeb.Endpoint)
-    websocket_url = "#{Keyword.get(endpoint_config, :url, [])[:host]}"
 
     [
       {:img_src, drupal_url}
