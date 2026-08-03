@@ -18,7 +18,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   @alerts_repo @repos_module[:alerts]
   @routes_repo @repos_module[:routes]
   @schedules_repo @repos_module[:schedules]
-  @schedules_condensed_repo @repos_module[:schedules_condensed]
 
   @type trip_info_t() ::
           {:trip,
@@ -81,7 +80,7 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   """
   @spec commuter_rail_route_status(Route.id_t()) :: route_status_t()
   def commuter_rail_route_status(route_id) do
-    if service_today?(route_id) do
+    if Dotcom.ServicePatterns.has_service?(route: route_id) do
       route_id
       |> commuter_rail_route_alerts()
       |> group_by_impact()
@@ -294,14 +293,5 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   defp commuter_rail_routes() do
     @routes_repo.all()
     |> Enum.filter(&Routes.Route.commuter_rail?/1)
-  end
-
-  # Returns a boolean indicating whether or not the route has a schedule
-  # for today. This is used to determine if the route is running service today.
-  @spec service_today?(String.t()) :: boolean()
-  defp service_today?(id) do
-    [id]
-    |> @schedules_condensed_repo.by_route_ids()
-    |> Enum.any?(fn %{time: time} -> Dotcom.Utils.ServiceDateTime.service_today?(time) end)
   end
 end
