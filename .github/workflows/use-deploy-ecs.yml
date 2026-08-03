@@ -183,6 +183,7 @@ jobs:
   monitor:
     permissions:
       contents: read
+      id-token: write
     uses: ./.github/workflows/push-monitor.yml
     with:
       deployment-env: ${{ inputs.deployment-env }}
