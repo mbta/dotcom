@@ -38,21 +38,29 @@ defmodule DotcomWeb.Plugs.AssignFromParam do
   @behaviour Plug
 
   @impl true
-  def init(opts), do: opts
+  def init(opts) do
+    opts
+    |> Keyword.put(:param_atom, Keyword.fetch!(opts, :param) |> String.to_atom())
+  end
 
   @impl true
   def call(conn, opts) do
     param = Keyword.fetch!(opts, :param)
+    param_atom = Keyword.fetch!(opts, :param_atom)
     fallback_fn = Keyword.fetch!(opts, :fallback_fn)
     validator_fn = Keyword.get(opts, :validator_fn, fn value -> {:ok, value} end)
 
-    validate_call(conn, param, validator_fn, fallback_fn)
+    validate_call(conn, {param, param_atom}, validator_fn, fallback_fn)
   end
 
-  defp validate_call(%{query_params: query_params} = conn, param, validator_fn, fallback_fn)
+  defp validate_call(
+         %{query_params: query_params} = conn,
+         {param, param_atom},
+         validator_fn,
+         fallback_fn
+       )
        when is_map_key(query_params, param) do
     param_value = Map.get(query_params, param)
-    param_atom = String.to_atom(param)
 
     case validator_fn.(param_value) do
       {:ok, value} ->
@@ -61,11 +69,11 @@ defmodule DotcomWeb.Plugs.AssignFromParam do
       _ ->
         conn
         |> DotcomWeb.ControllerHelpers.redirect_sans_param(param)
-        |> validate_call(param, validator_fn, fallback_fn)
+        |> validate_call({param, param_atom}, validator_fn, fallback_fn)
     end
   end
 
-  defp validate_call(conn, param, _, fallback_fn) do
-    assign(conn, String.to_atom(param), fallback_fn.())
+  defp validate_call(conn, {_, param_atom}, _, fallback_fn) do
+    assign(conn, param_atom, fallback_fn.())
   end
 end

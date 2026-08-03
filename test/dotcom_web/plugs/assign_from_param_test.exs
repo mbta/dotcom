@@ -8,7 +8,7 @@ defmodule DotcomWeb.Plugs.AssignFromParamTest do
       opts = [fallback_fn: fn -> "fallback value" end]
 
       assert_raise KeyError, fn ->
-        AssignFromParam.call(conn, opts)
+        AssignFromParam.call(conn, AssignFromParam.init(opts))
       end
     end
 
@@ -16,7 +16,7 @@ defmodule DotcomWeb.Plugs.AssignFromParamTest do
       opts = [param: "param", validator_fn: fn _ -> {:ok, "validated value"} end]
 
       assert_raise KeyError, fn ->
-        AssignFromParam.call(conn, opts)
+        AssignFromParam.call(conn, AssignFromParam.init(opts))
       end
     end
 
@@ -29,7 +29,7 @@ defmodule DotcomWeb.Plugs.AssignFromParamTest do
         fallback_fn: fn -> "fallback value" end
       ]
 
-      conn = AssignFromParam.call(conn, opts)
+      conn = AssignFromParam.call(conn, AssignFromParam.init(opts))
       assigned_value = conn.assigns[String.to_atom(param_name)]
       assert assigned_value == "fallback value"
     end
@@ -44,7 +44,7 @@ defmodule DotcomWeb.Plugs.AssignFromParamTest do
       ]
 
       conn = with_query_params(conn, %{param_name => "value"})
-      redirected_conn = AssignFromParam.call(conn, opts)
+      redirected_conn = AssignFromParam.call(conn, AssignFromParam.init(opts))
       assert redirected_conn.status == 302
       assigned_value = redirected_conn.assigns[String.to_atom(param_name)]
       assert assigned_value == "fallback value"
@@ -64,7 +64,7 @@ defmodule DotcomWeb.Plugs.AssignFromParamTest do
       param_value = Faker.Pokemon.name()
 
       conn = with_query_params(conn, %{param_name => param_value})
-      conn = AssignFromParam.call(conn, opts)
+      conn = AssignFromParam.call(conn, AssignFromParam.init(opts))
       assigned_value = conn.assigns[String.to_atom(param_name)]
       {:ok, expected_value} = opts[:validator_fn].(param_value)
       assert assigned_value == expected_value
