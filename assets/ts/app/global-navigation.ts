@@ -225,7 +225,17 @@ export function setup(rootElement: HTMLElement): void {
           // eslint-disable-next-line no-param-reassign
           header.dataset.navOpen = "true";
         });
+
+
+        rootElement
+          .querySelectorAll(TOGGLE_SELECTORS.desktop)
+          .forEach(el => {
+            if (el.getAttribute("aria-expanded") === "true") {
+              toggleAriaExpanded(el)
+            }
+          })
       }
+
 
       // SEARCH EXPANDING
       if (observedNames.includes(TOGGLE_NAMES.search)) {
@@ -234,8 +244,17 @@ export function setup(rootElement: HTMLElement): void {
           header.dataset.searchOpen = "true";
           disableBodyScroll(header);
         });
+
+
+        rootElement
+          .querySelectorAll(TOGGLE_SELECTORS.desktop)
+          .forEach(el => {
+            if (el.getAttribute("aria-expanded") === "true") {
+              toggleAriaExpanded(el)
+            }
+          })
       }
-    } else {
+      } else {
       // only do this if no other menu is expanded
       const anyOpen = Array.from(
         rootElement.querySelectorAll(allTogglesSelector)
@@ -300,7 +319,17 @@ export function setup(rootElement: HTMLElement): void {
             el.getAttribute("aria-expanded") === "true"
         )
         .forEach(toggleAriaExpanded);
-    }
+
+      rootElement
+        .querySelectorAll(
+          TOGGLE_SELECTORS.mobile, TOGGLE_SELECTORS.search
+        )
+        .forEach(el => {
+          if (el.getAttribute("aria-expanded") === "true") {
+            toggleAriaExpanded(el);
+          }
+        });
+      }
   });
 
   // Observe aria-expanded on every toggle everywhere
