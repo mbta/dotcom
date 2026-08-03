@@ -3701,11 +3701,6 @@ msgstr "Plent Sèvis"
 msgid "Service Inquiry"
 msgstr "Demann Sèvis"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Service changes are in effect June 6 – July 12. Check each day of your line’s %{timetable_link} for the most up-to-date schedule."
-msgstr "Chanjman sèvis yo an vigè soti 6 jen rive 12 jiyè. Tcheke chak jou nan %{timetable_link} liy ou a pou jwenn dènye enfòmasyon yo."
-
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Service ended"
@@ -4105,11 +4100,6 @@ msgstr "Pran métro a pou ale vote"
 #, elixir-autogen, elixir-format
 msgid "Take the elevator"
 msgstr "Pran asansè a"
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Taking the train to a World Cup match?"
-msgstr "Pran tren pou ale nan yon match koup di mond lan?"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4599,11 +4589,6 @@ msgstr "Via"
 msgid "View"
 msgstr "Gade"
 
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "View %{timetable_link} for departure information."
-msgstr "Gade %{timetable_link} pou enfòmasyon sou depa."
-
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "View Alerts"
@@ -4898,11 +4883,6 @@ msgstr "Ou dwe dakò ak Règleman sou enfòmasyon prive nou an anvan ou soumèt 
 #, elixir-autogen, elixir-format
 msgid "You must complete the reCAPTCHA before submitting your feedback."
 msgstr "Ou dwe ranpli reCAPTCHA a anvan ou soumèt fidbak ou a."
-
-#: lib/dotcom_web/components/components.ex
-#, elixir-autogen, elixir-format
-msgid "Your Commuter Rail trip will be affected by the World Cup."
-msgstr "Koup di mond lan pral afekte vwayaj Tren banlye ou a."
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
