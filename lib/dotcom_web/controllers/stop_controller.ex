@@ -10,7 +10,6 @@ defmodule DotcomWeb.StopController do
   import Dotcom.Alerts.StartTime, only: [active_in_next_n_days?: 3]
 
   alias Alerts.Repo, as: AlertsRepo
-  alias Alerts.Stop, as: AlertsStop
   alias Dotcom.TransitNearMe
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
@@ -71,13 +70,11 @@ defmodule DotcomWeb.StopController do
           @facilities_repo.get_for_stop(stop_id)
           |> Dotcom.StopAmenity.from_stop_facilities()
 
-        banner_alerts =
-          banner_alerts(stop_id, routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
-
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
         |> assign_alerts()
+        |> assign_stop_banner_alerts(routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
         |> render("show.html", %{
           stop: stop,
           amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
@@ -89,7 +86,6 @@ defmodule DotcomWeb.StopController do
           escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
           accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
           fare_amenity: Enum.find(amenities, &(&1.type == :fare)),
-          banner_alerts: banner_alerts,
           accessible?: accessible?
         })
       end
@@ -98,15 +94,18 @@ defmodule DotcomWeb.StopController do
     end
   end
 
-  defp banner_alerts(stop_id, route_ids, date_time) do
-    all_alerts_for_stop = @alerts_repo.by_stop_id(stop_id)
+  defp assign_stop_banner_alerts(conn, route_ids, date_time) do
+    all_alerts_for_stop = conn.assigns.alerts
 
     all_routewide_alerts =
       @alerts_repo.by_route_ids(route_ids, date_time)
       |> Enum.filter(&routewide?/1)
 
-    (all_alerts_for_stop ++ all_routewide_alerts)
-    |> Enum.filter(&banner_alert?(&1, date_time))
+    banner_alerts =
+      (all_alerts_for_stop ++ all_routewide_alerts)
+      |> Enum.filter(&banner_alert?(&1, date_time))
+
+    assign(conn, :banner_alerts, banner_alerts)
   end
 
   defp banner_alert?(alert, now) do
@@ -333,11 +332,7 @@ defmodule DotcomWeb.StopController do
 
   defp assign_alerts(%{path_params: %{"id" => id}} = conn) do
     stop_id = URI.decode_www_form(id)
-
-    alerts =
-      conn.assigns.date_time
-      |> AlertsRepo.all()
-      |> AlertsStop.match(stop_id)
+    alerts = @alerts_repo.by_stop_id(stop_id)
 
     conn
     |> assign(:alerts, alerts)
