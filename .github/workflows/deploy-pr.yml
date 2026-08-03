@@ -28,6 +28,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
     uses: ./.github/workflows/use-deploy-ecs.yml
     permissions:
+      contents: read
       id-token: write
     with:
       deployment-env: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }} # env not valid here either

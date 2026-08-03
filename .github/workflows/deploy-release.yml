@@ -13,6 +13,7 @@ jobs:
   release:
     uses: ./.github/workflows/use-deploy-ecs.yml
     permissions:
+      contents: read
       id-token: write
     with:
       deployment-env: prod
