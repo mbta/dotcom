@@ -17,6 +17,9 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   crawler:
     continue-on-error: true
@@ -27,13 +30,13 @@ jobs:
 
     steps:
     - id: setup-beam
-      uses: erlef/setup-beam@v1
+      uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
       with:
         otp-version: "28.2"
         elixir-version: "1.19.4"
     - name: cache crawler
       id: escript-cache
-      uses: actions/cache@v5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       with:
         path: ~/.mix/escripts
         key: ${{runner.os}}-escripts-${{steps.setup-beam.outputs.elixir-version}}-${{steps.setup-beam.outputs.otp-version}}-crawler
@@ -45,5 +48,5 @@ jobs:
         echo "## Crawler results" >> $GITHUB_STEP_SUMMARY
         echo "Compare against current [known broken links (link TBA)]()"
         echo "\`\`\`shell" >> $GITHUB_STEP_SUMMARY
-        $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | tee -a $GITHUB_STEP_SUMMARY
+        $HOME/.mix/escripts/crawler ${url} --num-workers 3 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | tee -a $GITHUB_STEP_SUMMARY
         echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

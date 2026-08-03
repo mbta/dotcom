@@ -227,6 +227,24 @@ http.response_time.2xx:
 
 This can be useful for comparing homepage load times across different commits or releases.
 
+## Zizmor
+
+We use [Zizmor](https://docs.zizmor.sh/) to ensure that our Github Actions are configured securely. It runs automatically in CI, but if you'd like to run it locally, you can install it with
+
+```bash
+brew install zizmor
+zizmor .
+```
+
+If you have Github CLI tools installed (`brew install gh`), and are logged in (`gh auth login`), then you can get more informative output by running in "Online Mode":
+```bash
+zizmor --gh-token $(gh auth token))
+```
+
+And you can have it auto-fix what it can with
+```bash
+zizmor --gh-token $(gh auth token)) --pedantic --fix=all
+```
 
 ## Monitoring
 
