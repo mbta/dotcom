@@ -12,6 +12,8 @@ permissions:
 jobs:
   release:
     uses: ./.github/workflows/use-deploy-ecs.yml
+    permissions:
+      id-token: write
     with:
       deployment-env: prod
       extra-docker-tag: ${{ github.event.release.tag_name }}

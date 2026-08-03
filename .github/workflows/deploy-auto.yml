@@ -17,6 +17,8 @@ jobs:
     # Skip this workflow if the commit message contains "AUTOMATED TRANSLATIONS"
     if: ${{ !contains(github.event.head_commit.message, 'AUTOMATED TRANSLATIONS') }}
     uses: ./.github/workflows/use-deploy-ecs.yml
+    permissions:
+      id-token: write
     with:
       deployment-env: dev
     secrets:

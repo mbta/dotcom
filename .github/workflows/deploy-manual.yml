@@ -17,6 +17,8 @@ permissions:
 jobs:
   branch:
     uses: ./.github/workflows/use-deploy-ecs.yml
+    permissions:
+      id-token: write
     with:
       deployment-env: ${{ github.event.inputs.env }}
     secrets:
