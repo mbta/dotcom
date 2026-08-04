@@ -284,11 +284,15 @@ export function setup(rootElement: HTMLElement): void {
       aMenuIsBeingExpanded && observedNames.includes(TOGGLE_NAMES.desktop);
 
     if (expandingDesktop) {
-      desktopHeaders
-        .filter(header => header.querySelector("[data-nav='mobile-content']"))
-        .forEach(header => {
-          disableBodyScroll(header, { reserveScrollBarGap: true });
-        });
+      const expandingToggle = mutations[0].target as Element;
+      const owningHeader = expandingToggle.closest("header");
+
+      if (
+        owningHeader &&
+        owningHeader.querySelector("[data-nav='mobile-content']")
+      ) {
+        disableBodyScroll(owningHeader, { reserveScrollBarGap: true });
+      }
 
       const veil = rootElement.querySelector<HTMLElement>("[data-nav='veil']");
       if (
