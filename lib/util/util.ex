@@ -555,4 +555,31 @@ defmodule Util do
         error
     end
   end
+
+  @doc """
+  Uses Erlang's :persistent_term as a store, which is suitable for storing terms
+  that are frequently accessed but never or infrequently updated. This will
+  store the result of the function call if it doesn't already exist, and return
+  the stored value on subsequent calls.
+
+  Only use this for values which you don't expect will change.
+
+  ## Examples
+      iex> Util.get_or_save_persistent_term(:my_key, fn -> "my_value" end)
+      "my_value"
+      iex> Util.get_or_save_persistent_term(:my_key, fn -> "new_value" end)
+      "my_value"
+  """
+  @spec get_or_save_persistent_term(term(), function()) :: term()
+  def get_or_save_persistent_term(key, func) when is_function(func, 0) do
+    case :persistent_term.get(key, :cache_miss) do
+      :cache_miss ->
+        result = func.()
+        :persistent_term.put(key, result)
+        result
+
+      result ->
+        result
+    end
+  end
 end
