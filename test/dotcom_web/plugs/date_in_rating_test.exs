@@ -80,6 +80,28 @@ defmodule DotcomWeb.Plugs.DateInRatingTest do
       assert conn_with_params.assigns.date_in_rating? == false
     end
 
+    test "returns true when start_date is nil and date is same as end_date", %{conn: conn} do
+      conn = %{
+        conn
+        | assigns: %{date: @end_date},
+          query_params: %{"date" => @end_date |> Date.to_iso8601()}
+      }
+
+      conn_with_params = call(conn, dates_fn: fn -> %{start_date: nil, end_date: @end_date} end)
+      assert conn_with_params.assigns.date_in_rating? == true
+    end
+
+    test "returns true when end_date is nil and date is same as start_date", %{conn: conn} do
+      conn = %{
+        conn
+        | assigns: %{date: @start_date},
+          query_params: %{"date" => @start_date |> Date.to_iso8601()}
+      }
+
+      conn_with_params = call(conn, dates_fn: fn -> %{start_date: @start_date, end_date: nil} end)
+      assert conn_with_params.assigns.date_in_rating? == true
+    end
+
     test "returns true when start_date and end_date are both nil", %{conn: conn} do
       conn = %{conn | assigns: %{date: ~D[2020-01-01]}, query_params: %{"date" => "2020-01-01"}}
       conn_with_params = call(conn, dates_fn: fn -> %{start_date: nil, end_date: nil} end)

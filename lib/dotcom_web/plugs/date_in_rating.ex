@@ -21,10 +21,10 @@ defmodule DotcomWeb.Plugs.DateInRating do
           true
 
         %{start_date: nil, end_date: end_date} ->
-          Date.before?(date, end_date)
+          Date.before?(date, end_date) or Date.compare(date, end_date) == :eq
 
         %{start_date: start_date, end_date: nil} ->
-          Date.after?(date, start_date)
+          Date.after?(date, start_date) or Date.compare(date, start_date) == :eq
 
         %{start_date: start_date, end_date: end_date} ->
           Date.compare(start_date, date) != :gt and Date.compare(end_date, date) != :lt
