@@ -89,7 +89,8 @@ defmodule BuildCalendar do
           {day.holiday?, "schedule-holiday"},
           {day.selected? && day.month_relation == :current, "schedule-selected"},
           {day.month_relation == :next, "schedule-next-month"},
-          {day.today?, "schedule-today"}
+          {day.today?, "schedule-today"},
+          {day.selected?, "date-picker-toggle"}
         ]
         |> Enum.filter(&match?({true, _}, &1))
         |> Enum.map(&elem(&1, 1))
@@ -201,20 +202,8 @@ defmodule BuildCalendar do
     url_fn.(date: nil, date_select: nil, shift: nil)
   end
 
-  defp build_url(url_fn, date, _today, date) do
-    url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil, r: rand_string(3))
-  end
-
   defp build_url(url_fn, date, _, _) do
     url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil)
-  end
-
-  defp rand_string(length) do
-    0..(length - 1) |> Enum.to_list() |> Enum.map(fn _ -> rand_char() end) |> Enum.join()
-  end
-
-  defp rand_char() do
-    <<Enum.random(?a..?z)>>
   end
 
   @spec month_relation(Date.t(), Date.t(), Date.t()) :: __MODULE__.Day.month_relation()
