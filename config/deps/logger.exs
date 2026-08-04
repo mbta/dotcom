@@ -1,7 +1,9 @@
 import Config
 
 # Include referrer in Logster request log
-config :logster, :allowed_headers, ["referer"]
+config :logster,
+  headers: ["referer"],
+  formatter: :string
 
 if config_env() == :prod do
   # Do not print debug messages in production
