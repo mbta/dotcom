@@ -9,22 +9,19 @@ if config_env() == :prod do
   # Do not print debug messages in production
   config :logger,
     level: :info,
-    handle_sasl_reports: true,
-    backends: [:console]
+    handle_sasl_reports: true
 
-  config :logger, :console,
-    level: :info,
+  config :logger, :default_formatter,
     format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
     metadata: [:ip, :mbta_id, :request_id]
 end
 
 if config_env() == :dev do
-  config :logger, truncate: :infinity
-
-  config :logger, :console,
+  config :logger, :default_formatter,
     format: "$date $time [$level] $metadata$message\n",
-    level: :notice,
     metadata: [:ip, :mbta_id, :request_id]
+
+  config :logger, level: :notice
 end
 
 if config_env() == :test do
