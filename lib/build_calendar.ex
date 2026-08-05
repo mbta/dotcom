@@ -170,7 +170,7 @@ defmodule BuildCalendar do
     for date <- Date.range(first_day(shifted), last_day(shifted)) do
       %BuildCalendar.Day{
         date: date,
-        url: build_url(url_fn, date, today, selected),
+        url: build_url(url_fn, date, today),
         month_relation: month_relation(date, last_day_of_previous_month, last_day_of_this_month),
         selected?: date == selected,
         holiday?: MapSet.member?(holiday_set, date),
@@ -196,13 +196,13 @@ defmodule BuildCalendar do
     |> Date.end_of_week(:sunday)
   end
 
-  @spec build_url(url_fn, Date.t(), Date.t(), Date.t()) :: String.t()
+  @spec build_url(url_fn, Date.t(), Date.t()) :: String.t()
 
-  defp build_url(url_fn, today, today, _) do
+  defp build_url(url_fn, today, today) do
     url_fn.(date: nil, date_select: nil, shift: nil)
   end
 
-  defp build_url(url_fn, date, _, _) do
+  defp build_url(url_fn, date, _) do
     url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil)
   end
 
