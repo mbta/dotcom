@@ -23,9 +23,9 @@ function toggleMenu(el: Element): void {
 }
 
 const TOGGLE_NAMES = {
-  mobile: "toggle-mobile-nav",
+  mobile: "toggle-fullscreen-nav",
   search: "toggle-nav-search",
-  desktop: "toggle-desktop-nav"
+  desktop: "toggle-dropdown-nav"
 };
 
 const TOGGLE_SELECTORS = Object.fromEntries(
@@ -44,13 +44,13 @@ export function setHeaderElementPositions(
   const bottomPx = `${bottom}px`;
   const heightPx = `${height}px`;
 
-  header.querySelectorAll("[data-nav='desktop-section']").forEach(el => {
+  header.querySelectorAll("[data-nav='dropdown-section']").forEach(el => {
     // eslint-disable-next-line no-param-reassign
     (el as HTMLElement).style.top = heightPx;
   });
 
   const content = header.querySelector(
-    "[data-nav='mobile-content']"
+    "[data-nav='fullscreen-menu-content']"
   ) as HTMLElement | null;
   if (content) {
     content.style.top = bottomPx;
@@ -140,7 +140,9 @@ export function setup(rootElement: HTMLElement): void {
 
   // removes focus outline in Safari from open accordions
   rootElement
-    .querySelectorAll("[data-nav='mobile-content'] .js-focus-on-expand")
+    .querySelectorAll(
+      "[data-nav='fullscreen-menu-content'] .js-focus-on-expand"
+    )
     .forEach(openAccordion => {
       openAccordion.addEventListener("focus", undoOutline);
     });
@@ -159,7 +161,7 @@ export function setup(rootElement: HTMLElement): void {
       // Toggle Menu text
       if ("navOpen" in header.dataset) {
         const content = header.querySelector(
-          "[data-nav='mobile-content']"
+          "[data-nav='fullscreen-menu-content']"
         ) as HTMLElement;
         if (content) content.scrollTop = 0;
         mobileToggle.innerHTML = "Close";
@@ -219,23 +221,19 @@ export function setup(rootElement: HTMLElement): void {
       if (observedNames.includes(TOGGLE_NAMES.mobile)) {
         mobileMenuHeaders.forEach(header => {
           const content = header.querySelector(
-            "[data-nav='mobile-content']"
+            "[data-nav='fullscreen-menu-content']"
           ) as HTMLElement;
           if (content) disableBodyScroll(content);
           // eslint-disable-next-line no-param-reassign
           header.dataset.navOpen = "true";
         });
 
-
-        rootElement
-          .querySelectorAll(TOGGLE_SELECTORS.desktop)
-          .forEach(el => {
-            if (el.getAttribute("aria-expanded") === "true") {
-              toggleAriaExpanded(el)
-            }
-          })
+        rootElement.querySelectorAll(TOGGLE_SELECTORS.desktop).forEach(el => {
+          if (el.getAttribute("aria-expanded") === "true") {
+            toggleAriaExpanded(el);
+          }
+        });
       }
-
 
       // SEARCH EXPANDING
       if (observedNames.includes(TOGGLE_NAMES.search)) {
@@ -245,16 +243,13 @@ export function setup(rootElement: HTMLElement): void {
           disableBodyScroll(header);
         });
 
-
-        rootElement
-          .querySelectorAll(TOGGLE_SELECTORS.desktop)
-          .forEach(el => {
-            if (el.getAttribute("aria-expanded") === "true") {
-              toggleAriaExpanded(el)
-            }
-          })
+        rootElement.querySelectorAll(TOGGLE_SELECTORS.desktop).forEach(el => {
+          if (el.getAttribute("aria-expanded") === "true") {
+            toggleAriaExpanded(el);
+          }
+        });
       }
-      } else {
+    } else {
       // only do this if no other menu is expanded
       const anyOpen = Array.from(
         rootElement.querySelectorAll(allTogglesSelector)
@@ -289,7 +284,7 @@ export function setup(rootElement: HTMLElement): void {
 
       if (
         owningHeader &&
-        owningHeader.querySelector("[data-nav='mobile-content']")
+        owningHeader.querySelector("[data-nav='fullscreen-menu-content']") // for mobile bottom-tier menu
       ) {
         disableBodyScroll(owningHeader, { reserveScrollBarGap: true });
       }
@@ -326,14 +321,14 @@ export function setup(rootElement: HTMLElement): void {
 
       rootElement
         .querySelectorAll(
-          TOGGLE_SELECTORS.mobile, TOGGLE_SELECTORS.search
+          `${TOGGLE_SELECTORS.mobile}, ${TOGGLE_SELECTORS.search}`
         )
         .forEach(el => {
           if (el.getAttribute("aria-expanded") === "true") {
             toggleAriaExpanded(el);
           }
         });
-      }
+    }
   });
 
   // Observe aria-expanded on every toggle everywhere
@@ -350,7 +345,9 @@ export function setup(rootElement: HTMLElement): void {
   // 2022-02-28, and even if it did, the opening/closing animations of the
   // accordions makes the behavior janky on other browsers
   mobileMenuHeaders.forEach(header => {
-    const menuContent = header.querySelector("[data-nav='mobile-content']");
+    const menuContent = header.querySelector(
+      "[data-nav='fullscreen-menu-content']"
+    );
     if (!menuContent) return;
 
     if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
@@ -438,7 +435,7 @@ export function setup(rootElement: HTMLElement): void {
   desktopHeaders.forEach(header => {
     header.addEventListener("keydown", e => {
       const activeSection = document.activeElement?.closest(
-        "[data-nav='desktop-section']"
+        "[data-nav='dropdown-section']"
       );
       if (!activeSection) return;
 
