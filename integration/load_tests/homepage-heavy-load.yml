@@ -9,9 +9,9 @@ config:
       arrivalRate: 100
   environments:
     dev-green:
-      target: "http://dev-green.mbtace.com"
+      target: "https://dev-green.mbtace.com"
     dev-blue:
-      target: "http://dev-blue.mbtace.com"
+      target: "https://dev-blue.mbtace.com"
 scenarios:
   - name: "Stress test single page"
     flow:
