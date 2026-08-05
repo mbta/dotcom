@@ -140,7 +140,7 @@ defmodule DotCom.Mixfile do
       {:jason, "1.4.4", override: true},
       {:lazy_html, "0.1.10", only: [:test]},
       {:live_isolated_component, "0.10.0", only: [:test]},
-      {:logster, "1.1.1"},
+      {:logster, "~> 2.0.0-rc.5"},
       # reverted from 0.4
       {:mail, "0.3.1"},
       {:mbta_metro, "1.1.2", runtime: false},
