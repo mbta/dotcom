@@ -197,7 +197,7 @@ defmodule Routes.Repo do
       type: 0,
       description: :rapid_transit,
       color: "00843D",
-      sort_order: 10030
+      sort_order: 10_030
     }
   end
 end
