@@ -196,7 +196,8 @@ defmodule Routes.Repo do
       direction_destinations: %{0 => "All branches", 1 => "All branches"},
       type: 0,
       description: :rapid_transit,
-      color: "00843D"
+      color: "00843D",
+      sort_order: 10_030
     }
   end
 end
