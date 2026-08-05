@@ -31,7 +31,7 @@ defmodule DotcomWeb.Plugs.RecentlyVisited do
       |> String.split("|")
       |> Task.async_stream(&@routes_repo.get/1, max_concurrency: 4, on_timeout: :kill_task)
       |> Stream.filter(&match?({:ok, %Route{listed?: true}}, &1))
-      |> Stream.map(fn {:ok, route} -> route end)
+      |> Enum.map(fn {:ok, route} -> route end)
 
     Conn.assign(conn, :recently_visited, route_list)
   end

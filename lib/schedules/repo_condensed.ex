@@ -51,26 +51,32 @@ defmodule Schedules.RepoCondensed do
       data
       |> Stream.map(&Parser.parse/1)
       |> Stream.filter(&has_trip?/1)
-      |> Task.async_stream(
-        fn {_, trip_id, stop_id, _, _, _, time, _, _, _, stop_sequence, _, _} ->
-          trip = Repo.trip(trip_id)
-          stop = @stops_repo.get!(stop_id)
-
-          %ScheduleCondensed{
-            time: time,
-            trip_id: trip_id,
-            headsign: trip.headsign,
-            route_pattern_id: trip.route_pattern_id,
-            stop_id: stop.parent_id || stop.id,
-            train_number: trip.name,
-            stop_sequence: stop_sequence
-          }
-        end,
-        timeout: @long_timeout
+      |> Task.async_stream(&to_condensed_schedule/1,
+        timeout: @long_timeout,
+        on_timeout: :kill_task
       )
-      |> Stream.filter(&match?({:ok, _}, &1))
+      |> Stream.filter(&match?({:ok, %ScheduleCondensed{}}, &1))
       |> Stream.map(fn {:ok, result} -> result end)
       |> Enum.to_list()
+    end
+  end
+
+  defp to_condensed_schedule({_, trip_id, stop_id, _, _, _, time, _, _, _, stop_sequence, _, _}) do
+    trip = Repo.trip(trip_id)
+    stop = @stops_repo.get(stop_id)
+
+    if is_nil(trip) or is_nil(stop) do
+      :error
+    else
+      %ScheduleCondensed{
+        time: time,
+        trip_id: trip_id,
+        headsign: trip.headsign,
+        route_pattern_id: trip.route_pattern_id,
+        stop_id: stop.parent_id || stop.id,
+        train_number: trip.name,
+        stop_sequence: stop_sequence
+      }
     end
   end
 

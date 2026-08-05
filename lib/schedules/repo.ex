@@ -277,26 +277,28 @@ defmodule Schedules.Repo do
 
   defp load_from_other_repos(schedules) do
     schedules
-    |> Task.async_stream(fn {route_id, trip_id, stop_id, schedule_id, arrival_time,
-                             departure_time, time, flag?, early_departure?, last_stop?,
-                             stop_sequence, stop_headsign, pickup_type} ->
-      %Schedules.Schedule{
-        route: @routes_repo.get(route_id),
-        trip: trip(trip_id),
-        platform_stop_id: stop_id,
-        schedule_id: schedule_id,
-        stop: @stops_repo.get_parent(stop_id),
-        arrival_time: arrival_time,
-        departure_time: departure_time,
-        time: time,
-        flag?: flag?,
-        early_departure?: early_departure?,
-        last_stop?: last_stop?,
-        stop_sequence: stop_sequence,
-        stop_headsign: stop_headsign,
-        pickup_type: pickup_type
-      }
-    end)
+    |> Task.async_stream(
+      fn {route_id, trip_id, stop_id, schedule_id, arrival_time, departure_time, time, flag?,
+          early_departure?, last_stop?, stop_sequence, stop_headsign, pickup_type} ->
+        %Schedules.Schedule{
+          route: @routes_repo.get(route_id),
+          trip: trip(trip_id),
+          platform_stop_id: stop_id,
+          schedule_id: schedule_id,
+          stop: @stops_repo.get_parent(stop_id),
+          arrival_time: arrival_time,
+          departure_time: departure_time,
+          time: time,
+          flag?: flag?,
+          early_departure?: early_departure?,
+          last_stop?: last_stop?,
+          stop_sequence: stop_sequence,
+          stop_headsign: stop_headsign,
+          pickup_type: pickup_type
+        }
+      end,
+      on_timeout: :kill_task
+    )
     |> Enum.map(fn {:ok, schedule} -> schedule end)
   end
 
