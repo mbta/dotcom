@@ -5,6 +5,11 @@ defmodule MBTA.Api.Services do
 
   import MBTA.Api, only: [is_valid_potential_id: 1]
 
+  @type api_response_t() :: JsonApi.t() | {:error, any}
+
+  @callback all() :: api_response_t()
+  @callback get(String.t(), List.t()) :: api_response_t()
+
   @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
   def all(params \\ []) do
