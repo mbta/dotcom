@@ -8,7 +8,7 @@ defmodule MBTA.Api.Services do
   @type api_response_t() :: JsonApi.t() | {:error, any}
 
   @callback all() :: api_response_t()
-  @callback get(String.t(), List.t()) :: api_response_t()
+  @callback get(String.t(), [String.t()]) :: api_response_t()
 
   @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
