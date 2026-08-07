@@ -92,6 +92,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       |> format_date_range_for_alert()
 
     assigns = assign(assigns, time_range_str: time_range_str)
+
     ~H"""
     <.status_row_heading
       future
