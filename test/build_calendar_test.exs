@@ -214,7 +214,8 @@ defmodule BuildCalendarTest do
           url: ""
         })
 
-      assert safe_to_string(actual) =~ ~s(class="schedule-selected")
+      assert safe_to_string(actual) =~ ~s(schedule-selected)
+      assert safe_to_string(actual) =~ ~s(date-picker-toggle)
     end
 
     test "if the day is selected but in the past, does not add a class" do
@@ -265,7 +266,7 @@ defmodule BuildCalendarTest do
           url: ""
         })
 
-      assert safe_to_string(actual) =~ ~s(class="schedule-weekend schedule-selected")
+      assert safe_to_string(actual) =~ ~s(schedule-weekend schedule-selected)
     end
 
     test "upcoming holidays includes today and future but not past" do
