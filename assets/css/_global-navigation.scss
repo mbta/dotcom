@@ -33,6 +33,8 @@ header {
 .top-tier-header {
   background-color: $brand-primary-darkest;
   color: $white;
+  // position: relative;
+  // z-index: 1;
 }
 
 
@@ -141,6 +143,9 @@ nav.m-top-tier-menu--dropdown {
 
 .m-menu--top-tier__toggle {
   margin-right: 0px;
+  // transform: translateZ(0);
+  position: relative;
+  z-index: 1;
 }
 // dropdown menu expanded area
 .m-menu--dropdown__menu {
@@ -256,14 +261,6 @@ nav.m-top-tier-menu--dropdown {
 // Reusing the veil component
 .m-menu--cover {
   display: none;
-
-  @include media-breakpoint-only(xs) {
-    top: $header-navbar-height-xs;
-  }
-
-  @include media-breakpoint-up(sm) {
-    top: $header-navbar-height-new;
-  }
 }
 
 // Contact numbers & Popular fares sections
