@@ -199,26 +199,26 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
          %{status: status1, prefix: prefix1, future: future1} = status_entry1,
          %{status: status2, prefix: prefix2, future: future2} = status_entry2
        )
-       when status1 == status2 and prefix1 == prefix2 and future1 == future2, do:
-      %{
-        status: status1,
-        prefix: prefix1,
-        plural: true,
-        future: future1,
-        subheading_data:
-          combine_subheading_data(
-            Map.get(status_entry1, :subheading_data),
-            Map.get(status_entry2, :subheading_data)
-          )
-      }
+       when status1 == status2 and prefix1 == prefix2 and future1 == future2,
+       do: %{
+         status: status1,
+         prefix: prefix1,
+         plural: true,
+         future: future1,
+         subheading_data:
+           combine_subheading_data(
+             Map.get(status_entry1, :subheading_data),
+             Map.get(status_entry2, :subheading_data)
+           )
+       }
 
   defp combine_status_entries(_status_entry1, _status_entry2), do: see_alerts_status()
 
-  defp combine_subheading_data({:affected_stops, stops1}, {:affected_stops, stops2}), do:
-    {:affected_stops, stops1 ++ stops2}
+  defp combine_subheading_data({:affected_stops, stops1}, {:affected_stops, stops2}),
+    do: {:affected_stops, stops1 ++ stops2}
 
-  defp combine_subheading_data({:endpoint_stops, endpoints1}, {:endpoint_stops, endpoints2}), do:
-    {:endpoint_stops, endpoints1 ++ endpoints2}
+  defp combine_subheading_data({:endpoint_stops, endpoints1}, {:endpoint_stops, endpoints2}),
+    do: {:endpoint_stops, endpoints1 ++ endpoints2}
 
   defp combine_subheading_data({:delay}, {:delay}), do: {:delay}
   defp combine_subheading_data(data1, nil), do: data1

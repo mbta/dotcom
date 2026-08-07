@@ -57,17 +57,17 @@ defmodule Dotcom.SystemStatus.Subway do
       ...>   ]
       iex> Dotcom.SystemStatus.Subway.subway_status(alerts, Timex.now())
       %{
-        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}],
+        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}],
         "Orange" => [
           %{
             branch_ids: [],
             status_entries: [
-              %{time: :current, status: :shuttle, multiple: false, alerts: alerts}
+              %{time: :current, status: :shuttle, multiple: false, alerts: alerts, subheading_data: {:endpoint_stops, []}}
             ]
           }
         ],
-        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}],
-        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}]
+        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}],
+        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}]
       }
 
   Alerts for individual Green line branches are grouped together and
@@ -85,20 +85,20 @@ defmodule Dotcom.SystemStatus.Subway do
       ...>   ]
       iex> Dotcom.SystemStatus.Subway.subway_status(alerts, Timex.now())
       %{
-        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}],
-        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}],
-        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}],
+        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}],
+        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}],
+        "Red" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}],
         "Green" => [
           %{
             branch_ids: ["Green-E"],
             status_entries: [
-              %{time: :current, status: :delay, multiple: false, alerts: alerts}
+              %{time: :current, status: :delay, multiple: false, alerts: alerts, subheading_data: {:delay}}
             ]
           },
           %{
             branch_ids: ["Green-B", "Green-C", "Green-D"],
             status_entries: [
-              %{time: :current, status: :normal, multiple: false, alerts: []}
+              %{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}
             ]
           }
         ]
@@ -118,23 +118,23 @@ defmodule Dotcom.SystemStatus.Subway do
       ...>   ]
       iex> Dotcom.SystemStatus.Subway.subway_status(alerts, Timex.now())
       %{
-        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}],
-        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}],
+        "Blue" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}],
+        "Orange" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}],
         "Red" => [
           %{
             branch_ids: [],
             status_entries: [
-              %{time: :current, status: :normal, multiple: false, alerts: []}
+              %{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil  }
             ]
           },
           %{
             branch_ids: ["Mattapan"],
             status_entries: [
-              %{time: :current, status: :suspension, multiple: false, alerts: alerts}
+              %{time: :current, status: :suspension, multiple: false, alerts: alerts, subheading_data: {:endpoint_stops, []}}
             ]
           }
         ],
-        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: []}]}]
+        "Green" => [%{branch_ids: [], status_entries: [%{time: :current, status: :normal, multiple: false, alerts: [], subheading_data: nil}]}]
       }
   """
   @spec subway_status([Alert.t()], DateTime.t()) :: %{Routes.Route.id_t() => status_entry_group()}
