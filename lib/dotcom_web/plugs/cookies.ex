@@ -78,11 +78,19 @@ defmodule DotcomWeb.Plugs.Cookies do
   @spec set_route_cookie(Conn.t()) :: Conn.t()
   def set_route_cookie(%Conn{path_info: ["schedules", route, _]} = conn)
       when route not in @modes do
-    conn.cookies
-    |> Map.get(@route_cookie_name, "")
-    |> String.split("|")
-    |> build_route_cookie(route)
-    |> do_set_route_cookie(conn)
+    if String.contains?(route, "api") do
+      conn
+    else
+      conn.cookies
+      |> Map.get(@route_cookie_name, "")
+      |> String.split("|")
+      |> build_route_cookie(route)
+      |> do_set_route_cookie(conn)
+    end
+  end
+
+  def set_route_cookie(%Conn{path_info: ["schedules", "Green"]} = conn) do
+    set_route_cookie(%{conn | path_info: ["schedules", "Green", "line"]})
   end
 
   def set_route_cookie(%Conn{} = conn) do
