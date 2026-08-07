@@ -774,9 +774,14 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       stops = Factories.Stops.Stop.build_list(2, :stop)
 
-      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn
-        [_], _ ->
+      [affected_branch1 | affected_branch2] = affected_branches
+
+      expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, 2, fn
+        [_], [^affected_branch1] ->
           stops |> Enum.take(1) |> Enum.map(&%{stop: &1, direction: :all})
+
+        [_], ^affected_branch2 ->
+          stops |> Enum.at(1) |> then(&[%{stop: &1, direction: :all}])
 
         [_, _], _ ->
           stops |> Enum.map(&%{stop: &1, direction: :all})

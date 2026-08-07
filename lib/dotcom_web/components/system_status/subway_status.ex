@@ -93,6 +93,9 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   end
 
   defp heading(assigns) do
+    subheading_data = get_in(assigns.row, [:status_entry, :subheading_data])
+    assigns = assigns |> assign(:subheading_data, subheading_data)
+
     ~H"""
     <.status_row_heading
       alerts={@row |> Map.get(:alerts)}
@@ -101,6 +104,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       prefix={@row.status_entry.prefix}
       plural={@row.status_entry.plural}
       future={@row.status_entry.future}
+      subheading_data={@subheading_data}
       route_ids={[@row.route_info.route_id | @row.route_info.branch_ids]}
     />
     """
@@ -192,13 +196,34 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   end
 
   defp combine_status_entries(
-         %{status: status1, prefix: prefix1, future: future1},
-         %{status: status2, prefix: prefix2, future: future2}
+         %{status: status1, prefix: prefix1, future: future1} = status_entry1,
+         %{status: status2, prefix: prefix2, future: future2} = status_entry2
        )
        when status1 == status2 and prefix1 == prefix2 and future1 == future2,
-       do: %{status: status1, prefix: prefix1, plural: true, future: future1}
+       do: %{
+         status: status1,
+         prefix: prefix1,
+         plural: true,
+         future: future1,
+         subheading_data:
+           combine_subheading_data(
+             Map.get(status_entry1, :subheading_data),
+             Map.get(status_entry2, :subheading_data)
+           )
+       }
 
   defp combine_status_entries(_status_entry1, _status_entry2), do: see_alerts_status()
+
+  defp combine_subheading_data({:affected_stops, stops1}, {:affected_stops, stops2}),
+    do: {:affected_stops, stops1 ++ stops2}
+
+  defp combine_subheading_data({:endpoint_stops, endpoints1}, {:endpoint_stops, endpoints2}),
+    do: {:endpoint_stops, endpoints1 ++ endpoints2}
+
+  defp combine_subheading_data({:delay}, {:delay}), do: {:delay}
+  defp combine_subheading_data(data1, nil), do: data1
+  defp combine_subheading_data(nil, data2), do: data2
+  defp combine_subheading_data(data1, _data2), do: data1
 
   defp add_url(row) do
     route_id = route_id_from_route_info(row.route_info)
@@ -267,7 +292,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               status: alert.effect,
               plural: false,
               prefix: prefix,
-              future: future?(status_entry)
+              future: future?(status_entry),
+              subheading_data: status_entry.subheading_data
             },
             style: %{
               hide_route_pill: true
@@ -287,7 +313,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             status: status,
             plural: multiple,
             prefix: prefix,
-            future: future?(status_entry)
+            future: future?(status_entry),
+            subheading_data: status_entry.subheading_data
           },
           style: %{
             hide_route_pill: true
