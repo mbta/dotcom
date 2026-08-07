@@ -11,10 +11,10 @@ config:
       duration: 60
       arrivalRate: 3
   environments:
-    green:
-      target: "http://dev-green.mbtace.com"
-    blue:
-      target: "http://dev-blue.mbtace.com"
+    dev-green:
+      target: "https://dev-green.mbtace.com"
+    dev-blue:
+      target: "https://dev-blue.mbtace.com"
 scenarios:
   - name: "Stress test single page"
     flow:
