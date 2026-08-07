@@ -7,15 +7,25 @@ defmodule Dotcom.SystemStatus.Subway do
   import Dotcom.Alerts, only: [route_alert?: 2, systemwide_mode_alert?: 2]
   alias Alerts.Alert
 
+  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
+  @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
+
   @type status_time() :: :current | {:future, DateTime.t()}
 
   @type status_t() :: :normal | Dotcom.Alerts.service_effect_t()
+
+  @type subheading_data_t() ::
+          {:affected_stops, [map()]}
+          | {:endpoint_stops, [tuple()]}
+          | {:delay}
+          | nil
 
   @type status_entry() :: %{
           alerts: [Alert.t()],
           status: status_t(),
           multiple: boolean(),
-          time: status_time()
+          time: status_time(),
+          subheading_data: subheading_data_t()
         }
 
   @type status_entry_group() :: %{
@@ -185,7 +195,10 @@ defmodule Dotcom.SystemStatus.Subway do
     |> alerts_for_routes(alerts)
     |> Enum.group_by(&affected_green_line_branch_ids/1)
     |> Enum.map(fn {branch_ids, alerts} ->
-      %{branch_ids: branch_ids, status_entries: alerts_to_statuses(alerts, time)}
+      %{
+        branch_ids: branch_ids,
+        status_entries: alerts |> alerts_to_statuses(time, branch_ids)
+      }
     end)
     |> maybe_add_normal_entry()
     |> Enum.map(&maybe_collapse_branch_ids/1)
@@ -302,8 +315,7 @@ defmodule Dotcom.SystemStatus.Subway do
         []
 
       mattapan_alerts ->
-        mattapan_statuses = mattapan_alerts |> alerts_to_statuses(time)
-
+        mattapan_statuses = mattapan_alerts |> alerts_to_statuses(time, ["Mattapan"])
         [status_entry_group(mattapan_statuses, ["Mattapan"])]
     end
   end
@@ -314,7 +326,7 @@ defmodule Dotcom.SystemStatus.Subway do
   defp statuses_for_route(route_id, alerts, time) do
     route_id
     |> alerts_for_route(alerts)
-    |> alerts_to_statuses(time)
+    |> alerts_to_statuses(time, [route_id])
   end
 
   # Returns a status_entry_group, to be used in the
@@ -357,12 +369,40 @@ defmodule Dotcom.SystemStatus.Subway do
   # - Identical alerts are grouped together and pluralized.
   # - Times are given as a kitchen-formatted string, nil, or "Now".
   # - Statuses are sorted alphabetically.
-  @spec alerts_to_statuses([Alert.t()], DateTime.t()) :: [status_entry()]
-  defp alerts_to_statuses(alerts, time) do
+  # - Subheading information is added
+  @spec alerts_to_statuses([Alert.t()], DateTime.t(), [Routes.Route.id_t()]) :: [status_entry()]
+  defp alerts_to_statuses(alerts, time, route_ids) do
     alerts
     |> alerts_to_statuses_naive(time)
     |> consolidate_duplicates()
     |> sort_statuses()
+    |> Enum.map(&add_subheading_data(&1, route_ids))
+  end
+
+  @spec add_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()
+  defp add_subheading_data(%{status: :station_closure, alerts: alerts} = entry, route_ids)
+       when route_ids != [] do
+    %{
+      entry
+      | subheading_data: {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
+    }
+  end
+
+  defp add_subheading_data(%{status: :delay} = entry, _route_ids) do
+    %{entry | subheading_data: {:delay}}
+  end
+
+  defp add_subheading_data(%{status: status, alerts: alerts} = entry, route_ids)
+       when status in [:service_change, :shuttle, :single_tracking, :suspension] and
+              route_ids != [] do
+    %{
+      entry
+      | subheading_data: {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
+    }
+  end
+
+  defp add_subheading_data(entry, _route_ids) do
+    %{entry | subheading_data: nil}
   end
 
   # Naively maps a list of alerts to a list of statuses, where a
@@ -389,7 +429,7 @@ defmodule Dotcom.SystemStatus.Subway do
 
   @spec normal_status() :: status_entry()
   defp normal_status() do
-    %{multiple: false, status: :normal, time: :current, alerts: []}
+    %{multiple: false, status: :normal, time: :current, alerts: [], subheading_data: nil}
   end
 
   # Translates an alert to a status:
@@ -400,7 +440,7 @@ defmodule Dotcom.SystemStatus.Subway do
   @spec alert_to_status(Alert.t(), DateTime.t()) :: status_entry()
   defp alert_to_status(alert, time) do
     time = future_start_time(alert.active_period, time)
-    %{alerts: [alert], multiple: false, status: alert.effect, time: time}
+    %{alerts: [alert], multiple: false, status: alert.effect, time: time, subheading_data: nil}
   end
 
   # - If the active period is in the future, returns its start_time.
@@ -441,7 +481,8 @@ defmodule Dotcom.SystemStatus.Subway do
         time: time,
         status: effect,
         multiple: length(grouped_statuses) > 1,
-        alerts: Enum.flat_map(grouped_statuses, & &1.alerts) |> Enum.uniq()
+        alerts: Enum.flat_map(grouped_statuses, & &1.alerts) |> Enum.uniq(),
+        subheading_data: nil
       }
     end)
   end

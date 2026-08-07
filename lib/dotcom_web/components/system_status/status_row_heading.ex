@@ -12,9 +12,6 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   alias Alerts.Alert
 
-  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
-  @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
-
   attr :alerts, :list, default: []
   attr :future, :boolean, default: false
   attr :hide_route_pill, :boolean, default: false
@@ -23,6 +20,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   attr :prefix, :string, default: nil
   attr :route_ids, :list, required: true
   attr :status, :atom, required: true
+  attr :subheading_data, :any, default: nil
 
   def status_row_heading(assigns) do
     %{
@@ -112,16 +110,21 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     """
   end
 
-  defp decorations(%{status: :station_closure, alerts: alerts, route_ids: route_ids}) do
-    affected_stops = @affected_stops.affected_stops(alerts, route_ids)
-
+  defp decorations(%{
+         status: :station_closure,
+         subheading_data: {:affected_stops, affected_stops}
+       }) do
     %{
       plural: affected_stops |> Enum.count() > 1,
       subheading_text: affected_stops |> humanize_affected_stops()
     }
   end
 
-  defp decorations(%{status: :delay, alerts: alerts}) do
+  defp decorations(%{
+         status: :delay,
+         alerts: alerts,
+         subheading_data: {:delay}
+       }) do
     all_single_tracking? = alerts |> Enum.all?(&(&1.cause == :single_tracking))
 
     subheading_text = if all_single_tracking?, do: ~t"Due to Single Tracking"
@@ -131,10 +134,8 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
-  defp decorations(%{status: status, alerts: alerts, route_ids: route_ids})
+  defp decorations(%{status: status, subheading_data: {:endpoint_stops, endpoints}})
        when status in [:service_change, :shuttle, :single_tracking, :suspension] do
-    endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
-
     %{
       subheading_text: endpoints |> humanize_endpoint_list(),
       subheading_aria_label: endpoints |> humanize_endpoint_list_a11y()
