@@ -14,9 +14,17 @@ defmodule DotcomWeb.Components.NewTimetable do
     assigns =
       assigns
       |> assign(:offset, Timetables.first_unfinished_trip_index(assigns.timetable, assigns.now))
+      |> assign(:earlier_button_id, "#{assigns.id}-button-earlier")
+      |> assign(:later_button_id, "#{assigns.id}-button-later")
 
     ~H"""
-    <div class="w-full overflow-x-auto border-xs border-gray-lighter" id={@id}>
+    <div
+      class="w-full overflow-x-auto border-xs border-gray-lighter"
+      id={@id}
+      phx-hook="TimetableScrollBar"
+      data-earlier-button-id={@earlier_button_id}
+      data-later-button-id={@later_button_id}
+    >
       <div class="w-full flex sticky left-0" aria-hidden="true">
         <div class={"bg-gray-bordered-background #{header_column_classes()} shrink-0 border-r-xs border-gray-lighter relative"}>
           <.shadow class="translate-x-[0.0625rem]" />
@@ -24,7 +32,7 @@ defmodule DotcomWeb.Components.NewTimetable do
 
         <div class="grow bg-brand-primary-lightest-contrast p-2 grid grid-cols-[max-content,_auto,max-content]">
           <div class="justify-self-start">
-            <.scroll_button id={"#{@id}-button-earlier"} scroll_direction={-1} timetable_id={@id}>
+            <.scroll_button id={@earlier_button_id} scroll_direction={-1} timetable_id={@id}>
               <.icon class="size-3.5" name="angle-left" />
               <span class="hidden sm:block">
                 {gettext("Earlier %{vehicle_name}", vehicle_name: vehicle_name(@route))}
@@ -33,7 +41,7 @@ defmodule DotcomWeb.Components.NewTimetable do
           </div>
           <div class="justify-self-center self-center font-bold">{vehicle_name(@route)}</div>
           <div class="justify-self-end">
-            <.scroll_button id={"#{@id}-button-later"} scroll_direction={1} timetable_id={@id}>
+            <.scroll_button id={@later_button_id} scroll_direction={1} timetable_id={@id}>
               <span class="hidden sm:block">
                 {gettext("Later %{vehicle_name}", vehicle_name: vehicle_name(@route))}
               </span>
@@ -105,13 +113,13 @@ defmodule DotcomWeb.Components.NewTimetable do
     -->
     <button
       aria-hidden="true"
-      class="border-xs border-brand-primary bg-white px-2 py-1 rounded hidden"
+      class="border-xs border-brand-primary bg-white px-2 py-1 rounded hidden disabled:opacity-50"
       id={@id}
       data-timetable-id={@timetable_id}
       data-scroll-direction={@scroll_direction}
       phx-hook="TimetableScroll"
     >
-      <div class="flex items-center font-bold text-sm text-brand-primary fill-brand-primary border-brand-primary hover:cursor hover:text-brand-primary-darkest hover:fill-brand-primary-darkest hover:border-brand-primary-darkest">
+      <div class="flex items-center font-bold text-sm text-brand-primary fill-brand-primary border-brand-primary enabled:hover:cursor enabled:hover:text-brand-primary-darkest enabled:hover:fill-brand-primary-darkest enabled:hover:border-brand-primary-darkest">
         {render_slot(@inner_block)}
       </div>
     </button>
