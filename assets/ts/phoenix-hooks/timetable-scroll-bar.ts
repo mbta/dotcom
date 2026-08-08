@@ -1,38 +1,5 @@
 import { ViewHook } from "phoenix_live_view";
 
-const TimetableScrollBar: Partial<ViewHook> = {
-  mounted() {
-    if (this.el) {
-      const timetable = this.el;
-
-      const earlierButton =
-        (timetable.dataset.earlierButtonId &&
-          document.getElementById(timetable.dataset.earlierButtonId)) ||
-        undefined;
-      const laterButton =
-        (timetable.dataset.laterButtonId &&
-          document.getElementById(timetable.dataset.laterButtonId)) ||
-        undefined;
-
-      if (earlierButton && laterButton) {
-        const scrollButtonStateCallback = () => {
-          setScrollButtonState({ timetable, earlierButton, laterButton });
-        };
-
-        timetable.addEventListener("scroll", _ => {
-          scrollButtonStateCallback();
-        });
-
-        window.addEventListener("resize", _ => {
-          scrollButtonStateCallback();
-        });
-
-        scrollButtonStateCallback();
-      }
-    }
-  }
-};
-
 const setScrollButtonState = ({
   earlierButton,
   laterButton,
@@ -41,7 +8,7 @@ const setScrollButtonState = ({
   earlierButton: HTMLElement;
   laterButton: HTMLElement;
   timetable: HTMLElement;
-}) => {
+}): void => {
   const maxScrollLeft = timetable.scrollWidth - timetable.clientWidth;
 
   // The -1 is due to the fact that some browsers record the
@@ -72,6 +39,39 @@ const setScrollButtonState = ({
       laterButton.setAttribute("disabled", "");
     } else {
       laterButton.removeAttribute("disabled");
+    }
+  }
+};
+
+const TimetableScrollBar: Partial<ViewHook> = {
+  mounted() {
+    if (this.el) {
+      const timetable = this.el;
+
+      const earlierButton =
+        (timetable.dataset.earlierButtonId &&
+          document.getElementById(timetable.dataset.earlierButtonId)) ||
+        undefined;
+      const laterButton =
+        (timetable.dataset.laterButtonId &&
+          document.getElementById(timetable.dataset.laterButtonId)) ||
+        undefined;
+
+      if (earlierButton && laterButton) {
+        const scrollButtonStateCallback = (): void => {
+          setScrollButtonState({ timetable, earlierButton, laterButton });
+        };
+
+        timetable.addEventListener("scroll", _ => {
+          scrollButtonStateCallback();
+        });
+
+        window.addEventListener("resize", _ => {
+          scrollButtonStateCallback();
+        });
+
+        scrollButtonStateCallback();
+      }
     }
   }
 };
