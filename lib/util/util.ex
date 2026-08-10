@@ -486,6 +486,10 @@ defmodule Util do
     end
   end
 
+  def parse_valid_daate(_) do
+    {:error, :invalid_date}
+  end
+
   @doc """
 
   Parses a string into a valid datetime, or returns an error.
