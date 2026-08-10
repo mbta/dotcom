@@ -486,7 +486,7 @@ defmodule Util do
     end
   end
 
-  def parse_valid_daate(_) do
+  def parse_valid_date(_) do
     {:error, :invalid_date}
   end
 
