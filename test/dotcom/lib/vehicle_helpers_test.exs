@@ -25,15 +25,13 @@ defmodule Dotcom.VehicleHelpersTest do
     }
   }
 
-  @predictions [
-    %Predictions.Prediction{
-      departing?: true,
-      time: ~N[2018-05-01T11:00:00],
-      status: "On Time",
-      trip: @trip,
-      stop: @station
-    }
-  ]
+  @prediction %Predictions.Prediction{
+    departing?: true,
+    time: ~N[2018-05-01T11:00:00],
+    status: "On Time",
+    trip: @trip,
+    stop: @station
+  }
 
   setup :verify_on_exit!
 
@@ -42,29 +40,20 @@ defmodule Dotcom.VehicleHelpersTest do
       @station
     end)
 
-    stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> id, _ ->
-      trip =
-        Test.Support.Factories.MBTA.Api.build(:trip_item,
-          id: id,
-          attributes: %{
-            "name" => @trip.name,
-            "headsign" => @trip.headsign
-          }
-        )
-
-      %JsonApi{links: %{}, data: [trip]}
+    stub(Schedules.Repo.Mock, :trip, fn _ ->
+      @trip
     end)
 
     :ok
   end
 
   setup do
-    tooltips = build_tooltip_index(@route, @locations, @predictions)
+    tooltips = build_tooltip_index(@route, @locations)
 
     {:ok, tooltips: tooltips, tooltip_base: tooltips[@station.id]}
   end
 
-  describe "build_tooltip_index/3" do
+  describe "build_tooltip_index/2" do
     test "verify the Vehicle tooltip data", %{tooltips: tooltips, tooltip_base: tooltip_base} do
       assert length(Map.keys(tooltips)) == 2
       assert Map.has_key?(tooltips, {"CR-554466-501", "place-sstat"})
@@ -72,13 +61,12 @@ defmodule Dotcom.VehicleHelpersTest do
       assert tooltip_base.route.type == 2
       assert tooltip_base.trip.name == "501"
       assert tooltip_base.trip.headsign == "Worcester"
-      assert tooltip_base.prediction.status == "On Time"
       assert tooltip_base.vehicle.status == :stopped
     end
 
     test "it does not return a tooltip if a vehicle has a null stop_id" do
       null_location = %{{"trip-1", nil} => %Vehicles.Vehicle{}}
-      tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
+      tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location))
 
       assert length(Map.keys(tooltips)) == 2
       assert Map.has_key?(tooltips, {"CR-554466-501", "place-sstat"})
@@ -89,13 +77,12 @@ defmodule Dotcom.VehicleHelpersTest do
       assert tooltip_base.route.type == 2
       assert tooltip_base.trip.name == "501"
       assert tooltip_base.trip.headsign == "Worcester"
-      assert tooltip_base.prediction.status == "On Time"
       assert tooltip_base.vehicle.status == :stopped
     end
 
     test "it does return a tooltip if a vehicle has a null trip_id" do
       null_trip = %{{nil, "place-sstat"} => %Vehicles.Vehicle{stop_id: ""}}
-      tooltips = build_tooltip_index(@route, null_trip, [])
+      tooltips = build_tooltip_index(@route, null_trip)
       tooltip_base = tooltips["place-sstat"]
       assert length(Map.keys(tooltips)) == 2
       assert Map.has_key?(tooltips, {nil, "place-sstat"})
@@ -105,39 +92,6 @@ defmodule Dotcom.VehicleHelpersTest do
       assert tooltip_base.prediction == nil
       assert tooltip_base.vehicle == %Vehicles.Vehicle{stop_id: ""}
     end
-
-    test "it uses the prediction corresponding to the vehicle's current stop" do
-      locations = %{
-        {"trip_1", "stop_1"} => %Vehicles.Vehicle{
-          stop_id: "stop_1",
-          trip_id: "trip_1"
-        }
-      }
-
-      predictions = [
-        %Predictions.Prediction{
-          departing?: false,
-          time: ~N[2017-01-01T11:10:00],
-          status: "On Time",
-          trip: %Schedules.Trip{id: "trip_1"},
-          stop: %Stops.Stop{id: "stop_2"}
-        },
-        correct_prediction = %Predictions.Prediction{
-          departing?: true,
-          time: ~N[2017-01-01T11:00:00],
-          status: "On Time",
-          trip: %Schedules.Trip{id: "trip_1"},
-          stop: %Stops.Stop{id: "stop_1"}
-        }
-      ]
-
-      route = %Routes.Route{type: 2}
-
-      tooltips = build_tooltip_index(route, locations, predictions)
-      tooltip = tooltips[{"trip_1", "stop_1"}]
-
-      assert tooltip.prediction == correct_prediction
-    end
   end
 
   describe "tooltip/1" do
@@ -146,7 +100,7 @@ defmodule Dotcom.VehicleHelpersTest do
     } do
       tooltip = %{
         tooltip_base
-        | prediction: %{tooltip_base.prediction | status: "Now Boarding", track: "4"}
+        | prediction: %{@prediction | status: "Now Boarding", track: "4"}
       }
 
       assert tooltip(tooltip) =~ "now boarding on track 4"
@@ -155,7 +109,7 @@ defmodule Dotcom.VehicleHelpersTest do
     test "when a prediction does not have a track, gives nothing", %{tooltip_base: tooltip_base} do
       tooltip = %{
         tooltip_base
-        | prediction: %{tooltip_base.prediction | status: "Now Boarding", track: nil}
+        | prediction: %{@prediction | status: "Now Boarding", track: nil}
       }
 
       refute tooltip(tooltip) =~ "now boarding"
@@ -166,7 +120,7 @@ defmodule Dotcom.VehicleHelpersTest do
     } do
       tooltip = %{
         tooltip_base
-        | prediction: %{tooltip_base.prediction | status: nil, time: nil}
+        | prediction: %{@prediction | status: nil, time: nil}
       }
 
       assert tooltip(tooltip) =~ "South Station"
@@ -228,22 +182,6 @@ defmodule Dotcom.VehicleHelpersTest do
         |> tooltip()
 
       assert actual =~ "has left South Station, departed on track 4"
-    end
-  end
-
-  describe "prediction_for_stop/2" do
-    test "do not crash if vehicle prediction does not contain a trip" do
-      predictions = [
-        %Predictions.Prediction{
-          departing?: true,
-          time: ~N[2017-01-01T11:00:00],
-          status: "On Time"
-        }
-      ]
-
-      tooltips = build_tooltip_index(@route, @locations, predictions)
-      tooltip = tooltips["place-sstat"]
-      assert tooltip(tooltip) =~ "train 501 has arrived"
     end
   end
 end
