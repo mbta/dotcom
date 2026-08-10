@@ -131,8 +131,13 @@ defmodule Dotcom.SystemStatus.Subway do
   def subway_status(alerts, time) do
     @lines
     |> Map.new(fn line ->
-      {line, nested_statuses_for_line(line, alerts, time)}
+      {line, nested_statuses_for_line(line, alerts |> filter_stale_alerts(), time)}
     end)
+  end
+
+  defp filter_stale_alerts(alerts) do
+    alerts
+    |> Enum.reject(&Alerts.Alert.stale?/1)
   end
 
   # Returns a map corresponding to a single item in the array returned

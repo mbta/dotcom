@@ -430,9 +430,9 @@ defmodule Dotcom.ScheduleFinderTest do
       assert simplify_platform_name(Faker.Pizza.topping(), route_type) == nil
     end
 
-    test "returns nil for commuter rail platforms called 'Commuter Rail'" do
+    test "returns Track TBA for commuter rail platforms called 'Commuter Rail'" do
       route_type = Faker.Util.pick([2, :commuter_rail])
-      assert simplify_platform_name("Commuter Rail", route_type) == nil
+      assert simplify_platform_name("Commuter Rail", route_type) == "Track TBA"
     end
 
     test "returns nil for commuter rail platforms starting with 'Commuter Rail -'" do
@@ -441,9 +441,12 @@ defmodule Dotcom.ScheduleFinderTest do
       assert simplify_platform_name("Commuter Rail - " <> actual_name, route_type) == actual_name
     end
 
-    test "returns nil for commuter rail platforms with 'All Trains' in the name" do
+    test "returns Track number only for commuter rail platforms with 'All Trains' in the name" do
       route_type = Faker.Util.pick([2, :commuter_rail])
-      assert simplify_platform_name("#{Faker.Pizza.topping()} (All Trains)", route_type) == nil
+      track_name = Faker.Pokemon.name()
+
+      assert simplify_platform_name("#{track_name} (All Trains)", route_type) ==
+               track_name
     end
 
     test "returns nil for ferry platforms with 'Ferry' in the name" do

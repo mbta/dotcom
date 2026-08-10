@@ -1,26 +1,21 @@
 config:
   target: "http://localhost:4001"
   phases:
-    - name: constantArrival
-      duration: "20s"
-      arrivalRate: 2
-      maxVusers: 4
+    - name: fixedArrivals
+      duration: "20m"
+      arrivalRate: 1
   environments:
     green:
       target: "http://dev-green.mbtace.com"
-      phases:
-        - duration: "20m"
-          arrivalRate: 2
     blue:
       target: "http://dev-blue.mbtace.com"
-      phases:
-        - duration: "20m"
-          arrivalRate: 2
   engines:
     playwright:
-      aggregateByName: true
+      aggregateByName: false
       launchOptions:
         headless: true
+        slowMo: 500 # drag each test step out a bit!
+        timeout: 0 # disable the test timeout..supposedly
       contextOptions:
         userAgent: "Artillery"
   payload:

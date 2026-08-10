@@ -1,7 +1,7 @@
 defmodule DotcomWeb.ScheduleView do
   @moduledoc false
 
-  use DotcomWeb, :component
+  use Phoenix.Component
   use DotcomWeb, :view
 
   require Routes.Route
@@ -13,6 +13,9 @@ defmodule DotcomWeb.ScheduleView do
 
   import DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus,
     only: [commuter_rail_route_status: 1]
+
+  import DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges,
+    only: [commuter_rail_upcoming_changes: 1]
 
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers
@@ -399,6 +402,73 @@ defmodule DotcomWeb.ScheduleView do
         content_tag(:p, [
           content_tag(:strong, ~t"Note:"),
           ~t" Trains depart from Foxboro 30 minutes after conclusion of events"
+        ])
+      ]
+    end
+  end
+
+  def timetable_note(%{route: %Route{id: "Boat-F1"}, direction_id: _}) do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          gettext(
+            " Additional service between Boston, Hingham, and Hull is available via the %{link}",
+            %{
+              link:
+                link(~t"Hingham/Hull ferry",
+                  to: ~p"/schedules/Boat-F2H/timetable"
+                )
+                |> safe_to_string()
+            }
+          )
+          |> raw()
+        ])
+      ]
+    end
+  end
+
+  def timetable_note(%{route: %Route{id: "Boat-F10"}, timetable_schedules: []}), do: nil
+
+  def timetable_note(%{route: %Route{id: "Boat-F10"}, direction_id: 0, date: date}) do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          gettext(
+            " Service continues later in the day in the opposite direction. %{link}",
+            %{
+              link:
+                link(~t"View evening timetable",
+                  to:
+                    "/schedules/Boat-F10/timetable?schedule_direction[direction_id]=1&date=#{date}#direction-filter"
+                )
+                |> safe_to_string()
+            }
+          )
+          |> raw()
+        ])
+      ]
+    end
+  end
+
+  def timetable_note(%{route: %Route{id: "Boat-F10"}, direction_id: 1, date: date}) do
+    content_tag :div, class: "m-timetable__note" do
+      [
+        content_tag(:p, [
+          content_tag(:strong, ~t"Note:"),
+          gettext(
+            " Service is available earlier in the day in the opposite direction. %{link}",
+            %{
+              link:
+                link(~t"View morning timetable",
+                  to:
+                    "/schedules/Boat-F10/timetable?schedule_direction[direction_id]=0&date=#{date}#direction-filter"
+                )
+                |> safe_to_string()
+            }
+          )
+          |> raw()
         ])
       ]
     end

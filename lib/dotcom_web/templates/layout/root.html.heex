@@ -9,7 +9,7 @@
     <meta name="author" content={~t(Massachusetts Bay Transportation Authority)} />
     <meta name="theme-color" content="#165c96" />
     <meta :if={robots_nofollow?(@conn.request_path)} name="robots" content="noindex, nofollow" />
-    <title>{title(@conn)}</title>
+    <title>{Map.get(assigns, :page_title, title(@conn))}</title>
     <link
       rel="apple-touch-icon"
       href={static_url(@conn, "/apple-touch-icon.png")}
@@ -47,15 +47,6 @@
       href="/news/rss.xml"
     />
 
-    <%= if Application.get_env(:sentry, :js_dsn) do %>
-      <script nonce={@conn.assigns[:csp_nonce]}>
-        window.sentry = {
-          dsn: "<%= Application.get_env(:sentry, :js_dsn) %>",
-          environment: "<%= Application.get_env(:sentry, :environment_name) %>"
-        }
-      </script>
-    <% end %>
-
     <%= if Application.get_env(:dotcom, :dev_server?) do %>
       <link rel="stylesheet" href={"#{webpack_path()}/css/core.css"} />
       <link rel="stylesheet" href={"#{webpack_path()}/css/app.css"} />
@@ -81,13 +72,6 @@
           <i class="fa fa-globe"></i>
           You are viewing <em>{Map.get(@conn, :host)}</em>
           in <strong>{language}</strong>.
-          <a
-            class="mx-sm btn btn-outline btn-sm leading-sm text-current border-current hover:opacity-50"
-            href={@conn.request_path <> "?locale=#{if(language == "English", do: "es", else: "en")}"}
-          >
-            Toggle {if(language == "English", do: "Spanish", else: "English")}
-          </a>
-
           <a
             :for={%{href: href, name: name, color_classes: color_classes} <- env_links(@conn)}
             class={[

@@ -8,6 +8,9 @@ on:
       - synchronize
       - labeled
 
+permissions:
+  contents: read
+
 env:
   # deploy only if any PR label is "dev-green" or "dev-blue"
   DO_DEPLOY: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
@@ -24,6 +27,9 @@ jobs:
     # env not available for job if
     if: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
     uses: ./.github/workflows/use-deploy-ecs.yml
+    permissions:
+      contents: read
+      id-token: write
     with:
       deployment-env: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }} # env not valid here either
     secrets:
@@ -55,9 +61,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ env.DO_DEPLOY }}
         run: |
-          gh pr list --repo ${{ github.repository }} --state all --label "${{ env.DEPLOY_ENV }}" --json number --jq ".[].number"| while read -r pr_number ;  do
+          gh pr list --repo ${{ github.repository }} --state all --label "${DEPLOY_ENV}" --json number --jq ".[].number"| while read -r pr_number ;  do
             if [[ "${pr_number}" != "${{ github.event.pull_request.number }}" ]]; then
-              echo "=== PR ${pr_number} : remove ${{ env.DEPLOY_ENV }} label ==="
-              gh pr edit "${pr_number}" --repo ${{ github.repository }} --remove-label "${{ env.DEPLOY_ENV }}"
+              echo "=== PR ${pr_number} : remove ${DEPLOY_ENV} label ==="
+              gh pr edit "${pr_number}" --repo ${{ github.repository }} --remove-label "${DEPLOY_ENV}"
             fi
           done

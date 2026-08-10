@@ -18,7 +18,6 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   @alerts_repo @repos_module[:alerts]
   @routes_repo @repos_module[:routes]
   @schedules_repo @repos_module[:schedules]
-  @schedules_condensed_repo @repos_module[:schedules_condensed]
 
   @type trip_info_t() ::
           {:trip,
@@ -81,13 +80,45 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   """
   @spec commuter_rail_route_status(Route.id_t()) :: route_status_t()
   def commuter_rail_route_status(route_id) do
-    if service_today?(route_id) do
+    if Dotcom.ServicePatterns.has_service?(route: route_id) do
       route_id
       |> commuter_rail_route_alerts()
       |> group_by_impact()
       |> as_status()
     else
       :no_scheduled_service
+    end
+  end
+
+  @doc """
+  Returns upcoming alerts for the route given.
+  """
+  @spec commuter_rail_upcoming_changes(String.t()) :: [Alerts.Alert.t()]
+  def commuter_rail_upcoming_changes(id) do
+    [id]
+    |> @alerts_repo.by_route_ids(@date_time_module.now())
+    |> Enum.filter(fn alert ->
+      (service_impacting_alert?(alert) || alert.effect == :schedule_change) &&
+        future_alert?(alert)
+    end)
+  end
+
+  # Checks if the next active period for an alert is in the future.
+  # Excludes alerts that end today.
+  defp future_alert?(alert) do
+    case next_active_time(alert) do
+      {:future, _} ->
+        true
+
+      {:current, start_time} ->
+        {_, end_time} =
+          alert.active_period
+          |> Enum.find(fn {start, _} -> DateTime.compare(start, start_time) == :eq end)
+
+        Util.safe_time_compare(end_time, Util.end_of_service()) == :gt
+
+      _ ->
+        false
     end
   end
 
@@ -262,14 +293,5 @@ defmodule Dotcom.SystemStatus.CommuterRail do
   defp commuter_rail_routes() do
     @routes_repo.all()
     |> Enum.filter(&Routes.Route.commuter_rail?/1)
-  end
-
-  # Returns a boolean indicating whether or not the route has a schedule
-  # for today. This is used to determine if the route is running service today.
-  @spec service_today?(String.t()) :: boolean()
-  defp service_today?(id) do
-    [id]
-    |> @schedules_condensed_repo.by_route_ids()
-    |> Enum.any?(fn %{time: time} -> Dotcom.Utils.ServiceDateTime.service_today?(time) end)
   end
 end

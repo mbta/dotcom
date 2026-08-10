@@ -7,10 +7,14 @@ defmodule Predictions.StreamParserTest do
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
+  alias Timex.Timezone
 
   setup do
     Routes.Repo.Mock
     |> stub(:get, fn id -> %Route{id: id} end)
+
+    Schedules.Repo.Mock
+    |> stub(:trip, fn id -> %Trip{id: id} end)
 
     Stops.Repo.Mock
     |> stub(:get, fn id -> %Stops.Stop{id: id} end)
@@ -64,9 +68,9 @@ defmodule Predictions.StreamParserTest do
 
       assert %Prediction{
                id: "TEST-ID",
-               arrival_time: ~U[2016-01-01 04:00:00Z],
+               arrival_time: arrival_time,
                departing?: true,
-               departure_time: ~U[2016-09-15 19:40:00Z],
+               departure_time: departure_time,
                direction_id: 1,
                route: route,
                status: "On Time",
@@ -76,6 +80,7 @@ defmodule Predictions.StreamParserTest do
                time: time,
                track: track,
                trip: trip,
+               trip_id: trip_id,
                vehicle_id: vehicle_id,
                last_trip?: last_trip?
              } = StreamParser.parse(item)
@@ -83,10 +88,58 @@ defmodule Predictions.StreamParserTest do
       assert %Route{id: "route_id"} = route
       assert %Stop{id: ^stop_id} = stop
       assert %Trip{id: "trip_id"} = trip
-      assert time == ~U[2016-01-01 04:00:00Z]
+      assert trip_id == "trip_id"
+      assert time == ~N[2016-01-01 00:00:00] |> Timezone.convert("Etc/UTC-4")
+      assert arrival_time == ~N[2016-01-01 00:00:00] |> Timezone.convert("Etc/UTC-4")
+      assert departure_time == ~N[2016-09-15 15:40:00] |> Timezone.convert("Etc/UTC-4")
       assert track == stop.platform_code
       assert "vehicle_id" = vehicle_id
       assert last_trip? == expected_last_trip
+    end
+
+    test "includes the trip ID even if the trip doesn't exist in the `Schedules.Repo` yet" do
+      trip_id = "trip_id"
+
+      Schedules.Repo.Mock
+      |> stub(:trip, fn ^trip_id -> nil end)
+
+      item = %Item{
+        id: "TEST-ID",
+        attributes: %{
+          "arrival_time" => "2016-01-01T00:00:00-04:00",
+          "bikes_allowed" => 1,
+          "departure_time" => "2016-09-15T15:40:00-04:00",
+          "direction_id" => 1,
+          "headsign" => "Back Bay",
+          "name" => "",
+          "status" => "On Time",
+          "last_trip" => false
+        },
+        relationships: %{
+          "route" => [
+            %Item{id: "route_id"},
+            %Item{id: "wrong"}
+          ],
+          "stop" => [
+            %Item{id: "stop_id"}
+          ],
+          "trip" => [
+            %Item{id: trip_id}
+          ],
+          "vehicle" => [
+            %Item{id: "vehicle_id"}
+          ]
+        },
+        type: "prediction"
+      }
+
+      assert %Prediction{
+               trip: trip,
+               trip_id: trip_id
+             } = StreamParser.parse(item)
+
+      assert trip == nil
+      assert trip_id == "trip_id"
     end
 
     test "When no vehicle relationship parses vehicle_id as nil" do

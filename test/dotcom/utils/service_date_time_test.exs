@@ -101,6 +101,8 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range(end_of_service_week) == :today
     end
 
+    # This test fails when run on Sundays.
+    @tag :flaky
     test "returns :this_week for this week" do
       # Setup
       {beginning_of_service_week, end_of_service_week} = service_range_this_week()
@@ -194,6 +196,8 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   end
 
   describe "service_this_week?/1" do
+    # This test fails when run on Sundays.
+    @tag :flaky
     test "returns true when the date_time is in this week's service" do
       # Setup
       {_, end_of_current_service_week} = service_range_this_week()

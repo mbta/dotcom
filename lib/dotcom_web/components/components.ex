@@ -11,6 +11,7 @@ defmodule DotcomWeb.Components do
     endpoint: DotcomWeb.Endpoint,
     router: DotcomWeb.Router
 
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
   import MbtaMetro.Components.Badge, only: [badge: 1]
   import MbtaMetro.Components.Button, only: [button: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -113,6 +114,10 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
+  attr(:title, :string)
+  slot(:inner_block, required: true)
+
   def error_container(assigns) do
     assigns =
       assigns
@@ -122,7 +127,7 @@ defmodule DotcomWeb.Components do
       end)
 
     ~H"""
-    <div class={"error-container rounded #{@padding_class}"}>
+    <div class={"error-container rounded #{@padding_class}"} {@rest}>
       <p :if={@title} class="font-bold mb-2">{@title}</p>
       {render_slot(@inner_block)}
     </div>
@@ -131,6 +136,7 @@ defmodule DotcomWeb.Components do
 
   slot(:heading, required: false, doc: "Large title shown at top of container.")
   slot(:inner_block, required: true)
+  attr(:class, :string, default: "")
   attr(:hide_divider, :boolean, required: false, default: false)
 
   @doc """
@@ -166,7 +172,11 @@ defmodule DotcomWeb.Components do
   """
   def bordered_container(assigns) do
     ~H"""
-    <div class="px-2 py-3 md:px-5 md:py-4 border-[1px] bg-white border-gray-lightest rounded-lg">
+    <div class={[
+      @class,
+      "px-2 py-3 md:px-5 md:py-4 border-[1px]",
+      "bg-white border-gray-lightest rounded-lg"
+    ]}>
       <div :if={@heading} class="font-heading font-bold text-[1.75rem] leading-normal">
         {render_slot(@heading)}
       </div>
@@ -307,6 +317,7 @@ defmodule DotcomWeb.Components do
   slot(:inner_block, required: true, doc: "Content displayed within the link")
   slot(:title, required: true)
   attr(:href, :string, doc: "Optional link to navigate to")
+  attr(:class, :string, default: "")
   attr(:rest, :global, include: ~w(disabled))
 
   @doc """
@@ -315,7 +326,7 @@ defmodule DotcomWeb.Components do
   """
   def descriptive_link(%{href: _} = assigns) do
     ~H"""
-    <a href={@href} class="c-descriptive-link">
+    <a href={@href} class={"c-descriptive-link #{@class}"} {@rest}>
       <.icon type="icon-svg" name="football" class="c-descriptive-link__football-icon" />
       <div class="c-descriptive-link__text">
         <div class="c-descriptive-link__title">{render_slot(@title)}</div>
@@ -344,6 +355,7 @@ defmodule DotcomWeb.Components do
     """
   end
 
+  attr(:rest, :global)
   slot :inner_block, required: true
 
   @doc """
@@ -351,9 +363,12 @@ defmodule DotcomWeb.Components do
   """
   def callout(assigns) do
     ~H"""
-    <div class="callout font-bold text-center">
+    <.cta
+      classes="callout font-bold text-center bg-charcoal-90"
+      {@rest}
+    >
       {render_slot(@inner_block)}
-    </div>
+    </.cta>
     """
   end
 
@@ -368,6 +383,76 @@ defmodule DotcomWeb.Components do
       </div>
       <.icon type="solid" name="arrow-right" class="c-callout-link__arrow" />
     </a>
+    """
+  end
+
+  attr :route_type_atom, :atom, required: true
+  @doc "Renders a banner with a call-to-action to download the MBTA Go app"
+  def mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
+    assigns =
+      assigns
+      |> assign(
+        :route_type_text,
+        route_type_atom
+        |> mode_name()
+        |> String.downcase()
+      )
+
+    ~H"""
+    <.cta
+      phx-hook="MBTAGoCTABanner"
+      id="mbta-go-cta-banner"
+      link="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      icon="icon-mbta-go"
+      arrow
+      classes="hidden"
+    >
+      {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+        route_type_text: @route_type_text
+      )
+      |> Phoenix.HTML.raw()}
+    </.cta>
+    """
+  end
+
+  attr :link, :any, required: false, default: nil
+  attr :arrow, :boolean, required: false, default: false
+  attr :classes, :string, required: false, default: ""
+  attr :icon, :string, required: false, default: nil
+  attr :icon_type, :string, required: false, default: "icon-svg"
+  attr :rest, :global
+
+  slot :inner_block
+
+  def cta(assigns) do
+    ~H"""
+    <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
+      <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
+      <span class="leading-tight grow">
+        {render_slot(@inner_block)}
+      </span>
+      <span :if={@arrow} aria-hidden="true">&#8594;</span>
+    </.cta_wrapper>
+    """
+  end
+
+  attr :link, :any, required: false, default: nil
+  attr :rest, :global
+  slot :inner_block
+
+  defp cta_wrapper(%{link: link} = assigns) when link != nil do
+    ~H"""
+    <a href={@link} {@rest}>
+      {render_slot(@inner_block)}
+    </a>
+    """
+  end
+
+  defp cta_wrapper(assigns) do
+    ~H"""
+    <div {@rest}>
+      {render_slot(@inner_block)}
+    </div>
     """
   end
 end

@@ -54,13 +54,22 @@ defmodule DotcomWeb.CacheController do
     |> Map.update!(:structured_keys, &nest_by_mod_and_fun/1)
   end
 
-  defp parse_structured([mod, fun, base_64_args]),
-    do: %{
-      type: :structured_keys,
-      mod: mod,
-      fun: fun,
-      args: base_64_args |> Base.decode64!()
-    }
+  defp parse_structured([mod, fun, base_64_args]) do
+    base_64_args
+    |> Base.decode64()
+    |> case do
+      {:ok, decoded} ->
+        %{
+          type: :structured_keys,
+          mod: mod,
+          fun: fun,
+          args: decoded
+        }
+
+      _ ->
+        %{type: :unstructured_keys}
+    end
+  end
 
   defp parse_structured(_), do: %{type: :unstructured_keys}
 
@@ -90,7 +99,10 @@ defmodule DotcomWeb.CacheController do
     uuid = UUID.uuid4(:hex) |> String.upcase() |> String.to_atom()
     key = Enum.join(path, "|")
 
-    case GenServer.start_link(Dotcom.Cache.Inspector.Publisher, uuid, name: uuid) do
+    case GenServer.start_link(Dotcom.Cache.Inspector.Publisher, uuid,
+           name: uuid,
+           hibernate_after: 15_000
+         ) do
       {:ok, _} ->
         GenServer.cast(uuid, {:load, key})
 

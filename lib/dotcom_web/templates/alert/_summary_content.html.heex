@@ -1,0 +1,32 @@
+<% label = Alerts.Alert.human_label(@alert) %>
+<% alert_icon_type = Alerts.Alert.icon(@alert) %>
+
+<div class="c-alert-item__icon">
+  {alert_icon(alert_icon_type)}
+</div>
+<div class="c-alert-item__top" data-test={"alert_id:#{ @alert.id }"}>
+  <div class="c-alert-item__top-text-container">
+    <div class="c-alert-item__effect">
+      {"#{header(@alert)} "}
+      {if label != "" do
+        content_tag(:span, [label], class: alert_label_class(@alert))
+      end}
+    </div>
+    <div class="c-alert-item__content">
+      {replace_urls_with_links(Dotcom.TimetableBlocking.strip(@alert.header))}
+      <%= if @alert.url != nil && @alert.url != "" && !Map.get(assigns, :hide_url, false) do %>
+        <%= if Dotcom.TimetableBlocking.pdf?(@alert) do %>
+          {link(~t"View PDF Timetable", to: @alert.url)}
+        <% else %>
+          {replace_urls_with_links(@alert.url)}
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <%= if @alert.description || Alerts.Alert.image(@alert) do %>
+    <div class="c-alert-item__top-caret-container">
+      {fa("angle-up", class: "c-alert-item__caret--up")}
+      {fa("angle-down", class: "c-alert-item__caret--down")}
+    </div>
+  <% end %>
+</div>

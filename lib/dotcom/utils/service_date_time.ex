@@ -4,13 +4,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Currently, we consider the most general case where service starts at 03:00:00am and ends at 02:59:59am.
 
   In the future, we aim to add route-specific service times.
-
-  The service range continuum:
-
-  <---before today---|---this week---|---next week---|---after next week--->
-                     today
-
-  Before today and after next week are open intervals. Today is included in this week.
   """
 
   use Dotcom.Gettext.Sigils
@@ -56,7 +49,12 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   @doc """
-  The service range for the given date_time.
+  The service range for the given date_time. The service range continuum:
+
+  <---before today---|---this week---|---next week---|---after next week--->
+                     today
+
+  Before today and after next week are open intervals. Today is included in this week.
   """
   @spec service_range(DateTime.t()) :: named_service_range()
   def service_range(date_time) do
@@ -108,28 +106,42 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Get the beginning of the service day for the given date_time.
   """
   @spec beginning_of_service_day() :: DateTime.t()
-  @spec beginning_of_service_day(DateTime.t()) :: DateTime.t()
-  def beginning_of_service_day(date_time \\ @date_time_module.now()) do
-    date_time
-    |> service_date()
+  @spec beginning_of_service_day(Date.t() | DateTime.t()) :: DateTime.t()
+  def beginning_of_service_day(date_time \\ @date_time_module.now())
+
+  def beginning_of_service_day(%Date{} = date) do
+    date
     |> Timex.to_datetime(@timezone)
     |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour)
+  end
+
+  def beginning_of_service_day(%DateTime{} = date_time) do
+    date_time
+    |> service_date()
+    |> beginning_of_service_day()
   end
 
   @doc """
   Get the end of the service day for the given date_time.
   """
   @spec end_of_service_day() :: DateTime.t()
-  @spec end_of_service_day(DateTime.t()) :: DateTime.t()
-  def end_of_service_day(date_time \\ @date_time_module.now()) do
-    date_time
-    |> service_date()
+  @spec end_of_service_day(Date.t() | DateTime.t()) :: DateTime.t()
+  def end_of_service_day(date_time \\ @date_time_module.now())
+
+  def end_of_service_day(%Date{} = date) do
+    date
     |> Timex.to_datetime(@timezone)
     |> coerce_ambiguous_date_time()
     |> Timex.shift(days: 1, hours: @service_rollover_time.hour, microseconds: -1)
     |> coerce_ambiguous_date_time()
     |> Map.put(:hour, @service_rollover_time.hour - 1)
+  end
+
+  def end_of_service_day(%DateTime{} = date_time) do
+    date_time
+    |> service_date()
+    |> end_of_service_day()
   end
 
   @doc """

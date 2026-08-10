@@ -66,6 +66,15 @@ defmodule Dotcom.Alerts.StartTimeTest do
 
       assert next_active_time(alert, time) == :past
     end
+
+    test "returns :current if active period has nil start time but ends in the future" do
+      time = Test.Support.Generators.DateTime.random_date_time()
+      end_time = Test.Support.Generators.DateTime.random_date_time_after(time)
+
+      alert = Alert.build(:alert, active_period: [{nil, end_time}])
+
+      assert next_active_time(alert, time) == {:current, time}
+    end
   end
 
   describe "active?/2" do

@@ -5,6 +5,21 @@
 }
 
 
+
+.timepicker-select {
+  width: 4em;
+  margin-top: var(--spacing-1);
+  border-radius: var(--spacing-1);
+  padding-left: 0.75em;
+}
+
+.timepicker--error {
+  select {
+    border-color: var(--colors-error-default-foreground);
+    color: var(--colors-error-default-foreground);
+  }
+}
+
 .c-trip-plan-widget {
   legend {
     color: $gray-dark;

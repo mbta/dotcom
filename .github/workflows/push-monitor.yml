@@ -31,12 +31,16 @@ jobs:
   check:
     name: Check for changes in monitoring setup
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       changed: ${{ steps.changes.outputs.monitor == 'true' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
-      - uses: dorny/paths-filter@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
         id: changes
         with:
           filters: |
@@ -53,16 +57,18 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - name: Build, tag, and push image to Amazon ECR
         id: ecr
-        uses: mbta/actions/build-push-ecr@v2
+        uses: mbta/actions/build-push-ecr@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
         with:
           docker-repo: "${{ secrets.aws-account-id || secrets.TID_AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
           dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
           role-to-assume: ${{ secrets.aws-role-arn || secrets.AWS_ROLE_ARN }}
       - name: Deploy Monitor to ${{ inputs.deployment-env }}
-        uses: mbta/actions/deploy-ecs@v2
+        uses: mbta/actions/deploy-ecs@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
         with:
           role-to-assume: ${{ secrets.aws-role-arn || secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom

@@ -256,6 +256,7 @@ defmodule Predictions.Repo do
       %Predictions.Prediction{
         id: id,
         trip: trip,
+        trip_id: trip_id,
         stop: stop,
         platform_stop_id: platform_stop_id,
         route: route,

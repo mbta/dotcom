@@ -27,16 +27,14 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
       ]
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-      [
-        %Schedules.ScheduleCondensed{
-          time: Dotcom.Utils.DateTime.now()
-        }
-      ]
-    end)
-
     stub(Schedules.Repo.Mock, :schedule_for_trip, fn _, "filter[stop_sequence]": "first,last" ->
       Factories.Schedules.Schedule.build_list(2, :schedule)
+    end)
+
+    current_date = Dotcom.Utils.ServiceDateTime.service_date()
+
+    stub(Services.Repo.Mock, :by_route_id, fn _ ->
+      [Factories.Services.Service.build(:service, date: current_date)]
     end)
 
     :ok
@@ -53,12 +51,8 @@ defmodule DotcomWeb.SystemStatus.CommuterRailStatusTest do
         ]
       end)
 
-      expect(Schedules.RepoCondensed.Mock, :by_route_ids, 2, fn _ ->
-        [
-          %Schedules.ScheduleCondensed{
-            time: Dotcom.Utils.DateTime.now() |> Timex.shift(days: 1)
-          }
-        ]
+      expect(Services.Repo.Mock, :by_route_id, fn _ ->
+        []
       end)
 
       assigns = %{commuter_rail_status: commuter_rail_status()}

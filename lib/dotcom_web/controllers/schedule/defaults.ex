@@ -42,8 +42,8 @@ defmodule DotcomWeb.Schedule.Defaults do
   def default_direction_id(%Conn{assigns: %{route: %Route{id: route_id}}} = conn) do
     direction_id = default_direction_id_for_hour(conn.assigns.date_time.hour)
 
-    # SL1 and SL2 are outbound in the morning, inbound otherwise
-    if route_id in ["741", "742"] do
+    # SL1, SL2, and Harbor Loop Ferry are outbound in the morning, inbound otherwise
+    if route_id in ["741", "742", "Boat-F10"] do
       invert_direction_id(direction_id)
     else
       direction_id

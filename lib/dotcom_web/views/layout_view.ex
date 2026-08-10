@@ -77,8 +77,8 @@ defmodule DotcomWeb.LayoutView do
     "#{module_class} #{template_class}"
   end
 
-  def nav_link_content,
-    do: [
+  def nav_link_content do
+    [
       %{
         menu_section: ~t(Transit),
         link: ~p"/menu#Transit-section",
@@ -209,7 +209,6 @@ defmodule DotcomWeb.LayoutView do
               {~t(Careers), "/careers", :internal_link},
               {~t(Institutional Sales), "/pass-program", :internal_link},
               {~t(Business Opportunities), "/business", :internal_link},
-              {~t(Innovation Proposals), "/innovation", :internal_link},
               {~t(Engineering Design Standards), "/engineering/design-standards-and-guidelines",
                :internal_link}
             ]
@@ -229,6 +228,32 @@ defmodule DotcomWeb.LayoutView do
         ]
       }
     ]
+  end
+
+  def language_link_tuple(%Dotcom.Locale{code: code, endonym: endonym}) do
+    {endonym, "?locale=#{code}", :internal_link}
+  end
+
+  def language_nav_link_content do
+    language_links =
+      Enum.map(
+        Dotcom.Locales.locales(),
+        &language_link_tuple/1
+      )
+
+    [
+      %{
+        menu_section: ~t(Languages),
+        link: ~p"/menu#Languages-section",
+        sub_menus: [
+          %{
+            sub_menu_section: ~t(Choose Your Language),
+            links: language_links
+          }
+        ]
+      }
+    ]
+  end
 
   def render_nav_link({link_name, href, link_host}) do
     link_content =

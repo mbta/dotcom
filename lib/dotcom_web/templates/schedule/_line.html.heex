@@ -31,7 +31,9 @@
 
 <div class="page-section m-schedule-line">
   {DotcomWeb.AlertView.group(
-    alerts: @alerts,
+    alerts:
+      @alerts
+      |> Enum.reject(&Alerts.Alert.stale?/1),
     route: @route,
     date_time: @date_time,
     priority_filter: :high

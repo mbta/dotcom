@@ -204,7 +204,20 @@ defmodule PredictedSchedule do
   """
   @spec trip(PredictedSchedule.t()) :: Schedules.Trip.t() | nil
   def trip(%PredictedSchedule{schedule: %Schedule{trip: trip}}), do: trip
-  def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}), do: trip
+
+  def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}) when not is_nil(trip),
+    do: trip
+
+  def trip(%PredictedSchedule{prediction: %Prediction{trip_id: trip_id}}),
+    do: @schedules_repo.trip(trip_id)
+
+  @doc """
+  Returns the trip_id for a given PredictedSchedule.
+  """
+  @spec trip_id(PredictedSchedule.t()) :: Schedules.Trip.id_t() | nil
+  def trip_id(%PredictedSchedule{prediction: %Prediction{trip: %Trip{id: trip_id}}}), do: trip_id
+  def trip_id(%PredictedSchedule{prediction: %Prediction{trip_id: trip_id}}), do: trip_id
+  def trip_id(%PredictedSchedule{schedule: %Schedule{trip: %Trip{id: trip_id}}}), do: trip_id
 
   @doc """
   Returns the direction ID for a given PredictedSchedule
@@ -259,6 +272,12 @@ defmodule PredictedSchedule do
 
   def display_time(%{arrival_time: time}) when time != nil, do: time
   def display_time(%{departure_time: time}), do: time
+
+  def display_time(%PredictedSchedule{
+        prediction: %Prediction{arrival_time: nil, departure_time: nil},
+        schedule: nil
+      }),
+      do: nil
 
   def display_time(%PredictedSchedule{
         prediction: %Prediction{arrival_time: nil, departure_time: nil},
@@ -348,6 +367,11 @@ defmodule PredictedSchedule do
     prediction_time = PredictedSchedule.display_time(prediction)
 
     schedule_time != nil && prediction_time == nil
+  end
+
+  def cancelled?(%PredictedSchedule{schedule: nil, prediction: prediction})
+      when prediction != nil do
+    is_nil(prediction.arrival_time) and is_nil(prediction.departure_time)
   end
 
   def cancelled?(_), do: false

@@ -14,7 +14,7 @@ defmodule Dotcom.Cache.Inspector.Subscriber do
   @redix_pub_sub Application.compile_env!(:dotcom, :redix_pub_sub)
 
   def start_link(_) do
-    GenServer.start_link(__MODULE__, nil)
+    GenServer.start_link(__MODULE__, nil, hibernate_after: 15_000)
   end
 
   @impl GenServer

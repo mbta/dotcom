@@ -58,24 +58,6 @@ const alertUrlDesc: Alert = {
   banner: null
 };
 
-test("handle click to expand and enter to collapse", () => {
-  document.body.innerHTML = body;
-
-  const id = `#alert-${highAlert.id}`;
-
-  const wrapper = mount(<Alerts alerts={[highAlert]} />);
-
-  expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
-
-  wrapper.find(id).simulate("click");
-
-  expect(wrapper.find(id).prop("aria-expanded")).toEqual(true);
-
-  wrapper.find(id).simulate("keypress", { key: "Enter" });
-
-  expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
-});
-
 test("it renders", () => {
   document.body.innerHTML = body;
 

@@ -15,39 +15,42 @@ defmodule DotcomWeb.PageController do
     WhatsHappeningItem
   }
 
-  plug(:alerts)
   plug(DotcomWeb.Plugs.RecentlyVisited)
   plug(:subway_status)
 
   @type content :: Banner.t() | Teaser.t() | WhatsHappeningItem.t()
   @type whats_happening_set :: {nil | [WhatsHappeningItem.t()], nil | [WhatsHappeningItem.t()]}
 
+  @subway_status_cache Application.compile_env!(:dotcom, :system_status_cache_modules)[:subway]
+
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
+    date = conn.assigns.date
+    date_time = conn.assigns.date_time
 
     conn
     |> assign(
       :meta_description,
       ~t"Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, service alerts, real-time updates, and general information."
     )
+    |> assign(:banner, banner)
+    |> assign(:promoted_items, promoted)
+    |> assign(:whats_happening_items, remainder)
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:photo, &photo/0)
-    |> async_assign_default(:banner, fn -> banner end)
-    |> async_assign_default(:promoted_items, fn -> promoted end)
-    |> async_assign_default(:whats_happening_items, fn -> remainder end)
     |> async_assign_default(
       :alerts,
       fn ->
-        conn.assigns.date_time
+        date_time
         |> Alerts.Repo.all()
-        |> Enum.filter(&Alerts.Match.any_time_match?(&1, conn.assigns.date_time))
+        |> Enum.filter(&Alerts.Match.any_time_match?(&1, date_time))
       end,
       []
     )
     |> async_assign_default(
       :event_teasers,
-      fn -> CMS.Repo.next_n_event_teasers(conn.assigns.date, 6) end,
+      fn -> CMS.Repo.next_n_event_teasers(date, 6) end,
       []
     )
     |> await_assign_all_default(__MODULE__)
@@ -135,13 +138,7 @@ defmodule DotcomWeb.PageController do
   defp do_add_utm_url(%Teaser{} = item, url), do: %{item | path: url}
   defp do_add_utm_url(item, url), do: %{item | utm_url: url}
 
-  defp alerts(conn, _opts) do
-    alerts = Alerts.Repo.all(conn.assigns.date_time)
-
-    assign(conn, :alerts, alerts)
-  end
-
   defp subway_status(conn, _opts) do
-    assign(conn, :subway_status, Dotcom.SystemStatus.subway_status())
+    assign(conn, :subway_status, @subway_status_cache.subway_status())
   end
 end

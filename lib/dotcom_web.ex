@@ -89,6 +89,7 @@ defmodule DotcomWeb do
       use Phoenix.LiveView
 
       on_mount DotcomWeb.Hooks.RestoreLocale
+      on_mount Sentry.LiveViewHook
 
       import DotcomWeb.Router.Helpers,
         except: [

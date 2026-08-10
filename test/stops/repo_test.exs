@@ -189,6 +189,34 @@ defmodule Stops.RepoTest do
       assert response |> Enum.map(& &1.id) |> MapSet.new() ==
                [f1_stop_id, f2h_stop_id, shared_stop_id] |> MapSet.new()
     end
+
+    test "correctly segregates 'Green' and 'Boat-F2H' responses in the cache" do
+      f2h_stop_id = "Boat-F2H-#{Test.Support.FactoryHelpers.build(:id)}"
+      f2h_stop_item = build(:stop_item, id: f2h_stop_id)
+
+      green_stop_id = "Green-#{Test.Support.FactoryHelpers.build(:id)}"
+      green_stop_item = build(:stop_item, id: green_stop_id)
+
+      stub(MBTA.Api.Mock, :get_json, fn "/stops/", args ->
+        case args[:route] do
+          "Boat-F2H" -> %JsonApi{data: [f2h_stop_item]}
+          "Green-B" -> %JsonApi{data: [green_stop_item]}
+          _ -> %JsonApi{data: []}
+        end
+      end)
+
+      direction_id = Faker.Util.pick([0, 1])
+
+      response = by_route("Green", direction_id)
+
+      assert response |> Enum.map(& &1.id) |> MapSet.new() ==
+               [green_stop_id] |> MapSet.new()
+
+      response = by_route("Boat-F2H", direction_id)
+
+      assert response |> Enum.map(& &1.id) |> MapSet.new() ==
+               [f2h_stop_id] |> MapSet.new()
+    end
   end
 
   describe "by_routes/3" do

@@ -15,11 +15,13 @@ defmodule DotCom.Mixfile do
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
+      aliases: aliases(),
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro],
+        plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro, :laboratory],
         flags: [:unmatched_returns]
       ],
       deps: deps(),
+      gettext: [write_reference_line_numbers: false],
       listeners: [Phoenix.CodeReloader],
       # docs
       name: "MBTA Website",
@@ -38,6 +40,19 @@ defmodule DotCom.Mixfile do
         "gettext.extract": :prod,
         "gettext.translate": :prod
       ]
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    [
+      localize: ["gettext.extract", "gettext.merge priv/gettext --no-fuzzy"],
+      check_localized: ["gettext.extract --check-up-to-date --verbose"]
     ]
   end
 
@@ -73,7 +88,7 @@ defmodule DotCom.Mixfile do
       mod: {Dotcom.Application, []},
       # a list of OTP applications your application depends on which are not included in :deps
       extra_applications: extra_apps,
-      included_applications: [:mbta_metro]
+      included_applications: [:mbta_metro, :laboratory]
     ]
   end
 
@@ -87,6 +102,7 @@ defmodule DotCom.Mixfile do
       {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.10"},
       {:aws_credentials, "1.0.4", optional: true},
+      {:bandit, "1.10.4"},
       {:browser, "0.5.5"},
       {:castore, "1.0.17"},
       {
@@ -114,6 +130,7 @@ defmodule DotCom.Mixfile do
       {:excoveralls, "0.18.5", only: :test},
       {:faker, "0.19.0-alpha.1"},
       {:floki, "0.38.0"},
+      {:flame_on, "~> 1.0", only: [:dev]},
       {:gen_stage, "1.3.2"},
       {:gettext, "1.0.2", override: true},
       {:hammer, "7.2.0"},
@@ -121,14 +138,13 @@ defmodule DotCom.Mixfile do
       {:httpoison, "2.3.0"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
       {:jason, "1.4.4", override: true},
-      {:kino_live_component, "0.0.5"},
       {:lazy_html, "0.1.10", only: [:test]},
       {:live_isolated_component, "0.10.0", only: [:test]},
       {:logster, "1.1.1"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      # {:mbta_metro, path: "../mbta_metro", runtime: false},
       {:mbta_metro, "1.1.2", runtime: false},
+      {:memoize, "1.4.5"},
       {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
@@ -136,10 +152,10 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.17.2"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.18.0"]
       },
       {:parallel_stream, "1.1.0"},
-      {:phoenix, "1.8.4", override: true},
+      {:phoenix, "1.8.6", override: true},
       {:phoenix_ecto, "4.7.0"},
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.8.7"},
@@ -147,7 +163,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_live_view, "1.1.26", override: true},
       {:phoenix_pubsub, "2.2.0"},
       {:phoenix_view, "2.0.4"},
-      {:plug, "1.19.1"},
+      {:plug, "1.20.1"},
       {:plug_cowboy, "2.8.0"},
       {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
@@ -161,7 +177,7 @@ defmodule DotCom.Mixfile do
       {:redix, "1.5.3"},
       {:req, "0.5.17"},
       {:rstar, github: "armon/erl-rstar"},
-      {:sentry, "12.0.2"},
+      {:sentry, "13.2.0"},
       {:server_sent_event_stage, "1.2.1"},
       {:sizeable, "1.0.2"},
       {:stream_data, "1.2.0", only: [:dev, :test]},
@@ -178,7 +194,8 @@ defmodule DotCom.Mixfile do
       {:uuid, "1.1.8"},
       {:wallaby, "0.30.12", [runtime: false, only: [:dev, :test]]},
       {:yaml_elixir, "2.12.1", only: [:dev]},
-      {:ymlr, "5.1.4", only: [:dev]}
+      {:ymlr, "5.1.4", only: [:dev]},
+      {:laboratory, [github: "mbta/laboratory", ref: "master"]}
     ]
   end
 end

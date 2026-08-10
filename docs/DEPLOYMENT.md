@@ -4,12 +4,12 @@
 
 This can be done on GitHub Actions via the following:
 
-- Create a tag following this format
-  - Pull the latest main locally
-  - Create a tag `git tag year.month.day.release_number` (ex. `2023.12.18.01`)
-  - Push the tag `git push origin --tags`
-- [Create a release](https://github.com/mbta/dotcom/releases). Select a relevant tag, follow the naming convention, click "generate release notes", and publish. This will trigger the [Deploy: release](.github/workflows/deploy-release.yml) workflow that will kick off a deploy to production.
-- [Manually](https://github.com/mbta/dotcom/actions/workflows/deploy-manual.yml). The [Deploy: selected branch](.github/workflows/deploy-manual.yml) workflow can be used to deploy to production by selecting the "prod" environment.
+- Automatic-ish.
+  - Run `mix deploy.prod`. This will open a version of the [New Release page](https://github.com/mbta/dotcom/releases/new) with a tag pre-populated.
+  - Check that it follows the tag naming convention of `year.month.day.release_number` (ex. `2023.12.18.01`), and update if necessary.
+  - Click "Generate release notes" and publish. This will trigger the [Deploy: release](.github/workflows/deploy-release.yml) workflow that will kick off a deploy to production.
+- [Manually](https://github.com/mbta/dotcom/actions/workflows/deploy-manual.yml).
+  - The [Deploy: selected branch](.github/workflows/deploy-manual.yml) workflow can be used to deploy to production by selecting the "prod" environment. This should be done only in emergencies.
 
 ![](run_workflow.png)
 

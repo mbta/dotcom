@@ -2,14 +2,13 @@
   "name": "dotcom",
   "dependencies": {
     "@playwright/test": "1.58.1",
-    "@sentry/node": "7.109.0",
     "artillery": "2.0.30",
-    "axios": "1.13.5",
+    "axios": "1.18.1",
     "csv-parse": "^6.1.0",
     "hot-shots": "10.0.0",
-    "node-cron": "3.0.3",
+    "node-cron": "4.6.0",
     "node-json-logger": "0.2.1",
-    "pm2": "5.3.1",
+    "pm2": "7.0.3",
     "redis": "4.6.13"
   },
   "scripts": {
@@ -19,7 +18,7 @@
     "ci:lint:ts": "npm run --prefix assets eslint:ts",
     "ci:lint:js": "npm run --prefix assets eslint:js",
     "ci:lint:scss": "npm run --prefix assets stylelint -- css/**/*.scss",
-    "ci:lint:ex": "mix credo diff main -a",
+    "ci:lint:ex": "mix credo",
     "ci:unit:exunit": "mix coveralls.html",
     "ci:unit:mocha": "npm run --prefix assets mocha",
     "ci:unit:jest": "npm run --prefix assets jest",

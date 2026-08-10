@@ -6,12 +6,12 @@
         <%= for {mode, routes} <- @routes_with_high_priority_alerts_by_mode do %>
           <% mode_name = Routes.Route.type_name(mode) %>
           <div class="m-homepage__alerts-mode">
-            <h3>
-              <a href={"#{ alerts_mode_url(mode) }"}>
+            <a class="heading-link" href={"#{ alerts_mode_url(mode) }"}>
+              <h3>
                 {svg(alerts_mode_icon_name(mode))}
                 <span class="header-text">{mode_name}</span>
-              </a>
-            </h3>
+              </h3>
+            </a>
             <%= if Enum.empty?(routes) do %>
               <p>
                 {~t(There are no high priority)} {String.downcase(mode_name)} {~t(alerts at this time)}
@@ -32,12 +32,12 @@
       </div>
     </div>
     <div class="m-homepage__alerts-accessibility">
-      <h2>
-        <a href={"#{ alerts_access_url() }"}>
+      <a class="heading-link" href={"#{ alerts_access_url() }"}>
+        <h2>
           {svg("icon-accessibility.svg")}
           <span class="header-text">{~t(Station Accessibility)}</span>
-        </a>
-      </h2>
+        </h2>
+      </a>
       <div class="m-homepage__alerts-accessibility-by-type">
         <%= for {type, stops} <- @stops_with_accessibility_alerts_by_issue do %>
           <% title = Alerts.Accessibility.effect_type_to_group_title(type) %>

@@ -37,11 +37,12 @@ defmodule Dotcom.Application do
               {Dotcom.Stream.Vehicles,
                name: :vehicle_marker_channel_broadcaster, topic: "vehicles"},
               id: :vehicle_marker_channel_broadcaster
-            ),
-            Supervisor.child_spec(
-              {Dotcom.Stream.Vehicles, name: :vehicles_channel_broadcaster, topic: "vehicles-v2"},
-              id: :vehicles_channel_broadcaster
             )
+            # re-enable vehicles-v2 channel in UserSocket when ready to consume vehicle data
+            # Supervisor.child_spec(
+            #   {Dotcom.Stream.Vehicles, name: :vehicles_channel_broadcaster, topic: "vehicles-v2"},
+            #   id: :vehicles_channel_broadcaster
+            # )
           ]
         else
           []
@@ -51,11 +52,15 @@ defmodule Dotcom.Application do
           Predictions.Supervisor,
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
+          {DynamicSupervisor, name: Dotcom.UpcomingDepartures.Supervisor},
+          {DynamicSupervisor, name: Dotcom.Predictions.Supervisor},
           {Phoenix.PubSub, name: Dotcom.PubSub},
+          DotcomWeb.Presence,
           DotcomWeb.Endpoint
         ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
+            Dotcom.ServiceDateRollover,
             Dotcom.ViaFairmount,
             {Dotcom.SystemStatus.CommuterRailCache, []},
             {Dotcom.SystemStatus.SubwayCache, []}

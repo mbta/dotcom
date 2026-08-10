@@ -4,10 +4,11 @@ export default () => {
 
 const scrollTo = () => {
   window.requestAnimationFrame(() => {
-    const initialElToScrollTo = document.querySelector("[data-scroll-to]");
-    if (initialElToScrollTo) {
-      doScrollTo(initialElToScrollTo);
-    }
+    document.querySelectorAll("[data-scroll-to]").forEach((elToScrollTo) => {
+      if (elToScrollTo) {
+        doScrollTo(elToScrollTo);
+      }
+    });
   });
 };
 

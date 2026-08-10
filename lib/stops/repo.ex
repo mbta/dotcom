@@ -80,23 +80,25 @@ defmodule Stops.Repo do
 
   @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def by_route(route_id, direction_id, opts \\ [])
+  def by_route(route_id, direction_id, opts \\ []) do
+    do_by_route(route_id, direction_id, opts)
+  end
 
   # Combine Green Line branch stops into one list for the "Green" route
-  def by_route("Green", direction_id, opts) do
+  defp do_by_route("Green", direction_id, opts) do
     by_routes(GreenLine.branch_ids(), direction_id, opts)
   end
 
   # Combine stops from Boat-F1 onto the Boat-F2H route.
   # Unfortunately by_routes recurses infinitely if we use it,
   # since it would just call this function again
-  def by_route("Boat-F2H", direction_id, opts) do
+  defp do_by_route("Boat-F2H", direction_id, opts) do
     with stops1 when is_list(stops1) <- Api.by_route({"Boat-F2H", direction_id, opts}) do
       (stops1 ++ by_route("Boat-F1", direction_id, opts)) |> Enum.uniq()
     end
   end
 
-  def by_route(route_id, direction_id, opts) do
+  defp do_by_route(route_id, direction_id, opts) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do
         key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
@@ -113,7 +115,11 @@ defmodule Stops.Repo do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
     route_ids
-    |> Task.async_stream(&by_route(&1, direction_id, opts))
+    |> Task.async_stream(&by_route(&1, direction_id, opts),
+      max_concurrency: 4,
+      on_timeout: :kill_task,
+      ordered: false
+    )
     |> Enum.flat_map(fn
       {:ok, stops} -> stops
       _ -> []

@@ -45,7 +45,6 @@ defmodule DotcomWeb.PartialViewTest do
 
       assert rendered =~ "</svg>"
       assert rendered =~ "c-svg__icon-mode-subway"
-      assert rendered =~ "title=\"Subway\""
     end
 
     test "uses small icon if size is set to small" do
@@ -69,7 +68,7 @@ defmodule DotcomWeb.PartialViewTest do
       assert title(%Routes.Route{type: 4}) == "Ferry"
     end
 
-    test "Title tooltip is shown if show_tooltip? is not specified" do
+    test "Title tooltip is not shown if show_tooltip? is not specified" do
       document =
         %SvgIconWithCircle{icon: :subway}
         |> svg_icon_with_circle()
@@ -77,18 +76,18 @@ defmodule DotcomWeb.PartialViewTest do
         |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
-      assert Floki.attribute(document, "data-toggle") == ["tooltip"]
+      assert document |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
     end
 
-    test "Tooltip is not shown if show_tooltip? is false" do
+    test "Tooltip is shown if show_tooltip? is true" do
       document =
-        %SvgIconWithCircle{icon: :subway, show_tooltip?: false}
+        %SvgIconWithCircle{icon: :subway, show_tooltip?: true}
         |> svg_icon_with_circle()
         |> Phoenix.HTML.Safe.to_iodata()
         |> IO.iodata_to_binary()
         |> Floki.parse_document!()
 
-      assert document |> Floki.find("svg") |> List.first() |> Floki.attribute("data-toggle") == []
+      assert Floki.attribute(document, "data-toggle") == ["tooltip"]
     end
   end
 
@@ -179,7 +178,7 @@ defmodule DotcomWeb.PartialViewTest do
         |> IO.iodata_to_binary()
 
       expected =
-        "<div class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab\" href=\"/a\" id=\"a-tab\">A</a><a class=\"header-tab header-tab--selected some-tab-class b-tab\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></div>"
+        "<nav aria-label=\"schedule page tabs\" class=\"header-tabs\"><a class=\"header-tab  some-tab-class a-tab\" href=\"/a\" id=\"a-tab\">A</a><a aria-selected class=\"header-tab header-tab--selected some-tab-class b-tab\" href=\"/b\" id=\"b-tab\">B</a><a class=\"header-tab  some-tab-class c-tab\" href=\"/c\" id=\"c-tab\">C<span aria-label=\"5 things\" class=\"some-tab-badge\">5</span></a></nav>"
 
       assert actual == expected
     end

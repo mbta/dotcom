@@ -5,26 +5,24 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.SystemStatus.StatusLabel, only: [status_label: 1]
 
+  import DotcomWeb.Components.SystemStatus.CommuterRailInfoWidget,
+    only: [commuter_rail_info_widget: 1, row: 1]
+
   alias Alerts.Alert
 
+  attr :class, :string, default: ""
   attr :status, :map
 
   def commuter_rail_route_status(%{status: nil} = assigns), do: ~H""
 
   def commuter_rail_route_status(assigns) do
     ~H"""
-    <.bordered_container hide_divider>
-      <h2 class="font-heading font-bold text-[1.75rem] leading-normal" style="margin-top: inherit">
-        {~t"Current Status"}
-      </h2>
-      <div class="border-b-xs border-gray-lightest mt-4">
-        <.rows_for_status status={@status} />
-      </div>
-    </.bordered_container>
+    <.commuter_rail_info_widget heading_text={~t"Current Status"} class={@class}>
+      <.rows_for_status status={@status} />
+    </.commuter_rail_info_widget>
     """
   end
 
@@ -129,16 +127,6 @@ defmodule DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus do
 
   defp trip?(%{trip_info: {:trip, _}}), do: true
   defp trip?(_), do: false
-
-  slot :inner_block
-
-  defp row(assigns) do
-    ~H"""
-    <div class="border-t-xs border-gray-lightest py-3 px-1">
-      {render_slot(@inner_block)}
-    </div>
-    """
-  end
 
   defp trip_info_heading(%{trip_info: {:trip, trip_info}} = assigns) do
     description =

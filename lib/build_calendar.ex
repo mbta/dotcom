@@ -72,7 +72,11 @@ defmodule BuildCalendar do
       formatted_date = Dotcom.Utils.Time.format!(date, :weekday_date_full)
 
       content_tag :td, class: class(day) do
-        link("#{date.day}", to: url, title: formatted_date, "aria-label": formatted_date)
+        link("#{date.day}",
+          to: url <> "#date-filter",
+          title: formatted_date,
+          "aria-label": formatted_date
+        )
       end
     end
 
@@ -81,11 +85,12 @@ defmodule BuildCalendar do
       # false booleans, then get the class names and join them.
       classes =
         [
-          {Timex.weekday(day.date) > 5, "schedule-weekend"},
+          {Date.day_of_week(day.date) > 5, "schedule-weekend"},
           {day.holiday?, "schedule-holiday"},
           {day.selected? && day.month_relation == :current, "schedule-selected"},
           {day.month_relation == :next, "schedule-next-month"},
-          {day.today?, "schedule-today"}
+          {day.today?, "schedule-today"},
+          {day.selected?, "date-picker-toggle"}
         ]
         |> Enum.filter(&match?({true, _}, &1))
         |> Enum.map(&elem(&1, 1))
@@ -114,7 +119,7 @@ defmodule BuildCalendar do
     %BuildCalendar.Calendar{
       previous_month_url: previous_month_url(selected, today, shift, url_fn),
       next_month_url: next_month_url(selected, end_date, shift, url_fn),
-      active_date: Timex.shift(selected, months: shift),
+      active_date: Date.shift(selected, month: shift),
       days: build_days(selected, today, shift, holiday_set, url_fn),
       holidays: holidays,
       upcoming_holidays:
@@ -124,7 +129,7 @@ defmodule BuildCalendar do
 
   @spec previous_month_url(Date.t(), Date.t(), integer, url_fn) :: String.t() | nil
   defp previous_month_url(selected, today, shift, url_fn) do
-    shifted = Timex.shift(selected, months: shift)
+    shifted = Date.shift(selected, month: shift)
 
     if {shifted.month, shifted.year} == {today.month, today.year} do
       nil
@@ -141,8 +146,8 @@ defmodule BuildCalendar do
   defp next_month_url(selected, end_date, shift, url_fn) do
     next_month =
       selected
-      |> Timex.shift(months: shift + 1)
-      |> Timex.beginning_of_month()
+      |> Date.shift(month: shift + 1)
+      |> Date.beginning_of_month()
 
     if Date.compare(next_month, end_date) == :gt do
       nil
@@ -153,14 +158,14 @@ defmodule BuildCalendar do
 
   @spec build_days(Date.t(), Date.t(), integer, MapSet.t(), url_fn) :: [BuildCalendar.Day.t()]
   defp build_days(selected, today, shift, holiday_set, url_fn) do
-    shifted = Timex.shift(selected, months: shift)
+    shifted = Date.shift(selected, month: shift)
 
     last_day_of_previous_month =
       shifted
-      |> Timex.beginning_of_month()
-      |> Timex.shift(days: -1)
+      |> Date.beginning_of_month()
+      |> Date.shift(day: -1)
 
-    last_day_of_this_month = Timex.end_of_month(shifted)
+    last_day_of_this_month = Date.end_of_month(shifted)
 
     for date <- Date.range(first_day(shifted), last_day(shifted)) do
       %BuildCalendar.Day{
@@ -177,9 +182,8 @@ defmodule BuildCalendar do
   @spec first_day(Date.t()) :: Date.t()
   defp first_day(date) do
     date
-    |> Timex.beginning_of_month()
-    # Sunday
-    |> Timex.beginning_of_week(7)
+    |> Date.beginning_of_month()
+    |> Date.beginning_of_week(:sunday)
   end
 
   @spec last_day(Date.t()) :: Date.t()
@@ -187,12 +191,13 @@ defmodule BuildCalendar do
     # at the last day of the month, add a week, then go the end of the
     # current week.  We use Sunday as the end of the week.
     date
-    |> Timex.end_of_month()
-    |> Timex.shift(days: 7)
-    |> Timex.end_of_week(7)
+    |> Date.end_of_month()
+    |> Date.shift(day: 7)
+    |> Date.end_of_week(:sunday)
   end
 
   @spec build_url(url_fn, Date.t(), Date.t()) :: String.t()
+
   defp build_url(url_fn, today, today) do
     url_fn.(date: nil, date_select: nil, shift: nil)
   end

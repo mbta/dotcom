@@ -1,0 +1,50 @@
+<div class="w-full bg-cobalt-80">
+  <div class="container">
+    <div class="py-8 flex items-center gap-4">
+      <.icon type="solid" name="flask" class="size-10" />
+      <span class="text-2xl font-bold">Feature Flags</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="border-t-xs border-gray-lighter max-w-2xl mx-auto mt-4">
+    <div
+      :for={feature <- @features}
+      class="border-xs border-gray-lighter border-t-0 p-4 flex gap-4 items-center"
+    >
+      <div class="shrink-0 size-10">
+        <.icon
+          :if={feature.enabled}
+          class="fill-green-line"
+          type="solid"
+          name="circle-check"
+        />
+        <.icon
+          :if={!feature.enabled}
+          class="fill-silver-line opacity-50"
+          type="solid"
+          name="circle-xmark"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <span class="text-xl font-bold">{feature.name}</span>
+        <span>{feature.description}</span>
+      </div>
+
+      <div class="ml-auto">
+        <form :if={feature.enabled} action={~p"/_flags/disable/#{feature.id}"} method="post">
+          <input type="hidden" name="redirect" value={~p"/_flags"} />
+          <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
+          <.button>Disable</.button>
+        </form>
+        <form :if={!feature.enabled} action={~p"/_flags/enable/#{feature.id}"} method="post">
+          <input type="hidden" name="redirect" value={~p"/_flags"} />
+          <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
+          <.button>Enable</.button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

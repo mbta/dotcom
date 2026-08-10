@@ -36,7 +36,7 @@ defmodule Test.Support.Factories.Services.Service do
       removed_dates: [],
       removed_dates_notes: %{},
       start_date: service_start,
-      type: Faker.Util.pick([:saturday, :sunday, :weekday, :weekend, :other]),
+      type: Faker.Util.pick([:saturday, :sunday, :friday, :weekday, :weekend, :other]),
       typicality:
         Faker.Util.pick([
           :unknown,
@@ -49,7 +49,7 @@ defmodule Test.Support.Factories.Services.Service do
       valid_days: [1, 2, 3, 4, 5, 6, 7],
       rating_start_date: rating_start,
       rating_end_date: rating_end,
-      rating_description: Faker.Lorem.sentence()
+      rating_description: Faker.Lorem.word()
     }
     |> Map.merge(attrs)
   end

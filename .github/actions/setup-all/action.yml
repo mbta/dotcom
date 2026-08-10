@@ -11,14 +11,14 @@ runs:
   using: "composite"
   steps:
   - name: Restore cache of languages from .tool-versions
-    uses: actions/cache@v4
+    uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
     with:
       path: ~/.asdf
       key: ci-asdf-cache-${{ hashFiles('.tool-versions') }}
     id: asdf-cache
   
   - name: Install languages from .tool-versions (if needed)
-    uses: asdf-vm/actions/install@v1
+    uses: asdf-vm/actions/install@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
     if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
  
   - name: Install Hex/Rebar (if needed)
@@ -26,10 +26,10 @@ runs:
     shell: bash
     if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
   
-  - uses: mbta/actions/reshim-asdf@v1
+  - uses: mbta/actions/reshim-asdf@af587ca71a208f34ae1271bd16a7bc98b4adfbcb # v1.24
 
   - name: Restore cache of Elixir dependencies from mix.lock
-    uses: actions/cache@v4
+    uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
     with:
       path: deps
       key: ci-mix-cache-${{ hashFiles('**/mix.lock') }}
@@ -41,14 +41,14 @@ runs:
     shell: bash
 
   - name: Restore cache of Node dependencies from package-lock.json
-    uses: actions/cache@v4
+    uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
     with:
       path: assets/node_modules
       key: ci-nodejs-cache-${{ hashFiles('assets/package-lock.json') }}
     id: node-cache
   
   - name: Restore Cypress cache
-    uses: actions/cache@v4
+    uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
     with:
       path: ~/.cache/Cypress
       key: ci-cypress-${{ hashFiles('assets/package-lock.json') }}
@@ -56,7 +56,7 @@ runs:
   - name: Install Node dependencies (if needed)
     if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
     shell: bash
-    run: |
+    run: | # zizmor: ignore[adhoc-packages] Zizmor is incorrectly pattern-matching the npm command as something like npm install foo@1.0, which would be an adhoc package installation worth avoiding
       git config --global url."https://github.com/".insteadOf ssh://git@github.com/
       npm install --prefix assets --package-lock-only
       npm run install:ci

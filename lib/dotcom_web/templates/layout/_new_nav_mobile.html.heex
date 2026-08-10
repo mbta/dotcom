@@ -33,7 +33,9 @@
         <% end %>
       </nav>
     <% end %>
-    <div class="m-menu__language m-menu__section"></div>
+    <%= if !Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+      <div class="m-menu__language m-menu__section"></div>
+    <% end %>
   </div>
   <div class="m-menu__search" data-nav="search">
     <.algolia_autocomplete id="header-mobile" config_type="basic-config" />

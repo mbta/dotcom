@@ -18,6 +18,22 @@ defmodule UtilTest do
     end
   end
 
+  describe "safe_time_compare/2" do
+    test "when nil_is_greater? is true, handles nil values by treating them as infinitely in the future" do
+      date = DateTime.utc_now()
+      assert safe_time_compare(nil, date, true) == :gt
+      assert safe_time_compare(nil, nil, true) == :eq
+      assert safe_time_compare(date, nil, true) == :lt
+    end
+
+    test "when nil_is_greater? is false, handles nil values by treating them as infinitely in the past" do
+      date = DateTime.utc_now()
+      assert safe_time_compare(nil, date, false) == :lt
+      assert safe_time_compare(nil, nil, false) == :eq
+      assert safe_time_compare(date, nil, false) == :gt
+    end
+  end
+
   describe "to_local_time/1" do
     test "handles NaiveDateTime" do
       assert %DateTime{day: 02, hour: 0, zone_abbr: "EST"} =

@@ -70,7 +70,11 @@ defmodule Alerts.Parser do
     defp do_activity(_), do: :unknown
 
     defp active_period(%{"start" => start, "end" => stop}) do
-      {parse_time(start), parse_time(stop)}
+      if !is_nil(stop) and String.match?(stop, ~r/.+T03:00:00.+/) do
+        {parse_time(start), parse_time(String.replace(stop, ~r/T03:00:00/, "T02:59:00"))}
+      else
+        {parse_time(start), parse_time(stop)}
+      end
     end
 
     defp parse_time(nil) do

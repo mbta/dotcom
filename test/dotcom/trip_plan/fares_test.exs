@@ -101,6 +101,188 @@ defmodule Dotcom.TripPlan.FaresTest do
     end
   end
 
+  test "valid two leg subway transfers" do
+    start_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    end_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    one_subway_fare =
+      build(:itinerary,
+        legs:
+          build_list(1, :transit_leg,
+            route:
+              build(:route,
+                agency: build(:agency, name: "MBTA"),
+                type: 0
+              )
+          )
+      )
+      |> fare()
+
+    fare = build(:itinerary, legs: [start_leg, end_leg]) |> fare()
+    assert fare <= one_subway_fare
+  end
+
+  test "valid three leg subway transfers" do
+    start_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    mid_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    end_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    one_subway_fare =
+      build(:itinerary,
+        legs:
+          build_list(1, :transit_leg,
+            route:
+              build(:route,
+                agency: build(:agency, name: "MBTA"),
+                type: 0
+              )
+          )
+      )
+      |> fare()
+
+    fare = build(:itinerary, legs: [start_leg, mid_leg, end_leg]) |> fare()
+    assert fare <= one_subway_fare
+  end
+
+  test "invalid two leg subway transfers (eg red <-> blue)" do
+    start_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    end_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    one_subway_fare =
+      build(:itinerary,
+        legs:
+          build_list(1, :transit_leg,
+            route:
+              build(:route,
+                agency: build(:agency, name: "MBTA"),
+                type: 0
+              )
+          )
+      )
+      |> fare()
+
+    fare = build(:itinerary, legs: [start_leg, end_leg]) |> fare()
+    assert fare > one_subway_fare
+  end
+
+  test "invalid three leg subway transfers (eg red <-> blue)" do
+    start_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    mid_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    end_leg =
+      build(:transit_leg,
+        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-other"})),
+        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        route:
+          build(:route,
+            agency: build(:agency, name: "MBTA"),
+            type: 0
+          )
+      )
+
+    one_subway_fare =
+      build(:itinerary,
+        legs:
+          build_list(1, :transit_leg,
+            route:
+              build(:route,
+                agency: build(:agency, name: "MBTA"),
+                type: 0
+              )
+          )
+      )
+      |> fare()
+
+    fare = build(:itinerary, legs: [start_leg, mid_leg, end_leg]) |> fare()
+    assert fare > one_subway_fare
+  end
+
   describe "cents_for_leg/1" do
     test "walking leg" do
       leg = build(:walking_leg)

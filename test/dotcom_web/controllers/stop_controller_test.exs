@@ -129,26 +129,6 @@ defmodule DotcomWeb.StopControllerTest do
     end
   end
 
-  describe "api" do
-    @tag :external
-    test "returns json with departure data", %{conn: conn} do
-      path = stop_path(conn, :api, id: "place-sstat")
-      assert path == "/stops/api?id=place-sstat"
-
-      response =
-        conn
-        |> get(path)
-        |> json_response(200)
-
-      assert is_list(response)
-      refute Enum.empty?(response)
-
-      for item <- response do
-        assert %{"group_name" => _, "routes" => _} = item
-      end
-    end
-  end
-
   describe "show/2" do
     setup _ do
       stub(Alerts.Repo.Mock, :by_route_ids, fn _stop_id, _datetime -> [] end)

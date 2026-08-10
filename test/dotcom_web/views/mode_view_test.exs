@@ -3,11 +3,13 @@ defmodule DotcomWeb.ModeViewTest do
 
   use ExUnit.Case, async: true
 
+  import Mox
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  alias Alerts.Alert
   alias DotcomWeb.ModeView
   alias Routes.Route
+
+  setup :verify_on_exit!
 
   describe "mode_group_header/3" do
     test "renders an h2 if is_homepage? == false" do
@@ -15,8 +17,8 @@ defmodule DotcomWeb.ModeViewTest do
                :commuter_rail
                |> ModeView.mode_group_header("/schedules/commuter-rail", false)
                |> safe_to_string()
-               |> Floki.parse_fragment()
-               |> elem(1)
+               |> Floki.parse_fragment!()
+               |> Floki.find(".m-mode__name")
 
       assert tag == "h2"
     end
@@ -26,8 +28,8 @@ defmodule DotcomWeb.ModeViewTest do
                :commuter_rail
                |> ModeView.mode_group_header("/schedules/commuter-rail", true)
                |> safe_to_string()
-               |> Floki.parse_fragment()
-               |> elem(1)
+               |> Floki.parse_fragment!()
+               |> Floki.find(".m-mode__name")
 
       assert tag == "h3"
     end
@@ -49,13 +51,15 @@ defmodule DotcomWeb.ModeViewTest do
           |> Floki.parse_document!()
 
         assert document
+               |> Floki.find(".m-mode__header")
                |> Floki.find(".m-mode__name")
                |> Floki.text(deep: false)
                |> String.trim() == text
 
         assert document
-               |> Floki.find(".m-mode__name")
-               |> Floki.attribute("href") == [href]
+               |> Floki.find(".m-mode__header #mode-header-link")
+               |> Floki.attribute("href") ==
+                 [href]
 
         view_all = Floki.find(document, ".m-mode__view-all")
 
@@ -69,39 +73,49 @@ defmodule DotcomWeb.ModeViewTest do
     end
   end
 
-  describe "has_alert?/3" do
-    test "returns true if route has an alert" do
-      now = Util.now()
-      entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
+  describe "has_alert?/1" do
+    setup _ do
+      stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+      :ok
+    end
 
-      alert =
-        Alert.new(
-          active_period: [{Timex.shift(now, hours: -3), Timex.shift(now, hours: 3)}],
-          effect: :delay,
-          informed_entity: [entity],
+    test "returns true if route has a current high-priority alert" do
+      route_id = Faker.Internet.slug()
+
+      expect(Alerts.Repo.Mock, :by_route_id_and_priority, fn ^route_id, :high ->
+        Test.Support.Factories.Alerts.Alert.build_list(1, :alert_for_route,
+          route_id: route_id,
           priority: :high
         )
+        |> Enum.map(&Test.Support.Factories.Alerts.Alert.active_now/1)
+      end)
 
-      assert Alerts.Match.match([alert], entity, now) == [alert]
-
-      assert ModeView.has_alert?(%Route{id: "Pink", type: 0}, [alert], now) == true
+      assert ModeView.has_alert?(route_id)
     end
-  end
 
-  test "returns false if route does not have an alert" do
-    now = Util.now()
-    entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
+    test "returns false if route has a future high-priority alert" do
+      route_id = Faker.Internet.slug()
 
-    alert =
-      Alert.new(
-        active_period: [{Timex.shift(now, days: 5), Timex.shift(now, days: 9)}],
-        effect: :service_change,
-        informed_entity: [entity]
-      )
+      expect(Alerts.Repo.Mock, :by_route_id_and_priority, fn ^route_id, :high ->
+        Test.Support.Factories.Alerts.Alert.build_list(1, :alert_for_route,
+          route_id: route_id,
+          priority: :high
+        )
+        |> Enum.map(&Test.Support.Factories.Alerts.Alert.active_upcoming/1)
+      end)
 
-    assert Alerts.Match.match([alert], entity, now) == []
+      refute ModeView.has_alert?(route_id)
+    end
 
-    assert ModeView.has_alert?(%Route{id: "Pink", type: 0}, [alert], now) == false
+    test "returns false if route does not have such alert" do
+      route_id = Faker.Internet.slug()
+
+      expect(Alerts.Repo.Mock, :by_route_id_and_priority, fn ^route_id, :high ->
+        []
+      end)
+
+      refute ModeView.has_alert?(route_id)
+    end
   end
 
   describe "bus_filter_atom/1 and bus_filter_range/2" do

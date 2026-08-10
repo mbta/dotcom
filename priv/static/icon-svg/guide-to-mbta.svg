@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90" height="90" role="img" viewBox="0 0 90 90">
-    <title>
-        guide to mbta
-    </title>
+    
     <g fill="none" fill-rule="evenodd" transform="translate(13 3)">
         <rect width="60" height="80" x="4" fill="#1C77C3" rx="3"/>
         <rect width="56" height="80" x="6" y="2" fill="#FFF" rx="3"/>

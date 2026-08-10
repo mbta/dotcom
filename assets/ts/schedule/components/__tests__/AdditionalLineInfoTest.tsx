@@ -74,7 +74,6 @@ it("it renders", () => {
         route={route}
         holidays={holidays}
         hours={""}
-        scheduleNote={null}
       />
     )
     .toJSON();
@@ -94,7 +93,6 @@ it("it renders for a non-subway route", () => {
         route={notSubwayRoute}
         holidays={holidays}
         hours={""}
-        scheduleNote={null}
       />
     )
     .toJSON();

@@ -52,6 +52,7 @@ defmodule Routes.Repo do
       {:error, _} -> nil
     end
     |> update_direction_destinations()
+    |> update_direction_names()
   end
 
   # Ferries F1 and F2H are functionally the same route for riders, but are treated separately
@@ -70,13 +71,27 @@ defmodule Routes.Repo do
 
   defp update_direction_destinations(route), do: route
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp update_direction_names(%Route{id: "Boat-F10"} = route) do
+    %Route{
+      route
+      | direction_names:
+          route.direction_names
+          |> Map.put(0, "Counterclockwise (Morning)")
+          |> Map.put(1, "Clockwise (Evening)")
+    }
+  end
 
+  defp update_direction_names(route), do: route
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, match: &match_route/1)
   defp cached_get(id, opts) do
     with %{data: [route]} <- MBTA.Api.Routes.get(id, opts) do
       {:ok, parse_route(route)}
     end
   end
+
+  defp match_route({:error, _}), do: {true, nil, ttl: :timer.seconds(30)}
+  defp match_route(route), do: {true, route, ttl: @ttl}
 
   @impl Routes.Repo.Behaviour
   def get_shapes(route_id, opts) do
@@ -181,7 +196,8 @@ defmodule Routes.Repo do
       direction_destinations: %{0 => "All branches", 1 => "All branches"},
       type: 0,
       description: :rapid_transit,
-      color: "00843D"
+      color: "00843D",
+      sort_order: 10_030
     }
   end
 end

@@ -1,14 +1,28 @@
 defmodule DotcomWeb.Stats do
   @moduledoc """
-  This Agent attaches to telemetry events emitted by Phoenix and aggregates them.
+  This GenServer attaches to telemetry events emitted by Phoenix and aggregates them by path and status.
   """
 
-  use Agent
+  use GenServer
 
   @doc """
-  Starts the Agent and attaches to `[:phoenix, :router_dispatch, :stop]` telemetry events.
+  Starts the GenServer.
   """
-  def start_link(initial_value \\ %{}) do
+  def start_link(_initial_value \\ %{}) do
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
+  end
+
+  @doc """
+  Dispatches the aggregated stats.
+  """
+  def dispatch_stats do
+    GenServer.call(__MODULE__, :dispatch_stats)
+  end
+
+  @doc """
+  Attaches to the Phoenix telemetry events.
+  """
+  def init(_) do
     :telemetry.attach(
       "phoenix-router_dispatch-stop",
       [:phoenix, :router_dispatch, :stop],
@@ -16,11 +30,21 @@ defmodule DotcomWeb.Stats do
       nil
     )
 
-    Agent.start_link(fn -> initial_value end, name: __MODULE__)
+    Telemetry.Stats.new_table(__MODULE__)
+
+    {:ok, nil}
   end
 
   @doc """
-  Handles telemetry events and aggregates them by path and status.
+  Handles synchronous call to dispatch and reset the stats.
+  """
+  def handle_call(:dispatch_stats, _from, state) do
+    Telemetry.Stats.dispatch_stats(__MODULE__, [:dotcom_web, :request], :method)
+    {:reply, :ok, state}
+  end
+
+  @doc """
+  Handles telemetry events and aggregates them by path and status directly in the ETS table.
   """
   def handle_event(_name, measurement, metadata, _config) do
     method = metadata.conn.method
@@ -28,47 +52,6 @@ defmodule DotcomWeb.Stats do
     status = metadata.conn.status
     duration = measurement[:duration]
 
-    Agent.update(__MODULE__, fn state ->
-      if Kernel.get_in(state, [method, path, status]) do
-        Kernel.update_in(state, [method, path, status], &(&1 ++ [duration]))
-      else
-        Kernel.put_in(state, [Access.key(method, %{}), Access.key(path, %{}), status], [duration])
-      end
-    end)
-  end
-
-  @doc """
-  Dispatches the aggregated stats to the `[:phoenix, :router_dispatch, :stop]` telemetry event.
-
-  Resets the Agent state after dispatching the stats.
-  """
-  def dispatch_stats do
-    Enum.each(Agent.get(__MODULE__, & &1), &dispatch_method/1)
-
-    Agent.update(__MODULE__, fn _ -> %{} end)
-  end
-
-  defp dispatch_method({method, stats}) do
-    Enum.each(stats, fn {path, statuses} ->
-      Enum.each(statuses, fn {status, durations} ->
-        dispatch_stat(method, path, status, durations)
-      end)
-    end)
-  end
-
-  defp dispatch_stat(method, path, status, durations) do
-    count = Enum.count(durations)
-
-    avg =
-      durations
-      |> Enum.sum()
-      |> Kernel.div(count)
-      |> System.convert_time_unit(:native, :millisecond)
-
-    :telemetry.execute([:dotcom_web, :request], %{count: count, avg: avg}, %{
-      method: method,
-      path: path,
-      status: status
-    })
+    Telemetry.Stats.record_stat(__MODULE__, method, path, status, duration)
   end
 end

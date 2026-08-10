@@ -55,6 +55,7 @@ defmodule DotcomWeb.ConnCase do
   end
 
   setup _tags do
+    Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     {:ok, conn: default_conn()}
   end
 

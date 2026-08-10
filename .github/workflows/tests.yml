@@ -13,6 +13,9 @@ env:
   MBTA_API_BASE_URL: ${{ secrets.MBTA_API_BASE_URL }}
   MBTA_API_KEY: ${{ secrets.MBTA_API_KEY }}
 
+permissions:
+  contents: read
+
 jobs:
   file_changes:
     runs-on: ubuntu-latest
@@ -25,10 +28,12 @@ jobs:
       scss: ${{ steps.changes.outputs.scss == 'true' }}
       run_all: ${{ steps.set_run_all.outputs.run_all == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - id: set_run_all
         run: echo "run_all=${{ github.event_name == 'push' || contains(github.head_ref, 'dependabot/') }}" >> $GITHUB_OUTPUT
-      - uses: dorny/paths-filter@v4
+      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
         id: changes
         with:
           filters: |
@@ -48,7 +53,9 @@ jobs:
     name: Build Docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - run: docker build .
 
   eslintts:
@@ -57,7 +64,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: npm run ci:lint:ts
 
@@ -67,7 +76,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: npm run ci:lint:js
 
@@ -77,7 +88,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.scss == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: npm run ci:lint:scss
 
@@ -87,25 +100,43 @@ jobs:
     needs: file_changes
     if: ${{ (needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true') && github.event_name == 'pull_request' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: git fetch origin main:main
       - run: npm run ci:lint:ex
+
+  zizmor:
+    name: Security / Zizmor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@6fc4b006235f201fdab3722e17240ab420d580e5 # v0.6.1
+        with:
+          advanced-security: false
 
   build_app:
     name: Build application and assets
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - name: Cache _build
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
         with:
           path: |
             _build
             priv
           key: ci-application-cache-${{ github.sha }}
-      - run: npm install --prefix assets
+      - run: | # zizmor: ignore[adhoc-packages] Zizmor is incorrectly pattern-matching the npm command as something like npm install foo@1.0, which would be an adhoc package installation worth avoiding
+          npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
 
@@ -115,9 +146,11 @@ jobs:
     needs: [file_changes, build_app]
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
         with:
           path: |
             _build
@@ -128,7 +161,7 @@ jobs:
       - run: npm run ci:unit:exunit
       - name: Upload coverage artifact
         if: ${{ always() }}
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: Elixir test coverage report
           path: cover/
@@ -139,7 +172,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: npm run ci:unit:mocha
 
@@ -149,7 +184,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: TZ="America/New_York" npm run ci:unit:jest
 
@@ -159,9 +196,11 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
-      - uses: mbta/actions/dialyzer@v2
+      - uses: mbta/actions/dialyzer@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
 
   type_typescript:
     name: Type checks / TypeScript
@@ -169,7 +208,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: npm run ci:types:ts
 
@@ -179,7 +220,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: npm run ci:format:ex
 
@@ -189,6 +232,28 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup-all
       - run: npm run ci:format:ts
+
+  check_translations:
+    name: Translations / Check
+    runs-on: ubuntu-latest
+    needs: [file_changes, build_app]
+    if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-all
+      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: |
+            _build
+            priv
+          key: ci-application-cache-${{ github.sha }}
+          restore-keys: |
+            ci-application-cache-
+      - run: mix gettext.extract --check-up-to-date --verbose

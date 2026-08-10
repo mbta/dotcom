@@ -178,6 +178,16 @@ defmodule Alerts.Alert do
     %__MODULE__{alert | priority: Priority.priority(alert)}
   end
 
+  def stale?(%__MODULE__{} = alert) do
+    now = Dotcom.Utils.DateTime.now()
+    five_weeks_ago = DateTime.shift(now, week: -5)
+
+    case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
+      {:current, datetime} -> datetime |> DateTime.before?(five_weeks_ago)
+      _ -> false
+    end
+  end
+
   @spec build_struct(Keyword.t()) :: t()
   defp build_struct(keywords), do: struct!(__MODULE__, keywords)
 
@@ -308,14 +318,6 @@ defmodule Alerts.Alert do
     do: image_alternative_text
 
   def image_alternative_text(_), do: nil
-
-  @spec high_severity_or_high_priority?(t) :: boolean()
-  def high_severity_or_high_priority?(%{priority: :high}), do: true
-
-  def high_severity_or_high_priority?(%{severity: severity}) when severity >= 7,
-    do: true
-
-  def high_severity_or_high_priority?(_), do: false
 
   @spec municipality(t) :: String.t() | nil
   def municipality(alert) do

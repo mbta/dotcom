@@ -3,9 +3,7 @@ defmodule DotcomWeb.Plugs.AlertsByTimeframe do
   Filters alerts by timeframe. Used by pages that list alerts
   and have a timeframe filter:
 
-  - /alerts
-  - /schedules/ROUTE/alerts
-  - /stops/STOP/alerts
+  - /bus-stop-changes
   """
 
   use Plug.Builder

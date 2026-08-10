@@ -39,8 +39,10 @@ media =
         ~t", ",
         Fares.Format.media(:paper_ferry),
         ~t", ",
+        Fares.Format.media(:contactless_payment),
+        ~t", ",
         ~t"or ",
-        Fares.Format.media(:contactless_payment)
+        Fares.Format.media(:cash)
       ]
 
     %Fares.Summary{} ->
@@ -70,23 +72,23 @@ card_classes =
 card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration] %>
 
 <%= content_tag :div, class: card_classes do %>
-  <div class="c-fare-card__icon">
+  <div class="c-fare-card__icon" aria-hidden="true">
     {mode_icon(mode, :default)}
   </div>
 
-  <h3 class="c-fare-card__name">
-    <%= if @fare_card.link do %>
-      {link(card_title, to: @fare_card.link.url, class: "u-linked-card__primary-link")}
-    <% else %>
-      {card_title}
+  <%= if @fare_card.link do %>
+    <%= link to: @fare_card.link.url, class: "u-linked-card__primary-link c-fare-card__name" do %>
+      <h3>{card_title}</h3>
     <% end %>
-  </h3>
+  <% else %>
+    <h3 class="c-fare-card__name">{card_title}</h3>
+  <% end %>
 
   <div class="c-fare-card__fare h2">
     {price}
   </div>
 
-  <%= if @fare_card.show_media do %>
+  <%= if @fare_card.show_media && media do %>
     <p class="c-fare-card__media">
       {~t(with)} {media}
     </p>
@@ -101,7 +103,7 @@ card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration] %>
 
 <%= content_tag :div, class: "grid-container" do %>
   <div class="c-fares-grid">
-    <div>
+    <div aria-hidden="true">
       {mode_icon(mode, :default)}
     </div>
     <div>

@@ -278,6 +278,30 @@ defmodule Test.Support.Factories.MBTA.Api do
     )
   end
 
+  # formatted for predictions coming via the MBTA V3 API streaming endpoint
+  def raw_prediction_item_factory do
+    %{
+      id: Faker.Internet.slug(),
+      attributes: %{
+        "arrival_time" => formatted_datetime(),
+        "departure_time" => formatted_datetime(),
+        "direction_id" => Faker.Util.pick([0, 1]),
+        "schedule_relationship" =>
+          Faker.Util.pick(["ADDED", "CANCELLED", "SKIPPED", "UNSCHEDULED", "NO_DATA"]),
+        "status" => "",
+        "stop_sequence" => 0,
+        "track" => ""
+      },
+      relationships: %{
+        "route" => %{"data" => %{id: Faker.Internet.slug(), type: "route"}},
+        "stop" => %{"data" => %{id: Faker.Internet.slug(), type: "stop"}},
+        "trip" => %{"data" => %{id: Faker.Internet.slug(), type: "trip"}},
+        "vehicle" => %{"data" => %{id: Faker.Internet.slug(), type: "vehicle"}}
+      },
+      type: "prediction"
+    }
+  end
+
   def vehicle_item_factory(attrs) do
     build(
       :item,

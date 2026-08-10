@@ -109,9 +109,21 @@ defmodule Dotcom.StopAmenityTest do
       assert amenity_alert in alerts_for_amenity(amenity, [amenity_alert | alerts])
     end
 
-    test "other amenities don't have alerts" do
+    test "filters accessibility alerts" do
       alerts = Factories.Alerts.Alert.build_list(10, :alert)
-      amenity = %Dotcom.StopAmenity{type: Faker.Util.pick([:fare, :accessibility])}
+
+      amenity_alert =
+        Factories.Alerts.Alert.build(:alert,
+          effect: Faker.Util.pick([:access_issue, :station_issue])
+        )
+
+      amenity = %Dotcom.StopAmenity{type: :accessibility}
+      assert amenity_alert in alerts_for_amenity(amenity, [amenity_alert | alerts])
+    end
+
+    test "fare amenities don't have alerts" do
+      alerts = Factories.Alerts.Alert.build_list(10, :alert)
+      amenity = %Dotcom.StopAmenity{type: :fare}
       assert alerts_for_amenity(amenity, alerts) == []
     end
   end

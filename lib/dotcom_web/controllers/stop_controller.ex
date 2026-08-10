@@ -10,12 +10,11 @@ defmodule DotcomWeb.StopController do
   import Dotcom.Alerts.StartTime, only: [active_in_next_n_days?: 3]
 
   alias Alerts.Repo, as: AlertsRepo
-  alias Alerts.Stop, as: AlertsStop
   alias Dotcom.TransitNearMe
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
   alias RoutePatterns.RoutePattern
-  alias Routes.{Group, Route}
+  alias Routes.Route
   alias Services.Service
   alias Stops.Stop
   alias Util.AndOr
@@ -30,10 +29,6 @@ defmodule DotcomWeb.StopController do
           group_name: atom,
           routes: [route_with_directions]
         }
-
-  plug(:alerts)
-  plug(DotcomWeb.Plugs.DateTime)
-  plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
   def index(conn, _params) do
     redirect(conn, to: stop_path(conn, :show, :subway))
@@ -75,12 +70,11 @@ defmodule DotcomWeb.StopController do
           @facilities_repo.get_for_stop(stop_id)
           |> Dotcom.StopAmenity.from_stop_facilities()
 
-        banner_alerts =
-          banner_alerts(stop_id, routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
-
         conn
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
+        |> assign_alerts()
+        |> assign_stop_banner_alerts(routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
         |> render("show.html", %{
           stop: stop,
           amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
@@ -92,7 +86,6 @@ defmodule DotcomWeb.StopController do
           escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
           accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
           fare_amenity: Enum.find(amenities, &(&1.type == :fare)),
-          banner_alerts: banner_alerts,
           accessible?: accessible?
         })
       end
@@ -101,15 +94,18 @@ defmodule DotcomWeb.StopController do
     end
   end
 
-  defp banner_alerts(stop_id, route_ids, date_time) do
-    all_alerts_for_stop = @alerts_repo.by_stop_id(stop_id)
+  defp assign_stop_banner_alerts(conn, route_ids, date_time) do
+    all_alerts_for_stop = conn.assigns.alerts
 
     all_routewide_alerts =
       @alerts_repo.by_route_ids(route_ids, date_time)
       |> Enum.filter(&routewide?/1)
 
-    (all_alerts_for_stop ++ all_routewide_alerts)
-    |> Enum.filter(&banner_alert?(&1, date_time))
+    banner_alerts =
+      (all_alerts_for_stop ++ all_routewide_alerts)
+      |> Enum.filter(&banner_alert?(&1, date_time))
+
+    assign(conn, :banner_alerts, banner_alerts)
   end
 
   defp banner_alert?(alert, now) do
@@ -244,15 +240,6 @@ defmodule DotcomWeb.StopController do
     Map.put(route_pattern, :representative_trip_polyline, polyline)
   end
 
-  @spec api(Conn.t(), map) :: Conn.t()
-  def api(conn, %{"id" => stop_id}) do
-    routes_by_stop = @routes_repo.by_stop(stop_id)
-    grouped_routes = grouped_routes(routes_by_stop)
-    routes_map = routes_map(grouped_routes, stop_id, conn.assigns.date_time)
-    json_safe_routes = json_safe_routes(routes_map)
-    json(conn, json_safe_routes)
-  end
-
   @doc "Redirect users who type in a URL with a slash to the correct URL"
   def stop_with_slash_redirect(conn, %{"path" => path}) do
     real_id = Enum.join(path, "/")
@@ -265,8 +252,8 @@ defmodule DotcomWeb.StopController do
   @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
   defp get_stop_info do
     [:subway, :commuter_rail, :ferry]
-    |> Task.async_stream(&DetailedStopGroup.from_mode/1)
-    |> Enum.flat_map(fn {:ok, stops} -> stops end)
+    |> Stream.flat_map(&DetailedStopGroup.from_mode/1)
+    |> Enum.to_list()
     |> separate_mattapan()
   end
 
@@ -276,16 +263,8 @@ defmodule DotcomWeb.StopController do
   defp separate_mattapan(stop_info) do
     case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
       nil -> {nil, stop_info}
-      mattapan -> {mattapan, List.delete(stop_info, mattapan)}
+      mattapan -> {mattapan, Enum.reject(stop_info, &(&1 == mattapan))}
     end
-  end
-
-  @spec grouped_routes([Route.t()]) :: [{Route.gtfs_route_type(), [Route.t()]}]
-  defp grouped_routes(routes) do
-    routes
-    |> Enum.sort_by(& &1.sort_order)
-    |> Enum.group_by(&Route.type_atom/1)
-    |> Enum.sort_by(&Group.sorter/1)
   end
 
   @spec routes_map([{Route.gtfs_route_type(), [Route.t()]}], Stop.id_t(), DateTime.t()) :: [
@@ -347,49 +326,21 @@ defmodule DotcomWeb.StopController do
   @spec includes_predictions?(TransitNearMe.headsign_data()) :: boolean
   defp includes_predictions?(%{times: times}), do: Enum.any?(times, &(&1.prediction != nil))
 
-  defp alerts(%{assigns: %{alerts: alerts}} = conn, _opts) do
+  defp assign_alerts(%{assigns: %{alerts: alerts}} = conn) do
     assign(conn, :all_alerts_count, length(alerts))
   end
 
-  defp alerts(%{path_params: %{"id" => id}} = conn, _opts) do
+  defp assign_alerts(%{path_params: %{"id" => id}} = conn) do
     stop_id = URI.decode_www_form(id)
-
-    alerts =
-      conn.assigns.date_time
-      |> AlertsRepo.all()
-      |> AlertsStop.match(stop_id)
+    alerts = @alerts_repo.by_stop_id(stop_id)
 
     conn
     |> assign(:alerts, alerts)
     |> assign(:all_alerts_count, length(alerts))
   end
 
-  defp alerts(conn, _opts) do
+  defp assign_alerts(conn) do
     assign(conn, :alerts, AlertsRepo.all(conn.assigns.date_time))
-  end
-
-  @type json_safe_routes :: %{
-          required(:group_name) => atom,
-          required(:routes) => map
-        }
-  @spec json_safe_routes([routes_map_t]) :: [json_safe_routes]
-  defp json_safe_routes(routes_map) do
-    Enum.map(routes_map, fn group_and_routes ->
-      safe_routes = Enum.map(group_and_routes.routes, &json_safe_route_with_directions(&1))
-
-      %{
-        group_name: group_and_routes.group_name,
-        routes: safe_routes
-      }
-    end)
-  end
-
-  @spec json_safe_route_with_directions(route_with_directions) :: map
-  defp json_safe_route_with_directions(%{route: route, directions: directions}) do
-    %{
-      route: Route.to_json_safe(route),
-      directions: directions
-    }
   end
 
   @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]

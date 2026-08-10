@@ -5,7 +5,7 @@ defmodule Dotcom.Stream.Vehicles do
 
   def start_link(opts \\ []) do
     name = Keyword.get(opts, :name, __MODULE__)
-    GenServer.start_link(__MODULE__, opts, name: name)
+    GenServer.start_link(__MODULE__, opts, name: name, hibernate_after: 15_000)
   end
 
   def init(opts) do

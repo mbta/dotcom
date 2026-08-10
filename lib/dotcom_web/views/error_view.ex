@@ -35,3 +35,7 @@ defmodule DotcomWeb.ErrorView do
     render("500.html", assigns)
   end
 end
+
+defmodule DotcomWeb.NotFoundError do
+  defexception message: "Not Found", plug_status: 404
+end

@@ -66,3 +66,6 @@ node_modules
 
 playwright-report
 test-results
+
+# Emacs auto-save files
+*~

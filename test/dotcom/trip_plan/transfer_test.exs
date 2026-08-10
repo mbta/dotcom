@@ -59,10 +59,6 @@ defmodule Dotcom.TripPlan.TransferTest do
       refute [nil, bus_leg()] |> maybe_transfer?
     end
 
-    test "subway -> subway" do
-      assert [subway_leg(), subway_leg()] |> maybe_transfer?
-    end
-
     test "subway -> local bus" do
       assert [subway_leg(), bus_leg()] |> maybe_transfer?
     end

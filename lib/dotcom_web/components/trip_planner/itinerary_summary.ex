@@ -123,6 +123,13 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
     """
   end
 
+  # Group of ferry routes are summarized to one symbol.
+  defp leg_icon(%{routes: [%Route{type: 4} | _]} = assigns) do
+    ~H"""
+    <.mode_icon mode="ferry" class={@class} />
+    """
+  end
+
   # No grouping when there's only one route!
   defp leg_icon(%{routes: [%Route{}]} = assigns) do
     ~H"""

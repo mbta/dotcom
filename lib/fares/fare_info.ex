@@ -209,11 +209,12 @@ defmodule Fares.FareInfo do
     },
     %{
       mode: :ferry,
-      inner_harbor_price: "3.70",
+      inner_harbor_price: "2.40",
       inner_harbor_month_price: "90.00",
       inner_harbor_month_price_reduced: "30.00",
       cross_harbor_price: "9.75",
       east_boston_price: "2.40",
+      harbor_loop_price: "2.40",
       lynn_price: "7.00",
       winthrop_price: "6.50",
       commuter_ferry_price: "9.75",
@@ -493,6 +494,7 @@ defmodule Fares.FareInfo do
         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
         east_boston_price: east_boston_price,
+        harbor_loop_price: harbor_loop_price,
         lynn_price: lynn_price,
         winthrop_price: winthrop_price,
         commuter_ferry_price: commuter_ferry_price,
@@ -501,6 +503,48 @@ defmodule Fares.FareInfo do
         commuter_ferry_logan_price: commuter_ferry_logan_price
       }) do
     fares = [
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :single_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :round_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :month,
+        media: [:charlie_ticket],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_month_price),
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :month,
+        media: [:senior_card, :student_card],
+        reduced: :any,
+        cents: dollars_to_cents(inner_harbor_month_price_reduced),
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_charlestown,
+        duration: :month,
+        media: [:mticket],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_month_price) - 1000
+      },
       %Fare{
         mode: :ferry,
         name: :ferry_inner_harbor,
@@ -664,6 +708,38 @@ defmodule Fares.FareInfo do
         reduced: :any,
         cents: dollars_to_cents(commuter_ferry_month_price_reduced),
         additional_valid_modes: [:subway, :bus, :commuter_rail]
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_harbor_loop,
+        duration: :single_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(harbor_loop_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_harbor_loop,
+        duration: :round_trip,
+        media: [:mticket, :paper_ferry, :contactless_payment, :cash],
+        reduced: nil,
+        cents: dollars_to_cents(harbor_loop_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :inner_harbor_1a,
+        duration: :round_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :inner_harbor_1a,
+        duration: :single_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
       }
     ]
 
@@ -778,6 +854,9 @@ defmodule Fares.FareInfo do
 
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :single_trip}), do: 110
   defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :round_trip}), do: 220
+  defp compute_reduced_fare(%Fare{name: :ferry_harbor_loop, duration: :single_trip}), do: 110
+  defp compute_reduced_fare(%Fare{name: :inner_harbor_1a}), do: 110
+
   defp compute_reduced_fare(%Fare{cents: cents}), do: floor_to_ten_cents(cents) / 2
 
   # Student and Senior fare prices are always the same.
