@@ -67,8 +67,38 @@ defmodule DotcomWeb.Components.NewTimetable do
               class="sticky left-0"
               style="background-color: inherit;"
             >
-              <div class={"#{header_column_classes()} px-2 py-1 font-medium #{font_size_classes()} border-r-xs border-gray-lighter"}>
-                <.link navigate={~p"/stops/#{row.stop.id}"}>{row.stop.name}</.link>
+              <div class={"#{header_column_classes()} px-2 py-1 font-medium #{font_size_classes()} border-r-xs border-gray-lighter flex gap-2"}>
+                <.link navigate={~p"/stops/#{row.stop.id}"} class="mr-auto">{row.stop.name}</.link>
+                <div class="flex items-center gap-0.5">
+                  <%= if length(row.stop.parking_lots) > 0 do %>
+                    <.tooltip title={~t(Parking available)} placement={:top}>
+                      <.icon
+                        name="square-parking"
+                        class="size-4 fill-gray-light"
+                        aria-hidden="true"
+                      />
+                    </.tooltip>
+                  <% else %>
+                    <span class="sr-only">{~t(No parking)}</span>
+                  <% end %>
+
+                  <%= if Stops.Stop.accessible?(row.stop) do %>
+                    <.tooltip title={~t(Accessible)} placement={:top}>
+                      <.icon
+                        type="icon-svg"
+                        name="icon-accessible-default"
+                        class="size-4 fill-brand-primary"
+                        aria-hidden="true"
+                      />
+                    </.tooltip>
+                  <% else %>
+                    <%= if Stops.Stop.accessibility_known?(row.stop) do %>
+                      <span class="sr-only">{~t(Not accessible)}</span>
+                    <% else %>
+                      <span class="sr-only">{~t(May not be accessible)}</span>
+                    <% end %>
+                  <% end %>
+                </div>
               </div>
               <.shadow />
             </th>
