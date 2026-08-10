@@ -28,5 +28,5 @@ jobs:
       - name: Execute load tests
         uses: artilleryio/action-cli@f15c5c9f14b33beb0fe26efd1aac4ea4b16d7a6e # v2.0.33
         with:
-          command: run -e ${{ inputs.test-env }} ./homepage-light-load.yml
+          command: run -e ${{ inputs.test-env }} ./homepage-heavy-load.yml
           working-directory: ./integration/load_tests
