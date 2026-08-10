@@ -3,6 +3,7 @@ import MBTAGoCTABanner from "./mbta-go-cta-banner";
 import PageVisibility from "./page-visibility";
 import ScrollIntoView from "./scroll-into-view";
 import TimetableScroll from "./timetable-scroll";
+import TimetableScrollBar from "./timetable-scroll-bar";
 import TripPlannerForm from "./trip-planner-form";
 import TripPlannerMap from "./trip-planner-map";
 import TripPlannerDatePicker from "../../js/trip-planner/datepicker";
@@ -21,6 +22,7 @@ const Hooks = {
   PageVisibility,
   ScrollIntoView,
   TimetableScroll,
+  TimetableScrollBar,
   TripPlannerDatePicker,
   TripPlannerForm,
   TripPlannerMap
