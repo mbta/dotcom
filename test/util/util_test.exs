@@ -552,11 +552,11 @@ defmodule UtilTest do
     end
 
     test "returns an error for an invalid datetime string" do
-      assert {:error, :invalid_datetime} == Util.parse_valid_date("2020-02-31")
+      assert {:error, :invalid_date} == Util.parse_valid_date("2020-02-31")
     end
 
     test "returns an error for a argument of the wrong type" do
-      assert {:error, :invalid_datetime} == Util.parse_valid_date(%{foo: "bar"})
+      assert {:error, :invalid_date} == Util.parse_valid_date(%{foo: "bar"})
     end
   end
 end
