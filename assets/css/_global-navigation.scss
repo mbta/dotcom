@@ -33,8 +33,6 @@ header {
 .top-tier-header {
   background-color: $brand-primary-darkest;
   color: $white;
-  // position: relative;
-  // z-index: 1;
 }
 
 
@@ -143,7 +141,6 @@ nav.m-top-tier-menu--dropdown {
 
 .m-menu--top-tier__toggle {
   margin-right: 0px;
-  // transform: translateZ(0);
   position: relative;
   z-index: 1;
 }

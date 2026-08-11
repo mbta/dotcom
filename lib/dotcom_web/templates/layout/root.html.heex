@@ -65,7 +65,7 @@
   </head>
   <%= content_tag(:body, class: Dotcom.BodyTag.class_name(@conn)) do %>
     <div class="body-wrapper" id="body-wrapper">
-      <%!-- <%= if !Application.get_env(:dotcom, :is_prod_env?) do %>
+      <%= if !Application.get_env(:dotcom, :is_prod_env?) do %>
         <% language =
           Dotcom.Gettext |> Gettext.get_locale() |> Dotcom.Locales.locale() |> Map.get(:endonym) %>
         <div class={["w-full py-2 text-center leading-sm", banner_color_classes()]}>
@@ -84,7 +84,7 @@
             {name}
           </a>
         </div>
-      <% end %> --%>
+      <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
       {DotcomWeb.PartialView.render("_hidden_icons.html", conn: @conn)}
       {render("_new_header.html", conn: @conn)}
