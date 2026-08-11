@@ -220,7 +220,7 @@ defmodule DotcomWeb.PageView do
               cache: @cache,
               on_error: :raise,
               opts: [ttl: @ttl],
-              key: "homepage|upcoming-events"
+              key: {"homepage|upcoming-events", conn.assigns.locale}
             )
   def render_upcoming_events(conn, event_teasers) do
     event_teasers
