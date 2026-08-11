@@ -69,6 +69,8 @@ defmodule Dotcom.Application do
           []
         end
 
+    :ok = Logster.attach_phoenix_logger()
+
     opts = [strategy: :one_for_one, name: Dotcom.Supervisor]
 
     Supervisor.start_link(children, opts)

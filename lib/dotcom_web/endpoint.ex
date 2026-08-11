@@ -28,7 +28,7 @@ defmodule DotcomWeb.Endpoint do
 
   plug(DotcomWeb.Plugs.RemoteIp)
   plug(Plug.RequestId)
-  plug(Logster.Plugs.Logger, formatter: Dotcom.Logster.SafeStringFormatter)
+  plug(Logster.Plug)
 
   plug(
     Plug.Parsers,
