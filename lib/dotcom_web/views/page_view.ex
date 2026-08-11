@@ -7,6 +7,10 @@ defmodule DotcomWeb.PageView do
   import DotcomWeb.CMSHelpers
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [homepage_subway_status: 1]
 
+  use Nebulex.Caching.Decorators
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(1)
+
   alias CMS.Page.NewsEntry
   alias CMS.Partial.Banner
   alias DotcomWeb.PartialView
@@ -210,5 +214,25 @@ defmodule DotcomWeb.PageView do
 
   defp banner_cta(%Banner{}) do
     ""
+  end
+
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: @ttl],
+              key: "homepage|upcoming-events"
+            )
+  def render_upcoming_events(conn, event_teasers) do
+    event_teasers
+    |> Enum.map(fn event_teaser ->
+      render_to_string(DotcomWeb.EventView, "_event_teaser.html",
+        event_teaser: event_teaser,
+        check_event_ended: true,
+        conn: conn,
+        month_number: event_teaser.date.month,
+        year: event_teaser.date.year
+      )
+    end)
+    |> Phoenix.HTML.raw()
   end
 end

@@ -11,15 +11,7 @@
         </a>
       </div>
       <ul class="m-homepage__events-container">
-        <%= for event_teaser <- @event_teasers do %>
-          {render(DotcomWeb.EventView, "_event_teaser.html",
-            event_teaser: event_teaser,
-            check_event_ended: true,
-            conn: @conn,
-            month_number: event_teaser.date.month,
-            year: event_teaser.date.year
-          )}
-        <% end %>
+        {render_upcoming_events(@conn, @event_teasers)}
       </ul>
     </div>
   </div>
