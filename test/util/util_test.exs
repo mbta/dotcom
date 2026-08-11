@@ -540,4 +540,23 @@ defmodule UtilTest do
       assert DateTime.to_naive(Util.parse(dt)) == ~N[2020-09-01 13:26:08]
     end
   end
+
+  describe "parse_valid_date" do
+    test "parses a valid date string" do
+      original_date = Faker.Date.forward(100)
+
+      {:ok, parsed_date} =
+        original_date |> Date.to_iso8601() |> Util.parse_valid_date()
+
+      assert Date.compare(original_date, parsed_date) == :eq
+    end
+
+    test "returns an error for an invalid datetime string" do
+      assert {:error, :invalid_date} == Util.parse_valid_date("2020-02-31")
+    end
+
+    test "returns an error for a argument of the wrong type" do
+      assert {:error, :invalid_date} == Util.parse_valid_date(%{foo: "bar"})
+    end
+  end
 end
