@@ -1,9 +1,9 @@
-<nav id="navmenu-desktop" class="m-menu--desktop" aria-label="Main">
+<nav id="navmenu-dropdown" class="m-menu--dropdown" aria-label="Main">
   <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content do %>
     <a
-      class="m-menu--desktop__toggle"
+      class="m-menu--dropdown__toggle"
       href={"#{ href }"}
-      data-nav="toggle-desktop-nav"
+      data-nav="toggle-dropdown-nav"
       role="button"
       aria-expanded="false"
       aria-controls={"#{ to_camelcase(name) }"}
@@ -12,18 +12,18 @@
       <span class="c-indicator--angle"></span>
     </a>
 
-    <div class="m-menu--desktop__menu">
+    <div class="m-menu--dropdown__menu">
       <div class="container">
         <div id={"#{ to_camelcase(name) }"}>
           <div
-            class={"m-menu-desktop__section #{ to_camelcase(name) }"}
-            data-nav="desktop-section"
+            class={"m-menu-dropdown__section #{ to_camelcase(name) }"}
+            data-nav="dropdown-section"
           >
             <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
               <div class="m-menu__section-heading">
                 {section_name}
               </div>
-              <div class="m-menu-desktop__submenu-section" aria-label={"#{ section_name }"}>
+              <div class="m-menu-dropdown__submenu-section" aria-label={"#{ section_name }"}>
                 {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
                 <%= if section_name == "Transit Police" do %>
                   <div class="m-menu__feature emergency-contacts desktop">
@@ -41,13 +41,13 @@
             <% end %>
             <%= for %{sub_menu_section: special_section} <- sub_menus do %>
               <%= if special_section == "Most popular fares" do %>
-                <div class="m-menu-desktop__section-feature">
+                <div class="m-menu-dropdown__section-feature">
                   {render("_new_nav_popular_fares.html")}
                 </div>
               <% end %>
 
               <%= if special_section == "Contact numbers" do %>
-                <div class="m-menu-desktop__section-feature">
+                <div class="m-menu-dropdown__section-feature">
                   {render("_new_nav_contact_numbers.html")}
                 </div>
               <% end %>
