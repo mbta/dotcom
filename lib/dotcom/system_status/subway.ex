@@ -145,6 +145,37 @@ defmodule Dotcom.SystemStatus.Subway do
     end)
   end
 
+  # Adds additional information required to compute the subheading for a status entry.
+  # - {:affected_stops, [map()]} if the status is a station closure
+  # - {:endpoint_stops, [tuple()]} if the status is a service change
+  # - {:delay} if the status is a delay
+  # - nil if there is no data
+  @spec add_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()
+  def add_subheading_data(%{status: :station_closure, alerts: alerts} = entry, route_ids)
+      when route_ids != [] do
+    %{
+      entry
+      | subheading_data: {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
+    }
+  end
+
+  def add_subheading_data(%{status: :delay} = entry, _route_ids) do
+    %{entry | subheading_data: {:delay}}
+  end
+
+  def add_subheading_data(%{status: status, alerts: alerts} = entry, route_ids)
+      when status in [:service_change, :shuttle, :single_tracking, :suspension] and
+             route_ids != [] do
+    %{
+      entry
+      | subheading_data: {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
+    }
+  end
+
+  def add_subheading_data(entry, _route_ids) do
+    %{entry | subheading_data: nil}
+  end
+
   defp filter_stale_alerts(alerts) do
     alerts
     |> Enum.reject(&Alerts.Alert.stale?/1)
@@ -377,32 +408,6 @@ defmodule Dotcom.SystemStatus.Subway do
     |> consolidate_duplicates()
     |> sort_statuses()
     |> Enum.map(&add_subheading_data(&1, route_ids))
-  end
-
-  @spec add_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()
-  defp add_subheading_data(%{status: :station_closure, alerts: alerts} = entry, route_ids)
-       when route_ids != [] do
-    %{
-      entry
-      | subheading_data: {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
-    }
-  end
-
-  defp add_subheading_data(%{status: :delay} = entry, _route_ids) do
-    %{entry | subheading_data: {:delay}}
-  end
-
-  defp add_subheading_data(%{status: status, alerts: alerts} = entry, route_ids)
-       when status in [:service_change, :shuttle, :single_tracking, :suspension] and
-              route_ids != [] do
-    %{
-      entry
-      | subheading_data: {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
-    }
-  end
-
-  defp add_subheading_data(entry, _route_ids) do
-    %{entry | subheading_data: nil}
   end
 
   # Naively maps a list of alerts to a list of statuses, where a

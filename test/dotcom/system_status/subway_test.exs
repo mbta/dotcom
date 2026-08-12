@@ -620,6 +620,114 @@ defmodule Dotcom.SystemStatus.SubwayTest do
     end
   end
 
+  describe "add_subheading_data" do
+    test "adds affected_stops subheading data for station closure" do
+      # Setup
+      alerts = [Alert.build(:alert_for_route)]
+      route_ids = ["Red", "Orange"]
+
+      status_entry = %{
+        status: :station_closure,
+        alerts: alerts,
+        time: :current,
+        multiple: false,
+        subheading_data: nil
+      }
+
+      # Exercise
+      result = Subway.add_subheading_data(status_entry, route_ids)
+
+      # Verify
+      assert result.status == :station_closure
+      assert result.alerts == alerts
+      assert match?({:affected_stops, _}, result.subheading_data)
+    end
+
+    test "adds delay subheading data for delay status" do
+      # Setup
+      alerts = [Alert.build(:alert_for_route)]
+
+      status_entry = %{
+        status: :delay,
+        alerts: alerts,
+        time: :current,
+        multiple: false,
+        subheading_data: nil
+      }
+
+      # Exercise
+      result = Subway.add_subheading_data(status_entry, [])
+
+      # Verify
+      assert result.subheading_data == {:delay}
+    end
+
+    test "adds endpoint_stops subheading data for service_change, shuttle, single_tracking, and suspension with route_ids" do
+      # Setup
+      alerts = [Alert.build(:alert_for_route)]
+      endpoint_statuses = [:service_change, :shuttle, :single_tracking, :suspension]
+      route_ids = ["Red"]
+
+      status_entry = %{
+        status: Faker.Util.pick(endpoint_statuses),
+        alerts: alerts,
+        time: :current,
+        multiple: false,
+        subheading_data: nil
+      }
+
+      # Exercise
+      result = Subway.add_subheading_data(status_entry, route_ids)
+
+      # Verify
+      assert match?({:endpoint_stops, _}, result.subheading_data)
+    end
+
+    test "sets subheading_data to nil for statuses that don't have asssociated subheading text" do
+      # Setup
+      non_subheading_statuses =
+        Alerts.service_impacting_effects() --
+          [:station_closure, :delay, :service_change, :shuttle, :single_tracking, :suspension]
+
+      status = Faker.Util.pick(non_subheading_statuses)
+      alerts = [Alert.build(:alert_for_route)]
+
+      status_entry = %{
+        status: status,
+        alerts: alerts,
+        time: :current,
+        multiple: false,
+        subheading_data: nil
+      }
+
+      # Exercise
+      result = Subway.add_subheading_data(status_entry, [])
+
+      # Verify
+      assert result.subheading_data == nil
+    end
+
+    test "sets subheading_data to nil for non-delay statuses if route_ids is empty" do
+      # Setup
+      alerts = [Alert.build(:alert_for_route)]
+      non_delay_statuses = Alerts.service_impacting_effects() -- [:delay]
+
+      status_entry = %{
+        status: Faker.Util.pick(non_delay_statuses),
+        alerts: alerts,
+        time: :current,
+        multiple: false,
+        subheading_data: nil
+      }
+
+      # Exercise
+      result = Subway.add_subheading_data(status_entry, [])
+
+      # Verify
+      assert result.subheading_data == nil
+    end
+  end
+
   # Returns the statuses for the given route_id and branch_id
   # collection. If no branches are specified, then returns the group
   # for the given route_id with an empty branch_ids list.
