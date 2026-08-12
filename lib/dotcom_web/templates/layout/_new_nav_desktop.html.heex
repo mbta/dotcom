@@ -26,7 +26,7 @@
               <div class="m-menu-dropdown__submenu-section" aria-label={"#{ section_name }"}>
                 {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
                 <%= if section_name == "Transit Police" do %>
-                  <div class="m-menu__feature emergency-contacts desktop">
+                  <div class="m-menu__feature emergency-contacts dropdown">
                     <div class="m-menu__section-heading">{~t(Emergency Contacts)}</div>
                     <small>{~t(24 hours, 7 days a week)}</small>
                     <div class="m-menu__feature_phone">
