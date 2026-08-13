@@ -256,6 +256,55 @@ defmodule DotcomWeb.EventViewTest do
                Enum.map(1..(month - 1), &{&1, []}) ++
                  [{month, [event_this_year]}]
     end
+
+    test "doesn't crash if the events list is empty" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+
+      # Exercise / Verify
+      assert grouped_by_month([], year) == []
+    end
+
+    test "returns [] if there are no events for the queried year, but there is in another year" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+      event_year = year + Faker.Util.pick([-1, 1])
+
+      event_in_other_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(event_year, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([event_in_other_year], year)
+
+      # Verify
+      assert grouped_events == []
+    end
+
+    test "returns all months with no events if there are no events for the queried year, but there are on either end" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+
+      event_last_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year - 1, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      event_next_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year + 1, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([event_last_year, event_next_year], year)
+
+      # Verify
+      assert grouped_events == Enum.map(1..12, &{&1, []})
+    end
   end
 
   test "grouped_by_day/2 for a given month" do
