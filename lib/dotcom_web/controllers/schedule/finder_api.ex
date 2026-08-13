@@ -40,7 +40,16 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   # Leverage the JourneyList module to return a simplified set of trips
   @spec journeys(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def journeys(conn, %{"stop" => stop_id, "date" => date} = params) do
+  def journeys(
+        conn,
+        %{
+          "stop" => stop_id,
+          "date" => date,
+          "is_current" => is_current,
+          "id" => _id,
+          "direction" => _direction
+        } = params
+      ) do
     {:ok, user_selected_date} = Date.from_iso8601(date)
     {schedules, predictions} = load_from_repos(conn, params)
 
@@ -52,7 +61,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     # matching the design spec architecturally better than the existing
     # Schedules-only and Predictions-only configuration for
     # ScheduleFinder.
-    today? = params["is_current"] == "true"
+    today? = is_current == "true"
     current_time = if today?, do: user_selected_date, else: nil
 
     journey_list_opts = [
@@ -66,6 +75,11 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       |> prepare_journeys_for_json()
 
     json(conn, journeys)
+  end
+
+  def journeys(conn, _) do
+    DotcomWeb.ControllerHelpers.return_invalid_arguments_error(conn)
+    # Phoenix.Controller.text(conn, "Invalid parameters")
   end
 
   # Use alternative JourneyList constructor to only return trips with predictions
