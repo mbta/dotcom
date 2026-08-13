@@ -38,7 +38,7 @@ defmodule DotcomWeb.EventView do
 
     by_month =
       events
-      |> Enum.filter(&(&1.date.year == year))
+      |> Stream.filter(&(&1.date.year == year))
       |> Enum.group_by(& &1.date.month)
 
     {earliest_month, latest_month} =
