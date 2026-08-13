@@ -627,7 +627,8 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       route_ids = [Faker.Util.pick(Subway.lines())]
 
       # Exercise
-      result = Subway.subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids)
+      result =
+        Subway.subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids)
 
       # Verify
       assert match?({:affected_stops, _}, result)
