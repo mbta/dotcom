@@ -620,30 +620,27 @@ defmodule Dotcom.SystemStatus.SubwayTest do
     end
   end
 
-  describe "add_subheading_data" do
-    test "adds affected_stops subheading data for station closure" do
+  describe "status_entry_subheading_data" do
+    test "returns affected_stops subheading data for station closure" do
       # Setup
       alerts = [Alert.build(:alert_for_route)]
-      route_ids = ["Red", "Orange"]
+      route_ids = [Faker.Util.pick(Subway.lines())]
 
       status_entry = %{
         status: :station_closure,
         alerts: alerts,
         time: :current,
-        multiple: false,
-        subheading_data: nil
+        multiple: false
       }
 
       # Exercise
-      result = Subway.add_subheading_data(status_entry, route_ids)
+      result = Subway.status_entry_subheading_data(status_entry, route_ids)
 
       # Verify
-      assert result.status == :station_closure
-      assert result.alerts == alerts
-      assert match?({:affected_stops, _}, result.subheading_data)
+      assert match?({:affected_stops, _}, result)
     end
 
-    test "adds delay subheading data for delay status" do
+    test "returns delay subheading data for delay status" do
       # Setup
       alerts = [Alert.build(:alert_for_route)]
 
@@ -651,39 +648,37 @@ defmodule Dotcom.SystemStatus.SubwayTest do
         status: :delay,
         alerts: alerts,
         time: :current,
-        multiple: false,
-        subheading_data: nil
+        multiple: false
       }
 
       # Exercise
-      result = Subway.add_subheading_data(status_entry, [])
+      result = Subway.status_entry_subheading_data(status_entry, [])
 
       # Verify
-      assert result.subheading_data == {:delay}
+      assert result == {:delay}
     end
 
-    test "adds endpoint_stops subheading data for service_change, shuttle, single_tracking, and suspension with route_ids" do
+    test "returns endpoint_stops subheading data for service_change, shuttle, single_tracking, and suspension with route_ids" do
       # Setup
       alerts = [Alert.build(:alert_for_route)]
       endpoint_statuses = [:service_change, :shuttle, :single_tracking, :suspension]
-      route_ids = ["Red"]
+      route_ids = [Faker.Util.pick(Subway.lines())]
 
       status_entry = %{
         status: Faker.Util.pick(endpoint_statuses),
         alerts: alerts,
         time: :current,
-        multiple: false,
-        subheading_data: nil
+        multiple: false
       }
 
       # Exercise
-      result = Subway.add_subheading_data(status_entry, route_ids)
+      result = Subway.status_entry_subheading_data(status_entry, route_ids)
 
       # Verify
-      assert match?({:endpoint_stops, _}, result.subheading_data)
+      assert match?({:endpoint_stops, _}, result)
     end
 
-    test "sets subheading_data to nil for statuses that don't have asssociated subheading text" do
+    test "returns nil for statuses that don't have associated subheading text" do
       # Setup
       non_subheading_statuses =
         Alerts.service_impacting_effects() --
@@ -691,23 +686,23 @@ defmodule Dotcom.SystemStatus.SubwayTest do
 
       status = Faker.Util.pick(non_subheading_statuses)
       alerts = [Alert.build(:alert_for_route)]
+      route_ids = [Faker.Util.pick(Subway.lines())]
 
       status_entry = %{
         status: status,
         alerts: alerts,
         time: :current,
-        multiple: false,
-        subheading_data: nil
+        multiple: false
       }
 
       # Exercise
-      result = Subway.add_subheading_data(status_entry, [])
+      result = Subway.status_entry_subheading_data(status_entry, route_ids)
 
       # Verify
-      assert result.subheading_data == nil
+      assert result == nil
     end
 
-    test "sets subheading_data to nil for non-delay statuses if route_ids is empty" do
+    test "returns nil for non-delay statuses if route_ids is empty" do
       # Setup
       alerts = [Alert.build(:alert_for_route)]
       non_delay_statuses = Alerts.service_impacting_effects() -- [:delay]
@@ -721,10 +716,10 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       }
 
       # Exercise
-      result = Subway.add_subheading_data(status_entry, [])
+      result = Subway.status_entry_subheading_data(status_entry, [])
 
       # Verify
-      assert result.subheading_data == nil
+      assert result == nil
     end
   end
 

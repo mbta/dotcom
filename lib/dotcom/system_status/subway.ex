@@ -145,35 +145,34 @@ defmodule Dotcom.SystemStatus.Subway do
     end)
   end
 
-  # Adds additional information required to compute the subheading for a status entry.
-  # - {:affected_stops, [map()]} if the status is a station closure
-  # - {:endpoint_stops, [tuple()]} if the status is a service change
+  # Additional information required to compute the subheading for a status entry.
+  # - {:affected_stops, []} if the status is a station closure
+  # - {:endpoint_stops, []} if the status is a service change
   # - {:delay} if the status is a delay
   # - nil if there is no data
-  @spec add_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()
-  def add_subheading_data(%{status: :station_closure, alerts: alerts} = entry, route_ids)
-      when route_ids != [] do
+  @spec status_entry_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()
+  def status_entry_subheading_data(%{status: :station_closure, alerts: alerts}, route_ids) do
+    {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
+  end
+
+  def status_entry_subheading_data(%{status: :delay}, _route_ids) do
+    {:delay}
+  end
+
+  def status_entry_subheading_data(%{status: status, alerts: alerts}, route_ids)
+      when status in [:service_change, :shuttle, :single_tracking, :suspension] do
+    {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
+  end
+
+  def status_entry_subheading_data(_entry, _route_ids) do
+    nil
+  end
+
+  defp add_subheading_data(entry, route_ids) do
     %{
       entry
-      | subheading_data: {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
+      | subheading_data: status_entry_subheading_data(entry, route_ids)
     }
-  end
-
-  def add_subheading_data(%{status: :delay} = entry, _route_ids) do
-    %{entry | subheading_data: {:delay}}
-  end
-
-  def add_subheading_data(%{status: status, alerts: alerts} = entry, route_ids)
-      when status in [:service_change, :shuttle, :single_tracking, :suspension] and
-             route_ids != [] do
-    %{
-      entry
-      | subheading_data: {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
-    }
-  end
-
-  def add_subheading_data(entry, _route_ids) do
-    %{entry | subheading_data: nil}
   end
 
   defp filter_stale_alerts(alerts) do

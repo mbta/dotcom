@@ -8,7 +8,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   import CSSHelpers
   import DotcomWeb.Components.Alerts
-  import Dotcom.SystemStatus.Subway, only: [add_subheading_data: 2]
+  import Dotcom.SystemStatus.Subway, only: [status_entry_subheading_data: 2]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
@@ -280,11 +280,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
         Map.put(
           alert,
           :subheading_data,
-          add_subheading_data(
-            %{status: alert.effect, alerts: [alert], subheading_data: nil},
+          status_entry_subheading_data(
+            %{status: alert.effect, alerts: [alert]},
             [route.id]
           )
-          |> Map.get(:subheading_data)
         )
       end)
 
