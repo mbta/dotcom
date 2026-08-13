@@ -224,7 +224,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp combine_subheading_data(data1, nil), do: data1
   defp combine_subheading_data(nil, data2), do: data2
   # Default to taking neither
-  defp combine_subheading_data(data1, _data2), do: nil
+  defp combine_subheading_data(_data1, _data2), do: nil
 
   defp add_url(row) do
     route_id = route_id_from_route_info(row.route_info)

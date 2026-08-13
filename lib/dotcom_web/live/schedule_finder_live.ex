@@ -8,6 +8,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   import CSSHelpers
   import DotcomWeb.Components.Alerts
+  import Dotcom.SystemStatus.Subway, only: [add_subheading_data: 2]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
@@ -274,6 +275,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
       @schedule_finder.current_alerts(stop, route)
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
         Enum.any?([nil, direction], &(&1 in direction_id))
+      end)
+      |> Enum.map(fn alert ->
+        Map.put(
+          alert,
+          :subheading_data,
+          add_subheading_data(
+            %{status: alert.effect, alerts: [alert], subheading_data: nil},
+            [route.id]
+          )
+          |> Map.get(:subheading_data)
+        )
       end)
 
     assign(socket, :alerts, alerts)
