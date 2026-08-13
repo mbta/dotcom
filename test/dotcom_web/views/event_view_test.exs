@@ -234,7 +234,7 @@ defmodule DotcomWeb.EventViewTest do
     test "includes empty months earlier in the year if there is an event in an earlier year" do
       # Setup
       year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
-      month = Faker.random_between(1, 11)
+      month = Faker.random_between(2, 12)
 
       event_this_year =
         Factories.CMS.Partial.Teaser.build(
