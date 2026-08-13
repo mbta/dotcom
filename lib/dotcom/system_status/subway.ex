@@ -10,13 +10,17 @@ defmodule Dotcom.SystemStatus.Subway do
   @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
   @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
 
+  @type affected_stop_t() :: Dotcom.Alerts.AffectedStops.Behaviour.affected_stop_t()
+
+  @type endpoint_t() :: Dotcom.Alerts.EndpointStops.Behaviour.endpoint_t()
+
   @type status_time() :: :current | {:future, DateTime.t()}
 
   @type status_t() :: :normal | Dotcom.Alerts.service_effect_t()
 
   @type subheading_data_t() ::
-          {:affected_stops, [map()]}
-          | {:endpoint_stops, [tuple()]}
+          {:affected_stops, [affected_stop_t()]}
+          | {:endpoint_stops, [{endpoint_t(), endpoint_t()}]}
           | {:delay}
           | nil
 
@@ -146,11 +150,12 @@ defmodule Dotcom.SystemStatus.Subway do
   end
 
   # Additional information required to compute the subheading for a status entry.
-  # - {:affected_stops, []} if the status is a station closure
-  # - {:endpoint_stops, []} if the status is a service change
+  # - {:affected_stops, [affected_stop_t()]} if the status is a station closure
+  # - {:endpoint_stops, [{endpoint_t(), endpoint_t()}]} if the status is a service change
   # - {:delay} if the status is a delay
   # - nil if there is no data
-  @spec status_entry_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()
+  @spec status_entry_subheading_data(%{status: atom(), alerts: [Alert.t()]}, [Routes.Route.id_t()]) ::
+          subheading_data_t()
   def status_entry_subheading_data(%{status: :station_closure, alerts: alerts}, route_ids) do
     {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
   end
@@ -168,10 +173,12 @@ defmodule Dotcom.SystemStatus.Subway do
     nil
   end
 
+  @spec add_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()
   defp add_subheading_data(entry, route_ids) do
     %{
       entry
-      | subheading_data: status_entry_subheading_data(entry, route_ids)
+      | subheading_data:
+          status_entry_subheading_data(%{status: entry.status, alerts: entry.alerts}, route_ids)
     }
   end
 
