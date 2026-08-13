@@ -620,7 +620,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
     end
   end
 
-  describe "status_entry_subheading_data" do
+  describe "subheading_data" do
     test "returns affected_stops subheading data for station closure" do
       # Setup
       alerts = [Alert.build(:alert_for_route)]
@@ -634,7 +634,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       }
 
       # Exercise
-      result = Subway.status_entry_subheading_data(status_entry, route_ids)
+      result = Subway.subheading_data(status_entry, route_ids)
 
       # Verify
       assert match?({:affected_stops, _}, result)
@@ -652,7 +652,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       }
 
       # Exercise
-      result = Subway.status_entry_subheading_data(status_entry, [])
+      result = Subway.subheading_data(status_entry, [])
 
       # Verify
       assert result == {:delay}
@@ -672,7 +672,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       }
 
       # Exercise
-      result = Subway.status_entry_subheading_data(status_entry, route_ids)
+      result = Subway.subheading_data(status_entry, route_ids)
 
       # Verify
       assert match?({:endpoint_stops, _}, result)
@@ -696,7 +696,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       }
 
       # Exercise
-      result = Subway.status_entry_subheading_data(status_entry, route_ids)
+      result = Subway.subheading_data(status_entry, route_ids)
 
       # Verify
       assert result == nil
@@ -716,7 +716,7 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       }
 
       # Exercise
-      result = Subway.status_entry_subheading_data(status_entry, [])
+      result = Subway.subheading_data(status_entry, [])
 
       # Verify
       assert result == nil

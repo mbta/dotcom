@@ -154,22 +154,22 @@ defmodule Dotcom.SystemStatus.Subway do
   # - {:endpoint_stops, [{endpoint_t(), endpoint_t()}]} if the status is a service change
   # - {:delay} if the status is a delay
   # - nil if there is no data
-  @spec status_entry_subheading_data(%{status: atom(), alerts: [Alert.t()]}, [Routes.Route.id_t()]) ::
+  @spec subheading_data(status: atom(), alerts: [Alert.t()], route_ids: [Routes.Route.id_t()]) ::
           subheading_data_t()
-  def status_entry_subheading_data(%{status: :station_closure, alerts: alerts}, route_ids) do
+  def subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids) do
     {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
   end
 
-  def status_entry_subheading_data(%{status: :delay}, _route_ids) do
+  def subheading_data(status: :delay, alerts: _alerts, route_ids: _route_ids) do
     {:delay}
   end
 
-  def status_entry_subheading_data(%{status: status, alerts: alerts}, route_ids)
+  def subheading_data(status: status, alerts: alerts, route_ids: route_ids)
       when status in [:service_change, :shuttle, :single_tracking, :suspension] do
     {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
   end
 
-  def status_entry_subheading_data(_entry, _route_ids) do
+  def subheading_data(status: _status, alerts: _alerts, route_ids: _route_ids) do
     nil
   end
 
@@ -178,7 +178,7 @@ defmodule Dotcom.SystemStatus.Subway do
     %{
       entry
       | subheading_data:
-          status_entry_subheading_data(%{status: entry.status, alerts: entry.alerts}, route_ids)
+          subheading_data(status: entry.status, alerts: entry.alerts, route_ids: route_ids)
     }
   end
 
