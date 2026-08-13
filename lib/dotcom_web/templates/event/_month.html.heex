@@ -1,4 +1,4 @@
-<ul class="list-group list-group-flush">
+<ul :if={Enum.any?(@event_teasers)} class="list-group list-group-flush">
   <%= if @conn.assigns.date.year == @year and @conn.assigns.date.month == @month_number do %>
     
 <!-- Previous months button. A JS script sets up a listener for button click -->
@@ -49,3 +49,7 @@
     <% end %>
   <% end %>
 </ul>
+
+<p :if={Enum.empty?(@event_teasers)} class="italic px-6 text-sm sm:text-base">
+  No events scheduled
+</p>

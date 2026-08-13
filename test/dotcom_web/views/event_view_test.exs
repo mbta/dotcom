@@ -3,9 +3,17 @@ defmodule DotcomWeb.EventViewTest do
   import DotcomWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
   import Phoenix.HTML, only: [safe_to_string: 1]
+  alias Test.Support.Factories
+  alias Test.Support.Generators
   alias CMS.Page.Event
   alias CMS.Page.EventAgenda
   alias CMS.Partial.Teaser
+
+  setup do
+    Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
 
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
@@ -155,29 +163,47 @@ defmodule DotcomWeb.EventViewTest do
     assert render_event_month(3, 2020) == "March 2020"
   end
 
-  test "grouped_by_month/2 for a given year" do
-    events =
-      for y <- 2018..2020, m <- 1..12, into: [] do
-        {:ok, date} = Date.new(y, m, 1)
+  describe "grouped_by_month/2" do
+    test "groups a given event into the corrent year and month" do
+      # Setup
+      date = Generators.Date.random_date()
 
-        for t <- 1..(2 * m), into: [] do
-          %Teaser{
-            id: "#{y}-#{m}-#{t}",
-            path: "/#{y}-#{m}/#{t}",
-            title: "Event #{t} during #{m}/#{y}",
-            type: :event,
-            date: date
-          }
-        end
-      end
-      |> List.flatten()
+      event = Factories.CMS.Partial.Teaser.build(:event_teaser, date: date)
 
-    grouped_2020_events = grouped_by_month(events, 2020)
+      # Exercise
+      grouped_events = grouped_by_month([event], date.year)
 
-    assert grouped_2020_events
-    assert {1, [january_event, _another_january_event]} = List.first(grouped_2020_events)
-    assert january_event.date.month == 1
-    assert january_event.date.year == 2020
+      # Verify
+      assert grouped_events == [{date.month, [event]}]
+    end
+
+    test "includes an empty month if there are events scheduled before and after that month" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+      month = Faker.random_between(2, 11)
+
+      earlier_event =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year, month - 1, Faker.random_between(1, 28))
+        )
+
+      later_event =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year, month + 1, Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([earlier_event, later_event], year)
+
+      # Verify
+      assert grouped_events == [
+               {month - 1, [earlier_event]},
+               {month, []},
+               {month + 1, [later_event]}
+             ]
+    end
   end
 
   test "grouped_by_day/2 for a given month" do

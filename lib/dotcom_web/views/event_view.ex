@@ -34,10 +34,16 @@ defmodule DotcomWeb.EventView do
   @doc "Returns a list of event teasers, grouped/sorted by month"
   @spec grouped_by_month([Teaser.t()], number) :: [{number, [Teaser.t()]}]
   def grouped_by_month(events, year) do
-    events
-    |> Enum.filter(&(&1.date.year == year))
-    |> Enum.group_by(& &1.date.month)
-    |> Enum.sort_by(&elem(&1, 0))
+    by_month =
+      events
+      |> Enum.filter(&(&1.date.year == year))
+      |> Enum.group_by(& &1.date.month)
+
+    {earliest_month, latest_month} =
+      by_month |> Stream.map(fn {month, _} -> month end) |> Enum.min_max()
+
+    earliest_month..latest_month
+    |> Enum.map(&{&1, Map.get(by_month, &1, [])})
   end
 
   @doc "Returns a list of event teasers, grouped/sorted by day"
