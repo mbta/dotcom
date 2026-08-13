@@ -626,15 +626,8 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       alerts = [Alert.build(:alert_for_route)]
       route_ids = [Faker.Util.pick(Subway.lines())]
 
-      status_entry = %{
-        status: :station_closure,
-        alerts: alerts,
-        time: :current,
-        multiple: false
-      }
-
       # Exercise
-      result = Subway.subheading_data(status_entry, route_ids)
+      result = Subway.subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids)
 
       # Verify
       assert match?({:affected_stops, _}, result)
@@ -644,15 +637,8 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       # Setup
       alerts = [Alert.build(:alert_for_route)]
 
-      status_entry = %{
-        status: :delay,
-        alerts: alerts,
-        time: :current,
-        multiple: false
-      }
-
       # Exercise
-      result = Subway.subheading_data(status_entry, [])
+      result = Subway.subheading_data(status: :delay, alerts: alerts, route_ids: [])
 
       # Verify
       assert result == {:delay}
@@ -663,16 +649,10 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       alerts = [Alert.build(:alert_for_route)]
       endpoint_statuses = [:service_change, :shuttle, :single_tracking, :suspension]
       route_ids = [Faker.Util.pick(Subway.lines())]
-
-      status_entry = %{
-        status: Faker.Util.pick(endpoint_statuses),
-        alerts: alerts,
-        time: :current,
-        multiple: false
-      }
+      status = Faker.Util.pick(endpoint_statuses)
 
       # Exercise
-      result = Subway.subheading_data(status_entry, route_ids)
+      result = Subway.subheading_data(status: status, alerts: alerts, route_ids: route_ids)
 
       # Verify
       assert match?({:endpoint_stops, _}, result)
@@ -688,15 +668,8 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       alerts = [Alert.build(:alert_for_route)]
       route_ids = [Faker.Util.pick(Subway.lines())]
 
-      status_entry = %{
-        status: status,
-        alerts: alerts,
-        time: :current,
-        multiple: false
-      }
-
       # Exercise
-      result = Subway.subheading_data(status_entry, route_ids)
+      result = Subway.subheading_data(status: status, alerts: alerts, route_ids: route_ids)
 
       # Verify
       assert result == nil
@@ -706,17 +679,10 @@ defmodule Dotcom.SystemStatus.SubwayTest do
       # Setup
       alerts = [Alert.build(:alert_for_route)]
       non_delay_statuses = Alerts.service_impacting_effects() -- [:delay]
-
-      status_entry = %{
-        status: Faker.Util.pick(non_delay_statuses),
-        alerts: alerts,
-        time: :current,
-        multiple: false,
-        subheading_data: nil
-      }
+      status = Faker.Util.pick(non_delay_statuses)
 
       # Exercise
-      result = Subway.subheading_data(status_entry, [])
+      result = Subway.subheading_data(status: status, alerts: alerts, route_ids: [])
 
       # Verify
       assert result == nil
