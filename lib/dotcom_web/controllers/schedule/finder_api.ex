@@ -78,7 +78,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   def journeys(conn, _) do
-    DotcomWeb.ControllerHelpers.return_invalid_arguments_error(conn)
+    return_invalid_arguments_error(conn)
   end
 
   # Use alternative JourneyList constructor to only return trips with predictions
@@ -184,7 +184,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   end
 
   def trip(conn, _) do
-    ControllerHelpers.return_invalid_arguments_error(conn)
+    return_invalid_arguments_error(conn)
   end
 
   # Use internal API to generate list of relevant schedules and predictions
