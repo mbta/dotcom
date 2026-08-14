@@ -71,7 +71,8 @@ config :laboratory,
   features: [
     {:test_flag, "Cool Bean", "cool bean for test"},
     {:use_smartling_translations, "Smartling translations",
-     "Uses Smartling's translation workflows"}
+     "Uses Smartling's translation workflows"},
+    {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"}
   ],
   cookie: [
     # one month,
