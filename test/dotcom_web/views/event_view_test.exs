@@ -3,9 +3,17 @@ defmodule DotcomWeb.EventViewTest do
   import DotcomWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
   import Phoenix.HTML, only: [safe_to_string: 1]
+  alias Test.Support.Factories
+  alias Test.Support.Generators
   alias CMS.Page.Event
   alias CMS.Page.EventAgenda
   alias CMS.Partial.Teaser
+
+  setup do
+    Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
+
+    :ok
+  end
 
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
@@ -155,29 +163,148 @@ defmodule DotcomWeb.EventViewTest do
     assert render_event_month(3, 2020) == "March 2020"
   end
 
-  test "grouped_by_month/2 for a given year" do
-    events =
-      for y <- 2018..2020, m <- 1..12, into: [] do
-        {:ok, date} = Date.new(y, m, 1)
+  describe "grouped_by_month/2" do
+    test "groups a given event into the corrent year and month" do
+      # Setup
+      date = Generators.Date.random_date()
 
-        for t <- 1..(2 * m), into: [] do
-          %Teaser{
-            id: "#{y}-#{m}-#{t}",
-            path: "/#{y}-#{m}/#{t}",
-            title: "Event #{t} during #{m}/#{y}",
-            type: :event,
-            date: date
-          }
-        end
-      end
-      |> List.flatten()
+      event = Factories.CMS.Partial.Teaser.build(:event_teaser, date: date)
 
-    grouped_2020_events = grouped_by_month(events, 2020)
+      # Exercise
+      grouped_events = grouped_by_month([event], date.year)
 
-    assert grouped_2020_events
-    assert {1, [january_event, _another_january_event]} = List.first(grouped_2020_events)
-    assert january_event.date.month == 1
-    assert january_event.date.year == 2020
+      # Verify
+      assert grouped_events == [{date.month, [event]}]
+    end
+
+    test "includes an empty month if there are events scheduled before and after that month" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+      month = Faker.random_between(2, 11)
+
+      earlier_event =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year, month - 1, Faker.random_between(1, 28))
+        )
+
+      later_event =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year, month + 1, Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([earlier_event, later_event], year)
+
+      # Verify
+      assert grouped_events == [
+               {month - 1, [earlier_event]},
+               {month, []},
+               {month + 1, [later_event]}
+             ]
+    end
+
+    test "includes empty months later in the year if there is an event the following year" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+      month = Faker.random_between(1, 11)
+
+      event_this_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year, month, Faker.random_between(1, 28))
+        )
+
+      event_next_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year + 1, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([event_this_year, event_next_year], year)
+
+      # Verify
+      assert grouped_events ==
+               [{month, [event_this_year]}] ++
+                 Enum.map((month + 1)..12, &{&1, []})
+    end
+
+    test "includes empty months earlier in the year if there is an event in an earlier year" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+      month = Faker.random_between(2, 12)
+
+      event_this_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year, month, Faker.random_between(1, 28))
+        )
+
+      event_last_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year - 1, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([event_last_year, event_this_year], year)
+
+      # Verify
+      assert grouped_events ==
+               Enum.map(1..(month - 1), &{&1, []}) ++
+                 [{month, [event_this_year]}]
+    end
+
+    test "doesn't crash if the events list is empty" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+
+      # Exercise / Verify
+      assert grouped_by_month([], year) == []
+    end
+
+    test "returns [] if there are no events for the queried year, but there is in another year" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+      event_year = year + Faker.Util.pick([-1, 1])
+
+      event_in_other_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(event_year, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([event_in_other_year], year)
+
+      # Verify
+      assert grouped_events == []
+    end
+
+    test "returns all months with no events if there are no events for the queried year, but there are on either end" do
+      # Setup
+      year = Dotcom.Utils.DateTime.now().year + Faker.random_between(-10, 10)
+
+      event_last_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year - 1, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      event_next_year =
+        Factories.CMS.Partial.Teaser.build(
+          :event_teaser,
+          date: Date.new!(year + 1, Faker.random_between(1, 12), Faker.random_between(1, 28))
+        )
+
+      # Exercise
+      grouped_events = grouped_by_month([event_last_year, event_next_year], year)
+
+      # Verify
+      assert grouped_events == Enum.map(1..12, &{&1, []})
+    end
   end
 
   test "grouped_by_day/2 for a given month" do

@@ -401,6 +401,7 @@ msgstr "khả năng tiếp cận Tài nguyên"
 msgid "Accessibility at %{name}"
 msgstr "khả năng tiếp cận at %{name}"
 
+#: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #: lib/dotcom_web/components/transit_icons.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
@@ -2529,6 +2530,7 @@ msgstr "Massport xe đưa đón %{route_number}"
 msgid "Mattapan Trolley"
 msgstr "Mattapan Trolley"
 
+#: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "May not be accessible"
@@ -2757,6 +2759,7 @@ msgstr "Không có thay đổi nào được đăng tải trong 7 ngày tới."
 msgid "No events"
 msgstr "Không có sự kiện nào"
 
+#: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "No parking"
@@ -2805,6 +2808,7 @@ msgstr "dịch vụ bình thường"
 msgid "Northbound"
 msgstr "Hướng Bắc"
 
+#: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #: lib/dotcom_web/components/timetable.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
@@ -3054,6 +3058,7 @@ msgstr "Giá phí đậu xe"
 msgid "Parking at %{name}"
 msgstr "Đỗ xe tại %{name}"
 
+#: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Parking available"

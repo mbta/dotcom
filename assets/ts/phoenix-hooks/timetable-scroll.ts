@@ -7,13 +7,6 @@ const TimetableScroll: Partial<ViewHook> = {
     if (this.el) {
       const element = this.el;
 
-      // These buttons default to hidden because they rely on
-      // Javascript, which means that if Javascript is disabled, it
-      // doesn't make sense to show them. If Javascript is enabled,
-      // then we remove the `hidden` class so that they can do their
-      // thing.
-      element.classList.remove("hidden");
-
       element.addEventListener("click", _event => {
         const scrollDirection =
           (element.dataset.scrollDirection &&

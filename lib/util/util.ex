@@ -476,7 +476,7 @@ defmodule Util do
 
   """
   @spec parse_valid_date(String.t()) :: {:ok, Date.t()} | {:error, any}
-  def parse_valid_date(str) do
+  def parse_valid_date(str) when is_binary(str) do
     with {:ok, date} <- Date.from_iso8601(str) do
       if Timex.is_valid?(date) do
         {:ok, date}
@@ -484,6 +484,10 @@ defmodule Util do
         {:error, :invalid_date}
       end
     end
+  end
+
+  def parse_valid_date(_) do
+    {:error, :invalid_date}
   end
 
   @doc """
