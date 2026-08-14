@@ -138,6 +138,7 @@ defmodule DotcomWeb.TripPlannerLive do
               results={@results}
               accessible_grouping?={@accessible_grouping?}
               feedback_url={@trip_planner_feedback_url}
+              fares_v2={@fares_v2}
             />
             <.live_component
               module={MbtaMetro.Live.Map}
