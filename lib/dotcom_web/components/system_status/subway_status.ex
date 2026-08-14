@@ -93,9 +93,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   end
 
   defp heading(assigns) do
-    subheading_data = get_in(assigns.row, [:status_entry, :subheading_data])
-    assigns = assigns |> assign(:subheading_data, subheading_data)
-
     ~H"""
     <.status_row_heading
       alerts={@row |> Map.get(:alerts)}
@@ -104,7 +101,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       prefix={@row.status_entry.prefix}
       plural={@row.status_entry.plural}
       future={@row.status_entry.future}
-      subheading_data={@subheading_data}
+      subheading_data={@row.status_entry.subheading_data}
       route_ids={[@row.route_info.route_id | @row.route_info.branch_ids]}
     />
     """
@@ -270,7 +267,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           status: :normal,
           plural: false,
           prefix: nil,
-          future: false
+          future: false,
+          subheading_data: nil
         },
         style: %{
           hide_route_pill: true
