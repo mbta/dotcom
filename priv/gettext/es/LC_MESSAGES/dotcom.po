@@ -5414,3 +5414,8 @@ msgstr "Autobuses"
 #, elixir-autogen, elixir-format
 msgid "Trains"
 msgstr "Trenes"
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
+msgstr "%{direction_name} calendario para %{route_name}, %{formatted_date}"
