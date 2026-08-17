@@ -5389,4 +5389,4 @@ msgstr "火車"
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr ""
+msgstr "%{direction_name} %{route_name}、%{formatted_date} 的時間表"
