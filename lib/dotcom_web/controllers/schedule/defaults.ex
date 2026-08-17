@@ -39,6 +39,11 @@ defmodule DotcomWeb.Schedule.Defaults do
   def default_direction_id(%{assigns: %{route: %{direction_names: %{0 => nil}}}}), do: 1
   def default_direction_id(%{assigns: %{route: %{direction_names: %{1 => nil}}}}), do: 0
 
+  # Always default the Foxboro line to outbound, because the most
+  # common use case here is people looking for trains *to* Foxboro,
+  # which are typically outbound
+  def default_direction_id(%{assigns: %{route: %{id: "CR-Foxboro"}}}), do: 0
+
   def default_direction_id(%Conn{assigns: %{route: %Route{id: route_id}}} = conn) do
     direction_id = default_direction_id_for_hour(conn.assigns.date_time.hour)
 
