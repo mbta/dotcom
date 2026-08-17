@@ -5409,4 +5409,4 @@ msgstr "Tàu hỏa"
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr ""
+msgstr "%{direction_name} thời khóa biểu cho %{route_name}, %{formatted_date}"
