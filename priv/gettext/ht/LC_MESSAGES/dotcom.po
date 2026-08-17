@@ -5405,4 +5405,4 @@ msgstr "Tren yo"
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr ""
+msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
