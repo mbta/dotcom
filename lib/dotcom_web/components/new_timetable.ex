@@ -52,7 +52,13 @@ defmodule DotcomWeb.Components.NewTimetable do
           </div>
         </div>
       </div>
-      <table aria-label={"#{@direction_name} #{~t(timetable for)} #{@route.name}, #{@formatted_date}"}>
+      <table aria-label={
+        gettext("%{direction_name} timetable for %{route_name}, %{formatted_date}",
+          direction_name: @direction_name,
+          formatted_date: @formatted_date,
+          route_name: @route.name
+        )
+      }>
         <thead :if={!ferry?(@route)} class="h-10">
           <tr>
             <th class="bg-gray-bordered-background sticky left-0 relative">
