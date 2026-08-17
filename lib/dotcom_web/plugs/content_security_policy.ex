@@ -99,10 +99,13 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
 
   @impl Plug
   def call(conn, _opts) do
+    runtime_directives =
+      Util.get_or_save_persistent_term(:csp_directives, fn -> runtime_directives() end)
+
     conn
     |> ContentSecurityPolicy.Plug.Setup.call(default_policy: @default_policy)
     |> ContentSecurityPolicy.Plug.AddNonce.call(directives: [:script_src])
-    |> ContentSecurityPolicy.Plug.AddSourceValue.call(runtime_directives())
+    |> ContentSecurityPolicy.Plug.AddSourceValue.call(runtime_directives)
   end
 
   defp runtime_directives do
