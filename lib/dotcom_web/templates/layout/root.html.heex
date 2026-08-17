@@ -88,7 +88,7 @@
         </div>
       <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
-      {DotcomWeb.PartialView.render("_hidden_icons.html", conn: @conn)}
+      {hidden_icons()}
       {render("_new_header.html", conn: @conn)}
       <%= if assigns[:banner_template] do %>
         <div class={"announcement-container #{assigns[:banner_class]}"}>

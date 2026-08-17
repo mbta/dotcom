@@ -318,4 +318,13 @@ defmodule DotcomWeb.LayoutView do
   def webpack_path do
     Application.get_env(:dotcom, :webpack_path)
   end
+
+  @doc """
+  Returns the cached hidden SVG icon sprite.
+  """
+  def hidden_icons do
+    Util.get_or_save_persistent_term({__MODULE__, :hidden_icons}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PartialView, "_hidden_icons.html", %{})}
+    end)
+  end
 end
