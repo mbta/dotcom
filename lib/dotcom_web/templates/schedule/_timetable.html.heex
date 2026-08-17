@@ -61,9 +61,11 @@
       </.cta>
       <DotcomWeb.Components.NewTimetable.timetable
         id="new-timetable"
+        direction_name={@direction_name}
+        formatted_date={@formatted_date}
         now={@date_time}
-        timetable={@timetable}
         route={@route}
+        timetable={@timetable}
       />
     <% assigns[:linear_timetable?] -> %>
       <DotcomWeb.Components.Timetable.linear_timetable

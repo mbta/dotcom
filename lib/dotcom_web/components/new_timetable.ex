@@ -9,6 +9,8 @@ defmodule DotcomWeb.Components.NewTimetable do
 
   attr :id, :string, required: true
   attr :timetable, Timetables.Timetable, required: true
+  attr :direction_name, :string, required: true
+  attr :route, Routes.Route, required: true
 
   def timetable(assigns) do
     assigns =
@@ -50,7 +52,7 @@ defmodule DotcomWeb.Components.NewTimetable do
           </div>
         </div>
       </div>
-      <table>
+      <table aria-label={"#{@direction_name} #{~t(timetable for)} #{@route.name}, #{@formatted_date}"}>
         <thead :if={!ferry?(@route)} class="h-10">
           <tr>
             <th class="bg-gray-bordered-background sticky left-0 relative">
