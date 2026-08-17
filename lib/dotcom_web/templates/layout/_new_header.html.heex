@@ -1,5 +1,5 @@
 <%= if Laboratory.enabled?(@conn, :use_smartling_translations) do %>
-  {render("_top_tier_nav.html", assigns)}
+  {top_tier_nav(@locale)}
 <% end %>
 <aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
 <header class="header--new" id="header-with-search">

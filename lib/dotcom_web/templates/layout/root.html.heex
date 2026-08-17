@@ -89,7 +89,7 @@
       <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
       {hidden_icons()}
-      {render("_new_header.html", conn: @conn)}
+      {render("_new_header.html", assigns)}
       <%= if assigns[:banner_template] do %>
         <div class={"announcement-container #{assigns[:banner_class]}"}>
           <div class="container">

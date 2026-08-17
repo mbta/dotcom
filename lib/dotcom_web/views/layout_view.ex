@@ -244,7 +244,7 @@ defmodule DotcomWeb.LayoutView do
     [
       %{
         menu_section: ~t(Languages),
-        link: ~p"/menu#Languages-section",
+        link: "/menu#Languages-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Choose Your Language),
@@ -325,6 +325,12 @@ defmodule DotcomWeb.LayoutView do
   def hidden_icons do
     Util.get_or_save_persistent_term({__MODULE__, :hidden_icons}, fn ->
       {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PartialView, "_hidden_icons.html", %{})}
+    end)
+  end
+
+  def top_tier_nav(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :top_tier_nav, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_top_tier_nav.html", %{})}
     end)
   end
 end
