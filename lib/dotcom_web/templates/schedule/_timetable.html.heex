@@ -51,10 +51,43 @@
     <% @trip_count == 0 -> %>
       {render("_empty.html",
         date: @date,
-        direction: Routes.Route.direction_name(@route, @direction_id),
+        direction: @direction_id && Routes.Route.direction_name(@route, @direction_id),
         conn: @conn,
         error: assigns[:schedule_error]
       )}
+    <% assigns[:dual_direction_timetable?] -> %>
+      <div class="mb-5">
+        <h3 class="text-xl font-bold mb-1">{~t"Morning"}</h3>
+        <p class="mb-3">{~t"Counterclockwise Loop"}</p>
+        <%= if @morning_trip_count > 0 do %>
+          <DotcomWeb.Components.NewTimetable.timetable
+            id="morning-timetable"
+            direction_name="Morning"
+            formatted_date={@formatted_date}
+            now={@date_time}
+            route={@route}
+            timetable={@morning_timetable}
+          />
+        <% else %>
+          <p class="text-gray-500">{~t"No trips scheduled for this direction."}</p>
+        <% end %>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-1">{~t"Evening"}</h3>
+        <p class="mb-3">{~t"Clockwise Loop"}</p>
+        <%= if @evening_trip_count > 0 do %>
+          <DotcomWeb.Components.NewTimetable.timetable
+            id="evening-timetable"
+            direction_name="Evening"
+            formatted_date={@formatted_date}
+            now={@date_time}
+            route={@route}
+            timetable={@evening_timetable}
+          />
+        <% else %>
+          <p class="text-gray-500">{~t"No trips scheduled for this direction."}</p>
+        <% end %>
+      </div>
     <% @new_timetables? -> %>
       <.cta icon="flask" icon_type="solid" classes="text-sm">
         This is the new timetable, and we're still ironing out the kinks. If you'd like to go back to the original timetable, you can disable the "New timetables" flag <a href="/_flags">here</a>.

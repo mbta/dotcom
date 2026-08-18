@@ -15,13 +15,15 @@
       </div>
     <% end %>
   </div>
-  {render("_direction_select.html",
-    conn: @conn,
-    direction_id: @direction_id,
-    route: @route,
-    show_date_select?: @show_date_select?,
-    column_width: 8
-  )}
+  <%= unless @route.id == "Boat-F10" do %>
+    {render("_direction_select.html",
+      conn: @conn,
+      direction_id: @direction_id,
+      route: @route,
+      show_date_select?: @show_date_select?,
+      column_width: 8
+    )}
+  <% end %>
 </div>
 <%= if @conn.assigns[:calendar] do %>
   <% date_picker = render("_date_picker.html", conn: @conn, calendar: @calendar) %>
