@@ -132,6 +132,45 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
   end
 
+  # Boat-F10 dual-direction timetable
+  # This clause must come before the general new_timetables? clause
+  def assign_trip_schedules(
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
+            date_in_rating?: true,
+            date: date
+          }
+        } = conn
+      )
+      when route.id == "Boat-F10" do
+    # Fetch schedules for both directions
+    morning_schedules =
+      case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: 0) do
+        {:error, _} -> []
+        schedules -> Enum.reject(schedules, &Schedules.Schedule.no_times?/1)
+      end
+
+    evening_schedules =
+      case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: 1) do
+        {:error, _} -> []
+        schedules -> Enum.reject(schedules, &Schedules.Schedule.no_times?/1)
+      end
+
+    morning_timetable = Timetables.from_schedules(morning_schedules)
+    evening_timetable = Timetables.from_schedules(evening_schedules)
+
+    conn
+    |> assign(:dual_direction_timetable?, true)
+    |> assign(:linear_timetable?, false)
+    |> assign(:morning_timetable, morning_timetable)
+    |> assign(:evening_timetable, evening_timetable)
+    |> assign(:morning_trip_count, Enum.count(morning_timetable.trips))
+    |> assign(:evening_trip_count, Enum.count(evening_timetable.trips))
+    |> assign(:trip_count, Enum.count(morning_timetable.trips) + Enum.count(evening_timetable.trips))
+  end
+
   def assign_trip_schedules(
         %{
           assigns: %{
@@ -144,8 +183,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       )
       when route.id in [
              "Boat-F6",
-             "Boat-F7",
-             "Boat-F10"
+             "Boat-F7"
            ] or new_timetables? == true do
     timetable =
       conn
