@@ -169,7 +169,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:evening_timetable, evening_timetable)
     |> assign(:morning_trip_count, Enum.count(morning_timetable.trips))
     |> assign(:evening_trip_count, Enum.count(evening_timetable.trips))
-    |> assign(:trip_count, Enum.count(morning_timetable.trips) + Enum.count(evening_timetable.trips))
+    |> assign(
+      :trip_count,
+      Enum.count(morning_timetable.trips) + Enum.count(evening_timetable.trips)
+    )
   end
 
   def assign_trip_schedules(
