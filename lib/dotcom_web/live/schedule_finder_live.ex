@@ -286,7 +286,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp filter_stale_alerts(alerts, stop) do
     alerts
     |> Enum.filter(fn alert ->
-      alert.informed_entity.stop |> Enum.any?(fn alert_stop -> alert_stop == stop.id end) or
+      alert.informed_entity.stop
+      |> Enum.any?(fn alert_stop -> alert_stop == stop.id end) or
         !(alert |> Alerts.Alert.stale?())
     end)
   end

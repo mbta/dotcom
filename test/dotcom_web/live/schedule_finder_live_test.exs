@@ -235,6 +235,43 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     assert has_element?(view, "section.c-alert-group")
   end
 
+  test "doesn't show stale alerts (on other stops)", %{conn: conn} do
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = FactoryHelpers.build(:id)
+    other_stop_id = FactoryHelpers.build(:id)
+    start_time = Faker.DateTime.backward(7) |> DateTime.shift(week: -6)
+    end_time = Faker.DateTime.forward(5)
+
+    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ ->
+      Factories.Alerts.Alert.build_list(1, :alert_for_informed_entity,
+        informed_entity: %{stop: other_stop_id},
+        active_period: [{start_time, end_time}]
+      )
+    end)
+
+    {:ok, view, _html} = visit_with_set_params(conn, route_id, direction_id, stop_id)
+    assert !has_element?(view, "section.c-alert-group")
+  end
+
+  test "shows stale alerts on affected stops", %{conn: conn} do
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = FactoryHelpers.build(:id)
+    start_time = Faker.DateTime.backward(7) |> DateTime.shift(week: -6)
+    end_time = Faker.DateTime.forward(5)
+
+    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ ->
+      Factories.Alerts.Alert.build_list(1, :alert_for_informed_entity,
+        informed_entity: %{stop: stop_id},
+        active_period: [{start_time, end_time}]
+      )
+    end)
+
+    {:ok, view, _html} = visit_with_set_params(conn, route_id, direction_id, stop_id)
+    assert has_element?(view, "section.c-alert-group")
+  end
+
   describe "Daily Departures" do
     test "indicates no service", %{conn: conn} do
       expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)
@@ -388,11 +425,13 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     end
   end
 
-  defp visit_with_valid_params(conn, route_types \\ [0, 1, 2, 3, 4]) do
-    route_id = FactoryHelpers.build(:id)
-    direction_id = FactoryHelpers.build(:direction_id)
-    stop_id = FactoryHelpers.build(:id)
-
+  defp visit_with_set_params(
+         conn,
+         route_id,
+         direction_id,
+         stop_id,
+         route_types \\ [0, 1, 2, 3, 4]
+       ) do
     stub(Routes.Repo.Mock, :get, fn _ ->
       Factories.Routes.Route.build(:route, %{id: route_id, type: Faker.Util.pick(route_types)})
     end)
@@ -440,5 +479,13 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       )
 
     live(conn, path, on_error: :warn)
+  end
+
+  defp visit_with_valid_params(conn, route_types \\ [0, 1, 2, 3, 4]) do
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = FactoryHelpers.build(:id)
+
+    visit_with_set_params(conn, route_id, direction_id, stop_id, route_types)
   end
 end
