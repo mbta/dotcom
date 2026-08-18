@@ -13,7 +13,6 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   alias Dotcom.TransitNearMe
-  alias DotcomWeb.ControllerHelpers
   alias DotcomWeb.ScheduleController.TripInfo, as: Trips
   alias DotcomWeb.Schedule.VehicleLocations
   alias Fares.{Format, OneWay}
