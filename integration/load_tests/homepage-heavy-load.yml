@@ -22,16 +22,6 @@ config:
     - name: "1k req / sec"
       duration: 120
       arrivalRate: 1000
-    - name: "Rest"
-      pause: 60
-    - name: "2k req / sec"
-      duration: 120
-      arrivalRate: 2000
-    - name: "Rest"
-      pause: 60
-    - name: "10k req / sec"
-      duration: 120
-      arrivalRate: 10000
   environments:
     dev-green:
       target: "https://dev-green.mbtace.com"
