@@ -2,12 +2,12 @@ import { ViewHook } from "phoenix_live_view";
 
 let animating = false;
 
-const min = (a: number, b: number) => {
+const min = (a: number, b: number): number => {
   if (a < b) {
     return a;
-  } else {
-    return b;
   }
+
+  return b;
 };
 
 const TimetableScroll: Partial<ViewHook> = {
