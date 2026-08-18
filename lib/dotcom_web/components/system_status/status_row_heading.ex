@@ -134,7 +134,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
-  defp decorations(%{status: status, subheading_data: {:endpoint_stops, endpoints}}) do
+  defp decorations(%{subheading_data: {:endpoint_stops, endpoints}}) do
     %{
       subheading_text: endpoints |> humanize_endpoint_list(),
       subheading_aria_label: endpoints |> humanize_endpoint_list_a11y()

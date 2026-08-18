@@ -277,10 +277,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
         Enum.any?([nil, direction], &(&1 in direction_id))
       end)
       |> Enum.map(fn alert ->
-        subheading_data =
+        Map.put(
+          alert,
+          :subheading_data,
           subheading_data(status: alert.effect, alerts: [alert], route_ids: [route.id])
-
-        Map.put(alert, :subheading_data, subheading_data)
+        )
       end)
 
     assign(socket, :alerts, alerts)

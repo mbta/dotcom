@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   use DotcomWeb, :component
 
+  import Dotcom.SystemStatus.Subway, only: [subheading_data: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
@@ -68,7 +69,23 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   end
 
   defp alerts_page_row(%{row: %{alerts: [alert]}} = assigns) do
-    assigns = assigns |> assign(:alert, alert)
+    # Override the pseudo-combined subheading_data with the specific data for this alert
+    subheading_data =
+      subheading_data(
+        status: alert.effect,
+        alerts: [alert],
+        route_ids: [assigns.row.route_info.route_id]
+      )
+
+    assigns =
+      assigns
+      |> assign(%{
+        alert: alert,
+        row: %{
+          assigns.row
+          | status_entry: %{assigns.row.status_entry | subheading_data: subheading_data}
+        }
+      })
 
     ~H"""
     <.unstyled_accordion
@@ -350,5 +367,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp prefix(%{time: :current}), do: ~t"Now"
   defp prefix(%{time: {:future, time}}), do: Util.narrow_time(time)
 
-  defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false, future: false}
+  defp see_alerts_status(),
+    do: %{status: :see_alerts, prefix: nil, plural: false, future: false, subheading_data: nil}
 end
