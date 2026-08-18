@@ -51,7 +51,7 @@
     <% @trip_count == 0 -> %>
       {render("_empty.html",
         date: @date,
-        direction: Routes.Route.direction_name(@route, @direction_id),
+        direction: @direction_id && Routes.Route.direction_name(@route, @direction_id),
         conn: @conn,
         error: assigns[:schedule_error]
       )}

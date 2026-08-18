@@ -163,6 +163,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     conn
     |> assign(:dual_direction_timetable?, true)
+    |> assign(:direction_id, nil)
     |> assign(:linear_timetable?, false)
     |> assign(:morning_timetable, morning_timetable)
     |> assign(:evening_timetable, evening_timetable)
