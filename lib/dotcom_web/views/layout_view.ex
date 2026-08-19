@@ -346,4 +346,10 @@ defmodule DotcomWeb.LayoutView do
       )
     end)
   end
+
+  def footer_social_links(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_social_links, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_footer_social_links.html", %{})}
+    end)
+  end
 end

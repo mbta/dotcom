@@ -22,6 +22,7 @@ defmodule Dotcom.Cache.PersistentTermWarmer do
 
         # All of these should use the locale code in its cache key.
         DotcomWeb.LayoutView.top_tier_nav(code)
+        DotcomWeb.LayoutView.footer_social_links(code)
       end)
     end
     |> Task.await_many()
