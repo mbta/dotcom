@@ -179,13 +179,11 @@ defmodule Alerts.Alert do
   end
 
   def stale?(%__MODULE__{} = alert) do
-    now = Dotcom.Utils.DateTime.now()
-    five_weeks_ago = DateTime.shift(now, week: -5)
+    affected_stops = alert.informed_entity.stop
+    symphony? = affected_stops |> Enum.any?(fn stop -> stop == "place-symcl" end)
+    closed? = alert.effect == :station_closure or alert.effect == :stop_closure
 
-    case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
-      {:current, datetime} -> datetime |> DateTime.before?(five_weeks_ago)
-      _ -> false
-    end
+    symphony? and closed?
   end
 
   @spec build_struct(Keyword.t()) :: t()
