@@ -28,7 +28,7 @@
             {render("_new_nav_popular_fares.html")}
           <% end %>
           <%= if sub_menu_section == "Contact numbers" do %>
-            {render("_new_nav_contact_numbers.html")}
+            {contact_numbers(@locale)}
           <% end %>
         <% end %>
       </nav>

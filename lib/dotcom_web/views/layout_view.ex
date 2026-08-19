@@ -334,6 +334,12 @@ defmodule DotcomWeb.LayoutView do
     end)
   end
 
+  def contact_numbers(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :contact_numbers, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_contact_numbers.html", %{})}
+    end)
+  end
+
   def footer_languages do
     Util.get_or_save_persistent_term({__MODULE__, :footer_languages}, fn ->
       content_tag(:ul,
