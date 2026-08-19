@@ -78,7 +78,10 @@ defmodule DotcomWeb.Components.NewTimetable do
         </thead>
 
         <tbody>
-          <tr :for={row <- @timetable.rows} class="even:bg-gray-bordered-background odd:bg-white">
+          <tr
+            :for={row <- @timetable.rows}
+            class="even:bg-gray-bordered-background odd:bg-white hover:bg-brand-primary-lightest"
+          >
             <th
               class="sticky left-0"
               style="background-color: inherit;"
