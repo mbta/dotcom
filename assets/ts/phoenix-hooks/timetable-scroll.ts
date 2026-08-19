@@ -2,14 +2,6 @@ import { ViewHook } from "phoenix_live_view";
 
 let animating = false;
 
-const min = (a: number, b: number): number => {
-  if (a < b) {
-    return a;
-  }
-
-  return b;
-};
-
 const TimetableScroll: Partial<ViewHook> = {
   mounted() {
     if (this.el) {
@@ -43,7 +35,7 @@ const TimetableScroll: Partial<ViewHook> = {
             const scrollDestination = startingScroll + 100 * scrollDirection;
 
             timetable.animate(
-              { scrollLeft: min(scrollDestination, maxScrollLeft) },
+              { scrollLeft: Math.min(scrollDestination, maxScrollLeft) },
               {
                 duration: 200,
                 step: () => {
