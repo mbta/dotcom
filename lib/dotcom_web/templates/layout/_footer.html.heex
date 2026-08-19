@@ -103,17 +103,7 @@
             <% else %>
               <nav class="m-footer__group" aria-labelledby="footer-languages">
                 <h2 id="footer-languages" class="m-footer__group-title">{~t(Languages)}</h2>
-
-                <ul>
-                  <%= for locale <- Dotcom.Locales.locales() do %>
-                    <li>
-                      {link(Gettext.gettext(Dotcom.Gettext, locale.endonym),
-                        to: "?locale=#{locale.code}",
-                        class: "m-footer__link m-menu__language"
-                      )}
-                    </li>
-                  <% end %>
-                </ul>
+                {footer_languages()}
               </nav>
             <% end %>
 

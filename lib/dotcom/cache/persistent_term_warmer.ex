@@ -11,6 +11,7 @@ defmodule Dotcom.Cache.PersistentTermWarmer do
   def warm_homepage do
     # Locale-independent — called once
     DotcomWeb.LayoutView.hidden_icons()
+    DotcomWeb.LayoutView.footer_languages()
 
     # Per-locale — called once per locale (8 locales)
     # Handled inside a Task because the locale is set per-process,

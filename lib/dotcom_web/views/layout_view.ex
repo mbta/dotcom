@@ -333,4 +333,17 @@ defmodule DotcomWeb.LayoutView do
       {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_top_tier_nav.html", %{})}
     end)
   end
+
+  def footer_languages do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_languages}, fn ->
+      content_tag(:ul,
+        do:
+          Enum.map(Dotcom.Locales.locales(), fn %{code: code, endonym: endonym} ->
+            content_tag :li do
+              link(endonym, to: "?locale=#{code}")
+            end
+          end)
+      )
+    end)
+  end
 end
