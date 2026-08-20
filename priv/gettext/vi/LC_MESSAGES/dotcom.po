@@ -1025,6 +1025,8 @@ msgstr "Liên hệ"
 msgid "Contact Us"
 msgstr "Liên hệ với chúng tôi"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Contact numbers"
@@ -2676,6 +2678,8 @@ msgstr "Xem thêm từ "
 msgid "Most Direct"
 msgstr "Trực tiếp nhất"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format

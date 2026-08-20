@@ -1028,6 +1028,8 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Contact numbers"
@@ -2673,6 +2675,8 @@ msgstr ""
 msgid "Most Direct"
 msgstr ""
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format

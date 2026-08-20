@@ -22,10 +22,10 @@
     )}
 
     <%= for %{sub_menu_section: sub_menu_section} <- sub_menus do %>
-      <%= if sub_menu_section == "Most popular fares" do %>
+      <%= if sub_menu_section == ~t"Most popular fares" do %>
         {render("_new_nav_popular_fares.html")}
       <% end %>
-      <%= if sub_menu_section == "Contact numbers" do %>
+      <%= if sub_menu_section == ~t"Contact numbers" do %>
         {contact_numbers(@locale)}
       <% end %>
     <% end %>

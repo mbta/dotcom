@@ -1031,6 +1031,8 @@ msgstr "Contato"
 msgid "Contact Us"
 msgstr "Contate-nos"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Contact numbers"
@@ -2681,6 +2683,8 @@ msgstr "Mais de "
 msgid "Most Direct"
 msgstr "Mais direto"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
