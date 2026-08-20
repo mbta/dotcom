@@ -2678,7 +2678,7 @@ msgstr "最受歡迎的票價"
 msgid "Most, but not all, MBTA docks are accessible to riders with disabilities. Based on the tide level and the type of vessel used for travel, you may encounter significant slopes and narrow walkways, even at accessible docks. At all docks, wait until a crew member tells you it is safe to proceed."
 msgstr "大多數（但不是全部）MBTA 碼頭都易於透過殘障進行上升。 根據潮汐水位和航行所用船隻的類型，即使在無障礙碼頭，您也可能會遇到較大的坡度和狹窄的通道。在所有碼頭，請等待船員告知您可以安全通行後再繼續前進。"
 
-#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Navigation Menu"
 msgstr "導航選單"

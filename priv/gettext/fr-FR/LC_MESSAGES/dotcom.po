@@ -2697,7 +2697,7 @@ msgstr "La plupart, mais pas tous, des quai MBTA sont accessible à un passager 
 " navigation, vous pouvez rencontrer des pentes importantes et des passerelles étroites, même à accessible quai. Au quai, attendez qu’un membre d’équipage"
 " vous dise qu’il est sûr de continuer."
 
-#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Navigation Menu"
 msgstr "Navigation Menu"

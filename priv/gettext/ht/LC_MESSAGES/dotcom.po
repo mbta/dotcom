@@ -2691,7 +2691,7 @@ msgid "Most, but not all, MBTA docks are accessible to riders with disabilities.
 msgstr "Pifò, men pa tout, waf MBTA yo aksesib pou pase ak andikap. Selon nivo mare a ak kalite veso ou itilize pou vwayaj la, ou ka rankontre pant enpòtan ak"
 " pasaj pyeton etwat, menm nan waf aksesib. Nan tout waf yo, tann jiskaske yon manm ekipaj di ou ke li an sekirite pou ou kontinye."
 
-#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Navigation Menu"
 msgstr "Meni Navigasyon"
