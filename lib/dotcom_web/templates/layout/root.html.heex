@@ -107,7 +107,7 @@
       <div class={"page-container #{get_page_classes(Phoenix.Controller.view_module(@conn), Phoenix.Controller.view_template(@conn))}"}>
         <main id="main" tabindex="-1">{@inner_content}</main>
       </div>
-      {render(__MODULE__, "_footer.html", conn: @conn)}
+      {render(__MODULE__, "_footer.html", assigns)}
     </div>
     <!-- prod only: This react script is inexplicably needed to get the app.js code to execute. -->
     <script defer {static_attributes("/js/react.js")}>

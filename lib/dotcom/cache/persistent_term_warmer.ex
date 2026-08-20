@@ -11,6 +11,7 @@ defmodule Dotcom.Cache.PersistentTermWarmer do
   def warm_homepage do
     # Locale-independent — called once
     DotcomWeb.LayoutView.hidden_icons()
+    DotcomWeb.LayoutView.footer_languages()
 
     # Per-locale — called once per locale (8 locales)
     # Handled inside a Task because the locale is set per-process,
@@ -21,6 +22,9 @@ defmodule Dotcom.Cache.PersistentTermWarmer do
 
         # All of these should use the locale code in its cache key.
         DotcomWeb.LayoutView.top_tier_nav(code)
+        DotcomWeb.LayoutView.contact_numbers(code)
+        DotcomWeb.LayoutView.footer_links(code)
+        DotcomWeb.LayoutView.footer_social_links(code)
       end)
     end
     |> Task.await_many()

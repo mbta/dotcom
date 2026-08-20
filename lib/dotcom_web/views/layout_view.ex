@@ -333,4 +333,35 @@ defmodule DotcomWeb.LayoutView do
       {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_top_tier_nav.html", %{})}
     end)
   end
+
+  def contact_numbers(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :contact_numbers, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_contact_numbers.html", %{})}
+    end)
+  end
+
+  def footer_languages do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_languages}, fn ->
+      content_tag(:ul,
+        do:
+          Enum.map(Dotcom.Locales.locales(), fn %{code: code, endonym: endonym} ->
+            content_tag :li do
+              link(endonym, to: "?locale=#{code}")
+            end
+          end)
+      )
+    end)
+  end
+
+  def footer_links(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_links, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_footer_links.html", %{})}
+    end)
+  end
+
+  def footer_social_links(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_social_links, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_footer_social_links.html", %{})}
+    end)
+  end
 end
