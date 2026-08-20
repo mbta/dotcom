@@ -586,7 +586,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
         Generators.DateTime.random_date_time()
         |> Map.update!(:second, fn _ -> 0 end)
         |> Map.update!(:hour, fn hour ->
-          if hour > 12 do
+          if hour >= 12 do
             hour - 12
           else
             hour
