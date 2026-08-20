@@ -3,9 +3,7 @@
   {render("_splash_image.html", conn: @conn, photo: @photo)}
   {render("_tabbed_nav.html", assigns)}
   <div class="container page-section">
-    {render("_find_a_location.html", conn: @conn)}
-    {render("_fares_passes.html", conn: @conn)}
-    {render("_contact_us.html", conn: @conn)}
+    {top_links(@locale)}
   </div>
   {if(assigns[:banner],
     do: render(DotcomWeb.PageView, "_banner.html", conn: @conn, banner: @banner)

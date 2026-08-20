@@ -238,4 +238,12 @@ defmodule DotcomWeb.PageView do
       {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_important_links.html", %{})}
     end)
   end
+
+  def top_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :top_links, locale}, fn ->
+      {:safe,
+       ["_find_a_location.html", "_fares_passes.html", "_contact_us.html"]
+       |> Enum.map(&Phoenix.View.render_to_iodata(DotcomWeb.PageView, &1, %{}))}
+    end)
+  end
 end
