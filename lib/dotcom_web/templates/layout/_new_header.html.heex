@@ -31,7 +31,14 @@
         </a>
       <% end %>
 
-      {render("_new_nav_desktop.html", assigns)}
+      <nav id="navmenu-dropdown" class="m-menu--dropdown" aria-label="Main">
+        {desktop_menu(@locale)}
+        <div
+          :if={!Laboratory.enabled?(@conn, :use_smartling_translations)}
+          class="m-menu__language"
+        >
+        </div>
+      </nav>
       <div class="search-wrapper">
         <div class="search">
           <.algolia_autocomplete id="header-desktop" config_type="basic-config" />
