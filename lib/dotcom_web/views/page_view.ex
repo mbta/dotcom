@@ -22,8 +22,11 @@ defmodule DotcomWeb.PageView do
         &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
         &Dotcom.Alerts.stops_with_access_alerts_by_effect/1
       ]
-      |> Task.async_stream(& &1.(alerts), timeout: 10_000)
-      |> Enum.map(fn {:ok, result} -> result end)
+      |> Task.async_stream(& &1.(alerts), timeout: 10_000, on_timeout: :kill_task)
+      |> Enum.map(fn
+        {:ok, result} -> result
+        _ -> []
+      end)
 
     render("_alerts.html",
       routes_with_high_priority_alerts_by_mode: routes,
