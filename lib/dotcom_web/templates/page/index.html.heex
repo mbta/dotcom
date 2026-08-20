@@ -23,5 +23,5 @@
     promoted: false
   )}
   {render(DotcomWeb.PageView, "_user_guides.html", conn: @conn)}
-  {render(DotcomWeb.PageView, "_important_links.html", conn: @conn)}
+  {important_links(@locale)}
 </div>

@@ -232,4 +232,10 @@ defmodule DotcomWeb.PageView do
     end)
     |> Phoenix.HTML.raw()
   end
+
+  def important_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :important_links, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_important_links.html", %{})}
+    end)
+  end
 end
