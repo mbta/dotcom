@@ -774,13 +774,13 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatusTest do
 
       stops = Factories.Stops.Stop.build_list(2, :stop)
 
-      [affected_branch1 | affected_branch2] = affected_branches
+      [affected_branch1, affected_branch2] = affected_branches
 
       expect(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, 2, fn
         [_], [^affected_branch1] ->
-          stops |> Enum.take(1) |> Enum.map(&%{stop: &1, direction: :all})
+          stops |> Enum.at(0) |> then(&[%{stop: &1, direction: :all}])
 
-        [_], ^affected_branch2 ->
+        [_], [^affected_branch2] ->
           stops |> Enum.at(1) |> then(&[%{stop: &1, direction: :all}])
 
         [_, _], _ ->
