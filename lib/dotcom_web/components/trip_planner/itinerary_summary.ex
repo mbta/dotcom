@@ -33,7 +33,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   attr :itinerary, Itinerary, required: true
   attr :show_accessible, :boolean, default: false
   attr :summarized_legs, :list, doc: "If not provided, will be derived from the itinerary"
-  attr :fares_v2, :any, default: nil
+  attr :fares_v2, :boolean, default: false
 
   def itinerary_summary(assigns) do
     itinerary_fare = fare(assigns.itinerary)
@@ -103,7 +103,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
               class="bg-charcoal-90 text-black p-xs border-charcoal-70 border-xs"
             >
               <p class="font-black">{product_fare.name}</p>
-              {product_fare.usd_price} ({product_fare.medium_name})
+              {product_fare.us_cents} ({product_fare.medium_name})
               <div :if={product_fare.dependencies != []} class="bg-emerald-90 p-xs">
                 <p class="font-black">With prior fare</p>
                 <ul class="px-sm">

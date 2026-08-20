@@ -19,7 +19,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   attr :results, :any
   attr :class, :string, default: ""
   attr :accessible_grouping?, :boolean
-  attr :fares_v2, :any, default: nil
+  attr :fares_v2, :boolean, default: false
 
   def results(assigns) do
     ~H"""
@@ -57,7 +57,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   attr :feedback_url, :string, default: nil
   attr :results, :any
   attr :accessible_grouping?, :boolean
-  attr :fares_v2, :any, default: nil
+  attr :fares_v2, :boolean, default: false
 
   defp itinerary_panel(%{results: %{loading?: true}} = assigns) do
     ~H"""
@@ -192,7 +192,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   attr :show_accessible, :boolean, default: false
   attr :class, :string, default: ""
   attr :feedback_url, :string, default: nil
-  attr :fares_v2, :any, default: nil
+  attr :fares_v2, :boolean, default: false
 
   defp itinerary_groups(assigns) do
     assigns =
