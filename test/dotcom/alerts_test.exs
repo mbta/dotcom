@@ -417,7 +417,8 @@ defmodule Dotcom.AlertsTest do
       {^route, alert_group} =
         commuter_rail_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
 
-      assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts)
+      assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts),
+             "lists of alerts do not match, do we have an id collision?\n #{alerts |> Enum.map(& &1.id) |> List.to_string()}"
     end
 
     test "does not include currently-active service-impacting alerts" do
