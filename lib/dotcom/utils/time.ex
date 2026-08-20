@@ -385,7 +385,7 @@ defmodule Dotcom.Utils.Time do
     case Cldr.Time.Interval.greatest_difference(time1, time2) do
       {:error, :no_practical_difference} ->
         start_string = format!(time1, :hour_12_minutes_no_ampm)
-        end_string = format!(time2, :hour_12_minutes)
+        end_string = format!(time2, :hour_12_minutes) |> String.downcase()
         "#{start_string}\u2009–\u2009#{end_string}"
 
       _ ->
