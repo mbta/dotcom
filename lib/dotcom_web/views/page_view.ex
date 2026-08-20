@@ -93,9 +93,11 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  def shortcut_icons do
-    [:commuter_rail, :subway, :bus, :ferry, :the_ride]
-    |> Enum.map(&shortcut_icon/1)
+  def shortcut_icons(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :shortcut_icons, locale}, fn ->
+      [:commuter_rail, :subway, :bus, :ferry, :the_ride]
+      |> Enum.map(&shortcut_icon/1)
+    end)
   end
 
   @spec shortcut_icon(atom) :: Phoenix.HTML.Safe.t()
@@ -112,15 +114,10 @@ defmodule DotcomWeb.PageView do
   end
 
   @spec shortcut_link(atom) :: String.t()
-  defp shortcut_link(:stations), do: stop_path(DotcomWeb.Endpoint, :index)
-
-  defp shortcut_link(:the_ride),
-    do: cms_static_page_path(DotcomWeb.Endpoint, "/accessibility/the-ride")
-
-  defp shortcut_link(:commuter_rail),
-    do: schedule_path(DotcomWeb.Endpoint, :show, :"commuter-rail")
-
-  defp shortcut_link(mode), do: schedule_path(DotcomWeb.Endpoint, :show, mode)
+  defp shortcut_link(:stations), do: "/stops"
+  defp shortcut_link(:the_ride), do: "/accessibility/the-ride"
+  defp shortcut_link(:commuter_rail), do: "/schedules/commuter-rail"
+  defp shortcut_link(mode), do: "/schedules/#{mode}"
 
   @spec shortcut_text(atom) :: [Phoenix.HTML.Safe.t()]
   defp shortcut_text(:stations) do
@@ -234,5 +231,19 @@ defmodule DotcomWeb.PageView do
       )
     end)
     |> Phoenix.HTML.raw()
+  end
+
+  def important_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :important_links, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_important_links.html", %{})}
+    end)
+  end
+
+  def top_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :top_links, locale}, fn ->
+      {:safe,
+       ["_find_a_location.html", "_fares_passes.html", "_contact_us.html"]
+       |> Enum.map(&Phoenix.View.render_to_iodata(DotcomWeb.PageView, &1, %{}))}
+    end)
   end
 end

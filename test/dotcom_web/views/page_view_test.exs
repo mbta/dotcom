@@ -42,7 +42,7 @@ defmodule DotcomWeb.PageViewTest do
 
   describe "shortcut_icons/0" do
     test "renders shortcut icons" do
-      icons = PageView.shortcut_icons()
+      icons = PageView.shortcut_icons("en")
       assert length(icons) == 5
 
       icon =

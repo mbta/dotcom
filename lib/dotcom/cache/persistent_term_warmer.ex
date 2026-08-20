@@ -27,6 +27,9 @@ defmodule Dotcom.Cache.PersistentTermWarmer do
         DotcomWeb.LayoutView.contact_numbers(code)
         DotcomWeb.LayoutView.footer_links(code)
         DotcomWeb.LayoutView.footer_social_links(code)
+        DotcomWeb.PageView.shortcut_icons(code)
+        DotcomWeb.PageView.important_links(code)
+        DotcomWeb.PageView.top_links(code)
       end)
     end
     |> Task.await_many()
