@@ -74,5 +74,17 @@
       <% end %>
     </div>
   </div>
-  {render("_new_nav_mobile.html", assigns)}
+  <nav class="m-menu--mobile" id="navmenu" aria-label={~t(Navigation Menu)}>
+    <div class="m-menu__content" data-nav="fullscreen-menu-content">
+      {mobile_menu(@locale)}
+      <div
+        :if={!Laboratory.enabled?(@conn, :use_smartling_translations)}
+        class="m-menu__language m-menu__section"
+      >
+      </div>
+    </div>
+    <div class="m-menu__search" data-nav="search">
+      <.algolia_autocomplete id="header-mobile" config_type="basic-config" />
+    </div>
+  </nav>
 </header>
