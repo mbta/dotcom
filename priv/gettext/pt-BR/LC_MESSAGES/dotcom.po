@@ -1031,6 +1031,8 @@ msgstr "Contato"
 msgid "Contact Us"
 msgstr "Contate-nos"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Contact numbers"
@@ -2681,6 +2683,8 @@ msgstr "Mais de "
 msgid "Most Direct"
 msgstr "Mais direto"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -2694,7 +2698,7 @@ msgstr "A maioria, mas não todos, dos píer MBTA são acessíveis a passageiros
 " a viagem, você poderá encontrar declives acentuados e passarelas estreitas, mesmo em locais acessíveis. Em todas as situações, espere até que um membro"
 " da tripulação diga que é seguro prosseguir."
 
-#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Navigation Menu"
 msgstr "Menu de navegação"

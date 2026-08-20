@@ -81,7 +81,7 @@ defmodule DotcomWeb.LayoutView do
     [
       %{
         menu_section: ~t(Transit),
-        link: ~p"/menu#Transit-section",
+        link: "/menu#Transit-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Modes of Transit),
@@ -119,7 +119,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: ~t(Fares),
-        link: ~p"/menu#Fares-section",
+        link: "/menu#Fares-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Fares Info),
@@ -155,7 +155,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: ~t(Contact),
-        link: ~p"/menu#Contact-section",
+        link: "/menu#Contact-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Customer Support),
@@ -185,7 +185,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: ~t(About),
-        link: ~p"/menu#About-section",
+        link: "/menu#About-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Get to Know Us),
@@ -362,6 +362,25 @@ defmodule DotcomWeb.LayoutView do
   def footer_social_links(locale_code) do
     Util.get_or_save_persistent_term({__MODULE__, :footer_social_links, locale_code}, fn ->
       {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_footer_social_links.html", %{})}
+    end)
+  end
+
+  def mobile_menu(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :mobile_menu, locale}, fn ->
+      {:safe,
+       Phoenix.View.render_to_iodata(DotcomWeb.LayoutView, "_new_nav_mobile.html", %{
+         conn: %Plug.Conn{},
+         locale: locale
+       })}
+    end)
+  end
+
+  def desktop_menu(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :desktop_menu, locale}, fn ->
+      {:safe,
+       Phoenix.View.render_to_iodata(DotcomWeb.LayoutView, "_new_nav_desktop.html", %{
+         locale: locale
+       })}
     end)
   end
 end

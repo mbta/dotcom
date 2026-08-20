@@ -1,63 +1,60 @@
-<nav id="navmenu-dropdown" class="m-menu--dropdown" aria-label="Main">
-  <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content do %>
-    <a
-      class="m-menu--dropdown__toggle"
-      href={"#{ href }"}
-      data-nav="toggle-dropdown-nav"
-      role="button"
-      aria-expanded="false"
-      aria-controls={"#{ to_camelcase(name) }"}
-    >
-      {name}
-      <span class="c-indicator--angle"></span>
-    </a>
+<%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.nav_link_content() do %>
+  <a
+    class="m-menu--dropdown__toggle"
+    href={href}
+    data-nav="toggle-dropdown-nav"
+    role="button"
+    aria-expanded="false"
+    aria-controls={to_camelcase(name)}
+  >
+    {name}
+    <span class="c-indicator--angle"></span>
+  </a>
 
-    <div class="m-menu--dropdown__menu">
-      <div class="container">
-        <div id={"#{ to_camelcase(name) }"}>
-          <div
-            class={"m-menu-dropdown__section #{ to_camelcase(name) }"}
-            data-nav="dropdown-section"
-          >
-            <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
-              <div class="m-menu__section-heading">
-                {section_name}
-              </div>
-              <div class="m-menu-dropdown__submenu-section" aria-label={"#{ section_name }"}>
-                {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
-                <%= if section_name == "Transit Police" do %>
-                  <div class="m-menu__feature emergency-contacts dropdown">
-                    <div class="m-menu__section-heading">{~t(Emergency Contacts)}</div>
-                    <small>{~t(24 hours, 7 days a week)}</small>
-                    <div class="m-menu__feature_phone">
-                      <strong>{~t(Transit Police)}:</strong> {tel_link("617-222-1212")}
-                    </div>
-                    <div class="m-menu__feature_phone">
-                      <strong>TTY:</strong> {tel_link("711")}
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-            <%= for %{sub_menu_section: special_section} <- sub_menus do %>
-              <%= if special_section == "Most popular fares" do %>
-                <div class="m-menu-dropdown__section-feature">
-                  {render("_new_nav_popular_fares.html")}
+  <div class="m-menu--dropdown__menu">
+    <div class="container">
+      <div id={to_camelcase(name)}>
+        <div
+          class={"m-menu-dropdown__section #{to_camelcase(name)}"}
+          data-nav="dropdown-section"
+        >
+          <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
+            <div class="m-menu__section-heading">
+              {section_name}
+            </div>
+            <div class="m-menu-dropdown__submenu-section" aria-label={section_name}>
+              {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
+              <div
+                :if={section_name == ~t"Transit Police"}
+                class="m-menu__feature emergency-contacts dropdown"
+              >
+                <div class="m-menu__section-heading">{~t(Emergency Contacts)}</div>
+                <small>{~t(24 hours, 7 days a week)}</small>
+                <div class="m-menu__feature_phone">
+                  <strong>{~t(Transit Police)}:</strong> {tel_link("617-222-1212")}
                 </div>
-              <% end %>
-
-              <%= if special_section == "Contact numbers" do %>
-                <div class="m-menu-dropdown__section-feature">
-                  {contact_numbers(@locale)}
+                <div class="m-menu__feature_phone">
+                  <strong>TTY:</strong> {tel_link("711")}
                 </div>
-              <% end %>
-            <% end %>
-          </div>
+              </div>
+            </div>
+          <% end %>
+          <%= for %{sub_menu_section: special_section} <- sub_menus do %>
+            <div
+              :if={special_section == ~t"Most popular fares"}
+              class="m-menu-dropdown__section-feature"
+            >
+              {render("_new_nav_popular_fares.html")}
+            </div>
+            <div
+              :if={special_section == ~t"Contact numbers"}
+              class="m-menu-dropdown__section-feature"
+            >
+              {contact_numbers(@locale)}
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
-  <% end %>
-  <%= if !Laboratory.enabled?(@conn, :use_smartling_translations) do %>
-    <div class="m-menu__language"></div>
-  <% end %>
-</nav>
+  </div>
+<% end %>
