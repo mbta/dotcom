@@ -4,25 +4,14 @@ defmodule Dotcom.SystemStatus.Subway do
   widget. See `Dotcom.SystemStatus` for more information.
   """
 
-  import Dotcom.Alerts, only: [route_alert?: 2, systemwide_mode_alert?: 2]
+  import Dotcom.Alerts, only: [route_alert?: 2, subheading_data: 1, systemwide_mode_alert?: 2]
   alias Alerts.Alert
-
-  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
-  @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
-
-  @type affected_stop_t() :: Dotcom.Alerts.AffectedStops.Behaviour.affected_stop_t()
-
-  @type endpoint_t() :: Dotcom.Alerts.EndpointStops.Behaviour.endpoint_t()
 
   @type status_time() :: :current | {:future, DateTime.t()}
 
   @type status_t() :: :normal | Dotcom.Alerts.service_effect_t()
 
-  @type subheading_data_t() ::
-          {:affected_stops, [affected_stop_t()]}
-          | {:endpoint_stops, [{endpoint_t(), endpoint_t()}]}
-          | {:delay}
-          | nil
+  @type subheading_data_t() :: Dotcom.Alerts.subheading_data_t()
 
   @type status_entry() :: %{
           alerts: [Alert.t()],
@@ -147,30 +136,6 @@ defmodule Dotcom.SystemStatus.Subway do
     |> Map.new(fn line ->
       {line, nested_statuses_for_line(line, alerts |> filter_stale_alerts(), time)}
     end)
-  end
-
-  # Additional information required to compute the subheading for a status entry.
-  # - {:affected_stops, [affected_stop_t()]} if the status is a station closure
-  # - {:endpoint_stops, [{endpoint_t(), endpoint_t()}]} if the status is a service change
-  # - {:delay} if the status is a delay
-  # - nil if there is no data
-  @spec subheading_data(status: atom(), alerts: [Alert.t()], route_ids: [Routes.Route.id_t()]) ::
-          subheading_data_t()
-  def subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids) do
-    {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
-  end
-
-  def subheading_data(status: :delay, alerts: _alerts, route_ids: _route_ids) do
-    {:delay}
-  end
-
-  def subheading_data(status: status, alerts: alerts, route_ids: route_ids)
-      when status in [:service_change, :shuttle, :single_tracking, :suspension] do
-    {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
-  end
-
-  def subheading_data(status: _status, alerts: _alerts, route_ids: _route_ids) do
-    nil
   end
 
   @spec add_subheading_data(status_entry(), [Routes.Route.id_t()]) :: status_entry()

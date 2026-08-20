@@ -5,7 +5,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   use DotcomWeb, :component
 
-  import Dotcom.SystemStatus.Subway, only: [subheading_data: 1]
+  import Dotcom.Alerts, only: [subheading_data: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]

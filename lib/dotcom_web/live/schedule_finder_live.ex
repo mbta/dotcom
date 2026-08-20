@@ -8,7 +8,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   import CSSHelpers
   import DotcomWeb.Components.Alerts
-  import Dotcom.SystemStatus.Subway, only: [subheading_data: 1]
+  import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 

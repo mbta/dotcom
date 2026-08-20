@@ -5,8 +5,8 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   use DotcomWeb, :component
 
+  import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Routes, only: [line_name_for_subway_route: 1, subway_line_ids: 0]
-  import Dotcom.SystemStatus.Subway, only: [subheading_data: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 1, service_range_string: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
