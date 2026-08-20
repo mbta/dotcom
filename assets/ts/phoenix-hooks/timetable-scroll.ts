@@ -30,8 +30,12 @@ const TimetableScroll: Partial<ViewHook> = {
           if (timetable) {
             const startingScroll = timetable.scrollLeft();
 
+            const maxScrollLeft =
+              timetable[0].scrollWidth - timetable[0].clientWidth - 1;
+            const scrollDestination = startingScroll + 100 * scrollDirection;
+
             timetable.animate(
-              { scrollLeft: startingScroll + 100 * scrollDirection },
+              { scrollLeft: Math.min(scrollDestination, maxScrollLeft) },
               {
                 duration: 200,
                 step: () => {
