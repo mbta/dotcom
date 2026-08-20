@@ -2696,7 +2696,7 @@ msgstr "La mayoría, pero no todas, las muelles de la MBTA son accesibles para p
 " para viajar, puedes encontrar pendientes significativas y corredores estrechos, incluso en muellers accesibles. En absoluto, mulas, espera a que un afiliado"
 " a la tripulación te diga que es seguro continuar."
 
-#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Navigation Menu"
 msgstr "Menú de navegación"

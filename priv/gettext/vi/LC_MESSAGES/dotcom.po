@@ -2689,7 +2689,7 @@ msgstr "Hầu hết, nhưng không phải tất cả, MBTA bến tàu đều có
 " dụng để đi lại, bạn có thể gặp phải những con dốc đáng kể và lối đi hẹp, ngay cả tại có thể tiếp cận được bến tàu. Tại tất cả các bến tàu, hãy đợi cho"
 " đến khi một thành viên thủy thủ đoàn nói với bạn rằng có thể tiếp tục an toàn."
 
-#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Navigation Menu"
 msgstr "Menu điều hướng"
