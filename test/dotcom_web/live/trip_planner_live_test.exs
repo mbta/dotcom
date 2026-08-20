@@ -578,6 +578,35 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       assert rendered_time_range(view) ==
                "#{pretty_time(start_time)} pm\u2009–\u2009#{pretty_time(end_time)} am +1"
     end
+
+    test "renders time range as 'h:mm - h:mm am/pm' if both times are within the minute", %{
+      view: view
+    } do
+      start_time =
+        Generators.DateTime.random_date_time()
+        |> Map.update!(:second, fn _ -> 0 end)
+        |> Map.update!(:hour, fn hour ->
+          if hour > 12 do
+            hour - 12
+          else
+            hour
+          end
+        end)
+
+      end_time = start_time |> DateTime.add(Enum.random(1..58))
+
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, [itinerary_group_with_time_range(start_time, end_time)]}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      assert rendered_time_range(view) ==
+               "#{pretty_time(start_time)}\u2009–\u2009#{pretty_time(end_time)} am"
+    end
   end
 
   defp itinerary_group_with_time_range(start_time, end_time) do
