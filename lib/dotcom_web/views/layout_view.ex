@@ -364,4 +364,13 @@ defmodule DotcomWeb.LayoutView do
       {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_footer_social_links.html", %{})}
     end)
   end
+
+  def desktop_menu(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :desktop_menu, locale}, fn ->
+      {:safe,
+       Phoenix.View.render_to_iodata(DotcomWeb.LayoutView, "_new_nav_desktop.html", %{
+         locale: locale
+       })}
+    end)
+  end
 end
