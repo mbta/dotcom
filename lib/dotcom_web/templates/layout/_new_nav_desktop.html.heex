@@ -25,7 +25,7 @@
             <div class="m-menu-dropdown__submenu-section" aria-label={section_name}>
               {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
               <div
-                :if={section_name == "Transit Police"}
+                :if={section_name == ~t"Transit Police"}
                 class="m-menu__feature emergency-contacts dropdown"
               >
                 <div class="m-menu__section-heading">{~t(Emergency Contacts)}</div>
@@ -41,13 +41,13 @@
           <% end %>
           <%= for %{sub_menu_section: special_section} <- sub_menus do %>
             <div
-              :if={special_section == "Most popular fares"}
+              :if={special_section == ~t"Most popular fares"}
               class="m-menu-dropdown__section-feature"
             >
               {render("_new_nav_popular_fares.html")}
             </div>
             <div
-              :if={special_section == "Contact numbers"}
+              :if={special_section == ~t"Contact numbers"}
               class="m-menu-dropdown__section-feature"
             >
               {contact_numbers(@locale)}
