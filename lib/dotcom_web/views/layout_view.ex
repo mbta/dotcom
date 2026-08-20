@@ -365,6 +365,16 @@ defmodule DotcomWeb.LayoutView do
     end)
   end
 
+  def mobile_menu(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :mobile_menu, locale}, fn ->
+      {:safe,
+       Phoenix.View.render_to_iodata(DotcomWeb.LayoutView, "_new_nav_mobile.html", %{
+         conn: %Plug.Conn{},
+         locale: locale
+       })}
+    end)
+  end
+
   def desktop_menu(locale) do
     Util.get_or_save_persistent_term({__MODULE__, :desktop_menu, locale}, fn ->
       {:safe,
