@@ -388,11 +388,13 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     end
   end
 
-  defp visit_with_valid_params(conn, route_types \\ [0, 1, 2, 3, 4]) do
-    route_id = FactoryHelpers.build(:id)
-    direction_id = FactoryHelpers.build(:direction_id)
-    stop_id = FactoryHelpers.build(:id)
-
+  defp visit_with_set_params(
+         conn,
+         route_id,
+         direction_id,
+         stop_id,
+         route_types \\ [0, 1, 2, 3, 4]
+       ) do
     stub(Routes.Repo.Mock, :get, fn _ ->
       Factories.Routes.Route.build(:route, %{id: route_id, type: Faker.Util.pick(route_types)})
     end)
@@ -440,5 +442,13 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       )
 
     live(conn, path, on_error: :warn)
+  end
+
+  defp visit_with_valid_params(conn, route_types \\ [0, 1, 2, 3, 4]) do
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = FactoryHelpers.build(:id)
+
+    visit_with_set_params(conn, route_id, direction_id, stop_id, route_types)
   end
 end
