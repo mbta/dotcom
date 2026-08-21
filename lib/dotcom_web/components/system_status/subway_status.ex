@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   use DotcomWeb, :component
 
+  import Dotcom.Alerts, only: [subheading_data: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
   import DotcomWeb.Components.SystemStatus.StatusRowHeading, only: [status_row_heading: 1]
@@ -68,7 +69,23 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   end
 
   defp alerts_page_row(%{row: %{alerts: [alert]}} = assigns) do
-    assigns = assigns |> assign(:alert, alert)
+    # Override the pseudo-combined subheading_data with the specific data for this alert
+    subheading_data =
+      subheading_data(
+        status: alert.effect,
+        alerts: [alert],
+        route_ids: [assigns.row.route_info.route_id]
+      )
+
+    assigns =
+      assigns
+      |> assign(%{
+        alert: alert,
+        row: %{
+          assigns.row
+          | status_entry: %{assigns.row.status_entry | subheading_data: subheading_data}
+        }
+      })
 
     ~H"""
     <.unstyled_accordion
@@ -101,6 +118,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
       prefix={@row.status_entry.prefix}
       plural={@row.status_entry.plural}
       future={@row.status_entry.future}
+      subheading_data={@row.status_entry.subheading_data}
       route_ids={[@row.route_info.route_id | @row.route_info.branch_ids]}
     />
     """
@@ -192,13 +210,35 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   end
 
   defp combine_status_entries(
-         %{status: status1, prefix: prefix1, future: future1},
-         %{status: status2, prefix: prefix2, future: future2}
+         %{status: status1, prefix: prefix1, future: future1} = status_entry1,
+         %{status: status2, prefix: prefix2, future: future2} = status_entry2
        )
        when status1 == status2 and prefix1 == prefix2 and future1 == future2,
-       do: %{status: status1, prefix: prefix1, plural: true, future: future1}
+       do: %{
+         status: status1,
+         prefix: prefix1,
+         plural: true,
+         future: future1,
+         subheading_data:
+           combine_subheading_data(
+             Map.get(status_entry1, :subheading_data),
+             Map.get(status_entry2, :subheading_data)
+           )
+       }
 
   defp combine_status_entries(_status_entry1, _status_entry2), do: see_alerts_status()
+
+  defp combine_subheading_data({:affected_stops, stops1}, {:affected_stops, stops2}),
+    do: {:affected_stops, stops1 ++ stops2}
+
+  defp combine_subheading_data({:endpoint_stops, endpoints1}, {:endpoint_stops, endpoints2}),
+    do: {:endpoint_stops, endpoints1 ++ endpoints2}
+
+  defp combine_subheading_data({:delay}, {:delay}), do: {:delay}
+  defp combine_subheading_data(data1, nil), do: data1
+  defp combine_subheading_data(nil, data2), do: data2
+  # Default to taking neither
+  defp combine_subheading_data(_data1, _data2), do: nil
 
   defp add_url(row) do
     route_id = route_id_from_route_info(row.route_info)
@@ -244,7 +284,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
           status: :normal,
           plural: false,
           prefix: nil,
-          future: false
+          future: false,
+          subheading_data: nil
         },
         style: %{
           hide_route_pill: true
@@ -267,7 +308,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
               status: alert.effect,
               plural: false,
               prefix: prefix,
-              future: future?(status_entry)
+              future: future?(status_entry),
+              subheading_data: status_entry.subheading_data
             },
             style: %{
               hide_route_pill: true
@@ -287,7 +329,8 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
             status: status,
             plural: multiple,
             prefix: prefix,
-            future: future?(status_entry)
+            future: future?(status_entry),
+            subheading_data: status_entry.subheading_data
           },
           style: %{
             hide_route_pill: true
@@ -324,5 +367,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp prefix(%{time: :current}), do: ~t"Now"
   defp prefix(%{time: {:future, time}}), do: Util.narrow_time(time)
 
-  defp see_alerts_status(), do: %{status: :see_alerts, prefix: nil, plural: false, future: false}
+  defp see_alerts_status(),
+    do: %{status: :see_alerts, prefix: nil, plural: false, future: false, subheading_data: nil}
 end

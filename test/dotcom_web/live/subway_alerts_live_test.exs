@@ -28,6 +28,7 @@ defmodule DotcomWeb.SubwayAlertsLiveTest do
     stub(Alerts.Repo.Mock, :banner, fn -> nil end)
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Alerts.Repo.Mock, :by_route_types, fn _, _ -> [] end)
+    stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
     stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
     stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
