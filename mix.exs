@@ -128,7 +128,7 @@ defmodule DotCom.Mixfile do
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.2.0", only: [:dev, :test]},
       {:excoveralls, "0.18.5", only: :test},
-      {:faker, "0.19.0-alpha.1", override: true},
+      {:faker, "0.19.0"},
       {:floki, "0.38.0"},
       {:flame_on, "~> 1.0", only: [:dev]},
       {:gen_stage, "1.3.2"},
