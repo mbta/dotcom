@@ -48,5 +48,5 @@ jobs:
           echo "## Crawler results" >> $GITHUB_STEP_SUMMARY
           echo "Compare against current [known broken links (link TBA)]()"
           echo "\`\`\`shell" >> $GITHUB_STEP_SUMMARY
-          $HOME/.mix/escripts/crawler ${url} --num-workers 3 --sleep 250 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | tee -a $GITHUB_STEP_SUMMARY
+          $HOME/.mix/escripts/crawler ${url} --num-workers 3 --sleep 350 2>&1 | sed 's/\x1b\[[0-9;]*m//g' | tee -a $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
