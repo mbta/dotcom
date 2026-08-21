@@ -70,21 +70,24 @@ defmodule Dotcom.ServicePatternsTest do
       assert patterns_for_route(route_id) == []
     end
 
-    test "renames (no school) typical services" do
+    test "does not rename (no school) typical services" do
       route_id = FactoryHelpers.build(:id)
 
+      no_school_service =
+        build(:service,
+          date: service_date(),
+          description: "Weekdays (no school)",
+          typicality: :typical_service,
+          type: :weekday
+        )
+
       expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        [
-          build(:service,
-            date: service_date(),
-            description: "Weekdays (no school)",
-            typicality: :typical_service,
-            type: :weekday
-          )
-        ]
+        [no_school_service]
       end)
 
-      assert [%{service_label: {:typical, :weekday, "Weekday schedules"}}] =
+      description = no_school_service.description
+
+      assert [%{service_label: {:typical_service, _, ^description}}] =
                patterns_for_route(route_id)
     end
 
