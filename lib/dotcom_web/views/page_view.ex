@@ -21,7 +21,7 @@ defmodule DotcomWeb.PageView do
               opts: [ttl: :timer.minutes(1)],
               key: {"homepage|alerts-tab", locale}
             )
-  @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
+  @spec alerts(%{alerts: [Alerts.Alert.t()], locale: String.t()}) :: Phoenix.HTML.Safe.t()
   def alerts(%{alerts: alerts, locale: locale}) do
     [routes, stops] =
       [
