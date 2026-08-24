@@ -19,10 +19,10 @@ defmodule DotcomWeb.PageView do
               cache: @cache,
               on_error: :raise,
               opts: [ttl: :timer.minutes(1)],
-              key: {"homepage|alerts-tab", assigns.locale}
+              key: {"homepage|alerts-tab", locale}
             )
   @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
-  def alerts(%{alerts: alerts, locale: locale} = assigns) do
+  def alerts(%{alerts: alerts, locale: locale}) do
     [routes, stops] =
       [
         &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
