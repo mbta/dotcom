@@ -19,6 +19,9 @@ defmodule Dotcom.AlertsTest do
       Dotcom.Utils.DateTime.now()
     end)
 
+    Mox.stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
+    Mox.stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
+
     :ok
   end
 
@@ -309,6 +312,63 @@ defmodule Dotcom.AlertsTest do
     end
   end
 
+  describe "subheading_data" do
+    test "returns affected_stops subheading data for station closure" do
+      # Setup
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+      route_ids = [Faker.App.name()]
+
+      # Exercise
+      result =
+        subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids)
+
+      # Verify
+      assert match?({:affected_stops, _}, result)
+    end
+
+    test "returns delay subheading data for delay status" do
+      # Setup
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+
+      # Exercise
+      result = subheading_data(status: :delay, alerts: alerts, route_ids: [])
+
+      # Verify
+      assert result == {:delay}
+    end
+
+    test "returns endpoint_stops subheading data for service_change, shuttle, single_tracking, and suspension with route_ids" do
+      # Setup
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+      endpoint_statuses = [:service_change, :shuttle, :single_tracking, :suspension]
+      route_ids = [Faker.App.name()]
+      status = Faker.Util.pick(endpoint_statuses)
+
+      # Exercise
+      result = subheading_data(status: status, alerts: alerts, route_ids: route_ids)
+
+      # Verify
+      assert match?({:endpoint_stops, _}, result)
+    end
+
+    test "returns nil for statuses that don't have associated subheading text" do
+      # Setup
+      non_subheading_statuses =
+        @service_impacting_effects --
+          [:station_closure, :delay, :service_change, :shuttle, :single_tracking, :suspension]
+
+      status = Faker.Util.pick(non_subheading_statuses)
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+      route_ids = [Faker.App.name()]
+
+      # Exercise
+      result = subheading_data(status: status, alerts: alerts, route_ids: route_ids)
+
+      # Verify
+      assert result == nil
+    end
+  end
+
   describe "commuter_rail_alert_groups/0" do
     setup do
       stub(Alerts.Repo.Mock, :banner, fn -> nil end)
@@ -417,7 +477,8 @@ defmodule Dotcom.AlertsTest do
       {^route, alert_group} =
         commuter_rail_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
 
-      assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts)
+      assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts),
+             "lists of alerts do not match, do we have an id collision?\n #{alerts |> Enum.map(& &1.id) |> List.to_string()}"
     end
 
     test "does not include currently-active service-impacting alerts" do

@@ -4,9 +4,51 @@ config:
     timeout: 300
     maxSockets: 500
   phases:
-    - name: "Sustained high-load test"
-      duration: 300
+    - name: "10 req / sec"
+      duration: 120
+      arrivalRate: 10
+    - name: "Rest"
+      pause: 180
+
+    - name: "20 req / sec"
+      duration: 120
+      arrivalRate: 20
+    - name: "Rest"
+      pause: 180
+
+    - name: "50 req / sec"
+      duration: 120
+      arrivalRate: 50
+    - name: "Rest"
+      pause: 180
+
+    - name: "100 req / sec"
+      duration: 120
       arrivalRate: 100
+    - name: "Rest"
+      pause: 180
+
+    - name: "200 req / sec"
+      duration: 120
+      arrivalRate: 200
+    - name: "Rest"
+      pause: 180
+
+    - name: "500 req / sec"
+      duration: 120
+      arrivalRate: 500
+    - name: "Rest"
+      pause: 180
+
+    - name: "1k req / sec"
+      duration: 120
+      arrivalRate: 1000
+    - name: "Rest"
+      pause: 180
+
+    - name: "2k req / sec"
+      duration: 120
+      arrivalRate: 2000
   environments:
     dev-green:
       target: "https://dev-green.mbtace.com"
@@ -15,8 +57,5 @@ config:
 scenarios:
   - name: "Stress test single page"
     flow:
-      - loop:
-          - get:
-              url: "/"
-          - think: 1
-        count: 100
+      - get:
+          url: "/"

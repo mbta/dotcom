@@ -19,6 +19,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   attr :results, :any
   attr :class, :string, default: ""
   attr :accessible_grouping?, :boolean
+  attr :fares_v2, :boolean, default: false
 
   def results(assigns) do
     ~H"""
@@ -46,6 +47,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           results={@results}
           accessible_grouping?={@accessible_grouping?}
           feedback_url={@feedback_url}
+          fares_v2={@fares_v2}
         />
       </div>
     </section>
@@ -55,6 +57,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   attr :feedback_url, :string, default: nil
   attr :results, :any
   attr :accessible_grouping?, :boolean
+  attr :fares_v2, :boolean, default: false
 
   defp itinerary_panel(%{results: %{loading?: true}} = assigns) do
     ~H"""
@@ -73,6 +76,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
     <.itinerary_groups
       feedback_url={@feedback_url}
       indexed_groups={Enum.with_index(@results.itinerary_groups)}
+      fares_v2={@fares_v2}
     />
     """
   end
@@ -123,19 +127,20 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         class="mb-md"
         show_accessible
         feedback_url={@feedback_url}
+        fares_v2={@fares_v2}
       />
     <% end %>
     <%= if @accessible_count > 0 do %>
       <.group_header text={
         ~t(1 Accessible Route | %{count} Accessible Routes | #{@accessible_count})p
       } />
-      <.itinerary_groups indexed_groups={@accessible_groups} show_accessible />
+      <.itinerary_groups indexed_groups={@accessible_groups} show_accessible fares_v2={@fares_v2} />
     <% end %>
     <%= if @inaccessible_count > 0 do %>
       <.group_header text={
         ~t(1 Inaccessible Route | %{count} Inaccessible Routes | #{@inaccessible_count})p
       } />
-      <.itinerary_groups indexed_groups={@inaccessible_groups} show_accessible />
+      <.itinerary_groups indexed_groups={@inaccessible_groups} show_accessible fares_v2={@fares_v2} />
     <% end %>
     """
   end
@@ -187,6 +192,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
   attr :show_accessible, :boolean, default: false
   attr :class, :string, default: ""
   attr :feedback_url, :string, default: nil
+  attr :fares_v2, :boolean, default: false
 
   defp itinerary_groups(assigns) do
     assigns =
@@ -203,6 +209,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           index={index}
           show_accessible={@show_accessible}
           feedback_url={@feedback_url}
+          fares_v2={@fares_v2}
         />
       </div>
     </div>
@@ -274,6 +281,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
         summarized_legs={@group.summary}
         itinerary={@group.representative_itinerary}
         show_accessible={@show_accessible}
+        fares_v2={@fares_v2}
       />
       <div class="flex justify-end items-center mt-3">
         <div :if={@group.alternatives_text} class="grow text-sm text-grey-dark">

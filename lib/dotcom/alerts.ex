@@ -16,6 +16,12 @@ defmodule Dotcom.Alerts do
   @routes_repo_module Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
+  @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
+
+  @type affected_stop_t() :: Dotcom.Alerts.AffectedStops.Behaviour.affected_stop_t()
+
+  @type endpoint_t() :: Dotcom.Alerts.EndpointStops.Behaviour.endpoint_t()
 
   @type diversion_effect_t() ::
           :detour | :service_change | :shuttle | :station_closure | :stop_closure | :suspension
@@ -33,6 +39,12 @@ defmodule Dotcom.Alerts do
           | :station_closure
           | :stop_closure
           | :suspension
+
+  @type subheading_data_t() ::
+          {:affected_stops, [affected_stop_t()]}
+          | {:endpoint_stops, [{endpoint_t(), endpoint_t()}]}
+          | {:delay}
+          | nil
 
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
@@ -135,6 +147,30 @@ defmodule Dotcom.Alerts do
     |> @routes_repo_module.by_type()
     |> with_alert_lists(non_banner_alerts)
     |> drop_empty_groups()
+  end
+
+  # Additional information required to compute the subheading for a status entry.
+  # - {:affected_stops, [affected_stop_t()]} if the status is a station closure
+  # - {:endpoint_stops, [{endpoint_t(), endpoint_t()}]} if the status is a service change
+  # - {:delay} if the status is a delay
+  # - nil if there is no data
+  @spec subheading_data(status: atom(), alerts: [Alert.t()], route_ids: [Routes.Route.id_t()]) ::
+          subheading_data_t()
+  def subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids) do
+    {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
+  end
+
+  def subheading_data(status: :delay, alerts: _alerts, route_ids: _route_ids) do
+    {:delay}
+  end
+
+  def subheading_data(status: status, alerts: alerts, route_ids: route_ids)
+      when status in [:service_change, :shuttle, :single_tracking, :suspension] do
+    {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
+  end
+
+  def subheading_data(status: _status, alerts: _alerts, route_ids: _route_ids) do
+    nil
   end
 
   @spec commuter_rail_alert_groups() :: [{Route.t(), [Alert.t()]}]

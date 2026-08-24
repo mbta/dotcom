@@ -284,6 +284,7 @@ defmodule Dotcom.ServicePatterns do
          service: %Service{typicality: :typical_service} = service
        }) do
     typical_groups = [
+      {:no_school, nil, fn s -> s.description =~ "(no school)" end},
       {:monday_thursday, ~t"Monday - Thursday schedules",
        fn s ->
          s.type == :weekday &&
@@ -300,8 +301,14 @@ defmodule Dotcom.ServicePatterns do
     ]
 
     case Enum.find(typical_groups, fn {_, _, func} -> func.(service) end) do
-      {key, label, _} -> {:typical, key, label}
-      _ -> {service.typicality, List.first(dates), service.description}
+      {:no_school, _, _} ->
+        {service.typicality, List.first(dates), service.description}
+
+      {key, label, _} ->
+        {:typical, key, label}
+
+      _ ->
+        {service.typicality, List.first(dates), service.description}
     end
   end
 

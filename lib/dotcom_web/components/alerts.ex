@@ -77,6 +77,7 @@ defmodule DotcomWeb.Components.Alerts do
             alerts={[alert]}
             route_ids={MapSet.to_list(alert.informed_entity.route)}
             status={alert.effect}
+            subheading_data={alert.subheading_data}
           />
         </:heading>
         <:content>

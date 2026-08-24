@@ -5,6 +5,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
 
   use DotcomWeb, :component
 
+  import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Routes, only: [line_name_for_subway_route: 1, subway_line_ids: 0]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 1, service_range_string: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
@@ -91,7 +92,14 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       assigns.alert
       |> format_date_range_for_alert()
 
-    assigns = assign(assigns, time_range_str: time_range_str)
+    subheading_data =
+      subheading_data(
+        status: assigns.alert.effect,
+        alerts: [assigns.alert],
+        route_ids: assigns.route_ids
+      )
+
+    assigns = assign(assigns, %{time_range_str: time_range_str, subheading_data: subheading_data})
 
     ~H"""
     <.status_row_heading
@@ -100,6 +108,7 @@ defmodule DotcomWeb.Components.PlannedDisruptions do
       prefix={@time_range_str}
       route_ids={@route_ids}
       status={@alert.effect}
+      subheading_data={@subheading_data}
     />
     """
   end

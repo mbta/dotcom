@@ -1,11 +1,14 @@
-<div class={"m-event__status-message #{ @class }"}>
+<div class={"m-event__status-message #{@class}"}>
   <%= if not @event_started do %>
-    <%= link to: event_icalendar_path(@conn, @path), class: "btn btn-secondary btn-lg m-event__add-button", title: ~t(Add event to calendar), aria_label: gettext("Add %{title} to calendar", %{title: @title}) do %>
+    <a
+      href={event_icalendar_path(@conn, @path)}
+      class="btn btn-secondary btn-lg m-event__add-button"
+      title={~t(Add event to calendar)}
+      aria-label={gettext("Add %{title} to calendar", title: @title)}
+    >
       {fa("calendar-plus-o")}
-      <%= if @class=="list-version" do %>
-        <span class="m-event__add-text">{~t(Add)}</span>
-      <% end %>
-    <% end %>
+      <span :if={@class == "list-version"} class="m-event__add-text">{~t(Add)}</span>
+    </a>
   <% end %>
   <%= if @event_ended do %>
     <%= if @class=="list-version" do %>

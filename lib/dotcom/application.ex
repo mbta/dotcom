@@ -71,6 +71,8 @@ defmodule Dotcom.Application do
 
     :ok = Logster.attach_phoenix_logger()
 
+    _ = Dotcom.Cache.PersistentTermWarmer.warm_homepage()
+
     opts = [strategy: :one_for_one, name: Dotcom.Supervisor]
 
     Supervisor.start_link(children, opts)
