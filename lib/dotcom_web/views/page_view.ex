@@ -249,4 +249,10 @@ defmodule DotcomWeb.PageView do
        |> Enum.map(&Phoenix.View.render_to_iodata(DotcomWeb.PageView, &1, %{}))}
     end)
   end
+
+  def tab_list(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :tab_list, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_tab_list.html", %{})}
+    end)
+  end
 end
