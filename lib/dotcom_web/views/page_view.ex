@@ -15,8 +15,14 @@ defmodule DotcomWeb.PageView do
   alias CMS.Partial.Banner
   alias DotcomWeb.PartialView
 
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: :timer.minutes(1)],
+              key: {"homepage|alerts-tab", assigns.locale}
+            )
   @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
-  def alerts(alerts) do
+  def alerts(%{alerts: alerts, locale: locale} = assigns) do
     [routes, stops] =
       [
         &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
