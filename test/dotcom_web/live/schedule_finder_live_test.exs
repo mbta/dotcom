@@ -235,6 +235,39 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     assert has_element?(view, "section.c-alert-group")
   end
 
+  test "doesn't show stale alerts (on other stops)", %{conn: conn} do
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = FactoryHelpers.build(:id)
+    alert_stop_id = "place-symcl"
+
+    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ ->
+      Factories.Alerts.Alert.build_list(1, :alert_for_informed_entity,
+        informed_entity: %{stop: alert_stop_id},
+        effect: Faker.Util.pick([:station_closure, :stop_closure])
+      )
+    end)
+
+    {:ok, view, _html} = visit_with_set_params(conn, route_id, direction_id, stop_id)
+    assert !has_element?(view, "section.c-alert-group")
+  end
+
+  test "show stale alerts (on proper stop)", %{conn: conn} do
+    route_id = FactoryHelpers.build(:id)
+    direction_id = FactoryHelpers.build(:direction_id)
+    stop_id = "place-symcl"
+
+    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ ->
+      Factories.Alerts.Alert.build_list(1, :alert_for_informed_entity,
+        informed_entity: %{stop: stop_id},
+        effect: Faker.Util.pick([:station_closure, :stop_closure])
+      )
+    end)
+
+    {:ok, view, _html} = visit_with_set_params(conn, route_id, direction_id, stop_id)
+    assert has_element?(view, "section.c-alert-group")
+  end
+
   describe "Daily Departures" do
     test "indicates no service", %{conn: conn} do
       expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)
