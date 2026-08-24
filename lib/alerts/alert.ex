@@ -44,6 +44,8 @@ defmodule Alerts.Alert do
 
   @lifecycles [:new, :ongoing, :ongoing_upcoming, :unknown, :upcoming]
 
+  @symphony_stop_id "place-symcl"
+
   defstruct id: "",
             active_period: [],
             banner: "",
@@ -179,13 +181,11 @@ defmodule Alerts.Alert do
   end
 
   def stale?(%__MODULE__{} = alert) do
-    now = Dotcom.Utils.DateTime.now()
-    five_weeks_ago = DateTime.shift(now, week: -5)
+    affected_stop_ids = alert.informed_entity.stop
+    symphony? = affected_stop_ids |> Enum.member?(@symphony_stop_id)
+    closed? = alert.effect == :station_closure or alert.effect == :stop_closure
 
-    case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
-      {:current, datetime} -> datetime |> DateTime.before?(five_weeks_ago)
-      _ -> false
-    end
+    symphony? and closed?
   end
 
   @spec build_struct(Keyword.t()) :: t()
