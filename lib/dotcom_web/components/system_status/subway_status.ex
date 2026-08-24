@@ -5,9 +5,6 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
 
   use DotcomWeb, :component
 
-  use Nebulex.Caching.Decorators
-  @cache Application.compile_env!(:dotcom, :cache)
-
   import Dotcom.Alerts, only: [subheading_data: 1]
   import DotcomWeb.Components, only: [bordered_container: 1, unstyled_accordion: 1]
   import DotcomWeb.Components.Alerts, only: [embedded_alert: 1]
@@ -17,14 +14,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   @route_ids ["Red", "Orange", "Green", "Blue"]
 
   attr :subway_status, :any, required: true
-  attr :locale, :any, required: true
 
-  @decorate cacheable(
-              cache: @cache,
-              on_error: :raise,
-              opts: [ttl: :timer.minutes(1)],
-              key: fn assigns -> {"homepage|subway-status", assigns.locale} end
-            )
   def homepage_subway_status(assigns) do
     assigns = assigns |> assign(:rows, status_to_rows(assigns.subway_status))
 
