@@ -243,7 +243,7 @@ defmodule DotcomWeb.Components.SystemStatus.SubwayStatus do
   defp add_url(row) do
     route_id = route_id_from_route_info(row.route_info)
     sub_page = if normal?(row.status_entry), do: "line", else: "alerts"
-    row |> put_in([:route_info, :url], ~p"/schedules/#{route_id}/#{sub_page}")
+    row |> put_in([:route_info, :url], "/schedules/#{route_id}/#{sub_page}")
   end
 
   defp normal?(%{status: :normal}), do: true
