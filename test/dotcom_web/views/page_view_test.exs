@@ -123,7 +123,7 @@ defmodule DotcomWeb.PageViewTest do
       ]
 
       rendered =
-        PageView.alerts(alerts)
+        PageView.alerts(%{alerts: alerts, locale: "en-us"})
         |> Phoenix.HTML.Safe.to_iodata()
         |> IO.iodata_to_binary()
 

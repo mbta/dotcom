@@ -460,7 +460,7 @@ msgstr ""
 #: lib/dotcom_web/controllers/alert_controller.ex
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #: lib/dotcom_web/live/subway_alerts_live.ex
-#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/templates/page/_tab_list.html.heex
 #: lib/dotcom_web/templates/schedule/_alerts.html.heex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -3445,7 +3445,7 @@ msgstr ""
 msgid "Route %{route}"
 msgstr ""
 
-#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/templates/page/_tab_list.html.heex
 #, elixir-autogen, elixir-format
 msgid "Routes"
 msgstr ""
@@ -4457,7 +4457,7 @@ msgstr ""
 
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/live/trip_planner_live.ex
-#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/templates/page/_tab_list.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format

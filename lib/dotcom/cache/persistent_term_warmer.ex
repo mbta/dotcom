@@ -30,6 +30,7 @@ defmodule Dotcom.Cache.PersistentTermWarmer do
         DotcomWeb.PageView.shortcut_icons(code)
         DotcomWeb.PageView.important_links(code)
         DotcomWeb.PageView.top_links(code)
+        DotcomWeb.PageView.tab_list(code)
       end)
     end
     |> Task.await_many()

@@ -15,8 +15,16 @@ defmodule DotcomWeb.PageView do
   alias CMS.Partial.Banner
   alias DotcomWeb.PartialView
 
-  @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
-  def alerts(alerts) do
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: :timer.minutes(1)],
+              key: {"homepage|alerts-tab", locale}
+            )
+  @spec alerts(%{alerts: [Alerts.Alert.t()], locale: String.t()}) :: Phoenix.HTML.Safe.t()
+  def alerts(%{alerts: alerts, locale: locale}) do
+    _ = locale
+
     [routes, stops] =
       [
         &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
@@ -247,6 +255,12 @@ defmodule DotcomWeb.PageView do
       {:safe,
        ["_find_a_location.html", "_fares_passes.html", "_contact_us.html"]
        |> Enum.map(&Phoenix.View.render_to_iodata(DotcomWeb.PageView, &1, %{}))}
+    end)
+  end
+
+  def tab_list(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :tab_list, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_tab_list.html", %{})}
     end)
   end
 end
