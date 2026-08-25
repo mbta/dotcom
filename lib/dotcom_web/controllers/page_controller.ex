@@ -3,6 +3,7 @@ defmodule DotcomWeb.PageController do
 
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
+  use Nebulex.Caching.Decorators
 
   import DotcomWeb.CMSHelpers, only: [cms_route_to_class: 1]
   import CMS.Repo, only: [photo: 0]
@@ -22,6 +23,9 @@ defmodule DotcomWeb.PageController do
   @type whats_happening_set :: {nil | [WhatsHappeningItem.t()], nil | [WhatsHappeningItem.t()]}
 
   @subway_status_cache Application.compile_env!(:dotcom, :system_status_cache_modules)[:subway]
+
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(4)
 
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
@@ -104,6 +108,12 @@ defmodule DotcomWeb.PageController do
     {nil, nil}
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              key: {"PageController.split_add_utm_url", promoted, rest},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp split_add_utm_url({promoted, rest}) do
     {
       Enum.map(promoted, &add_utm_url(&1, true)),
