@@ -24,6 +24,7 @@ defmodule DotcomWeb.PageView do
   @spec alerts(%{alerts: [Alerts.Alert.t()], locale: String.t()}) :: Phoenix.HTML.Safe.t()
   def alerts(%{alerts: alerts, locale: locale}) do
     _ = locale
+
     [routes, stops] =
       [
         &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
