@@ -241,11 +241,16 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     stop_id = FactoryHelpers.build(:id)
     alert_stop_id = "place-symcl"
 
-    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ ->
+    alert_list =
       Factories.Alerts.Alert.build_list(1, :alert_for_informed_entity,
-        informed_entity: %{stop: alert_stop_id},
-        effect: Faker.Util.pick([:station_closure, :stop_closure])
+        informed_entity: %{stop: alert_stop_id, direction_id: direction_id},
+        effect: Faker.Util.pick([:station_closure, :stop_closure]),
+        lifecycle: :ongoing_upcoming
       )
+      |> Enum.map(&Test.Support.Factories.Alerts.Alert.active_now(&1))
+
+    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ ->
+      alert_list
     end)
 
     {:ok, view, _html} = visit_with_set_params(conn, route_id, direction_id, stop_id)
@@ -257,12 +262,15 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     direction_id = FactoryHelpers.build(:direction_id)
     stop_id = "place-symcl"
 
-    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ ->
+    alert_list =
       Factories.Alerts.Alert.build_list(1, :alert_for_informed_entity,
-        informed_entity: %{stop: stop_id},
-        effect: Faker.Util.pick([:station_closure, :stop_closure])
+        informed_entity: %{stop: stop_id, direction_id: direction_id},
+        effect: Faker.Util.pick([:station_closure, :stop_closure]),
+        lifecycle: :ongoing_upcoming
       )
-    end)
+      |> Enum.map(&Test.Support.Factories.Alerts.Alert.active_now(&1))
+
+    expect(Dotcom.ScheduleFinder.Mock, :current_alerts, 2, fn _, _ -> alert_list end)
 
     {:ok, view, _html} = visit_with_set_params(conn, route_id, direction_id, stop_id)
     assert has_element?(view, "section.c-alert-group")
