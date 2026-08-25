@@ -81,6 +81,12 @@ defmodule DotcomWeb.PageController do
     |> Enum.map(&add_utm_url/1)
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              key: "PageController.whats_happening_items",
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   @spec whats_happening_items :: whats_happening_set
   defp whats_happening_items do
     Repo.whats_happening()
@@ -108,12 +114,6 @@ defmodule DotcomWeb.PageController do
     {nil, nil}
   end
 
-  @decorate cacheable(
-              cache: @cache,
-              key: {"PageController.split_add_utm_url", promoted, rest},
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
   defp split_add_utm_url({promoted, rest}) do
     {
       Enum.map(promoted, &add_utm_url(&1, true)),
