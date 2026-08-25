@@ -4,6 +4,10 @@ defmodule UrlHelpers do
   alias DotcomWeb.CmsRouterHelpers
   alias Plug.Conn.Query
 
+  use Nebulex.Caching.Decorators
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(4)
+
   @spec update_url(Plug.Conn.t(), Enum.t()) :: String.t()
   def update_url(conn, query) do
     conn.query_params
@@ -75,6 +79,12 @@ defmodule UrlHelpers do
     |> URI.to_string()
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              key: "url_helpers|build_utm_params",
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp build_utm_params(item, opts) when is_list(opts) do
     URI.encode_query(%{
       utm_medium: Keyword.fetch!(opts, :type),
