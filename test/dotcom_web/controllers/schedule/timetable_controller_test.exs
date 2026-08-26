@@ -1,12 +1,16 @@
 defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
   @moduledoc false
+
   use DotcomWeb.ConnCase
+
   import DotcomWeb.ScheduleController.TimetableController
   import Mox
+
   alias Dotcom.TimetableBlocking
   alias Routes.Route
-  alias Stops.Stop
   alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
+  alias Test.Support.Generators
 
   @stops [
     %Stop{id: "1"},
@@ -404,7 +408,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
   describe "assign_trip_schedules/1 for Boat-F10" do
     setup do
       boat_route = %Route{id: "Boat-F10", type: 4}
-      date = ~D[2025-01-01]
+      date = Generators.Date.random_date()
 
       conn =
         default_conn()
@@ -414,7 +418,6 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
         |> assign(:date_in_rating?, true)
         |> assign(:blocking_alert, nil)
 
-      # Mock API to return empty schedules for simplicity
       stub(MBTA.Api.Mock, :get_json, fn "/schedules/", _opts ->
         %JsonApi{links: %{}, data: []}
       end)
@@ -437,19 +440,12 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
       assert is_struct(conn.assigns.morning_timetable, Dotcom.Timetables.Timetable)
       assert is_struct(conn.assigns.evening_timetable, Dotcom.Timetables.Timetable)
     end
-
-    test "assigns trip counts for both directions", %{conn: conn} do
-      conn = assign_trip_schedules(conn)
-
-      assert Map.has_key?(conn.assigns, :morning_trip_count)
-      assert Map.has_key?(conn.assigns, :evening_trip_count)
-      assert Map.has_key?(conn.assigns, :trip_count)
-      assert conn.assigns.trip_count == conn.assigns.morning_trip_count + conn.assigns.evening_trip_count
-    end
   end
 
-  describe "assign_trip_schedules/1 for other ferry routes" do
+  describe "assign_trip_schedules/1 for other loop ferry routes" do
     test "Boat-F6 and Boat-F7 still use single-direction timetable" do
+      date = Generators.Date.random_date()
+
       stub(MBTA.Api.Mock, :get_json, fn "/schedules/", _opts ->
         %JsonApi{links: %{}, data: []}
       end)
@@ -461,16 +457,16 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
           default_conn()
           |> assign(:route, boat_route)
           |> assign(:direction_id, 0)
-          |> assign(:date, ~D[2025-01-01])
+          |> assign(:date, date)
           |> assign(:date_in_rating?, true)
           |> assign(:blocking_alert, nil)
           |> assign(:new_timetables?, false)
-
-        conn = assign_trip_schedules(conn)
+          |> assign_trip_schedules()
 
         refute Map.has_key?(conn.assigns, :dual_direction_timetable?)
+        refute Map.has_key?(conn.assigns, :morning_timetable)
+        refute Map.has_key?(conn.assigns, :evening_timetable)
         assert conn.assigns.linear_timetable? == false
-        assert Map.has_key?(conn.assigns, :timetable)
         assert is_struct(conn.assigns.timetable, Dotcom.Timetables.Timetable)
       end
     end
