@@ -48,6 +48,8 @@ defmodule Dotcom.Application do
           []
         end ++
         [
+          Dotcom.GtfsLookups,
+          {RiderUtils.Gtfs, on_update: {Kernel, :send, [Dotcom.GtfsLookups, :gtfs_updated]}},
           Routes.Supervisor,
           Predictions.Supervisor,
           Alerts.BusStopChangeSupervisor,
