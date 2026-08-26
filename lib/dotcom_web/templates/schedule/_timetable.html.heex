@@ -69,7 +69,12 @@
             timetable={@morning_timetable}
           />
         <% else %>
-          <p class="text-gray-500">{~t"No trips scheduled for this direction."}</p>
+          {render("_empty.html",
+            date: @date,
+            direction: Routes.Route.direction_name(@route, 0),
+            conn: @conn,
+            error: assigns[:schedule_error]
+          )}
         <% end %>
       </div>
       <div>
@@ -85,7 +90,12 @@
             timetable={@evening_timetable}
           />
         <% else %>
-          <p class="text-gray-500">{~t"No trips scheduled for this direction."}</p>
+          {render("_empty.html",
+            date: @date,
+            direction: Routes.Route.direction_name(@route, 1),
+            conn: @conn,
+            error: assigns[:schedule_error]
+          )}
         <% end %>
       </div>
     <% @new_timetables? -> %>
