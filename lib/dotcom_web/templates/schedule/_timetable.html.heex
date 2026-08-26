@@ -57,8 +57,10 @@
       )}
     <% assigns[:dual_direction_timetable?] -> %>
       <div class="mb-5">
-        <h3 class="text-xl font-bold mb-1">{~t"Morning"}</h3>
-        <p class="mb-3">{~t"Counterclockwise Loop"}</p>
+        <div class="container">
+          <h3 class="text-xl font-bold mb-1">{~t"Morning"}</h3>
+          <p class="mb-3">{~t"Counterclockwise Loop"}</p>
+        </div>
         <%= if @morning_trip_count > 0 do %>
           <DotcomWeb.Components.NewTimetable.timetable
             id="morning-timetable"
@@ -78,8 +80,10 @@
         <% end %>
       </div>
       <div>
-        <h3 class="text-xl font-bold mb-1">{~t"Evening"}</h3>
-        <p class="mb-3">{~t"Clockwise Loop"}</p>
+        <div class="container">
+          <h3 class="text-xl font-bold mb-1">{~t"Evening"}</h3>
+          <p class="mb-3">{~t"Clockwise Loop"}</p>
+        </div>
         <%= if @evening_trip_count > 0 do %>
           <DotcomWeb.Components.NewTimetable.timetable
             id="evening-timetable"
