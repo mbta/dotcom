@@ -109,7 +109,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       class="container"
       id={"#{@route.id}-#{@direction_id}-#{@stop.id}-schedule-finder"}
     >
-      <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
+      <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl relative">
         <.alert_banner alerts={@alerts} />
         <section>
           <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
@@ -510,12 +510,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp departures_table(assigns) do
     ~H"""
     <div
-      class="grid grid-cols-1 divide-y-xs divide-gray-lightest border-xs border-gray-lightest"
+      class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest"
       data-test="departures_table"
     >
       <.unstyled_accordion
         :for={departure <- @departures}
-        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest px-sm py-3"
+        summary_class="flex items-center gap-sm bg-white hover:bg-brand-primary-lightest px-sm py-3 sticky top-0 z-50 group-open:border-b-xs group-open:border-gray-lightest"
         phx-click="open_trip"
         phx-value-schedule_id={departure.schedule_id}
         phx-value-stop_sequence={departure.stop_sequence}
@@ -556,19 +556,40 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <.lined_list_item
-                :for={{arrival, index} <- Enum.with_index(arrivals)}
-                route={departure.route}
-                class={if(index == 0, do: "font-bold")}
-                stop_pin?={index == 0}
-              >
-                <DotcomWeb.Components.Departures.stop_label
-                  stop_name={arrival.stop_name}
-                  platform_name={arrival.platform_name}
-                />
+              <%= for {arrival, index} <- Enum.with_index(arrivals) do %>
+                <%= if match?({:next_trip, _}, arrival) do %>
+                  <% {_, next_departure} = arrival %>
+                  <.lined_list_item
+                    route={next_departure.route}
+                    variant="none"
+                  >
+                    <div class="flex-col w-full">
+                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues on"}</div>
+                      <Departures.departure_heading route={next_departure.route}>
+                        <:headsign>
+                          <div class="flex gap-x-sm gap-y-xs flex-wrap">
+                            {next_departure.headsign}
+                          </div>
+                        </:headsign>
+                        <:time></:time>
+                      </Departures.departure_heading>
+                    </div>
+                  </.lined_list_item>
+                <% else %>
+                  <.lined_list_item
+                    route={departure.route}
+                    class={if(index == 0, do: "font-bold")}
+                    stop_pin?={index == 0}
+                  >
+                    <DotcomWeb.Components.Departures.stop_label
+                      stop_name={arrival.stop_name}
+                      platform_name={arrival.platform_name}
+                    />
 
-                <Departures.formatted_time time={arrival.time} />
-              </.lined_list_item>
+                    <Departures.formatted_time time={arrival.time} />
+                  </.lined_list_item>
+                <% end %>
+              <% end %>
             </.lined_list>
           </.async_result>
         </:content>

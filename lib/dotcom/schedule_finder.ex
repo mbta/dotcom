@@ -151,11 +151,17 @@ defmodule Dotcom.ScheduleFinder do
     # Maybe add filter[stop_sequence] to help looped routes
     case @schedules_repo.schedule_for_trip(trip_id, date: date) do
       schedules when is_list(schedules) ->
+        route =
+          case List.last(schedules) do
+            %Schedule{route: route} -> route
+            _ -> nil
+          end
+
         arrivals =
           schedules
           |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
-          |> Stream.map(&to_arrival/1)
-          |> Enum.to_list()
+          |> Enum.map(&to_arrival/1)
+          |> append_in_seat_transfer_trips(trip_id, date, route.id, route.type)
 
         {:ok, arrivals}
 
@@ -163,6 +169,45 @@ defmodule Dotcom.ScheduleFinder do
         error
     end
   end
+
+  defp append_in_seat_transfer_trips(arrivals, _, _, _, 4), do: arrivals
+
+  defp append_in_seat_transfer_trips(arrivals, trip_id, date, route_id, _) do
+    case Dotcom.GtfsLookups.next_trip_ids(trip_id) do
+      [] ->
+        arrivals
+
+      next_trip_ids ->
+        Enum.reduce(next_trip_ids, arrivals, fn next_id, all_arrivals ->
+          @schedules_repo.schedule_for_trip(next_id, date: date)
+          |> collect_next_arrivals(all_arrivals, route_id)
+        end)
+    end
+  end
+
+  defp collect_next_arrivals([next_schedule | more_schedules], all_arrivals, route_id) do
+    more_arrivals = more_schedules |> Enum.map(&to_arrival/1) |> Enum.uniq()
+
+    additional_arrivals =
+      next_schedule
+      |> to_departure()
+      |> with_trip_separator(route_id, more_arrivals)
+
+    Enum.concat(all_arrivals, additional_arrivals)
+  end
+
+  defp collect_next_arrivals(_, all_arrivals, _), do: all_arrivals
+
+  # We are changing routes here, add this information
+  defp with_trip_separator(
+         %{route: %Route{id: next_route_id}} = next_departure,
+         prior_route_id,
+         arrivals
+       )
+       when next_route_id != prior_route_id,
+       do: [{:next_trip, next_departure} | arrivals]
+
+  defp with_trip_separator(_, _, arrivals), do: arrivals
 
   # Instead of every stop in the trip, only return schedules that make later stops on the trip, as defined by the given `stop_sequence` value
   defp makes_subsequent_stop?(
