@@ -73,6 +73,7 @@ defmodule DotcomWeb.PageViewTest do
       document =
         conn
         |> assign(:news, entries)
+        |> assign(:locale, "en-US")
         |> PageView.render_news_entries()
         |> Phoenix.HTML.Safe.to_iodata()
         |> IO.iodata_to_binary()
