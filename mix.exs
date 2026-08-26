@@ -176,6 +176,7 @@ defmodule DotCom.Mixfile do
       {:recon, "2.5.6", [only: :prod]},
       {:redix, "1.5.3"},
       {:req, "0.5.17"},
+      {:rider_utils, github: "thecristen/rider_utils", branch: "main"},
       {:rstar, github: "armon/erl-rstar"},
       {:sentry, "13.2.0"},
       {:server_sent_event_stage, "1.2.1"},
