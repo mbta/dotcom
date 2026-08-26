@@ -132,8 +132,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
   end
 
-  # Boat-F10 dual-direction timetable
-  # This clause must come before the general new_timetables? clause
+  # We need a special case for Boat-F10, because that route has a
+  # special timetable layout.
   def assign_trip_schedules(
         %{
           assigns: %{
@@ -145,7 +145,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         } = conn
       )
       when route.id == "Boat-F10" do
-    # Fetch schedules for both directions
     morning_schedules =
       case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: 0) do
         {:error, _} -> []
