@@ -5399,19 +5399,19 @@ msgstr "Horário %{direction_name} para %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr ""
+msgstr "Laço no sentido horário"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr ""
+msgstr "Laço anti-horário"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Evening"
-msgstr ""
+msgstr "Noite"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Morning"
-msgstr ""
+msgstr "Manhã"
