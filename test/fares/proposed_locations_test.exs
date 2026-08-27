@@ -1,8 +1,10 @@
 defmodule Fares.ProposedLocationsTest do
   use ExUnit.Case, async: false
 
-  import Mock
+  import Mox
   import Fares.ProposedLocations
+
+  setup :verify_on_exit!
 
   @location %{latitude: 42.42412295861601, longitude: -71.17941003354629}
 
@@ -63,37 +65,34 @@ defmodule Fares.ProposedLocationsTest do
 
   describe "requests data from ArcGIS and parses the response into a list of locations" do
     test "by_lat_lon - successful parsed response" do
-      with_mock HTTPoison,
-        get: fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end do
-        assert by_lat_lon(@location) == [@proposed_location]
-      end
+      HTTPoison.Mock
+      |> expect(:get, fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end)
+
+      assert by_lat_lon(@location) == [@proposed_location]
     end
 
     test "by_lat_lon - unsuccessful response due to error in request" do
-      with_mock HTTPoison,
-        get: fn _url -> {:error, %{}} end do
-        log =
-          ExUnit.CaptureLog.capture_log(fn ->
-            assert by_lat_lon(@location) == nil
-          end)
+      HTTPoison.Mock
+      |> expect(:get, fn _url -> {:error, %{}} end)
 
-        assert log =~ "error in http request"
-      end
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert by_lat_lon(@location) == nil
+        end)
+
+      assert log =~ "error in http request"
     end
 
     test "by_lat_lon - unsuccessful response due to error in parsing" do
-      with_mocks([
-        {HTTPoison, [],
-         [get: fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end]},
-        {Poison, [], [decode: fn _body -> {:error, nil} end]}
-      ]) do
-        log =
-          ExUnit.CaptureLog.capture_log(fn ->
-            assert by_lat_lon(@location) == nil
-          end)
+      HTTPoison.Mock
+      |> expect(:get, fn _url -> {:ok, %{status_code: 200, body: "invalid json", headers: []}} end)
 
-        assert log =~ "error decoding json"
-      end
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert by_lat_lon(@location) == nil
+        end)
+
+      assert log =~ "error decoding json"
     end
 
     @tag :external
