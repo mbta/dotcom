@@ -1,7 +1,7 @@
 defmodule Stops.RouteStopTest do
   use ExUnit.Case, async: false
 
-  import Mock
+  import Mox
   import Stops.RouteStop
 
   alias RoutePatterns.RoutePattern
@@ -623,21 +623,20 @@ defmodule Stops.RouteStopTest do
       assert route_stop.connections == {:error, :not_fetched}
       stop_id = @stop.id
 
-      with_mock(Routes.Repo,
-        by_stop: fn ^stop_id, [include: "stop.connecting_stops"] ->
-          [
-            %Route{id: @red_route.id},
-            %Route{id: "one", type: 2},
-            %Route{id: "another", type: 3},
-            %Route{id: "shuttle", description: :rail_replacement_bus, type: 3}
-          ]
-        end
-      ) do
-        fetched = fetch_connections(route_stop)
-        assert [%Route{}, %Route{}] = fetched.connections
-        assert Enum.find(fetched.connections, &(&1.id == fetched.route.id)) == nil
-        assert Enum.find(fetched.connections, &(&1.description == :rail_replacement_bus)) == nil
-      end
+      Routes.Repo.Mock
+      |> expect(:by_stop, fn ^stop_id, [include: "stop.connecting_stops"] ->
+        [
+          %Route{id: @red_route.id},
+          %Route{id: "one", type: 2},
+          %Route{id: "another", type: 3},
+          %Route{id: "shuttle", description: :rail_replacement_bus, type: 3}
+        ]
+      end)
+
+      fetched = fetch_connections(route_stop)
+      assert [%Route{}, %Route{}] = fetched.connections
+      assert Enum.find(fetched.connections, &(&1.id == fetched.route.id)) == nil
+      assert Enum.find(fetched.connections, &(&1.description == :rail_replacement_bus)) == nil
     end
   end
 
