@@ -139,26 +139,13 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           assigns: %{
             route: route,
             blocking_alert: nil,
-            date_in_rating?: true,
-            date: date
+            date_in_rating?: true
           }
         } = conn
       )
       when route.id == "Boat-F10" do
-    morning_schedules =
-      case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: 0) do
-        {:error, _} -> []
-        schedules -> Enum.reject(schedules, &Schedules.Schedule.no_times?/1)
-      end
-
-    evening_schedules =
-      case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: 1) do
-        {:error, _} -> []
-        schedules -> Enum.reject(schedules, &Schedules.Schedule.no_times?/1)
-      end
-
-    morning_timetable = Timetables.from_schedules(morning_schedules)
-    evening_timetable = Timetables.from_schedules(evening_schedules)
+    [morning_timetable, evening_timetable] =
+      [0, 1] |> Enum.map(&timetable_for_direction(conn, &1))
 
     conn
     |> assign(:dual_direction_timetable?, true)
@@ -417,6 +404,17 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     # if the scheduled stop doesn't match a canonical stop, there has been a track change
     length(canonical_stop_ids) > 0 &&
       schedule.platform_stop_id not in canonical_stop_ids
+  end
+
+  # Helper function to return the timetable for the route and date
+  # specified in the conn, and the direction specified in the second
+  # argument.
+  @spec timetable_for_direction(Plug.Conn.t(), 0 | 1) :: [Schedules.Schedule.t()]
+  defp timetable_for_direction(conn, direction_id) do
+    conn
+    |> assign(:direction_id, direction_id)
+    |> timetable_schedules()
+    |> Timetables.from_schedules()
   end
 
   # Helper function for obtaining schedule data
