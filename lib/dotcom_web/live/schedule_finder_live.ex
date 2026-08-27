@@ -564,7 +564,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                     variant="none"
                   >
                     <div class="flex-col w-full">
-                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues on"}</div>
+                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues as"}</div>
                       <Departures.departure_heading route={next_departure.route}>
                         <:headsign>
                           <div class="flex gap-x-sm gap-y-xs flex-wrap">
