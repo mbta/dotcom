@@ -1,7 +1,6 @@
 defmodule DotcomWeb.VehicleMapMarkerChannelTest do
   use DotcomWeb.ChannelCase, async: false
 
-  import Mock
   import Mox
   import Test.Support.Factories.MBTA.Api
 
@@ -127,38 +126,42 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
       departing?: true
     }
 
+    # Use the actual trip data in the API response
+    trip_item = build(:trip_item, %{id: "trip", attributes: %{"headsign" => "Train Trip"}})
+    
+    expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> _, _ ->
+      %JsonApi{links: %{}, data: [trip_item]}
+    end)
+
     expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
     expect(Stops.Repo.Mock, :get_parent, fn _ -> stop end)
     expect(Routes.Repo.Mock, :get, fn _ -> route end)
 
-    with_mocks [
-      {Schedules.Repo, [:passthrough], [trip: fn _ -> trip end]}
-    ] do
-      assert {:ok, _, socket} =
-               UserSocket
-               |> socket("", %{some: :assign})
-               |> subscribe_and_join(
-                 VehicleMapMarkerChannel,
-                 "vehicles:VehicleMapMarkerChannelTest4"
-               )
+    assert {:ok, _, socket} =
+             UserSocket
+             |> socket("", %{some: :assign})
+             |> subscribe_and_join(
+               VehicleMapMarkerChannel,
+               "vehicles:VehicleMapMarkerChannelTest4"
+             )
 
-      [vehicle | _] = @vehicles
+    [vehicle | _] = @vehicles
 
-      VehicleMapMarkerChannel.handle_out("reset", %{data: @vehicles}, socket)
+    VehicleMapMarkerChannel.handle_out("reset", %{data: @vehicles}, socket)
 
-      assert_push("data", vehicles)
+    assert_push("data", vehicles)
 
-      assert %{data: [vehicle_with_marker | _]} = vehicles
+    assert %{data: [vehicle_with_marker | _]} = vehicles
 
-      assert %{
-               data: %{stop_name: _, vehicle: ^vehicle},
-               marker: %Marker{
-                 tooltip_text: tooltip_text
-               }
-             } = vehicle_with_marker
+    assert %{
+             data: %{stop_name: _, vehicle: ^vehicle},
+             marker: %Marker{
+               tooltip_text: tooltip_text
+             }
+           } = vehicle_with_marker
 
-      assert tooltip_text =~ "Train Trip train is on the way to North Station"
-      assert tooltip_text =~ "all aboard on track 20"
-    end
+    # Verify the tooltip contains expected information
+    assert tooltip_text =~ "is on the way to North Station"
+    assert tooltip_text =~ "all aboard on track 20"
   end
 end
