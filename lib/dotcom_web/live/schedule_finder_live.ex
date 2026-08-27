@@ -276,6 +276,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
         Enum.any?([nil, direction], &(&1 in direction_id))
       end)
+      |> filter_stale_alerts(stop)
       |> Enum.map(fn alert ->
         Map.put(
           alert,
@@ -288,6 +289,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])
+
+  # Returns alerts that are fresh or are for this stop.  Stale alerts not for this stop will be filtered out.
+  defp filter_stale_alerts(alerts, stop) do
+    alerts
+    |> Enum.filter(fn alert ->
+      alert.informed_entity.stop
+      |> Enum.any?(fn alert_stop -> alert_stop == stop.id end) or
+        !(alert |> Alerts.Alert.stale?())
+    end)
+  end
 
   defp assign_departures(socket) do
     route_id = socket.assigns.route.id
