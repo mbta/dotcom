@@ -45,3 +45,6 @@ Mox.defmock(Dotcom.SystemStatus.CommuterRailCache.Mock,
 
 # Schedule Finder
 Mox.defmock(Dotcom.ScheduleFinder.Mock, for: Dotcom.ScheduleFinder.Behaviour)
+
+# Util
+Mox.defmock(Util.Mock, for: Util.Behaviour)
