@@ -5403,19 +5403,19 @@ msgstr "%{direction_name} calendrier pour %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr ""
+msgstr "Boucle dans le sens horaire"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr ""
+msgstr "Boucle dans le sens antihoraire"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Evening"
-msgstr ""
+msgstr "Soirée"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Morning"
-msgstr ""
+msgstr "Bonjour"

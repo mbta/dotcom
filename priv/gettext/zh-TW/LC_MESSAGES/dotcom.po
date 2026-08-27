@@ -5374,19 +5374,19 @@ msgstr "%{direction_name} %{route_name}、%{formatted_date} 的時間表"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr ""
+msgstr "順時針循環"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr ""
+msgstr "逆時針環"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Evening"
-msgstr ""
+msgstr "晚上"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Morning"
-msgstr ""
+msgstr "早晨"

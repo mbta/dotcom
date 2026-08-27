@@ -5390,19 +5390,19 @@ msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr ""
+msgstr "Bouk nan sans zegwi mont lan"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr ""
+msgstr "Boukl kontrè zegwi mont lan"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Evening"
-msgstr ""
+msgstr "Aswè"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Morning"
-msgstr ""
+msgstr "Maten"
