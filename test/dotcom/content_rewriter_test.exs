@@ -5,7 +5,6 @@ defmodule Dotcom.ContentRewriterTest do
   import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
 
-  alias Dotcom.ContentRewriters.ResponsiveTables
   alias DotcomWeb.PartialView.SvgIconWithCircle
 
   describe "rewrite" do
