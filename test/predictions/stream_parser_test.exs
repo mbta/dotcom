@@ -1,6 +1,5 @@
 defmodule Predictions.StreamParserTest do
   use ExUnit.Case, async: false
-  import Mock
   import Mox
   alias JsonApi.Item
   alias Predictions.{Prediction, StreamParser}
@@ -8,6 +7,8 @@ defmodule Predictions.StreamParserTest do
   alias Schedules.Trip
   alias Stops.Stop
   alias Timex.Timezone
+
+  setup :verify_on_exit!
 
   setup do
     Routes.Repo.Mock
@@ -25,11 +26,6 @@ defmodule Predictions.StreamParserTest do
   end
 
   describe "parse/1" do
-    setup_with_mocks([
-      {Schedules.Repo, [:passthrough], [trip: fn "trip_id" -> %Trip{id: "trip_id"} end]}
-    ]) do
-      :ok
-    end
 
     test "parses a %JsonApi.Item{} into a Prediction record" do
       stop_id = "place-pktrm"
