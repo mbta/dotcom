@@ -145,7 +145,6 @@ defmodule DotCom.Mixfile do
       {:mail, "0.3.1"},
       {:mbta_metro, "1.2.0", runtime: false},
       {:memoize, "1.4.5"},
-      {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
       {:nebulex, "2.6.5"},
