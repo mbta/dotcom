@@ -1,8 +1,6 @@
 defmodule DotcomWeb.Schedule.LineTest do
   use DotcomWeb.ConnCase, async: false
 
-  import Mock
-
   alias DotcomWeb.Schedule.Line
   alias Services.Service
 
@@ -292,22 +290,11 @@ defmodule DotcomWeb.Schedule.LineTest do
   end
 
   describe "services" do
-    setup_with_mocks([
-      {Util, [:passthrough],
-       [
-         now: fn ->
-           {:ok, t} = DateTime.from_naive(~N[2021-01-18T00:00:00], "Etc/UTC")
-           t
-         end,
-         service_date: fn -> Util.now() end
-       ]}
-    ]) do
-      :ok
-    end
-
     test "determines a single, default service for route and date", %{conn: conn} do
+      # Use the date_time assign to set a specific date instead of mocking Util
       conn =
         conn
+        |> assign(:date_time, ~D[2021-01-18])
         |> assign(:services_fn, fn _ -> @thirtynine_services end)
         |> get(line_path(conn, :show, "39"))
 
