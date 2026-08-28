@@ -182,7 +182,7 @@ defmodule PredictedScheduleTest do
       # Expect two calls to by_route_ids - one for today, one for tomorrow
       # The function tries today first, gets schedules that are all in the past,
       # then tries tomorrow and returns those
-      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn ["Teal"], opts ->
+      expect(Schedules.Repo.Mock, :by_route_ids, 2, fn ["Teal"], _opts ->
         # Return @trip_schedules for both calls
         @trip_schedules
       end)
