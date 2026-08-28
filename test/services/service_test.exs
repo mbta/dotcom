@@ -92,52 +92,39 @@ defmodule Services.ServiceTest do
 
   describe "special_service_dates/1" do
     test "should return only the dates of non typical services (special service)" do
-      # Mock the underlying API call instead of the repo
-      MBTA.Api.Mock
-      |> expect(:get_json, fn "/services/", [route: "45"] ->
-        %JsonApi{
-          data: [
-            %JsonApi.Item{
-              type: "service",
-              id: "service1",
-              attributes: %{
-                "added_dates" => ["2022-12-15", "2022-12-14"],
-                "added_dates_notes" => [nil, nil],
-                "removed_dates" => [],
-                "removed_dates_notes" => [],
-                "schedule_typicality" => 4,
-                "start_date" => "2022-12-01",
-                "end_date" => "2022-12-31"
-              }
+      Services.Repo.Mock
+      |> expect(:by_route_id, fn _ ->
+        [
+          %Service{
+            added_dates: ["2022-12-15", "2022-12-14"],
+            added_dates_notes: %{
+              "2022-12-14" => nil,
+              "2022-12-15" => nil
             },
-            %JsonApi.Item{
-              type: "service",
-              id: "service2",
-              attributes: %{
-                "added_dates" => ["2022-12-03", "2022-12-04"],
-                "added_dates_notes" => [nil, nil],
-                "removed_dates" => [],
-                "removed_dates_notes" => [],
-                "schedule_typicality" => 4,
-                "start_date" => "2022-12-01",
-                "end_date" => "2022-12-31"
-              }
+            typicality: :extra_service
+          },
+          %Service{
+            added_dates: ["2022-12-03", "2022-12-04"],
+            removed_dates_notes: %{
+              "2022-12-03" => nil,
+              "2022-12-04" => nil,
+              "2022-12-15" => nil
             },
-            %JsonApi.Item{
-              type: "service",
-              id: "service3",
-              attributes: %{
-                "added_dates" => ["2022-12-04", "2022-12-05"],
-                "added_dates_notes" => [nil, nil],
-                "removed_dates" => [],
-                "removed_dates_notes" => [],
-                "schedule_typicality" => 1,
-                "start_date" => "2022-12-01",
-                "end_date" => "2022-12-31"
-              }
-            }
-          ]
-        }
+            typicality: :extra_service
+          },
+          %Service{
+            added_dates: ["2022-12-04", "2022-12-05"],
+            added_dates_notes: %{
+              "2022-12-04" => nil,
+              "2022-12-05" => nil
+            },
+            removed_dates_notes: %{
+              "2022-11-01" => nil,
+              "2022-11-02" => nil
+            },
+            typicality: :typical_service
+          }
+        ]
       end)
 
       assert [~D[2022-12-03], ~D[2022-12-04], ~D[2022-12-14], ~D[2022-12-15]] =
