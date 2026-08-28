@@ -189,8 +189,12 @@ defmodule PredictedScheduleTest do
 
       # Call get which should trigger two calls to by_route_ids 
       # (once for today with no valid results after filtering, once for tomorrow)
+      # The 30-minute shift is related to the test data defined at the top of this
+      # file - the last trip of the day is 20 minutes after `@base_time`, so
+      # shifting 30 minutes pushes past the last trip of the day, triggering the
+      # second call.
       result = get("Teal", "stop1", now: Timex.shift(@base_time, minutes: 30))
-      
+
       # The expectation of 2 calls being made will be verified by Mox
       # We just need to verify the function completes
       assert is_list(result)
