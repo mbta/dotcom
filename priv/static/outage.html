@@ -40,6 +40,15 @@
                 font-size: 2rem;
             }
         }
+
+	a {
+	    color: #165c96;
+	    text-decoration: none;
+	}
+
+	a:hover {
+	    text-decoration: underline;
+	}
         
         .font-small {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -322,6 +331,10 @@
         .error-links a:hover {
             color: #003d7a;
         }
+
+	.contact-header {
+	    margin-bottom: 1rem;
+	}
         
         /* SVG Animation */
         @keyframes blink {
@@ -678,11 +691,17 @@
                         </div>
                         <p class="error-paragraph">
                             <strong>Something went wrong on our end.</strong>
-                            Please try again later.
+                            We’re looking into the issue and will be back as soon as possible. In the meantime, we have other ways to help you find what you need.
                         </p>
-                        <div class="error-links">
-                            Go to <a href="/">the MBTA's home page</a> or <a href="/customer-support">report an issue</a>.
+                        <div class="contact-header">
+			  <strong>For information and support, call us.</strong>
                         </div>
+                        <div>
+			  <div>Monday - Friday: 6:30 AM - 8 PM</div>
+                          <div><strong>Main</strong>: <a href="tel:+1-617-222-3200">617-222-3200</a></div>
+			  <div><strong>Toll Free</strong>: <a href="tel:+1-800-392-6100">800-392-6100</a></div>
+			  <div>711 for TTY callers; VRS for ASL callers</div>
+			</div>
                     </div>
                 </div>
             </div>
