@@ -11,6 +11,8 @@ defmodule DotcomWeb.EventController do
   alias DotcomWeb.EventView
   alias Plug.Conn
 
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
+
   plug(DotcomWeb.Plugs.YearMonth)
   plug(:assign_events)
 
@@ -145,7 +147,7 @@ defmodule DotcomWeb.EventController do
   end
 
   def year_options(_) do
-    %{year: year} = Util.now()
+    %{year: year} = @date_time.now()
     do_year_options(year)
   end
 
