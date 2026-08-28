@@ -329,27 +329,27 @@ defmodule DotcomWeb.ScheduleControllerTest do
             %Schedules.Schedule{
               route: %Routes.Route{id: "route"},
               stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2019-05-18 21:25:06.098765Z]
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z]
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 23:25:06.098765Z]
-              }
-            ]
-        end
-      )
+              time: ~U[2019-05-18 21:25:06.098765Z]
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z]
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 23:25:06.098765Z]
+            }
+          ]
+      end)
+
       conn =
         ScheduleController.schedules_for_stop(conn, %{
           "stop_id" => "TEST 1234",
           "future_departures" => "true"
         })
-      
+
       body = json_response(conn, 200)
       assert Kernel.length(body) == 2
       assert %{"time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
@@ -362,32 +362,31 @@ defmodule DotcomWeb.ScheduleControllerTest do
           [
             %Schedules.Schedule{
               route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z],
-                last_stop?: false
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z],
-                last_stop?: false
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z],
-                last_stop?: true
-              }
-            ]
-        end
-      )
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z],
+              last_stop?: false
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z],
+              last_stop?: false
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z],
+              last_stop?: true
+            }
+          ]
+      end)
 
       conn =
         ScheduleController.schedules_for_stop(conn, %{
-            "stop_id" => "TEST 1234",
-            "future_departures" => "true",
-            "last_stop_departures" => "false"
-          })
+          "stop_id" => "TEST 1234",
+          "future_departures" => "true",
+          "last_stop_departures" => "false"
+        })
 
       body = json_response(conn, 200)
       assert Kernel.length(body) == 2
@@ -427,13 +426,13 @@ defmodule DotcomWeb.ScheduleControllerTest do
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
-            old_level = Logger.level()
+          old_level = Logger.level()
 
-            on_exit(fn ->
-              Logger.configure(level: old_level)
-            end)
+          on_exit(fn ->
+            Logger.configure(level: old_level)
+          end)
 
-            Logger.configure(level: :info)
+          Logger.configure(level: :info)
 
           conn =
             ScheduleController.schedules_for_stop(conn, %{

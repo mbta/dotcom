@@ -348,5 +348,4 @@ defmodule Services.ServiceTest do
       refute Service.in_future_rating?(nil_date_service)
     end
   end
-
 end

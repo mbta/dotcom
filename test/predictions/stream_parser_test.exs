@@ -26,7 +26,6 @@ defmodule Predictions.StreamParserTest do
   end
 
   describe "parse/1" do
-
     test "parses a %JsonApi.Item{} into a Prediction record" do
       stop_id = "place-pktrm"
       expected_last_trip = Faker.Util.pick([true, false])

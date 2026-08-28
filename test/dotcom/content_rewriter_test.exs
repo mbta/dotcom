@@ -20,7 +20,7 @@ defmodule Dotcom.ContentRewriterTest do
         |> raw()
         |> rewrite(conn)
         |> safe_to_string()
-      
+
       # Verify table was rewritten (it should now be wrapped in a figure)
       assert result =~ "c-media--table"
       assert result =~ "responsive-table"

@@ -128,7 +128,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
 
     # Use the actual trip data in the API response
     trip_item = build(:trip_item, %{id: "trip", attributes: %{"headsign" => "Train Trip"}})
-    
+
     expect(MBTA.Api.Mock, :get_json, fn "/trips/" <> _, _ ->
       %JsonApi{links: %{}, data: [trip_item]}
     end)

@@ -66,7 +66,9 @@ defmodule Fares.ProposedLocationsTest do
   describe "requests data from ArcGIS and parses the response into a list of locations" do
     test "by_lat_lon - successful parsed response" do
       HTTPoison.Mock
-      |> expect(:get, fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end)
+      |> expect(:get, fn _url ->
+        {:ok, %{status_code: 200, body: @arcgis_response, headers: []}}
+      end)
 
       assert by_lat_lon(@location) == [@proposed_location]
     end
