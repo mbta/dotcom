@@ -409,7 +409,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   # Helper function to return the timetable for the route and date
   # specified in the conn, and the direction specified in the second
   # argument.
-  @spec timetable_for_direction(Plug.Conn.t(), 0 | 1) :: [Schedules.Schedule.t()]
+  @spec timetable_for_direction(Plug.Conn.t(), 0 | 1) :: Dotcom.Timetables.Timetable.t()
   defp timetable_for_direction(conn, direction_id) do
     conn
     |> assign(:direction_id, direction_id)
