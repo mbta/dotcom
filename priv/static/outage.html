@@ -95,7 +95,6 @@
         }
         
         .top-tier-nav-container {
-            width: 100%;
             padding-right: 16px;
             padding-left: 16px;
             margin-right: auto;
@@ -161,12 +160,12 @@
         }
         
         .error-page {
-            margin: 1rem 1.5rem;
+            margin-top: 1rem;
         }
         
         @media (min-width: 544px) {
             .error-page {
-                margin: 1.5rem 2.5rem;
+                margin-top: 1.5rem;
             }
         }
         
@@ -344,7 +343,7 @@
 <body>
     <!-- Top Tier Header -->
     <header class="top-tier-header new">
-        <div class="top-tier-nav-container">
+        <div class="container top-tier-nav-container">
             <nav class="top-tier-header-navbar">
                 <a class="navbar-logo" href="/" data-nav="logo">
                     <span class="sr-only">MBTA Home Page</span>
@@ -369,7 +368,6 @@
     </header>
 
     <!-- Error Page Content -->
-    <div class="page-container">
         <main id="main" tabindex="-1">
             <div class="container error-page">
                 <div class="font-small error-pre-title">
@@ -682,6 +680,5 @@
                 </div>
             </div>
         </main>
-    </div>
 </body>
 </html>
