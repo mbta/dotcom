@@ -1,8 +1,6 @@
 defmodule Util do
   @moduledoc "Utilities module"
 
-  @behaviour Util.Behaviour
-
   use Timex
 
   require Logger
@@ -15,7 +13,6 @@ defmodule Util do
   @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc "The current datetime in the America/New_York timezone."
-  @impl Util.Behaviour
   @spec now() :: DateTime.t()
   @spec now((String.t() -> DateTime.t())) :: DateTime.t()
   def now(utc_now_fn \\ &Timex.now/1) do
@@ -242,7 +239,6 @@ defmodule Util do
   times after midnight belong to the service of the previous date.
 
   """
-  @impl Util.Behaviour
   @spec service_date(DateTime.t() | NaiveDateTime.t()) :: Date.t()
   def service_date(current_time \\ Util.now()) do
     current_time
