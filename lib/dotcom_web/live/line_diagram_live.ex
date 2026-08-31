@@ -22,7 +22,9 @@ defmodule DotcomWeb.LineDiagramLive do
     dbg(assigns)
 
     ~H"""
-    <marquee>Hello World</marquee>
+    <marquee style="font-size:2cm" scrollamount="16" scrolldelay="60">
+      Hello World
+    </marquee>
     """
   end
 end
