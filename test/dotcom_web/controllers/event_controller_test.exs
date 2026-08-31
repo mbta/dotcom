@@ -2,12 +2,12 @@ defmodule DotcomWeb.EventControllerTest do
   use DotcomWeb.ConnCase
 
   import DotcomWeb.EventController
-  import Mock
+  import Mox
 
   @current_date ~D[2019-04-15]
 
   setup do
-    Mox.stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
+    stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
       DateTime.new!(@current_date, ~T[13:26:08.003], "America/New_York")
     end)
 
@@ -254,10 +254,13 @@ defmodule DotcomWeb.EventControllerTest do
       assert 2015..2020 = year_options(conn)
     end
 
-    test "year_options/1 defaults to Util.now", %{conn: conn} do
-      with_mock Util, [:passthrough], now: fn -> ~N[2020-01-02T05:00:00] end do
-        assert 2016..2021 = year_options(conn)
-      end
+    test "year_options/1 uses Dotcom.Utils.DateTime.now() if the date isn't on the assigns",
+         %{conn: conn} do
+      stub(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        ~N[2020-01-02T05:00:00] |> DateTime.from_naive!("Etc/UTC")
+      end)
+
+      assert 2016..2021 = year_options(conn)
     end
   end
 end

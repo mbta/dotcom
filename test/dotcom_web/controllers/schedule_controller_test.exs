@@ -1,7 +1,7 @@
 defmodule DotcomWeb.ScheduleControllerTest do
   use DotcomWeb.ConnCase, async: false
 
-  import Mock
+  import Mox
 
   alias CMS.Partial.Teaser
   alias DotcomWeb.ScheduleController
@@ -13,6 +13,8 @@ defmodule DotcomWeb.ScheduleControllerTest do
   @moduletag :external
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+
+  setup :set_mox_global
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug
@@ -301,156 +303,151 @@ defmodule DotcomWeb.ScheduleControllerTest do
     end
 
     test "should return an array of schedules", %{conn: conn} do
-      with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn
-          "TEST 1234", _ ->
-            [
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2219-05-18 22:25:06.098765Z]
-              }
-            ]
-        end
-      ) do
-        conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
-        body = json_response(conn, 200)
-        assert Kernel.length(body) == 1
-        assert %{"departure_time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
-      end
-    end
-
-    test "should not return past schedules", %{conn: conn} do
-      with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn
-          "TEST 1234", _ ->
-            [
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2019-05-18 21:25:06.098765Z]
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z]
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 23:25:06.098765Z]
-              }
-            ]
-        end
-      ) do
-        conn =
-          ScheduleController.schedules_for_stop(conn, %{
-            "stop_id" => "TEST 1234",
-            "future_departures" => "true"
-          })
-
-        body = json_response(conn, 200)
-        assert Kernel.length(body) == 2
-        assert %{"time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
-      end
-    end
-
-    test "should not return schedules that are the last stop on its route", %{conn: conn} do
-      with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn
-          "TEST 1234", _ ->
-            [
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z],
-                last_stop?: false
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z],
-                last_stop?: false
-              },
-              %Schedules.Schedule{
-                route: %Routes.Route{id: "route"},
-                stop: %Stops.Stop{id: "TEST 1234"},
-                time: ~U[2219-05-18 22:25:06.098765Z],
-                last_stop?: true
-              }
-            ]
-        end
-      ) do
-        conn =
-          ScheduleController.schedules_for_stop(conn, %{
-            "stop_id" => "TEST 1234",
-            "future_departures" => "true",
-            "last_stop_departures" => "false"
-          })
-
-        body = json_response(conn, 200)
-        assert Kernel.length(body) == 2
-      end
-    end
-
-    test "should report errors", %{conn: conn} do
-      with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn "TEST 1234", _ -> {:error, :not_found} end
-      ) do
-        log =
-          ExUnit.CaptureLog.capture_log(fn ->
-            conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
-
-            assert %{
-                     "error" => "Internal error"
-                   } = json_response(conn, 500)
-          end)
-
-        assert log =~ "[error] module=Elixir.DotcomWeb.ScheduleController"
-        assert log =~ "fun=schedules_for_stop stop=TEST 1234"
-        assert log =~ "error=:not_found"
-      end
-    end
-
-    test "logs when no schedules returned", %{conn: conn} do
-      with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn "TEST 1234", _ ->
-          # will get filtered out
+      Schedules.Repo.Mock
+      |> stub(:schedules_for_stop, fn
+        "TEST 1234", _ ->
           [
             %Schedules.Schedule{
               route: %Routes.Route{id: "route"},
               stop: %Stops.Stop{id: "TEST 1234"},
-              time: ~U[2019-05-18 22:25:06.098765Z],
+              departure_time: ~U[2219-05-18 22:25:06.098765Z]
+            }
+          ]
+      end)
+
+      conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
+      body = json_response(conn, 200)
+      assert Kernel.length(body) == 1
+      assert %{"departure_time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
+    end
+
+    test "should not return past schedules", %{conn: conn} do
+      Schedules.Repo.Mock
+      |> stub(:schedules_for_stop, fn
+        "TEST 1234", _ ->
+          [
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2019-05-18 21:25:06.098765Z]
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z]
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 23:25:06.098765Z]
+            }
+          ]
+      end)
+
+      conn =
+        ScheduleController.schedules_for_stop(conn, %{
+          "stop_id" => "TEST 1234",
+          "future_departures" => "true"
+        })
+
+      body = json_response(conn, 200)
+      assert Kernel.length(body) == 2
+      assert %{"time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
+    end
+
+    test "should not return schedules that are the last stop on its route", %{conn: conn} do
+      Schedules.Repo.Mock
+      |> stub(:schedules_for_stop, fn
+        "TEST 1234", _ ->
+          [
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z],
+              last_stop?: false
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z],
+              last_stop?: false
+            },
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              time: ~U[2219-05-18 22:25:06.098765Z],
               last_stop?: true
             }
           ]
-        end
-      ) do
-        log =
-          ExUnit.CaptureLog.capture_log(fn ->
-            old_level = Logger.level()
+      end)
 
-            on_exit(fn ->
-              Logger.configure(level: old_level)
-            end)
+      conn =
+        ScheduleController.schedules_for_stop(conn, %{
+          "stop_id" => "TEST 1234",
+          "future_departures" => "true",
+          "last_stop_departures" => "false"
+        })
 
-            Logger.configure(level: :info)
+      body = json_response(conn, 200)
+      assert Kernel.length(body) == 2
+    end
 
-            conn =
-              ScheduleController.schedules_for_stop(conn, %{
-                "stop_id" => "TEST 1234",
-                "future_departures" => "true",
-                "last_stop_departures" => "false"
-              })
+    test "should report errors", %{conn: conn} do
+      Schedules.Repo.Mock
+      |> stub(:schedules_for_stop, fn "TEST 1234", _ -> {:error, :not_found} end)
 
-            assert [] = json_response(conn, 200)
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
+
+          assert %{
+                   "error" => "Internal error"
+                 } = json_response(conn, 500)
+        end)
+
+      assert log =~ "[error] module=Elixir.DotcomWeb.ScheduleController"
+      assert log =~ "fun=schedules_for_stop stop=TEST 1234"
+      assert log =~ "error=:not_found"
+    end
+
+    test "logs when no schedules returned", %{conn: conn} do
+      Schedules.Repo.Mock
+      |> stub(:schedules_for_stop, fn "TEST 1234", _ ->
+        # will get filtered out
+        [
+          %Schedules.Schedule{
+            route: %Routes.Route{id: "route"},
+            stop: %Stops.Stop{id: "TEST 1234"},
+            time: ~U[2019-05-18 22:25:06.098765Z],
+            last_stop?: true
+          }
+        ]
+      end)
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          old_level = Logger.level()
+
+          on_exit(fn ->
+            Logger.configure(level: old_level)
           end)
 
-        assert log =~ "[info] module=Elixir.DotcomWeb.ScheduleController"
-        assert log =~ "fun=schedules_for_stop stop=TEST 1234"
-        assert log =~ "data_length=1"
-        assert log =~ "no_schedules_returned"
-      end
+          Logger.configure(level: :info)
+
+          conn =
+            ScheduleController.schedules_for_stop(conn, %{
+              "stop_id" => "TEST 1234",
+              "future_departures" => "true",
+              "last_stop_departures" => "false"
+            })
+
+          assert [] = json_response(conn, 200)
+        end)
+
+      assert log =~ "[info] module=Elixir.DotcomWeb.ScheduleController"
+      assert log =~ "fun=schedules_for_stop stop=TEST 1234"
+      assert log =~ "data_length=1"
+      assert log =~ "no_schedules_returned"
     end
 
     test "doesn't crash when a nil route is encountered", %{conn: conn} do

@@ -3,10 +3,8 @@ defmodule Dotcom.ContentRewriterTest do
 
   import Dotcom.ContentRewriter
   import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
-  import Mock
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
 
-  alias Dotcom.ContentRewriters.ResponsiveTables
   alias DotcomWeb.PartialView.SvgIconWithCircle
 
   describe "rewrite" do
@@ -16,13 +14,16 @@ defmodule Dotcom.ContentRewriterTest do
     end
 
     test "it dispatches to the table rewriter if a table is present", %{conn: conn} do
-      with_mock ResponsiveTables, rewrite_table: fn _ -> {"table", [], []} end do
+      # Instead of mocking, test the actual behavior
+      result =
         "<div><span>Foo</span><table>Foo</table></div>"
         |> raw()
         |> rewrite(conn)
+        |> safe_to_string()
 
-        assert called(ResponsiveTables.rewrite_table({"table", [], ["Foo"]}))
-      end
+      # Verify table was rewritten (it should now be wrapped in a figure)
+      assert result =~ "c-media--table"
+      assert result =~ "responsive-table"
     end
 
     test "it handles a plain string", %{conn: conn} do
