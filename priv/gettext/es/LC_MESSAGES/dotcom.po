@@ -5400,6 +5400,11 @@ msgstr "Trenes"
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "%{direction_name} calendario para %{route_name}, %{formatted_date}"
 
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Schedules & Maps (new)"
+msgstr "horario & Mapas (nuevo)"
+
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"

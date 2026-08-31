@@ -134,7 +134,9 @@ config :laboratory,
      "Uses the new timetable component and logic for all timetables"},
     {:use_smartling_translations, "Smartling translations",
      "Uses Smartling's translation workflows"},
-    {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"}
+    {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"},
+    {:line_diagram, "New Line Diagram",
+     "Adds a tab to the schedules page for the new line diagram"}
   ],
   cookie: [
     # one month,
