@@ -19,8 +19,6 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   def render(assigns) do
-    dbg(assigns)
-
     ~H"""
     <marquee style="font-size:2cm" scrollamount="16" scrolldelay="60">
       🚧 Under Construction 🚧
