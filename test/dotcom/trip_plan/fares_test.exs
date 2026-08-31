@@ -60,7 +60,6 @@ defmodule Dotcom.TripPlan.FaresTest do
       assert fare2 == fare3
     end
 
-    @tag skip: "The code is incorrect"
     test "free transfers for up to 3 consecutive bus or subway legs" do
       bus_or_subway_routes = [
         build(:route,
@@ -192,7 +191,7 @@ defmodule Dotcom.TripPlan.FaresTest do
     assert fare <= one_subway_fare
   end
 
-  test "invalid two leg subway transfers (eg red <-> blue)" do
+  test "subway to subway transfers are free even between different lines/stations (eg red <-> blue)" do
     start_leg =
       build(:transit_leg,
         from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
@@ -211,7 +210,7 @@ defmodule Dotcom.TripPlan.FaresTest do
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: 1
           )
       )
 
@@ -229,10 +228,10 @@ defmodule Dotcom.TripPlan.FaresTest do
       |> fare()
 
     fare = build(:itinerary, legs: [start_leg, end_leg]) |> fare()
-    assert fare > one_subway_fare
+    assert fare == one_subway_fare
   end
 
-  test "invalid three leg subway transfers (eg red <-> blue)" do
+  test "subway to subway to subway transfers are free even between different lines/stations (eg red <-> blue)" do
     start_leg =
       build(:transit_leg,
         from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
@@ -251,7 +250,7 @@ defmodule Dotcom.TripPlan.FaresTest do
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: 1
           )
       )
 
@@ -280,7 +279,26 @@ defmodule Dotcom.TripPlan.FaresTest do
       |> fare()
 
     fare = build(:itinerary, legs: [start_leg, mid_leg, end_leg]) |> fare()
-    assert fare > one_subway_fare
+    assert fare == one_subway_fare
+  end
+
+  test "unlimited transfers between bus, subway, and ferry only charge the highest-priced leg" do
+    bus_leg =
+      build(:transit_leg,
+        route: build(:route, agency: build(:agency, name: "MBTA"), type: 3, desc: "Local Bus")
+      )
+
+    subway_leg =
+      build(:transit_leg, route: build(:route, agency: build(:agency, name: "MBTA"), type: 0))
+
+    ferry_leg =
+      build(:transit_leg, route: build(:route, agency: build(:agency, name: "MBTA"), type: 4))
+
+    itinerary = build(:itinerary, legs: [bus_leg, subway_leg, ferry_leg, bus_leg, subway_leg])
+
+    fares_for_legs = [bus_leg, subway_leg, ferry_leg] |> Enum.map(&cents_for_leg/1)
+
+    assert fare(itinerary) == Enum.max(fares_for_legs)
   end
 
   describe "cents_for_leg/1" do

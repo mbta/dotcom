@@ -100,12 +100,19 @@ defmodule Dotcom.TripPlan.TransferTest do
       refute [cr_leg(), sl_rapid_leg()] |> maybe_transfer?
     end
 
-    test "ferry -> any other mode" do
-      refute [ferry_leg(), ferry_leg()] |> maybe_transfer?
-      refute [ferry_leg(), subway_leg()] |> maybe_transfer?
-      refute [ferry_leg(), bus_leg()] |> maybe_transfer?
+    test "ferry -> bus, subway, or ferry" do
+      assert [ferry_leg(), ferry_leg()] |> maybe_transfer?
+      assert [ferry_leg(), subway_leg()] |> maybe_transfer?
+      assert [ferry_leg(), bus_leg()] |> maybe_transfer?
+      assert [ferry_leg(), sl_rapid_leg()] |> maybe_transfer?
+    end
+
+    test "ferry -> express bus is not a transfer" do
       refute [ferry_leg(), xp_leg()] |> maybe_transfer?
-      refute [ferry_leg(), sl_rapid_leg()] |> maybe_transfer?
+    end
+
+    test "subway -> subway" do
+      assert [subway_leg(), subway_leg()] |> maybe_transfer?
     end
 
     test "shuttle -> subway or bus" do
@@ -132,68 +139,15 @@ defmodule Dotcom.TripPlan.TransferTest do
     test "subway -> bus -> subway" do
       assert [subway_leg(), bus_leg(), subway_leg()] |> maybe_transfer?
     end
-  end
 
-  describe "subway_transfer?/1" do
-    test "handles transfers between different stops" do
-      [parent1, parent2] = Faker.Util.sample_uniq(2, fn -> build(:parent_stop) end)
-
-      leg1 =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          to: build(:place_with_stop, stop: build(:stop, parent_station: parent1))
-        )
-
-      leg2 =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          from: build(:place_with_stop, stop: build(:stop, parent_station: parent2))
-        )
-
-      refute subway_transfer?([leg1, leg2])
+    test "any number of consecutive bus, subway, and/or ferry legs" do
+      assert [bus_leg(), subway_leg(), ferry_leg(), bus_leg(), subway_leg()]
+             |> maybe_transfer?
     end
 
-    test "handles transfers within same parent stop" do
-      same_parent = build(:parent_stop)
-
-      leg1 =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          to: build(:place_with_stop, stop: build(:stop, parent_station: same_parent))
-        )
-
-      leg2 =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          from: build(:place_with_stop, stop: build(:stop, parent_station: same_parent))
-        )
-
-      assert subway_transfer?([leg1, leg2])
-    end
-
-    test "handles transfers within the Winter St. Concourse" do
-      parent1 = build(:parent_stop, gtfs_id: "mbta-ma-us:place-dwnxg")
-      parent2 = build(:parent_stop, gtfs_id: "mbta-ma-us:place-pktrm")
-
-      leg1 =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          to: build(:place_with_stop, stop: build(:stop, parent_station: parent1))
-        )
-
-      leg2 =
-        build(:transit_leg,
-          agency: build(:agency, name: "MBTA"),
-          route: build(:route, type: 1),
-          from: build(:place_with_stop, stop: build(:stop, parent_station: parent2))
-        )
-
-      assert subway_transfer?([leg1, leg2])
+    test "a bus route repeated mid-chain breaks the transfer" do
+      bus_leg = bus_leg()
+      refute [subway_leg(), bus_leg, bus_leg, subway_leg()] |> maybe_transfer?
     end
   end
 end
