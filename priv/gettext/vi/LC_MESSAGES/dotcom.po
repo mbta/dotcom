@@ -5394,7 +5394,7 @@ msgstr "%{direction_name} thời khóa biểu cho %{route_name}, %{formatted_dat
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr ""
+msgstr "lịch trình & Bản đồ (mới)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format

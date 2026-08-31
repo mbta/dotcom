@@ -5399,7 +5399,7 @@ msgstr "Horário %{direction_name} para %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr ""
+msgstr "Horário e mapas (novo)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
