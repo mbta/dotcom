@@ -37,6 +37,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     as: :assign_direction_id
 
   def show(conn, _) do
+    raise "nope"
     direction_id = conn.assigns[:direction_id]
     direction_name = conn.assigns.route.direction_names[direction_id]
 
