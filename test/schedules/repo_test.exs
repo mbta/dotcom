@@ -195,6 +195,7 @@ defmodule Schedules.RepoTest do
             "trip" => [
               %JsonApi.Item{
                 id: trip_id,
+                type: "trip",
                 attributes: %{
                   "headsign" => "North Station",
                   "name" => "300",

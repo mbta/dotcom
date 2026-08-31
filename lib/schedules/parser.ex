@@ -56,42 +56,28 @@ defmodule Schedules.Parser do
   def trip(%JsonApi.Item{
         relationships: %{
           "trip" => [
-            %JsonApi.Item{
-              id: id,
-              attributes:
-                %{"name" => name, "headsign" => headsign, "direction_id" => direction_id} =
-                  attributes,
-              relationships: relationships
-            }
+            %JsonApi.Item{} = trip
             | _
           ]
         }
       }) do
-    %Schedules.Trip{
-      id: id,
-      headsign: headsign,
-      name: name,
-      direction_id: direction_id,
-      bikes_allowed?: bikes_allowed?(attributes),
-      route_pattern_id: route_pattern_id(relationships),
-      shape_id: shape_id(relationships),
-      occupancy: occupancy(relationships)
-    }
+    trip(trip)
   end
 
-  def trip(%JsonApi{
-        data: [
-          %JsonApi.Item{
-            id: id,
-            attributes:
-              %{
-                "headsign" => headsign,
-                "name" => name,
-                "direction_id" => direction_id
-              } = attributes,
-            relationships: relationships
-          }
-        ]
+  def trip(%JsonApi{data: [%JsonApi.Item{type: "trip"} = trip]}) do
+    trip(trip)
+  end
+
+  def trip(%JsonApi.Item{
+        type: "trip",
+        id: id,
+        attributes:
+          %{
+            "headsign" => headsign,
+            "name" => name,
+            "direction_id" => direction_id
+          } = attributes,
+        relationships: relationships
       }) do
     %Schedules.Trip{
       id: id,
@@ -105,11 +91,7 @@ defmodule Schedules.Parser do
     }
   end
 
-  def trip(%JsonApi.Item{relationships: %{"trip" => _}}) do
-    nil
-  end
-
-  def trip(%JsonApi{data: []}), do: nil
+  def trip(_), do: nil
 
   def stop_id(%JsonApi.Item{
         relationships: %{
