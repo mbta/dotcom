@@ -696,6 +696,7 @@ msgstr "Mang theo ô tô hoặc xe đạp của bạn"
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
+#: lib/fares/format.ex
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Bus"
@@ -2250,11 +2251,6 @@ msgstr "Đang tải các chuyến khởi hành sắp tới"
 #, elixir-autogen, elixir-format
 msgid "Lobby inside Back Bay station"
 msgstr "Sảnh bên trong Back Bay nhà ga"
-
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Local Bus"
-msgstr "Xe buýt địa phương"
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #, elixir-autogen, elixir-format

@@ -199,8 +199,8 @@ defmodule Fares.FareInfo do
     },
     %{
       mode: :express_bus,
-      charlie_card_price: "4.25",
-      day_reduced_price: "2.10",
+      charlie_card_price: "1.70",
+      day_reduced_price: "0.85",
       week_reduced_price: "10.00",
       month_reduced_price: "67.00",
       day_pass_price: "11.00",

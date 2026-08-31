@@ -86,7 +86,7 @@ defmodule Fares.Format do
   @spec name(Fare.t() | Fare.fare_name()) :: String.t()
   def name(%Fare{name: name}), do: name(name)
   def name(:subway), do: ~t"Subway"
-  def name(:local_bus), do: ~t"Local Bus"
+  def name(:local_bus), do: ~t"Bus"
   def name(:express_bus), do: ~t"Express Bus"
   def name(:ferry_inner_harbor), do: ~t"Charlestown Ferry"
   def name(:ferry_cross_harbor), do: ~t"Cross Harbor Ferry"
