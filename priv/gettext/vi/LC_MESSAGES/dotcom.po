@@ -5410,3 +5410,8 @@ msgstr "Tàu hỏa"
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "%{direction_name} thời khóa biểu cho %{route_name}, %{formatted_date}"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Schedules & Maps (new)"
+msgstr ""
