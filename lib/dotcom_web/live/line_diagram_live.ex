@@ -7,7 +7,7 @@ defmodule DotcomWeb.LineDiagramLive do
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
 
   def mount(params, _session, socket) do
-    route_id = params |> Map.get("route_id", "Red")
+    route_id = params |> Map.get("route_id")
     direction_id = params |> Map.get("direction_id", "1")
     route_patterns = @route_patterns_repo.by_route_id(route_id)
 
