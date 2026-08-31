@@ -202,10 +202,10 @@ defmodule Fares.FareInfo do
       charlie_card_price: "1.70",
       day_reduced_price: "0.85",
       week_reduced_price: "10.00",
-      month_reduced_price: "67.00",
+      month_reduced_price: "30.00",
       day_pass_price: "11.00",
       week_pass_price: "22.50",
-      month_pass_price: "136.00"
+      month_pass_price: "55.00"
     },
     %{
       mode: :ferry,
