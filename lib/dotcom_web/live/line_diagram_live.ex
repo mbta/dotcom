@@ -23,7 +23,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
     ~H"""
     <marquee style="font-size:2cm" scrollamount="16" scrolldelay="60">
-      Hello World
+      🚧 Under Construction 🚧
     </marquee>
     """
   end
