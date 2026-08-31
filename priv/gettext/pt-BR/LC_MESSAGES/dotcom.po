@@ -38,16 +38,6 @@ msgstr " Rotas"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid " Service continues later in the day in the opposite direction. %{link}"
-msgstr " O serviço continua mais tarde, no sentido oposto. %{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid " Service is available earlier in the day in the opposite direction. %{link}"
-msgstr " O serviço está disponível mais cedo no sentido oposto. %{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " Os trens partem de Foxboro 30 minutos após o término dos eventos."
 
@@ -4694,11 +4684,6 @@ msgid "View common fare information for the MBTA bus, subway, Commuter Rail, fer
 msgstr "Veja informações sobre tarifas comuns do ônibus MBTA, metrô, trem suburbano, balsa e The RIDE. Encontre serviços online do CharlieCard e saiba mais sobre"
 " programas de pedidos em grande quantidade."
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View evening timetable"
-msgstr "Veja o horário da noite."
-
 #: lib/dotcom_web/templates/mode/index.html.heex
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
@@ -4709,11 +4694,6 @@ msgstr "Veja a visão geral das tarifas"
 #, elixir-autogen, elixir-format
 msgid "View more payment information"
 msgstr "Veja mais informações sobre pagamento"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View morning timetable"
-msgstr "Veja o horário da manhã"
 
 #: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -5420,3 +5400,23 @@ msgstr "Horário %{direction_name} para %{route_name}, %{formatted_date}"
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
 msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Clockwise Loop"
+msgstr "Laço no sentido horário"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Counterclockwise Loop"
+msgstr "Laço anti-horário"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Evening"
+msgstr "Noite"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Morning"
+msgstr "Manhã"

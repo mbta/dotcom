@@ -132,6 +132,35 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
   end
 
+  # We need a special case for Boat-F10, because that route has a
+  # special timetable layout.
+  def assign_trip_schedules(
+        %{
+          assigns: %{
+            route: route,
+            blocking_alert: nil,
+            date_in_rating?: true
+          }
+        } = conn
+      )
+      when route.id == "Boat-F10" do
+    [morning_timetable, evening_timetable] =
+      [0, 1] |> Enum.map(&timetable_for_direction(conn, &1))
+
+    conn
+    |> assign(:dual_direction_timetable?, true)
+    |> assign(:direction_id, nil)
+    |> assign(:linear_timetable?, false)
+    |> assign(:morning_timetable, morning_timetable)
+    |> assign(:evening_timetable, evening_timetable)
+    |> assign(:morning_trip_count, Enum.count(morning_timetable.trips))
+    |> assign(:evening_trip_count, Enum.count(evening_timetable.trips))
+    |> assign(
+      :trip_count,
+      Enum.count(morning_timetable.trips) + Enum.count(evening_timetable.trips)
+    )
+  end
+
   def assign_trip_schedules(
         %{
           assigns: %{
@@ -144,8 +173,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       )
       when route.id in [
              "Boat-F6",
-             "Boat-F7",
-             "Boat-F10"
+             "Boat-F7"
            ] or new_timetables? == true do
     timetable =
       conn
@@ -376,6 +404,17 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     # if the scheduled stop doesn't match a canonical stop, there has been a track change
     length(canonical_stop_ids) > 0 &&
       schedule.platform_stop_id not in canonical_stop_ids
+  end
+
+  # Helper function to return the timetable for the route and date
+  # specified in the conn, and the direction specified in the second
+  # argument.
+  @spec timetable_for_direction(Plug.Conn.t(), 0 | 1) :: Dotcom.Timetables.Timetable.t()
+  defp timetable_for_direction(conn, direction_id) do
+    conn
+    |> assign(:direction_id, direction_id)
+    |> timetable_schedules()
+    |> Timetables.from_schedules()
   end
 
   # Helper function for obtaining schedule data
