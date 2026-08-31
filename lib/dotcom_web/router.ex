@@ -122,6 +122,17 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/schedules", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :schedules,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live("/:route_id/line_new", LineDiagramLive)
+    end
+  end
+
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
