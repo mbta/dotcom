@@ -38,16 +38,6 @@ msgstr " Itinéraires"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid " Service continues later in the day in the opposite direction. %{link}"
-msgstr " Le service se poursuit plus tard dans la journée dans la direction opposée. %{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid " Service is available earlier in the day in the opposite direction. %{link}"
-msgstr " Le service est disponible plus tôt dans la journée dans la direction opposée. %{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " Les trains partent de Foxboro 30 minutes après la fin des événements"
 
@@ -4698,11 +4688,6 @@ msgid "View common fare information for the MBTA bus, subway, Commuter Rail, fer
 msgstr "Consultez les informations tarifaires courantes pour le MBTA bus, le métro, le Train de banlieue, ferryet The RIDE. Trouvez en ligne les services CharlieCard"
 " et découvrez les programmes de commande en gros."
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View evening timetable"
-msgstr "Voir l’horaire du soir"
-
 #: lib/dotcom_web/templates/mode/index.html.heex
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
@@ -4713,11 +4698,6 @@ msgstr "Voir l’aperçu des tarifs"
 #, elixir-autogen, elixir-format
 msgid "View more payment information"
 msgstr "Voir plus d’informations sur les paiements"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View morning timetable"
-msgstr "Voir l’horaire du matin"
 
 #: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -5419,3 +5399,23 @@ msgstr "Trains"
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "%{direction_name} calendrier pour %{route_name}, %{formatted_date}"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Clockwise Loop"
+msgstr "Boucle dans le sens horaire"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Counterclockwise Loop"
+msgstr "Boucle dans le sens antihoraire"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Evening"
+msgstr "Soirée"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Morning"
+msgstr "Bonjour"

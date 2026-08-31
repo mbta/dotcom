@@ -38,16 +38,6 @@ msgstr " Wout yo"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid " Service continues later in the day in the opposite direction. %{link}"
-msgstr " Sèvis la ap kontinye pita nan jounen an nan direksyon opoze a. %{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid " Service is available earlier in the day in the opposite direction. %{link}"
-msgstr " Sèvis la disponib pi bonè nan jounen an nan direksyon opoze a. %{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " Tren yo ap pati Foxboro 30 minit apre evènman yo fini."
 
@@ -4687,11 +4677,6 @@ msgid "View common fare information for the MBTA bus, subway, Commuter Rail, fer
 msgstr "Gade enfòmasyon sou pri tikè komen pou MBTA bis, subway, Tren banlye, bato, ak The RIDE. Jwenn sèvis CharlieCard sou entènèt epi aprann sou pwogram kòmand"
 " an gwo."
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View evening timetable"
-msgstr "Gade orè aswè a"
-
 #: lib/dotcom_web/templates/mode/index.html.heex
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
@@ -4702,11 +4687,6 @@ msgstr "Gade apèsi sou pri tikè yo"
 #, elixir-autogen, elixir-format
 msgid "View more payment information"
 msgstr "Gade plis enfòmasyon sou peman"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View morning timetable"
-msgstr "Gade orè maten an"
 
 #: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -5406,3 +5386,23 @@ msgstr "Tren yo"
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Clockwise Loop"
+msgstr "Bouk nan sans zegwi mont lan"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Counterclockwise Loop"
+msgstr "Boukl kontrè zegwi mont lan"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Evening"
+msgstr "Aswè"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Morning"
+msgstr "Maten"

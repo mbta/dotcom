@@ -38,16 +38,6 @@ msgstr " 路線"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid " Service continues later in the day in the opposite direction. %{link}"
-msgstr " 當天晚些時候，該服務將繼續以相反的方向運行。%{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid " Service is available earlier in the day in the opposite direction. %{link}"
-msgstr " 當天早些時候，反方向的服務也已開通。%{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " 活動結束後30分鐘，列車將從Foxboro出發。"
 
@@ -4672,11 +4662,6 @@ msgstr "查看可用的自動扶梯。"
 msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
 msgstr "查看 MBTA 巴士、地鐵、通勤鐵路、渡輪和The RIDE的常見票價資訊。 在線查找 CharlieCard 服務並了解大量訂購計劃。"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View evening timetable"
-msgstr "查看晚間時刻表"
-
 #: lib/dotcom_web/templates/mode/index.html.heex
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
@@ -4687,11 +4672,6 @@ msgstr "查看票價概覽"
 #, elixir-autogen, elixir-format
 msgid "View more payment information"
 msgstr "查看更多付款信息"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View morning timetable"
-msgstr "查看早晨時刻表"
 
 #: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -5390,3 +5370,23 @@ msgstr "火車"
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "%{direction_name} %{route_name}、%{formatted_date} 的時間表"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Clockwise Loop"
+msgstr "順時針循環"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Counterclockwise Loop"
+msgstr "逆時針環"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Evening"
+msgstr "晚上"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Morning"
+msgstr "早晨"
