@@ -305,7 +305,7 @@ defmodule DotcomWeb.ScheduleView do
     ]
 
     tabs =
-      if conn.assigns.line_diagram do
+      if conn.assigns |> Map.get(:line_diagram, false) do
         [
           %HeaderTab{
             id: "new_line_diagram",
