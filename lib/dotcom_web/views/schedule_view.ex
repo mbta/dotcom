@@ -309,7 +309,7 @@ defmodule DotcomWeb.ScheduleView do
         [
           %HeaderTab{
             id: "new_line_diagram",
-            name: ~t"Line Diagram",
+            name: ~t"Schedules & Maps (new)",
             href: line_path
           }
           | tabs
