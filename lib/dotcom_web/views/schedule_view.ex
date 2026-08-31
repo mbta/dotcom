@@ -291,6 +291,7 @@ defmodule DotcomWeb.ScheduleView do
     route = conn.assigns.route
     tab_params = conn.assigns.tab_params
     info_link = line_path(conn, :show, route.id, tab_params)
+    line_path = info_link |> String.replace("/line", "/line_new")
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
 
@@ -302,6 +303,20 @@ defmodule DotcomWeb.ScheduleView do
         badge: conn |> alert_count() |> alert_badge()
       }
     ]
+
+    tabs =
+      if conn.assigns.line_diagram do
+        [
+          %HeaderTab{
+            id: "new_line_diagram",
+            name: ~t"Line Diagram",
+            href: line_path
+          }
+          | tabs
+        ]
+      else
+        tabs
+      end
 
     tabs =
       case route.type do
