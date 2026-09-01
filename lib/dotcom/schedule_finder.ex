@@ -208,12 +208,25 @@ defmodule Dotcom.ScheduleFinder do
     end
   end
 
+  def to_trip_heading(%PredictedSchedule{} = ps) do
+    route = PredictedSchedule.route(ps)
+    trip = PredictedSchedule.trip(ps)
+
+    if trip do
+      to_trip_heading(%{trip: trip, route: route})
+    else
+      []
+    end
+  end
+
   def to_trip_heading(%{trip: trip, route: route}) do
     %TripHeading{
       headsign: trip.headsign,
       route: route
     }
   end
+
+  def to_trip_heading(_), do: []
 
   # Instead of every stop in the trip, only return schedules that make later stops on the trip, as defined by the given `stop_sequence` value
   defp makes_subsequent_stop?(%Schedule{trip: trip}, trip_id, _) when trip_id != trip.id do

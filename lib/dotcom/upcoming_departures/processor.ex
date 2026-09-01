@@ -289,7 +289,10 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
     {stops_before, stop, stops_after} =
       stops
-      |> Enum.split_while(&(&1.stop_id != stop_id || &1.stop_sequence != stop_sequence))
+      |> Enum.split_while(
+        &(Map.get(&1, :stop_id, nil) != stop_id ||
+            Map.get(&1, :stop_sequence, nil) != stop_sequence)
+      )
       |> case do
         {all, []} -> {[], nil, all}
         {bef, [st | aft]} -> {bef, st, aft}

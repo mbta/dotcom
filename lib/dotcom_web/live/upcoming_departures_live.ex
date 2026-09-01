@@ -574,6 +574,12 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   attr :other_stop, :any, required: true
   attr :highlight, :boolean, default: false
 
+  defp other_stop(%{other_stop: %Dotcom.ScheduleFinder.TripHeading{}} = assigns) do
+    ~H"""
+    <Departures.continues_as route={@other_stop.route} headsign={@other_stop.headsign} />
+    """
+  end
+
   defp other_stop(assigns) do
     ~H"""
     <.lined_list_item
