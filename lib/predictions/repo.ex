@@ -8,8 +8,9 @@ defmodule Predictions.Repo do
 
   use Nebulex.Caching.Decorators
 
-  alias Predictions.Parser
+  alias Predictions.{Parser, Prediction}
   alias Routes.Route
+  alias Schedules.Trip
   alias Stops.Stop
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -23,7 +24,7 @@ defmodule Predictions.Repo do
       "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
     "fields[trip]": "direction_id,headsign,name,bikes_allowed",
     "fields[stop]": "platform_code",
-    include: "trip,trip.occupancies,stop"
+    include: "trip,trip.occupancies,trip.from_trip_transfers,stop"
   ]
 
   def all(opts) when is_list(opts) and opts != [] do
@@ -35,6 +36,18 @@ defmodule Predictions.Repo do
     |> cache_fetch()
     |> filter_predictions(Keyword.take(opts, [:min_time, :include_terminals]))
     |> load_from_other_repos(Keyword.take(opts, [:discard_past_subway_predictions]))
+    |> append_in_seat_transfer_trips(opts)
+  end
+
+  defp append_in_seat_transfer_trips(predictions, opts) do
+    with %Prediction{trip: trip} <- List.last(predictions),
+         %Trip{next_trip_id: next_trip_id} when not is_nil(next_trip_id) <- trip do
+      opts = Keyword.merge(opts, trip: next_trip_id)
+      Enum.concat(predictions, all(opts))
+    else
+      _ ->
+        predictions
+    end
   end
 
   defp update_green_line_route_id(opts) do
