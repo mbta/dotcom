@@ -391,8 +391,7 @@ msgstr "無障礙資源"
 msgid "Accessibility at %{name}"
 msgstr "無障礙存取%{name}"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/transit_icons.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -2509,8 +2508,7 @@ msgstr "Massport 擺渡巴士%{route_number}"
 msgid "Mattapan Trolley"
 msgstr "Mattapan Trolley"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "May not be accessible"
 msgstr "可能不太方便"
@@ -2738,8 +2736,7 @@ msgstr "未來7天內無任何變更發布"
 msgid "No events"
 msgstr "無事件"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "No parking"
 msgstr "禁止停車"
@@ -2787,9 +2784,8 @@ msgstr "正常服務"
 msgid "Northbound"
 msgstr "北行"
 
-#: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
-#: lib/dotcom_web/components/timetable.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Not accessible"
@@ -3035,8 +3031,7 @@ msgstr "停車收費標準"
 msgid "Parking at %{name}"
 msgstr "停車場位於%{name}"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "Parking available"
 msgstr "提供停車位"

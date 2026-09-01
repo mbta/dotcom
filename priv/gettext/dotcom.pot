@@ -397,8 +397,7 @@ msgstr ""
 msgid "Accessibility at %{name}"
 msgstr ""
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/transit_icons.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -2515,8 +2514,7 @@ msgstr ""
 msgid "Mattapan Trolley"
 msgstr ""
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "May not be accessible"
 msgstr ""
@@ -2744,8 +2742,7 @@ msgstr ""
 msgid "No events"
 msgstr ""
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "No parking"
 msgstr ""
@@ -2793,9 +2790,8 @@ msgstr ""
 msgid "Northbound"
 msgstr ""
 
-#: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
-#: lib/dotcom_web/components/timetable.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Not accessible"
@@ -3041,8 +3037,7 @@ msgstr ""
 msgid "Parking at %{name}"
 msgstr ""
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "Parking available"
 msgstr ""

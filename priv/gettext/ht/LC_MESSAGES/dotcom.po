@@ -397,8 +397,7 @@ msgstr "Resous Aksè"
 msgid "Accessibility at %{name}"
 msgstr "aksesiblite nan %{name}"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/transit_icons.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -2521,8 +2520,7 @@ msgstr "Massport navèt %{route_number}"
 msgid "Mattapan Trolley"
 msgstr "Mattapan Trolley"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "May not be accessible"
 msgstr "Li ka pa aksesib"
@@ -2751,8 +2749,7 @@ msgstr "Pa gen okenn chanjman ki afiche pou 7 jou kap vini yo"
 msgid "No events"
 msgstr "Pa gen evènman"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "No parking"
 msgstr "Pa gen pakin"
@@ -2800,9 +2797,8 @@ msgstr "sèvis nòmal"
 msgid "Northbound"
 msgstr "Direksyon nò"
 
-#: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
-#: lib/dotcom_web/components/timetable.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Not accessible"
@@ -3048,8 +3044,7 @@ msgstr "Tarif Pakin"
 msgid "Parking at %{name}"
 msgstr "Pakin nan %{name}"
 
-#: lib/dotcom_web/components/new_timetable.ex
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "Parking available"
 msgstr "Pakin disponib"
