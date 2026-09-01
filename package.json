@@ -1,7 +1,7 @@
 {
   "name": "dotcom",
   "dependencies": {
-    "@playwright/test": "1.58.1",
+    "@playwright/test": "1.62.1",
     "artillery": "2.0.30",
     "axios": "1.18.1",
     "csv-parse": "^6.1.0",
