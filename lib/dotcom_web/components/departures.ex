@@ -76,4 +76,28 @@ defmodule DotcomWeb.Components.Departures do
     </div>
     """
   end
+
+  attr :headsign, :string, required: true
+  attr :route, Routes.Route, required: true
+
+  def continues_as(assigns) do
+    ~H"""
+    <RouteComponents.lined_list_item
+      route={@route}
+      variant="none"
+    >
+      <div class="flex-col w-full">
+        <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues as"}</div>
+        <.departure_heading route={@route}>
+          <:headsign>
+            <div class="flex gap-x-sm gap-y-xs flex-wrap">
+              {@headsign}
+            </div>
+          </:headsign>
+          <:time></:time>
+        </.departure_heading>
+      </div>
+    </RouteComponents.lined_list_item>
+    """
+  end
 end
