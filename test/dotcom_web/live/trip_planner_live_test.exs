@@ -131,7 +131,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       # Verify
       document = render(view) |> Floki.parse_document!()
 
-      assert [{"svg", attrs, content}, _to_marker] = Floki.find(document, ".mbta-metro-map-pin")
+      assert [{"svg", attrs, content}, _to_marker] = Floki.find(document, ".mbta-map-pin")
 
       assert Enum.find(attrs, fn attr ->
                attr ==
@@ -154,7 +154,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       # Verify
       document = render(view) |> Floki.parse_document!()
 
-      assert [_from_marker, {"svg", attrs, content}] = Floki.find(document, ".mbta-metro-map-pin")
+      assert [_from_marker, {"svg", attrs, content}] = Floki.find(document, ".mbta-map-pin")
 
       assert Enum.find(attrs, fn attr ->
                attr ==
@@ -182,7 +182,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       document = render(view) |> Floki.parse_document!()
 
       pins =
-        Floki.find(document, ".mbta-metro-map-pin")
+        Floki.find(document, ".mbta-map-pin")
         |> Enum.map(fn element ->
           element
           |> Floki.attribute("data-coordinates")
