@@ -1,4 +1,4 @@
-defmodule DotcomWeb.LiveMap do
+defmodule DotcomWeb.Components.Map do
   @moduledoc """
   A live component that renders a map using [maplibre-gl](https://maplibre.org/maplibre-gl-js/docs/).
 
@@ -72,13 +72,13 @@ defmodule DotcomWeb.LiveMap do
     ~H"""
     <div
       id={@id}
-      class={"mbta-metro-map #{@class}"}
+      class={"mbta-map #{@class}"}
       data-config={Jason.encode!(@config)}
       phx-hook="Map"
     >
       <div
         id={"#{@id}-map-container"}
-        class="mbta-metro-map-wrapper"
+        class="mbta-map-wrapper"
         phx-update="ignore"
       />
       <div class="hidden">
@@ -89,7 +89,7 @@ defmodule DotcomWeb.LiveMap do
           <.icon
             type="metro"
             name="point"
-            class="mbta-metro-map-point"
+            class="mbta-map-point"
             data-coordinates={Jason.encode!(coordinates)}
           />
         <% end %>
@@ -97,7 +97,7 @@ defmodule DotcomWeb.LiveMap do
           <.icon
             type="metro"
             name={index_to_pin(index)}
-            class="mbta-metro-map-pin"
+            class="mbta-map-pin"
             data-coordinates={Jason.encode!(coordinates)}
           />
         <% end %>
@@ -105,7 +105,7 @@ defmodule DotcomWeb.LiveMap do
           <.icon
             type={icon.type}
             name={icon.name}
-            class={"mbta-metro-map-icon#{concat_classes(icon |> Map.get(:class))}"}
+            class={"mbta-map-icon#{concat_classes(icon |> Map.get(:class))}"}
             data-anchor={icon |> Map.get(:anchor, "center")}
             data-coordinates={Jason.encode!(icon.coordinates)}
           />

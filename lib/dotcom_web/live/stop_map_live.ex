@@ -42,7 +42,7 @@ defmodule DotcomWeb.StopMapLive do
       <h1>Hello we are your map pin icon</h1>
 
       <.live_component
-        module={DotcomWeb.LiveMap}
+        module={DotcomWeb.Components.Map}
         id="stop-page-map"
         class="h-[32rem] w-full"
         config={@map_config}

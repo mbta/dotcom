@@ -18,7 +18,7 @@ export default {
     this.config = JSON.parse(this.el.dataset.config);
 
     this.map = new maplibregl.Map({
-      container: this.el.querySelector(".mbta-metro-map-wrapper"),
+      container: this.el.querySelector(".mbta-map-wrapper"),
       ...this.config,
     });
 

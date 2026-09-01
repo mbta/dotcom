@@ -1,24 +1,24 @@
 @import "../node_modules/maplibre-gl/dist/maplibre-gl.css";
 
-.mbta-metro-map-wrapper {
+.mbta-map-wrapper {
   height: 100%;
 }
 
-.mbta-metro-map svg {
+.mbta-map svg {
   fill: var(--colors-cobalt-30);
 }
 
-.mbta-metro-map-pin {
+.mbta-map-pin {
   width: 4rem;
   height: 4rem;
 }
 
-.mbta-metro-map-point {
+.mbta-map-point {
   width: 1rem;
   height: 1rem;
 }
 
-.mbta-metro-map-icon {
+.mbta-map-icon {
   width: 2rem;
   height: 2rem;
 }
