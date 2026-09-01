@@ -33,7 +33,8 @@ defmodule Dotcom.TripPlan.FaresTest do
             )
         ),
         build(:transit_leg,
-          route: build(:route, agency: build(:agency, name: "MBTA"), type: 0)
+          route:
+            build(:route, agency: build(:agency, name: "MBTA"), type: Faker.Util.pick([0, 1]))
         )
       ]
 
@@ -64,23 +65,23 @@ defmodule Dotcom.TripPlan.FaresTest do
   test "subway to subway transfers are free even between different lines/stations (eg red <-> blue)" do
     start_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
     end_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 1
+            type: Faker.Util.pick([0, 1])
           )
       )
 
@@ -91,7 +92,7 @@ defmodule Dotcom.TripPlan.FaresTest do
             route:
               build(:route,
                 agency: build(:agency, name: "MBTA"),
-                type: 0
+                type: Faker.Util.pick([0, 1])
               )
           )
       )
@@ -109,7 +110,7 @@ defmodule Dotcom.TripPlan.FaresTest do
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
@@ -120,7 +121,7 @@ defmodule Dotcom.TripPlan.FaresTest do
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 1
+            type: Faker.Util.pick([0, 1])
           )
       )
 
@@ -131,7 +132,7 @@ defmodule Dotcom.TripPlan.FaresTest do
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
@@ -142,7 +143,7 @@ defmodule Dotcom.TripPlan.FaresTest do
             route:
               build(:route,
                 agency: build(:agency, name: "MBTA"),
-                type: 0
+                type: Faker.Util.pick([0, 1])
               )
           )
       )
@@ -159,7 +160,9 @@ defmodule Dotcom.TripPlan.FaresTest do
       )
 
     subway_leg =
-      build(:transit_leg, route: build(:route, agency: build(:agency, name: "MBTA"), type: 0))
+      build(:transit_leg,
+        route: build(:route, agency: build(:agency, name: "MBTA"), type: Faker.Util.pick([0, 1]))
+      )
 
     ferry_leg =
       build(:transit_leg, route: build(:route, agency: build(:agency, name: "MBTA"), type: 4))
