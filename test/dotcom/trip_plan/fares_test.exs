@@ -105,8 +105,8 @@ defmodule Dotcom.TripPlan.FaresTest do
   test "subway to subway to subway transfers are free even between different lines/stations (eg red <-> blue)" do
     start_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
@@ -116,8 +116,8 @@ defmodule Dotcom.TripPlan.FaresTest do
 
     mid_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
@@ -127,8 +127,8 @@ defmodule Dotcom.TripPlan.FaresTest do
 
     end_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-other"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
