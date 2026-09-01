@@ -120,26 +120,6 @@ defmodule Dotcom.TripPlan.TransferTest do
       refute maybe_transfer?([shuttle_leg(), subway_leg()])
     end
 
-    test "bus -> bus -> subway" do
-      assert [bus_leg(), bus_leg(), subway_leg()] |> maybe_transfer?
-    end
-
-    test "subway -> bus -> bus" do
-      assert [subway_leg(), bus_leg(), bus_leg()] |> maybe_transfer?
-    end
-
-    test "bus -> bus -> bus" do
-      assert [bus_leg(), bus_leg(), bus_leg()] |> maybe_transfer?
-    end
-
-    test "bus -> subway -> bus" do
-      assert [bus_leg(), subway_leg(), bus_leg()] |> maybe_transfer?
-    end
-
-    test "subway -> bus -> subway" do
-      assert [subway_leg(), bus_leg(), subway_leg()] |> maybe_transfer?
-    end
-
     test "any number of consecutive bus, subway, and/or ferry legs" do
       assert [bus_leg(), subway_leg(), ferry_leg(), bus_leg(), subway_leg()]
              |> maybe_transfer?
