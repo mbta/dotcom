@@ -575,19 +575,39 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <.lined_list_item
-                :for={{arrival, index} <- Enum.with_index(arrivals)}
-                route={departure.route}
-                class={if(index == 0, do: "font-bold")}
-                stop_pin?={index == 0}
-              >
-                <DotcomWeb.Components.Departures.stop_label
-                  stop_name={arrival.stop_name}
-                  platform_name={arrival.platform_name}
-                />
+              <%= for {heading_or_arrival, index} <- Enum.with_index(arrivals) do %>
+                <%= if match?(%Dotcom.ScheduleFinder.TripHeading{}, heading_or_arrival) do %>
+                  <.lined_list_item
+                    route={heading_or_arrival.route}
+                    variant="none"
+                  >
+                    <div class="flex-col w-full">
+                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues as"}</div>
+                      <div class="flex items-center gap-sm">
+                        <RouteComponents.route_icon
+                          route={heading_or_arrival.route}
+                          size="small"
+                          class="shrink-0"
+                        />
+                        <span>{heading_or_arrival.headsign}</span>
+                      </div>
+                    </div>
+                  </.lined_list_item>
+                <% else %>
+                  <.lined_list_item
+                    route={departure.route}
+                    class={if(index == 0, do: "font-bold")}
+                    stop_pin?={index == 0}
+                  >
+                    <DotcomWeb.Components.Departures.stop_label
+                      stop_name={heading_or_arrival.stop_name}
+                      platform_name={heading_or_arrival.platform_name}
+                    />
 
-                <Departures.formatted_time time={arrival.time} />
-              </.lined_list_item>
+                    <Departures.formatted_time time={heading_or_arrival.time} />
+                  </.lined_list_item>
+                <% end %>
+              <% end %>
             </.lined_list>
           </.async_result>
         </:content>

@@ -4,12 +4,13 @@ defmodule Dotcom.ScheduleFinderTest do
   import Dotcom.ScheduleFinder
   import Mox
 
-  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
+  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms, TripHeading}
 
   alias Test.Support.Factories.{
     Routes.Route,
     RoutePatterns.RoutePattern,
     Schedules.Schedule,
+    Schedules.Trip,
     Stops.Stop
   }
 
@@ -120,7 +121,10 @@ defmodule Dotcom.ScheduleFinderTest do
       date = Faker.Util.format("%4d-%2d-%2d")
 
       expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, _ ->
-        Schedule.build_list(4, :schedule, stop_sequence: earlier_stop_sequence)
+        Schedule.build_list(4, :schedule,
+          stop_sequence: earlier_stop_sequence,
+          trip: Trip.build(:trip, id: trip_id)
+        )
       end)
 
       assert {:ok, []} = next_arrivals(trip_id, stop_sequence, date)
@@ -147,6 +151,36 @@ defmodule Dotcom.ScheduleFinderTest do
 
       assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop, date)
       assert %FutureArrival{} = List.first(arrivals)
+    end
+
+    test "adds a trip heading between arrivals for different trips" do
+      [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+
+      [stop_sequence_for_stop, stop_sequence_for_arrivals] =
+        Faker.Util.sample_uniq(2, fn -> Faker.random_between(1, 100) end) |> Enum.sort()
+
+      date = Faker.Util.format("%4d-%2d-%2d")
+
+      schedules =
+        Schedule.build_list(4, :schedule,
+          stop_sequence: stop_sequence_for_arrivals,
+          trip: Trip.build(:trip, id: trip_id1)
+        ) ++
+          Schedule.build_list(4, :schedule, trip: Trip.build(:trip, id: trip_id2))
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, _ ->
+        schedules
+      end)
+
+      stub(Stops.Repo.Mock, :get, fn id ->
+        assert id in Enum.map(schedules, & &1.platform_stop_id)
+
+        Stop.build(:stop, id: id)
+      end)
+
+      assert {:ok, arrivals} = next_arrivals(trip_id1, stop_sequence_for_stop, date)
+      assert %FutureArrival{} = List.first(arrivals)
+      assert [_, _, _, _, %TripHeading{} | _] = arrivals
     end
   end
 
