@@ -451,23 +451,22 @@ defmodule DotcomWeb.ScheduleControllerTest do
     end
 
     test "doesn't crash when a nil route is encountered", %{conn: conn} do
-      with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn
-          "TEST 1234", _ ->
-            [
-              %Schedules.Schedule{
-                route: nil,
-                stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2219-05-18 22:25:06.098765Z]
-              }
-            ]
-        end
-      ) do
-        conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
-        body = json_response(conn, 200)
-        assert Kernel.length(body) == 1
-        assert %{"departure_time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
-      end
+      Schedules.Repo.Mock
+      |> stub(:schedules_for_stop, fn
+        "TEST 1234", _ ->
+          [
+            %Schedules.Schedule{
+              route: nil,
+              stop: %Stops.Stop{id: "TEST 1234"},
+              departure_time: ~U[2219-05-18 22:25:06.098765Z]
+            }
+          ]
+      end)
+
+      conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
+      body = json_response(conn, 200)
+      assert Kernel.length(body) == 1
+      assert %{"departure_time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
     end
   end
 
