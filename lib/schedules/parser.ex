@@ -87,7 +87,8 @@ defmodule Schedules.Parser do
       shape_id: shape_id(relationships),
       route_pattern_id: route_pattern_id(relationships),
       bikes_allowed?: bikes_allowed?(attributes),
-      occupancy: occupancy(relationships)
+      occupancy: occupancy(relationships),
+      next_trip_id: next_trip_id(relationships)
     }
   end
 
@@ -192,4 +193,18 @@ defmodule Schedules.Parser do
   end
 
   defp occupancy(_), do: nil
+
+  # 4 is in-seat transfer
+  defp next_trip_id(%{
+         "from_trip_transfers" => [
+           %JsonApi.Item{
+             attributes: %{"transfer_type" => 4},
+             relationships: %{"to_trip" => [%{id: to_trip_id}]}
+           }
+         ]
+       }) do
+    to_trip_id
+  end
+
+  defp next_trip_id(_), do: nil
 end

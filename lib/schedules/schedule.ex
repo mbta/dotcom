@@ -89,6 +89,7 @@ defmodule Schedules.Trip do
     :shape_id,
     :route_pattern_id,
     :occupancy,
+    :next_trip_id,
     bikes_allowed?: false
   ]
 
@@ -103,6 +104,7 @@ defmodule Schedules.Trip do
           shape_id: Shape.id_t() | nil,
           route_pattern_id: RoutePattern.id_t() | nil,
           bikes_allowed?: boolean,
-          occupancy: crowding() | nil
+          occupancy: crowding() | nil,
+          next_trip_id: id_t | nil
         }
 end
