@@ -141,7 +141,7 @@ defmodule DotcomWeb.TripPlannerLive do
               fares_v2={@fares_v2}
             />
             <.live_component
-              module={MbtaMetro.Live.Map}
+              module={DotcomWeb.LiveMap}
               id="trip-planner-map"
               class={
                 [
