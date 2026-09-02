@@ -15,7 +15,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
       route_name: 1
     ]
 
-  import Dotcom.TripPlan.Fares, only: [fare: 1]
+  import Dotcom.TripPlan.Fares, only: [fare_nouveau: 1]
 
   import Dotcom.Utils.Diff,
     only: [minutes_to_localized_minutes: 1, seconds_to_localized_minutes: 1]
@@ -36,7 +36,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   attr :fares_v2, :boolean, default: false
 
   def itinerary_summary(assigns) do
-    itinerary_fare = fare(assigns.itinerary)
+    itinerary_fare = fare_nouveau(assigns.itinerary)
 
     assigns =
       assign(assigns, :price, Fares.Format.price(itinerary_fare))

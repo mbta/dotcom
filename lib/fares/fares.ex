@@ -17,6 +17,9 @@ defmodule Fares do
   @express_routes ~w(170 325 326 352 354 426 428 434 450 459 501 502 503 504 505)
   @express_route_set MapSet.new(@express_routes)
 
+  @fare_free_bus_routes ~w(23 28 29)
+  @fare_free_bus_route_set MapSet.new(@fare_free_bus_routes)
+
   # This is a list of ferry zones, according to
   # https://www.mbta.com/fares/ferry-fares, along with a list of which
   # dock ID's belong to each zone. This is necessary for fare
@@ -222,6 +225,9 @@ defmodule Fares do
   @spec express?(Route.id_t()) :: boolean
   def express?(<<id::binary>>), do: id in @express_route_set
 
+  @spec fare_free_bus?(Route.id_t()) :: boolean
+  def fare_free_bus?(<<id::binary>>), do: id in @fare_free_bus_route_set
+
   def silver_line_rapid_transit, do: @silver_line_rapid_transit
 
   def express, do: @express_routes
@@ -238,6 +244,7 @@ defmodule Fares do
         cond do
           silver_line_rapid_transit?(id) -> :subway
           express?(id) -> :express_bus
+          fare_free_bus?(id) -> :free_service
           true -> :bus
         end
 

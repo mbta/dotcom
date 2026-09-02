@@ -30,6 +30,37 @@ defmodule Dotcom.TripPlan.Fares do
     end
   end
 
+  def fare_nouveau(%Itinerary{legs: legs}) do
+    # dbg(legs, limit: :infinity)
+
+    # legs
+    # |> Enum.each(fn leg ->
+    #   leg_str = "#{leg.route.type}: #{cents_for_leg(leg)}"
+
+    #   dbg(leg_str)
+    # end)
+
+    legs
+    |> Enum.reduce(__MODULE__.State.new(), fn leg, state ->
+      # from_id = leg && leg |> get_in([:from, :stop, :parent_station, :gtfs_id])
+
+      # to_id = leg && leg |> get_in([:to, :stop, :parent_station, :gtfs_id])
+
+      # route_type = leg && leg |> get_in([:route, :type])
+
+      # leg_str =
+      #   "#{leg.mode}; #{route_type}; #{cents_for_leg(leg)}; #{from_id} --> #{to_id}"
+
+      # dbg(state)
+      # dbg(leg_str)
+      result = __MODULE__.State.add_leg(state, leg)
+      # dbg(result)
+      # dbg("----------------------------------")
+      result
+    end)
+    |> __MODULE__.State.fare()
+  end
+
   defp add_fares({leg, 0}, 0, _), do: cents_for_leg(leg)
 
   # credo:disable-for-next-line
@@ -68,7 +99,9 @@ defmodule Dotcom.TripPlan.Fares do
   end
 
   # Massport shuttles are free
-  def cents_for_leg(leg) when agency_name?(leg, "Massport"), do: 0
+  def cents_for_leg(leg) when agency_name?(leg, "Massport") do
+    0
+  end
 
   # Back Bay Logan Express route is free from the Airport, $3 otherwise
   def cents_for_leg(%Leg{from: %Place{name: from_name}, route: %Route{short_name: "BB"}} = leg)
@@ -81,7 +114,9 @@ defmodule Dotcom.TripPlan.Fares do
   end
 
   # All other Logan Express buses are $9.00
-  def cents_for_leg(leg) when agency_name?(leg, "Logan Express"), do: 900
+  def cents_for_leg(leg) when agency_name?(leg, "Logan Express") do
+    900
+  end
 
   def cents_for_leg(%Leg{from: from, route: route, to: to, intermediate_stops: between})
       when agency_name?(route, "MBTA") do
@@ -95,7 +130,9 @@ defmodule Dotcom.TripPlan.Fares do
   end
 
   # Non-transit legs don't have a fare
-  def cents_for_leg(_), do: 0
+  def cents_for_leg(_) do
+    0
+  end
 
   defp fare_filter_for_route(route, from, to, _) when route.type == 2 do
     if mbta_id(route) == "CR-Foxboro" do
@@ -128,10 +165,14 @@ defmodule Dotcom.TripPlan.Fares do
     route_id = mbta_id(route)
     origin_id = mbta_id(from.stop)
 
+    # dbg(route)
+    # dbg(route_id)
+
     name =
       cond do
         Fares.express?(route_id) -> :express_bus
         Fares.silver_line_airport_stop?(route_id, origin_id) -> :free_fare
+        Fares.fare_free_bus?(route_id) -> :free_fare
         Fares.silver_line_rapid_transit?(route_id) -> :subway
         true -> :local_bus
       end
