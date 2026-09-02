@@ -6,6 +6,10 @@ defmodule DotcomWeb.LineDiagramLive do
   use DotcomWeb, :live_view
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
+  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+
+  alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
 
   import DotcomWeb.ScheduleView,
     only: [
@@ -13,22 +17,79 @@ defmodule DotcomWeb.LineDiagramLive do
       route_header_text: 1,
       route_header_description: 1,
       route_feature_badge: 1,
-      route_header_tabs: 1
+      route_tab_class: 1
     ]
+
+  import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
 
   def mount(params, _session, socket) do
     route_id = params |> Map.get("route_id")
     direction_id = params |> Map.get("direction_id", "1")
     route_patterns = @route_patterns_repo.by_route_id(route_id)
     route = @routes_repo.get(route_id)
-    dbg(socket, limit: :infinity)
 
     {:ok,
      socket
      |> assign(:direction_id, direction_id)
      |> assign(:route_patterns, route_patterns)
      |> assign(:route_id, route_id)
-     |> assign(:route, route)}
+     |> assign(:route, route)
+     |> assign(:tab, "new_line")
+     |> assign(:params, params)}
+  end
+
+  def make_link(assigns, page) do
+    path = "/schedules/#{assigns.route.id}/#{page}"
+    params = URI.encode_query(assigns.params)
+    "#{path}?#{params}"
+  end
+
+  def header_tabs(%{route: route} = assigns) do
+    route = route
+    info_link = make_link(assigns, "line")
+    line_path = make_link(assigns, "line_new")
+    timetable_link = make_link(assigns, "timetable")
+    alerts_link = make_link(assigns, "alerts")
+    alert_count = @alerts_repo.by_route_ids([route.id], @date_time_module.now()) |> Enum.count()
+
+    tabs = [
+      %HeaderTab{
+        id: "alerts",
+        name: ~t"Alerts",
+        href: alerts_link,
+        badge: alert_count |> alert_badge()
+      }
+    ]
+
+    tabs =
+      if assigns |> Map.get(:line_diagram, false) do
+        [
+          %HeaderTab{
+            id: "new_line",
+            name: ~t"Schedules & Maps (new)",
+            href: line_path
+          }
+          | tabs
+        ]
+      else
+        tabs
+      end
+
+    tabs =
+      case route.type do
+        n when n in [2, 4] ->
+          [
+            %HeaderTab{id: "timetable", name: ~t"Timetable", href: timetable_link},
+            %HeaderTab{id: "line", name: ~t"Schedule & Maps", href: info_link} | tabs
+          ]
+
+        _ ->
+          [
+            %HeaderTab{id: "line", name: ~t"Schedules & Maps", href: info_link} | tabs
+          ]
+      end
+
+    HeaderTabs.render_tabs(tabs, selected: assigns.tab, tab_class: route_tab_class(route))
   end
 
   def render(assigns) do
@@ -38,7 +99,7 @@ defmodule DotcomWeb.LineDiagramLive do
         <h1 class="schedule__route-name notranslate">{route_header_text(@route)}</h1>
         {route_header_description(@route)}
         {route_feature_badge(@route)}
-        <div class="schedule__header-tabs">{}</div>
+        <div class="schedule__header-tabs">{header_tabs(assigns)}</div>
       </div>
     </div>
 
