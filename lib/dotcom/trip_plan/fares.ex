@@ -25,47 +25,49 @@ defmodule Dotcom.TripPlan.Fares do
       nil
     else
       transit_legs
-      |> Stream.with_index()
-      |> Enum.reduce(0, &add_fares(&1, &2, transit_legs))
+      |> group_transferable_legs()
+      |> Enum.map(&group_fare/1)
+      |> Enum.sum()
     end
   end
 
-  defp add_fares({leg, 0}, 0, _), do: cents_for_leg(leg)
+  # Splits legs into consecutive groups that can be transferred between one
+  # another (per `Transfer.maybe_transfer?/1`). There's no limit on the
+  # number of transfers within a group.
+  @spec group_transferable_legs([Leg.t()]) :: [[Leg.t()]]
+  defp group_transferable_legs([]), do: []
 
-  # credo:disable-for-next-line
-  defp add_fares({leg, leg_index}, total, transit_legs) do
-    # Look at this transit leg and previous transit leg(s)
-    two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
-    three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
-    # If this is part of a free transfer, don't add fare
-    cond do
-      Transfer.subway_transfer?(three_legs) ->
-        total
+  defp group_transferable_legs([first_leg | rest_legs]) do
+    rest_legs
+    |> Enum.reduce([[first_leg]], fn leg, [current_group | finished_groups] ->
+      if Transfer.maybe_transfer?([List.last(current_group), leg]) do
+        [current_group ++ [leg] | finished_groups]
+      else
+        [[leg], current_group | finished_groups]
+      end
+    end)
+    |> Enum.reverse()
+  end
 
-      Transfer.bus_to_subway_transfer?(three_legs) ->
-        if total == cents_for_leg(List.first(three_legs)),
-          do: total + 70,
-          else: total
-
-      Transfer.maybe_transfer?(three_legs) ->
-        total
-
-      Transfer.subway_transfer?(two_legs) ->
-        total
-
-      Transfer.subway_after_sl1_from_airport?(two_legs) ->
-        total
-
-      Transfer.bus_to_subway_transfer?(two_legs) ->
-        total + 70
-
-      Transfer.maybe_transfer?(two_legs) ->
-        total
-
-      true ->
-        total + cents_for_leg(leg)
+  # A group of transferable legs is charged only the cost of its
+  # highest-priced leg -- unless it starts with a free SL1 boarding from the
+  # airport, in which case the whole group remains free.
+  @spec group_fare([Leg.t()]) :: non_neg_integer()
+  defp group_fare([first_leg | _] = group) do
+    if free_airport_boarding?(first_leg) do
+      0
+    else
+      group
+      |> Enum.map(&cents_for_leg/1)
+      |> Enum.max()
     end
   end
+
+  defp free_airport_boarding?(%Leg{route: route, from: from}) do
+    Fares.silver_line_airport_stop?(mbta_id(route), mbta_id(from.stop))
+  end
+
+  defp free_airport_boarding?(_), do: false
 
   # Massport shuttles are free
   def cents_for_leg(leg) when agency_name?(leg, "Massport"), do: 0

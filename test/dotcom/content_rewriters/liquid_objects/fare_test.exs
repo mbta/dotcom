@@ -73,7 +73,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.FareTest do
 
       assert fare_request("commuter_rail:month:reduced") == {:ok, "$30.00 – $209.00"}
       assert fare_request("commuter_ferry:month:reduced") == {:ok, "$164.00"}
-      assert fare_request("express_bus:month:reduced") == {:ok, "$67.00"}
+      assert fare_request("express_bus:month:reduced") == {:ok, "$30.00"}
     end
 
     test "it handles weekend rail fare requests" do

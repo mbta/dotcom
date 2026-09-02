@@ -33,7 +33,8 @@ defmodule Dotcom.TripPlan.FaresTest do
             )
         ),
         build(:transit_leg,
-          route: build(:route, agency: build(:agency, name: "MBTA"), type: 0)
+          route:
+            build(:route, agency: build(:agency, name: "MBTA"), type: Faker.Util.pick([0, 1]))
         )
       ]
 
@@ -59,68 +60,28 @@ defmodule Dotcom.TripPlan.FaresTest do
       assert fare1 == fare2
       assert fare2 == fare3
     end
-
-    @tag skip: "The code is incorrect"
-    test "free transfers for up to 3 consecutive bus or subway legs" do
-      bus_or_subway_routes = [
-        build(:route,
-          agency: build(:agency, name: "MBTA"),
-          type: 0
-        ),
-        build(:route,
-          agency: build(:agency, name: "MBTA"),
-          type: 1
-        ),
-        build(:route,
-          agency: build(:agency, name: "MBTA"),
-          type: 3,
-          desc: "Local Bus"
-        )
-      ]
-
-      three_subway_or_bus_legs =
-        3
-        |> Faker.Util.sample_uniq(fn -> Faker.Util.pick(bus_or_subway_routes) end)
-        |> Enum.map(&build(:transit_leg, route: &1))
-
-      one_subway_fare =
-        build(:itinerary,
-          legs:
-            build_list(1, :transit_leg,
-              route:
-                build(:route,
-                  agency: build(:agency, name: "MBTA"),
-                  type: 0
-                )
-            )
-        )
-        |> fare()
-
-      fare = build(:itinerary, legs: three_subway_or_bus_legs) |> fare()
-      assert fare <= one_subway_fare
-    end
   end
 
-  test "valid two leg subway transfers" do
+  test "subway to subway transfers are free even between different lines/stations (eg red <-> blue)" do
     start_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
     end_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
@@ -131,47 +92,47 @@ defmodule Dotcom.TripPlan.FaresTest do
             route:
               build(:route,
                 agency: build(:agency, name: "MBTA"),
-                type: 0
+                type: Faker.Util.pick([0, 1])
               )
           )
       )
       |> fare()
 
     fare = build(:itinerary, legs: [start_leg, end_leg]) |> fare()
-    assert fare <= one_subway_fare
+    assert fare == one_subway_fare
   end
 
-  test "valid three leg subway transfers" do
+  test "subway to subway to subway transfers are free even between different lines/stations (eg red <-> blue)" do
     start_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
     mid_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
     end_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
+        from: build(:place, stop: build(:stop)),
+        to: build(:place, stop: build(:stop)),
         route:
           build(:route,
             agency: build(:agency, name: "MBTA"),
-            type: 0
+            type: Faker.Util.pick([0, 1])
           )
       )
 
@@ -182,105 +143,35 @@ defmodule Dotcom.TripPlan.FaresTest do
             route:
               build(:route,
                 agency: build(:agency, name: "MBTA"),
-                type: 0
+                type: Faker.Util.pick([0, 1])
               )
           )
       )
       |> fare()
 
     fare = build(:itinerary, legs: [start_leg, mid_leg, end_leg]) |> fare()
-    assert fare <= one_subway_fare
+    assert fare == one_subway_fare
   end
 
-  test "invalid two leg subway transfers (eg red <-> blue)" do
-    start_leg =
+  test "unlimited transfers between bus, subway, and ferry only charge the highest-priced leg" do
+    bus_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
-        route:
-          build(:route,
-            agency: build(:agency, name: "MBTA"),
-            type: 0
-          )
+        route: build(:route, agency: build(:agency, name: "MBTA"), type: 3, desc: "Local Bus")
       )
 
-    end_leg =
+    subway_leg =
       build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
-        route:
-          build(:route,
-            agency: build(:agency, name: "MBTA"),
-            type: 0
-          )
+        route: build(:route, agency: build(:agency, name: "MBTA"), type: Faker.Util.pick([0, 1]))
       )
 
-    one_subway_fare =
-      build(:itinerary,
-        legs:
-          build_list(1, :transit_leg,
-            route:
-              build(:route,
-                agency: build(:agency, name: "MBTA"),
-                type: 0
-              )
-          )
-      )
-      |> fare()
+    ferry_leg =
+      build(:transit_leg, route: build(:route, agency: build(:agency, name: "MBTA"), type: 4))
 
-    fare = build(:itinerary, legs: [start_leg, end_leg]) |> fare()
-    assert fare > one_subway_fare
-  end
+    itinerary = build(:itinerary, legs: [bus_leg, subway_leg, ferry_leg, bus_leg, subway_leg])
 
-  test "invalid three leg subway transfers (eg red <-> blue)" do
-    start_leg =
-      build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-start"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
-        route:
-          build(:route,
-            agency: build(:agency, name: "MBTA"),
-            type: 0
-          )
-      )
+    fares_for_legs = [bus_leg, subway_leg, ferry_leg] |> Enum.map(&cents_for_leg/1)
 
-    mid_leg =
-      build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midA"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-midB"})),
-        route:
-          build(:route,
-            agency: build(:agency, name: "MBTA"),
-            type: 0
-          )
-      )
-
-    end_leg =
-      build(:transit_leg,
-        from: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-other"})),
-        to: build(:place, stop: build(:stop, parent_station: %{gtfs_id: "mock-end"})),
-        route:
-          build(:route,
-            agency: build(:agency, name: "MBTA"),
-            type: 0
-          )
-      )
-
-    one_subway_fare =
-      build(:itinerary,
-        legs:
-          build_list(1, :transit_leg,
-            route:
-              build(:route,
-                agency: build(:agency, name: "MBTA"),
-                type: 0
-              )
-          )
-      )
-      |> fare()
-
-    fare = build(:itinerary, legs: [start_leg, mid_leg, end_leg]) |> fare()
-    assert fare > one_subway_fare
+    assert fare(itinerary) == Enum.max(fares_for_legs)
   end
 
   describe "cents_for_leg/1" do

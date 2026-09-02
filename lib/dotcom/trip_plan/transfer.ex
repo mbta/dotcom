@@ -4,71 +4,42 @@ defmodule Dotcom.TripPlan.Transfer do
     The MBTA allows transfers between services depending on the fare media used
     and the amount paid.
 
+    Local Bus, Express Bus, Silver Line, Subway, and Ferry legs can all be
+    freely transferred between one another (in any combination, for any
+    number of consecutive transfers), so a chain of such legs is only
+    charged the cost of its single highest-priced leg.
+
     This logic may be superseded by the upcoming fares work.
   """
 
   import Dotcom.TripPlan.Helpers
 
-  alias OpenTripPlannerClient.Schema.{Leg, Place, Route, Stop}
+  alias OpenTripPlannerClient.Schema.{Leg, Route}
 
   # Paying a single-ride fare for the first may get you a transfer to the second
   # (can't be certain, as it depends on media used)!
   @single_ride_transfers %{
-    :bus => [:subway, :bus],
-    :subway => [:bus],
+    :bus => [:subway, :bus, :ferry],
+    :subway => [:bus, :subway, :ferry],
+    :ferry => [:bus, :subway, :ferry],
     :express_bus => [:subway, :bus, :express_bus]
   }
 
-  # For Local Bus, Express Bus, Silver Line, and/or Subway, transfer up to two times
-  # and pay only the cost of the highest-priced service.
-  @multi_ride_transfers [
-    [:bus, :subway, :bus],
-    [:bus, :subway, :subway],
-    [:bus, :bus, :subway],
-    [:bus, :bus, :bus],
-    [:subway, :bus, :bus],
-    [:subway, :bus, :subway],
-    [:subway, :subway, :bus],
-    [:subway, :subway, :subway]
-  ]
-
-  @doc "Searches a list of legs for evidence of an in-station subway transfer."
-  @spec subway_transfer?([Leg.t()]) :: boolean
-  def subway_transfer?([first_leg, next_leg])
-      when agency_name?(first_leg, "MBTA") and agency_name?(next_leg, "MBTA") do
-    same_station?(first_leg.to, next_leg.from) and subway?(first_leg.route) and
-      subway?(next_leg.route)
-  end
-
-  def subway_transfer?([first_leg, next_leg, last_leg])
-      when agency_name?(first_leg, "MBTA") and agency_name?(next_leg, "MBTA") and
-             agency_name?(last_leg, "MBTA") do
-    same_station?(first_leg.to, next_leg.from) and subway?(first_leg.route) and
-      subway?(next_leg.route) and same_station?(next_leg.to, last_leg.from) and
-      subway?(last_leg.route)
-  end
-
-  def subway_transfer?([_ | legs]), do: subway_transfer?(legs)
-
-  def subway_transfer?(_), do: false
-
   @doc """
-  Takes a set of legs and returns true if there might be a transfer between the legs, based on the lists in @single_ride_transfers and @multi_ride_transfers.
+  Takes a set of legs and returns true if there might be a transfer between
+  every consecutive pair of legs, based on the list in @single_ride_transfers.
+  Any number of legs may be passed; there's no limit on how many consecutive
+  transfers can be made.
 
   Exceptions:
   - no transfers from bus route to same bus route
   - no transfers from a shuttle to any other mode
   """
   @spec maybe_transfer?([Leg.t()]) :: boolean
-  def maybe_transfer?([first_leg, middle_leg, last_leg])
-      when agency_name?(first_leg, "MBTA") and agency_name?(middle_leg, "MBTA") and
-             agency_name?(last_leg, "MBTA") do
-    @multi_ride_transfers
-    |> Enum.member?(
-      Enum.map([first_leg.route, middle_leg.route, last_leg.route], &to_fare_atom/1)
-    )
-    |> Kernel.and(maybe_transfer?([first_leg, middle_leg]))
-    |> Kernel.and(maybe_transfer?([middle_leg, last_leg]))
+  def maybe_transfer?([_first, _second, _third | _] = legs) do
+    legs
+    |> Enum.chunk_every(2, 1, :discard)
+    |> Enum.all?(&maybe_transfer?/1)
   end
 
   def maybe_transfer?([from, to]) when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") do
@@ -103,53 +74,6 @@ defmodule Dotcom.TripPlan.Transfer do
     end
   end
 
-  @doc """
-  Is there a bus to subway transfer?
-  """
-  def bus_to_subway_transfer?([first, middle, last])
-      when agency_name?(first, "MBTA") and agency_name?(middle, "MBTA") and
-             agency_name?(last, "MBTA") do
-    (bus_to_subway_transfer?([first, middle]) ||
-       bus_to_subway_transfer?([middle, last])) && !commuter_rail?([first, middle, last])
-  end
-
-  def bus_to_subway_transfer?([from, to])
-      when agency_name?(from, "MBTA") and agency_name?(to, "MBTA") do
-    bus?(from.route) && subway?(to.route)
-  end
-
-  def bus_to_subway_transfer?(_), do: false
-
-  def commuter_rail?([_, _, _] = legs) do
-    legs |> Enum.any?(fn leg -> commuter_rail?(leg) end)
-  end
-
-  def commuter_rail?(%{mode: :RAIL}) do
-    true
-  end
-
-  def commuter_rail?(_) do
-    false
-  end
-
-  defp same_station?(%Place{stop: %Stop{} = from_stop}, %Place{stop: %Stop{} = to_stop}) do
-    cond do
-      is_nil(from_stop.parent_station) or is_nil(to_stop.parent_station) ->
-        false
-
-      from_stop.parent_station == to_stop.parent_station ->
-        true
-
-      true ->
-        # Check whether this is DTX <-> Park St via. the Winter St. Concourse
-        stop_id = mbta_id(to_stop.parent_station)
-        other_stop_id = mbta_id(from_stop.parent_station)
-        Enum.all?([stop_id, other_stop_id], &Enum.member?(["place-dwnxg", "place-pktrm"], &1))
-    end
-  end
-
-  defp same_station?(_, _), do: false
-
   defp bus?(route) when route.type == 3 and not mbta_shuttle?(route) do
     route_id = mbta_id(route)
     not Fares.silver_line_rapid_transit?(route_id)
@@ -171,14 +95,4 @@ defmodule Dotcom.TripPlan.Transfer do
   end
 
   def bus_or_subway?(_), do: false
-
-  def subway_after_sl1_from_airport?([first_leg, second_leg])
-      when agency_name?(first_leg, "MBTA") and agency_name?(second_leg, "MBTA") and
-             second_leg.route.type in [0, 1] do
-    from_route_id = mbta_id(first_leg.route)
-    from_stop_id = mbta_id(first_leg.from)
-    Fares.silver_line_airport_stop?(from_route_id, from_stop_id)
-  end
-
-  def subway_after_sl1_from_airport?(_), do: false
 end
