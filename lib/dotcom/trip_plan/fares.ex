@@ -9,6 +9,7 @@ defmodule Dotcom.TripPlan.Fares do
 
   import Dotcom.TripPlan.Helpers
 
+  alias __MODULE__.State
   alias Dotcom.TripPlan.Transfer
   alias Fares.Fare
   alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Route}
@@ -30,35 +31,13 @@ defmodule Dotcom.TripPlan.Fares do
     end
   end
 
+  @spec fare_nouveau(Itinerary.t()) :: non_neg_integer() | nil
   def fare_nouveau(%Itinerary{legs: legs}) do
-    # dbg(legs, limit: :infinity)
-
-    # legs
-    # |> Enum.each(fn leg ->
-    #   leg_str = "#{leg.route.type}: #{cents_for_leg(leg)}"
-
-    #   dbg(leg_str)
-    # end)
-
     legs
-    |> Enum.reduce(__MODULE__.State.new(), fn leg, state ->
-      # from_id = leg && leg |> get_in([:from, :stop, :parent_station, :gtfs_id])
-
-      # to_id = leg && leg |> get_in([:to, :stop, :parent_station, :gtfs_id])
-
-      # route_type = leg && leg |> get_in([:route, :type])
-
-      # leg_str =
-      #   "#{leg.mode}; #{route_type}; #{cents_for_leg(leg)}; #{from_id} --> #{to_id}"
-
-      # dbg(state)
-      # dbg(leg_str)
-      result = __MODULE__.State.add_leg(state, leg)
-      # dbg(result)
-      # dbg("----------------------------------")
-      result
+    |> Enum.reduce(State.new(), fn leg, state ->
+      State.add_leg(state, leg)
     end)
-    |> __MODULE__.State.fare()
+    |> State.fare()
   end
 
   defp add_fares({leg, 0}, 0, _), do: cents_for_leg(leg)
