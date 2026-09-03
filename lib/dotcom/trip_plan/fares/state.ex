@@ -121,9 +121,43 @@ defmodule Dotcom.TripPlan.Fares.State do
     %__MODULE__{non_transfer_fare: 0, transfer_window_fare: 0}
   end
 
+  # add_fare_from_leg does slightly different things depending on the
+  # exact scenario:
+  #
+  # If the leg would not require a tap (because it's an in-station
+  # transfer, or because it's a free fare, or because it's a walking
+  # leg), then we don't change the fare state at all.
+  #
+  # If the leg would require a fare, but isn't part of our transfer
+  # policy (e.g. commuter rail, or Logan Express), then we add the
+  # fare for that leg directly to `non_transfer_fare`, which has no
+  # transfer discount logic, and is simply added to the total fare at
+  # the end.
+  #
+  # If the leg is a tap on the subway, bus, or ferry, then we check
+  # the following:
+  #
+  # - If there's no transfer window, we start one, and set the
+  #   `transfer_window_fare` to the leg's fare.
+  #
+  # - If there is a transfer window, and the leg's start time falls
+  #   within the two-hour range, then we set the
+  #   `transfer_window_fare` to the maximum of either its previous
+  #   value or the leg's fare.
+  #
+  # - If there is a transfer window, and the leg's start time falls
+  #   outside of the two-hour range, then we lock in the current
+  #   transfer window fare by adding it to `non_transfer_fare`, and
+  #   set the `transfer_window_fare` to the leg's fare.
+  #
+  # Under the hood, those last three bullet points are accomplished
+  # with maybe_reset_transfer_window/2, which uses the leg's start
+  # time to reset the transfer window if and only if the start time is
+  # outside of the previously-existing window (if it exists), and
+  # add_fare_to_transfer_window/2, which assumes that the fare should
+  # be added to the current window and sets the `transfer_window_fare`
+  # appropriately.
   @spec add_fare_from_leg(t(), Leg.t()) :: t()
-  defp add_fare_from_leg(fare_state, %Leg{mode: :WALK}), do: fare_state
-
   defp add_fare_from_leg(
          %__MODULE__{} = fare_state,
          leg
@@ -148,6 +182,13 @@ defmodule Dotcom.TripPlan.Fares.State do
     %__MODULE__{fare_state | non_transfer_fare: non_transfer_fare + fare_for_leg}
   end
 
+  # If the following are true, the it's an in-station transfer, and
+  # thus should not reset the transfer window or incur any additional
+  # charges.
+  #
+  # - The `current_station_id` of the fare state, and the station ID
+  #   from the leg's `from` field are the same.
+  # - The leg is a subway or an SL1/2/3/W trip.
   @spec in_station_transfer?(t(), Leg.t()) :: boolean()
   defp in_station_transfer?(
          %__MODULE__{current_station_id: current_station_id},
@@ -175,14 +216,10 @@ defmodule Dotcom.TripPlan.Fares.State do
 
   defp subway_or_sl?(_), do: false
 
-  @spec add_fare_to_transfer_window(t(), non_neg_integer()) :: t()
-  defp add_fare_to_transfer_window(
-         %__MODULE__{transfer_window_fare: transfer_window_fare} = fare_state,
-         fare_for_leg
-       ) do
-    %__MODULE__{fare_state | transfer_window_fare: max(fare_for_leg, transfer_window_fare)}
-  end
-
+  # This function checks whether the leg's start time is within the
+  # current transfer window. If it's outside of the transfer window,
+  # then it resets the transfer window to the leg's start time;
+  # otherwise, it does nothing.
   @spec maybe_reset_transfer_window(t(), DateTime.t()) :: t()
   defp maybe_reset_transfer_window(fare_state, leg_start_time) do
     if in_window?(leg_start_time, fare_state) do
@@ -192,6 +229,18 @@ defmodule Dotcom.TripPlan.Fares.State do
     end
   end
 
+  # Resetting the transfer window involves three updates:
+  #
+  # - Add the previous `transfer_window_fare` to `non_transfer_fare`;
+  #   since the the window has expired, the fare is no longer eligible
+  #   for transfer discounts.
+  #
+  # - Set the `transfer_window_fare` to 0 - the later call to
+  #   `add_fare_to_transfer_window/2` will update
+  #   `transfer_window_fare` again to reflect the tap that caused the
+  #   transfer window to reset.
+  #
+  # - Set the `transfer_window_start_time` to the leg's start time.
   @spec reset_transfer_window(t(), DateTime.t()) :: t()
   defp reset_transfer_window(
          %__MODULE__{
@@ -208,6 +257,21 @@ defmodule Dotcom.TripPlan.Fares.State do
     }
   end
 
+  # This function assumes that we're adding the fare to the current
+  # transfer window (its caller calls `reset_transfer_window`
+  # first). It does this by setting `transfer_window_fare` to the
+  # maximum of either its previous value or the leg's fare.
+  @spec add_fare_to_transfer_window(t(), non_neg_integer()) :: t()
+  defp add_fare_to_transfer_window(
+         %__MODULE__{transfer_window_fare: transfer_window_fare} = fare_state,
+         fare_for_leg
+       ) do
+    %__MODULE__{fare_state | transfer_window_fare: max(fare_for_leg, transfer_window_fare)}
+  end
+
+  # Checks whether the leg's start time is within the existing
+  # transfer window.  Defaults to false if there isn't an existing
+  # window.
   @spec in_window?(DateTime.t(), t()) :: boolean()
   defp in_window?(_leg_start_time, %__MODULE__{transfer_window_start_time: nil}), do: false
 
@@ -220,6 +284,15 @@ defmodule Dotcom.TripPlan.Fares.State do
     |> DateTime.after?(leg_start_time)
   end
 
+  # Sets the `current_station_id` for use by
+  # `in_station_transfer?/2`. If a trip is a transit leg via subway or
+  # SL1/2/3/W into a station, then we set the current station to that
+  # parent station. Trips by other routes or modes have no effect.
+  # 
+  # Note: We leave the `current_station_id` even if a leg exits that
+  # station. This feels weird, but since it's used to determine
+  # `in_station_transfer?/2`, and itineraries don't visit the same
+  # station multiple times, this doesn't actually have any effect.
   @spec set_station(t(), Leg.t()) :: t()
   defp set_station(%__MODULE__{} = fare_state, %Leg{route: %Route{} = route} = leg) do
     if subway_or_sl?(route) do
