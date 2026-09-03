@@ -1,6 +1,7 @@
 defmodule Dotcom.TripPlan.Fares.State do
   @moduledoc """
-  Tracks the accumulated fare for a trip as its legs are processed one at a time.
+  Tracks the accumulated fare for an itinerary as its legs are processed one
+  at a time.
 
   Transit fare systems often grant free or discounted transfers between trips
   taken within a certain time window (e.g. two hours) of each other, provided
@@ -30,15 +31,10 @@ defmodule Dotcom.TripPlan.Fares.State do
 
   ## Examples
 
-  The examples below use `OpenTripPlannerClient.Test.Support.Factory` to build
-  legs, only specifying the fields that affect the fare calculation.
-
   A bus leg followed by a subway leg a few minutes later: since both fall
   within the same 2-hour transfer window, the rider is only charged the
   higher of the two fares (the subway fare), rather than the sum of both.
 
-      iex> import OpenTripPlannerClient.Test.Support.Factory
-      iex> alias Dotcom.TripPlan.Fares.State
       iex> bus_leg = build(:transit_leg,
       ...>   route: build(:route, type: 3, agency: build(:agency, name: "MBTA")),
       ...>   start: build(:leg_time, scheduled_time: ~U[2024-01-01 08:00:00Z])
@@ -54,8 +50,6 @@ defmodule Dotcom.TripPlan.Fares.State do
   transfer window has closed by the time the subway leg starts, so each leg
   is charged its own fare in full.
 
-      iex> import OpenTripPlannerClient.Test.Support.Factory
-      iex> alias Dotcom.TripPlan.Fares.State
       iex> bus_leg = build(:transit_leg,
       ...>   route: build(:route, type: 3, agency: build(:agency, name: "MBTA")),
       ...>   start: build(:leg_time, scheduled_time: ~U[2024-01-01 08:00:00Z])
@@ -71,8 +65,6 @@ defmodule Dotcom.TripPlan.Fares.State do
   Rail never participates in the transfer window, so its fare is always
   added on top of any other legs' fares in full.
 
-      iex> import OpenTripPlannerClient.Test.Support.Factory
-      iex> alias Dotcom.TripPlan.Fares.State
       iex> commuter_rail_leg = build(:transit_leg,
       ...>   route: build(:route, type: 2, agency: build(:agency, name: "MBTA")),
       ...>   from: build(:place, stop: build(:stop, zone_id: "CR-zone-1A")),
