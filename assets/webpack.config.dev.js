@@ -13,7 +13,8 @@ module.exports = env =>
 
     output: {
       publicPath: `http://localhost:${port}/`,
-      path: path.resolve(__dirname, "../priv/static/css")
+      path: path.resolve(__dirname, "../priv/static/css"),
+      clean: true
     },
 
     devServer: {
