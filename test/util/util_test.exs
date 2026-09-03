@@ -599,6 +599,16 @@ defmodule UtilTest do
       assert {:error, :invalid_date} == Util.parse_valid_date("2020-02-31")
     end
 
+    test "parses valid year and month parameters" do
+      assert {:ok, ~D[2023-07-01]} ==
+               Util.parse_valid_date(%{"month" => "7", "year" => "2023"})
+    end
+
+    test "returns an error for invalid year and month parameters" do
+      assert {:error, :invalid_date} ==
+               Util.parse_valid_date(%{"month" => "13", "year" => "2023"})
+    end
+
     test "returns an error for a argument of the wrong type" do
       assert {:error, :invalid_date} == Util.parse_valid_date(%{foo: "bar"})
     end

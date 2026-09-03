@@ -462,7 +462,8 @@ defmodule Util do
 
   @doc """
 
-  Parses a string into a valid date, or returns an error.
+  Parses an ISO date string or a year/month parameter map into a valid date, or
+  returns an error.
 
   ## Examples
       iex> Util.parse_valid_date("2025-12-25")
@@ -474,8 +475,11 @@ defmodule Util do
       iex> Util.parse_valid_date("2025-13-35")
       {:error, :invalid_date}
 
+      iex> Util.parse_valid_date(%{"year" => "2025", "month" => "7"})
+      {:ok, ~D[2025-07-01]}
+
   """
-  @spec parse_valid_date(String.t()) :: {:ok, Date.t()} | {:error, any}
+  @spec parse_valid_date(String.t() | map) :: {:ok, Date.t()} | {:error, any}
   def parse_valid_date(str) when is_binary(str) do
     with {:ok, date} <- Date.from_iso8601(str) do
       if Timex.is_valid?(date) do
@@ -483,6 +487,17 @@ defmodule Util do
       else
         {:error, :invalid_date}
       end
+    end
+  end
+
+  def parse_valid_date(%{"year" => year, "month" => month})
+      when is_binary(year) and is_binary(month) do
+    with {year, ""} <- Integer.parse(year),
+         {month, ""} <- Integer.parse(month),
+         {:ok, date} <- Date.new(year, month, 1) do
+      {:ok, date}
+    else
+      _ -> {:error, :invalid_date}
     end
   end
 
