@@ -9,62 +9,17 @@ defmodule Dotcom.TripPlan.Fares do
 
   import Dotcom.TripPlan.Helpers
 
-  alias Dotcom.TripPlan.Transfer
+  alias __MODULE__.State
   alias Fares.Fare
   alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Route}
 
-  @agencies_with_fare_info ["MBTA", "Massport", "Logan Express"]
-
   @spec fare(Itinerary.t()) :: non_neg_integer() | nil
   def fare(%Itinerary{legs: legs}) do
-    transit_legs = Enum.filter(legs, & &1.transit_leg)
-
-    if Enum.any?(transit_legs, fn %Leg{agency: agency} ->
-         agency.name not in @agencies_with_fare_info
-       end) do
-      nil
-    else
-      transit_legs
-      |> Stream.with_index()
-      |> Enum.reduce(0, &add_fares(&1, &2, transit_legs))
-    end
-  end
-
-  defp add_fares({leg, 0}, 0, _), do: cents_for_leg(leg)
-
-  # credo:disable-for-next-line
-  defp add_fares({leg, leg_index}, total, transit_legs) do
-    # Look at this transit leg and previous transit leg(s)
-    two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
-    three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
-    # If this is part of a free transfer, don't add fare
-    cond do
-      Transfer.subway_transfer?(three_legs) ->
-        total
-
-      Transfer.bus_to_subway_transfer?(three_legs) ->
-        if total == cents_for_leg(List.first(three_legs)),
-          do: total + 70,
-          else: total
-
-      Transfer.maybe_transfer?(three_legs) ->
-        total
-
-      Transfer.subway_transfer?(two_legs) ->
-        total
-
-      Transfer.subway_after_sl1_from_airport?(two_legs) ->
-        total
-
-      Transfer.bus_to_subway_transfer?(two_legs) ->
-        total + 70
-
-      Transfer.maybe_transfer?(two_legs) ->
-        total
-
-      true ->
-        total + cents_for_leg(leg)
-    end
+    legs
+    |> Enum.reduce(State.new(), fn leg, state ->
+      State.add_leg(state, leg)
+    end)
+    |> State.fare()
   end
 
   # Massport shuttles are free
@@ -132,6 +87,7 @@ defmodule Dotcom.TripPlan.Fares do
       cond do
         Fares.express?(route_id) -> :express_bus
         Fares.silver_line_airport_stop?(route_id, origin_id) -> :free_fare
+        Fares.fare_free_bus?(route_id) -> :free_fare
         Fares.silver_line_rapid_transit?(route_id) -> :subway
         true -> :local_bus
       end
