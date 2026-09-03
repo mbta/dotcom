@@ -27,6 +27,95 @@ defmodule Dotcom.TripPlan.Fares.State do
   eligible for the transfer discount. Commuter Rail legs (route type 2), and
   legs on other agencies, are always charged in full and added directly to
   `non_transfer_fare`.
+
+  ## Examples
+
+  A bus leg followed by a subway leg a few minutes later: since both fall
+  within the same 2-hour transfer window, the rider is only charged the
+  higher of the two fares (the subway fare), rather than the sum of both.
+
+      iex> alias OpenTripPlannerClient.Schema.{Agency, Leg, LegTime, Place, Route, Stop}
+      iex> alias Dotcom.TripPlan.Fares.State
+      iex> agency = %Agency{name: "MBTA"}
+      iex> place = %Place{lat: 42.0, lon: -71.0, stop: %Stop{gtfs_id: "stop-1"}}
+      iex> bus_leg = %Leg{
+      ...>   agency: agency,
+      ...>   mode: :BUS,
+      ...>   route: %Route{agency: agency, type: 3, gtfs_id: "mbta-ma-us:1"},
+      ...>   from: place,
+      ...>   to: place,
+      ...>   start: %LegTime{scheduled_time: ~U[2024-01-01 08:00:00Z]},
+      ...>   end: %LegTime{scheduled_time: ~U[2024-01-01 08:05:00Z]}
+      ...> }
+      iex> subway_leg = %Leg{
+      ...>   agency: agency,
+      ...>   mode: :SUBWAY,
+      ...>   route: %Route{agency: agency, type: 1, gtfs_id: "mbta-ma-us:Red"},
+      ...>   from: place,
+      ...>   to: place,
+      ...>   start: %LegTime{scheduled_time: ~U[2024-01-01 08:10:00Z]},
+      ...>   end: %LegTime{scheduled_time: ~U[2024-01-01 08:20:00Z]}
+      ...> }
+      iex> State.new() |> State.add_leg(bus_leg) |> State.add_leg(subway_leg) |> State.fare()
+      240
+
+  The same bus and subway legs, but separated by more than 2 hours: the
+  transfer window has closed by the time the subway leg starts, so each leg
+  is charged its own fare in full.
+
+      iex> alias OpenTripPlannerClient.Schema.{Agency, Leg, LegTime, Place, Route, Stop}
+      iex> alias Dotcom.TripPlan.Fares.State
+      iex> agency = %Agency{name: "MBTA"}
+      iex> place = %Place{lat: 42.0, lon: -71.0, stop: %Stop{gtfs_id: "stop-1"}}
+      iex> bus_leg = %Leg{
+      ...>   agency: agency,
+      ...>   mode: :BUS,
+      ...>   route: %Route{agency: agency, type: 3, gtfs_id: "mbta-ma-us:1"},
+      ...>   from: place,
+      ...>   to: place,
+      ...>   start: %LegTime{scheduled_time: ~U[2024-01-01 08:00:00Z]},
+      ...>   end: %LegTime{scheduled_time: ~U[2024-01-01 08:05:00Z]}
+      ...> }
+      iex> subway_leg = %Leg{
+      ...>   agency: agency,
+      ...>   mode: :SUBWAY,
+      ...>   route: %Route{agency: agency, type: 1, gtfs_id: "mbta-ma-us:Red"},
+      ...>   from: place,
+      ...>   to: place,
+      ...>   start: %LegTime{scheduled_time: ~U[2024-01-01 11:00:00Z]},
+      ...>   end: %LegTime{scheduled_time: ~U[2024-01-01 11:10:00Z]}
+      ...> }
+      iex> State.new() |> State.add_leg(bus_leg) |> State.add_leg(subway_leg) |> State.fare()
+      410
+
+  A Commuter Rail leg followed by a bus leg a few minutes later: Commuter
+  Rail never participates in the transfer window, so its fare is always
+  added on top of any other legs' fares in full.
+
+      iex> alias OpenTripPlannerClient.Schema.{Agency, Leg, LegTime, Place, Route, Stop}
+      iex> alias Dotcom.TripPlan.Fares.State
+      iex> agency = %Agency{name: "MBTA"}
+      iex> commuter_rail_leg = %Leg{
+      ...>   agency: agency,
+      ...>   mode: :RAIL,
+      ...>   route: %Route{agency: agency, type: 2, gtfs_id: "mbta-ma-us:CR-Providence"},
+      ...>   from: %Place{lat: 42.0, lon: -71.0, stop: %Stop{gtfs_id: "cr-stop-1", zone_id: "CR-zone-1A"}},
+      ...>   to: %Place{lat: 42.0, lon: -71.0, stop: %Stop{gtfs_id: "cr-stop-2", zone_id: "CR-zone-5"}},
+      ...>   start: %LegTime{scheduled_time: ~U[2024-01-01 08:00:00Z]},
+      ...>   end: %LegTime{scheduled_time: ~U[2024-01-01 08:45:00Z]}
+      ...> }
+      iex> bus_place = %Place{lat: 42.0, lon: -71.0, stop: %Stop{gtfs_id: "stop-1"}}
+      iex> bus_leg = %Leg{
+      ...>   agency: agency,
+      ...>   mode: :BUS,
+      ...>   route: %Route{agency: agency, type: 3, gtfs_id: "mbta-ma-us:1"},
+      ...>   from: bus_place,
+      ...>   to: bus_place,
+      ...>   start: %LegTime{scheduled_time: ~U[2024-01-01 08:50:00Z]},
+      ...>   end: %LegTime{scheduled_time: ~U[2024-01-01 08:55:00Z]}
+      ...> }
+      iex> State.new() |> State.add_leg(commuter_rail_leg) |> State.add_leg(bus_leg) |> State.fare()
+      1145
   """
 
   import Dotcom.TripPlan.Helpers
