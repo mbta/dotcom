@@ -24,9 +24,13 @@ defmodule DotcomWeb.LineDiagramLive do
 
   def mount(params, _session, socket) do
     route_id = params |> Map.get("route_id")
-    direction_id = params |> Map.get("direction_id", "1")
-    route_patterns = @route_patterns_repo.by_route_id(route_id)
     route = @routes_repo.get(route_id)
+    route_patterns = @route_patterns_repo.by_route_id(route_id)
+
+    direction_id =
+      params |> Map.get("schedule_direction", %{direction_id: 0}) |> Map.get("direction_id")
+
+    tab_params = %{"schedule_direction[direction_id]": direction_id}
 
     {:ok,
      socket
@@ -35,20 +39,25 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:tab, "new_line")
-     |> assign(:params, params)}
+     |> assign(:tab_params, tab_params)}
   end
 
-  def make_link(assigns, page) do
+  def make_link(assigns, page, add_params? \\ false) do
     path = "/schedules/#{assigns.route.id}/#{page}"
-    params = URI.encode_query(assigns.params)
-    "#{path}?#{params}"
+    params = URI.encode_query(assigns.tab_params)
+
+    if add_params? do
+      "#{path}?#{params}"
+    else
+      path
+    end
   end
 
   def header_tabs(%{route: route} = assigns) do
     route = route
     info_link = make_link(assigns, "line")
     line_path = make_link(assigns, "line_new")
-    timetable_link = make_link(assigns, "timetable")
+    timetable_link = make_link(assigns, "timetable", true)
     alerts_link = make_link(assigns, "alerts")
     alert_count = @alerts_repo.by_route_ids([route.id], @date_time_module.now()) |> Enum.count()
 
