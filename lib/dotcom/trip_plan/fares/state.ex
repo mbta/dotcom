@@ -7,6 +7,13 @@ defmodule Dotcom.TripPlan.Fares.State do
 
   alias OpenTripPlannerClient.Schema.{Leg, ParentStop, Place, Route, Stop}
 
+  @type t :: %__MODULE__{
+          current_station_id: String.t() | nil,
+          non_transfer_fare: non_neg_integer(),
+          transfer_window_fare: non_neg_integer(),
+          transfer_window_start_time: DateTime.t() | nil
+        }
+
   defstruct [
     :current_station_id,
     :non_transfer_fare,
@@ -14,12 +21,14 @@ defmodule Dotcom.TripPlan.Fares.State do
     :transfer_window_start_time
   ]
 
+  @spec add_leg(t(), Leg.t()) :: t()
   def add_leg(fare_state, leg) do
     fare_state
     |> add_fare_from_leg(leg)
     |> set_station(leg)
   end
 
+  @spec fare(t()) :: non_neg_integer()
   def fare(%__MODULE__{
         non_transfer_fare: non_transfer_fare,
         transfer_window_fare: transfer_window_fare
@@ -27,10 +36,12 @@ defmodule Dotcom.TripPlan.Fares.State do
     non_transfer_fare + transfer_window_fare
   end
 
+  @spec new() :: t()
   def new() do
     %__MODULE__{non_transfer_fare: 0, transfer_window_fare: 0}
   end
 
+  @spec add_fare_from_leg(t(), Leg.t()) :: t()
   defp add_fare_from_leg(fare_state, %Leg{mode: :WALK}), do: fare_state
 
   defp add_fare_from_leg(
@@ -56,6 +67,7 @@ defmodule Dotcom.TripPlan.Fares.State do
     %__MODULE__{fare_state | non_transfer_fare: non_transfer_fare + fare_for_leg}
   end
 
+  @spec in_station_transfer?(t(), Leg.t()) :: boolean()
   defp in_station_transfer?(
          %__MODULE__{current_station_id: current_station_id},
          %Leg{
@@ -69,6 +81,7 @@ defmodule Dotcom.TripPlan.Fares.State do
 
   defp in_station_transfer?(_fare_state, _leg), do: false
 
+  @spec subway_or_sl?(Route.t()) :: boolean()
   defp subway_or_sl?(%Route{type: route_type}) when route_type in [0, 1], do: true
 
   defp subway_or_sl?(%Route{gtfs_id: gtfs_route_id, type: 3}) do
@@ -81,6 +94,7 @@ defmodule Dotcom.TripPlan.Fares.State do
 
   defp subway_or_sl?(_), do: false
 
+  @spec add_fare_to_transfer_window(t(), non_neg_integer()) :: t()
   defp add_fare_to_transfer_window(
          %__MODULE__{transfer_window_fare: transfer_window_fare} = fare_state,
          fare_for_leg
@@ -88,6 +102,7 @@ defmodule Dotcom.TripPlan.Fares.State do
     %__MODULE__{fare_state | transfer_window_fare: max(fare_for_leg, transfer_window_fare)}
   end
 
+  @spec maybe_reset_transfer_window(t(), DateTime.t()) :: t()
   defp maybe_reset_transfer_window(fare_state, leg_start_time) do
     if in_window?(leg_start_time, fare_state) do
       fare_state
@@ -96,6 +111,7 @@ defmodule Dotcom.TripPlan.Fares.State do
     end
   end
 
+  @spec reset_transfer_window(t(), DateTime.t()) :: t()
   defp reset_transfer_window(
          %__MODULE__{
            non_transfer_fare: non_transfer_fare,
@@ -111,6 +127,7 @@ defmodule Dotcom.TripPlan.Fares.State do
     }
   end
 
+  @spec in_window?(DateTime.t(), t()) :: boolean()
   defp in_window?(_leg_start_time, %__MODULE__{transfer_window_start_time: nil}), do: false
 
   defp in_window?(
@@ -122,6 +139,7 @@ defmodule Dotcom.TripPlan.Fares.State do
     |> DateTime.after?(leg_start_time)
   end
 
+  @spec set_station(t(), Leg.t()) :: t()
   defp set_station(%__MODULE__{} = fare_state, %Leg{route: %Route{} = route} = leg) do
     if subway_or_sl?(route) do
       station_id = leg |> get_in([:to, :stop, :parent_station, :gtfs_id])
