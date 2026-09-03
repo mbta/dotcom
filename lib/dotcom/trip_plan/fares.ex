@@ -23,9 +23,7 @@ defmodule Dotcom.TripPlan.Fares do
   end
 
   # Massport shuttles are free
-  def cents_for_leg(leg) when agency_name?(leg, "Massport") do
-    0
-  end
+  def cents_for_leg(leg) when agency_name?(leg, "Massport"), do: 0
 
   # Back Bay Logan Express route is free from the Airport, $3 otherwise
   def cents_for_leg(%Leg{from: %Place{name: from_name}, route: %Route{short_name: "BB"}} = leg)
@@ -38,9 +36,7 @@ defmodule Dotcom.TripPlan.Fares do
   end
 
   # All other Logan Express buses are $9.00
-  def cents_for_leg(leg) when agency_name?(leg, "Logan Express") do
-    900
-  end
+  def cents_for_leg(leg) when agency_name?(leg, "Logan Express"), do: 900
 
   def cents_for_leg(%Leg{from: from, route: route, to: to, intermediate_stops: between})
       when agency_name?(route, "MBTA") do
@@ -54,9 +50,7 @@ defmodule Dotcom.TripPlan.Fares do
   end
 
   # Non-transit legs don't have a fare
-  def cents_for_leg(_) do
-    0
-  end
+  def cents_for_leg(_), do: 0
 
   defp fare_filter_for_route(route, from, to, _) when route.type == 2 do
     if mbta_id(route) == "CR-Foxboro" do
