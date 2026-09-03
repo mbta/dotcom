@@ -449,6 +449,7 @@ msgstr "alerte"
 #: lib/dotcom_web/components/layouts/alerts_layout.html.heex
 #: lib/dotcom_web/controllers/alert_controller.ex
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #: lib/dotcom_web/templates/page/_tab_list.html.heex
 #: lib/dotcom_web/templates/schedule/_alerts.html.heex
@@ -3473,6 +3474,7 @@ msgstr "Samsung Pay"
 msgid "Saturday"
 msgstr "Samedi"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule & Maps"
@@ -3544,6 +3546,7 @@ msgstr "horaire"
 #: lib/dotcom_web/controllers/mode/hub.ex
 #: lib/dotcom_web/controllers/mode_controller.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps"
@@ -4350,6 +4353,7 @@ msgstr "Ce train a généralement<br /><strong>%{seats} places disponibles</stro
 msgid "Thursday"
 msgstr "Jeudi"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Timetable"
@@ -5400,6 +5404,7 @@ msgstr "Trains"
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "%{direction_name} calendrier pour %{route_name}, %{formatted_date}"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
