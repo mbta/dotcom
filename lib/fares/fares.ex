@@ -235,27 +235,19 @@ defmodule Fares do
   @type fare_atom :: Route.gtfs_route_type() | :express_bus | :free_service
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
-  def to_fare_atom(route_or_atom) do
-    case route_or_atom do
-      %Route{description: :rail_replacement_bus} ->
-        :free_service
+  def to_fare_atom(%Route{description: :rail_replacement_bus}), do: :free_service
+  def to_fare_atom(%Route{type: 3, id: route_id}), do: bus_fare_atom(route_id)
+  def to_fare_atom(%Route{} = route), do: Route.type_atom(route)
+  def to_fare_atom(<<id::binary>>), do: @routes_repo.get(id) |> to_fare_atom
+  def to_fare_atom(route_or_atom), do: route_or_atom
 
-      %Route{type: 3, id: id} ->
-        cond do
-          silver_line_rapid_transit?(id) -> :subway
-          express?(id) -> :express_bus
-          fare_free_bus?(id) -> :free_service
-          true -> :bus
-        end
-
-      %Route{} ->
-        Route.type_atom(route_or_atom)
-
-      <<id::binary>> ->
-        @routes_repo.get(id) |> to_fare_atom
-
-      _ ->
-        route_or_atom
+  @spec bus_fare_atom(Route.id_t()) :: fare_atom
+  defp bus_fare_atom(route_id) do
+    cond do
+      silver_line_rapid_transit?(route_id) -> :subway
+      express?(route_id) -> :express_bus
+      fare_free_bus?(route_id) -> :free_service
+      true -> :bus
     end
   end
 end
