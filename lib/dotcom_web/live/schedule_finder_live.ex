@@ -426,7 +426,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for={@id} class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select id={@id} class="mbta-input w-full" name="selected_service" phx-update="ignore">
+      <select id={@id} class="mbta-input w-full" name="selected_service">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
