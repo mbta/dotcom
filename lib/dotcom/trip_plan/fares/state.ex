@@ -3,31 +3,25 @@ defmodule Dotcom.TripPlan.Fares.State do
   Tracks the accumulated fare for an itinerary as its legs are processed one
   at a time.
 
-  Transit fare systems often grant free or discounted transfers between trips
-  taken within a certain time window (e.g. two hours) of each other, provided
-  the rider stays "in system" (for example, remaining within a subway
-  station's paid area). This module models that behavior by accumulating legs
-  via `add_leg/2` and keeping track of:
+  This module is intended to reflect the following features of our fare policy:
+    * Unlimited transfers between subway, bus, and ferry within a two-hour
+      window.
+    * Free in-station transfers between different subway lines, and between
+      SL1/2/3/W and subway.
+    * Commuter rail and Logan Express bus fares are stored separately, and
+      have no transfer discounts.
 
-    * `non_transfer_fare` - the portion of the fare that has already been
-      finalized and is no longer eligible for a transfer discount.
-    * `transfer_window_fare` - the highest-cost leg fare seen within the
-      current transfer window; only this amount (rather than the sum of all
-      legs in the window) is charged once the window closes.
-    * `transfer_window_start_time` - when the current transfer window began,
-      used to determine whether a subsequent leg still falls within it.
-    * `current_station_id` - the parent station the rider is currently
-      considered to be "inside" of, used to detect free in-station transfers
-      between subway/Silver Line routes.
+  This module models that behavior by accumulating legs via `add_leg/2` and
+  keeping track of the existing transfer window and transferable fare (using
+  `transfer_window_fare` and `transfer_window_start_time`), and whether the
+  trip is currently inside a station (using `current_station_id`) for the
+  purpose of determining free in-station transfers.
 
-  Call `new/0` to create an initial state, `add_leg/2` for each leg of the
-  itinerary in order, and `fare/1` to get the total accumulated fare (in
-  cents) once all legs have been added.
+  ## Lifecycle
 
-  Only MBTA subway, bus, and ferry legs (route types 0, 1, 3, and 4) are
-  eligible for the transfer discount. Commuter Rail legs (route type 2), and
-  legs on other agencies, are always charged in full and added directly to
-  `non_transfer_fare`.
+  Create a `%Fares.State{}` struct by calling `new/0`, and add legs in order
+  by calling `add_leg/2`. Once all legs have been added, `fare/1` will return
+  the total fare for the trip.
 
   ## Examples
 
