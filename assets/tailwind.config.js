@@ -73,6 +73,9 @@ module.exports = {
       fontSize: {
         ...mbtaTheme.fontSize,
         xs: "0.75rem"
+      },
+      transitionDuration: {
+        DEFAULT: mbtaTheme.transitionDuration
       }
     },
     // match screens to Bootstrap's breakpoints for now
