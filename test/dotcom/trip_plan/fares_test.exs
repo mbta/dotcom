@@ -12,9 +12,6 @@ defmodule Dotcom.TripPlan.FaresTest do
     :ok
   end
 
-  describe "fare/1" do
-  end
-
   describe "cents_for_leg/1" do
     test "walking leg" do
       leg = build(:walking_leg)
