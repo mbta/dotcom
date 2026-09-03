@@ -111,10 +111,26 @@ defmodule DotcomWeb.LineDiagramLive do
         <div class="schedule__header-tabs">{header_tabs(assigns)}</div>
       </div>
     </div>
-
-    <marquee style="font-size:2cm" scrollamount="16" scrolldelay="60">
-      🚧 Under Construction 🚧
-    </marquee>
+    <div class="container">
+      <div class="col-md-7">
+        <marquee
+          style="font-size:1cm;filter: drop-shadow(2px 4px 6px orange);"
+          scrollamount="16"
+          scrolldelay="60"
+        >
+          🚧 Under Construction 🚧
+        </marquee>
+      </div>
+      <div class="col-md-5">
+        <marquee
+          style="font-size:1cm;filter: drop-shadow(2px 4px 6px orange);"
+          scrollamount="16"
+          scrolldelay="60"
+        >
+          ⚠️ Watch Your Step ⚠️
+        </marquee>
+      </div>
+    </div>
     """
   end
 end
