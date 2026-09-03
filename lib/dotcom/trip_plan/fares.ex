@@ -13,8 +13,8 @@ defmodule Dotcom.TripPlan.Fares do
   alias Fares.Fare
   alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Route}
 
-  @spec fare_nouveau(Itinerary.t()) :: non_neg_integer() | nil
-  def fare_nouveau(%Itinerary{legs: legs}) do
+  @spec fare(Itinerary.t()) :: non_neg_integer() | nil
+  def fare(%Itinerary{legs: legs}) do
     legs
     |> Enum.reduce(State.new(), fn leg, state ->
       State.add_leg(state, leg)

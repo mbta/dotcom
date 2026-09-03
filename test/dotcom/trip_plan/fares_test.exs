@@ -119,7 +119,7 @@ defmodule Dotcom.TripPlan.FaresTest do
     end
   end
 
-  describe "fare_nouveau/1" do
+  describe "fare/1" do
     test "returns the appropriate fare for a single-leg trip" do
       # Setup
       mbta_agency = build(:agency, name: "MBTA")
@@ -128,7 +128,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: [leg])
 
       # Exercise / Verify
-      assert fare_nouveau(itinerary) == cents_for_leg(leg)
+      assert fare(itinerary) == cents_for_leg(leg)
     end
 
     test "returns the appropriate fare if a transit leg is surrounded by walking legs" do
@@ -147,7 +147,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: legs)
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       assert fare == cents_for_leg(transit_leg)
@@ -162,7 +162,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: legs)
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       max_leg_fare = legs |> Enum.map(&cents_for_leg/1) |> Enum.max()
@@ -186,7 +186,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: first_window_legs ++ second_window_legs)
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       max_first_window_leg_fare = first_window_legs |> Enum.map(&cents_for_leg/1) |> Enum.max()
@@ -211,7 +211,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: legs)
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       max_transfer_fare = transfer_legs |> Enum.map(&cents_for_leg/1) |> Enum.max()
@@ -236,7 +236,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: legs)
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       max_transfer_fare = transfer_legs |> Enum.map(&cents_for_leg/1) |> Enum.max()
@@ -280,7 +280,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: [first_leg, walking_leg, second_leg])
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       assert fare == cents_for_leg(first_leg)
@@ -325,7 +325,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: [first_leg, walking_leg, second_leg])
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       assert fare == cents_for_leg(first_leg)
@@ -355,7 +355,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: [first_leg, second_leg])
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       assert fare == cents_for_leg(first_leg) + cents_for_leg(second_leg)
@@ -389,7 +389,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: [first_leg, second_leg])
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       assert fare > cents_for_leg(first_leg)
@@ -434,7 +434,7 @@ defmodule Dotcom.TripPlan.FaresTest do
       itinerary = build(:itinerary, legs: [first_leg, second_leg, third_leg])
 
       # Exercise
-      fare = fare_nouveau(itinerary)
+      fare = fare(itinerary)
 
       # Verify
       assert fare == max(cents_for_leg(second_leg), cents_for_leg(third_leg))
