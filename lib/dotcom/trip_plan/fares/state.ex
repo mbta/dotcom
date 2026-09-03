@@ -91,6 +91,8 @@ defmodule Dotcom.TripPlan.Fares.State do
     :transfer_window_start_time
   ]
 
+  @dtx_park_stations ~w(place-dwnxg place-pktrm) |> Enum.map(&"mbta-ma-us:#{&1}")
+
   @doc """
   Adds a leg to the fare state, updating the accumulated fare and, if
   applicable, the current transfer window and station.
@@ -188,6 +190,12 @@ defmodule Dotcom.TripPlan.Fares.State do
   #
   # - The `current_station_id` of the fare state, and the station ID
   #   from the leg's `from` field are the same.
+  #
+  #   - Weird and wacky special case: for the purposes of in-station
+  #     transfers, Park Street (place-pktrm) and Downtown Crossing
+  #     (place-dwnxg) are the same station, as they're connected via
+  #     the Winter Street Concourse.
+  #
   # - The leg is a subway or an SL1/2/3/W trip.
   @spec in_station_transfer?(t(), Leg.t()) :: boolean()
   defp in_station_transfer?(
@@ -197,7 +205,10 @@ defmodule Dotcom.TripPlan.Fares.State do
            route: %Route{} = route
          }
        )
-       when current_station_id != nil and current_station_id == leg_station_id do
+       when current_station_id != nil and
+              (current_station_id == leg_station_id or
+                 (current_station_id in @dtx_park_stations and
+                    leg_station_id in @dtx_park_stations)) do
     subway_or_sl?(route)
   end
 

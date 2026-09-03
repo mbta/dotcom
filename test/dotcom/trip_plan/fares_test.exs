@@ -562,6 +562,51 @@ defmodule Dotcom.TripPlan.FaresTest do
       assert fare == cents_for_leg(first_leg)
     end
 
+    test "counts Downtown Crossing and Park Street as the same station for in-station transfers" do
+      # Setup
+      mbta_agency = build(:agency, name: "MBTA")
+
+      [parent_station_1, parent_station_2] =
+        [
+          build(:parent_stop, gtfs_id: "mbta-ma-us:place-dwnxg"),
+          build(:parent_stop, gtfs_id: "mbta-ma-us:place-pktrm")
+        ]
+        |> Enum.shuffle()
+
+      first_leg_start = Generators.DateTime.random_date_time()
+
+      first_leg =
+        build(:transit_leg,
+          to: build(:place, stop: build(:stop, parent_station: parent_station_1)),
+          route: subway_or_silver_line_route(mbta_agency),
+          start: build(:leg_time, scheduled_time: first_leg_start)
+        )
+
+      walking_leg =
+        build(:walking_leg,
+          from: build(:place, stop: build(:stop, parent_station: parent_station_1)),
+          to: build(:place, stop: build(:stop, parent_station: parent_station_2))
+        )
+
+      second_leg_start =
+        first_leg_start |> DateTime.shift(hour: 2) |> Generators.DateTime.random_date_time_after()
+
+      second_leg =
+        build(:transit_leg,
+          from: build(:place, stop: build(:stop, parent_station: parent_station_2)),
+          route: subway_or_silver_line_route(mbta_agency),
+          start: build(:leg_time, scheduled_time: second_leg_start)
+        )
+
+      itinerary = build(:itinerary, legs: [first_leg, walking_leg, second_leg])
+
+      # Exercise
+      fare = fare_nouveau(itinerary)
+
+      # Verify
+      assert fare == cents_for_leg(first_leg)
+    end
+
     test "does not count subway-or-SL-to-subway-or-SL transfers as free outside the 2-hour window if they are at different stations" do
       # Setup
       mbta_agency = build(:agency, name: "MBTA")
