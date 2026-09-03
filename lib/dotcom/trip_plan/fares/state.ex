@@ -129,10 +129,11 @@ defmodule Dotcom.TripPlan.Fares.State do
          leg
        )
        when leg.route.type in [0, 1, 3, 4] and agency_name?(leg, "MBTA") do
-    if in_station_transfer?(fare_state, leg) do
+    fare_for_leg = Dotcom.TripPlan.Fares.cents_for_leg(leg)
+
+    if fare_for_leg == 0 || in_station_transfer?(fare_state, leg) do
       fare_state
     else
-      fare_for_leg = Dotcom.TripPlan.Fares.cents_for_leg(leg)
       leg_start_time = leg.start.scheduled_time
 
       fare_state

@@ -626,7 +626,50 @@ defmodule Dotcom.TripPlan.FaresTest do
       assert fare > cents_for_leg(first_leg)
     end
 
-    # test "free legs don't start a 2-hour transfer window"
+    test "free legs don't start a 2-hour transfer window" do
+      # Setup
+      mbta_agency = build(:agency, name: "MBTA")
+      free_route_id = Faker.Util.pick(~w(23 28 29))
+
+      first_leg_start = Generators.DateTime.random_date_time()
+
+      first_leg =
+        build(:transit_leg,
+          route:
+            build(:route, agency: mbta_agency, type: 3, gtfs_id: "mbta-ma-us:#{free_route_id}"),
+          start: build(:leg_time, scheduled_time: first_leg_start)
+        )
+
+      second_leg_start =
+        Faker.DateTime.between(first_leg_start, first_leg_start |> DateTime.shift(hour: 2))
+
+      second_leg =
+        build(:transit_leg,
+          route: build(:route, agency: mbta_agency, type: Faker.Util.pick([0, 1, 3, 4])),
+          start: build(:leg_time, scheduled_time: second_leg_start)
+        )
+
+      # This start time is specifically chosen to be outside of a
+      # transfer window starting at the first (free) leg, but within a
+      # transfer window starting at the second leg (the first leg with
+      # a fare).
+      third_leg_start =
+        Faker.DateTime.between(first_leg_start, second_leg_start) |> DateTime.shift(hour: 2)
+
+      third_leg =
+        build(:transit_leg,
+          route: build(:route, agency: mbta_agency, type: Faker.Util.pick([0, 1, 3, 4])),
+          start: build(:leg_time, scheduled_time: third_leg_start)
+        )
+
+      itinerary = build(:itinerary, legs: [first_leg, second_leg, third_leg])
+
+      # Exercise
+      fare = fare_nouveau(itinerary)
+
+      # Verify
+      assert fare == max(cents_for_leg(second_leg), cents_for_leg(third_leg))
+    end
   end
 
   defp legs_in_window(start_time, end_time, opts \\ []) do
