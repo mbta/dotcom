@@ -1,6 +1,32 @@
 defmodule Dotcom.TripPlan.Fares.State do
   @moduledoc """
-  A simple utility struct that keeps track of the state of a trip as legs are added to it.
+  Tracks the accumulated fare for a trip as its legs are processed one at a time.
+
+  Transit fare systems often grant free or discounted transfers between trips
+  taken within a certain time window (e.g. two hours) of each other, provided
+  the rider stays "in system" (for example, remaining within a subway
+  station's paid area). This module models that behavior by accumulating legs
+  via `add_leg/2` and keeping track of:
+
+    * `non_transfer_fare` - the portion of the fare that has already been
+      finalized and is no longer eligible for a transfer discount.
+    * `transfer_window_fare` - the highest-cost leg fare seen within the
+      current transfer window; only this amount (rather than the sum of all
+      legs in the window) is charged once the window closes.
+    * `transfer_window_start_time` - when the current transfer window began,
+      used to determine whether a subsequent leg still falls within it.
+    * `current_station_id` - the parent station the rider is currently
+      considered to be "inside" of, used to detect free in-station transfers
+      between subway/Silver Line routes.
+
+  Call `new/0` to create an initial state, `add_leg/2` for each leg of the
+  itinerary in order, and `fare/1` to get the total accumulated fare (in
+  cents) once all legs have been added.
+
+  Only MBTA subway, bus, and ferry legs (route types 0, 1, 3, and 4) are
+  eligible for the transfer discount. Commuter Rail legs (route type 2), and
+  legs on other agencies, are always charged in full and added directly to
+  `non_transfer_fare`.
   """
 
   import Dotcom.TripPlan.Helpers
@@ -21,6 +47,10 @@ defmodule Dotcom.TripPlan.Fares.State do
     :transfer_window_start_time
   ]
 
+  @doc """
+  Adds a leg to the fare state, updating the accumulated fare and, if
+  applicable, the current transfer window and station.
+  """
   @spec add_leg(t(), Leg.t()) :: t()
   def add_leg(fare_state, leg) do
     fare_state
@@ -28,6 +58,9 @@ defmodule Dotcom.TripPlan.Fares.State do
     |> set_station(leg)
   end
 
+  @doc """
+  Returns the total accumulated fare, in cents, for all legs added so far.
+  """
   @spec fare(t()) :: non_neg_integer()
   def fare(%__MODULE__{
         non_transfer_fare: non_transfer_fare,
@@ -36,6 +69,9 @@ defmodule Dotcom.TripPlan.Fares.State do
     non_transfer_fare + transfer_window_fare
   end
 
+  @doc """
+  Creates a new, empty fare state with no fare accumulated yet.
+  """
   @spec new() :: t()
   def new() do
     %__MODULE__{non_transfer_fare: 0, transfer_window_fare: 0}
