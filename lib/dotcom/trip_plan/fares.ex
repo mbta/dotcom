@@ -89,9 +89,6 @@ defmodule Dotcom.TripPlan.Fares do
     route_id = mbta_id(route)
     origin_id = mbta_id(from.stop)
 
-    # dbg(route)
-    # dbg(route_id)
-
     name =
       cond do
         Fares.express?(route_id) -> :express_bus
