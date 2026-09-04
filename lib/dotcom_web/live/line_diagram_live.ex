@@ -5,7 +5,6 @@ defmodule DotcomWeb.LineDiagramLive do
 
   use DotcomWeb, :live_view
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
@@ -22,9 +21,12 @@ defmodule DotcomWeb.LineDiagramLive do
 
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
 
+  on_mount DotcomWeb.Hooks.AssignRoute
+  on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
+
   def mount(params, _session, socket) do
-    route_id = params |> Map.get("route_id")
-    route = @routes_repo.get(route_id)
+    route = socket.assigns.route
+    route_id = route.id
     route_patterns = @route_patterns_repo.by_route_id(route_id)
 
     direction_id =
