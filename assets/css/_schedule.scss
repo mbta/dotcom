@@ -5,9 +5,9 @@
 
 .schedule__route-name {
   display: inline-block;
-  margin-bottom: calc(#{$base-spacing} / 2);
-  margin-top: 1.75rem;
-  text-transform: uppercase;
+  font-size: var(--font-size-2xl);
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
 }
 
 .schedule-date-picker {
@@ -308,6 +308,7 @@
 
 .schedule__description {
   display: inline-block;
+  font-size: 2rem;
   margin-bottom: $base-spacing * 1.5;
   margin-top: 0;
 }
@@ -352,15 +353,6 @@
   color: $white;
   display: inline-block;
   font-weight: bold;
-  min-width: $base-spacing * 4;
-  padding: calc(#{$base-spacing} / 4) $base-spacing;
+  padding: calc(#{$base-spacing} / 8) calc(3 * $base-spacing / 4);
   text-align: center;
-
-  @include media-breakpoint-down(xs) {
-    min-width: $base-spacing * 3;
-  }
-
-  @include media-breakpoint-up(lg) {
-    min-width: $base-spacing * 5;
-  }
 }

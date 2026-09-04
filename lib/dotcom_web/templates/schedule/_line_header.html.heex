@@ -1,6 +1,6 @@
 <div class={"schedule__header #{ header_class(@route) }"}>
   <div class="schedule__header-container">
-    <h1 class="schedule__route-name notranslate">{route_header_text(@route)}</h1>
+    <DotcomWeb.Components.ScheduleHeaderComponents.route_header route={@route} />
     {route_header_description(@route)}
     {route_feature_badge(@route)}
     <div class="schedule__header-tabs">
