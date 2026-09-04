@@ -22,6 +22,7 @@ defmodule DotcomWeb.LineDiagramLive do
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
 
   on_mount DotcomWeb.Hooks.AssignRoute
+  on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
 
   def mount(params, _session, socket) do
     route = socket.assigns.route
