@@ -22,6 +22,13 @@ defmodule DotcomWeb.EventControllerTest do
       assert %{year: 2020, month: 5} = conn.assigns
     end
 
+    test "assigns month and year based on nested date query params", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index, date: [month: 7, year: 2023]))
+
+      assert conn.status == 200
+      assert %{year: 2023, month: 7} = conn.assigns
+    end
+
     test "renders a list of events", %{conn: conn} do
       conn = get(conn, event_path(conn, :index))
       assert conn.assigns.year == 2019
