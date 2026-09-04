@@ -332,7 +332,10 @@ defmodule DotcomWeb.ScheduleView do
           ]
       end
 
-    HeaderTabs.render_tabs(tabs, selected: conn.assigns.tab, tab_class: route_tab_class(route))
+    HeaderTabs.render_tabs(tabs,
+      selected: conn.assigns.tab,
+      tab_class: route_tab_class(route)
+    )
   end
 
   @spec alert_count(Conn.t()) :: integer
@@ -340,7 +343,7 @@ defmodule DotcomWeb.ScheduleView do
   defp alert_count(_), do: 0
 
   @spec route_tab_class(Route.t()) :: String.t()
-  defp route_tab_class(%Route{type: 3} = route) do
+  def route_tab_class(%Route{type: 3} = route) do
     if Route.silver_line?(route) do
       ""
     else
@@ -348,7 +351,7 @@ defmodule DotcomWeb.ScheduleView do
     end
   end
 
-  defp route_tab_class(_), do: ""
+  def route_tab_class(_), do: ""
 
   @spec route_fare_link(Route.t()) :: String.t()
   def route_fare_link(route) do
