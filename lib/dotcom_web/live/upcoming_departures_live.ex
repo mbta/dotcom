@@ -332,7 +332,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         phx-value-trip-id={upcoming_departure.trip_id}
         phx-value-stop-sequence={upcoming_departure.stop_sequence}
         id={"upcoming-departure-#{upcoming_departure.trip_id}-#{upcoming_departure.stop_sequence}"}
-        summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest"
+        summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 bg-white group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest sticky top-0 z-50 group-open:border-b-xs group-open:border-gray-lightest"
       >
         <:heading>
           <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
@@ -573,6 +573,12 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   attr :route, Routes.Route, required: true
   attr :other_stop, :any, required: true
   attr :highlight, :boolean, default: false
+
+  defp other_stop(%{other_stop: %Dotcom.ScheduleFinder.TripHeading{}} = assigns) do
+    ~H"""
+    <Departures.continues_as route={@other_stop.route} headsign={@other_stop.headsign} />
+    """
+  end
 
   defp other_stop(assigns) do
     ~H"""

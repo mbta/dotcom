@@ -11,7 +11,7 @@ defmodule Schedules.Repo do
 
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
-  alias Schedules.{Parser, Repo.Behaviour, Schedule}
+  alias Schedules.{Parser, Repo.Behaviour, Schedule, Trip}
   alias Util
 
   @behaviour Behaviour
@@ -25,7 +25,7 @@ defmodule Schedules.Repo do
   @type schedule_pair :: {Schedule.t(), Schedule.t()}
 
   @default_params [
-    include: "trip,trip.occupancies",
+    include: "trip,trip.occupancies,trip.from_trip_transfers",
     "fields[schedule]":
       "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,stop_headsign,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
@@ -61,6 +61,8 @@ defmodule Schedules.Repo do
   @impl Behaviour
   def schedule_for_trip(trip_id, opts \\ [])
 
+  def schedule_for_trip(nil, _), do: []
+
   def schedule_for_trip("", _) do
     # shortcut a known invalid trip ID
     []
@@ -74,6 +76,18 @@ defmodule Schedules.Repo do
     |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
+    |> append_in_seat_transfer_trips(opts)
+  end
+
+  defp append_in_seat_transfer_trips(schedules, opts) do
+    with %Schedule{trip: trip} <- List.last(schedules),
+         %Trip{next_trip_id: next_trip_id} <- trip do
+      schedules
+      |> Enum.concat(schedule_for_trip(next_trip_id, opts))
+    else
+      _ ->
+        schedules
+    end
   end
 
   def schedules_for_stop(stop_id, opts) do
@@ -155,8 +169,8 @@ defmodule Schedules.Repo do
   defp fetch_trip(trip_id, trip_by_id_fn) do
     trip_opts =
       case Util.config(:dotcom, :enable_experimental_features) do
-        "true" -> [include: "occupancies"]
-        _ -> []
+        "true" -> [include: "occupancies,from_trip_transfers"]
+        _ -> [include: "from_trip_transfers"]
       end
 
     case trip_by_id_fn.(trip_id, trip_opts) do

@@ -11,6 +11,7 @@ defmodule Dotcom.ScheduleFinder do
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
   alias RoutePatterns.RoutePattern
   alias Routes.Route
+  alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
 
@@ -58,6 +59,18 @@ defmodule Dotcom.ScheduleFinder do
             platform_name: String.t() | nil,
             stop_name: String.t(),
             time: DateTime.t()
+          }
+  end
+
+  defmodule TripHeading do
+    @moduledoc """
+    A headsign-route pairing
+    """
+    defstruct [:headsign, :route]
+
+    @type t :: %__MODULE__{
+            headsign: Trip.headsign(),
+            route: Route.t()
           }
   end
 
@@ -120,7 +133,7 @@ defmodule Dotcom.ScheduleFinder do
   defp no_pick_up?(%Schedule{pickup_type: 1}), do: true
   defp no_pick_up?(_), do: false
 
-  defp to_departure(%Schedule{schedule_id: schedule_id, route: route, trip: trip} = schedule) do
+  def to_departure(%Schedule{schedule_id: schedule_id, route: route, trip: trip} = schedule) do
     %DailyDeparture{
       route: route,
       schedule_id: schedule_id,
@@ -130,6 +143,27 @@ defmodule Dotcom.ScheduleFinder do
       trip_name: if(trip, do: Map.get(trip, :name)),
       trip_id: if(trip, do: Map.get(trip, :id)),
       stop_sequence: schedule.stop_sequence
+    }
+  end
+
+  def to_departure(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
+    if schedule do
+      to_departure(schedule)
+    else
+      to_departure(prediction)
+    end
+  end
+
+  def to_departure(%Prediction{id: prediction_id, route: route, trip: trip} = prediction) do
+    %DailyDeparture{
+      route: route,
+      schedule_id: prediction_id,
+      time: prediction.departure_time,
+      time_desc: time_desc(trip),
+      headsign: if(trip, do: Map.get(trip, :headsign)),
+      trip_name: if(trip, do: Map.get(trip, :name)),
+      trip_id: if(trip, do: Map.get(trip, :id)),
+      stop_sequence: prediction.stop_sequence
     }
   end
 
@@ -153,9 +187,19 @@ defmodule Dotcom.ScheduleFinder do
       schedules when is_list(schedules) ->
         arrivals =
           schedules
-          |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
-          |> Stream.map(&to_arrival/1)
-          |> Enum.to_list()
+          |> Stream.filter(&makes_subsequent_stop?(&1, trip_id, min_stop_sequence))
+          |> Stream.chunk_by(& &1.trip.id)
+          |> Stream.with_index(fn
+            trip_schedules, 0 ->
+              Enum.map(trip_schedules, &to_arrival/1)
+
+            [next_schedule | more_schedules], _ ->
+              [
+                to_trip_heading(next_schedule)
+                | Enum.map(more_schedules, &to_arrival/1)
+              ]
+          end)
+          |> Enum.flat_map(& &1)
 
         {:ok, arrivals}
 
@@ -164,9 +208,34 @@ defmodule Dotcom.ScheduleFinder do
     end
   end
 
+  def to_trip_heading(%PredictedSchedule{} = ps) do
+    route = PredictedSchedule.route(ps)
+    trip = PredictedSchedule.trip(ps)
+
+    if trip do
+      to_trip_heading(%{trip: trip, route: route})
+    else
+      []
+    end
+  end
+
+  def to_trip_heading(%{trip: trip, route: route}) do
+    %TripHeading{
+      headsign: trip.headsign,
+      route: route
+    }
+  end
+
+  def to_trip_heading(_), do: []
+
   # Instead of every stop in the trip, only return schedules that make later stops on the trip, as defined by the given `stop_sequence` value
+  defp makes_subsequent_stop?(%Schedule{trip: trip}, trip_id, _) when trip_id != trip.id do
+    true
+  end
+
   defp makes_subsequent_stop?(
          %Schedule{stop_sequence: stop_sequence},
+         _,
          min_stop_sequence
        ) do
     stop_sequence >= min_stop_sequence

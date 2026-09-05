@@ -95,7 +95,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
     upcoming_predicted_schedules =
       predicted_schedules
-      |> Enum.sort_by(&PredictedSchedule.stop_sequence(&1))
+      |> Enum.sort_by(&{PredictedSchedule.time(&1), PredictedSchedule.stop_sequence(&1)})
       |> drop_predicted_schedules_before_current_station(vehicle)
 
     vehicle_info =
@@ -103,24 +103,37 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     stops =
       upcoming_predicted_schedules
-      |> Enum.map(fn ps ->
-        stop = ps |> PredictedSchedule.stop()
-        platform_name = ps |> platform_name()
+      |> Stream.chunk_by(&PredictedSchedule.trip(&1))
+      |> Stream.with_index(fn
+        ps, 0 ->
+          Enum.map(ps, &to_trip_stop/1)
 
-        %TripStop{
-          cancelled?: PredictedSchedule.cancelled?(ps),
-          platform_name: platform_name,
-          stop_id: stop.id,
-          stop_name: stop.name,
-          stop_sequence: PredictedSchedule.stop_sequence(ps),
-          time: trip_stop_time(ps)
-        }
+        [next_ps | more_ps], _ ->
+          [
+            ScheduleFinder.to_trip_heading(next_ps)
+            | Enum.map(more_ps, &to_trip_stop/1)
+          ]
       end)
+      |> Enum.flat_map(& &1)
       |> drop_first_trip_stop_if_vehicle_is_stopped(vehicle_info)
 
     %__MODULE__{
       stops: stops,
       vehicle_info: vehicle_info
+    }
+  end
+
+  defp to_trip_stop(ps) do
+    stop = ps |> PredictedSchedule.stop()
+    platform_name = ps |> platform_name()
+
+    %TripStop{
+      cancelled?: PredictedSchedule.cancelled?(ps),
+      platform_name: platform_name,
+      stop_id: stop.id,
+      stop_name: stop.name,
+      stop_sequence: PredictedSchedule.stop_sequence(ps),
+      time: trip_stop_time(ps)
     }
   end
 
