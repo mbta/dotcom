@@ -142,7 +142,7 @@ const DefaultWrapper: React.FunctionComponent<unknown> = ({ children }) => (
 );
 /**
  * From a list of `DepartureInfo[]`, generate a list of `<DisplayTime />`.
- * Each `<DisplayTime />` will recieve the `renderAbsoluteTime`, `isCR`, and `targetDate` props.
+ * Each `<DisplayTime />` will recieve the `shouldRenderAbsoluteTime`, `isCR`, and `targetDate` props.
  *
  * This function can optionally
  * - wrap each `<DisplayTime />` in a specified wrapper element, `WrapperEl`
@@ -150,7 +150,7 @@ const DefaultWrapper: React.FunctionComponent<unknown> = ({ children }) => (
  */
 const departuresListFromInfos = (
   departureInfos: DepartureInfo[],
-  renderAbsoluteTime: boolean,
+  shouldRenderAbsoluteTime: boolean,
   isCR: boolean,
   isSubway: boolean,
   targetDate?: Date,
@@ -183,7 +183,7 @@ const departuresListFromInfos = (
     <WrapperEl key={getInfoKey(d)}>
       <DisplayTime
         departure={d}
-        renderAbsoluteTime={renderAbsoluteTime}
+        shouldRenderAbsoluteTime={shouldRenderAbsoluteTime}
         isCR={isCR}
         targetDate={targetDate}
       />

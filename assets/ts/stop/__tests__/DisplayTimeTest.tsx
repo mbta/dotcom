@@ -24,7 +24,7 @@ describe("DisplayTime", () => {
     const { container } = render(
       <DisplayTime
         departure={departureWithPrediction}
-        renderAbsoluteTime={false}
+        shouldRenderAbsoluteTime={false}
         isCR={false}
       />
     );
@@ -33,7 +33,7 @@ describe("DisplayTime", () => {
     const { container: containerNoPrediction } = render(
       <DisplayTime
         departure={departureWithoutPrediction}
-        renderAbsoluteTime={false}
+        shouldRenderAbsoluteTime={false}
         isCR={false}
       />
     );
@@ -48,7 +48,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={departureWithPrediction}
-          renderAbsoluteTime={false}
+          shouldRenderAbsoluteTime={false}
           isCR={false}
         />
       );
@@ -66,7 +66,7 @@ describe("DisplayTime", () => {
               }
             } as DepartureInfo
           }
-          renderAbsoluteTime={false}
+          shouldRenderAbsoluteTime={false}
           isCR={false}
         />
       );
@@ -81,7 +81,7 @@ describe("DisplayTime", () => {
               prediction: { ...departureWithPrediction.prediction, track: "9" }
             } as DepartureInfo
           }
-          renderAbsoluteTime={true}
+          shouldRenderAbsoluteTime={true}
           isCR={true}
         />
       );
@@ -100,7 +100,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={withScheduleAndPrediction}
-          renderAbsoluteTime={true}
+          shouldRenderAbsoluteTime={true}
           isCR={true}
         />
       );
@@ -109,7 +109,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={withSchedule}
-          renderAbsoluteTime={true}
+          shouldRenderAbsoluteTime={true}
           isCR={true}
         />
       );
@@ -130,7 +130,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={departure}
-          renderAbsoluteTime={false}
+          shouldRenderAbsoluteTime={false}
           isCR={false}
           targetDate={nowTime}
         />
@@ -153,7 +153,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={departure}
-          renderAbsoluteTime={false}
+          shouldRenderAbsoluteTime={false}
           isCR={false}
           targetDate={nowTime}
         />
@@ -175,7 +175,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={departure}
-          renderAbsoluteTime={true}
+          shouldRenderAbsoluteTime={true}
           isCR={true}
           targetDate={nowTime}
         />
@@ -198,7 +198,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={departure}
-          renderAbsoluteTime={false}
+          shouldRenderAbsoluteTime={false}
           isCR={false}
           targetDate={nowTime}
         />
@@ -220,7 +220,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={departure}
-          renderAbsoluteTime={false}
+          shouldRenderAbsoluteTime={false}
           isCR={false}
           targetDate={nowTime}
         />
@@ -242,7 +242,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime
           departure={departure}
-          renderAbsoluteTime={false}
+          shouldRenderAbsoluteTime={false}
           isCR={false}
           targetDate={nowTime}
         />

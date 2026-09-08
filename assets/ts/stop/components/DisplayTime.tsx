@@ -37,7 +37,7 @@ import { isSameDayInBoston } from "../../helpers/date";
 
 interface DisplayTimeProps {
   departure: DepartureInfo;
-  renderAbsoluteTime: boolean;
+  shouldRenderAbsoluteTime: boolean;
   isCR: boolean;
   targetDate?: Date | undefined;
 }
@@ -54,7 +54,7 @@ interface DisplayTimeProps {
  */
 const DisplayTime = ({
   departure,
-  renderAbsoluteTime,
+  shouldRenderAbsoluteTime,
   isCR,
   targetDate = new Date()
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
@@ -77,7 +77,7 @@ const DisplayTime = ({
   const willPrintInRelative =
     differenceInSeconds(time, targetDate) < secondsInHour;
   const willSetRelativeProp =
-    !(isCancelled || isSkipped) && !renderAbsoluteTime;
+    !(isCancelled || isSkipped) && !shouldRenderAbsoluteTime;
 
   return (
     <>
@@ -112,7 +112,7 @@ const DisplayTime = ({
         <>
           <div className="stop-routes__departures-time">
             <BasicTime
-              displayType={renderAbsoluteTime ? "absolute" : "relative"}
+              displayType={shouldRenderAbsoluteTime ? "absolute" : "relative"}
               time={time}
               targetDate={targetDate}
             />
