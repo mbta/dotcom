@@ -45,7 +45,7 @@ const DepartureList = ({
   hasService,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
-  const isCR = isACommuterRailRoute(route) || isFerryRoute(route);
+  const renderAbsoluteTime = isACommuterRailRoute(route) || isFerryRoute(route);
   const isSubway = isSubwayRoute(route);
 
   // don's show cancelled departures for subway
@@ -94,7 +94,7 @@ const DepartureList = ({
           <ul className="stop-routes__departures list-unstyled">
             {departuresListFromInfos(
               modeSpecificDepartures,
-              isCR,
+              renderAbsoluteTime,
               isSubway,
               targetDate
             )}

@@ -12,7 +12,7 @@ interface DepartureTimesProps {
   alertsForDirection: Alert[];
   headsign: string;
   onClick: () => void;
-  isCR: boolean;
+  renderAbsoluteTime: boolean;
   isSubway: boolean;
   hasService: boolean;
   // override date primarily used for testing
@@ -67,17 +67,17 @@ const DepartureTimes = ({
   alertsForDirection,
   headsign,
   onClick,
-  isCR,
+  renderAbsoluteTime,
   isSubway,
   hasService,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> | null => {
   const timeList = departuresListFromInfos(
     departures,
-    isCR,
+    renderAbsoluteTime,
     isSubway,
     overrideDate,
-    isCR ? 1 : 2,
+    renderAbsoluteTime ? 1 : 2,
     true,
     ({ children }) => (
       <div className="stop-routes__departures-group">{children}</div>
