@@ -38,7 +38,9 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
       <.header_icon class="mr-1" name="icon-bus-default" />
       """
     else
-      ~H""
+      ~H"""
+      <.bus_route_sign route_name={@route.name} />
+      """
     end
   end
 
@@ -49,6 +51,16 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
   end
 
   defp route_header_icon(assigns), do: ~H""
+
+  attr :route_name, :string, required: true
+
+  defp bus_route_sign(assigns) do
+    ~H"""
+    <div class="bus-route-sign">
+      {@route_name}
+    </div>
+    """
+  end
 
   attr :class, :string, default: ""
   attr :name, :string, required: true
