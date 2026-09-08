@@ -728,6 +728,7 @@ msgstr ""
 msgid "Bus Other"
 msgstr ""
 
+#: lib/dotcom_web/components/schedule_page/schedule_header_components.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Route"

@@ -722,6 +722,7 @@ msgstr "巴士地图"
 msgid "Bus Other"
 msgstr "巴士其他"
 
+#: lib/dotcom_web/components/schedule_page/schedule_header_components.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Route"
