@@ -150,7 +150,10 @@ const DepartureCard = ({
             headsign={headsign}
             departures={departureList}
             onClick={onClick}
-            renderAbsoluteTime={isACommuterRailRoute(route) || isFerryRoute(route)}
+            renderAbsoluteTime={
+              isACommuterRailRoute(route) || isFerryRoute(route)
+            }
+            isCR={isACommuterRailRoute(route)}
             isSubway={isSubwayRoute(route)}
             hasService={departureList.length !== 0}
           />

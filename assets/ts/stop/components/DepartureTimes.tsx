@@ -13,6 +13,7 @@ interface DepartureTimesProps {
   headsign: string;
   onClick: () => void;
   renderAbsoluteTime: boolean;
+  isCR: boolean;
   isSubway: boolean;
   hasService: boolean;
   // override date primarily used for testing
@@ -68,6 +69,7 @@ const DepartureTimes = ({
   headsign,
   onClick,
   renderAbsoluteTime,
+  isCR,
   isSubway,
   hasService,
   overrideDate
@@ -75,6 +77,7 @@ const DepartureTimes = ({
   const timeList = departuresListFromInfos(
     departures,
     renderAbsoluteTime,
+    isCR,
     isSubway,
     overrideDate,
     renderAbsoluteTime ? 1 : 2,

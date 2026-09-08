@@ -38,6 +38,7 @@ import { isSameDayInBoston } from "../../helpers/date";
 interface DisplayTimeProps {
   departure: DepartureInfo;
   renderAbsoluteTime: boolean;
+  isCR: boolean;
   targetDate?: Date | undefined;
 }
 
@@ -54,6 +55,7 @@ interface DisplayTimeProps {
 const DisplayTime = ({
   departure,
   renderAbsoluteTime,
+  isCR,
   targetDate = new Date()
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
   const {
@@ -70,11 +72,12 @@ const DisplayTime = ({
   if (!time) return null;
 
   const track = prediction?.track;
-  const trackName = renderAbsoluteTime && !!track && `Track ${track}`;
+  const trackName = isCR && !!track && `Track ${track}`;
   const tomorrow = !isSameDayInBoston(targetDate, time);
   const willPrintInRelative =
     differenceInSeconds(time, targetDate) < secondsInHour;
-  const willSetRelativeProp = !(isCancelled || isSkipped) && !renderAbsoluteTime;
+  const willSetRelativeProp =
+    !(isCancelled || isSkipped) && !renderAbsoluteTime;
 
   return (
     <>
