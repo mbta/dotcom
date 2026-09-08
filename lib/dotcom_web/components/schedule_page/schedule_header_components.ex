@@ -11,10 +11,10 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
 
   def route_header(assigns) do
     ~H"""
-    <h1 class="schedule__route-name text-2xl sm:text-[2.5rem] notranslate">
+    <h1 class={["schedule__route-name notranslate", route_header_font_size(@route)]}>
       <div class="flex flex-wrap gap-1 items-center">
         <.route_header_icon route={@route} />
-        <span class={[route_header_font_size(@route), "leading-tight"]}>
+        <span class="leading-tight">
           {@route |> route_header_text() |> break_text_at_slash()}
         </span>
       </div>
@@ -42,13 +42,13 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
 
   defp route_header_font_size(%Route{type: 3} = route) do
     if Route.silver_line?(route) do
-      ""
+      "text-2xl sm:text-[2.5rem]"
     else
       "text-xl sm:text-[1.75rem]"
     end
   end
 
-  defp route_header_font_size(_), do: ""
+  defp route_header_font_size(_), do: "text-2xl sm:text-[2.5rem]"
 
   defp route_header_icon(%{route: %Route{type: route_type}} = assigns)
        when route_type in [0, 1] do
@@ -87,7 +87,7 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
 
   defp bus_route_sign(assigns) do
     ~H"""
-    <div class="bus-route-sign mr-1.5">
+    <div class="bus-route-sign mr-1 sm:mr-1.5">
       {@route_name}
     </div>
     """
