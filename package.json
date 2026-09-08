@@ -4,7 +4,7 @@
     "@playwright/test": "1.58.1",
     "artillery": "2.0.30",
     "axios": "1.18.1",
-    "csv-parse": "^6.1.0",
+    "csv-parse": "^7.0.2",
     "hot-shots": "10.0.0",
     "node-cron": "4.6.0",
     "node-json-logger": "0.2.1",
