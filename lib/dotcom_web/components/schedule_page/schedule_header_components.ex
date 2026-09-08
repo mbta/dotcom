@@ -5,7 +5,7 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.ViewHelpers, only: [clean_route_name: 1]
+  import DotcomWeb.ViewHelpers, only: [break_text_at_slash: 1]
 
   alias Routes.Route
 
@@ -13,7 +13,8 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
     ~H"""
     <h1 class="schedule__route-name notranslate">
       <div class="flex flex-wrap gap-1 items-center">
-        <.route_header_icon route={@route} /> <span>{route_header_text(@route)}</span>
+        <.route_header_icon route={@route} />
+        <span>{@route |> route_header_text() |> break_text_at_slash()}</span>
       </div>
     </h1>
     """
@@ -35,7 +36,6 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
     end
   end
 
-  defp route_header_text(%Route{type: 2, name: name}), do: clean_route_name(name)
   defp route_header_text(%Route{name: name}), do: name
 
   defp route_header_icon(%{route: %Route{type: route_type}} = assigns)
