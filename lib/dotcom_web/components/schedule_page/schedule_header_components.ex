@@ -5,19 +5,38 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
 
   use DotcomWeb, :component
 
-  import DotcomWeb.ScheduleView, only: [route_header_text: 1]
+  import DotcomWeb.ViewHelpers, only: [clean_route_name: 1]
 
   alias Routes.Route
 
   def route_header(assigns) do
     ~H"""
     <h1 class="schedule__route-name notranslate">
-      <div class="flex gap-1 items-center">
+      <div class="flex flex-wrap gap-1 items-center">
         <.route_header_icon route={@route} /> <span>{route_header_text(@route)}</span>
       </div>
     </h1>
     """
   end
+
+  defp route_header_text(%Route{type: 3, name: name} = route) do
+    if Route.silver_line?(route) do
+      if route.id == "746" do
+        "Silver Line Waterfront"
+      else
+        "Silver Line #{name}"
+      end
+    else
+      if route.long_name == "" do
+        ~t"Bus Route"
+      else
+        route.long_name
+      end
+    end
+  end
+
+  defp route_header_text(%Route{type: 2, name: name}), do: clean_route_name(name)
+  defp route_header_text(%Route{name: name}), do: name
 
   defp route_header_icon(%{route: %Route{type: route_type}} = assigns)
        when route_type in [0, 1] do
@@ -56,7 +75,7 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
 
   defp bus_route_sign(assigns) do
     ~H"""
-    <div class="bus-route-sign">
+    <div class="bus-route-sign mr-1.5">
       {@route_name}
     </div>
     """

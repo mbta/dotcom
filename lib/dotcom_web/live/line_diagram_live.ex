@@ -16,7 +16,6 @@ defmodule DotcomWeb.LineDiagramLive do
   import DotcomWeb.ScheduleView,
     only: [
       header_class: 1,
-      route_header_description: 1,
       route_feature_badge: 1,
       route_tab_class: 1
     ]
@@ -107,7 +106,6 @@ defmodule DotcomWeb.LineDiagramLive do
     <div class={"schedule__header #{ header_class(@route) }"}>
       <div class="schedule__header-container">
         <.route_header route={@route} />
-        {route_header_description(@route)}
         {route_feature_badge(@route)}
         <div class="schedule__header-tabs">{header_tabs(assigns)}</div>
       </div>
