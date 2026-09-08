@@ -7,8 +7,13 @@ defmodule DotcomWeb.Hooks.AssignRoute do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   def on_mount(:default, %{"route_id" => route_id}, _session, socket) do
-    route = @routes_repo.get(route_id)
+    case @routes_repo.get(route_id) do
+      nil ->
+        # Raising this error will render the 404 page
+        raise DotcomWeb.NotFoundError
 
-    {:cont, assign(socket, :route, route)}
+      route ->
+        {:cont, assign(socket, :route, route)}
+    end
   end
 end
