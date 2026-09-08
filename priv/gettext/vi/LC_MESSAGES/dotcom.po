@@ -5420,3 +5420,8 @@ msgstr "Buổi tối"
 #, elixir-autogen, elixir-format
 msgid "Morning"
 msgstr "Buổi sáng"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "PDF Schedules and Maps"
+msgstr ""

@@ -5400,3 +5400,8 @@ msgstr "晚上"
 #, elixir-autogen, elixir-format
 msgid "Morning"
 msgstr "早晨"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "PDF Schedules and Maps"
+msgstr ""
