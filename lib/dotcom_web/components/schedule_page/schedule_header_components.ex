@@ -23,6 +23,12 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
     """
   end
 
+  # The text that shows up visibly on the schedule header as the
+  # route's title. For subway, commuter rail, and ferry, this will be
+  # the route's name. For non-silver-line bus, it'll be the route long
+  # name (e.g. "Harvard Square - Nubian Station"), or "Bus Route" if
+  # there isn't one. Silver Line buses get a more descriptive "Silver
+  # Line"-flavored name.
   defp route_header_text(%Route{id: "746", type: 3}), do: "Silver Line Waterfront"
 
   defp route_header_text(%Route{type: 3, name: name} = route) when is_silver_line?(route),
@@ -33,11 +39,22 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
 
   defp route_header_text(%Route{name: name}), do: name
 
+  # Non-silver-line bus routes tend to have longer names, so we use a
+  # smaller font size for those.
   defp route_header_font_size(%Route{type: 3} = route) when not is_silver_line?(route),
     do: "text-xl sm:text-[1.75rem]"
 
   defp route_header_font_size(_), do: "text-2xl sm:text-[2.5rem]"
 
+  # The icon that goes to the left of the title. For non-silver-line
+  # bus, that icon is a route pill with the route number in it. For
+  # everything else, it's a mode icon.
+  #
+  # NOTE: For subway, commuter rail, ferry, and silver line bus, the
+  # icon is purely decorative, and is thus `aria-hidden`. For
+  # non-silver-line bus, the icon has the bus route number in it,
+  # which is useful information, and is thus *not* aria-hidden; it
+  # *should* be included in screen reader readout.
   defp route_header_icon(%{route: %Route{type: route_type}} = assigns)
        when route_type in [0, 1] do
     ~H"""
