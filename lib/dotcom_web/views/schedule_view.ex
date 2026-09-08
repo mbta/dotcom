@@ -239,6 +239,10 @@ defmodule DotcomWeb.ScheduleView do
       else
         ["Silver Line ", name]
       end
+    else
+      content_tag :div, class: "bus-route-sign" do
+        route.name
+      end
     end
   end
 
