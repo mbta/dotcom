@@ -352,6 +352,11 @@
   color: $white;
   display: inline-block;
   font-weight: bold;
+  min-width: 3rem;
   padding: calc(#{$base-spacing} / 8) calc(3 * $base-spacing / 4);
   text-align: center;
+
+  @include media-breakpoint-up(sm) {
+    min-width: 3.5rem;
+  }
 }
