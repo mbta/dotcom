@@ -6,6 +6,7 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
   use DotcomWeb, :component
 
   import DotcomWeb.ViewHelpers, only: [break_text_at_slash: 1]
+  import Routes.Route, only: [is_silver_line?: 1]
 
   alias Routes.Route
 
@@ -22,31 +23,18 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
     """
   end
 
-  defp route_header_text(%Route{type: 3, name: name} = route) do
-    if Route.silver_line?(route) do
-      if route.id == "746" do
-        "Silver Line Waterfront"
-      else
-        "Silver Line #{name}"
-      end
-    else
-      if route.long_name == "" do
-        ~t"Bus Route"
-      else
-        route.long_name
-      end
-    end
-  end
+  defp route_header_text(%Route{id: "746", type: 3}), do: "Silver Line Waterfront"
+
+  defp route_header_text(%Route{type: 3, name: name} = route) when is_silver_line?(route),
+    do: "Silver Line #{name}"
+
+  defp route_header_text(%Route{type: 3, long_name: ""}), do: ~t"Bus Route"
+  defp route_header_text(%Route{type: 3, long_name: long_name}), do: long_name
 
   defp route_header_text(%Route{name: name}), do: name
 
-  defp route_header_font_size(%Route{type: 3} = route) do
-    if Route.silver_line?(route) do
-      "text-2xl sm:text-[2.5rem]"
-    else
-      "text-xl sm:text-[1.75rem]"
-    end
-  end
+  defp route_header_font_size(%Route{type: 3} = route) when not is_silver_line?(route),
+    do: "text-xl sm:text-[1.75rem]"
 
   defp route_header_font_size(_), do: "text-2xl sm:text-[2.5rem]"
 
@@ -63,16 +51,17 @@ defmodule DotcomWeb.Components.ScheduleHeaderComponents do
     """
   end
 
-  defp route_header_icon(%{route: %Route{type: 3} = route} = assigns) do
-    if Route.silver_line?(route) do
-      ~H"""
-      <.header_icon class="mr-1" name="icon-bus-default" />
-      """
-    else
-      ~H"""
-      <.bus_route_sign route_name={@route.name} />
-      """
-    end
+  defp route_header_icon(%{route: %Route{type: 3} = route} = assigns)
+       when is_silver_line?(route) do
+    ~H"""
+    <.header_icon class="mr-1" name="icon-bus-default" />
+    """
+  end
+
+  defp route_header_icon(%{route: %Route{type: 3}} = assigns) do
+    ~H"""
+    <.bus_route_sign route_name={@route.name} />
+    """
   end
 
   defp route_header_icon(%{route: %Route{type: 4}} = assigns) do
