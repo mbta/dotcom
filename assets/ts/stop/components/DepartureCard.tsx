@@ -8,7 +8,11 @@ import useDepartureRow from "../../hooks/useDepartureRow";
 import { DepartureInfo } from "../../models/departureInfo";
 import { allAlertsForDirection } from "../../models/alert";
 import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
-import { isACommuterRailRoute, isSubwayRoute } from "../../models/route";
+import {
+  isACommuterRailRoute,
+  isFerryRoute,
+  isSubwayRoute
+} from "../../models/route";
 import DepartureTimes from "./DepartureTimes";
 import {
   RoutePatternGroup,
@@ -146,7 +150,7 @@ const DepartureCard = ({
             headsign={headsign}
             departures={departureList}
             onClick={onClick}
-            isCR={isACommuterRailRoute(route)}
+            isCR={isACommuterRailRoute(route) || isFerryRoute(route)}
             isSubway={isSubwayRoute(route)}
             hasService={departureList.length !== 0}
           />
