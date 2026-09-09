@@ -47,7 +47,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
       end)
 
       {:ok, view, _} =
-        live_isolated_component(SearchResultsLive, Function.identity(create_assigns()))
+        live_isolated_component(SearchResultsLive, create_assigns())
 
       assert render(view)
 
@@ -76,7 +76,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
       end)
 
       {:ok, view, _} =
-        live_isolated_component(SearchResultsLive, Function.identity(create_assigns()))
+        live_isolated_component(SearchResultsLive, create_assigns())
 
       assert render(view) =~ "0 results"
     end
@@ -85,18 +85,21 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
       stub(Dotcom.SearchService.Mock, :query, fn _, _ -> {:error, :something} end)
 
       {:ok, view, _} =
-        live_isolated_component(SearchResultsLive, Function.identity(create_assigns()))
+        live_isolated_component(SearchResultsLive, create_assigns())
 
       assert render(view)
     end
   end
 
   defp create_assigns do
-    %{
+    # Wrapped in Function.identity/1 so the compiler's type checker can't
+    # infer this is always a map, which avoids spurious type warnings from
+    # the is_map/1 check inside the live_isolated_component/2 macro.
+    Function.identity(%{
       id: Faker.Internet.slug(),
       query: Faker.Cat.breed(),
       category: Faker.Util.pick(SearchPageLive.categories())
-    }
+    })
   end
 
   defp load_more(view) do
