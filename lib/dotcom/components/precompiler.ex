@@ -4,8 +4,6 @@ defmodule Dotcom.Components.Precompiler do
   Attach this functionality to a view with Kernel.use/1 (applied to all views by default in DotcomWeb.view)
   """
 
-  require EEx
-
   import Dotcom.Components.Helpers
 
   defmacro __using__(_) do
