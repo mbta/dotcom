@@ -40,7 +40,7 @@ defmodule DotcomWeb.LineDiagramLive do
     %{
       title: ~t(Subway Access Guide),
       image:
-        "sites/default/files/styles/max_2600x2600/public/Accessibility/govt-center-press-access-button.jpg",
+        "/sites/default/files/styles/max_2600x2600/public/Accessibility/govt-center-press-access-button.jpg",
       link: "/accessibility/subway-guide",
       modes: [0, 1]
     },
