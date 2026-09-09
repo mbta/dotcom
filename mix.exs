@@ -123,7 +123,7 @@ defmodule DotCom.Mixfile do
       {:ex_cldr, "2.47.1"},
       {:ex_cldr_dates_times, "2.25.5"},
       {:ex_cldr_lists, "2.12.1"},
-      {:ex_cldr_units, "3.20.1"},
+      {:ex_cldr_units, "3.20.5"},
       {:ex_doc, "0.40.1", only: :dev},
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.2.0", only: [:dev, :test]},
