@@ -156,19 +156,12 @@ defmodule DotcomWeb.LineDiagramLive do
 
     unless Enum.empty?(pdfs) do
       ~H"""
-      <.unstyled_accordion
-        summary_class="flex items-center border-t-xs border-gray-lightest bg-brand-primary-lightest cursor-pointer group/row pb-3 pl-2 justify-between"
-        chevron_class="fill-brand-primary mr-4 flex items-center pt-[0.5rem] transform scale-[1.8]"
-      >
-        <:heading>
-          <h3>{~t(PDF Schedules and Maps)}</h3>
-        </:heading>
-        <:content>
-          <div class="p-3 border-xs flex items-center border-gray-lightest pb-1">
-            {route_pdf_link(pdfs, @route, @date)}
-          </div>
-        </:content>
-      </.unstyled_accordion>
+      <div>
+        <h2 class="text-xl">{~t(Printable Schedules)}</h2>
+        <div class="p-1 flex items-center pb-1">
+          {route_pdf_link(pdfs, @route, @date)}
+        </div>
+      </div>
       """
     end
   end
