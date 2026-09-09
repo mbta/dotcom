@@ -21,8 +21,6 @@ defmodule Journey do
   def has_departure_schedule?(%__MODULE__{departure: departure}),
     do: PredictedSchedule.has_schedule?(departure)
 
-  def has_departure_schedule?(%__MODULE__{}), do: false
-
   @spec has_departure_prediction?(__MODULE__.t()) :: boolean
   def has_departure_prediction?(%__MODULE__{departure: departure}) when not is_nil(departure) do
     PredictedSchedule.has_prediction?(departure)
