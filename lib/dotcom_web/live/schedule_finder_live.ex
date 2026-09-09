@@ -17,7 +17,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias DotcomWeb.Live.UpcomingDeparturesLive
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
-  alias Phoenix.{LiveView, LiveView.AsyncResult}
+  alias Phoenix.{LiveView, LiveView.AsyncResult, LiveView.JS}
   alias Routes.Route
   alias Stops.Stop
 
@@ -145,25 +145,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <%= if length(departures) > 0 do %>
-              <%= if @route.type in [0, 1] do %>
-                <div
-                  :for={
-                    {route, destination, times} <-
-                      get_subway_groups(departures, @direction_id, @stop.id)
-                  }
-                  class="mt-lg mb-md"
-                  data-test="subway_group"
-                >
-                  <.subway_destination route={route} destination={destination} />
-                  <.first_last times={times} vehicle_name={@vehicle_name} />
-                </div>
-              <% else %>
-                <.first_last
-                  times={Enum.map(departures, & &1.time)}
-                  vehicle_name={@vehicle_name}
-                />
-                <.departures_table departures={departures} loaded_trips={@loaded_trips} />
-              <% end %>
+              <div
+                id="departures-container"
+                phx-mounted={
+                  JS.transition({"transition-opacity ease-out", "opacity-30", "opacity-100"})
+                }
+                phx-remove={
+                  JS.transition({"transition-opacity ease-in", "opacity-100", "opacity-30"})
+                }
+              >
+                <%= if @route.type in [0, 1] do %>
+                  <div
+                    :for={
+                      {route, destination, times} <-
+                        get_subway_groups(departures, @direction_id, @stop.id)
+                    }
+                    class="mt-lg mb-md"
+                    data-test="subway_group"
+                  >
+                    <.subway_destination route={route} destination={destination} />
+                    <.first_last times={times} vehicle_name={@vehicle_name} />
+                  </div>
+                <% else %>
+                  <.first_last
+                    times={Enum.map(departures, & &1.time)}
+                    vehicle_name={@vehicle_name}
+                  />
+                  <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+                <% end %>
+              </div>
             <% else %>
               <.callout data-test="no_service">
                 {no_service_message(@service_groups, @route, @stop)}
