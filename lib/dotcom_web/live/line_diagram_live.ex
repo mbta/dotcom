@@ -154,12 +154,14 @@ defmodule DotcomWeb.LineDiagramLive do
         pdfs when is_list(pdfs) -> pdfs
       end
 
+    assigns |> assign(:pdfs, pdfs)
+
     unless Enum.empty?(pdfs) do
       ~H"""
       <div>
         <h2 class="text-xl">{~t(Printable Schedules)}</h2>
         <div class="p-1 flex items-center pb-1">
-          {route_pdf_link(pdfs, @route, @date)}
+          {route_pdf_link(@pdfs, @route, @date)}
         </div>
       </div>
       """
