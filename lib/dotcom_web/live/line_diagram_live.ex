@@ -154,7 +154,7 @@ defmodule DotcomWeb.LineDiagramLive do
         pdfs when is_list(pdfs) -> pdfs
       end
 
-    assigns |> assign(:pdfs, pdfs)
+    assigns = assigns |> assign(:pdfs, pdfs)
 
     unless Enum.empty?(pdfs) do
       ~H"""
