@@ -8,7 +8,11 @@ import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
 import { isSuppressiveAlert } from "../../models/alert";
 import Alerts from "../../components/Alerts";
-import { isACommuterRailRoute, isSubwayRoute } from "../../models/route";
+import {
+  isACommuterRailRoute,
+  isFerryRoute,
+  isSubwayRoute
+} from "../../models/route";
 
 interface DepartureListProps {
   route: Route;
@@ -41,6 +45,8 @@ const DepartureList = ({
   hasService,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
+  const shouldRenderAbsoluteTime =
+    isACommuterRailRoute(route) || isFerryRoute(route);
   const isCR = isACommuterRailRoute(route);
   const isSubway = isSubwayRoute(route);
 
@@ -90,6 +96,7 @@ const DepartureList = ({
           <ul className="stop-routes__departures list-unstyled">
             {departuresListFromInfos(
               modeSpecificDepartures,
+              shouldRenderAbsoluteTime,
               isCR,
               isSubway,
               targetDate
