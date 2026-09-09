@@ -47,7 +47,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
       end)
 
       {:ok, view, _} =
-        live_isolated_component(SearchResultsLive, create_assigns())
+        live_isolated_component(SearchResultsLive, Function.identity(create_assigns()))
 
       assert render(view)
 
@@ -76,7 +76,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
       end)
 
       {:ok, view, _} =
-        live_isolated_component(SearchResultsLive, create_assigns())
+        live_isolated_component(SearchResultsLive, Function.identity(create_assigns()))
 
       assert render(view) =~ "0 results"
     end
@@ -85,7 +85,7 @@ defmodule DotcomWeb.Components.SearchResultsLiveTest do
       stub(Dotcom.SearchService.Mock, :query, fn _, _ -> {:error, :something} end)
 
       {:ok, view, _} =
-        live_isolated_component(SearchResultsLive, create_assigns())
+        live_isolated_component(SearchResultsLive, Function.identity(create_assigns()))
 
       assert render(view)
     end
