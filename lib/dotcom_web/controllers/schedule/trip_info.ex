@@ -120,11 +120,9 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
 
   # If there are more trips left in a day, finds the next trip based on the current time.
   @spec current_trip([Journey.t()], DateTime.t()) :: String.t() | nil
-  defp current_trip([%Journey{} | _] = times, now) do
+  defp current_trip(times, now) do
     do_current_trip(times, now)
   end
-
-  defp current_trip([], _now), do: nil
 
   @spec do_current_trip([Journey.t()], DateTime.t()) :: String.t() | nil
   defp do_current_trip(times, now) do
