@@ -3,6 +3,9 @@ import Config
 config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 config :phoenix, :json_library, Poison
 
+# Using Logster instead
+config :phoenix, :logger, false
+
 if config_env() == :prod do
   config :dotcom,
     dev_server?: false

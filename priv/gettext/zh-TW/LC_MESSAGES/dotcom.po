@@ -38,16 +38,6 @@ msgstr " 路線"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid " Service continues later in the day in the opposite direction. %{link}"
-msgstr " 當天晚些時候，該服務將繼續以相反的方向運行。%{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid " Service is available earlier in the day in the opposite direction. %{link}"
-msgstr " 當天早些時候，反方向的服務也已開通。%{link}"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " 活動結束後30分鐘，列車將從Foxboro出發。"
 
@@ -331,7 +321,7 @@ msgstr "1日通票"
 msgid "2 areas where wheeled mobility devices can be secured"
 msgstr "2 個可以保護輪式助行裝置的區域"
 
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
 #, elixir-autogen, elixir-format
 msgid "24 hours, 7 days a week"
@@ -344,7 +334,7 @@ msgid "7-Day Pass"
 msgstr "7天通票"
 
 #: lib/dotcom_web/templates/customer_support/_call_us.html.heex
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "711 for TTY callers;  VRS for ASL callers"
 msgstr "TTY用戶請撥打711；ASL用戶請撥打VRS。"
@@ -401,7 +391,7 @@ msgstr "無障礙資源"
 msgid "Accessibility at %{name}"
 msgstr "無障礙存取%{name}"
 
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/transit_icons.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -452,8 +442,9 @@ msgstr "警報"
 #: lib/dotcom_web/components/layouts/alerts_layout.html.heex
 #: lib/dotcom_web/controllers/alert_controller.ex
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/live/subway_alerts_live.ex
-#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/templates/page/_tab_list.html.heex
 #: lib/dotcom_web/templates/schedule/_alerts.html.heex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -693,6 +684,7 @@ msgstr "開車或騎自行車"
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
+#: lib/fares/format.ex
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Bus"
@@ -729,6 +721,7 @@ msgstr "巴士地圖"
 msgid "Bus Other"
 msgstr "巴士其他"
 
+#: lib/dotcom_web/components/schedule_page/schedule_header_components.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Route"
@@ -754,7 +747,7 @@ msgstr "可降低車身高度以便乘客上下車的巴士"
 msgid "Business"
 msgstr "商業"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Business Opportunities"
@@ -802,7 +795,7 @@ msgstr "已取消"
 msgid "Capital Transformation"
 msgstr "資本轉型"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1021,6 +1014,8 @@ msgstr "聯繫"
 msgid "Contact Us"
 msgstr "聯絡我們"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Contact numbers"
@@ -1114,7 +1109,7 @@ msgstr "目前座位可用閾值為："
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #: lib/dotcom_web/templates/customer_support/index.html.heex
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Customer Support"
@@ -1202,7 +1197,7 @@ msgstr "細節"
 msgid "Detour"
 msgstr "繞行"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Developers"
 msgstr "開發者"
@@ -1327,7 +1322,7 @@ msgstr "電梯位於%{name}"
 msgid "Emergency"
 msgstr "緊急情況"
 
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1349,7 +1344,7 @@ msgstr "員工投訴"
 msgid "Ended"
 msgstr "結束"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Engineering Design Standards"
@@ -1675,7 +1670,7 @@ msgstr "填寫表格"
 msgid "Filter by type"
 msgstr "按類型篩選"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Financials"
@@ -1851,7 +1846,7 @@ msgstr "您將收到一張郵寄的發票，費用為 1 美元。"
 msgid "Get directions to this parking facility"
 msgstr "前往此停車場的路線"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Get to Know Us"
@@ -1918,7 +1913,7 @@ msgstr "Hingham/Hull Ferry"
 msgid "Hingham/Hull ferry"
 msgstr "Hingham / Hull渡輪"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "History"
@@ -1986,12 +1981,12 @@ msgstr "進站列車取消"
 msgid "Independence Day"
 msgstr "獨立日"
 
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Information & Support"
 msgstr "資訊與支援"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Institutional Sales"
@@ -2051,7 +2046,7 @@ msgstr "您認識有興趣加入我們零售網絡的本地店主嗎？請推薦
 msgid "Labor Day"
 msgstr "勞動節"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Language Services"
@@ -2078,7 +2073,7 @@ msgstr "末班車%{vehicle}"
 msgid "Later"
 msgstr "之後"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -2242,11 +2237,6 @@ msgstr "正在加載即將進行的出發航班"
 msgid "Lobby inside Back Bay station"
 msgstr "Back Bay車站內大廳"
 
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Local Bus"
-msgstr "當地巴士"
-
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #, elixir-autogen, elixir-format
 msgid "Local Bus One-Way"
@@ -2280,7 +2270,7 @@ msgstr "洛根快線"
 msgid "Long ramp"
 msgstr "長坡道"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Lost & Found"
@@ -2327,7 +2317,7 @@ msgstr "MBTA %{type}路線%{name}站點和時刻表，包括地圖、即時更�
 msgid "MBTA - Massachusetts Bay Transportation Authority"
 msgstr "MBTA - 麻省灣交通管理局"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_social_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Facebook"
 msgstr "MBTA Facebook"
@@ -2358,12 +2348,12 @@ msgstr "MBTA首頁"
 msgid "MBTA Homepage"
 msgstr "MBTA首頁"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_social_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Instagram"
 msgstr "MBTA Instagram"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_social_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA LinkedIn"
 msgstr "MBTA LinkedIn"
@@ -2384,12 +2374,12 @@ msgstr "MBTA項目/計劃"
 msgid "MBTA Stations"
 msgstr "MBTA車站"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_social_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Threads"
 msgstr "MBTA線程"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_social_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA TikTok"
 msgstr "MBTA TikTok"
@@ -2405,7 +2395,7 @@ msgstr "MBTA交通警察"
 msgid "MBTA Trip Planner"
 msgstr "MBTA行程規劃器"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_social_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Twitter"
 msgstr "MBTA 推特"
@@ -2415,7 +2405,7 @@ msgstr "MBTA 推特"
 msgid "MBTA User Guides"
 msgstr "MBTA 使用者指南"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_social_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA YouTube"
 msgstr "MBTA YouTube"
@@ -2440,7 +2430,7 @@ msgstr "MBTA.com 最新消息"
 msgid "MBTA.com Menu"
 msgstr "MBTA.com 選單"
 
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Main"
 msgstr "主要的"
@@ -2520,7 +2510,7 @@ msgstr "Massport 擺渡巴士%{route_number}"
 msgid "Mattapan Trolley"
 msgstr "Mattapan Trolley"
 
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "May not be accessible"
 msgstr "可能不太方便"
@@ -2530,7 +2520,7 @@ msgstr "可能不太方便"
 msgid "Media Contact Information"
 msgstr "媒體聯絡訊息"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Media Relations"
@@ -2607,7 +2597,7 @@ msgstr "星期一"
 msgid "Monday - Friday"
 msgstr "週一至週五"
 
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Monday thru Friday"
 msgstr "週一至週五"
@@ -2665,6 +2655,8 @@ msgstr "更多內容 "
 msgid "Most Direct"
 msgstr "最直接"
 
+#: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
+#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -2676,7 +2668,7 @@ msgstr "最受歡迎的票價"
 msgid "Most, but not all, MBTA docks are accessible to riders with disabilities. Based on the tide level and the type of vessel used for travel, you may encounter significant slopes and narrow walkways, even at accessible docks. At all docks, wait until a crew member tells you it is safe to proceed."
 msgstr "大多數（但不是全部）MBTA 碼頭都易於透過殘障進行上升。 根據潮汐水位和航行所用船隻的類型，即使在無障礙碼頭，您也可能會遇到較大的坡度和狹窄的通道。在所有碼頭，請等待船員告知您可以安全通行後再繼續前進。"
 
-#: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
+#: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Navigation Menu"
 msgstr "導航選單"
@@ -2746,7 +2738,7 @@ msgstr "未來7天內無任何變更發布"
 msgid "No events"
 msgstr "無事件"
 
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "No parking"
 msgstr "禁止停車"
@@ -2794,8 +2786,8 @@ msgstr "正常服務"
 msgid "Northbound"
 msgstr "北行"
 
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
-#: lib/dotcom_web/components/timetable.ex
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Not accessible"
@@ -3041,7 +3033,7 @@ msgstr "停車收費標準"
 msgid "Parking at %{name}"
 msgstr "停車場位於%{name}"
 
-#: lib/dotcom_web/components/timetable.ex
+#: lib/dotcom_web/components/a11y_and_parking.ex
 #, elixir-autogen, elixir-format
 msgid "Parking available"
 msgstr "提供停車位"
@@ -3091,7 +3083,7 @@ msgstr "人們正從North Station內的上車候車點走過。"
 msgid "People walking towards Green Line train inside North Station"
 msgstr "在North Station內，人們正走向Green Line列車。"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Performance"
@@ -3195,7 +3187,7 @@ msgstr "請指定未來的日期和時間，或選擇「立即」。"
 msgid "Please try again or send us feedback at mbta.com/customer-support"
 msgstr "請重試或透過 mbta.com/customer-support 向我們發送回饋。"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Policies & Civil Rights"
@@ -3268,7 +3260,7 @@ msgstr "專案"
 msgid "Proposed Sales Locations"
 msgstr "擬定銷售地點"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Public Meetings"
@@ -3361,7 +3353,7 @@ msgid "Report Fraud, Waste, or Abuse"
 msgstr "舉報詐欺、浪費或濫用行為"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Report a Railroad Crossing Gate Issue"
 msgstr "報告鐵路道口閘門問題"
@@ -3387,7 +3379,7 @@ msgid "Report suspected fraud, waste, or abuse"
 msgstr "舉報任何涉嫌詐欺、浪費或濫用行為"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Request Public Records"
@@ -3430,7 +3422,7 @@ msgstr "路線%{name}"
 msgid "Route %{route}"
 msgstr "路線%{route}"
 
-#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/templates/page/_tab_list.html.heex
 #, elixir-autogen, elixir-format
 msgid "Routes"
 msgstr "路線"
@@ -3440,7 +3432,7 @@ msgstr "路線"
 msgid "Routes With High Priority Alerts"
 msgstr "高優先警報路線"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Safety"
@@ -3456,6 +3448,7 @@ msgstr "Samsung Pay"
 msgid "Saturday"
 msgstr "週六"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule & Maps"
@@ -3525,6 +3518,7 @@ msgstr "時刻表"
 #: lib/dotcom_web/controllers/mode/hub.ex
 #: lib/dotcom_web/controllers/mode_controller.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps"
@@ -3633,7 +3627,7 @@ msgstr "查看所有使用者指南"
 msgid "Select"
 msgstr "選擇"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/templates/page/_contact_us.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -4330,6 +4324,7 @@ msgstr "這列列車通常有<br /> <strong>%{seats}座位可用</strong>"
 msgid "Thursday"
 msgstr "星期四"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Timetable"
@@ -4341,7 +4336,7 @@ msgid "To"
 msgstr "到"
 
 #: lib/dotcom_web/templates/customer_support/_rail_road.html.heex
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "To report a problem or emergency with a railroad crossing, call"
 msgstr "如需通報鐵路道口的問題或緊急情況，請致電"
@@ -4423,7 +4418,7 @@ msgid "Transit"
 msgstr "交通"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
-#: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
+#: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -4442,7 +4437,7 @@ msgstr "旅行"
 
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/live/trip_planner_live.ex
-#: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
+#: lib/dotcom_web/templates/page/_tab_list.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -4667,11 +4662,6 @@ msgstr "查看可用的自動扶梯。"
 msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
 msgstr "查看 MBTA 巴士、地鐵、通勤鐵路、渡輪和The RIDE的常見票價資訊。 在線查找 CharlieCard 服務並了解大量訂購計劃。"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View evening timetable"
-msgstr "查看晚間時刻表"
-
 #: lib/dotcom_web/templates/mode/index.html.heex
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
@@ -4682,11 +4672,6 @@ msgstr "查看票價概覽"
 #, elixir-autogen, elixir-format
 msgid "View more payment information"
 msgstr "查看更多付款信息"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "View morning timetable"
-msgstr "查看早晨時刻表"
 
 #: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4819,7 +4804,7 @@ msgstr "MBTA 發生了什麼事？"
 msgid "When"
 msgstr "什麼時候"
 
-#: lib/dotcom_web/templates/layout/_footer.html.heex
+#: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Work With Us"
 msgstr "加入我們"
@@ -5380,3 +5365,34 @@ msgstr "巴士"
 #, elixir-autogen, elixir-format
 msgid "Trains"
 msgstr "火車"
+
+#: lib/dotcom_web/components/new_timetable.ex
+#, elixir-autogen, elixir-format
+msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
+msgstr "%{direction_name} %{route_name}、%{formatted_date} 的時間表"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "Schedules & Maps (new)"
+msgstr "時刻表和地圖（新增）"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Clockwise Loop"
+msgstr "順時針循環"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Counterclockwise Loop"
+msgstr "逆時針環"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Evening"
+msgstr "晚上"
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Morning"
+msgstr "早晨"

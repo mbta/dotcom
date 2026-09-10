@@ -128,7 +128,7 @@ defmodule DotCom.Mixfile do
       {:ex_machina, "2.8.0", only: [:dev, :test]},
       {:ex_unit_summary, "0.2.0", only: [:dev, :test]},
       {:excoveralls, "0.18.5", only: :test},
-      {:faker, "0.19.0-alpha.1"},
+      {:faker, "0.19.0"},
       {:floki, "0.38.0"},
       {:flame_on, "~> 1.0", only: [:dev]},
       {:gen_stage, "1.3.2"},
@@ -140,19 +140,18 @@ defmodule DotCom.Mixfile do
       {:jason, "1.4.4", override: true},
       {:lazy_html, "0.1.10", only: [:test]},
       {:live_isolated_component, "0.10.0", only: [:test]},
-      {:logster, "1.1.1"},
+      {:logster, "~> 2.0.0-rc.5"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      {:mbta_metro, "1.1.2", runtime: false},
+      {:mbta_metro, "1.2.0", runtime: false},
       {:memoize, "1.4.5"},
-      {:mock, "0.3.9", [only: :test]},
       {:mox, "1.2.0", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
       {:nebulex, "2.6.5"},
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.18.0"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.20.0"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.8.6", override: true},

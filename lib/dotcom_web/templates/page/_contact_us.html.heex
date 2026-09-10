@@ -5,7 +5,7 @@
     </h2>
   </div>
   <div class="c-home-grid-buttons-container">
-    <%= link to: cms_static_page_path(@conn, "/customer-support"), class: "c-home-grid-button" do %>
+    <a href="/customer-support" class="c-home-grid-button">
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
           {fa("comments", class: "c-grid-button__icon")}
@@ -14,8 +14,8 @@
           {~t(Send Us Feedback)}
         </span>
       </div>
-    <% end %>
-    <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-home-grid-button" do %>
+    </a>
+    <a href="/transit-police" class="c-home-grid-button">
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
           {fa("shield", class: "c-grid-button__icon")}
@@ -24,6 +24,6 @@
           {~t(MBTA Transit Police)}
         </span>
       </div>
-    <% end %>
+    </a>
   </div>
 </div>

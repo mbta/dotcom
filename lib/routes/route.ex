@@ -99,6 +99,9 @@ defmodule Routes.Route do
            when route.type == 3 and route.description == :rail_replacement_bus and
                   not is_external?(route)
 
+  defguard is_silver_line?(route)
+           when route.id in @silver_line and not is_external?(route)
+
   @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
   def type_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express

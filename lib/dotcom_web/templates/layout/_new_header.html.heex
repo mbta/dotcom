@@ -1,22 +1,20 @@
 <%= if Laboratory.enabled?(@conn, :use_smartling_translations) do %>
-  {render("_top_tier_nav.html", assigns)}
+  {top_tier_nav(@locale)}
 <% end %>
-<%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
-  <aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
-<% end %>
+<aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
 <header class="header--new" id="header-with-search">
   <div class="container new">
     <div class="header-navbar new">
       <a
         class="font-white m-menu__toggle font-bold hidden-js"
-        data-nav="toggle-mobile-nav"
+        data-nav="toggle-fullscreen-nav"
         href={~p"/menu"}
       >
         {~t(Menu)}
       </a>
       <button
         class="m-menu__toggle font-bold hidden-no-js"
-        data-nav="toggle-mobile-nav"
+        data-nav="toggle-fullscreen-nav"
         type="button"
         aria-expanded="false"
         aria-controls="navmenu"
@@ -33,7 +31,14 @@
         </a>
       <% end %>
 
-      {render("_new_nav_desktop.html", assigns)}
+      <nav id="navmenu-dropdown" class="m-menu--dropdown" aria-label="Main">
+        {desktop_menu(@locale)}
+        <div
+          :if={!Laboratory.enabled?(@conn, :use_smartling_translations)}
+          class="m-menu__language"
+        >
+        </div>
+      </nav>
       <div class="search-wrapper">
         <div class="search">
           <.algolia_autocomplete id="header-desktop" config_type="basic-config" />
@@ -69,5 +74,17 @@
       <% end %>
     </div>
   </div>
-  {render("_new_nav_mobile.html", assigns)}
+  <nav class="m-menu--mobile" id="navmenu" aria-label={~t(Navigation Menu)}>
+    <div class="m-menu__content" data-nav="fullscreen-menu-content">
+      {mobile_menu(@locale)}
+      <div
+        :if={!Laboratory.enabled?(@conn, :use_smartling_translations)}
+        class="m-menu__language m-menu__section"
+      >
+      </div>
+    </div>
+    <div class="m-menu__search" data-nav="search">
+      <.algolia_autocomplete id="header-mobile" config_type="basic-config" />
+    </div>
+  </nav>
 </header>

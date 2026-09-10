@@ -99,17 +99,27 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
 
   @impl Plug
   def call(conn, _opts) do
+    policy =
+      Util.get_or_save_persistent_term(:csp_policy, fn ->
+        runtime_directives()
+        |> Enum.reduce(@default_policy, fn {directive, source_value}, policy ->
+          ContentSecurityPolicy.add_source_value(policy, directive, source_value)
+        end)
+      end)
+
     conn
-    |> ContentSecurityPolicy.Plug.Setup.call(default_policy: @default_policy)
+    |> ContentSecurityPolicy.Plug.Setup.call(default_policy: policy)
     |> ContentSecurityPolicy.Plug.AddNonce.call(directives: [:script_src])
-    |> ContentSecurityPolicy.Plug.AddSourceValue.call(runtime_directives())
   end
 
   defp runtime_directives do
     drupal_url = Util.config(:dotcom, :cms_api)[:base_url]
     endpoint_config = Util.config(:dotcom, DotcomWeb.Endpoint)
+    websocket_url = "#{Keyword.get(endpoint_config, :url, [])[:host]}"
 
     [
+      {:connect_src, "ws://#{websocket_url}"},
+      {:connect_src, "wss://#{websocket_url}"},
       {:img_src, drupal_url}
     ]
     |> static_host(Keyword.get(endpoint_config, :static_url))

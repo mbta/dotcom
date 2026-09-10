@@ -110,12 +110,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @decorate cacheable(
-              cache: @cache,
-              key: "cms.repo|whats-happening",
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
   def do_whats_happening do
     @cms_api.view("/cms/whats-happening", [])
   end

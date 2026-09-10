@@ -244,12 +244,17 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   @doc """
   Returns service ranges between two datetimes, inclusive.
-  One datetime can be given, which will return only the service range for the given datetime.
+  If only the stop datetime is provided, returns the service range for that datetime.
+  If only the start datetime is provided, returns all service ranges from that datetime onward.
   """
   @spec service_range_range(DateTime.t() | nil, DateTime.t() | nil) :: [named_service_range()]
   def service_range_range(nil, nil), do: []
-  def service_range_range(start, nil) when not is_nil(start), do: [service_range(start)]
-  def service_range_range(nil, stop) when not is_nil(stop), do: [service_range(stop)]
+  def service_range_range(nil, stop), do: [service_range(stop)]
+
+  def service_range_range(start, nil) do
+    all_service_ranges()
+    |> Enum.drop_while(&(&1 != service_range(start)))
+  end
 
   def service_range_range(start, stop) do
     start_index = service_range_index(start)

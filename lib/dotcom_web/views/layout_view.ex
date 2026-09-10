@@ -81,7 +81,7 @@ defmodule DotcomWeb.LayoutView do
     [
       %{
         menu_section: ~t(Transit),
-        link: ~p"/menu#Transit-section",
+        link: "/menu#Transit-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Modes of Transit),
@@ -119,7 +119,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: ~t(Fares),
-        link: ~p"/menu#Fares-section",
+        link: "/menu#Fares-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Fares Info),
@@ -155,7 +155,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: ~t(Contact),
-        link: ~p"/menu#Contact-section",
+        link: "/menu#Contact-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Customer Support),
@@ -185,7 +185,7 @@ defmodule DotcomWeb.LayoutView do
       },
       %{
         menu_section: ~t(About),
-        link: ~p"/menu#About-section",
+        link: "/menu#About-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Get to Know Us),
@@ -244,7 +244,7 @@ defmodule DotcomWeb.LayoutView do
     [
       %{
         menu_section: ~t(Languages),
-        link: ~p"/menu#Languages-section",
+        link: "/menu#Languages-section",
         sub_menus: [
           %{
             sub_menu_section: ~t(Choose Your Language),
@@ -317,5 +317,70 @@ defmodule DotcomWeb.LayoutView do
 
   def webpack_path do
     Application.get_env(:dotcom, :webpack_path)
+  end
+
+  @doc """
+  Returns the cached hidden SVG icon sprite.
+  """
+  def hidden_icons do
+    Util.get_or_save_persistent_term({__MODULE__, :hidden_icons}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PartialView, "_hidden_icons.html", %{})}
+    end)
+  end
+
+  def top_tier_nav(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :top_tier_nav, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_top_tier_nav.html", %{})}
+    end)
+  end
+
+  def contact_numbers(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :contact_numbers, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_contact_numbers.html", %{})}
+    end)
+  end
+
+  def footer_languages do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_languages}, fn ->
+      content_tag(:ul,
+        do:
+          Enum.map(Dotcom.Locales.locales(), fn %{code: code, endonym: endonym} ->
+            content_tag :li do
+              link(endonym, to: "?locale=#{code}")
+            end
+          end)
+      )
+    end)
+  end
+
+  def footer_links(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_links, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_footer_links.html", %{})}
+    end)
+  end
+
+  def footer_social_links(locale_code) do
+    Util.get_or_save_persistent_term({__MODULE__, :footer_social_links, locale_code}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(__MODULE__, "_footer_social_links.html", %{})}
+    end)
+  end
+
+  def mobile_menu(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :mobile_menu, locale}, fn ->
+      {:safe,
+       Phoenix.View.render_to_iodata(DotcomWeb.LayoutView, "_new_nav_mobile.html", %{
+         conn: %Plug.Conn{},
+         locale: locale
+       })}
+    end)
+  end
+
+  def desktop_menu(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :desktop_menu, locale}, fn ->
+      {:safe,
+       Phoenix.View.render_to_iodata(DotcomWeb.LayoutView, "_new_nav_desktop.html", %{
+         locale: locale
+       })}
+    end)
   end
 end

@@ -2,6 +2,7 @@ defmodule DotcomWeb.SubwayAlertsLiveTest do
   use DotcomWeb.ConnCase, async: true
 
   import Dotcom.Alerts, only: [service_impacting_effects: 0]
+
   import DotcomWeb.Router.Helpers, only: [live_path: 2]
   import Mox
   import Phoenix.LiveViewTest
@@ -27,6 +28,7 @@ defmodule DotcomWeb.SubwayAlertsLiveTest do
     stub(Alerts.Repo.Mock, :banner, fn -> nil end)
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
     stub(Alerts.Repo.Mock, :by_route_types, fn _, _ -> [] end)
+    stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
     stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
     stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
@@ -91,6 +93,11 @@ defmodule DotcomWeb.SubwayAlertsLiveTest do
     test "does not put service-impacting alerts in the station_and_service section", %{conn: conn} do
       route_id = Faker.Util.pick(Subway.lines())
       route_type = Faker.Util.pick([0, 1])
+      stop = Factories.Stops.Stop.stop_factory()
+
+      stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _alerts, _route_ids ->
+        [%{stop: stop, direction: :all}]
+      end)
 
       stub(Alerts.Repo.Mock, :by_route_types, fn [0, 1], date ->
         Factories.Alerts.Alert.build_list(1, :alert, %{

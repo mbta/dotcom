@@ -23,9 +23,9 @@ function toggleMenu(el: Element): void {
 }
 
 const TOGGLE_NAMES = {
-  mobile: "toggle-mobile-nav",
+  fullscreen: "toggle-fullscreen-nav",
   search: "toggle-nav-search",
-  desktop: "toggle-desktop-nav"
+  dropdown: "toggle-dropdown-nav"
 };
 
 const TOGGLE_SELECTORS = Object.fromEntries(
@@ -44,13 +44,13 @@ export function setHeaderElementPositions(
   const bottomPx = `${bottom}px`;
   const heightPx = `${height}px`;
 
-  header.querySelectorAll("[data-nav='desktop-section']").forEach(el => {
+  header.querySelectorAll("[data-nav='dropdown-section']").forEach(el => {
     // eslint-disable-next-line no-param-reassign
     (el as HTMLElement).style.top = heightPx;
   });
 
   const content = header.querySelector(
-    "[data-nav='mobile-content']"
+    "[data-nav='fullscreen-menu-content']"
   ) as HTMLElement | null;
   if (content) {
     content.style.top = bottomPx;
@@ -78,14 +78,14 @@ export function setup(rootElement: HTMLElement): void {
     h.querySelector(TOGGLE_SELECTORS.search)
   );
 
-  // HEADERS THAT CONTAIN MOBILE MENU TOGGLES
-  const mobileMenuHeaders = headers.filter(h =>
-    h.querySelector(TOGGLE_SELECTORS.mobile)
+  // HEADERS THAT CONTAIN FULLSCREEN MENU TOGGLES, MOSTLY USED ON MOBILE
+  const fullscreenMenuHeaders = headers.filter(h =>
+    h.querySelector(TOGGLE_SELECTORS.fullscreen)
   );
 
-  // HEADERS WITH DESKTOP MENU TOGGLES
-  const desktopHeaders = headers.filter(h =>
-    h.querySelector(TOGGLE_SELECTORS.desktop)
+  // HEADERS WITH DROPDOWN MENU TOGGLES (OFTEN BUT NOT EXCLUSIVELY USED ON DESKTOP)
+  const dropdownHeaders = headers.filter(h =>
+    h.querySelector(TOGGLE_SELECTORS.dropdown)
   );
 
   //
@@ -102,10 +102,10 @@ export function setup(rootElement: HTMLElement): void {
   // CLICK HANDLERS
   //
 
-  // MOBILE MENU CLICK HANDLERS
-  mobileMenuHeaders.forEach(header => {
+  // FULLSCREEN MENU CLICK HANDLERS
+  fullscreenMenuHeaders.forEach(header => {
     header
-      .querySelectorAll(`button${TOGGLE_SELECTORS.mobile}`)
+      .querySelectorAll(`button${TOGGLE_SELECTORS.fullscreen}`)
       .forEach(toggle => {
         toggle.addEventListener("click", event => {
           event.preventDefault();
@@ -128,9 +128,9 @@ export function setup(rootElement: HTMLElement): void {
       });
   });
 
-  // DESKTOP CLICK HANDLERS
-  desktopHeaders.forEach(header => {
-    header.querySelectorAll(`a${TOGGLE_SELECTORS.desktop}`).forEach(toggle => {
+  // DROPDOWN CLICK HANDLERS
+  dropdownHeaders.forEach(header => {
+    header.querySelectorAll(`a${TOGGLE_SELECTORS.dropdown}`).forEach(toggle => {
       toggle.addEventListener("click", event => {
         event.preventDefault();
         toggleMenu(event.currentTarget as Element);
@@ -140,31 +140,33 @@ export function setup(rootElement: HTMLElement): void {
 
   // removes focus outline in Safari from open accordions
   rootElement
-    .querySelectorAll("[data-nav='mobile-content'] .js-focus-on-expand")
+    .querySelectorAll(
+      "[data-nav='fullscreen-menu-content'] .js-focus-on-expand"
+    )
     .forEach(openAccordion => {
       openAccordion.addEventListener("focus", undoOutline);
     });
 
   //
-  // MOBILE MENU OBSERVER (handles menu-open, search-open, focus)
+  // FULLSCREEN MENU OBSERVER (handles menu-open, search-open, focus)
   //
-  const toggledMobileMenuObserver = new MutationObserver(() => {
-    mobileMenuHeaders.forEach(header => {
-      const mobileToggle = header.querySelector(
-        `button${TOGGLE_SELECTORS.mobile}`
+  const toggledFullscreenMenuObserver = new MutationObserver(() => {
+    fullscreenMenuHeaders.forEach(header => {
+      const fullscreenToggle = header.querySelector(
+        `button${TOGGLE_SELECTORS.fullscreen}`
       );
 
-      if (!mobileToggle) return;
+      if (!fullscreenToggle) return;
 
       // Toggle Menu text
       if ("navOpen" in header.dataset) {
         const content = header.querySelector(
-          "[data-nav='mobile-content']"
+          "[data-nav='fullscreen-menu-content']"
         ) as HTMLElement;
         if (content) content.scrollTop = 0;
-        mobileToggle.innerHTML = "Close";
+        fullscreenToggle.innerHTML = "Close";
       } else {
-        mobileToggle.innerHTML = "Menu";
+        fullscreenToggle.innerHTML = "Menu";
       }
     });
 
@@ -181,7 +183,7 @@ export function setup(rootElement: HTMLElement): void {
 
   // OBSERVE changes on EVERY header
   headers.forEach(header => {
-    toggledMobileMenuObserver.observe(header, {
+    toggledFullscreenMenuObserver.observe(header, {
       attributes: true,
       attributeFilter: ["data-nav-open", "data-search-open"]
     });
@@ -215,15 +217,21 @@ export function setup(rootElement: HTMLElement): void {
       // eslint-disable-next-line no-param-reassign
       rootElement.dataset.navOpen = "true";
 
-      // MOBILE MENU EXPANDING
-      if (observedNames.includes(TOGGLE_NAMES.mobile)) {
-        mobileMenuHeaders.forEach(header => {
+      // FULLSCREEN MENU EXPANDING
+      if (observedNames.includes(TOGGLE_NAMES.fullscreen)) {
+        fullscreenMenuHeaders.forEach(header => {
           const content = header.querySelector(
-            "[data-nav='mobile-content']"
+            "[data-nav='fullscreen-menu-content']"
           ) as HTMLElement;
           if (content) disableBodyScroll(content);
           // eslint-disable-next-line no-param-reassign
           header.dataset.navOpen = "true";
+        });
+
+        rootElement.querySelectorAll(TOGGLE_SELECTORS.dropdown).forEach(el => {
+          if (el.getAttribute("aria-expanded") === "true") {
+            toggleAriaExpanded(el);
+          }
         });
       }
 
@@ -233,6 +241,12 @@ export function setup(rootElement: HTMLElement): void {
           // eslint-disable-next-line no-param-reassign
           header.dataset.searchOpen = "true";
           disableBodyScroll(header);
+        });
+
+        rootElement.querySelectorAll(TOGGLE_SELECTORS.dropdown).forEach(el => {
+          if (el.getAttribute("aria-expanded") === "true") {
+            toggleAriaExpanded(el);
+          }
         });
       }
     } else {
@@ -246,7 +260,7 @@ export function setup(rootElement: HTMLElement): void {
         // eslint-disable-next-line no-param-reassign
         delete rootElement.dataset.navOpen;
 
-        mobileMenuHeaders.forEach(header => {
+        fullscreenMenuHeaders.forEach(header => {
           // eslint-disable-next-line no-param-reassign
           delete header.dataset.navOpen;
         });
@@ -259,15 +273,21 @@ export function setup(rootElement: HTMLElement): void {
     }
 
     //
-    // DESKTOP: close other desktop menus
+    // DROPDOWN (often but not exclusively used on desktop): close other dropdown menus
     //
-    const expandingDesktop =
-      aMenuIsBeingExpanded && observedNames.includes(TOGGLE_NAMES.desktop);
+    const expandingDropdown =
+      aMenuIsBeingExpanded && observedNames.includes(TOGGLE_NAMES.dropdown);
 
-    if (expandingDesktop) {
-      desktopHeaders.forEach(header => {
-        disableBodyScroll(header, { reserveScrollBarGap: true });
-      });
+    if (expandingDropdown) {
+      const expandingToggle = mutations[0].target as Element;
+      const closestHeader = expandingToggle.closest("header");
+
+      if (
+        closestHeader &&
+        closestHeader.querySelector("[data-nav='fullscreen-menu-content']") // for fullscreen bottom-tier menu used on mobile
+      ) {
+        disableBodyScroll(closestHeader, { reserveScrollBarGap: true });
+      }
 
       const veil = rootElement.querySelector<HTMLElement>("[data-nav='veil']");
       if (
@@ -287,17 +307,27 @@ export function setup(rootElement: HTMLElement): void {
         "aria-controls"
       );
 
-      const desktopToggles = Array.from(
-        rootElement.querySelectorAll(TOGGLE_SELECTORS.desktop)
+      const dropdownToggles = Array.from(
+        rootElement.querySelectorAll(TOGGLE_SELECTORS.dropdown)
       );
 
-      desktopToggles
+      dropdownToggles
         .filter(
           (el: Element) =>
             el.getAttribute("aria-controls") !== controls &&
             el.getAttribute("aria-expanded") === "true"
         )
         .forEach(toggleAriaExpanded);
+
+      rootElement
+        .querySelectorAll(
+          `${TOGGLE_SELECTORS.fullscreen}, ${TOGGLE_SELECTORS.search}`
+        )
+        .forEach(el => {
+          if (el.getAttribute("aria-expanded") === "true") {
+            toggleAriaExpanded(el);
+          }
+        });
     }
   });
 
@@ -314,8 +344,10 @@ export function setup(rootElement: HTMLElement): void {
   // Note: we can't use `scrollIntoView`, Safari doesn't support it as of
   // 2022-02-28, and even if it did, the opening/closing animations of the
   // accordions makes the behavior janky on other browsers
-  mobileMenuHeaders.forEach(header => {
-    const menuContent = header.querySelector("[data-nav='mobile-content']");
+  fullscreenMenuHeaders.forEach(header => {
+    const menuContent = header.querySelector(
+      "[data-nav='fullscreen-menu-content']"
+    );
     if (!menuContent) return;
 
     if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
@@ -400,17 +432,17 @@ export function setup(rootElement: HTMLElement): void {
   // autocomplete closes all
   document.addEventListener("autocomplete:selected", closeAllMenus);
 
-  desktopHeaders.forEach(header => {
+  dropdownHeaders.forEach(header => {
     header.addEventListener("keydown", e => {
       const activeSection = document.activeElement?.closest(
-        "[data-nav='desktop-section']"
+        "[data-nav='dropdown-section']"
       );
       if (!activeSection) return;
 
       const openSectionId = activeSection.parentElement!.id;
 
       const activeButton = header.querySelector(
-        `${TOGGLE_SELECTORS.desktop}[aria-controls="${openSectionId}"]`
+        `${TOGGLE_SELECTORS.dropdown}[aria-controls="${openSectionId}"]`
       ) as HTMLButtonElement | null;
 
       handleNativeEscapeKeyPress(e, () => {

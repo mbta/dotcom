@@ -241,6 +241,17 @@ defmodule FaresTest do
       assert Fares.to_fare_atom(bus_route_id) == :bus
     end
 
+    test "also works with route IDs whose routes are missing (nil)" do
+      missing_route_id = Faker.Internet.slug()
+
+      Routes.Repo.Mock
+      |> expect(:get, fn ^missing_route_id ->
+        nil
+      end)
+
+      assert Fares.to_fare_atom(missing_route_id) == nil
+    end
+
     test "handles fare atoms" do
       assert Fares.to_fare_atom(:subway) == :subway
       assert Fares.to_fare_atom(:commuter_rail) == :commuter_rail

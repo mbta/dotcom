@@ -263,6 +263,13 @@ defmodule Dotcom.Utils.Time do
     string
   end
 
+  # 11:59 PM
+  def format!(datetime, :hour_12_minutes_no_ampm) do
+    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h:mm")
+
+    string
+  end
+
   # 11 PM
   def format!(datetime, :hour_12) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h a")
@@ -375,12 +382,23 @@ defmodule Dotcom.Utils.Time do
       "9:41\u2009–\u20099:38 am"
   """
   def formatted_time_range(time1, time2) do
-    Dotcom.Cldr.Time.Interval.to_string!(
-      time1 |> to_time(),
-      time2 |> to_time(),
-      format: :medium,
-      period: :variant
-    )
+    case Cldr.Time.Interval.greatest_difference(time1, time2) do
+      {:error, :no_practical_difference} ->
+        start_string = format!(time1, :hour_12_minutes_no_ampm)
+
+        end_string =
+          format!(time2, :hour_12_minutes) |> String.downcase() |> String.replace(" ", " ")
+
+        "#{start_string}\u2009–\u2009#{end_string}"
+
+      _ ->
+        Dotcom.Cldr.Time.Interval.to_string!(
+          time1 |> to_time(),
+          time2 |> to_time(),
+          format: :medium,
+          period: :variant
+        )
+    end
   end
 
   defp to_time(%DateTime{} = date_time) do

@@ -462,7 +462,8 @@ defmodule Util do
 
   @doc """
 
-  Parses a string into a valid date, or returns an error.
+  Parses an ISO date string or a year/month parameter map into a valid date, or
+  returns an error.
 
   ## Examples
       iex> Util.parse_valid_date("2025-12-25")
@@ -474,9 +475,12 @@ defmodule Util do
       iex> Util.parse_valid_date("2025-13-35")
       {:error, :invalid_date}
 
+      iex> Util.parse_valid_date(%{"year" => "2025", "month" => "7"})
+      {:ok, ~D[2025-07-01]}
+
   """
-  @spec parse_valid_date(String.t()) :: {:ok, Date.t()} | {:error, any}
-  def parse_valid_date(str) do
+  @spec parse_valid_date(String.t() | map) :: {:ok, Date.t()} | {:error, any}
+  def parse_valid_date(str) when is_binary(str) do
     with {:ok, date} <- Date.from_iso8601(str) do
       if Timex.is_valid?(date) do
         {:ok, date}
@@ -484,6 +488,21 @@ defmodule Util do
         {:error, :invalid_date}
       end
     end
+  end
+
+  def parse_valid_date(%{"year" => year, "month" => month})
+      when is_binary(year) and is_binary(month) do
+    with {year, ""} <- Integer.parse(year),
+         {month, ""} <- Integer.parse(month),
+         {:ok, date} <- Date.new(year, month, 1) do
+      {:ok, date}
+    else
+      _ -> {:error, :invalid_date}
+    end
+  end
+
+  def parse_valid_date(_) do
+    {:error, :invalid_date}
   end
 
   @doc """
@@ -549,6 +568,33 @@ defmodule Util do
 
       error ->
         error
+    end
+  end
+
+  @doc """
+  Uses Erlang's :persistent_term as a store, which is suitable for storing terms
+  that are frequently accessed but never or infrequently updated. This will
+  store the result of the function call if it doesn't already exist, and return
+  the stored value on subsequent calls.
+
+  Only use this for values which you don't expect will change.
+
+  ## Examples
+      iex> Util.get_or_save_persistent_term(:my_key, fn -> "my_value" end)
+      "my_value"
+      iex> Util.get_or_save_persistent_term(:my_key, fn -> "new_value" end)
+      "my_value"
+  """
+  @spec get_or_save_persistent_term(term(), function()) :: term()
+  def get_or_save_persistent_term(key, func) when is_function(func, 0) do
+    case :persistent_term.get(key, :cache_miss) do
+      :cache_miss ->
+        result = func.()
+        :persistent_term.put(key, result)
+        result
+
+      result ->
+        result
     end
   end
 end

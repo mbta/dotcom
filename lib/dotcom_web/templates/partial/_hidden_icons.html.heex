@@ -1,46 +1,28 @@
 <div class="hidden-js hidden-no-js" style="display: none" aria-hidden="true">
-  {for light_rail <- ["Green", "Green-B", "Green-C", "Green-D", "Green-E", "Mattapan"] do
-    route = %Routes.Route{id: light_rail, type: 0}
-
-    content_tag(:div, [line_icon(route, :small)],
-      id: [
-        "icon-feature-",
-        route
-        |> Routes.Route.icon_atom()
-        |> Atom.to_string()
-      ]
-    )
-  end}
-  {for heavy_rail <- ["Red", "Blue", "Orange"] do
-    route = %Routes.Route{id: heavy_rail, type: 1}
-
-    content_tag(:div, [line_icon(route, :small)],
-      id: [
-        "icon-feature-",
-        route
-        |> Routes.Route.icon_atom()
-        |> Atom.to_string()
-      ]
-    )
-  end}
-  {for mode <- [:subway, :commuter_rail, :bus, :ferry, :silver_line] do
-    content_tag(:div, [mode_icon(mode, :small)], id: ["icon-feature-", Atom.to_string(mode)])
-  end}
-  {for route_type <- [0, 1, 2, 3, 4] do
-    content_tag(:div, [bw_circle_icon(route_type, :small)],
-      id: ["icon-feature-bw-", route_to_string(route_type)]
-    )
-  end}
-  {for feature <- [:stop, :station] do
-    content_tag(
-      :div,
-      [
-        svg_icon_with_circle(%SvgIconWithCircle{icon: feature, size: :small})
-      ],
-      id: ["icon-feature-", Atom.to_string(feature)]
-    )
-  end}
-
+  <%= for id <- ["Green", "Green-B", "Green-C", "Green-D", "Green-E", "Mattapan"] do %>
+    <% route = %Routes.Route{id: id, type: 0} %>
+    <div id={"icon-feature-#{Routes.Route.icon_atom(route)}"}>
+      {line_icon(route, :small)}
+    </div>
+  <% end %>
+  <%= for id <- ["Red", "Blue", "Orange"] do %>
+    <% route = %Routes.Route{id: id, type: 1} %>
+    <div id={"icon-feature-#{Routes.Route.icon_atom(route)}"}>
+      {line_icon(route, :small)}
+    </div>
+  <% end %>
+  <div
+    :for={mode <- [:subway, :commuter_rail, :bus, :ferry, :silver_line]}
+    id={"icon-feature-#{mode}"}
+  >
+    {mode_icon(mode, :small)}
+  </div>
+  <div :for={route_type <- [0, 1, 2, 3, 4]} id={"icon-feature-bw-#{route_to_string(route_type)}"}>
+    {bw_circle_icon(route_type, :small)}
+  </div>
+  <div :for={feature <- [:stop, :station]} id={"icon-feature-#{feature}"}>
+    {svg_icon_with_circle(%SvgIconWithCircle{icon: feature, size: :small})}
+  </div>
   <div id="icon-feature-alert">
     {svg_icon(%SvgIcon{icon: :alert, class: "icon-small-inline"})}
   </div>

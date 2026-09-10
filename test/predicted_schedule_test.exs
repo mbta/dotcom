@@ -1,7 +1,6 @@
 defmodule PredictedScheduleTest do
   use ExUnit.Case, async: false
 
-  import Mock
   import Mox
   import PredictedSchedule
   import Test.Support.Factories.Predictions.Prediction
@@ -11,6 +10,8 @@ defmodule PredictedScheduleTest do
   alias Predictions.Prediction
   alias Schedules.{Schedule, ScheduleCondensed, Trip}
   alias Stops.Stop
+
+  setup :verify_on_exit!
 
   # set to the end of a month to uncover issues with sorting times as
   # structs, rather than as integers
@@ -178,16 +179,25 @@ defmodule PredictedScheduleTest do
         @trip_predictions
       end)
 
+      # Expect two calls to by_route_ids - one for today, one for tomorrow
+      # The function tries today first, gets schedules that are all in the past,
+      # then tries tomorrow and returns those
       expect(Schedules.Repo.Mock, :by_route_ids, 2, fn ["Teal"], _opts ->
+        # Return @trip_schedules for both calls
         @trip_schedules
       end)
 
-      with_mock PredictedSchedule, [:passthrough],
-        group: fn _predictions, _schedules, _opts -> [] end do
-        get("Teal", "stop1", now: Timex.shift(@base_time, minutes: 30))
+      # Call get which should trigger two calls to by_route_ids 
+      # (once for today with no valid results after filtering, once for tomorrow)
+      # The 30-minute shift is related to the test data defined at the top of this
+      # file - the last trip of the day is 20 minutes after `@base_time`, so
+      # shifting 30 minutes pushes past the last trip of the day, triggering the
+      # second call.
+      result = get("Teal", "stop1", now: Timex.shift(@base_time, minutes: 30))
 
-        assert :meck.num_calls(PredictedSchedule, :group, :_) == 2
-      end
+      # The expectation of 2 calls being made will be verified by Mox
+      # We just need to verify the function completes
+      assert is_list(result)
     end
   end
 

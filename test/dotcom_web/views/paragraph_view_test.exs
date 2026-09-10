@@ -302,7 +302,7 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       assert rendered =~ "with CharlieCard, CharlieTicket, contactless payment, or cash"
       assert rendered =~ "/fares/subway"
 
-      assert rendered =~ "Local Bus"
+      assert rendered =~ "Bus"
       assert rendered =~ "$1.70 with a CharlieCard"
       refute rendered =~ "with a CharlieTicket or cash"
     end

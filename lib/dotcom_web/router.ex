@@ -1,12 +1,31 @@
 defmodule DotcomWeb.Router do
-  @moduledoc false
-  # remove this comment, it is here to try and fix github (don't ask)
+  @moduledoc """
+  Dotcom's router. A normal Phoenix router with a fairly large
+  number of routes, which exist in order to support a large number
+  of historical pages.
+
+  One quirk worth noting is that we have an all-purpose fallback. If
+  a path doesn't resolve to any of our hard-coded routes, then it
+  falls back to the `DotcomWeb.CMSController`. This means that the
+  URL sigil `~p` won't provide a warning if you get a path wrong,
+  because in theory, that path could resolve to something in the
+  CMS.
+  """
+
   use DotcomWeb, :router
   use Plug.ErrorHandler
 
   alias DotcomWeb.ControllerHelpers
 
   @impl Plug.ErrorHandler
+
+  @doc """
+  A custom error handling function that renders the appropriate
+  error page.
+
+  For most (unexpected) errors, we render a 500 page. When we see a
+  `DotcomWeb.NotFoundError`, we render the 404 page instead.
+  """
   def handle_errors(conn, %{reason: reason}) do
     case reason do
       %{plug_status: 404} ->
@@ -119,6 +138,17 @@ defmodule DotcomWeb.Router do
       on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live("/alerts/subway", SubwayAlertsLive)
       live("/alerts/commuter-rail", CommuterRailAlertsLive)
+    end
+  end
+
+  scope "/schedules", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live])
+
+    live_session :schedules,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live("/:route_id/line_new", LineDiagramLive)
     end
   end
 

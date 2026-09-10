@@ -291,6 +291,7 @@ defmodule DotcomWeb.ScheduleView do
     route = conn.assigns.route
     tab_params = conn.assigns.tab_params
     info_link = line_path(conn, :show, route.id, tab_params)
+    line_path = info_link |> String.replace("/line", "/line_new")
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
 
@@ -302,6 +303,20 @@ defmodule DotcomWeb.ScheduleView do
         badge: conn |> alert_count() |> alert_badge()
       }
     ]
+
+    tabs =
+      if conn.assigns |> Map.get(:line_diagram, false) do
+        [
+          %HeaderTab{
+            id: "new_line_diagram",
+            name: ~t"Schedules & Maps (new)",
+            href: line_path
+          }
+          | tabs
+        ]
+      else
+        tabs
+      end
 
     tabs =
       case route.type do
@@ -317,7 +332,10 @@ defmodule DotcomWeb.ScheduleView do
           ]
       end
 
-    HeaderTabs.render_tabs(tabs, selected: conn.assigns.tab, tab_class: route_tab_class(route))
+    HeaderTabs.render_tabs(tabs,
+      selected: conn.assigns.tab,
+      tab_class: route_tab_class(route)
+    )
   end
 
   @spec alert_count(Conn.t()) :: integer
@@ -325,7 +343,7 @@ defmodule DotcomWeb.ScheduleView do
   defp alert_count(_), do: 0
 
   @spec route_tab_class(Route.t()) :: String.t()
-  defp route_tab_class(%Route{type: 3} = route) do
+  def route_tab_class(%Route{type: 3} = route) do
     if Route.silver_line?(route) do
       ""
     else
@@ -333,7 +351,7 @@ defmodule DotcomWeb.ScheduleView do
     end
   end
 
-  defp route_tab_class(_), do: ""
+  def route_tab_class(_), do: ""
 
   @spec route_fare_link(Route.t()) :: String.t()
   def route_fare_link(route) do
@@ -418,52 +436,6 @@ defmodule DotcomWeb.ScheduleView do
               link:
                 link(~t"Hingham/Hull ferry",
                   to: ~p"/schedules/Boat-F2H/timetable"
-                )
-                |> safe_to_string()
-            }
-          )
-          |> raw()
-        ])
-      ]
-    end
-  end
-
-  def timetable_note(%{route: %Route{id: "Boat-F10"}, timetable_schedules: []}), do: nil
-
-  def timetable_note(%{route: %Route{id: "Boat-F10"}, direction_id: 0, date: date}) do
-    content_tag :div, class: "m-timetable__note" do
-      [
-        content_tag(:p, [
-          content_tag(:strong, ~t"Note:"),
-          gettext(
-            " Service continues later in the day in the opposite direction. %{link}",
-            %{
-              link:
-                link(~t"View evening timetable",
-                  to:
-                    "/schedules/Boat-F10/timetable?schedule_direction[direction_id]=1&date=#{date}#direction-filter"
-                )
-                |> safe_to_string()
-            }
-          )
-          |> raw()
-        ])
-      ]
-    end
-  end
-
-  def timetable_note(%{route: %Route{id: "Boat-F10"}, direction_id: 1, date: date}) do
-    content_tag :div, class: "m-timetable__note" do
-      [
-        content_tag(:p, [
-          content_tag(:strong, ~t"Note:"),
-          gettext(
-            " Service is available earlier in the day in the opposite direction. %{link}",
-            %{
-              link:
-                link(~t"View morning timetable",
-                  to:
-                    "/schedules/Boat-F10/timetable?schedule_direction[direction_id]=0&date=#{date}#direction-filter"
                 )
                 |> safe_to_string()
             }

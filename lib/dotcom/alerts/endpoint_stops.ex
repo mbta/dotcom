@@ -194,6 +194,7 @@ defmodule Dotcom.Alerts.EndpointStops do
   defp affected_stops_for_route_pattern(route_pattern, affected_stop_ids) do
     route_pattern.stop_ids
     |> Enum.map(&@stops_repo.get_parent/1)
+    |> Enum.reject(&Kernel.is_nil/1)
     |> Enum.filter(&MapSet.member?(affected_stop_ids, &1.id))
   end
 

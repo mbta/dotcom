@@ -3,14 +3,16 @@ defmodule DotcomWeb.RouteController do
   Endpoints for getting route data.
   """
   use DotcomWeb, :controller
-  alias Routes.{Repo, Route}
+  alias Routes.Route
+
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @spec get_by_route_ids(Plug.Conn.t(), map) :: Plug.Conn.t()
   def get_by_route_ids(conn, %{"route_ids" => route_ids} = _params) do
     routes =
       route_ids
       |> String.split(",")
-      |> Stream.map(&Repo.get/1)
+      |> Stream.map(&@routes_repo.get/1)
       |> Stream.reject(&is_nil/1)
       |> Enum.map(&Route.to_json_safe/1)
 

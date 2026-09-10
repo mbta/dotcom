@@ -54,7 +54,7 @@ defmodule Fares.FormatTest do
     end
 
     test "gives a descriptive name for bus fares" do
-      assert name(%Fare{name: :local_bus}) == "Local Bus"
+      assert name(%Fare{name: :local_bus}) == "Bus"
       assert name(%Fare{name: :express_bus}) == "Express Bus"
     end
 

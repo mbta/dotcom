@@ -439,7 +439,7 @@ nav.m-menu--mobile {
 }
 
 .m-menu__toggle,
-.m-menu--desktop__toggle,
+.m-menu--dropdown__toggle,
 .header-search__toggle {
   background-color: unset;
   border: 2px solid $brand-primary-light-contrast;
@@ -471,7 +471,7 @@ nav.m-menu--mobile {
 }
 
 .m-menu__toggle,
-.m-menu--desktop__toggle {
+.m-menu--dropdown__toggle {
   padding: .375rem .75rem .31rem;
 
   // this button is a link when JS is disabled

@@ -4,6 +4,8 @@ defmodule Services.Service do
   alias JsonApi.Item
   alias Dotcom.Utils.ServiceDateTime
 
+  @services_repo Application.compile_env!(:dotcom, :repo_modules)[:services]
+
   defstruct added_dates: [],
             added_dates_notes: [],
             description: "",
@@ -124,7 +126,7 @@ defmodule Services.Service do
     # Every 1 response is for a single route
     route_id_or_ids
     |> List.wrap()
-    |> Services.Repo.by_route_id()
+    |> @services_repo.by_route_id()
     |> Enum.filter(fn x -> x.typicality != :typical_service end)
     |> Enum.flat_map(&get_date_from_map(&1))
     |> Enum.uniq()

@@ -115,7 +115,11 @@ defmodule Stops.Repo do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
     route_ids
-    |> Task.async_stream(&by_route(&1, direction_id, opts))
+    |> Task.async_stream(&by_route(&1, direction_id, opts),
+      max_concurrency: 4,
+      on_timeout: :kill_task,
+      ordered: false
+    )
     |> Enum.flat_map(fn
       {:ok, stops} -> stops
       _ -> []

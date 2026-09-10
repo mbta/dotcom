@@ -120,7 +120,7 @@
       <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
         <%= support_error_tag @errors, "email" %>
-        <%= text_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-input support-form-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
+        <%= email_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-input support-form-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
         <div class="error-indicator hidden">
           <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
         </div>

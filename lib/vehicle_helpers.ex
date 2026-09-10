@@ -14,6 +14,7 @@ defmodule VehicleHelpers do
   alias Schedules.Trip
   alias Vehicles.Vehicle
 
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
@@ -27,32 +28,19 @@ defmodule VehicleHelpers do
   construct a convenient map that can be used in views / templates to determine if a tooltip is available
   and to fetch all of the required data
   """
-  @spec build_tooltip_index(Route.t(), VehicleLocations.t(), [Prediction.t()]) :: tooltip_index
-  def build_tooltip_index(route, vehicle_locations, vehicle_predictions) do
-    indexed_predictions = index_vehicle_predictions(vehicle_predictions)
-
+  @spec build_tooltip_index(Route.t(), VehicleLocations.t()) :: tooltip_index
+  def build_tooltip_index(route, vehicle_locations) do
     vehicle_locations
     |> Stream.reject(fn {{_trip_id, stop_id}, _status} -> is_nil(stop_id) end)
     |> Enum.reduce(%{}, fn vehicle_location, output ->
       {{trip_id, stop_id}, vehicle} = vehicle_location
-
-      {prediction, trip} =
-        if trip_id do
-          {
-            prediction_for_stop(indexed_predictions, trip_id, vehicle.stop_id),
-            Schedules.Repo.trip(trip_id)
-          }
-        else
-          {nil, nil}
-        end
-
       stop_name = @stops_repo.get(vehicle.stop_id) |> stop_name()
 
       tooltip = %VehicleTooltip{
         vehicle: vehicle,
-        prediction: prediction,
+        prediction: nil,
         stop_name: stop_name,
-        trip: trip,
+        trip: if(trip_id, do: @schedules_repo.trip(trip_id)),
         route: route
       }
 
@@ -60,21 +48,6 @@ defmodule VehicleHelpers do
       |> Map.put(stop_id, tooltip)
       |> Map.put({trip_id, stop_id}, tooltip)
     end)
-  end
-
-  @spec prediction_for_stop(VehicleLocations.t(), String.t(), String.t()) :: Prediction.t() | nil
-  defp prediction_for_stop(vehicle_predictions, trip_id, stop_id) do
-    Map.get(vehicle_predictions, {trip_id, stop_id})
-  end
-
-  @spec index_vehicle_predictions([Prediction.t()]) :: %{
-          {String.t(), String.t()} => Prediction.t()
-        }
-  defp index_vehicle_predictions(predictions) do
-    predictions
-    |> Stream.filter(&(&1.trip && &1.stop))
-    |> Stream.map(&{{&1.trip.id, &1.stop.id}, &1})
-    |> Enum.into(Map.new())
   end
 
   @spec stop_name(Stops.Stop.t() | nil) :: String.t()

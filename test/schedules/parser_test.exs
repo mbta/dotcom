@@ -1,6 +1,9 @@
 defmodule Schedules.ParserTest do
   use ExUnit.Case, async: true
+
   import Schedules.Parser
+  import Test.Support.Factories.MBTA.Api
+
   alias Routes.Route
 
   @arrival_time ~U[2023-06-13 10:00:00Z]
@@ -261,6 +264,52 @@ defmodule Schedules.ParserTest do
       }
 
       assert trip(api_item) == nil
+    end
+
+    test "parses the from_trip_transfer relationship to populate next_trip_id" do
+      next_trip_id = Test.Support.FactoryHelpers.build(:id)
+
+      transfer_item =
+        build(:item, %{
+          attributes: %{"transfer_type" => 4},
+          relationships: %{"to_trip" => [build(:trip_item, id: next_trip_id)]},
+          type: "transfer"
+        })
+
+      api_item =
+        build(:trip_item, %{
+          id: "trip-1",
+          relationships: %{
+            "from_trip_transfers" => [transfer_item]
+          }
+        })
+
+      assert %Schedules.Trip{
+               next_trip_id: ^next_trip_id
+             } = trip(api_item)
+    end
+
+    test "does not use transfers other than in-seat" do
+      next_trip_id = Test.Support.FactoryHelpers.build(:id)
+      other_transfer_type = Faker.Util.pick(0..3)
+
+      transfer_item =
+        build(:item, %{
+          attributes: %{"transfer_type" => other_transfer_type},
+          relationships: %{"to_trip" => [build(:trip_item, id: next_trip_id)]},
+          type: "transfer"
+        })
+
+      api_item =
+        build(:trip_item, %{
+          id: "trip-1",
+          relationships: %{
+            "from_trip_transfers" => [transfer_item]
+          }
+        })
+
+      trip = trip(api_item)
+      refute trip.next_trip_id == next_trip_id
     end
   end
 

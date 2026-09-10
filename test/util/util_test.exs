@@ -540,4 +540,77 @@ defmodule UtilTest do
       assert DateTime.to_naive(Util.parse(dt)) == ~N[2020-09-01 13:26:08]
     end
   end
+
+  describe "get_or_save_persistent_term/2" do
+    test "calls the function and returns its result on a cache miss" do
+      key = {__MODULE__, :cache_miss_test}
+
+      assert Util.get_or_save_persistent_term(key, fn -> "initial_value" end) == "initial_value"
+
+      on_exit(fn ->
+        :persistent_term.erase(key)
+      end)
+    end
+
+    test "returns the cached value and does not call the function again on a cache hit" do
+      key = {__MODULE__, :cache_hit_test}
+
+      Util.get_or_save_persistent_term(key, fn -> "first" end)
+      result = Util.get_or_save_persistent_term(key, fn -> "second" end)
+
+      assert result == "first"
+
+      on_exit(fn ->
+        :persistent_term.erase(key)
+      end)
+    end
+
+    test "caches and returns nil without re-executing the function" do
+      key = {__MODULE__, :nil_value_test}
+
+      call_count = :counters.new(1, [])
+
+      func = fn ->
+        :counters.add(call_count, 1, 1)
+        nil
+      end
+
+      assert Util.get_or_save_persistent_term(key, func) == nil
+      assert Util.get_or_save_persistent_term(key, func) == nil
+      assert :counters.get(call_count, 1) == 1
+
+      on_exit(fn ->
+        :persistent_term.erase(key)
+      end)
+    end
+  end
+
+  describe "parse_valid_date" do
+    test "parses a valid date string" do
+      original_date = Faker.Date.forward(100)
+
+      {:ok, parsed_date} =
+        original_date |> Date.to_iso8601() |> Util.parse_valid_date()
+
+      assert Date.compare(original_date, parsed_date) == :eq
+    end
+
+    test "returns an error for an invalid datetime string" do
+      assert {:error, :invalid_date} == Util.parse_valid_date("2020-02-31")
+    end
+
+    test "parses valid year and month parameters" do
+      assert {:ok, ~D[2023-07-01]} ==
+               Util.parse_valid_date(%{"month" => "7", "year" => "2023"})
+    end
+
+    test "returns an error for invalid year and month parameters" do
+      assert {:error, :invalid_date} ==
+               Util.parse_valid_date(%{"month" => "13", "year" => "2023"})
+    end
+
+    test "returns an error for a argument of the wrong type" do
+      assert {:error, :invalid_date} == Util.parse_valid_date(%{foo: "bar"})
+    end
+  end
 end

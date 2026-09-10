@@ -42,7 +42,7 @@ defmodule DotcomWeb.PageViewTest do
 
   describe "shortcut_icons/0" do
     test "renders shortcut icons" do
-      icons = PageView.shortcut_icons()
+      icons = PageView.shortcut_icons("en")
       assert length(icons) == 5
 
       icon =
@@ -73,6 +73,7 @@ defmodule DotcomWeb.PageViewTest do
       document =
         conn
         |> assign(:news, entries)
+        |> assign(:locale, "en-US")
         |> PageView.render_news_entries()
         |> Phoenix.HTML.Safe.to_iodata()
         |> IO.iodata_to_binary()
@@ -123,7 +124,7 @@ defmodule DotcomWeb.PageViewTest do
       ]
 
       rendered =
-        PageView.alerts(alerts)
+        PageView.alerts(%{alerts: alerts, locale: "en-us"})
         |> Phoenix.HTML.Safe.to_iodata()
         |> IO.iodata_to_binary()
 

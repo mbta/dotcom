@@ -89,7 +89,8 @@ defmodule BuildCalendar do
           {day.holiday?, "schedule-holiday"},
           {day.selected? && day.month_relation == :current, "schedule-selected"},
           {day.month_relation == :next, "schedule-next-month"},
-          {day.today?, "schedule-today"}
+          {day.today?, "schedule-today"},
+          {day.selected?, "date-picker-toggle"}
         ]
         |> Enum.filter(&match?({true, _}, &1))
         |> Enum.map(&elem(&1, 1))
@@ -196,6 +197,7 @@ defmodule BuildCalendar do
   end
 
   @spec build_url(url_fn, Date.t(), Date.t()) :: String.t()
+
   defp build_url(url_fn, today, today) do
     url_fn.(date: nil, date_select: nil, shift: nil)
   end

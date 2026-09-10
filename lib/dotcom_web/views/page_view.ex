@@ -7,19 +7,34 @@ defmodule DotcomWeb.PageView do
   import DotcomWeb.CMSHelpers
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [homepage_subway_status: 1]
 
+  use Nebulex.Caching.Decorators
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(1)
+
   alias CMS.Page.NewsEntry
   alias CMS.Partial.Banner
   alias DotcomWeb.PartialView
 
-  @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
-  def alerts(alerts) do
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: :timer.minutes(1)],
+              key: {"homepage|alerts-tab", locale}
+            )
+  @spec alerts(%{alerts: [Alerts.Alert.t()], locale: String.t()}) :: Phoenix.HTML.Safe.t()
+  def alerts(%{alerts: alerts, locale: locale}) do
+    _ = locale
+
     [routes, stops] =
       [
         &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
         &Dotcom.Alerts.stops_with_access_alerts_by_effect/1
       ]
-      |> Task.async_stream(& &1.(alerts), timeout: 10_000)
-      |> Enum.map(fn {:ok, result} -> result end)
+      |> Task.async_stream(& &1.(alerts), timeout: 10_000, on_timeout: :kill_task)
+      |> Enum.map(fn
+        {:ok, result} -> result
+        _ -> []
+      end)
 
     render("_alerts.html",
       routes_with_high_priority_alerts_by_mode: routes,
@@ -89,9 +104,11 @@ defmodule DotcomWeb.PageView do
     )
   end
 
-  def shortcut_icons do
-    [:commuter_rail, :subway, :bus, :ferry, :the_ride]
-    |> Enum.map(&shortcut_icon/1)
+  def shortcut_icons(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :shortcut_icons, locale}, fn ->
+      [:commuter_rail, :subway, :bus, :ferry, :the_ride]
+      |> Enum.map(&shortcut_icon/1)
+    end)
   end
 
   @spec shortcut_icon(atom) :: Phoenix.HTML.Safe.t()
@@ -108,15 +125,10 @@ defmodule DotcomWeb.PageView do
   end
 
   @spec shortcut_link(atom) :: String.t()
-  defp shortcut_link(:stations), do: stop_path(DotcomWeb.Endpoint, :index)
-
-  defp shortcut_link(:the_ride),
-    do: cms_static_page_path(DotcomWeb.Endpoint, "/accessibility/the-ride")
-
-  defp shortcut_link(:commuter_rail),
-    do: schedule_path(DotcomWeb.Endpoint, :show, :"commuter-rail")
-
-  defp shortcut_link(mode), do: schedule_path(DotcomWeb.Endpoint, :show, mode)
+  defp shortcut_link(:stations), do: "/stops"
+  defp shortcut_link(:the_ride), do: "/accessibility/the-ride"
+  defp shortcut_link(:commuter_rail), do: "/schedules/commuter-rail"
+  defp shortcut_link(mode), do: "/schedules/#{mode}"
 
   @spec shortcut_text(atom) :: [Phoenix.HTML.Safe.t()]
   defp shortcut_text(:stations) do
@@ -157,6 +169,13 @@ defmodule DotcomWeb.PageView do
     content_tag(:span, "|", aria_hidden: "true", class: "schedule-separator")
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: @ttl],
+              # Even though the text isn't translated, the dates are so locale is part of the key
+              key: {"homepage|news-entries", conn.assigns.locale}
+            )
   @spec render_news_entries(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def render_news_entries(conn) do
     content_tag(
@@ -210,5 +229,45 @@ defmodule DotcomWeb.PageView do
 
   defp banner_cta(%Banner{}) do
     ""
+  end
+
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: @ttl],
+              key: {"homepage|upcoming-events", conn.assigns.locale}
+            )
+  def render_upcoming_events(conn, event_teasers) do
+    event_teasers
+    |> Enum.map(fn event_teaser ->
+      render_to_string(DotcomWeb.EventView, "_event_teaser.html",
+        event_teaser: event_teaser,
+        check_event_ended: true,
+        conn: conn,
+        month_number: event_teaser.date.month,
+        year: event_teaser.date.year
+      )
+    end)
+    |> Phoenix.HTML.raw()
+  end
+
+  def important_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :important_links, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_important_links.html", %{})}
+    end)
+  end
+
+  def top_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :top_links, locale}, fn ->
+      {:safe,
+       ["_find_a_location.html", "_fares_passes.html", "_contact_us.html"]
+       |> Enum.map(&Phoenix.View.render_to_iodata(DotcomWeb.PageView, &1, %{}))}
+    end)
+  end
+
+  def tab_list(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :tab_list, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_tab_list.html", %{})}
+    end)
   end
 end
