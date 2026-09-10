@@ -102,14 +102,14 @@ defmodule DotCom.Mixfile do
       {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.15"},
       {:aws_credentials, "1.1.1", optional: true},
-      {:bandit, "1.10.4"},
+      {:bandit, "1.12.5"},
       {:browser, "0.5.5"},
-      {:castore, "1.0.17"},
+      {:castore, "1.0.21"},
       {
         :content_security_policy,
         git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
       },
-      {:cowlib, "2.16.0", override: true},
+      {:cowlib, "2.20.0"},
       {:crc, "0.10.6"},
       {:credo, "1.7.17", only: [:dev, :test]},
       {:csv, "3.2.2"},
