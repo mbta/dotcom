@@ -93,6 +93,9 @@ defmodule DotcomWeb.LineDiagramLive do
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
 
+    guides_for_this_route =
+      @guides |> Enum.filter(fn guide -> route.type in guide.modes end)
+
     {:ok,
      socket
      |> assign(:direction_id, direction_id)
@@ -101,7 +104,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:route, route)
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
-     |> assign(:guides, @guides)}
+     |> assign(:guides, guides_for_this_route)}
   end
 
   def make_link(assigns, page, add_params? \\ false) do
@@ -199,11 +202,11 @@ defmodule DotcomWeb.LineDiagramLive do
   def guides(assigns) do
     ~H"""
     <a
-      :for={guide <- @guides |> Enum.filter(fn guide -> assigns.route.type in guide.modes end)}
+      :for={guide <- @guides}
       href={guide.link}
       class="text-black text-lg font-bold"
     >
-      <img src={guide.image} class="w-[380px] rounded-sm mb-[8px]" />
+      <img src={guide.image} class="w-[380px] rounded-sm mb-[8px]" alt="" />
       <div>{guide.title}</div>
     </a>
     """
