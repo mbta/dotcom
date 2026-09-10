@@ -5402,3 +5402,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Morning"
 msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""
