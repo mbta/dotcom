@@ -18,7 +18,7 @@ defmodule DotCom.Mixfile do
       aliases: aliases(),
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :mbta_metro, :laboratory],
-        flags: [:unmatched_returns]
+        flags: [:no_opaque, :unmatched_returns]
       ],
       deps: deps(),
       gettext: [write_reference_line_numbers: false],
