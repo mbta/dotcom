@@ -52,6 +52,8 @@ defmodule DotcomWeb.Router do
     plug(:get_flags)
     plug(:fetch_flash)
     plug(:fetch_cookies)
+    plug(:fetch_live_flash)
+    plug(:protect_from_forgery)
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
     plug(DotcomWeb.Plugs.Banner)
     plug(DotcomWeb.Plugs.CanonicalHostname)
@@ -77,11 +79,6 @@ defmodule DotcomWeb.Router do
     plug(:optional_disable_indexing)
   end
 
-  pipeline :browser_live do
-    plug(:fetch_live_flash)
-    plug(:protect_from_forgery)
-  end
-
   pipeline :api do
     plug(:accepts, ["json"])
   end
@@ -100,7 +97,7 @@ defmodule DotcomWeb.Router do
   end
 
   scope "/_flags", DotcomWeb do
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
     get("/", FlagsController, :index)
     post("/disable/:flag_id", FlagsController, :disable)
@@ -131,7 +128,7 @@ defmodule DotcomWeb.Router do
 
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
     live_session :alerts,
       layout: {DotcomWeb.LayoutView, :live},
@@ -143,7 +140,7 @@ defmodule DotcomWeb.Router do
 
   scope "/schedules", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
     live_session :schedules,
       layout: {DotcomWeb.LayoutView, :live},
@@ -346,7 +343,7 @@ defmodule DotcomWeb.Router do
     scope "/", DotcomWeb do
       import Phoenix.LiveDashboard.Router
 
-      pipe_through([:browser, :browser_live])
+      pipe_through([:browser])
 
       live_dashboard("/dashboard",
         allow_destructive_actions: true,
@@ -361,7 +358,7 @@ defmodule DotcomWeb.Router do
 
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
     live_session :rider,
       layout: {DotcomWeb.LayoutView, :live},
@@ -373,7 +370,7 @@ defmodule DotcomWeb.Router do
 
   scope "/departures", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
     live_session :departures, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", ScheduleFinderLive
@@ -382,7 +379,7 @@ defmodule DotcomWeb.Router do
 
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
+    pipe_through([:browser, :basic_auth_readonly])
 
     live_session :default,
       layout: {DotcomWeb.LayoutView, :preview},
