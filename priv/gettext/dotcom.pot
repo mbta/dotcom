@@ -4519,6 +4519,7 @@ msgid "Upcoming Changes"
 msgstr ""
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Departures"
 msgstr ""
