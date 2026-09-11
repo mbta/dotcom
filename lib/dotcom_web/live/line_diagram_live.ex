@@ -16,7 +16,8 @@ defmodule DotcomWeb.LineDiagramLive do
     only: [
       header_class: 1,
       route_feature_badge: 1,
-      route_tab_class: 1
+      route_tab_class: 1,
+      route_pdf_link: 3
     ]
 
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
@@ -33,6 +34,13 @@ defmodule DotcomWeb.LineDiagramLive do
       params |> Map.get("schedule_direction", %{direction_id: 0}) |> Map.get("direction_id")
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
+    date = Map.get(socket.assigns, :date, @date_time_module.now())
+
+    pdfs =
+      Dotcom.RoutePdfs.fetch_and_choose_pdfs(
+        route_id,
+        date
+      )
 
     {:ok,
      socket
@@ -41,7 +49,9 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:tab, "new_line")
-     |> assign(:tab_params, tab_params)}
+     |> assign(:tab_params, tab_params)
+     |> assign(:route_pdfs, pdfs)
+     |> assign(:date, date)}
   end
 
   def make_link(assigns, page, add_params? \\ false) do
@@ -130,8 +140,30 @@ defmodule DotcomWeb.LineDiagramLive do
         >
           ⚠️ Watch Your Step ⚠️
         </marquee>
+        <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
       </div>
     </div>
     """
+  end
+
+  defp route_pdf_sidebar_content(assigns) do
+    pdfs =
+      case Map.get(assigns, :route_pdfs, []) do
+        {:error, _} -> []
+        pdfs when is_list(pdfs) -> pdfs
+      end
+
+    assigns = assigns |> assign(:pdfs, pdfs)
+
+    unless Enum.empty?(pdfs) do
+      ~H"""
+      <div>
+        <h2 class="text-xl">{~t(Printable Schedules)}</h2>
+        <div class="p-1 flex items-center pb-1">
+          {route_pdf_link(@pdfs, @route, @date)}
+        </div>
+      </div>
+      """
+    end
   end
 end

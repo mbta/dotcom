@@ -5412,3 +5412,8 @@ msgstr "Aswè"
 #, elixir-autogen, elixir-format
 msgid "Morning"
 msgstr "Maten"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Printable Schedules"
+msgstr ""
