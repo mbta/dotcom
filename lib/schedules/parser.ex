@@ -4,7 +4,7 @@ defmodule Schedules.Parser do
   alias Routes.Route
   alias Stops.Stop
 
-  @type record :: {
+  @type parsed_record :: {
           route_id :: Route.id_t(),
           trip_id :: String.t(),
           stop_id :: Stop.id_t(),
@@ -22,7 +22,7 @@ defmodule Schedules.Parser do
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @spec parse(Item.t()) :: record
+  @spec parse(Item.t()) :: parsed_record
   def parse(item) do
     arrival = arrival_time(item)
     departure = departure_time(item)

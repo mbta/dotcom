@@ -239,8 +239,8 @@ defmodule Schedules.Repo do
     Integer.to_string(int)
   end
 
-  @spec filter_by_min_time([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
-          [Parser.record()] | {:error, any}
+  @spec filter_by_min_time([Parser.parsed_record()] | {:error, any}, DateTime.t() | nil) ::
+          [Parser.parsed_record()] | {:error, any}
   defp filter_by_min_time({:error, error}, _) do
     {:error, error}
   end

@@ -5,8 +5,6 @@ defmodule Dotcom.TransitNearMe do
 
   use Dotcom.Gettext.Sigils
 
-  require Logger
-
   alias DotcomWeb.ViewHelpers
   alias PredictedSchedule.Display
   alias Predictions.Prediction

@@ -4,8 +4,6 @@ defmodule Routes.Repo do
   use Dotcom.Gettext.Sigils
   use Nebulex.Caching.Decorators
 
-  require Logger
-
   import Routes.Parser
 
   alias Dotcom.Cache.KeyGenerator

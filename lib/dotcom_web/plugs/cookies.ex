@@ -3,8 +3,6 @@ defmodule DotcomWeb.Plugs.Cookies do
   A module Plug that creates a cookie with a unique ID if this cookie does not already exist.
   """
 
-  require Logger
-
   alias Plug.Conn
 
   @behaviour Plug

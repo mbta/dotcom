@@ -493,7 +493,7 @@ defmodule DotcomWeb.ScheduleViewTest do
     end
 
     test "returns a badge for routes with the `:seasonal_ferry` description" do
-      refute route_feature_badge(%Route{description: :seasonal_ferry}) == nil
+      assert route_feature_badge(%Route{description: :seasonal_ferry})
     end
 
     test "returns nothing otherwise" do
