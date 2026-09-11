@@ -20,86 +20,97 @@
   </div>
 </div>
 
-<div>
+<div :if={!@new_stop_page?} class="mb-lg">
   <div
     id="react-stop-root"
-    data-mbta-stop-id={"#{@stop.id}"}
+    data-mbta-stop-id={@stop.id}
   >
   </div>
 </div>
 
-<div class="container">
-  <h2 class="capitalize">
-    {gettext("%{place} Information", place: station_or_stop(@stop))}
-  </h2>
-  <.external_map_link stop={@stop} is_ios?={Browser.ios?(@conn)} />
-  <div class="mt-lg station-amenities">
-    <h3
-      :if={@stop.station? || Stop.has_parking?(@stop) || Stop.has_bike_storage?(@stop)}
-      class="hidden-md-up"
-    >
-      {~t"Bringing your car or bike"}
-    </h3>
-    <.parking_amenity
-      :if={@stop.station? || Stop.has_parking?(@stop)}
-      stop={@stop}
-      open={@amenity_param == :parking}
-      amenity={@parking_amenity}
-      alerts={alerts_for_amenity(@parking_amenity, @alerts)}
-      date_time={@date_time}
-      is_ios?={Browser.ios?(@conn)}
-    />
-    <.bike_amenity
-      :if={@stop.station? || Stop.has_bike_storage?(@stop)}
-      stop={@stop}
-      open={@amenity_param == :bike}
-      amenity={@bike_amenity}
-      alerts={alerts_for_amenity(@bike_amenity, @alerts)}
-      date_time={@date_time}
-    />
-    <%= if @stop.station? do %>
-      <h3 class="hidden-md-up">Getting around the station</h3>
-      <.elevator_amenity
+<div class={["container", @new_stop_page? && "lg:flex xl:gap-xl md:gap-lg"]}>
+  <div :if={@new_stop_page?} class="lg:w-2/5 lg:order-last">
+    <h2 class="mt-sm text-xl">{~t"Upcoming Departures"}</h2>
+    {live_render(@conn, DotcomWeb.Live.StopUpcomingArrivals, session: %{"stop_id" => @stop.id})}
+  </div>
+  <div class={[@new_stop_page? && "lg:w-3/5"]}>
+    <h2 class="capitalize mt-sm text-xl">
+      {gettext("%{place} Information", place: station_or_stop(@stop))}
+    </h2>
+    <div :if={@new_stop_page?} class="mb-md">
+      {live_render(@conn, DotcomWeb.StopMapLive, session: %{"stop_id" => @stop.id})}
+    </div>
+    <.external_map_link stop={@stop} is_ios?={Browser.ios?(@conn)} />
+    <div class="mt-lg station-amenities">
+      <h3
+        :if={@stop.station? || Stop.has_parking?(@stop) || Stop.has_bike_storage?(@stop)}
+        class="hidden-md-up"
+      >
+        {~t"Bringing your car or bike"}
+      </h3>
+      <.parking_amenity
+        :if={@stop.station? || Stop.has_parking?(@stop)}
         stop={@stop}
-        open={@amenity_param == :elevator}
-        amenity={@elevator_amenity}
-        alerts={alerts_for_amenity(@elevator_amenity, @alerts)}
+        open={@amenity_param == :parking}
+        amenity={@parking_amenity}
+        alerts={alerts_for_amenity(@parking_amenity, @alerts)}
+        date_time={@date_time}
+        is_ios?={Browser.ios?(@conn)}
+      />
+      <.bike_amenity
+        :if={@stop.station? || Stop.has_bike_storage?(@stop)}
+        stop={@stop}
+        open={@amenity_param == :bike}
+        amenity={@bike_amenity}
+        alerts={alerts_for_amenity(@bike_amenity, @alerts)}
         date_time={@date_time}
       />
-      <.escalator_amenity
+      <%= if @stop.station? do %>
+        <h3 class="hidden-md-up">Getting around the station</h3>
+        <.elevator_amenity
+          stop={@stop}
+          open={@amenity_param == :elevator}
+          amenity={@elevator_amenity}
+          alerts={alerts_for_amenity(@elevator_amenity, @alerts)}
+          date_time={@date_time}
+        />
+        <.escalator_amenity
+          stop={@stop}
+          open={@amenity_param == :escalator}
+          amenity={@escalator_amenity}
+          alerts={alerts_for_amenity(@escalator_amenity, @alerts)}
+          date_time={@date_time}
+        />
+      <% end %>
+      <.accessibility_amenity
         stop={@stop}
-        open={@amenity_param == :escalator}
-        amenity={@escalator_amenity}
-        alerts={alerts_for_amenity(@escalator_amenity, @alerts)}
+        open={@amenity_param == :accessibility}
+        amenity={@accessibility_amenity}
+        accessible?={@accessible?}
+        alerts={alerts_for_amenity(@accessibility_amenity, @alerts)}
         date_time={@date_time}
       />
-    <% end %>
-    <.accessibility_amenity
-      stop={@stop}
-      open={@amenity_param == :accessibility}
-      amenity={@accessibility_amenity}
-      accessible?={@accessible?}
-      alerts={alerts_for_amenity(@accessibility_amenity, @alerts)}
-      date_time={@date_time}
-    />
-    <h3 :if={@stop.station?} class="hidden-md-up">Purchasing Fares</h3>
-    <.fare_amenity
-      stop={@stop}
-      open={@amenity_param == :fare}
-      amenity={@fare_amenity}
-      fares={@one_way_fares}
-    />
+      <h3 :if={@stop.station?} class="hidden-md-up">Purchasing Fares</h3>
+      <.fare_amenity
+        stop={@stop}
+        open={@amenity_param == :fare}
+        amenity={@fare_amenity}
+        fares={@one_way_fares}
+      />
+    </div>
   </div>
 </div>
 
-<%= if Application.get_env(:dotcom, :dev_server?) do %>
-  <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/stop.js"}>
-  </script>
-<% else %>
-  <script defer {static_attributes("/js/react.js")}>
-  </script>
-  <script defer {static_attributes("/js/leaflet.js")}>
-  </script>
-  <script defer {static_attributes("/js/stop.js")}>
-  </script>
+<%= if !@new_stop_page? do %>
+  <%= if Application.get_env(:dotcom, :dev_server?) do %>
+    <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/stop.js"}>
+    </script>
+  <% else %>
+    <script defer {static_attributes("/js/react.js")}>
+    </script>
+    <script defer {static_attributes("/js/leaflet.js")}>
+    </script>
+    <script defer {static_attributes("/js/stop.js")}>
+    </script>
+  <% end %>
 <% end %>

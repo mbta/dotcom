@@ -136,7 +136,9 @@ config :laboratory,
      "Uses Smartling's translation workflows"},
     {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"},
     {:line_diagram, "New Line Diagram",
-     "Adds a tab to the schedules page for the new line diagram"}
+     "Adds a tab to the schedules page for the new line diagram"},
+    {:new_stop_page, "New Stop Page Layout",
+     "Reconfigures the stop page and replaces the React view"}
   ],
   cookie: [
     # one month,

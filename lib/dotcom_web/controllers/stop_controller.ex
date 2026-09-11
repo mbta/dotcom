@@ -71,6 +71,7 @@ defmodule DotcomWeb.StopController do
           |> Dotcom.StopAmenity.from_stop_facilities()
 
         conn
+        |> assign(:new_stop_page?, Laboratory.enabled?(conn, :new_stop_page))
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> meta_description(stop, routes_by_stop)
         |> assign_alerts()
