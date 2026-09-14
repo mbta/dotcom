@@ -277,6 +277,98 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
   end
 
   describe "Daily Departures" do
+    test "selects the requested schedule when service labels repeat across ratings", %{conn: conn} do
+      today = Dotcom.Utils.ServiceDateTime.service_date()
+      current_end_date = Date.shift(today, day: 7)
+      future_start_date = Date.shift(today, day: 14)
+      future_end_date = Date.shift(today, day: 21)
+
+      current_service =
+        Factories.Services.Service.build(:service,
+          start_date: Date.shift(today, day: -7),
+          end_date: current_end_date,
+          rating_start_date: Date.shift(today, day: -7),
+          rating_end_date: current_end_date,
+          rating_description: "Current",
+          type: :weekday,
+          typicality: :typical_service,
+          valid_days: [1, 2, 3, 4, 5, 6, 7]
+        )
+
+      future_service =
+        Factories.Services.Service.build(:service,
+          start_date: future_start_date,
+          end_date: future_end_date,
+          rating_start_date: future_start_date,
+          rating_end_date: future_end_date,
+          rating_description: "Future",
+          type: :weekday,
+          typicality: :typical_service,
+          valid_days: [1, 2, 3, 4, 5, 6, 7]
+        )
+
+      current_departure =
+        Factories.ScheduleFinder.build(:daily_departure, trip_id: "current-departure")
+
+      future_departure =
+        Factories.ScheduleFinder.build(:daily_departure, trip_id: "future-departure")
+
+      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, date ->
+        case date do
+          ^today -> {:ok, [current_departure]}
+          ^future_end_date -> {:ok, [future_departure]}
+        end
+      end)
+
+      route_id = FactoryHelpers.build(:id)
+      direction_id = FactoryHelpers.build(:direction_id)
+      stop_id = FactoryHelpers.build(:id)
+
+      assert {:ok, view, _html} =
+               visit_with_set_params(
+                 conn,
+                 route_id,
+                 direction_id,
+                 stop_id,
+                 [2],
+                 [current_service, future_service]
+               )
+
+      render_async(view)
+
+      current_service_key = "#{current_end_date}:Weekday schedules"
+      future_service_key = "#{future_end_date}:Weekday schedules"
+
+      assert has_element?(
+               view,
+               "[id='service-picker-#{route_id}'] option[value='#{current_service_key}'][selected]"
+             )
+
+      refute has_element?(
+               view,
+               "[id='service-picker-#{route_id}'] option[value='#{future_service_key}'][selected]"
+             )
+
+      loading_html =
+        view
+        |> form("#service-picker-form", selected_service: future_service_key)
+        |> render_change()
+
+      assert loading_html
+             |> Floki.parse_fragment!()
+             |> Floki.find("[data-test=\"departures_loading\"]") != []
+
+      render_async(view)
+
+      assert has_element?(
+               view,
+               "[id='service-picker-#{route_id}'] option[value='#{future_service_key}'][selected]"
+             )
+
+      assert has_element?(view, "[phx-value-trip='future-departure']")
+      refute has_element?(view, "[phx-value-trip='current-departure']")
+    end
+
     test "indicates no service", %{conn: conn} do
       expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)
       expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
@@ -434,14 +526,15 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
          route_id,
          direction_id,
          stop_id,
-         route_types \\ [0, 1, 2, 3, 4]
+         route_types \\ [0, 1, 2, 3, 4],
+         services \\ nil
        ) do
     stub(Routes.Repo.Mock, :get, fn _ ->
       Factories.Routes.Route.build(:route, %{id: route_id, type: Faker.Util.pick(route_types)})
     end)
 
     stub(Services.Repo.Mock, :by_route_id, fn _ ->
-      Factories.Services.Service.build_list(15, :service)
+      services || Factories.Services.Service.build_list(15, :service)
     end)
 
     stub(Stops.Repo.Mock, :get, fn _ ->
