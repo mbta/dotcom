@@ -5422,29 +5422,29 @@ msgstr "Buổi sáng"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
-msgstr ""
+msgstr "Hướng dẫn tiếp cận xe buýt"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Access Guide"
-msgstr ""
+msgstr "Đi lại bằng Đường sắt"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Beginner's Guide"
-msgstr ""
+msgstr "Hướng dẫn dành cho người mới bắt đầu Đường sắt ngoại ô"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Access Guide"
-msgstr ""
+msgstr "Hướng dẫn tiếp cận phà"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Beginner's Guide"
-msgstr ""
+msgstr "Hướng dẫn cho người mới bắt đầu về phà"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
-msgstr ""
+msgstr "Hướng dẫn tiếp cận tàu điện ngầm"
