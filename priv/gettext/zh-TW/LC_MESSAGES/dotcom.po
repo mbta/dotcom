@@ -5402,29 +5402,29 @@ msgstr "早晨"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
-msgstr ""
+msgstr "巴士旅遊指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Access Guide"
-msgstr ""
+msgstr "通勤火車"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Beginner's Guide"
-msgstr ""
+msgstr "通勤鐵路新手指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Access Guide"
-msgstr ""
+msgstr "渡輪交通指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Beginner's Guide"
-msgstr ""
+msgstr "渡輪新手指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
-msgstr ""
+msgstr "地鐵交通指南"
