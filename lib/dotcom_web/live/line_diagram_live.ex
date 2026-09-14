@@ -146,8 +146,8 @@ defmodule DotcomWeb.LineDiagramLive do
              route_id,
              date
            ) do
-        {:error, _} -> []
         pdfs when is_list(pdfs) -> pdfs
+        _ -> []
       end
 
     socket |> assign(:route_pdfs, pdfs)
