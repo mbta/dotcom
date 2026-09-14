@@ -12,8 +12,6 @@ defmodule Stops.Repo do
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-
   @behaviour Stops.Repo.Behaviour
 
   for {old_id, gtfs_id} <-
@@ -154,7 +152,7 @@ defmodule Stops.Repo do
   @impl Behaviour
   def stop_features(%Stop{} = stop, opts \\ []) do
     [
-      route_features(stop.id, opts),
+      route_features(stop, opts),
       parking_features(stop.parking_lots),
       accessibility_features(stop.accessibility)
     ]
@@ -165,8 +163,8 @@ defmodule Stops.Repo do
   defp parking_features([]), do: []
   defp parking_features(_parking_lots), do: [:parking_lot]
 
-  @spec route_features(String.t(), Keyword.t()) :: [Behaviour.stop_feature()]
-  defp route_features(stop_id, opts) do
+  @spec route_features(Stop.t(), Keyword.t()) :: [Behaviour.stop_feature()]
+  defp route_features(stop, opts) do
     icon_fn =
       if Keyword.get(opts, :expand_branches?) do
         &branch_feature/1
@@ -176,19 +174,19 @@ defmodule Stops.Repo do
 
     opts
     |> Keyword.get(:connections)
-    |> get_stop_connections(stop_id)
+    |> get_stop_connections(stop)
     |> Enum.map(icon_fn)
     |> Enum.uniq()
   end
 
-  @spec get_stop_connections([Route.t()] | {:error, :not_fetched} | nil, Stop.id_t()) ::
+  @spec get_stop_connections([Route.t()] | {:error, :not_fetched} | nil, Stop.t()) ::
           [Route.t()]
   defp get_stop_connections(connections, _stop_id) when is_list(connections) do
     connections
   end
 
-  defp get_stop_connections(_, stop_id) do
-    @routes_repo.by_stop(stop_id)
+  defp get_stop_connections(_, stop) do
+    Dotcom.Routes.for_stop(stop)
   end
 
   defp branch_feature(%Route{id: "Green-B"}), do: :"Green-B"
