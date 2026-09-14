@@ -12,6 +12,7 @@ interface DepartureTimesProps {
   alertsForDirection: Alert[];
   headsign: string;
   onClick: () => void;
+  shouldRenderAbsoluteTime: boolean;
   isCR: boolean;
   isSubway: boolean;
   hasService: boolean;
@@ -67,6 +68,7 @@ const DepartureTimes = ({
   alertsForDirection,
   headsign,
   onClick,
+  shouldRenderAbsoluteTime,
   isCR,
   isSubway,
   hasService,
@@ -74,10 +76,11 @@ const DepartureTimes = ({
 }: DepartureTimesProps): ReactElement<HTMLElement> | null => {
   const timeList = departuresListFromInfos(
     departures,
+    shouldRenderAbsoluteTime,
     isCR,
     isSubway,
     overrideDate,
-    isCR ? 1 : 2,
+    shouldRenderAbsoluteTime ? 1 : 2,
     true,
     ({ children }) => (
       <div className="stop-routes__departures-group">{children}</div>

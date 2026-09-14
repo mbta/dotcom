@@ -22,12 +22,20 @@ const departureWithPrediction: DepartureInfo = Object.assign(
 describe("DisplayTime", () => {
   it("shows predictions with realtime icon", () => {
     const { container } = render(
-      <DisplayTime departure={departureWithPrediction} isCR={false} />
+      <DisplayTime
+        departure={departureWithPrediction}
+        shouldRenderAbsoluteTime={false}
+        isCR={false}
+      />
     );
     expect(container.querySelector(".c-svg__icon--realtime")).toBeTruthy();
 
     const { container: containerNoPrediction } = render(
-      <DisplayTime departure={departureWithoutPrediction} isCR={false} />
+      <DisplayTime
+        departure={departureWithoutPrediction}
+        shouldRenderAbsoluteTime={false}
+        isCR={false}
+      />
     );
     expect(
       containerNoPrediction.querySelector(".c-svg__icon--realtime")
@@ -37,7 +45,13 @@ describe("DisplayTime", () => {
   describe("shows times", () => {
     it("with tomorrow indication", () => {
       const dateNow = new Date();
-      render(<DisplayTime departure={departureWithPrediction} isCR={false} />);
+      render(
+        <DisplayTime
+          departure={departureWithPrediction}
+          shouldRenderAbsoluteTime={false}
+          isCR={false}
+        />
+      );
       expect(screen.queryByText("Tomorrow")).toBeNull();
 
       const dateTomorrow = new Date(dateNow);
@@ -52,6 +66,7 @@ describe("DisplayTime", () => {
               }
             } as DepartureInfo
           }
+          shouldRenderAbsoluteTime={false}
           isCR={false}
         />
       );
@@ -66,6 +81,7 @@ describe("DisplayTime", () => {
               prediction: { ...departureWithPrediction.prediction, track: "9" }
             } as DepartureInfo
           }
+          shouldRenderAbsoluteTime={true}
           isCR={true}
         />
       );
@@ -81,10 +97,22 @@ describe("DisplayTime", () => {
         ...withSchedule,
         prediction: { time: predictedDateTime }
       } as DepartureInfo;
-      render(<DisplayTime departure={withScheduleAndPrediction} isCR={true} />);
+      render(
+        <DisplayTime
+          departure={withScheduleAndPrediction}
+          shouldRenderAbsoluteTime={true}
+          isCR={true}
+        />
+      );
       expect(screen.queryByText("9:27 AM")).toBeTruthy();
       expect(screen.queryByText("9:24 AM")).toBeFalsy();
-      render(<DisplayTime departure={withSchedule} isCR={true} />);
+      render(
+        <DisplayTime
+          departure={withSchedule}
+          shouldRenderAbsoluteTime={true}
+          isCR={true}
+        />
+      );
       expect(screen.queryByText("9:24 AM")).toBeTruthy();
     });
   });
@@ -100,7 +128,12 @@ describe("DisplayTime", () => {
         }
       } as DepartureInfo;
       render(
-        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+        <DisplayTime
+          departure={departure}
+          shouldRenderAbsoluteTime={false}
+          isCR={false}
+          targetDate={nowTime}
+        />
       );
       expect(screen.queryByText("9 min")).toBeTruthy();
       expect(screen.findByText("Delayed 9:19 AM")).toBeTruthy();
@@ -118,7 +151,12 @@ describe("DisplayTime", () => {
         routeMode: "subway"
       } as DepartureInfo;
       render(
-        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+        <DisplayTime
+          departure={departure}
+          shouldRenderAbsoluteTime={false}
+          isCR={false}
+          targetDate={nowTime}
+        />
       );
       expect(screen.queryByText("9 min")).toBeTruthy();
       expect(screen.queryByText("9:13 AM")).toBeNull();
@@ -135,7 +173,12 @@ describe("DisplayTime", () => {
         routeMode: "commuter_rail"
       } as DepartureInfo;
       render(
-        <DisplayTime departure={departure} isCR={true} targetDate={nowTime} />
+        <DisplayTime
+          departure={departure}
+          shouldRenderAbsoluteTime={true}
+          isCR={true}
+          targetDate={nowTime}
+        />
       );
       expect(screen.queryByText("9 min")).toBeFalsy();
       expect(screen.queryByText("Delayed")).toBeTruthy();
@@ -153,7 +196,12 @@ describe("DisplayTime", () => {
         }
       } as DepartureInfo;
       render(
-        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+        <DisplayTime
+          departure={departure}
+          shouldRenderAbsoluteTime={false}
+          isCR={false}
+          targetDate={nowTime}
+        />
       );
       expect(screen.findByText("Delayed 11:43 AM")).toBeTruthy();
       expect(screen.getByText("11:38 AM")).toHaveClass("strikethrough");
@@ -170,7 +218,12 @@ describe("DisplayTime", () => {
         routeMode: "subway"
       } as DepartureInfo;
       render(
-        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+        <DisplayTime
+          departure={departure}
+          shouldRenderAbsoluteTime={false}
+          isCR={false}
+          targetDate={nowTime}
+        />
       );
       expect(screen.getByText("11:43 AM")).toBeDefined();
       expect(screen.queryByText("11:38 AM")).toBeNull();
@@ -187,7 +240,12 @@ describe("DisplayTime", () => {
         routeMode: "subway"
       } as DepartureInfo;
       render(
-        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+        <DisplayTime
+          departure={departure}
+          shouldRenderAbsoluteTime={false}
+          isCR={false}
+          targetDate={nowTime}
+        />
       );
 
       expect(screen.queryByText("Tomorrow")).toBe(null);

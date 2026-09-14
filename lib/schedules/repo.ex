@@ -25,7 +25,7 @@ defmodule Schedules.Repo do
   @type schedule_pair :: {Schedule.t(), Schedule.t()}
 
   @default_params [
-    include: "trip,trip.occupancies",
+    include: "trip,trip.occupancies,trip.from_trip_transfers",
     "fields[schedule]":
       "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,stop_headsign,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
@@ -155,8 +155,8 @@ defmodule Schedules.Repo do
   defp fetch_trip(trip_id, trip_by_id_fn) do
     trip_opts =
       case Util.config(:dotcom, :enable_experimental_features) do
-        "true" -> [include: "occupancies"]
-        _ -> []
+        "true" -> [include: "occupancies,from_trip_transfers"]
+        _ -> [include: "from_trip_transfers"]
       end
 
     case trip_by_id_fn.(trip_id, trip_opts) do

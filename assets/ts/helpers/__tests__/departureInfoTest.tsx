@@ -127,7 +127,7 @@ describe("departureInfo", () => {
 
   describe("departuresListFromInfos", () => {
     it("can handle no departures", () => {
-      render(<ul>{departuresListFromInfos([], false, false)}</ul>);
+      render(<ul>{departuresListFromInfos([], false, false, false)}</ul>);
 
       // no <li> created
       expect(screen.queryByRole("listitem")).toBeNull();
@@ -149,6 +149,7 @@ describe("departureInfo", () => {
         <ul>
           {departuresListFromInfos(
             departures,
+            false,
             false,
             false,
             undefined,
@@ -179,6 +180,7 @@ describe("departureInfo", () => {
         <ul>
           {departuresListFromInfos(
             departures,
+            false,
             false,
             false,
             undefined,

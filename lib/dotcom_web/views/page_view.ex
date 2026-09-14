@@ -169,6 +169,13 @@ defmodule DotcomWeb.PageView do
     content_tag(:span, "|", aria_hidden: "true", class: "schedule-separator")
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: @ttl],
+              # Even though the text isn't translated, the dates are so locale is part of the key
+              key: {"homepage|news-entries", conn.assigns.locale}
+            )
   @spec render_news_entries(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def render_news_entries(conn) do
     content_tag(
