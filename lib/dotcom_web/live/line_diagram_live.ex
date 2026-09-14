@@ -106,7 +106,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
-     |> assign_pdfs()}
+     |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)}
   end
 
