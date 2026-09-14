@@ -34,13 +34,6 @@ defmodule DotcomWeb.LineDiagramLive do
       params |> Map.get("schedule_direction", %{direction_id: 0}) |> Map.get("direction_id")
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
-    date = Map.get(socket.assigns, :date, @date_time_module.now())
-
-    pdfs =
-      Dotcom.RoutePdfs.fetch_and_choose_pdfs(
-        route_id,
-        date
-      )
 
     {:ok,
      socket
@@ -50,8 +43,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:route, route)
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
-     |> assign(:route_pdfs, pdfs)
-     |> assign(:date, date)}
+     |> assign_new(:date, &@date_time_module.now/0)
+     |> assign_pdfs()}
   end
 
   def make_link(assigns, page, add_params? \\ false) do
@@ -147,24 +140,27 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  defp route_pdf_sidebar_content(assigns) do
+  defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
     pdfs =
-      case Map.get(assigns, :route_pdfs, []) do
+      case Dotcom.RoutePdfs.fetch_and_choose_pdfs(
+             route_id,
+             date
+           ) do
         {:error, _} -> []
         pdfs when is_list(pdfs) -> pdfs
       end
 
-    assigns = assigns |> assign(:pdfs, pdfs)
+    socket |> assign(:route_pdfs, pdfs)
+  end
 
-    unless Enum.empty?(pdfs) do
-      ~H"""
-      <div>
-        <h2 class="text-xl">{~t(Printable Schedules)}</h2>
-        <div class="p-1 flex items-center pb-1">
-          {route_pdf_link(@pdfs, @route, @date)}
-        </div>
+  defp route_pdf_sidebar_content(assigns) do
+    ~H"""
+    <div :if={!Enum.empty?(@route_pdfs)}>
+      <h2 class="text-xl">{~t(Printable Schedules)}</h2>
+      <div class="p-1 flex items-center pb-1">
+        {route_pdf_link(@route_pdfs, @route, @date)}
       </div>
-      """
-    end
+    </div>
+    """
   end
 end
