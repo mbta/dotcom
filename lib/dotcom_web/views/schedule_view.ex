@@ -4,8 +4,6 @@ defmodule DotcomWeb.ScheduleView do
   use Phoenix.Component
   use DotcomWeb, :view
 
-  require Routes.Route
-
   import DotcomWeb.ScheduleView.StopList
   import DotcomWeb.ScheduleView.Timetable
   import DotcomWeb.ViewHelpers

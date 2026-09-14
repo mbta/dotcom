@@ -9,8 +9,6 @@ defmodule Dotcom.Utils.ServiceDateTime do
   use Dotcom.Gettext.Sigils
   use Timex
 
-  require Logger
-
   alias Dotcom.Utils
 
   import Dotcom.Utils.DateTime, only: [coerce_ambiguous_date_time: 1, in_range?: 2]

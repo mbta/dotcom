@@ -13,16 +13,11 @@ defmodule DotcomWeb.Plugs.YearMonth do
   def init([]), do: []
 
   @impl true
+  @spec call(Plug.Conn.t(), Plug.opts()) :: Plug.Conn.t()
   def call(%{query_params: query_params} = conn, _opts) do
     conn
     |> assign(:year, year(Map.get(query_params, "year"), conn.assigns.date.year))
     |> assign(:month, month(Map.get(query_params, "month"), conn.assigns.date.month))
-  end
-
-  def call(conn, _opts) do
-    conn
-    |> assign(:year, conn.assigns.date.year)
-    |> assign(:month, conn.assigns.date.month)
   end
 
   defp year(y, current) when is_binary(y) do
