@@ -75,7 +75,8 @@ defmodule DotcomWeb.LineDiagramLive do
     only: [
       header_class: 1,
       route_feature_badge: 1,
-      route_tab_class: 1
+      route_tab_class: 1,
+      route_pdf_link: 3
     ]
 
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
@@ -104,6 +105,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:route, route)
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
+     |> assign_new(:date, &@date_time_module.now/0)
+     |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)}
   end
 
@@ -193,7 +196,29 @@ defmodule DotcomWeb.LineDiagramLive do
         >
           ⚠️ Watch Your Step ⚠️
         </marquee>
+        <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
         <.guides guides={@guides} />
+      </div>
+    </div>
+    """
+  end
+
+  defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
+    pdfs =
+      Dotcom.RoutePdfs.fetch_and_choose_pdfs(
+        route_id,
+        date
+      )
+
+    socket |> assign(:route_pdfs, pdfs)
+  end
+
+  defp route_pdf_sidebar_content(assigns) do
+    ~H"""
+    <div :if={!Enum.empty?(@route_pdfs)}>
+      <h2 class="text-xl">{~t(Printable Schedules)}</h2>
+      <div class="p-1 flex items-center pb-1">
+        {route_pdf_link(@route_pdfs, @route, @date)}
       </div>
     </div>
     """

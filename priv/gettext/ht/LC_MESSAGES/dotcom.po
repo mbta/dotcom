@@ -5417,6 +5417,11 @@ msgstr "Maten"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
+msgid "Printable Schedules"
+msgstr "Lò pou enprime"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
 msgstr "Gid Aksè bis"
 

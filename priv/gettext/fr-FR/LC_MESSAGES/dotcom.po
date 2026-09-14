@@ -5430,6 +5430,11 @@ msgstr "Bonjour"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
+msgid "Printable Schedules"
+msgstr "Horlogerie imprimable"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
 msgstr "Guide d’accès aux bus"
 

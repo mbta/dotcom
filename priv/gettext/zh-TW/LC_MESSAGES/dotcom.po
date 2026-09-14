@@ -5401,6 +5401,11 @@ msgstr "早晨"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
+msgid "Printable Schedules"
+msgstr "可列印時刻表"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
 msgstr "巴士旅遊指南"
 
