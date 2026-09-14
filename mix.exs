@@ -192,8 +192,8 @@ defmodule DotCom.Mixfile do
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
       {:wallaby, "0.31.0", [runtime: false, only: [:dev, :test]]},
-      {:yaml_elixir, "2.12.1", only: [:dev]},
-      {:ymlr, "5.1.4", only: [:dev]},
+      {:yaml_elixir, "2.12.2", only: [:dev]},
+      {:ymlr, "5.1.6", only: [:dev]},
       {:laboratory, [github: "mbta/laboratory", ref: "master"]}
     ]
   end
