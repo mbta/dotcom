@@ -7,7 +7,6 @@ defmodule DotcomWeb.LineDiagramLive do
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
 
@@ -17,8 +16,7 @@ defmodule DotcomWeb.LineDiagramLive do
     only: [
       header_class: 1,
       route_feature_badge: 1,
-      route_tab_class: 1,
-      single_trip_fares: 1
+      route_tab_class: 1
     ]
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
@@ -36,7 +34,20 @@ defmodule DotcomWeb.LineDiagramLive do
       params |> Map.get("schedule_direction", %{direction_id: 0}) |> Map.get("direction_id")
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
-    fare_card = mode_fare_card(route |> Routes.Route.type_atom())
+    fare_class = route.fare_class
+    dbg(fare_class)
+
+    fare_card =
+      case fare_class do
+        :free_fare ->
+          :free_fare
+
+        :rapid_transit_fare ->
+          mode_fare_card(:subway)
+
+        _ ->
+          mode_fare_card(route |> Routes.Route.type_atom())
+      end
 
     {:ok,
      socket
@@ -138,6 +149,13 @@ defmodule DotcomWeb.LineDiagramLive do
         <.fares fare_card={@fare_card} />
       </div>
     </div>
+    """
+  end
+
+  def fares(%{fare_card: :free_fare} = assigns) do
+    # assigns.fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
+    ~H"""
+    FREE
     """
   end
 
