@@ -8,6 +8,65 @@ defmodule DotcomWeb.LineDiagramLive do
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
+  @guides [
+    %{
+      title: ~t(Subway Beginner's Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/media/2018-12/Subway-Wordless-for-homepage-revised-2018-12-11.png",
+      link: "/guides/subway-guide",
+      modes: [0, 1]
+    },
+    %{
+      title: ~t(Bus Beginner's Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/media/2018-12/Guides-Bus-Singleword-revised-2018-12-11.png",
+      link: "/guides/bus-guide",
+      modes: [3]
+    },
+    %{
+      title: ~t(Commuter Rail Beginner's Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/media/2018-11/Guides-Commuter-HomepageWordless.png",
+      link: "/guides/commuter-rail-guide",
+      modes: [2]
+    },
+    %{
+      title: ~t(Ferry Beginner's Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/media/2019-09/ferry-v2-wordless-for-homepage.png",
+      link: "/guides/ferry-guide",
+      modes: [4]
+    },
+    %{
+      title: ~t(Subway Access Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/Accessibility/govt-center-press-access-button.jpg",
+      link: "/accessibility/subway-guide",
+      modes: [0, 1]
+    },
+    %{
+      title: ~t(Bus Access Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/projects/betterbus/bus-pulling-up-route-43.jpg",
+      link: "/accessibility/bus-guide",
+      modes: [3]
+    },
+    %{
+      title: ~t(Commuter Rail Access Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/media/2018-07/cr-level-boarding-platform.jpg",
+      link: "/accessibility/commuter-rail-guide",
+      modes: [2]
+    },
+    %{
+      title: ~t(Ferry Access Guide),
+      image:
+        "/sites/default/files/styles/max_2600x2600/public/media/2018-07/mbta-ferry-boarding-with-wmd.jpg",
+      link: "/accessibility/ferry-guide",
+      modes: [4]
+    }
+  ]
+
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
 
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
@@ -35,6 +94,9 @@ defmodule DotcomWeb.LineDiagramLive do
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
 
+    guides_for_this_route =
+      @guides |> Enum.filter(fn guide -> route.type in guide.modes end)
+
     {:ok,
      socket
      |> assign(:direction_id, direction_id)
@@ -45,6 +107,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
      |> assign_pdfs()}
+     |> assign(:guides, guides_for_this_route)}
   end
 
   def make_link(assigns, page, add_params? \\ false) do
@@ -125,7 +188,7 @@ defmodule DotcomWeb.LineDiagramLive do
           🚧 Under Construction 🚧
         </marquee>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-5 gap-[32px] flex flex-col">
         <marquee
           style="font-size:1cm;filter: drop-shadow(2px 4px 6px orange);"
           scrollamount="16"
@@ -134,6 +197,7 @@ defmodule DotcomWeb.LineDiagramLive do
           ⚠️ Watch Your Step ⚠️
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
+        <.guides guides={@guides} />
       </div>
     </div>
     """
@@ -157,6 +221,19 @@ defmodule DotcomWeb.LineDiagramLive do
         {route_pdf_link(@route_pdfs, @route, @date)}
       </div>
     </div>
+    """
+  end
+
+  def guides(assigns) do
+    ~H"""
+    <a
+      :for={guide <- @guides}
+      href={guide.link}
+      class="text-black text-lg font-bold"
+    >
+      <img src={guide.image} class="w-[380px] rounded-sm mb-[8px]" alt="" />
+      <div>{guide.title}</div>
+    </a>
     """
   end
 end
