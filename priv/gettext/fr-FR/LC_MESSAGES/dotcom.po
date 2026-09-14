@@ -5431,7 +5431,7 @@ msgstr "Bonjour"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Printable Schedules"
-msgstr ""
+msgstr "Horlogerie imprimable"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
