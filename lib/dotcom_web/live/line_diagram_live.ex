@@ -141,13 +141,10 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
     pdfs =
-      case Dotcom.RoutePdfs.fetch_and_choose_pdfs(
-             route_id,
-             date
-           ) do
-        pdfs when is_list(pdfs) -> pdfs
-        _ -> []
-      end
+      Dotcom.RoutePdfs.fetch_and_choose_pdfs(
+        route_id,
+        date
+      )
 
     socket |> assign(:route_pdfs, pdfs)
   end
