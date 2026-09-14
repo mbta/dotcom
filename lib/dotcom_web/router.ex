@@ -13,26 +13,30 @@ defmodule DotcomWeb.Router do
   """
 
   use DotcomWeb, :router
-  use Plug.ErrorHandler
 
-  alias DotcomWeb.ControllerHelpers
+  if Mix.env() == :dev do
+    use Plug.Debugger, otp_app: :dotcom
+  else
+    use Plug.ErrorHandler
 
-  @impl Plug.ErrorHandler
+    alias DotcomWeb.ControllerHelpers
 
-  @doc """
-  A custom error handling function that renders the appropriate
-  error page.
+    @impl Plug.ErrorHandler
+    @doc """
+    A custom error handling function that renders the appropriate
+    error page.
 
-  For most (unexpected) errors, we render a 500 page. When we see a
-  `DotcomWeb.NotFoundError`, we render the 404 page instead.
-  """
-  def handle_errors(conn, %{reason: reason}) do
-    case reason do
-      %{plug_status: 404} ->
-        ControllerHelpers.render_404(conn)
+    For most (unexpected) errors, we render a 500 page. When we see a
+    `DotcomWeb.NotFoundError`, we render the 404 page instead.
+    """
+    def handle_errors(conn, %{reason: reason}) do
+      case reason do
+        %{plug_status: 404} ->
+          ControllerHelpers.render_404(conn)
 
-      _ ->
-        ControllerHelpers.render_500(conn)
+        _ ->
+          ControllerHelpers.render_500(conn)
+      end
     end
   end
 
