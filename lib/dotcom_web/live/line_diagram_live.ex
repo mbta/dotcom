@@ -193,7 +193,7 @@ defmodule DotcomWeb.LineDiagramLive do
         >
           ⚠️ Watch Your Step ⚠️
         </marquee>
-        <.guides route={@route} guides={@guides} />
+        <.guides guides={@guides} />
       </div>
     </div>
     """
