@@ -151,7 +151,7 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.20.0"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.21.0"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.8.6", override: true},
