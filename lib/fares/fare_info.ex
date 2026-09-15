@@ -198,16 +198,6 @@ defmodule Fares.FareInfo do
       month_pass_price: "90.00"
     },
     %{
-      mode: :free_fare,
-      charlie_card_price: "0.00",
-      day_reduced_price: "0.00",
-      week_reduced_price: "0.00",
-      month_reduced_price: "0.00",
-      day_pass_price: "0.00",
-      week_pass_price: "0.00",
-      month_pass_price: "0.00"
-    },
-    %{
       mode: :local_bus,
       charlie_card_price: "1.70",
       day_reduced_price: "0.85",
@@ -822,19 +812,6 @@ defmodule Fares.FareInfo do
         media: [:mticket, :special_event, :cash],
         reduced: nil,
         cents: "WorldCup"
-      }
-    ]
-  end
-
-  def mapper(%{mode: :free_fare}) do
-    [
-      %Fare{
-        mode: :bus,
-        name: :free_fare,
-        duration: :single_trip,
-        media: [],
-        reduced: nil,
-        cents: 0
       }
     ]
   end
