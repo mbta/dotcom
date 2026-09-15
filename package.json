@@ -8,8 +8,7 @@
     "hot-shots": "10.0.0",
     "node-cron": "4.6.0",
     "node-json-logger": "0.2.1",
-    "pm2": "7.0.3",
-    "redis": "4.6.13"
+    "pm2": "7.0.3"
   },
   "scripts": {
     "install": "npm install --prefix assets --omit=optional",
