@@ -102,7 +102,7 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     &:first-child {
       border-right: 2px solid;
 
-      @include media-breakpoint-only(xs) {
+      @container (width < 544px) {
         border-bottom: 2px solid;
         border-right: 0;
       }
