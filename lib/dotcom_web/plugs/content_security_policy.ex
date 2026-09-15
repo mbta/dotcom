@@ -73,6 +73,7 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         edge.fullstory.com
         https://www.google.com/recaptcha/api.js
         https://www.google.com/recaptcha/api/fallback
+        https://www.gstatic.com
         https://www.googletagmanager.com/gtm.js
         snap.licdn.com
         translate.google.com/translate_a/element.js

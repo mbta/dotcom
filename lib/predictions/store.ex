@@ -8,8 +8,6 @@ defmodule Predictions.Store do
 
   use GenServer
 
-  require Logger
-
   alias Predictions.Prediction
   alias Predictions.Store.Behaviour
 

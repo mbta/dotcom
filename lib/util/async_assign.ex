@@ -8,7 +8,6 @@ defmodule Util.AsyncAssign do
   in the case of a time out or error.
   """
 
-  require Logger
   alias Plug.Conn
 
   @doc """
