@@ -5439,3 +5439,28 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
 msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "More Commuter Rail fare options"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "More bus fare options"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "More ferry fare options"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "More subway fare options"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "﹡SL1, SL2, SL3, and SLW are priced as subway fares"
+msgstr ""
