@@ -1,20 +1,4 @@
-all_files = Dotcom.Utils.File.list_all_files("lib")
-
-# Ignore all call_without_opaque
-call_without_opaque =
-  all_files
-  |> Enum.map(fn path ->
-    {path, :call_without_opaque}
-  end)
-
-# Ignore all contract_with_opaque
-contract_with_opaque =
-  all_files
-  |> Enum.map(fn path ->
-    {path, :contract_with_opaque}
-  end)
-
-manual = [
+[
   {"lib/alerts/parser.ex", :unknown_type},
   {"lib/algolia/object.ex", :no_return},
   {"lib/algolia/routes.ex", :call},
@@ -81,5 +65,3 @@ manual = [
   {"test/support/integration_helpers.ex", :unknown_function},
   {"test/support/page_helpers.ex", :guard_fail}
 ]
-
-call_without_opaque ++ contract_with_opaque ++ manual
