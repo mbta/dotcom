@@ -251,7 +251,7 @@ defmodule DotcomWeb.LineDiagramLive do
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
         <div style="container-type: inline-size;" class="w-[380px]">
           <.fare_card fare_card={@fare_card} />
-          <div class="mt-[-1.5rem] text-sm">
+          <div class="text-sm">
             <div :if={@route.id in ["741", "742", "743", "746"]}>
               {~t"﹡SL1, SL2, SL3, and SLW are priced as subway fares"}
             </div>
