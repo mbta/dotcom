@@ -154,7 +154,7 @@ defmodule DotCom.Mixfile do
         [github: "mbta/open_trip_planner_client", tag: "v0.20.0"]
       },
       {:parallel_stream, "1.1.0"},
-      {:phoenix, "1.8.6", override: true},
+      {:phoenix, "1.8.14", override: true},
       {:phoenix_ecto, "4.7.0"},
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.9.1"},
