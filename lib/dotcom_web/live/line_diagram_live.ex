@@ -251,7 +251,12 @@ defmodule DotcomWeb.LineDiagramLive do
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
         <div style="container-type: inline-size;" class="w-[380px]">
           <.fare_card fare_card={@fare_card} />
-          <a :if={is_binary(@fare_link)} href={@fare_link}>{@fare_note}</a>
+          <div class="mt-[-1.5rem] text-sm">
+            <div :if={@route.id in ["741", "742", "743", "746"]}>
+              {~t"﹡SL1, SL2, SL3, and SLW are priced as subway fares"}
+            </div>
+            <a :if={is_binary(@fare_link)} href={@fare_link}>{@fare_note}</a>
+          </div>
         </div>
         <.guides guides={@guides} />
       </div>
@@ -262,14 +267,14 @@ defmodule DotcomWeb.LineDiagramLive do
   def fare_card(%{fare_card: :free_fare} = assigns) do
     # assigns.fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
     ~H"""
-    <div>FREE</div>
+    <div class="text-lg m-[2rem] text-center">FREE</div>
     """
   end
 
   def fare_card(%{fare_card: :rapid_transit_fare} = assigns) do
     # assigns.fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
     ~H"""
-    <div>RAPID TRANSIT</div>
+    <div class="text-lg m-[2rem] text-center">RAPID TRANSIT</div>
     """
   end
 
