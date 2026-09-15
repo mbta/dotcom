@@ -264,6 +264,8 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
+  @dialyzer {:nowarn_function, fare_card: 1}
+
   def fare_card(%{fare_card: :free_fare} = assigns) do
     # assigns.fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
     ~H"""
@@ -278,8 +280,8 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  def fare_card(assigns) do
-    assigns.fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
+  def fare_card(%{fare_card: fare_card}) when is_binary(fare_card) do
+    fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
   end
 
   defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
