@@ -274,7 +274,11 @@ defmodule DotcomWeb.Router do
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/place-dudly", Redirector, to: "/stops/place-nubn")
 
-    resources("/stops", StopController, only: [:index, :show])
+    get("/stops", StopController, :index)
+    get("/stops/subway", StopController, :list, as: :subway_stops)
+    get("/stops/commuter-rail", StopController, :list, as: :commuter_rail_stops)
+    get("/stops/ferry", StopController, :list, as: :ferry_stops)
+    get("/stops/:id", StopController, :show)
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
     get("/schedules", ModeController, :index)

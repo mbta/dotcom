@@ -24,14 +24,14 @@ defmodule DotcomWeb.OldSiteRedirectController do
   end
 
   def schedules_and_maps(conn, %{"path" => [mode, "lines", "stations" | _]}) do
-    redirect_mode =
+    redirect_path =
       case mode do
-        "rail" -> :commuter_rail
-        "boats" -> :ferry
-        _ -> :subway
+        "rail" -> commuter_rail_stops_path(DotcomWeb.Endpoint, :list)
+        "boats" -> ferry_stops_path(DotcomWeb.Endpoint, :list)
+        _ -> subway_stops_path(DotcomWeb.Endpoint, :list)
       end
 
-    permanent_redirect(conn, stop_path(conn, :show, redirect_mode))
+    permanent_redirect(conn, redirect_path)
   end
 
   def schedules_and_maps(conn, %{"path" => ["rail" | _]}) do

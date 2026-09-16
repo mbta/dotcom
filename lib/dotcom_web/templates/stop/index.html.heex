@@ -7,7 +7,7 @@
     {mode_tab_list(%ModeTabList{
       links:
         for mode <- [:subway, "commuter-rail", :ferry] do
-          {mode, stop_path(@conn, :show, mode)}
+          {mode, "/stops/#{mode}"}
         end,
       selected_mode: @mode,
       stacked_label: "#{~t(Explore stations by mode)}:"

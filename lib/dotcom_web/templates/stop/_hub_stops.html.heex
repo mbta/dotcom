@@ -12,7 +12,7 @@
             )}
             <%= if detailed_stop.stop do %>
               {link(detailed_stop.stop.name,
-                to: stop_path(@conn, :show, detailed_stop.stop.id),
+                to: "/stops/#{detailed_stop.stop.id}",
                 class: "hub-stop-name notranslate"
               )}
             <% end %>

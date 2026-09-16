@@ -34,14 +34,14 @@ defmodule DotcomWeb.StopControllerTest do
 
   test "redirects to subway stops on index", %{conn: conn} do
     conn = conn |> get(stop_path(conn, :index))
-    assert redirected_to(conn) == stop_path(conn, :show, :subway)
+    assert redirected_to(conn) == subway_stops_path(conn, :list)
   end
 
   @tag :external
   test "shows stations by mode", %{conn: conn} do
     conn =
       conn
-      |> get(stop_path(conn, :show, :subway))
+      |> get(subway_stops_path(conn, :list))
 
     response = html_response(conn, 200)
 

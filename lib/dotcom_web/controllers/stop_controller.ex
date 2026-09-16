@@ -31,10 +31,11 @@ defmodule DotcomWeb.StopController do
         }
 
   def index(conn, _params) do
-    redirect(conn, to: stop_path(conn, :show, :subway))
+    redirect(conn, to: subway_stops_path(conn, :list))
   end
 
-  def show(conn, %{"id" => mode}) when mode in ["subway", "commuter-rail", "ferry"] do
+  def list(conn, _params) do
+    ["stops", mode] = conn.path_info
     mode_atom = Route.type_atom(mode)
     {mattapan, stop_info} = get_stop_info()
 
