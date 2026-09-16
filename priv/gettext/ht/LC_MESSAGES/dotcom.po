@@ -3779,6 +3779,7 @@ msgstr "Enskri pou notifikasyon avètisman"
 
 #: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex
 #: lib/dotcom_web/views/helpers.ex
+#: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Silver Line"
 msgstr "Silver Line"
