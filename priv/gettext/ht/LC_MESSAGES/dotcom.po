@@ -5449,3 +5449,13 @@ msgstr "Gid pou débutan nan Bato"
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
 msgstr "Gid Aksè pou Metro a"
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "This news release was published more than %{age} years ago. Information on this page may no longer reflect current service, policies, or operations."
+msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "This news release was published more than a year ago. Information on this page may no longer reflect current service, policies, or operations."
+msgstr ""
