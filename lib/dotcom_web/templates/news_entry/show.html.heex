@@ -4,6 +4,23 @@
       <div class="c-cms__title">
         <h1 class="c-cms__title-text">{@news_entry.title}</h1>
         <h2 class="c-cms__meta">{~t(Posted on)} {format_date(@news_entry.posted_on)}</h2>
+        <.cta
+          :if={@age > 365}
+          icon="circle-info"
+          icon_type="solid"
+          style="background-color: #fff5bf"
+        >
+          {cond do
+            @age > 365 * 2 ->
+              gettext(
+                "This news release was published more than %{age} years ago. Information on this page may no longer reflect current service, policies, or operations.",
+                %{age: floor(@age / 365)}
+              )
+
+            @age > 365 ->
+              ~t"This news release was published more than a year ago. Information on this page may no longer reflect current service, policies, or operations."
+          end}
+        </.cta>
       </div>
     </div>
 
