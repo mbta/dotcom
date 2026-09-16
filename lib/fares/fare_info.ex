@@ -373,7 +373,7 @@ defmodule Fares.FareInfo do
       when mode in [:subway, :rapid_transit_fare] do
     base = %Fare{
       mode: :subway,
-      name: :subway
+      name: mode
     }
 
     [
