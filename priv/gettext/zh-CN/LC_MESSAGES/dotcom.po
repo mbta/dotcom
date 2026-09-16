@@ -5436,10 +5436,10 @@ msgstr "地铁交通指南"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
-msgid "This news release was published more than %{age} years ago. Information on this page may no longer reflect current service, policies, or operations."
+msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr ""
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
-msgid "This news release was published more than a year ago. Information on this page may no longer reflect current service, policies, or operations."
+msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr ""
