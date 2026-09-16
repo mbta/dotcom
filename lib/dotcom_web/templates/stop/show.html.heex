@@ -1,4 +1,4 @@
-<link rel="stylesheet" {static_attributes("/css/map.css")} />
+<link :if={!@new_stop_page} rel="stylesheet" {static_attributes("/css/map.css")} />
 
 <div class="u-bg--gray-bordered-background">
   <div class="container">
@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div :if={!@new_stop_page?} class="mb-lg">
+<div :if={!@new_stop_page} class="mb-lg">
   <div
     id="react-stop-root"
     data-mbta-stop-id={@stop.id}
@@ -28,16 +28,16 @@
   </div>
 </div>
 
-<div class={["container", @new_stop_page? && "lg:flex xl:gap-xl md:gap-lg"]}>
-  <div :if={@new_stop_page?} class="lg:w-2/5 lg:order-last">
+<div class={["container", @new_stop_page && "lg:flex xl:gap-xl md:gap-lg"]}>
+  <div :if={@new_stop_page} class="lg:w-2/5 lg:order-last">
     <h2 class="mt-sm text-xl">{~t"Upcoming Departures"}</h2>
     {live_render(@conn, DotcomWeb.Live.StopUpcomingArrivals, session: %{"stop_id" => @stop.id})}
   </div>
-  <div class={[@new_stop_page? && "lg:w-3/5"]}>
+  <div class={[@new_stop_page && "lg:w-3/5"]}>
     <h2 class="capitalize mt-sm text-xl">
       {gettext("%{place} Information", place: station_or_stop(@stop))}
     </h2>
-    <div :if={@new_stop_page?} class="mb-md">
+    <div :if={@new_stop_page} class="mb-md">
       {live_render(@conn, DotcomWeb.StopMapLive, session: %{"stop_id" => @stop.id})}
     </div>
     <.external_map_link stop={@stop} is_ios?={Browser.ios?(@conn)} />
@@ -101,7 +101,7 @@
   </div>
 </div>
 
-<%= if !@new_stop_page? do %>
+<%= if !@new_stop_page do %>
   <%= if Application.get_env(:dotcom, :dev_server?) do %>
     <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/stop.js"}>
     </script>
