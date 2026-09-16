@@ -13,12 +13,16 @@
           {cond do
             @age > 365 * 2 ->
               gettext(
-                "This news release was published more than %{age} years ago. Information on this page may no longer reflect current service, policies, or operations.",
+                "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations.",
                 %{age: floor(@age / 365)}
               )
+              |> Phoenix.HTML.raw()
 
             @age > 365 ->
-              ~t"This news release was published more than a year ago. Information on this page may no longer reflect current service, policies, or operations."
+              gettext(
+                "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
+              )
+              |> Phoenix.HTML.raw()
           end}
         </.cta>
       </div>
