@@ -1,15 +1,15 @@
 {
   "name": "dotcom",
   "dependencies": {
-    "@playwright/test": "1.58.1",
+    "@playwright/test": "1.63.0",
     "artillery": "2.0.30",
     "axios": "1.18.1",
-    "csv-parse": "^6.1.0",
+    "csv-parse": "^7.0.2",
     "hot-shots": "10.0.0",
     "node-cron": "4.6.0",
     "node-json-logger": "0.2.1",
     "pm2": "7.0.3",
-    "redis": "4.6.13"
+    "redis": "6.2.1"
   },
   "scripts": {
     "install": "npm install --prefix assets --omit=optional",

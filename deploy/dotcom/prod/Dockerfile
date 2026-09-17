@@ -1,9 +1,11 @@
-FROM hexpm/elixir:1.19.5-erlang-28.4-alpine-3.21.6 AS builder
+FROM hexpm/elixir:1.20.4-erlang-29.0.6-alpine-3.23.5 AS builder
 
 # ENVS AND ARGS
 ENV LANG="C.UTF-8" MIX_ENV="prod"
 ENV CYPRESS_INSTALL_BINARY=0
 ARG SENTRY_DSN=""
+ARG SENTRY_RELEASE
+ENV SENTRY_RELEASE=${SENTRY_RELEASE}
 
 WORKDIR /home
 
@@ -37,7 +39,7 @@ RUN mix compile
 RUN mix phx.digest
 RUN mix release
 
-FROM hexpm/elixir:1.19.5-erlang-28.4-alpine-3.21.6
+FROM hexpm/elixir:1.20.4-erlang-29.0.6-alpine-3.23.5
 
 ENV PORT=4000 MIX_ENV="prod" PHX_SERVER=true TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
 

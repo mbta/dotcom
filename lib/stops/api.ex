@@ -20,7 +20,7 @@ defmodule Stops.Api do
     "fields[stop]":
       "address,name,latitude,longitude," <>
         "municipality,wheelchair_boarding,location_type," <>
-        "platform_name,platform_code,description"
+        "platform_name,platform_code,description,vehicle_type"
   ]
 
   @accessible_facilities ~w(elevator escalator ramp portable_boarding_lift
@@ -178,6 +178,7 @@ defmodule Stops.Api do
       platform_code: platform_code(item),
       description: description(item),
       zone: zone_number(item),
+      vehicle_type: Map.get(item.attributes, "vehicle_type"),
       place_id: stop_place_id(item.id)
     }
 
@@ -223,8 +224,10 @@ defmodule Stops.Api do
 
   @spec v3_accessibility(Item.t()) :: [String.t()]
   defp v3_accessibility(item) do
+    facilities = Map.get(item.relationships, "facilities", [])
+
     {escalators, others} =
-      Enum.split_with(item.relationships["facilities"], &(&1.attributes["type"] == "ESCALATOR"))
+      Enum.split_with(facilities, &(&1.attributes["type"] == "ESCALATOR"))
 
     escalators = parse_escalator_direction(escalators)
     other = MapSet.new(others, &facility_atom_from_string(&1.attributes["type"]))
@@ -293,7 +296,8 @@ defmodule Stops.Api do
 
   @spec v3_parking(Item.t()) :: [Stop.ParkingLot.t()]
   defp v3_parking(item) do
-    item.relationships["facilities"]
+    item.relationships
+    |> Map.get("facilities", [])
     |> Enum.filter(&(&1.attributes["type"] == "PARKING_AREA"))
     |> Enum.map(&parse_parking_area/1)
   end
@@ -435,6 +439,8 @@ defmodule Stops.Api do
     Enum.reduce(facilities, MapSet.new(), &add_facility_type/2)
   end
 
+  defp fare_facilities(_), do: MapSet.new()
+
   @spec add_facility_type(Item.t(), MapSet.t(fare_facility)) ::
           MapSet.t(fare_facility)
   defp add_facility_type(%Item{attributes: %{"type" => type_str}}, acc) do
@@ -456,15 +462,20 @@ defmodule Stops.Api do
     Enum.filter(facilities, &filter_facility_types(&1, facility_types))
   end
 
+  defp filter_facilities(_, _), do: []
+
   def filter_facility_types(%Item{attributes: %{"type" => type_str}}, facility_types) do
     MapSet.member?(facility_types, facility_atom_from_string(type_str))
   end
 
   @spec zone_number(Item.t()) :: String.t() | nil
-  defp zone_number(%Item{relationships: %{"zone" => zone}}) do
-    case zone do
-      [%Item{:id => id}] -> get_zone_number(id)
-      _ -> nil
+  defp zone_number(item) do
+    with %Item{relationships: %{"zone" => zone}} <- item,
+         [%Item{:id => id}] <- zone do
+      get_zone_number(id)
+    else
+      _ ->
+        nil
     end
   end
 
