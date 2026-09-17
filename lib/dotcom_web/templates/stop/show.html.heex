@@ -32,7 +32,7 @@
   <h2 class="capitalize">
     {gettext("%{place} Information", place: station_or_stop(@stop))}
   </h2>
-  <.external_map_link stop={@stop} is_ios?={Browser.ios?(@conn)} />
+  <.external_map_link stop={@stop} is_ios?={Browser.ios?(@user_agent)} />
   <div class="mt-lg station-amenities">
     <h3
       :if={@stop.station? || Stop.has_parking?(@stop) || Stop.has_bike_storage?(@stop)}
@@ -47,7 +47,7 @@
       amenity={@parking_amenity}
       alerts={alerts_for_amenity(@parking_amenity, @alerts)}
       date_time={@date_time}
-      is_ios?={Browser.ios?(@conn)}
+      is_ios?={Browser.ios?(@user_agent)}
     />
     <.bike_amenity
       :if={@stop.station? || Stop.has_bike_storage?(@stop)}
