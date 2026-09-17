@@ -4,10 +4,12 @@ defmodule Schedules.RepoTest do
 
   import Mox
   import Schedules.Repo
+  import Test.Support.Factories.MBTA.Api
 
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
   alias Schedules.Schedule
+  alias Test.Support.FactoryHelpers
 
   setup do
     cache = Application.get_env(:dotcom, :cache)
@@ -15,6 +17,8 @@ defmodule Schedules.RepoTest do
 
     %{cache: cache}
   end
+
+  setup :verify_on_exit!
 
   describe "by_route_ids/2" do
     @describetag :external
@@ -108,37 +112,84 @@ defmodule Schedules.RepoTest do
   end
 
   describe "schedule_for_trip/2" do
-    @describetag :external
-    test "returns stops in order of their stop_sequence for a given trip" do
-      trip_id =
-        "place-WML-0442"
-        |> schedules_for_stop(direction_id: 1)
-        |> List.first()
-        |> Map.get(:trip)
-        |> Map.get(:id)
+    test "uses trip argument" do
+      trip_id = FactoryHelpers.build(:id)
 
-      # find a Worcester CR trip ID
-      response = schedule_for_trip(trip_id)
-      assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
-      refute response == []
-      assert List.first(response).stop.id == "place-WML-0442"
-      assert List.last(response).stop.id == "place-sstat"
+      MBTA.Api.Mock
+      |> expect(:get_json, fn "/schedules/", args ->
+        assert args[:trip] == trip_id
+        %JsonApi{data: []}
+      end)
+
+      _ = schedule_for_trip(trip_id)
     end
 
-    test "returns different values for different dates" do
-      trip_id =
-        "place-WML-0442"
-        |> schedules_for_stop(direction_id: 1)
-        |> List.first()
-        |> Map.get(:trip)
-        |> Map.get(:id)
-
+    test "uses date argument" do
+      trip_id = FactoryHelpers.build(:id)
       today = Util.service_date()
-      tomorrow = Timex.shift(today, days: 1)
-      assert schedule_for_trip(trip_id) == schedule_for_trip(trip_id, date: today)
+      tomorrow = Date.shift(today, day: 1)
 
-      refute schedule_for_trip(trip_id, date: today) ==
-               schedule_for_trip(trip_id, date: tomorrow)
+      MBTA.Api.Mock
+      |> expect(:get_json, fn "/schedules/", args ->
+        assert args[:date] == today
+        %JsonApi{data: []}
+      end)
+      |> expect(:get_json, fn "/schedules/", args ->
+        assert args[:date] == tomorrow
+        %JsonApi{data: []}
+      end)
+
+      _ = schedule_for_trip(trip_id, date: today)
+      _ = schedule_for_trip(trip_id, date: tomorrow)
+    end
+
+    test "gets schedules from additional trips if needed" do
+      [trip_id1, trip_id2] = Faker.Util.sample_uniq(2, fn -> FactoryHelpers.build(:id) end)
+      trip2 = build(:trip_item, id: trip_id2)
+
+      trip1 =
+        build(:trip_item,
+          id: trip_id1,
+          relationships: %{
+            "from_trip_transfers" => [
+              build(:item, %{
+                attributes: %{"transfer_type" => 4},
+                relationships: %{"to_trip" => [trip2]},
+                type: "transfer"
+              })
+            ]
+          }
+        )
+
+      MBTA.Api.Mock
+      |> expect(:get_json, fn "/schedules/", args ->
+        assert args[:trip] == trip_id1
+
+        %JsonApi{
+          links: %{},
+          data: build_list(5, :schedule_item, relationships: %{"trip" => [trip1]})
+        }
+      end)
+      |> expect(:get_json, fn "/schedules/", args ->
+        assert args[:trip] == trip_id2
+
+        %JsonApi{
+          links: %{},
+          data: build_list(5, :schedule_item, relationships: %{"trip" => [trip2]})
+        }
+      end)
+
+      stub(Routes.Repo.Mock, :get, fn _ ->
+        Test.Support.Factories.Routes.Route.build(:route)
+      end)
+
+      stub(Stops.Repo.Mock, :get_parent, fn _ ->
+        Test.Support.Factories.Stops.Stop.build(:stop)
+      end)
+
+      schedules = schedule_for_trip(trip_id1)
+      assert Enum.any?(schedules, &(&1.trip.id == trip_id1))
+      assert Enum.any?(schedules, &(&1.trip.id == trip_id2))
     end
   end
 

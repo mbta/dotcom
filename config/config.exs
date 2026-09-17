@@ -58,6 +58,8 @@ config :dotcom, :search_service, Dotcom.SearchService
 
 config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures
 
+config :dotcom, :version, System.get_env("SENTRY_RELEASE", "missing-version")
+
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
@@ -115,7 +117,8 @@ config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5,
-  before_send: {Dotcom.Sentry, :before_send}
+  before_send: {Dotcom.Sentry, :before_send},
+  release: System.get_env("SENTRY_RELEASE")
 
 # Configures the endpoint
 config :dotcom, DotcomWeb.Endpoint,

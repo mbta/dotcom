@@ -102,6 +102,7 @@ defmodule DotcomWeb.Router do
     # no pipe
     get("/_health", HealthController, :index)
     get("/_health/open-trip-planner", HealthController, :open_trip_planner)
+    get("/version", VersionController, :version)
   end
 
   scope "/_flags", DotcomWeb do
