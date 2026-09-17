@@ -20,7 +20,7 @@ defmodule Stops.Api do
     "fields[stop]":
       "address,name,latitude,longitude," <>
         "municipality,wheelchair_boarding,location_type," <>
-        "platform_name,platform_code,description"
+        "platform_name,platform_code,description,vehicle_type"
   ]
 
   @accessible_facilities ~w(elevator escalator ramp portable_boarding_lift
@@ -178,6 +178,7 @@ defmodule Stops.Api do
       platform_code: platform_code(item),
       description: description(item),
       zone: zone_number(item),
+      vehicle_type: Map.get(item.attributes, "vehicle_type"),
       place_id: stop_place_id(item.id)
     }
 
