@@ -29,7 +29,7 @@ defmodule DotcomWeb.StopInformationLiveTest do
     expect(Routes.Repo.Mock, :by_stop, 2, fn _, _ -> [] end)
     expect(Alerts.Repo.Mock, :by_stop_id, 2, fn _ -> [] end)
     expect(Alerts.Repo.Mock, :by_route_ids, 2, fn _, _ -> [] end)
-    expect(MBTA.Api.Mock, :get_json, 1, fn "/facilities/", [{"filter[stop]", _}] -> [] end)
+    stub(MBTA.Api.Mock, :get_json, fn "/facilities/", [{"filter[stop]", _}] -> [] end)
     stop_id = FactoryHelpers.build(:id)
     path = live_path(conn, StopInformationLive, stop_id)
     assert {:ok, _, _} = live(conn, path)

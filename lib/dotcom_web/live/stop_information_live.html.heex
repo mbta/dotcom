@@ -1,0 +1,106 @@
+<div class="u-bg--gray-bordered-background">
+  <div class="container">
+    <DotcomWeb.Components.Stops.Header.header
+      stop={@stop}
+      routes_by_stop={@routes_by_stop}
+      accessible?={@accessible?}
+    />
+  </div>
+</div>
+
+<div class="container">
+  <div class="page-section">
+    {DotcomWeb.AlertView.render(
+      "group.html",
+      alerts: @banner_alerts,
+      date_time: @date_time
+    )}
+  </div>
+</div>
+
+<div class="container grid lg:grid-cols-5 md:gap-x-lg">
+  <div class="lg:col-start-1 lg:col-end-4">
+    <h2 class="capitalize mt-sm text-xl">
+      {gettext("%{place} Information", place: DotcomWeb.StopView.station_or_stop(@stop))}
+    </h2>
+    <.live_component
+      module={DotcomWeb.Components.Map}
+      id="stop-page-map"
+      class="h-96 w-full"
+      config={@map_config}
+      icons={@icons}
+    />
+  </div>
+  <div class="lg:col-start-4 lg:col-end-6 lg:row-start-1 lg:row-end-3 border-2 bg-charcoal-90 order-first">
+    <h2 class="mt-sm text-xl">{~t"Upcoming Departures"}</h2>
+    Something about {@stop.name}
+  </div>
+  <div class="lg:col-span-3">
+    <p class="my-md">
+      <.external_map_link stop={@stop} is_ios?={Browser.ios?(@user_agent)} />
+    </p>
+    <div class="station-amenities">
+      <section class="col-span-3 grid-cols-subgrid">
+        <h3 class="text-lg">{~t"Get around the station"}</h3>
+        <div :if={@stop.station?} class="flex">
+          <.elevator_amenity
+            stop={@stop}
+            open={@amenity_param == :elevator}
+            amenity={@elevator_amenity}
+            alerts={alerts_for_amenity(@elevator_amenity, @alerts)}
+            date_time={@date_time}
+          />
+          <.escalator_amenity
+            stop={@stop}
+            open={@amenity_param == :escalator}
+            amenity={@escalator_amenity}
+            alerts={alerts_for_amenity(@escalator_amenity, @alerts)}
+            date_time={@date_time}
+          />
+        </div>
+        <.accessibility_amenity
+          stop={@stop}
+          open={@amenity_param == :accessibility}
+          amenity={@accessibility_amenity}
+          accessible?={@accessible?}
+          alerts={alerts_for_amenity(@accessibility_amenity, @alerts)}
+          date_time={@date_time}
+        />
+      </section>
+      <section
+        :if={@stop.station? || Stop.has_parking?(@stop) || Stop.has_bike_storage?(@stop)}
+        class="col-span-3"
+      >
+        <h3 class="text-lg">{~t"Bring your car or bike"}</h3>
+        <div class="flex">
+          <.parking_amenity
+            :if={@stop.station? || Stop.has_parking?(@stop)}
+            stop={@stop}
+            open={@amenity_param == :parking}
+            amenity={@parking_amenity}
+            alerts={alerts_for_amenity(@parking_amenity, @alerts)}
+            date_time={@date_time}
+            is_ios?={Browser.ios?(@user_agent)}
+          />
+          <.bike_amenity
+            :if={@stop.station? || Stop.has_bike_storage?(@stop)}
+            stop={@stop}
+            open={@amenity_param == :bike}
+            amenity={@bike_amenity}
+            alerts={alerts_for_amenity(@bike_amenity, @alerts)}
+            date_time={@date_time}
+          />
+        </div>
+      </section>
+      <section class="col-span-3">
+        <h3 class="text-lg">{~t"Purchase your fare"}</h3>
+        <.fare_amenity
+          stop={@stop}
+          open={@amenity_param == :fare}
+          amenity={@fare_amenity}
+          fares={@one_way_fares}
+        />
+      </section>
+    </div>
+  </div>
+</div>

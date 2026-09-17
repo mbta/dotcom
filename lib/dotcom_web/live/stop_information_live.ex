@@ -20,6 +20,8 @@ defmodule DotcomWeb.StopInformationLive do
 
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @facilities_repo Application.compile_env!(:dotcom, :repo_modules)[:facilities]
+  @map_config Application.compile_env(:mbta_metro, :map)
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   on_mount {DotcomWeb.Hooks.Assigns, :user_agent}
   on_mount {DotcomWeb.Hooks.Assigns, :stop_page}
@@ -40,6 +42,7 @@ defmodule DotcomWeb.StopInformationLive do
       socket
       |> assign_new(:amenity_param, fn -> nil end)
       |> assign_new(:date_time, fn -> @date_time_module.now() end)
+      |> assign_new(:new_stop_page, fn -> false end)
       |> assign(:accessible?, accessible?(stop, routes_by_stop))
       |> assign(:one_way_fares, one_way_ranges(routes_by_stop))
       |> assign(:parking_amenity, amenities[:parking])
@@ -49,7 +52,16 @@ defmodule DotcomWeb.StopInformationLive do
       |> assign(:accessibility_amenity, amenities[:accessibility])
       |> assign(:fare_amenity, amenities[:fare])
 
-    {:ok, render_with(socket, &show/1)}
+    if socket.assigns.new_stop_page do
+      socket =
+        socket
+        |> assign(:map_config, zoom_to_stop(@map_config, stop))
+        |> assign(:icons, map_icons(stop))
+
+      {:ok, socket}
+    else
+      {:ok, render_with(socket, &show/1)}
+    end
   end
 
   @impl LiveView
@@ -65,5 +77,40 @@ defmodule DotcomWeb.StopInformationLive do
   defp accessible?(stop, routes) do
     Enum.member?(stop.accessibility, "accessible") ||
       (is_nil(stop.parent_id) && Enum.any?(routes, &(&1.type === 3)))
+  end
+
+  defp map_icons(stop) do
+    child_stops_by_type =
+      stop.child_ids
+      |> Enum.map(&@stops_repo.get/1)
+      |> Enum.group_by(& &1.type)
+
+    entrance_icons =
+      child_stops_by_type
+      |> Map.get(:entrance, [])
+      |> Enum.map(
+        &%{
+          class: "size-5 cursor-pointer",
+          coordinates: [&1.longitude, &1.latitude],
+          name: "door-open",
+          type: "solid"
+        }
+      )
+
+    station_icon = %{
+      anchor: "bottom",
+      class: "size-12 cursor-pointer",
+      coordinates: [stop.longitude, stop.latitude],
+      name: "icon-map-station-marker",
+      type: "icon-svg"
+    }
+
+    [station_icon | entrance_icons]
+  end
+
+  defp zoom_to_stop(config, %{latitude: lat, longitude: lon}) do
+    config
+    |> Map.put(:center, [lon, lat])
+    |> Map.put(:zoom, 17)
   end
 end
