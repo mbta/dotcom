@@ -17,7 +17,7 @@
 .c-paragraph--with-cards {
   container-type: inline-size;
 
-  @container (width > 544px) {
+  @container (width >= 544px) {
 
     .c-multi-column__row,
     .c-multi-column__column {

@@ -249,7 +249,7 @@ defmodule DotcomWeb.LineDiagramLive do
           ⚠️ Watch Your Step ⚠️
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
-        <div style="container-type: inline-size;" class="w-[380px]">
+        <div style="container-type: inline-size;" class="w-full">
           <.fare_card fare_card={@fare_card} />
           <div class="text-sm">
             <div :if={@route.id in ["741", "742", "743", "746"]}>
