@@ -63,6 +63,4 @@ defmodule DotcomWeb.StopMapLive do
     |> Map.put(:center, [lon, lat])
     |> Map.put(:zoom, 17)
   end
-
-  defp zoom_to_stop(config, _), do: config
 end
