@@ -9,7 +9,7 @@ defmodule Test.Support.SearchServiceFactory do
       "objectID" => Faker.Internet.slug(),
       "content_title" => Faker.Cat.breed(),
       "category" => Faker.Util.pick(~w(routes stops drupal)),
-      "url" => Faker.Internet.url()
+      "url" => "/#{Faker.Internet.slug()}"
     }
   end
 
