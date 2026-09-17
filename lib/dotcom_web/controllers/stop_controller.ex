@@ -6,10 +6,6 @@ defmodule DotcomWeb.StopController do
   use Dotcom.Gettext.Sigils
   use DotcomWeb, :controller
 
-  import Alerts.Alert, only: [global_banner_alert?: 1, routewide?: 1]
-  import Dotcom.Alerts.StartTime, only: [active_in_next_n_days?: 3]
-
-  alias Alerts.Repo, as: AlertsRepo
   alias Dotcom.TransitNearMe
   alias Leaflet.MapData.Polyline
   alias Plug.Conn
@@ -17,10 +13,7 @@ defmodule DotcomWeb.StopController do
   alias Routes.Route
   alias Services.Service
   alias Stops.Stop
-  alias Util.AndOr
 
-  @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
-  @facilities_repo Application.compile_env!(:dotcom, :repo_modules)[:facilities]
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -48,90 +41,6 @@ defmodule DotcomWeb.StopController do
     |> assign(:breadcrumbs, [Breadcrumb.build(~t"Stations")])
     |> await_assign_all_default(__MODULE__)
     |> render("index.html")
-  end
-
-  @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"id" => stop_id} = params) do
-    stop =
-      stop_id
-      |> URI.decode_www_form()
-      |> @stops_repo.get()
-
-    if stop do
-      if @stops_repo.has_parent?(stop) do
-        conn
-        |> redirect(to: stop_path(conn, :show, @stops_repo.get_parent(stop)))
-        |> halt()
-      else
-        routes_by_stop = @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
-        one_way_fares = Fares.Format.one_way_ranges(routes_by_stop)
-        accessible? = accessible?(stop)
-
-        amenities =
-          @facilities_repo.get_for_stop(stop_id)
-          |> Dotcom.StopAmenity.from_stop_facilities()
-
-        conn
-        |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
-        |> meta_description(stop, routes_by_stop)
-        |> assign_alerts()
-        |> assign_stop_banner_alerts(routes_by_stop |> Enum.map(& &1.id), conn.assigns.date_time)
-        |> render("show.html", %{
-          stop: stop,
-          amenity_param: Map.get(params, "amenity", "") |> String.to_atom(),
-          one_way_fares: one_way_fares,
-          routes_by_stop: routes_by_stop,
-          parking_amenity: Enum.find(amenities, &(&1.type == :parking)),
-          bike_amenity: Enum.find(amenities, &(&1.type == :bike)),
-          elevator_amenity: Enum.find(amenities, &(&1.type == :elevator)),
-          escalator_amenity: Enum.find(amenities, &(&1.type == :escalator)),
-          accessibility_amenity: Enum.find(amenities, &(&1.type == :accessibility)),
-          fare_amenity: Enum.find(amenities, &(&1.type == :fare)),
-          accessible?: accessible?
-        })
-      end
-    else
-      check_cms_or_404(conn)
-    end
-  end
-
-  defp assign_stop_banner_alerts(conn, route_ids, date_time) do
-    all_alerts_for_stop = conn.assigns.alerts
-
-    all_routewide_alerts =
-      @alerts_repo.by_route_ids(route_ids, date_time)
-      |> Enum.filter(&routewide?/1)
-
-    banner_alerts =
-      (all_alerts_for_stop ++ all_routewide_alerts)
-      |> Enum.filter(&banner_alert?(&1, date_time))
-
-    assign(conn, :banner_alerts, banner_alerts)
-  end
-
-  defp banner_alert?(alert, now) do
-    !global_banner_alert?(alert) &&
-      banner_alert_active_effect?(alert) &&
-      active_in_next_n_days?(alert, 7, now)
-  end
-
-  defp banner_alert_active_effect?(alert) do
-    alert.effect in [
-      :access_issue,
-      :detour,
-      :dock_closure,
-      :dock_issue,
-      :service_change,
-      :elevator_closure,
-      :notice,
-      :shuttle,
-      :station_closure,
-      :station_issue,
-      :stop_closure,
-      :stop_moved,
-      :stop_shoveling,
-      :suspension
-    ]
   end
 
   @spec get(Conn.t(), map) :: Conn.t()
@@ -241,15 +150,6 @@ defmodule DotcomWeb.StopController do
     Map.put(route_pattern, :representative_trip_polyline, polyline)
   end
 
-  @doc "Redirect users who type in a URL with a slash to the correct URL"
-  def stop_with_slash_redirect(conn, %{"path" => path}) do
-    real_id = Enum.join(path, "/")
-
-    conn
-    |> redirect(to: stop_path(conn, :show, real_id))
-    |> halt
-  end
-
   @spec get_stop_info :: {DetailedStopGroup.t(), [DetailedStopGroup.t()]}
   defp get_stop_info do
     [:subway, :commuter_rail, :ferry]
@@ -326,87 +226,4 @@ defmodule DotcomWeb.StopController do
 
   @spec includes_predictions?(TransitNearMe.headsign_data()) :: boolean
   defp includes_predictions?(%{times: times}), do: Enum.any?(times, &(&1.prediction != nil))
-
-  defp assign_alerts(%{assigns: %{alerts: alerts}} = conn) do
-    assign(conn, :all_alerts_count, length(alerts))
-  end
-
-  defp assign_alerts(%{path_params: %{"id" => id}} = conn) do
-    stop_id = URI.decode_www_form(id)
-    alerts = @alerts_repo.by_stop_id(stop_id)
-
-    conn
-    |> assign(:alerts, alerts)
-    |> assign(:all_alerts_count, length(alerts))
-  end
-
-  defp assign_alerts(conn) do
-    assign(conn, :alerts, AlertsRepo.all(conn.assigns.date_time))
-  end
-
-  @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]
-  def breadcrumbs(%Stop{name: name}, []) do
-    breadcrumbs_for_station_type(nil, name)
-  end
-
-  def breadcrumbs(%Stop{station?: true, name: name}, routes) do
-    routes
-    |> Enum.min_by(& &1.type)
-    |> Route.path_atom()
-    |> breadcrumbs_for_station_type(name)
-  end
-
-  def breadcrumbs(%Stop{name: name}, _routes) do
-    breadcrumbs_for_station_type(nil, name)
-  end
-
-  defp breadcrumbs_for_station_type(breadcrumb_tab, name)
-       when breadcrumb_tab in ~w(subway commuter-rail ferry)a do
-    [
-      Breadcrumb.build(~t"Stations", stop_path(DotcomWeb.Endpoint, :show, breadcrumb_tab)),
-      Breadcrumb.build(name)
-    ]
-  end
-
-  defp breadcrumbs_for_station_type(_, name) do
-    [Breadcrumb.build(name)]
-  end
-
-  @spec meta_description(Conn.t(), Stop.t(), [Route.t()]) :: Conn.t()
-  defp meta_description(conn, stop, routes),
-    do:
-      assign(
-        conn,
-        :meta_description,
-        gettext(
-          "Station serving MBTA %{lines} lines%{location}.",
-          lines: lines(routes),
-          location: location(stop)
-        )
-      )
-
-  @spec lines([Route.t()]) :: iolist
-  defp lines(routes) do
-    routes
-    |> Enum.map(&(&1.type |> Route.type_atom() |> Route.type_name()))
-    |> Enum.uniq()
-    |> AndOr.join(:and)
-  end
-
-  @spec location(Stop.t()) :: String.t()
-  defp location(stop) do
-    if stop.address && stop.address != "" do
-      gettext(" at %{address}", address: stop.address)
-    else
-      ""
-    end
-  end
-
-  # A stop is accessible if it is labeled as accessible in GTFS or it doesn't have a parent stop and it serves a bus route.
-  def accessible?(stop) do
-    routes = @routes_repo.by_stop(stop.id)
-
-    Enum.member?(stop.accessibility, "accessible") ||
-      (is_nil(stop.parent_id) && Enum.any?(routes, &(&1.type === 3)))
-  end
 end

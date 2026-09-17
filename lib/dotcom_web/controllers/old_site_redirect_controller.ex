@@ -18,8 +18,14 @@ defmodule DotcomWeb.OldSiteRedirectController do
   """
   def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
     case @stops_repo.old_id_to_gtfs_id(stop_id) do
-      nil -> permanent_redirect(conn, mode_path(conn, :index))
-      gtfs_id -> permanent_redirect(conn, stop_path(conn, :show, gtfs_id))
+      nil ->
+        permanent_redirect(conn, mode_path(conn, :index))
+
+      gtfs_id ->
+        permanent_redirect(
+          conn,
+          live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, gtfs_id)
+        )
     end
   end
 

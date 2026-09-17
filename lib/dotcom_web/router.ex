@@ -284,8 +284,6 @@ defmodule DotcomWeb.Router do
     get("/stops/subway", StopController, :list, as: :subway_stops)
     get("/stops/commuter-rail", StopController, :list, as: :commuter_rail_stops)
     get("/stops/ferry", StopController, :list, as: :ferry_stops)
-    get("/stops/:id", StopController, :show)
-    get("/stops/*path", StopController, :stop_with_slash_redirect)
 
     get("/schedules", ModeController, :index)
     get("/schedules/map_api", ScheduleController.MapApi, :show)
@@ -374,6 +372,7 @@ defmodule DotcomWeb.Router do
       layout: {DotcomWeb.LayoutView, :live},
       on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live("/search", SearchPageLive)
+      live("/stops/:stop_id", StopInformationLive)
       live("/trip-planner", TripPlannerLive)
     end
   end
