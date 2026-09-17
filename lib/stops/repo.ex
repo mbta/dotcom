@@ -81,7 +81,11 @@ defmodule Stops.Repo do
   @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
-    do_by_route(route_id, direction_id, opts)
+    if route_id == "Green-E" do
+      do_by_route(route_id, direction_id, Keyword.put(opts, :sort, "5"))
+    else
+      dbg(do_by_route(route_id, direction_id, opts))
+    end
   end
 
   # Combine Green Line branch stops into one list for the "Green" route
