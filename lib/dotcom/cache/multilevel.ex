@@ -19,8 +19,6 @@ defmodule Dotcom.Cache.Multilevel do
     adapter: Nebulex.Adapters.Multilevel,
     default_key_generator: Dotcom.Cache.KeyGenerator
 
-  require Logger
-
   @cache Application.compile_env!(:dotcom, :cache)
   @redix Application.compile_env!(:dotcom, :redix)
 

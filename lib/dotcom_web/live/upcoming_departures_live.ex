@@ -528,7 +528,6 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   defp vehicle_status_message(:finishing_another_trip), do: ~t"Finishing another trip"
 
   defp crowding(%Dotcom.ScheduleFinder.TripDetails.VehicleInfo{crowding: crowding}), do: crowding
-  defp crowding(_), do: nil
 
   attr :crowding, :atom
   attr :show_label?, :boolean, default: false
