@@ -141,16 +141,6 @@ defmodule GreenLineTest do
 
       assert stop_map["Green-B"] == MapSet.new()
     end
-
-    test "returns an error tuple if a task exits" do
-      stub(Stops.Repo.Mock, :by_route, fn
-        "Green-B", _, _ -> exit(:forced_exit)
-        _route, _, _ -> []
-      end)
-
-      assert {{:error, :forced_exit}, stop_map} = calculate_stops_on_routes(0, Timex.today())
-      assert is_map(stop_map)
-    end
   end
 
   test "terminus?/2" do

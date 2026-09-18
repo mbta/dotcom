@@ -81,10 +81,10 @@ defmodule Stops.Repo do
   @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
-    if route_id == "Green-E" do
+    if route_id == "Green-E" do # TODO: remove -- temporarily added to reproduce bug
       do_by_route(route_id, direction_id, Keyword.put(opts, :sort, "5"))
     else
-      dbg(do_by_route(route_id, direction_id, opts))
+      do_by_route(route_id, direction_id, opts)
     end
   end
 

@@ -377,7 +377,6 @@ defmodule Stops.RouteStop do
         MapSet.new(stops, & &1.id)
       end)
       |> Enum.reduce(&MapSet.intersection/2)
-      |> dbg()
 
     branches
     |> Enum.map(&unassign_branch_if_shared(&1, shared_stop_ids))

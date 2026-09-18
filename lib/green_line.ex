@@ -260,8 +260,7 @@ defmodule GreenLine do
   end
 
   defp merge_green_line_stops({:exit, reason}, {_current_stops, route_id_stop_map}) do
-    dbg("error")
-    {{:error, reason}, route_id_stop_map} |> dbg()
+    {{:error, reason}, route_id_stop_map}
   end
 
   defp insert_stop_id(map, route_id, stop_id) do
