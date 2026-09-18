@@ -204,7 +204,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
         update(socket, :loaded_trips, &Map.put(&1, schedule_id, AsyncResult.loading()))
 
       {stop_sequence, _} = Integer.parse(stop_sequence)
-      GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
+      show_in_seat_transfers? = socket.assigns[:in_seat_transfers] || false
+
+      GenServer.cast(
+        self(),
+        {:get_next, {schedule_id, [trip_id, stop_sequence, date, show_in_seat_transfers?]}}
+      )
+
       {:noreply, socket}
     end
   end

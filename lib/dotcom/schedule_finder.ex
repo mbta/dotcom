@@ -159,9 +159,12 @@ defmodule Dotcom.ScheduleFinder do
   defp time_desc(_), do: nil
 
   @impl Dotcom.ScheduleFinder.Behaviour
-  def next_arrivals(trip_id, min_stop_sequence, date) do
+  def next_arrivals(trip_id, min_stop_sequence, date, show_in_seat_transfers? \\ true) do
     # Maybe add filter[stop_sequence] to help looped routes
-    case @schedules_repo.schedule_for_trip(trip_id, date: date) do
+    case @schedules_repo.schedule_for_trip(trip_id,
+           date: date,
+           include_in_seat_transfers: show_in_seat_transfers?
+         ) do
       schedules when is_list(schedules) ->
         arrivals =
           schedules
