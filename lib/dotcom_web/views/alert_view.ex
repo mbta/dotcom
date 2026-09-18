@@ -195,7 +195,7 @@ defmodule DotcomWeb.AlertView do
   end
 
   def group_header_path(%Stop{id: stop_id}) do
-    stop_path(DotcomWeb.Endpoint, :show, stop_id)
+    live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, stop_id)
   end
 
   @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()

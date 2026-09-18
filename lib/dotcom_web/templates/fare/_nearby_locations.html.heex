@@ -8,7 +8,7 @@
       <div class="c-sales-locations__card-flex-row">
         <h3 class="c-sales-locations__card-place">
           <%= if stop_id do %>
-            {link(name, to: stop_path(@conn, :show, stop_id))}
+            {link(name, to: live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, stop_id))}
           <% else %>
             {name}
           <% end %>

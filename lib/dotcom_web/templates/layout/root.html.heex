@@ -86,6 +86,16 @@
             {name}
           </a>
         </div>
+        <span class="fixed bottom-0 left-0 bg-gold-80 p-md text-sm font-medium leading-none z-10 shadow-2xl">
+          <% enabled_flags =
+            Laboratory.features(@conn) |> Enum.filter(& &1.enabled) |> Enum.map(& &1.name) %>
+          <i class="fa fa-fw fa-flag"></i>
+          <%= if enabled_flags == [] do %>
+            No feature flags set. Configure at <a href="/_flags">/_flags</a>
+          <% else %>
+            Enabled <a href="/_flags">flags</a>: {Enum.join(enabled_flags, ", ")}
+          <% end %>
+        </span>
       <% end %>
       <a href="#main" class="sr-only sr-only-focusable">{~t(Skip to main content)}</a>
       {hidden_icons()}
