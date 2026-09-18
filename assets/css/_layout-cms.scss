@@ -145,6 +145,13 @@ $body-columns: ();
   }
 }
 
+ .c-cms__old_news {
+    margin-top: 1rem;
+    @include media-breakpoint-up(md) {
+      width: 85%
+    }
+  }
+
 .c-cms__meta {
   @apply h4;
 }

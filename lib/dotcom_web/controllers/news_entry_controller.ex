@@ -9,6 +9,7 @@ defmodule DotcomWeb.NewsEntryController do
   alias Dotcom.Pagination
   alias DotcomWeb.ControllerHelpers
   alias Plug.Conn
+  @date_time_module Application.compile_env!(:dotcom, :date_time_module)
 
   def index(conn, params) do
     page = current_page(params)
@@ -70,6 +71,7 @@ defmodule DotcomWeb.NewsEntryController do
   @spec show_news_entry(Conn.t(), NewsEntry.t()) :: Conn.t()
   def show_news_entry(conn, %NewsEntry{posted_on: posted_on} = news_entry) do
     recent_news = Repo.teasers(type: [:news_entry], except: news_entry.id, items_per_page: 4)
+    age = Date.diff(@date_time_module.now(), posted_on)
 
     conn
     |> ControllerHelpers.unavailable_after_one_year(posted_on)
@@ -78,7 +80,8 @@ defmodule DotcomWeb.NewsEntryController do
     |> render(
       "show.html",
       news_entry: news_entry,
-      recent_news: recent_news
+      recent_news: recent_news,
+      age: age
     )
   end
 
