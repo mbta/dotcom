@@ -364,6 +364,10 @@ defmodule Stops.RouteStop do
   end
 
   @spec flatten_branches([[RouteStop.t()]], boolean) :: [RouteStop.t()]
+  defp flatten_branches([], prefer_shorter_trunk) do
+    []
+  end
+
   defp flatten_branches(branches, prefer_shorter_trunk) do
     # We build a list of the shared stops between the branches, then unassign
     # the branch for each stop that's in the list of shared stops.
