@@ -208,7 +208,6 @@ defmodule DotcomWeb.CacheController do
         :for={{mod, keys_by_fun} <- @structured_keys |> Enum.sort_by(fn {mod, _} -> mod end)}
         mod={mod}
         keys_by_fun={keys_by_fun}
-        }
       />
 
       <.unstructured_key_section :if={@unstructured_keys |> Enum.any?()} keys={@unstructured_keys} />
