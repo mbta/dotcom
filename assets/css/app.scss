@@ -1,8 +1,6 @@
 @use "../node_modules/maplibre-gl/dist/maplibre-gl.css";
-
 @import "../../deps/mbta_metro/priv/dist/metro.css";
 @import "./map.css";
-
 
 @tailwind base;
 @tailwind components;
