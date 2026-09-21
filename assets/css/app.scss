@@ -1,5 +1,7 @@
 @import "../../deps/mbta_metro/priv/dist/metro.css";
+@import "../node_modules/maplibre-gl/dist/maplibre-gl.css";
 @import "./map.css";
+
 
 @tailwind base;
 @tailwind components;
