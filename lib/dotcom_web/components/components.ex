@@ -426,15 +426,11 @@ defmodule DotcomWeb.Components do
 
   def cta(assigns) do
     ~H"""
-    <.cta_wrapper class={"cta-a gap-2 relative" <> @classes} link={@link} {@rest}>
-      <.icon
-        :if={@icon}
-        type={@icon_type}
-        name={@icon}
-        class="size-5 shrink-0 top-4 absolute"
-        aria-hidden
-      />
-      <span class="leading-tight grow ml-[2rem]">
+    <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
+      <div :if={@icon} class="size-5 shrink-0 flex items-center justify-center">
+        <.icon type={@icon_type} name={@icon} class="size-4 shrink-0" aria-hidden />
+      </div>
+      <span class="leading-5 grow">
         {render_slot(@inner_block)}
       </span>
       <span :if={@arrow} aria-hidden="true">&#8594;</span>
