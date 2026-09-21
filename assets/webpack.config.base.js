@@ -137,7 +137,6 @@ module.exports = {
                 loadPaths: [
                   "node_modules/bootstrap",
                   "node_modules/@fortawesome/fontawesome-free",
-                  "node_modules/maplibre-gl",
                   "vendor"
                 ],
                 style: "compressed",
