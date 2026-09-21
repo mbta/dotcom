@@ -25,17 +25,17 @@ defmodule DotcomWeb.Components.Stops.Header do
   Renders the header for the stops page.
   """
   def header(assigns) do
+    assigns = assign(assigns, :bus_stop?, all_bus_routes?(assigns.stop))
+
     ~H"""
-    <div class="flex items-center justify-content-space-between">
-      <h1 class="text-xl mt-3 mb-3">{@stop.name}</h1>
-      <div class="mt-3 mb-3">
-        <div class="flex items-end justify-items-end gap-2 flex-wrap">
-          <.mode_icons routes_by_stop={@routes_by_stop} />
-          <.zone stop={@stop} />
-          <.accessibility :if={@accessible?} />
-          <.parking :if={parking?(assigns)} />
-        </div>
-        <div :if={all_bus_routes?(assigns) and not @stop.station?} class="text-sm">
+    <div class="flex flex-wrap sm:flex-nowrap items-center gap-1 py-3">
+      <h1 class="text-xl m-0 sm:grow">{@stop.name}</h1>
+      <div class="flex flex-wrap items-center gap-x-sm gap-y-1 sm:justify-end">
+        <.mode_icons routes_by_stop={@routes_by_stop} />
+        <.zone stop={@stop} />
+        <.accessibility :if={@accessible?} />
+        <.parking :if={parking?(assigns)} />
+        <div :if={@bus_stop?} class="text-sm leading-none sm:basis-full sm:text-right">
           {gettext("Stop %{id}", id: @stop.id)}
         </div>
       </div>
@@ -43,10 +43,8 @@ defmodule DotcomWeb.Components.Stops.Header do
     """
   end
 
-  # All routes are bus routes if they are all type 3 or are Silver Line.
-  defp all_bus_routes?(%{routes_by_stop: routes_by_stop}) do
-    Enum.all?(routes_by_stop, &(&1.type === 3 && String.slice(&1.name, 0, 2) != "SL"))
-  end
+  defp all_bus_routes?(%{vehicle_type: 3}), do: true
+  defp all_bus_routes?(_), do: false
 
   # The mode is Silver Line if the name starts with 'SL'.
   defp mode(%Route{name: "SL" <> _}), do: "silver_line"

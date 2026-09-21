@@ -54,7 +54,7 @@ defmodule DotcomWeb.CacheController do
     |> Map.update!(:structured_keys, &nest_by_mod_and_fun/1)
   end
 
-  defp parse_structured([mod, fun, base_64_args]) do
+  defp parse_structured([mod, fun, base_64_args, version]) do
     base_64_args
     |> Base.decode64()
     |> case do
@@ -63,7 +63,8 @@ defmodule DotcomWeb.CacheController do
           type: :structured_keys,
           mod: mod,
           fun: fun,
-          args: decoded
+          args: decoded,
+          version: version
         }
 
       _ ->
@@ -207,7 +208,6 @@ defmodule DotcomWeb.CacheController do
         :for={{mod, keys_by_fun} <- @structured_keys |> Enum.sort_by(fn {mod, _} -> mod end)}
         mod={mod}
         keys_by_fun={keys_by_fun}
-        }
       />
 
       <.unstructured_key_section :if={@unstructured_keys |> Enum.any?()} keys={@unstructured_keys} />
@@ -226,7 +226,7 @@ defmodule DotcomWeb.CacheController do
 
         <ul>
           <li :for={key <- key_list |> Enum.sort_by(& &1.args)}>
-            <.key_link key={key.raw} display={key.args} />
+            <.key_link key={key.raw} display={"#{key.args} / #{key.version}"} />
           </li>
         </ul>
       </div>

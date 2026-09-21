@@ -105,9 +105,9 @@ defmodule Stops.Repo do
   defp do_by_route(route_id, direction_id, opts) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do
-        key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
+        key = KeyGenerator.generate(__MODULE__, :stop, [stop.id])
 
-        @cache.put(key, {:ok, stop})
+        @cache.put(key, {:ok, stop}, ttl: @ttl)
 
         stop
       end

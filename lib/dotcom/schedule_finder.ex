@@ -61,6 +61,18 @@ defmodule Dotcom.ScheduleFinder do
           }
   end
 
+  defmodule TripHeading do
+    @moduledoc """
+    A headsign-route pairing
+    """
+    defstruct [:headsign, :route]
+
+    @type t :: %__MODULE__{
+            headsign: Trip.headsign(),
+            route: Route.t()
+          }
+  end
+
   @impl Dotcom.ScheduleFinder.Behaviour
   def current_alerts(stop, route) do
     route.id
@@ -147,15 +159,28 @@ defmodule Dotcom.ScheduleFinder do
   defp time_desc(_), do: nil
 
   @impl Dotcom.ScheduleFinder.Behaviour
-  def next_arrivals(trip_id, min_stop_sequence, date) do
+  def next_arrivals(trip_id, min_stop_sequence, date, show_in_seat_transfers? \\ true) do
     # Maybe add filter[stop_sequence] to help looped routes
-    case @schedules_repo.schedule_for_trip(trip_id, date: date) do
+    case @schedules_repo.schedule_for_trip(trip_id,
+           date: date,
+           include_in_seat_transfers: show_in_seat_transfers?
+         ) do
       schedules when is_list(schedules) ->
         arrivals =
           schedules
-          |> Stream.filter(&makes_subsequent_stop?(&1, min_stop_sequence))
-          |> Stream.map(&to_arrival/1)
-          |> Enum.to_list()
+          |> Stream.filter(&makes_subsequent_stop?(&1, trip_id, min_stop_sequence))
+          |> Stream.chunk_by(& &1.trip.id)
+          |> Stream.with_index(fn
+            trip_schedules, 0 ->
+              Enum.map(trip_schedules, &to_arrival/1)
+
+            [next_schedule | more_schedules], _ ->
+              [
+                to_trip_heading(next_schedule)
+                | Enum.map(more_schedules, &to_arrival/1)
+              ]
+          end)
+          |> Enum.flat_map(& &1)
 
         {:ok, arrivals}
 
@@ -164,9 +189,21 @@ defmodule Dotcom.ScheduleFinder do
     end
   end
 
+  def to_trip_heading(%{trip: trip, route: route}) do
+    %TripHeading{
+      headsign: trip.headsign,
+      route: route
+    }
+  end
+
   # Instead of every stop in the trip, only return schedules that make later stops on the trip, as defined by the given `stop_sequence` value
+  defp makes_subsequent_stop?(%Schedule{trip: trip}, trip_id, _) when trip_id != trip.id do
+    true
+  end
+
   defp makes_subsequent_stop?(
          %Schedule{stop_sequence: stop_sequence},
+         _,
          min_stop_sequence
        ) do
     stop_sequence >= min_stop_sequence

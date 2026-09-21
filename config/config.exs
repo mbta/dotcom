@@ -58,6 +58,8 @@ config :dotcom, :search_service, Dotcom.SearchService
 
 config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures
 
+config :dotcom, :version, System.get_env("SENTRY_RELEASE", "missing-version")
+
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
@@ -115,7 +117,8 @@ config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
   context_lines: 5,
-  before_send: {Dotcom.Sentry, :before_send}
+  before_send: {Dotcom.Sentry, :before_send},
+  release: System.get_env("SENTRY_RELEASE")
 
 # Configures the endpoint
 config :dotcom, DotcomWeb.Endpoint,
@@ -135,6 +138,8 @@ config :laboratory,
     {:use_smartling_translations, "Smartling translations",
      "Uses Smartling's translation workflows"},
     {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"},
+    {:in_seat_transfers, "In Seat Transfers",
+     "Show in-seat transfers available for certain trips"},
     {:line_diagram, "New Line Diagram",
      "Adds a tab to the schedules page for the new line diagram"}
   ],
