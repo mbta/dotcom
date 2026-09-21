@@ -143,7 +143,7 @@ defmodule DotCom.Mixfile do
       {:logster, "~> 2.0.0-rc.5"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      {:mbta_metro, "1.2.0", runtime: false},
+      {:mbta_metro, "1.3.0", runtime: false},
       {:memoize, "1.4.5"},
       {:mox, "1.3.2", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
@@ -159,7 +159,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.9.1"},
       {:phoenix_live_reload, "1.7.0", only: [:dev, :test]},
-      {:phoenix_live_view, "1.1.26", override: true},
+      {:phoenix_live_view, "1.2.11", override: true},
       {:phoenix_pubsub, "2.3.0"},
       {:phoenix_view, "2.0.4"},
       {:plug, "1.20.3"},
