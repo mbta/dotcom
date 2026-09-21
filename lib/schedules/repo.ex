@@ -69,17 +69,19 @@ defmodule Schedules.Repo do
   end
 
   def schedule_for_trip(trip_id, opts) do
+    {include_in_seat_transfers?, api_opts} = Keyword.pop(opts, :include_in_seat_transfers)
+
     @default_params
-    |> Keyword.merge(opts |> Keyword.delete(:min_time))
+    |> Keyword.merge(api_opts |> Keyword.delete(:min_time))
     |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
-    |> append_in_seat_transfer_trips(opts)
+    |> append_in_seat_transfer_trips(opts, include_in_seat_transfers?)
   end
 
-  defp append_in_seat_transfer_trips(schedules, opts) do
+  defp append_in_seat_transfer_trips(schedules, opts, true) do
     with %Schedule{trip: trip} <- List.last(schedules),
          %Trip{next_trip_id: next_trip_id} <- trip do
       schedules
@@ -88,6 +90,10 @@ defmodule Schedules.Repo do
       _ ->
         schedules
     end
+  end
+
+  defp append_in_seat_transfer_trips(schedules, _, _) do
+    schedules
   end
 
   def schedules_for_stop(stop_id, opts) do

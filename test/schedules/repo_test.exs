@@ -187,7 +187,7 @@ defmodule Schedules.RepoTest do
         Test.Support.Factories.Stops.Stop.build(:stop)
       end)
 
-      schedules = schedule_for_trip(trip_id1)
+      schedules = schedule_for_trip(trip_id1, include_in_seat_transfers: true)
       assert Enum.any?(schedules, &(&1.trip.id == trip_id1))
       assert Enum.any?(schedules, &(&1.trip.id == trip_id2))
     end
