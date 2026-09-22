@@ -4,13 +4,30 @@ defmodule DotcomWeb.Components.FareCard do
   Current status as of Sept 2026:  Existing fare cards are pulled with CMS involved, new cards only use data within dotcom
   """
   use DotcomWeb, :component
+
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
 
   @dialyzer {:nowarn_function, fare_card: 1}
 
   def fare_card(%{route: %{fare_class: :free_fare}} = assigns) do
     ~H"""
-    <div class="text-lg m-[2rem] text-center">FREE</div>
+    <div class="c-fare-card--bus c-fare-card--grouped c-fare-card">
+      <div class="c-fare-card__header">
+        <div class="c-fare-card__icon">
+          <DotcomWeb.Components.RouteSymbols.route_icon route={@route} class="c-svg__icon" />
+        </div>
+        <h3 class="c-fare-card__name">{~t"Fare-Free Bus"}</h3>
+      </div>
+      <div class="c-multi-column__column">
+        <h4 class="mt-0">{~t"Free"}</h4>
+        <p>
+          {~t"Service on this route is free"}<br />
+          <a class="underline text-sm" href="/projects/fare-free-program-routes-23-28-and-29">
+            {~t"Learn more about the Fare-Free Program"}
+          </a>
+        </p>
+      </div>
+    </div>
     <.fare_note route={@route} />
     """
   end
