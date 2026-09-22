@@ -5484,3 +5484,15 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "﹡SL1, SL2, SL3, and SLW are priced as subway fares"
 msgstr ""
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
+msgstr "Este comunicado de imprensa foi publicado <strong>há mais de %{age} anos.</strong> As informações nesta página podem não refletir mais os serviços, políticas"
+" ou operações atuais."
+
+#: lib/dotcom_web/templates/news_entry/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
+msgstr "Este comunicado de imprensa foi publicado <strong>há mais de um ano.</strong> As informações nesta página podem não refletir mais os serviços, políticas"
+" ou operações atuais."
