@@ -21,7 +21,6 @@ defmodule DotcomWeb.StopInformationLive do
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @facilities_repo Application.compile_env!(:dotcom, :repo_modules)[:facilities]
   @map_config Application.compile_env(:mbta_metro, :map)
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   on_mount {DotcomWeb.Hooks.Assigns, :user_agent}
   on_mount {DotcomWeb.Hooks.Assigns, :stop_page}
@@ -80,23 +79,6 @@ defmodule DotcomWeb.StopInformationLive do
   end
 
   defp map_icons(stop) do
-    child_stops_by_type =
-      stop.child_ids
-      |> Enum.map(&@stops_repo.get/1)
-      |> Enum.group_by(& &1.type)
-
-    entrance_icons =
-      child_stops_by_type
-      |> Map.get(:entrance, [])
-      |> Enum.map(
-        &%{
-          class: "size-5 cursor-pointer",
-          coordinates: [&1.longitude, &1.latitude],
-          name: "door-open",
-          type: "solid"
-        }
-      )
-
     station_icon = %{
       anchor: "bottom",
       class: "size-12 cursor-pointer",
@@ -105,7 +87,7 @@ defmodule DotcomWeb.StopInformationLive do
       type: "icon-svg"
     }
 
-    [station_icon | entrance_icons]
+    [station_icon]
   end
 
   defp zoom_to_stop(config, %{latitude: lat, longitude: lon}) do
