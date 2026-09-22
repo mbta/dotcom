@@ -188,16 +188,6 @@ defmodule Fares.FareInfo do
       month_pass_price: "90.00"
     },
     %{
-      mode: :rapid_transit_fare,
-      charlie_card_price: "2.40",
-      day_reduced_price: "1.10",
-      week_reduced_price: "10.00",
-      month_reduced_price: "30.00",
-      day_pass_price: "11.00",
-      week_pass_price: "22.50",
-      month_pass_price: "90.00"
-    },
-    %{
       mode: :local_bus,
       charlie_card_price: "1.70",
       day_reduced_price: "0.85",

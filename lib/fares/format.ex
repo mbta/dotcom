@@ -110,7 +110,6 @@ defmodule Fares.Format do
   def name(:massport_shuttle), do: ~t"Massport Shuttle"
   def name(:logan_express), do: ~t"Logan Express"
   def name("Massport-" <> _id), do: ~t"Massport Shuttle"
-  def name(:rapid_transit_fare), do: ~t"Silver Line"
 
   @spec full_name(Fare.t() | nil) :: String.t() | iolist
   def full_name(nil), do: ~t"Shuttle"
