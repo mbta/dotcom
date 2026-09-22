@@ -34,7 +34,33 @@ defmodule DotcomWeb.Components.FareCard do
 
   def fare_card(%{route: %{fare_class: :rapid_transit_fare, type: 3}} = assigns) do
     ~H"""
-    <div class="text-lg m-[2rem] text-center">RAPID TRANSIT</div>
+    <div class="c-fare-card--subway c-fare-card--grouped c-fare-card">
+      <div class="c-fare-card__header">
+        <div class="c-fare-card__icon">
+          <DotcomWeb.Components.RouteSymbols.route_icon
+            route={%Routes.Route{type: 3}}
+            class="c-svg__icon c-svg-icon__rapid-bus"
+          />
+        </div>
+        <h3 class="c-fare-card__name">{~t"Silver Line One-Way"}<sup>*</sup></h3>
+      </div>
+      <div class="c-multi-column__column border-b-2">
+        <h4 class="mt-0">$2.40</h4>
+        <p>
+          {gettext("with %{ccard}, %{ctick}, contactless payment, or cash", %{
+            ccard: "CharlieCard",
+            ctick: "CharlieTicket"
+          })}
+        </p>
+      </div>
+      <div class="c-multi-column__column">
+        <h4 class="mt-0">$1.10</h4>
+        <p>
+          {gettext("with reduced fare card")}<br />
+          <a href="/fares/reduced-fares">{~t"Learn more about reduced fares"}</a>
+        </p>
+      </div>
+    </div>
     <.fare_note route={@route} />
     """
   end

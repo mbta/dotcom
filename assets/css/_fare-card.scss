@@ -170,3 +170,12 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     }
   }
 }
+
+.c-svg-icon__rapid-bus {
+  :nth-child(1) {
+    fill: var(--colors-silver-line)
+  }
+   :nth-child(2) {
+    fill: var(--colors-white)
+  }
+}
