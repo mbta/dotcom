@@ -351,7 +351,7 @@ defmodule Fares.FareInfo do
   end
 
   def mapper(%{
-        mode: mode,
+        mode: :subway,
         charlie_card_price: charlie_card_price,
         day_reduced_price: day_reduced_price,
         week_reduced_price: week_reduced_price,
@@ -359,11 +359,10 @@ defmodule Fares.FareInfo do
         day_pass_price: day_pass_price,
         week_pass_price: week_pass_price,
         month_pass_price: month_pass_price
-      })
-      when mode in [:subway, :rapid_transit_fare] do
+      }) do
     base = %Fare{
       mode: :subway,
-      name: mode
+      name: :subway
     }
 
     [
