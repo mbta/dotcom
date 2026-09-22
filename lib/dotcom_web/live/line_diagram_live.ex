@@ -68,7 +68,7 @@ defmodule DotcomWeb.LineDiagramLive do
   ]
 
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
-
+  import DotcomWeb.Components.FareCard, only: [fare_card: 1]
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
 
   import DotcomWeb.ScheduleView,
@@ -79,7 +79,6 @@ defmodule DotcomWeb.LineDiagramLive do
       route_pdf_link: 3
     ]
 
-  import DotcomWeb.ModeView, only: [mode_fare_card: 1]
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
 
   on_mount DotcomWeb.Hooks.AssignRoute
@@ -106,60 +105,9 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:route, route)
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
-     |> assign_fare_card()
-     |> assign_fare_note()
      |> assign_new(:date, &@date_time_module.now/0)
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)}
-  end
-
-  def assign_fare_card(%{assigns: %{route: route}} = socket) do
-    fare_class = route.fare_class
-
-    fare_card =
-      cond do
-        fare_class == :free_fare ->
-          :free_fare
-
-        fare_class == :rapid_transit_fare and route.type == 3 ->
-          :rapid_transit_fare
-
-        true ->
-          mode_fare_card(route |> Routes.Route.type_atom())
-      end
-
-    socket |> assign(:fare_card, fare_card)
-  end
-
-  def assign_fare_note(%{assigns: %{route: %{type: type}}} = socket) when type in [0, 1] do
-    socket
-    |> assign(:fare_link, "/fares/subway-fares")
-    |> assign(:fare_note, ~t"More subway fare options")
-  end
-
-  def assign_fare_note(%{assigns: %{route: %{type: 2}}} = socket) do
-    socket
-    |> assign(:fare_link, "/fares/commuter-rail-fares")
-    |> assign(:fare_note, ~t"More Commuter Rail fare options")
-  end
-
-  def assign_fare_note(%{assigns: %{route: %{type: 3, id: id}}} = socket)
-      when id in ["741", "742", "743", "746"] do
-    socket
-    |> assign(:fare_link, "/fares/subway-fares")
-    |> assign(:fare_note, ~t"More subway fare options")
-  end
-
-  def assign_fare_note(%{assigns: %{route: %{type: 3}}} = socket) do
-    socket
-    |> assign(:fare_link, "/fares/bus-fares")
-    |> assign(:fare_note, ~t"More bus fare options")
-  end
-
-  def assign_fare_note(%{assigns: %{route: %{type: 4}}} = socket) do
-    socket
-    |> assign(:fare_link, "/fares/ferry-fares")
-    |> assign(:fare_note, ~t"More ferry fare options")
   end
 
   def make_link(assigns, page, add_params? \\ false) do
@@ -250,38 +198,12 @@ defmodule DotcomWeb.LineDiagramLive do
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
         <div style="container-type: inline-size;" class="w-full">
-          <.fare_card fare_card={@fare_card} />
-          <div class="text-sm">
-            <div :if={@route.id in ["741", "742", "743", "746"]}>
-              {~t"﹡SL1, SL2, SL3, and SLW are priced as subway fares"}
-            </div>
-            <a :if={is_binary(@fare_link)} href={@fare_link}>{@fare_note}</a>
-          </div>
+          <.fare_card route={@route} />
         </div>
         <.guides guides={@guides} />
       </div>
     </div>
     """
-  end
-
-  @dialyzer {:nowarn_function, fare_card: 1}
-
-  def fare_card(%{fare_card: :free_fare} = assigns) do
-    # assigns.fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
-    ~H"""
-    <div class="text-lg m-[2rem] text-center">FREE</div>
-    """
-  end
-
-  def fare_card(%{fare_card: :rapid_transit_fare} = assigns) do
-    # assigns.fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
-    ~H"""
-    <div class="text-lg m-[2rem] text-center">RAPID TRANSIT</div>
-    """
-  end
-
-  def fare_card(%{fare_card: fare_card}) when is_binary(fare_card) do
-    fare_card |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
   end
 
   defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
