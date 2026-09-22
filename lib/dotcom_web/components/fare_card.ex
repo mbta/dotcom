@@ -84,7 +84,7 @@ defmodule DotcomWeb.Components.FareCard do
         <h4 class="mt-0">{Fares.Format.price(@reduced_fare)}</h4>
         <p>
           {gettext("with reduced fare card")}<br />
-          <a href="/fares/reduced-fares">{~t"Learn more about reduced fares"}</a>
+          <a href="/fares/reduced">{~t"Learn more about reduced fares"}</a>
         </p>
       </div>
     </div>
@@ -140,7 +140,7 @@ defmodule DotcomWeb.Components.FareCard do
         <h4 class="mt-0">{Fares.Format.price(@reduced_fare)}</h4>
         <p>
           {gettext("with reduced fare card")}<br />
-          <a href="/fares/reduced-fares">{~t"Learn more about reduced fares"}</a>
+          <a href="/fares/reduced">{~t"Learn more about reduced fares"}</a>
         </p>
       </div>
     </div>
