@@ -7,9 +7,20 @@ defmodule DotcomWeb.Components.FareCard do
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
 
-  @fares Fares.FareInfo.fare_info()
   @dialyzer {:nowarn_function, fare_card: 1}
+  @ferry_routes_to_fare_names %{
+    "Boat-F1" => :commuter_ferry,
+    "Boat-F2H" => :commuter_ferry,
+    "Boat-F4" => :ferry_charlestown,
+    "Boat-F6" => :ferry_winthrop,
+    "Boat-F7" => :ferry_winthrop,
+    "Boat-F8" => :ferry_winthrop,
+    "Boat-F10" => :ferry_harbor_loop,
+    "Boat-EastBoston" => :ferry_cross_harbor,
+    "Boat-Lynn" => :ferry_lynn
+  }
 
+  # Free fare card (for free bus routes)
   def fare_card(%{route: %{fare_class: :free_fare}} = assigns) do
     ~H"""
     <div class="c-fare-card--bus c-fare-card--grouped c-fare-card">
@@ -33,6 +44,7 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
+  # Silver Line rapid transit fare (same as subway)
   def fare_card(%{route: %{fare_class: :rapid_transit_fare, type: 3}} = assigns) do
     full_fare =
       Fares.Repo.for_fare_class(:rapid_transit_fare)
@@ -80,13 +92,63 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
+  # Ferry Fare cards that vary depending on the route
   def fare_card(%{route: %{type: 4, id: id}} = assigns) do
+    full_fare =
+      Fares.Repo.for_fare_class(:ferry_fare)
+      |> Fares.Repo.filter(%{
+        duration: :single_trip,
+        includes_media: :cash,
+        name: @ferry_routes_to_fare_names |> Map.get(id)
+      })
+      |> List.first()
+      |> Map.get(:cents)
+
+    reduced_fare =
+      Fares.Repo.for_fare_class(:ferry_fare)
+      |> Fares.Repo.filter(%{
+        duration: :single_trip,
+        includes_media: :student_card,
+        name: @ferry_routes_to_fare_names |> Map.get(id)
+      })
+      |> List.first()
+      |> Map.get(:cents)
+
+    assigns = assigns |> assign(:full_fare, full_fare) |> assign(:reduced_fare, reduced_fare)
+
     ~H"""
-    <div class="text-lg m-[2rem] text-center">FERRY: {id}</div>
+    <div class="c-fare-card--ferry c-fare-card--grouped c-fare-card">
+      <div class="c-fare-card__header">
+        <div class="c-fare-card__icon">
+          <DotcomWeb.Components.RouteSymbols.route_icon
+            route={%Routes.Route{type: 4}}
+            class="c-svg__icon"
+          />
+        </div>
+        <h3 class="c-fare-card__name">{gettext("%{route} One-Way", %{route: @route.long_name})}</h3>
+      </div>
+      <div class="c-multi-column__column border-b-2">
+        <h4 class="mt-0">{Fares.Format.price(@full_fare)}</h4>
+        <p>
+          {gettext("with %{ccard}, %{ctick}, contactless payment, or cash", %{
+            ccard: "CharlieCard",
+            ctick: "CharlieTicket"
+          })}
+        </p>
+      </div>
+      <div class="c-multi-column__column">
+        <h4 class="mt-0">{Fares.Format.price(@reduced_fare)}</h4>
+        <p>
+          {gettext("with reduced fare card")}<br />
+          <a href="/fares/reduced-fares">{~t"Learn more about reduced fares"}</a>
+        </p>
+      </div>
+    </div>
     <.fare_note route={@route} />
     """
   end
 
+  # Stock CMS fare cards already in use on the site
   def fare_card(%{route: route} = assigns) do
     ~H"""
     {mode_fare_card(route |> Routes.Route.type_atom())
