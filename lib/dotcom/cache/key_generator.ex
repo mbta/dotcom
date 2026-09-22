@@ -3,6 +3,8 @@ defmodule Dotcom.Cache.KeyGenerator do
   Generate a readable cache key based on the module, function, and arguments.
   """
 
+  @version Application.compile_env(:dotcom, :version)
+
   @behaviour Nebulex.Caching.KeyGenerator
 
   @impl Nebulex.Caching.KeyGenerator
@@ -12,7 +14,7 @@ defmodule Dotcom.Cache.KeyGenerator do
     module_name =
       Util.get_or_save_persistent_term({:key_generator, mod}, fn -> clean_mod(mod) end)
 
-    "#{module_name}|#{fun}|#{unique_id}"
+    "#{module_name}|#{fun}|#{unique_id}|#{@version}"
   end
 
   defp clean_mod(mod) do
