@@ -7,6 +7,7 @@ defmodule DotcomWeb.Components.FareCard do
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
 
+  @fares Fares.FareInfo.fare_info()
   @dialyzer {:nowarn_function, fare_card: 1}
 
   def fare_card(%{route: %{fare_class: :free_fare}} = assigns) do
@@ -33,6 +34,20 @@ defmodule DotcomWeb.Components.FareCard do
   end
 
   def fare_card(%{route: %{fare_class: :rapid_transit_fare, type: 3}} = assigns) do
+    full_fare =
+      Fares.Repo.for_fare_class(:rapid_transit_fare)
+      |> Fares.Repo.filter(%{duration: :single_trip, includes_media: :charlie_card})
+      |> List.first()
+      |> Map.get(:cents)
+
+    reduced_fare =
+      Fares.Repo.for_fare_class(:rapid_transit_fare)
+      |> Fares.Repo.filter(%{duration: :single_trip, includes_media: :student_card})
+      |> List.first()
+      |> Map.get(:cents)
+
+    assigns = assigns |> assign(:full_fare, full_fare) |> assign(:reduced_fare, reduced_fare)
+
     ~H"""
     <div class="c-fare-card--subway c-fare-card--grouped c-fare-card">
       <div class="c-fare-card__header">
@@ -45,7 +60,7 @@ defmodule DotcomWeb.Components.FareCard do
         <h3 class="c-fare-card__name">{~t"Silver Line One-Way"}<sup>*</sup></h3>
       </div>
       <div class="c-multi-column__column border-b-2">
-        <h4 class="mt-0">$2.40</h4>
+        <h4 class="mt-0">{Fares.Format.price(@full_fare)}</h4>
         <p>
           {gettext("with %{ccard}, %{ctick}, contactless payment, or cash", %{
             ccard: "CharlieCard",
@@ -54,7 +69,7 @@ defmodule DotcomWeb.Components.FareCard do
         </p>
       </div>
       <div class="c-multi-column__column">
-        <h4 class="mt-0">$1.10</h4>
+        <h4 class="mt-0">{Fares.Format.price(@reduced_fare)}</h4>
         <p>
           {gettext("with reduced fare card")}<br />
           <a href="/fares/reduced-fares">{~t"Learn more about reduced fares"}</a>
