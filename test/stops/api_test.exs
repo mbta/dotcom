@@ -1,5 +1,5 @@
 defmodule Stops.ApiTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   import Mox
   import Stops.Api
@@ -8,7 +8,6 @@ defmodule Stops.ApiTest do
   alias JsonApi.Item
   alias Stops.Stop
 
-  setup :set_mox_global
   setup :verify_on_exit!
 
   describe "by_gtfs_id/1" do
@@ -302,6 +301,32 @@ defmodule Stops.ApiTest do
       assert stop.latitude != nil
       assert stop.longitude != nil
       refute stop.station?
+    end
+
+    test "gets connecting stops" do
+      other_stops = build_list(4, :stop_item)
+      stop_id = Test.Support.FactoryHelpers.build(:id)
+
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{
+          data: [
+            build(:stop_item,
+              relationships: %{
+                "facilities" => [],
+                "parent_station" => [],
+                "child_stops" => [],
+                "connecting_stops" => other_stops,
+                "zone" => []
+              }
+            )
+          ]
+        }
+      end)
+
+      stub(Routes.Repo.Mock, :by_stop, fn _stop_id -> [] end)
+
+      {:ok, stop} = by_gtfs_id(stop_id)
+      assert stop.connecting_stops == Enum.map(other_stops, & &1.id)
     end
 
     test "returns an error if the API returns an error" do
