@@ -5437,9 +5437,9 @@ msgstr "地铁交通指南"
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr ""
+msgstr "这篇新闻稿发布<strong>于%{age}年前。</strong>本页面上的信息可能不再反映当前的服务、政策或运营情况。"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr ""
+msgstr "这篇新闻稿发布<strong>于一年多以前。</strong>本页面上的信息可能不再反映当前的服务、政策或运营情况。"
