@@ -5453,9 +5453,11 @@ msgstr "Gid Aksè pou Metro a"
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr ""
+msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase %{age} ane de sa.</strong> Enfòmasyon ki sou paj sa a ka pa reflete sèvis, règleman oswa operasyon"
+" aktyèl yo ankò."
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr ""
+msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase yon ane de sa.</strong> Enfòmasyon ki sou paj sa a ka pa reflete sèvis, règleman oswa operasyon"
+" aktyèl yo ankò."
