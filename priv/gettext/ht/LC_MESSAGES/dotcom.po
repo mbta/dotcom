@@ -1784,6 +1784,7 @@ msgstr "Evènman Espesyal Foxboro"
 msgid "Franklin Line"
 msgstr "Liy Franklin"
 
+#: lib/dotcom_web/components/fare_card.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5451,27 +5452,27 @@ msgstr "Gid pou débutan nan Bato"
 msgid "Subway Access Guide"
 msgstr "Gid Aksè pou Metro a"
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More Commuter Rail fare options"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More bus fare options"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More ferry fare options"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More subway fare options"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "﹡SL1, SL2, SL3, and SLW are priced as subway fares"
 msgstr ""
@@ -5487,3 +5488,48 @@ msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase %{age} ane de 
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase yon ane de sa.</strong> Enfòmasyon ki sou paj sa a ka pa reflete sèvis, règleman oswa operasyon"
 " aktyèl yo ankò."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "%{route} One-Way"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Fare-Free Bus"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about reduced fares"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about the Fare-Free Program"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Service on this route is free"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Silver Line One-Way"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with reduced fare card"
+msgstr ""
