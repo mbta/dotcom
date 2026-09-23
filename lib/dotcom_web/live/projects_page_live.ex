@@ -11,6 +11,8 @@ defmodule DotcomWeb.ProjectsPageLive do
 
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :projects_page}
 
+  @n_projects_per_page 10
+
   @impl LiveView
   def mount(_params, _session, socket) do
     {:ok,
@@ -22,6 +24,8 @@ defmodule DotcomWeb.ProjectsPageLive do
      |> assign(:offset, 0)
      |> assign(:show_subway_filters?, false)
      |> assign(:selected_line_or_mode, "all")
+     |> assign(:has_more_projects?, true)
+     |> assign(:has_any_projects?, false)
      |> stream_configure(:projects, dom_id: &"project-#{&1.id}")
      |> assign_projects(0, "all", reset: true)
      |> assign_featured_projects("all")}
@@ -72,13 +76,30 @@ defmodule DotcomWeb.ProjectsPageLive do
      |> assign_projects(offset, socket.assigns.selected_line_or_mode)}
   end
 
+  @impl LiveView
+  def handle_info({:projects_batch_loaded, count}, socket) do
+    {:noreply,
+     socket
+     |> assign(:has_more_projects?, count == @n_projects_per_page)
+     |> update(:has_any_projects?, &(&1 or count > 0))}
+  end
+
   defp assign_projects(socket, offset, line_or_mode, opts \\ []) do
-    if Keyword.get(opts, :reset, false) do
-      stream_async(socket, :projects, fn ->
-        {:ok, fetch_teasers(offset, line_or_mode), reset: true}
-      end)
+    reset? = Keyword.get(opts, :reset, false)
+    lv_pid = self()
+
+    fetch_fn = fn ->
+      teasers = fetch_teasers(offset, line_or_mode)
+      send(lv_pid, {:projects_batch_loaded, length(teasers)})
+      teasers
+    end
+
+    socket = if reset?, do: assign(socket, :has_any_projects?, false), else: socket
+
+    if reset? do
+      stream_async(socket, :projects, fn -> {:ok, fetch_fn.(), reset: true} end)
     else
-      stream_async(socket, :projects, fn -> {:ok, fetch_teasers(offset, line_or_mode)} end)
+      stream_async(socket, :projects, fn -> {:ok, fetch_fn.()} end)
     end
   end
 
@@ -110,8 +131,6 @@ defmodule DotcomWeb.ProjectsPageLive do
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
   end
-
-  @n_projects_per_page 10
 
   @spec fetch_teasers(integer(), binary()) :: [map()]
   defp fetch_teasers(offset, line_or_mode) do

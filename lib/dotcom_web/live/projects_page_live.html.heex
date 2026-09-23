@@ -196,11 +196,21 @@
       </tbody>
     </table>
 
-    <div :if={@projects.ok?} class="flex justify-center p-lg">
+    <div
+      :if={@projects.ok? && @has_any_projects? && @has_more_projects?}
+      class="flex justify-center p-lg"
+    >
       <.spinner :if={@projects.loading} aria_label={~t"Loading more projects"} />
       <.button :if={!@projects.loading} variant="secondary" size="small" phx-click="paginate">
         {~t"Show More"}
       </.button>
+    </div>
+
+    <div
+      :if={@projects.ok? && @has_any_projects? && !@has_more_projects?}
+      class="text-center p-lg"
+    >
+      {~t"You've reached the end of the list."}
     </div>
   </div>
 </div>
