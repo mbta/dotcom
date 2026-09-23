@@ -162,10 +162,15 @@ defmodule DotcomWeb.ProjectsPageLive do
 
   @spec sort_by_date([Teaser.t()]) :: [Teaser.t()]
   defp sort_by_date(teasers) do
-    Enum.sort(teasers, fn %{date: d1}, %{date: d2} ->
-      {d1.year, d1.month, d1.day} >= {d2.year, d2.month, d2.day}
-    end)
+    Enum.sort_by(teasers, fn %{date: date} -> date_sort_key(date) end, :desc)
   end
+
+  # Teasers without a date (e.g. projects with no "Updated On" value) sort last.
+  @spec date_sort_key(Date.t() | NaiveDateTime.t() | nil) :: {integer(), integer(), integer()}
+  defp date_sort_key(nil), do: {0, 0, 0}
+  defp date_sort_key(date), do: {date.year, date.month, date.day}
+
+  defp format_date(nil), do: nil
 
   defp format_date(date) do
     Dotcom.Utils.Time.format!(date, :date_full)
@@ -256,7 +261,7 @@ defmodule DotcomWeb.ProjectsPageLive do
         <.mode_icon mode="subway" />
         """
 
-      %{id: id, mode: "subway", group: "line"} ->
+      %{id: id, mode: "subway", group: group} when group in ["line", "branch"] ->
         assigns = assign(assigns, :line, String.downcase(id) <> "-line")
 
         ~H"""
