@@ -67,7 +67,7 @@
             <div class="font-bold font-heading">
               {~t"Updated on"} {format_date(date)}
             </div>
-            {text}
+            {Dotcom.ContentRewriter.rewrite(text, @socket) |> raw()}
             <.route_tag_list :if={routes != []} routes={routes} />
           </a>
         </div>
