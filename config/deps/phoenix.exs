@@ -1,7 +1,7 @@
 import Config
 
 config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
-config :phoenix, :json_library, Poison
+config :phoenix, :json_library, Jason
 
 # Using Logster instead
 config :phoenix, :logger, false
