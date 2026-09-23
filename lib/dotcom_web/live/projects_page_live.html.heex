@@ -1,30 +1,31 @@
 <div class="container">
   {@intro_content}
 </div>
-<div class="bg-charcoal-80">
-  <div class="container pt-sm pb-md">
+<div class="bg-gray-bordered-background">
+  <div class="container pt-sm pb-lg">
     <.form :let={f} id="projects-form" for={@form} phx-change="set_mode">
       <.base_choice_input form={f} field={:mode} label={~t"Filter by Mode"}>
         <:input :for={{value, label} <- @mode_choices} value={value}>
-          <.mode_icon mode={value} size="small" />
-          {label}
+          <.mode_icon mode={value} size="default" />
+          <span class={[value != "all" && "hidden-sm-down"]}>{label}</span>
         </:input>
       </.base_choice_input>
-      <.base_choice_input
-        :if={@show_subway_filters?}
-        form={f}
-        field={:line}
-        label={~t"Filter by Line"}
-      >
-        <:input :for={{value, label} <- @subway_mode_choices} value={value}>
-          <.route_icon :if={value != "subway"} line={value <> "-line"} size="small" />
-          {label}
-        </:input>
-      </.base_choice_input>
+      <%= if @show_subway_filters? do %>
+        <br />
+        <.base_choice_input
+          form={f}
+          field={:line}
+          label={~t"Filter by Line"}
+        >
+          <:input :for={{value, label} <- @subway_mode_choices} value={value}>
+            <.route_icon :if={value != "subway"} line={value <> "-line"} size="small" />
+            <span class={[value != "subway" && "hidden-sm-down"]}>{label}</span>
+          </:input>
+        </.base_choice_input>
+      <% end %>
     </.form>
   </div>
 </div>
-
 <div class="container">
   <.async_result :let={featured_projects} assign={@featured_projects}>
     <:loading>
@@ -41,37 +42,34 @@
           do: ~t"Featured Projects",
           else: gettext("Featured %{mode} Projects", mode: mode_label(@selected_line_or_mode))}
       </h2>
-      <div class="m-featured-project-list">
-        <div class="page-section grid grid-cols-2 gap-lg">
-          <div
-            :for={
-              %{
-                id: id,
-                path: path,
-                image: image,
-                title: title,
-                text: text,
-                date: date,
-                routes: routes
-              } <- featured_projects
-            }
-            id={"featured-#{id}"}
-            class="m-featured-project"
-          >
-            <a href={path}>
-              <div class="m-featured-project__image">
-                <img :if={image} src={image.url} alt={image.alt} />
-                <.placeholder_image :if={!image} />
-              </div>
-              <h3 class="m-featured-project__title">{title}</h3>
-              <div class="m-featured-project__date">
-                {~t"Updated on"} {format_date(date)}
-              </div>
-
-              {text}
-              <.route_tag_list :if={routes != []} routes={routes} />
-            </a>
-          </div>
+      <div class="page-section flex flex-nowrap overflow-x-auto md:grid md:grid-cols-2 gap-lg">
+        <div
+          :for={
+            %{
+              id: id,
+              path: path,
+              image: image,
+              title: title,
+              text: text,
+              date: date,
+              routes: routes
+            } <- featured_projects
+          }
+          id={"featured-#{id}"}
+          class="m-featured-project grow-0 shrink-0 basis-auto w-64 md:w-auto"
+        >
+          <a href={path}>
+            <div class="m-featured-project__image">
+              <img :if={image} src={image.url} alt={image.alt} />
+              <.placeholder_image :if={!image} />
+            </div>
+            <h3 class="m-featured-project__title">{title}</h3>
+            <div class="font-bold font-heading">
+              {~t"Updated on"} {format_date(date)}
+            </div>
+            {text}
+            <.route_tag_list :if={routes != []} routes={routes} />
+          </a>
         </div>
       </div>
     </div>
@@ -161,7 +159,6 @@
                   <br />
                   <.route_tag_list :if={routes != []} routes={routes} class="hidden-md-up" />
                 </div>
-
                 <div :if={status} class="m-more-projects-table__status">
                   <span class="m-more-projects-table__internal-header">
                     Status
@@ -173,15 +170,12 @@
                   </span>
                 </div>
               </div>
-
               <.route_tag_list :if={routes != []} routes={routes} class="hidden-md-down" />
             </div>
           </td>
-
           <td class="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down">
             {format_date(date)}
           </td>
-
           <td class="m-more-projects-table__td m-more-projects-table__td-status hidden-md-down">
             <span class="m-more-projects-table__status-wrapper">
               <%= if status do %>
@@ -195,7 +189,6 @@
         </tr>
       </tbody>
     </table>
-
     <div
       :if={@projects.ok? && @has_any_projects? && @has_more_projects?}
       class="flex justify-center p-lg"
@@ -205,7 +198,6 @@
         {~t"Show More"}
       </.button>
     </div>
-
     <div
       :if={@projects.ok? && @has_any_projects? && !@has_more_projects?}
       class="text-center p-lg"

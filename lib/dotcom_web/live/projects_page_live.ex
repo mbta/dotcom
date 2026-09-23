@@ -324,23 +324,19 @@ defmodule DotcomWeb.ProjectsPageLive do
   end
 
   @doc """
-  An input group receives input from a group of 2 or more radios and can be displayed as segmented buttons. Input groups include a label for the group.
+  A segmented control built atop a radio button group
   """
-
   slot :input, required: true do
     attr :value, :string, required: true
   end
 
-  attr :options, :list
   attr :label, :string, required: true
   attr :field, :atom
   attr :form, Phoenix.HTML.Form
-  attr :class, :string, default: ""
-  attr :rest, :global, include: ~w(disabled form required)
 
   def base_choice_input(assigns) do
     ~H"""
-    <fieldset class={"mbta-input-group #{@class}"}>
+    <fieldset class="mbta-input-group">
       <legend class="mbta-label">
         {@label}
       </legend>
@@ -356,7 +352,6 @@ defmodule DotcomWeb.ProjectsPageLive do
             name={input_name(@form, @field)}
             value={input.value}
             checked={input_value(@form, @field) == input.value}
-            {@rest}
           />
           {render_slot(input)}
         </.label>

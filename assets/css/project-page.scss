@@ -1,12 +1,3 @@
-.m-featured-project-list {
-  margin-bottom: $base-spacing;
-  width: 100%;
-
-  @include media-breakpoint-only(xs) {
-    margin-top: -4 * $base-spacing;
-  }
-}
-
 .m-featured-project {
   flex-basis: 0;
   flex-grow: 1;
@@ -23,8 +14,6 @@
   }
 
   .m-featured-project__title {
-    font-family: $font-family-base;
-    font-size: $font-size-h3;
     margin: ($base-spacing * .5) 0 0;
   }
 
@@ -50,10 +39,6 @@
     max-height: 100%;
     max-width: 100%;
   }
-}
-
-.m-featured-project__date {
-  font-weight: bold;
 }
 
 .m-more-projects-table {
