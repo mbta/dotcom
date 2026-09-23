@@ -124,17 +124,6 @@ defmodule DotcomWeb.Router do
     get("/*path", CacheController, :get_cache_values)
   end
 
-  # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
-  scope "/", DotcomWeb, host: "t." do
-    # no pipe
-    get("/*path", WwwRedirector, [])
-  end
-
-  scope "/", DotcomWeb, host: "beta." do
-    # no pipe
-    get("/*path", WwwRedirector, [])
-  end
-
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
     pipe_through([:browser, :browser_live])
@@ -457,7 +446,7 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
-    get("/*path", CMSController, :page)
+    get "/*path", CMSController, :page, warn_on_verify: true
   end
 
   defp basic_auth(conn, _) do
