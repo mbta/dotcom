@@ -6,17 +6,9 @@ defmodule DotcomWeb.PreviewLive do
   use DotcomWeb, :live_view
 
   alias DotcomWeb.Router.Helpers
-  alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
 
-  @pages [
-    %{
-      arguments: [],
-      icon_name: "icon-stop-default",
-      module: StopMapLive,
-      title: "Stop Page Map"
-    }
-  ]
+  @pages []
 
   @impl LiveView
   def render(assigns) do
