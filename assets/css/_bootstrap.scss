@@ -69,9 +69,29 @@
   }
 }
 
-.tooltip::before {
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  content: '';
-  inset: -.5rem 0 1.5rem 0;
-  position: absolute;
+.tooltip {
+  &::before {
+    content: '';
+    position: absolute;
+  }
+
+  &.bs-tether-element-attached-top::before {
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    inset: -1rem 0 1.5rem 0;
+  }
+
+  &.bs-tether-element-attached-bottom::before {
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    inset: 1.5rem 0 -1rem 0;
+  }
+
+  &.bs-tether-element-attached-left::before {
+    clip-path: polygon(100% 100%, 100% 0, 0 50%);
+    inset: 0rem 95% 0rem -.5rem;
+  }
+
+  &.bs-tether-element-attached-right::before {
+    clip-path: polygon(100% 50%, 0 0, 0 100%);
+    inset: 0rem -.5rem 0rem 95%;
+  }
 }
