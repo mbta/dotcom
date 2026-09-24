@@ -99,4 +99,7 @@ defmodule DotcomWeb.ScheduleView.Timetable do
 
   @spec commuter_rail?(Route.t()) :: boolean
   def commuter_rail?(route), do: Routes.Route.type_atom(route) == :commuter_rail
+
+  @spec ferry_or_commuter_rail?(Route.t()) :: boolean
+  def ferry_or_commuter_rail?(route), do: ferry?(route) || commuter_rail?(route)
 end
