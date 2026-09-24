@@ -102,7 +102,7 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     &:first-child {
       border-right: 2px solid;
 
-      @include media-breakpoint-only(xs) {
+      @container (width < 544px) {
         border-bottom: 2px solid;
         border-right: 0;
       }
@@ -168,5 +168,14 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     .c-fares-grid {
       border-color: $brand-ferry;
     }
+  }
+}
+
+.c-svg-icon__rapid-bus {
+  :nth-child(1) {
+    fill: var(--colors-silver-line)
+  }
+   :nth-child(2) {
+    fill: var(--colors-white)
   }
 }

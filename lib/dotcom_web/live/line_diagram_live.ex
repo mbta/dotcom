@@ -70,7 +70,7 @@ defmodule DotcomWeb.LineDiagramLive do
   ]
 
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
-
+  import DotcomWeb.Components.FareCard, only: [fare_card: 1]
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
 
   import DotcomWeb.ScheduleView,
@@ -205,6 +205,9 @@ defmodule DotcomWeb.LineDiagramLive do
           ⚠️ Watch Your Step ⚠️
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
+        <div style="container-type: inline-size;" class="w-full">
+          <.fare_card route={@route} />
+        </div>
         <.guides guides={@guides} />
       </div>
     </div>

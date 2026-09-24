@@ -15,7 +15,10 @@
 
 // Multi-column with either Fare Cards or Descriptive Links
 .c-paragraph--with-cards {
-  @include media-breakpoint-up(sm) {
+  container-type: inline-size;
+
+  @container (width >= 544px) {
+
     .c-multi-column__row,
     .c-multi-column__column {
       display: flex;
@@ -24,8 +27,20 @@
     .c-multi-column__column {
       flex-direction: column;
     }
+    
+    //Overrides for tailwind 3, it doesn't do container queries
+    .col-sm-6 {
+      width: 50%;
+      float: left;
+    }
+  }
+
+  .col-sm-6 {
+    width: 100%;
+    float: none;
   }
 }
+
 
 // Multi-column with Fare Cards
 .c-paragraph--with-fares {
