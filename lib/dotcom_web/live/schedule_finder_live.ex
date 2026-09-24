@@ -188,6 +188,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  def handle_params(params, _uri, socket) do
+    case validate_params(params) do
+      {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
+        {:noreply,
+         socket
+         |> assign(:route, route)
+         |> assign(:stop, stop)
+         |> assign(:direction_id, direction_id)}
+
+      _ ->
+        {:noreply, socket}
+    end
+  end
+
   @impl LiveView
   def handle_event(
         "open_trip",
@@ -222,8 +236,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_departures()}
   end
 
-  def handle_event("toggle_direction", _, socket) do
-    {:noreply, socket |> assign(:direction_id, 1 - socket.assigns.direction_id)}
+  def handle_event(
+        "toggle_direction",
+        _,
+        %{assigns: %{route: route, stop: stop, direction_id: direction_id}} = socket
+      ) do
+    new_dir = 1 - direction_id
+
+    {:noreply,
+     socket
+     |> assign(:direction_id, new_dir)
+     |> push_patch(
+       to: "/departures/?route_id=#{route.id}&stop_id=#{stop.id}&direction_id=#{new_dir}"
+     )}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
