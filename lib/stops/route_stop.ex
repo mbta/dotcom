@@ -11,6 +11,7 @@ defmodule Stops.RouteStop do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
+  @derive Jason.Encoder
   defstruct [
     :id,
     :name,

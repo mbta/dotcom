@@ -9,6 +9,7 @@ defmodule Alerts.InformedEntity do
           stop: nil,
           trip: nil
 
+  @derive Jason.Encoder
   defstruct @fields
 
   @type t :: %__MODULE__{
