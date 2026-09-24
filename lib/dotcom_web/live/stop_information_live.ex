@@ -93,6 +93,6 @@ defmodule DotcomWeb.StopInformationLive do
   defp zoom_to_stop(config, %{latitude: lat, longitude: lon}) do
     config
     |> Map.put(:center, [lon, lat])
-    |> Map.put(:zoom, 17)
+    |> Map.put(:zoom, 15)
   end
 end
