@@ -222,6 +222,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
      |> assign_departures()}
   end
 
+  def handle_event("toggle_direction", _, socket) do
+    {:noreply, socket |> assign(:direction_id, 1 - socket.assigns.direction_id)}
+  end
+
   def handle_event(_, _, socket), do: {:noreply, socket}
 
   @impl Phoenix.LiveView
@@ -385,14 +389,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
         mode: mode
       })
 
+    dbg(assigns.route.direction_names)
+
     ~H"""
     <div data-test={"route_banner:#{@route.id}"} class={route_to_background_class(@route)}>
-      <.link
-        class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
-        patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
-      >
-        <div class="font-heading p-md">
-          <div class="max-w-xl mx-auto flex flex-col gap-sm">
+      <div class="font-heading p-md">
+        <div class="max-w-xl mx-auto flex flex-col gap-sm">
+          <.link
+            class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
+            patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
+          >
             <div class="flex items-center gap-xs font-bold">
               <SystemIcons.mode_icon
                 aria-hidden
@@ -407,19 +413,32 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 class="size-4 fill-current justify-self-end"
               />
             </div>
-            <div class="flex items-center gap-xs">
-              <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
-              <span>
-                {@route.direction_names[@direction_id]}
+          </.link>
+          <div
+            class="rounded-lg p-2 relative cursor-pointer"
+            style="background-color:rgb(0,0,0,0.6)"
+            phx-click="toggle_direction"
+          >
+            <div
+              class={"absolute rounded-lg h-16 w-1/2 #{route_to_background_class(@route)} #{if @direction_id == 1, do: "right-2"}"}
+              style="width: calc( 50% - 1rem )"
+            >
+            </div>
+            <div class="relative flex items-center gap-8 flex-row p-2 z-10">
+              <div
+                :for={{index, direction_name} <- @route.direction_names}
+                class="w-1/2 rounded-lg"
+              >
+                {direction_name}
                 <%= if @route.id != "Green" do %>
                   {~t"towards"}
-                  <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
+                  <div class="font-bold">{@route.direction_destinations[index]}</div>
                 <% end %>
-              </span>
+              </div>
             </div>
           </div>
         </div>
-      </.link>
+      </div>
     </div>
     """
   end
