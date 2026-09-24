@@ -33,9 +33,6 @@
         <.spinner aria_label={~t"Loading featured projects"} />
       </div>
     </:loading>
-    <:failed :let={_reason}>
-      <.callout>{~t"Featured projects could not be loaded."}</.callout>
-    </:failed>
     <div :if={featured_projects != []}>
       <h2>
         {if @selected_line_or_mode == "all",
@@ -118,7 +115,7 @@
       </thead>
       <tbody id="project-list" class="m-more-projects-table__tbody" phx-update="stream">
         <tr id="projects-empty" class="only:table-row hidden">
-          <td colspan="2">No projects found</td>
+          <td colspan="2">{~t"No projects found"}</td>
         </tr>
         <tr
           :for={
