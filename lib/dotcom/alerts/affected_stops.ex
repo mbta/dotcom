@@ -45,9 +45,15 @@ defmodule Dotcom.Alerts.AffectedStops do
       |> @routes_repo.get()
       |> Kernel.then(& &1.direction_names)
 
-    @stops_repo.by_route(route_id, direction_id)
-    |> Enum.filter(&(affected_stop_ids |> MapSet.member?(&1.id)))
-    |> Enum.map(&%{stop: &1, direction: {:direction, direction_names |> Map.get(direction_id)}})
+    stops_by_route = @stops_repo.by_route(route_id, direction_id)
+
+    case stops_by_route do
+      {:error, _} -> []
+      _ ->
+        stops_by_route
+        |> Enum.filter(&(affected_stop_ids |> MapSet.member?(&1.id)))
+        |> Enum.map(&%{stop: &1, direction: {:direction, direction_names |> Map.get(direction_id)}})
+    end
   end
 
   defp combine_directions(affected_stops) do
