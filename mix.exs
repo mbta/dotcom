@@ -134,7 +134,7 @@ defmodule DotCom.Mixfile do
       {:gen_stage, "1.3.2"},
       {:gettext, "1.0.2", override: true},
       {:hammer, "7.5.0"},
-      {:html_sanitize_ex, "1.4.4"},
+      {:html_sanitize_ex, "1.5.5"},
       {:httpoison, "3.0.0"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
       {:jason, "1.4.5", override: true},
