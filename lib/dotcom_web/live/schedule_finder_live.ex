@@ -415,26 +415,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
             </div>
           </.link>
           <div
-            class="rounded-lg p-2 relative cursor-pointer"
-            style="background-color:rgb(0,0,0,0.6)"
             phx-click="toggle_direction"
+            style="background-color:rgb(0,0,0,0.4)"
+            class="rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row z-10"
           >
             <div
-              class={"absolute rounded-lg h-16 w-1/2 #{route_to_background_class(@route)} #{if @direction_id == 1, do: "right-2"}"}
-              style="width: calc( 50% - 1rem )"
+              :for={{index, direction_name} <- @route.direction_names}
+              class={"w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)}"}
             >
-            </div>
-            <div class="relative flex items-center gap-8 flex-row p-2 z-10">
-              <div
-                :for={{index, direction_name} <- @route.direction_names}
-                class="w-1/2 rounded-lg"
-              >
-                {direction_name}
-                <%= if @route.id != "Green" do %>
-                  {~t"towards"}
-                  <div class="font-bold">{@route.direction_destinations[index]}</div>
-                <% end %>
-              </div>
+              {direction_name}
+              <%= if @route.id != "Green" do %>
+                {~t"towards"}
+                <div class="font-bold">{@route.direction_destinations[index]}</div>
+              <% end %>
             </div>
           </div>
         </div>
