@@ -111,7 +111,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:direction_id, direction_id)
      |> assign(:vehicle_topic, vehicle_topic)
      |> assign(:vehicle_icons, %{})
-     |> assign_route_patterns()
+     |> assign_route_data()
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:tab, "new_line")
@@ -261,6 +261,13 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
+  defp assign_route_data(socket) do
+    socket
+    |> assign_route_patterns()
+    |> assign_stops()
+    |> assign_map_attributes()
+  end
+
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
     route_patterns =
       @route_patterns_repo.by_route_id(route.id,
@@ -272,7 +279,6 @@ defmodule DotcomWeb.LineDiagramLive do
 
     socket
     |> assign(:route_patterns, route_patterns)
-    |> assign_map_attributes()
   end
 
   defp filter_unwanted_route_patterns(route_patterns, route_id)
@@ -282,6 +288,17 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp filter_unwanted_route_patterns(route_patterns, _route_id), do: route_patterns
+
+  defp assign_stops(%{assigns: %{route_patterns: route_patterns}} = socket) do
+    stops =
+      route_patterns
+      |> Stream.flat_map(& &1.stop_ids)
+      |> Stream.uniq()
+      |> Stream.map(&@stops_repo.get/1)
+      |> Enum.to_list()
+
+    socket |> assign(:stops, stops)
+  end
 
   defp assign_map_attributes(socket) do
     socket
@@ -315,13 +332,10 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign(:map_lines, map_lines)
   end
 
-  defp assign_map_icons(%{assigns: %{route_patterns: route_patterns}} = socket) do
+  defp assign_map_icons(%{assigns: %{stops: stops}} = socket) do
     map_icons =
-      route_patterns
-      |> Stream.flat_map(& &1.stop_ids)
-      |> Stream.uniq()
-      |> Stream.map(&@stops_repo.get/1)
-      |> Stream.map(
+      stops
+      |> Enum.map(
         &%{
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
@@ -329,7 +343,6 @@ defmodule DotcomWeb.LineDiagramLive do
           class: "size-3"
         }
       )
-      |> Enum.to_list()
 
     socket
     |> assign(:map_icons, map_icons)
