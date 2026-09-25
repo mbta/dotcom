@@ -198,55 +198,28 @@ defmodule DotcomWeb.ProjectsPageLive do
   def route_to_mode_name(%{mode: "ferry"}), do: "ferry"
   def route_to_mode_name(%{id: id}), do: bus_name(id)
 
-  attr :class, :string, default: ""
-  attr :routes, :list, required: true
-
-  def route_tag_list(assigns) do
-    assigns = assign(assigns, :routes, distinct_routes(assigns.routes))
-
-    ~H"""
-    <div class={"mt-xs flex gap-xs items-center #{@class}"}>
-      <.route_tag :for={route <- @routes} route={route} />
-    </div>
-    """
-  end
-
   attr :route, :any, required: true
+  attr :size, :string, default: "default"
 
   def route_tag(assigns) do
+    assigns = assign(assigns, :mode_class, if(assigns.size == "small", do: "size-5"))
+
     case assigns.route do
-      %{mode: "bus"} ->
-        ~H"""
-        <.mode_icon mode="bus" />
-        """
-
-      %{mode: "ferry"} ->
-        ~H"""
-        <.mode_icon mode="ferry" />
-        """
-
-      %{mode: "commuter_rail"} ->
-        ~H"""
-        <.mode_icon mode="commuter-rail" />
-        """
-
-      %{id: id, mode: "subway", group: "branch"} ->
-        assigns = assign(assigns, :line, String.downcase(id) <> "-line")
-
-        ~H"""
-        <.route_icon line={@line} size="small" />
-        """
-
-      %{mode: "subway", group: "mode"} ->
-        ~H"""
-        <.mode_icon mode="subway" />
-        """
-
       %{id: id, mode: "subway", group: group} when group in ["line", "branch"] ->
         assigns = assign(assigns, :line, String.downcase(id) <> "-line")
 
         ~H"""
-        <.route_icon line={@line} size="small" />
+        <.route_icon line={@line} size={@size} />
+        """
+
+      %{mode: mode} when mode in ~w(ferry bus subway) ->
+        ~H"""
+        <.mode_icon mode={@route.mode} size={@size} class={@mode_class} />
+        """
+
+      %{mode: "commuter_rail"} ->
+        ~H"""
+        <.mode_icon mode="commuter-rail" size={@size} class={@mode_class} />
         """
 
       _ ->

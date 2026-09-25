@@ -87,7 +87,9 @@
               {~t"Updated on"} {format_date(date)}
             </div>
             {Dotcom.ContentRewriter.rewrite(text, @socket) |> raw()}
-            <.route_tag_list :if={routes != []} routes={routes} />
+            <div :if={routes != []} class="mt-xs flex gap-xs items-center">
+              <.route_tag :for={route <- distinct_routes(routes)} route={route} />
+            </div>
           </a>
         </div>
       </div>
@@ -175,7 +177,13 @@
                   <br />
                   {format_date(date)}
                   <br />
-                  <.route_tag_list :if={routes != []} routes={routes} class="hidden-md-up" />
+                  <div :if={routes != []} class="mt-xs flex gap-xs items-center hidden-md-up">
+                    <.route_tag
+                      :for={route <- distinct_routes(routes)}
+                      route={route}
+                      size="small"
+                    />
+                  </div>
                 </div>
                 <div :if={status} class="m-more-projects-table__status">
                   <span class="m-more-projects-table__internal-header">
@@ -188,7 +196,9 @@
                   </span>
                 </div>
               </div>
-              <.route_tag_list :if={routes != []} routes={routes} class="hidden-md-down" />
+              <div :if={routes != []} class="mt-xs flex gap-xs items-center hidden-md-down">
+                <.route_tag :for={route <- distinct_routes(routes)} route={route} size="small" />
+              </div>
             </div>
           </td>
           <td class="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down">
