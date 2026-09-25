@@ -86,6 +86,7 @@ defmodule DotcomWeb.LineDiagramLive do
   on_mount DotcomWeb.Hooks.AssignRoute
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
 
+  @impl true
   def mount(params, _session, socket) do
     route = socket.assigns.route
     route_id = route.id
@@ -98,10 +99,18 @@ defmodule DotcomWeb.LineDiagramLive do
     guides_for_this_route =
       @guides |> Enum.filter(fn guide -> route.type in guide.modes end)
 
+    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
+
+    if connected?(socket) do
+      Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+    end
+
     {:ok,
      socket
      |> assign(:map_config, @map_config)
      |> assign(:direction_id, direction_id)
+     |> assign(:vehicle_topic, vehicle_topic)
+     |> assign(:vehicle_icons, %{})
      |> assign_route_data()
      |> assign(:route_id, route_id)
      |> assign(:route, route)
@@ -110,6 +119,45 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_new(:date, &@date_time_module.now/0)
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)}
+  end
+
+  @impl true
+  def terminate(_, socket) do
+    # stop listening for new vehicles
+    _ = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
+  end
+
+  @impl true
+  def handle_info(
+        %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
+        socket
+      ) do
+    {:noreply, socket |> assign_vehicle_icons(event, payload.data)}
+  end
+
+  def assign_vehicle_icons(socket, "remove", vehicle_ids) do
+    update(socket, :vehicle_icons, &Map.drop(&1, vehicle_ids))
+  end
+
+  def assign_vehicle_icons(socket, "reset", vehicles) do
+    vehicles
+    |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+    |> then(&assign(socket, :vehicle_icons, &1))
+  end
+
+  # add or update
+  def assign_vehicle_icons(socket, _, vehicles) do
+    updated_vehicles = Map.new(vehicles, &{&1.id, to_vehicle_marker(&1)})
+    update(socket, :vehicle_icons, &Map.merge(&1, updated_vehicles))
+  end
+
+  defp to_vehicle_marker(vehicle) do
+    %{
+      coordinates: [vehicle.longitude, vehicle.latitude],
+      type: "icon-svg",
+      name: "icon-vehicle-bordered-expanded",
+      class: "size-6"
+    }
   end
 
   def make_link(assigns, page, add_params? \\ false) do
@@ -171,6 +219,7 @@ defmodule DotcomWeb.LineDiagramLive do
     HeaderTabs.render_tabs(tabs, selected: assigns.tab, tab_class: route_tab_class(route))
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class={"schedule__header #{ header_class(@route) }"}>
@@ -194,6 +243,7 @@ defmodule DotcomWeb.LineDiagramLive do
           route_patterns={@route_patterns}
           map_lines={@map_lines}
           map_icons={@map_icons}
+          vehicle_icons={Map.values(@vehicle_icons)}
         />
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
@@ -312,11 +362,11 @@ defmodule DotcomWeb.LineDiagramLive do
     ~H"""
     <.live_component
       module={DotcomWeb.Components.Map}
-      id="trip-planner-map"
+      id="line-diagram-map"
       class="h-96 w-full"
       config={@map_config}
       lines={@map_lines}
-      icons={@map_icons}
+      icons={@map_icons ++ @vehicle_icons}
     />
     """
   end
