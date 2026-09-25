@@ -52,6 +52,9 @@ export default {
       id: "lines",
       type: "line",
       source: "lines",
+      layout: {
+        "line-cap": "round",
+      },
       paint: {
         "line-color": ["get", "color"],
         "line-width": ["get", "width"],
