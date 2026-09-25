@@ -1,6 +1,14 @@
 defmodule DotcomWeb.AppStoreControllerTest do
   use DotcomWeb.ConnCase, async: true
 
+  import Faker.Internet.UserAgent
+
+  setup %{conn: conn} do
+    # Default to desktop user-agent
+    conn = Plug.Conn.put_req_header(conn, "user-agent", desktop_user_agent())
+    {:ok, %{conn: conn}}
+  end
+
   test "redirects to default mbta go project page by default, preserving params", %{conn: conn} do
     conn =
       get(

@@ -75,12 +75,13 @@ defmodule DotcomWeb.BusStopChangeView do
   defp filter_text(:current), do: ~t"Current Changes"
   defp filter_text(:upcoming), do: ~t"Upcoming Changes"
 
-  @spec affected_stop_link(Plug.Conn.t(), Stop.t() | String.t()) :: Phoenix.HTML.Safe.t() | nil
-  def affected_stop_link(_conn, stopname) when is_binary(stopname) do
+  @spec affected_stop_link(Stop.t() | String.t()) :: Phoenix.HTML.Safe.t() | nil
+  def affected_stop_link(stopname) when is_binary(stopname) do
     content_tag(:div, stopname)
   end
 
-  def affected_stop_link(conn, stop) do
-    if(stop, do: link(stop.name, to: stop_path(conn, :show, stop.id), class: "text-primary"))
+  def affected_stop_link(stop) do
+    path = live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, stop.id)
+    link(stop.name, to: path, class: "text-primary")
   end
 end

@@ -51,7 +51,7 @@ msgstr ""
 msgid " at "
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr ""
@@ -213,6 +213,7 @@ msgstr ""
 msgid "%{name} Commuter Rail"
 msgstr ""
 
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "%{place} Information"
@@ -3907,12 +3908,13 @@ msgstr ""
 msgid "Station Issue"
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
 msgstr ""
 
 #: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
@@ -4521,6 +4523,7 @@ msgid "Upcoming Changes"
 msgstr ""
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Departures"
 msgstr ""
@@ -5453,4 +5456,19 @@ msgstr ""
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
+msgstr ""
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bring your car or bike"
+msgstr ""
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get around the station"
+msgstr ""
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase your fare"
 msgstr ""

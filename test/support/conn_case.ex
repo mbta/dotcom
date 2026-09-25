@@ -17,6 +17,7 @@ defmodule DotcomWeb.ConnCase do
 
   def default_conn do
     Phoenix.ConnTest.build_conn()
+    |> Plug.Conn.put_req_header("user-agent", Faker.Internet.UserAgent.user_agent())
     |> Map.put(:host, "localhost")
   end
 
