@@ -60,8 +60,8 @@ defmodule DotcomWeb.ProjectsPageLiveTest do
       view = mount_and_load(conn)
 
       view
-      |> element("#projects-form")
-      |> render_change(%{"mode" => "bus", "_target" => ["mode"]})
+      |> element(~s([data-test="mode:bus"]))
+      |> render_click()
 
       render_async(view)
 
@@ -77,23 +77,23 @@ defmodule DotcomWeb.ProjectsPageLiveTest do
     test "reveals the line filter only when mode is 'subway'", %{conn: conn} do
       view = mount_and_load(conn)
 
-      refute has_element?(view, "legend", "Filter by Line")
+      refute has_element?(view, "#line-filter-label")
 
       view
-      |> element("#projects-form")
-      |> render_change(%{"mode" => "subway", "_target" => ["mode"]})
+      |> element(~s([data-test="mode:subway"]))
+      |> render_click()
 
       render_async(view)
 
-      assert has_element?(view, "legend", "Filter by Line")
+      assert has_element?(view, "#line-filter-label")
 
       view
-      |> element("#projects-form")
-      |> render_change(%{"mode" => "bus", "_target" => ["mode"]})
+      |> element(~s([data-test="mode:bus"]))
+      |> render_click()
 
       render_async(view)
 
-      refute has_element?(view, "legend", "Filter by Line")
+      refute has_element?(view, "#line-filter-label")
     end
 
     test "shows the 'reached the end' message and hides 'Show More' when a filtered mode returns fewer than a full page",
@@ -101,8 +101,8 @@ defmodule DotcomWeb.ProjectsPageLiveTest do
       view = mount_and_load(conn)
 
       view
-      |> element("#projects-form")
-      |> render_change(%{"mode" => "bus", "_target" => ["mode"]})
+      |> element(~s([data-test="mode:bus"]))
+      |> render_click()
 
       render_async(view)
 
@@ -116,14 +116,14 @@ defmodule DotcomWeb.ProjectsPageLiveTest do
       view = mount_and_load(conn)
 
       view
-      |> element("#projects-form")
-      |> render_change(%{"mode" => "subway", "_target" => ["mode"]})
+      |> element(~s([data-test="mode:subway"]))
+      |> render_click()
 
       render_async(view)
 
       view
-      |> element("#projects-form")
-      |> render_change(%{"line" => "red", "_target" => ["line"]})
+      |> element(~s([data-test="line:red"]))
+      |> render_click()
 
       render_async(view)
 

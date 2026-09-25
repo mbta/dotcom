@@ -18,7 +18,6 @@ defmodule DotcomWeb.ProjectsPageLive do
     {:ok,
      socket
      |> assign_new(:intro_content, fn -> intro_content() end)
-     |> assign(:form, to_form(%{"mode" => "all", "line" => "subway"}))
      |> assign(:mode_choices, mode_choices())
      |> assign(:subway_mode_choices, subway_mode_choices())
      |> assign(:offset, 0)
@@ -37,36 +36,26 @@ defmodule DotcomWeb.ProjectsPageLive do
     })
   end
 
-  defp update_form(form, field, value) do
-    form.source
-    |> Map.merge(Map.new([{field, value}]))
-    |> to_form()
+  @impl LiveView
+  def handle_event("set_mode", %{"line" => line}, socket) do
+    {:noreply,
+     socket
+     |> assign(:offset, 0)
+     |> assign(:selected_line_or_mode, line)
+     |> assign_projects(0, line, reset: true)
+     |> assign_featured_projects(line)}
   end
 
-  @impl LiveView
-  def handle_event("set_mode", %{"_target" => ["mode"], "mode" => mode}, socket) do
+  def handle_event("set_mode", %{"mode" => mode}, socket) do
     {:noreply,
      socket
      |> assign(:show_subway_filters?, mode == "subway")
      |> assign(:offset, 0)
      |> assign(:selected_line_or_mode, mode)
-     |> update(:form, &update_form(&1, "mode", mode))
      |> assign_projects(0, mode, reset: true)
      |> assign_featured_projects(mode)}
   end
 
-  @impl LiveView
-  def handle_event("set_mode", %{"_target" => ["line"], "line" => line}, socket) do
-    {:noreply,
-     socket
-     |> assign(:offset, 0)
-     |> assign(:selected_line_or_mode, line)
-     |> update(:form, &update_form(&1, "line", line))
-     |> assign_projects(0, line, reset: true)
-     |> assign_featured_projects(line)}
-  end
-
-  @impl LiveView
   def handle_event("paginate", _, socket) do
     offset = socket.assigns.offset + 1
 
@@ -116,38 +105,30 @@ defmodule DotcomWeb.ProjectsPageLive do
 
   @spec fetch_featured_teasers(binary()) :: [map()]
   defp fetch_featured_teasers(line_or_mode) do
-    line_or_mode = if line_or_mode != "all", do: line_or_mode
-    api_params = [type: [:project], sticky: 1, items_per_page: @n_featured_projects_per_page]
-
-    api_params =
-      if line_or_mode do
-        Keyword.merge(api_params, route_id: line_or_mode)
-      else
-        api_params
-      end
-
-    api_params
-    |> CMS.Repo.teasers()
-    |> sort_by_date()
-    |> Enum.map(&simplify_teaser/1)
+    [type: [:project], sticky: 1, items_per_page: @n_featured_projects_per_page]
+    |> maybe_put_route_param(line_or_mode)
+    |> get_simplified_teasers()
   end
 
   @spec fetch_teasers(integer(), binary()) :: [map()]
   defp fetch_teasers(offset, line_or_mode) do
-    api_params = [
+    [
       type: [:project],
       items_per_page: @n_projects_per_page,
       offset: offset * @n_projects_per_page
     ]
+    |> maybe_put_route_param(line_or_mode)
+    |> get_simplified_teasers()
+  end
 
-    api_params =
-      if line_or_mode != "all" do
-        Keyword.merge(api_params, route_id: line_or_mode)
-      else
-        api_params
-      end
+  defp maybe_put_route_param(params, "all"), do: params
 
-    api_params
+  defp maybe_put_route_param(params, line_or_mode) do
+    Keyword.put(params, :route_id, line_or_mode)
+  end
+
+  defp get_simplified_teasers(params) do
+    params
     |> CMS.Repo.teasers()
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)

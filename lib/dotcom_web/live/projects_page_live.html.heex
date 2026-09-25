@@ -3,30 +3,52 @@
 </div>
 <div class="bg-gray-bordered-background">
   <div class="container pt-sm pb-lg">
-    <.form :let={f} id="projects-form" for={@form} phx-change="set_mode">
-      <.base_choice_input form={f} field={:mode} label={~t"Filter by Mode"}>
-        <:input :for={{value, label} <- @mode_choices} value={value}>
-          <.mode_icon mode={value} size="default" />
-          <span class={[value != "all" && "hidden-sm-down"]}>{label}</span>
-        </:input>
-      </.base_choice_input>
-      <%= if @show_subway_filters? do %>
-        <br />
-        <.base_choice_input
-          form={f}
-          field={:line}
-          label={~t"Filter by Line"}
+    <div id="mode-filter-label" class="py-sm font-bold">{~t"Filter by Mode"}</div>
+    <div
+      role="group"
+      aria-labelledby="mode-filter-label"
+      class="flex flex-wrap items-center gap-sm"
+    >
+      <.button
+        :for={{value, label} <- @mode_choices}
+        data-test={"mode:#{value}"}
+        variant="secondary"
+        size="small"
+        phx-value-mode={value}
+        phx-click="set_mode"
+        aria-controls="project-results"
+        aria-pressed={@selected_line_or_mode == value}
+        class={"basis-[calc(50%-0.25rem)] first:basis-full sm:basis-auto sm:first:basis-auto justify-center sm:justify-normal #{if(@selected_line_or_mode == value, do: "mode-filter--active")}"}
+      >
+        <.mode_icon mode={value} size="small" /> {label}
+      </.button>
+    </div>
+    <%= if @show_subway_filters? do %>
+      <div id="line-filter-label" class="mt-sm py-sm font-bold">{~t"Filter by Line"}</div>
+      <div
+        role="group"
+        aria-labelledby="line-filter-label"
+        class="flex flex-wrap items-center gap-sm"
+      >
+        <.button
+          :for={{value, label} <- @subway_mode_choices}
+          variant="secondary"
+          data-test={"line:#{value}"}
+          size="small"
+          phx-value-line={value}
+          phx-click="set_mode"
+          aria-controls="project-results"
+          aria-pressed={@selected_line_or_mode == value}
+          class={"basis-[calc(50%-0.25rem)] first:basis-full sm:basis-auto sm:first:basis-auto justify-center sm:justify-normal #{if(@selected_line_or_mode == value, do: "mode-filter--active")}"}
         >
-          <:input :for={{value, label} <- @subway_mode_choices} value={value}>
-            <.route_icon :if={value != "subway"} line={value <> "-line"} size="small" />
-            <span class={[value != "subway" && "hidden-sm-down"]}>{label}</span>
-          </:input>
-        </.base_choice_input>
-      <% end %>
-    </.form>
+          <.route_icon :if={value != "subway"} line={value <> "-line"} size="small" />
+          {label}
+        </.button>
+      </div>
+    <% end %>
   </div>
 </div>
-<div class="container">
+<div class="container" id="project-results" aria-live="polite">
   <.async_result :let={featured_projects} assign={@featured_projects}>
     <:loading>
       <div class="flex justify-center p-lg">
@@ -84,7 +106,6 @@
     placeholder={~t"Enter keyword(s)"}
     aria-label={~t"Enter project keywords"}
   />
-
   <div>
     <div :if={!@projects.ok? && @projects.loading} class="flex justify-center p-lg">
       <.spinner aria_label={~t"Loading projects"} />
