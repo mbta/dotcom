@@ -54,6 +54,7 @@ export default {
       source: "lines",
       layout: {
         "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
         "line-color": ["get", "color"],
