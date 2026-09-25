@@ -1,5 +1,6 @@
 defmodule Vehicles.Vehicle do
   @moduledoc false
+  @derive Jason.Encoder
   defstruct [
     :id,
     :route_id,

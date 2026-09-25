@@ -6,6 +6,7 @@ defmodule Services.Service do
 
   @services_repo Application.compile_env!(:dotcom, :repo_modules)[:services]
 
+  @derive Jason.Encoder
   defstruct added_dates: [],
             added_dates_notes: [],
             description: "",

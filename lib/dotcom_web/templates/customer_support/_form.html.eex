@@ -1,7 +1,7 @@
 
 <!-- Not translating this file since we're going to replace it -->
 <script id="js-routes-by-mode" type="text/plain">
-  <%= raw Poison.encode!(@all_options_per_mode) %>
+  <%= raw Jason.encode!(@all_options_per_mode) %>
 </script>
 <% form_action = "#{customer_support_path(@conn, :submit)}#support-result" %>
 
@@ -33,7 +33,7 @@
     <div id="support-datepicker">
       <strong class="block mb-sm">Time/Date of incident</strong>
       <script id="form-data" type="text/plain">
-        <%= raw(Poison.encode!(@support_datetime_selector_fields)) %>
+        <%= raw(Jason.encode!(@support_datetime_selector_fields)) %>
       </script>
       <%= DateTimeSelector.custom_date_time_select(f) %>
     </div>

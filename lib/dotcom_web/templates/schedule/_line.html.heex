@@ -5,17 +5,17 @@
   data-branches-are-empty={"#{branchesEmpty?}"}
   type="text/plain"
 >
-  <%= raw Poison.encode!(@schedule_page_data) %>
+  <%= raw Jason.encode!(@schedule_page_data) %>
 </script>
 
 <% map_pdf_url = @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>
 
 <script :if={display_map_link?(@route.type)} id="static-map-data" type="text/plain">
-  <%= raw Poison.encode!(%{img_src: @map_img_src, pdf_url: map_pdf_url}) %>
+  <%= raw Jason.encode!(%{img_src: @map_img_src, pdf_url: map_pdf_url}) %>
 </script>
 
 <script id="js-map-data" data-channel-id={@channel} type="text/plain">
-  <%= raw Poison.encode!(@dynamic_map_data) %>
+  <%= raw Jason.encode!(@dynamic_map_data) %>
 </script>
 
 <link rel="stylesheet" {static_attributes("/css/map.css")} />

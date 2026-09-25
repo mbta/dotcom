@@ -157,7 +157,7 @@ defmodule JsonApiTest do
   @tag timeout: 5000
   test ".parse handles a cyclical included relationship with properties" do
     {:ok, body} =
-      Poison.encode(%{
+      Jason.encode(%{
         data: %{
           attributes: %{},
           id: "Worcester",

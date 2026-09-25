@@ -4,6 +4,8 @@ defmodule CMS.Field.Image do
   in other content types like CMS.Page.NewsEntry. Captions only used on galleries.
   """
 
+  @derive Jason.Encoder
+
   import CMS.Helpers,
     only: [
       field_value: 2,
