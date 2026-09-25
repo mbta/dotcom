@@ -8,7 +8,6 @@ defmodule Stops.RouteStop do
   alias Routes.{Route, Shape}
   alias Stops.Stop
 
-  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defstruct [
@@ -262,12 +261,9 @@ defmodule Stops.RouteStop do
         %__MODULE__{route: %Route{}, connections: {:error, :not_fetched}} = route_stop
       ) do
     connections =
-      route_stop.id
-      |> @routes_repo.by_stop(include: "stop.connecting_stops")
-      |> Enum.reject(fn route ->
-        route.id == route_stop.route.id ||
-          route.description == :rail_replacement_bus
-      end)
+      route_stop.station_info
+      |> Dotcom.Routes.for_stop()
+      |> Enum.reject(fn route -> route.id == route_stop.route.id end)
 
     %{route_stop | connections: connections}
   end

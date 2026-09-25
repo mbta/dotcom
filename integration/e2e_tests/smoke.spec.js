@@ -95,7 +95,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
 
   test("stops & stations page, selected station", async ({ page }) => {
     await ok(page, "/stops");
-    await page.getByRole("link", { name: "Ferry" }).click();
+    await page.getByRole("link", { name: "Ferry", exact: true }).click();
     await page.getByRole("link", { name: "Charlestown Ferry" }).click();
     await page.getByRole("heading", { name: "Charlestown" });
     await page.getByRole("heading", { name: "Stop Information" });

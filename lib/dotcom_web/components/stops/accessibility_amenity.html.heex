@@ -79,28 +79,28 @@
     />
     <.amenity_link
       :if={@stop.ferry?}
-      href={~p"/accessibility/ferry-guide"}
+      href="/accessibility/ferry-guide"
       text={~t"Learn more about ferry accessibility"}
     />
     <.amenity_link
       :if={@stop.station?}
-      href={~p"/accessibility"}
+      href="/accessibility"
       text={~t"Learn more about accessibility on the T"}
     />
     <.amenity_link
       :if={!@stop.station? && !@stop.ferry?}
-      href={~p"/accessibility/bus-guide"}
+      href="/accessibility/bus-guide"
       text={~t"Learn more about bus accessibility"}
     />
     <h2 class="text-xl mb-4">{~t"Accessibility Resources"}</h2>
     <ul>
       <li>
-        <a href={~p"/accessibility/trip-planning"}>
+        <a href="/accessibility/trip-planning">
           {~t"Plan an accessible trip"}
         </a>
       </li>
       <li>
-        <a href={~p"/accessibility/mbta-mobility-center"}>
+        <a href="/accessibility/mbta-mobility-center">
           {~t"Visit the Mobility Center"}
         </a>
       </li>
