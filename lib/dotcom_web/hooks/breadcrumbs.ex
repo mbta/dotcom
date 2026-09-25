@@ -10,6 +10,10 @@ defmodule DotcomWeb.Hooks.Breadcrumbs do
   import Phoenix.Component, only: [assign: 3]
   import Util.Breadcrumb
 
+  def on_mount(:projects_page, _params, _session, socket) do
+    {:cont, assign(socket, :breadcrumbs, [build(~t"Projects")])}
+  end
+
   def on_mount(:search_page, _params, _session, socket) do
     {:cont, assign(socket, :breadcrumbs, [build(~t"Search")])}
   end

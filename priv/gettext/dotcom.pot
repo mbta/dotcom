@@ -650,6 +650,7 @@ msgstr ""
 msgid "Bikes are allowed on all ferry boats"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Blue Line"
@@ -688,6 +689,7 @@ msgstr ""
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
 #: lib/fares/format.ex
@@ -947,6 +949,7 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1376,12 +1379,12 @@ msgstr ""
 msgid "Enter an origin location"
 msgstr ""
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter keyword(s)"
 msgstr ""
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter project keywords"
 msgstr ""
@@ -1627,6 +1630,7 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1874,6 +1878,7 @@ msgstr ""
 msgid "Google Pay"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Green Line"
@@ -2901,6 +2906,7 @@ msgstr ""
 msgid "Or, go to "
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Orange Line"
@@ -3256,6 +3262,7 @@ msgid "Privacy Policy"
 msgstr ""
 
 #: lib/dotcom_web/controllers/project_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Projects"
@@ -3328,6 +3335,7 @@ msgstr ""
 msgid "Recently Visited Schedules"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Red Line"
@@ -3930,6 +3938,7 @@ msgid "Stations and Stops"
 msgstr ""
 
 #: lib/dotcom_web/components/stops.ex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Status"
 msgstr ""
@@ -3992,6 +4001,7 @@ msgstr ""
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/subway.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -4535,6 +4545,7 @@ msgstr ""
 msgid "Upcoming Public Meetings and Events"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #: lib/dotcom_web/templates/cms/page/_project_update.html.heex
 #: lib/dotcom_web/templates/project/update.html.heex
 #, elixir-autogen, elixir-format
@@ -5453,4 +5464,94 @@ msgstr ""
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "All"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All %{mode} Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured %{mode} Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Line"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Mode"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last Updated"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last updated"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading featured projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading more projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Mattapan Line"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "No projects found"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Project"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Projects could not be loaded."
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Show More"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "You've reached the end of the list."
 msgstr ""

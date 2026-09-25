@@ -1,0 +1,236 @@
+<div class="container">
+  {@intro_content}
+</div>
+<div class="bg-gray-bordered-background">
+  <div class="container pt-sm pb-lg">
+    <div id="mode-filter-label" class="py-sm font-bold">{~t"Filter by Mode"}</div>
+    <div
+      role="group"
+      aria-labelledby="mode-filter-label"
+      class="flex flex-wrap items-center gap-sm"
+    >
+      <.button
+        :for={{value, label} <- @mode_choices}
+        data-test={"mode:#{value}"}
+        variant="secondary"
+        size="small"
+        phx-value-mode={value}
+        phx-click="set_mode"
+        aria-controls="project-results"
+        aria-pressed={@selected_line_or_mode == value}
+        class={"basis-[calc(50%-0.25rem)] first:basis-full sm:basis-auto sm:first:basis-auto justify-center sm:justify-normal #{if(@selected_line_or_mode == value, do: "mode-filter--active")}"}
+      >
+        <.mode_icon mode={value} size="small" /> {label}
+      </.button>
+    </div>
+    <%= if @show_subway_filters? do %>
+      <div id="line-filter-label" class="mt-sm py-sm font-bold">{~t"Filter by Line"}</div>
+      <div
+        role="group"
+        aria-labelledby="line-filter-label"
+        class="flex flex-wrap items-center gap-sm"
+      >
+        <.button
+          :for={{value, label} <- @subway_mode_choices}
+          variant="secondary"
+          data-test={"line:#{value}"}
+          size="small"
+          phx-value-line={value}
+          phx-click="set_mode"
+          aria-controls="project-results"
+          aria-pressed={@selected_line_or_mode == value}
+          class={"basis-[calc(50%-0.25rem)] first:basis-full sm:basis-auto sm:first:basis-auto justify-center sm:justify-normal #{if(@selected_line_or_mode == value, do: "mode-filter--active")}"}
+        >
+          <.route_icon :if={value != "subway"} line={value <> "-line"} size="small" />
+          {label}
+        </.button>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="container" id="project-results" aria-live="polite">
+  <.async_result :let={featured_projects} assign={@featured_projects}>
+    <:loading>
+      <div class="flex justify-center p-lg">
+        <.spinner aria_label={~t"Loading featured projects"} />
+      </div>
+    </:loading>
+    <div :if={featured_projects != []}>
+      <h2>
+        {if @selected_line_or_mode == "all",
+          do: ~t"Featured Projects",
+          else: gettext("Featured %{mode} Projects", mode: mode_label(@selected_line_or_mode))}
+      </h2>
+      <div class="page-section flex flex-nowrap overflow-x-auto md:grid md:grid-cols-2 gap-lg">
+        <div
+          :for={
+            %{
+              id: id,
+              path: path,
+              image: image,
+              title: title,
+              text: text,
+              date: date,
+              routes: routes
+            } <- featured_projects
+          }
+          id={"featured-#{id}"}
+          class="m-featured-project grow-0 shrink-0 basis-auto w-64 md:w-auto"
+        >
+          <a href={path}>
+            <div class="m-featured-project__image">
+              <img :if={image} src={image.url} alt={image.alt} />
+              <.placeholder_image :if={!image} />
+            </div>
+            <h3 class="m-featured-project__title">{title}</h3>
+            <div class="font-bold font-heading">
+              {~t"Updated on"} {format_date(date)}
+            </div>
+            {Dotcom.ContentRewriter.rewrite(text, @socket) |> raw()}
+            <div :if={routes != []} class="mt-xs flex gap-xs items-center">
+              <.route_tag :for={route <- distinct_routes(routes)} route={route} />
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </.async_result>
+
+  <h2>
+    {if @selected_line_or_mode == "all",
+      do: ~t"All Projects",
+      else: gettext("All %{mode} Projects", mode: mode_label(@selected_line_or_mode))}
+  </h2>
+  <.algolia_autocomplete
+    id="projects-search"
+    class="md:max-w-2xl mb-md"
+    config_type="projects"
+    placeholder={~t"Enter keyword(s)"}
+    aria-label={~t"Enter project keywords"}
+  />
+  <div>
+    <div :if={!@projects.ok? && @projects.loading} class="flex justify-center p-lg">
+      <.spinner aria_label={~t"Loading projects"} />
+    </div>
+    <.callout :if={@projects.failed}>{~t"Projects could not be loaded."}</.callout>
+    <table :if={@projects.ok?} class="m-more-projects-table" aria-label="More Projects">
+      <thead class="bg-charcoal-80 hidden-md-down">
+        <tr>
+          <th
+            scope="col"
+            class="m-more-projects-table__th m-more-projects-table__th-project"
+          >
+            {~t"Project"}
+          </th>
+          <th
+            scope="col"
+            class="m-more-projects-table__th m-more-projects-table__th-last-updated"
+          >
+            {~t"Last Updated"}
+          </th>
+          <th
+            scope="col"
+            class="m-more-projects-table__th m-more-projects-table__th-status"
+          >
+            {~t"Status"}
+          </th>
+        </tr>
+      </thead>
+      <tbody id="project-list" class="m-more-projects-table__tbody" phx-update="stream">
+        <tr id="projects-empty" class="only:table-row hidden">
+          <td colspan="2">{~t"No projects found"}</td>
+        </tr>
+        <tr
+          :for={
+            {id,
+             %{
+               image: image,
+               path: path,
+               title: title,
+               routes: routes,
+               date: date,
+               status: status
+             }} <- @streams.projects
+          }
+          id={id}
+          class="m-more-projects-table__tr"
+        >
+          <td class="m-more-projects-table__td m-more-projects-table__td-project">
+            <img
+              :if={image}
+              src={image.url}
+              alt={image.alt}
+              class="hidden-xs-down m-more-projects-table__thumbnail"
+            />
+            <.placeholder_image :if={!image} />
+
+            <div class="m-more-projects-table__wrapper">
+              <a href={path}>
+                <h3 class="m-more-projects-table__title">{title}</h3>
+              </a>
+
+              <div class="m-more-projects-table__updated-and-status hidden-lg-up">
+                <div class="m-more-projects-table__last-updated">
+                  <span class="m-more-projects-table__internal-header">
+                    {~t"Last updated"}
+                  </span>
+                  <br />
+                  {format_date(date)}
+                  <br />
+                  <div :if={routes != []} class="mt-xs flex gap-xs items-center hidden-md-up">
+                    <.route_tag
+                      :for={route <- distinct_routes(routes)}
+                      route={route}
+                      size="small"
+                    />
+                  </div>
+                </div>
+                <div :if={status} class="m-more-projects-table__status">
+                  <span class="m-more-projects-table__internal-header">
+                    Status
+                  </span>
+                  <br />
+                  <i class={"fa m-more-projects-table__status-icon #{icon_class(status)}"} />{" "}
+                  <span class={"m-more-projects-table__status-text #{text_class(status)}"}>
+                    {status}
+                  </span>
+                </div>
+              </div>
+              <div :if={routes != []} class="mt-xs flex gap-xs items-center hidden-md-down">
+                <.route_tag :for={route <- distinct_routes(routes)} route={route} size="small" />
+              </div>
+            </div>
+          </td>
+          <td class="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down">
+            {format_date(date)}
+          </td>
+          <td class="m-more-projects-table__td m-more-projects-table__td-status hidden-md-down">
+            <span class="m-more-projects-table__status-wrapper">
+              <%= if status do %>
+                <i class={"fa m-more-projects-table__status-icon #{icon_class(status)}"} />{" "}
+                <span class={"m-more-projects-table__status-text #{text_class(status)}"}>
+                  {status}
+                </span>
+              <% end %>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      :if={@projects.ok? && @has_any_projects? && @has_more_projects?}
+      class="flex justify-center p-lg"
+    >
+      <.spinner :if={@projects.loading} aria_label={~t"Loading more projects"} />
+      <.button :if={!@projects.loading} variant="secondary" size="small" phx-click="paginate">
+        {~t"Show More"}
+      </.button>
+    </div>
+    <div
+      :if={@projects.ok? && @has_any_projects? && !@has_more_projects?}
+      class="text-center p-lg"
+    >
+      {~t"You've reached the end of the list."}
+    </div>
+  </div>
+</div>
