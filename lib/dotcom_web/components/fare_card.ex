@@ -6,7 +6,7 @@ defmodule DotcomWeb.Components.FareCard do
   use DotcomWeb, :component
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
-  import Routes.Route, only: [is_rapid_silver_line?: 1]
+  import Routes.Route, only: [is_rapid_silver_line?: 1, rapid_silver_line?: 1]
 
   @dialyzer {:nowarn_function, fare_card: 1}
   @ferry_routes_to_fare_names %{
@@ -229,7 +229,7 @@ defmodule DotcomWeb.Components.FareCard do
   def fare_note(assigns) do
     ~H"""
     <div class="text-sm">
-      <div :if={@route.id in ["741", "742", "743", "746"]}>
+      <div :if={rapid_silver_line?(@route)}>
         *{gettext("%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares", %{
           sl1: "SL1",
           sl2: "SL2",
