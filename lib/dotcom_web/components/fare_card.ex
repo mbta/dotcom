@@ -149,7 +149,7 @@ defmodule DotcomWeb.Components.FareCard do
   end
 
   # Stock CMS fare cards already in use on the site
-  def fare_card(%{route: route} = assigns) do
+  def fare_card(assigns) do
     ~H"""
     {mode_fare_card(@route |> Routes.Route.type_atom())
     |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})}
