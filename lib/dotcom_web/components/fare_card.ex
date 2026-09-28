@@ -92,6 +92,74 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
+  # Commuter Rail Fare Card
+  def fare_card(%{route: %{type: 2, id: id}} = assigns) do
+    full_fares =
+      Fares.Repo.for_fare_class(:commuter_rail_fare)
+      |> Fares.Repo.filter(%{
+        duration: :single_trip,
+        includes_media: :cash
+      })
+      |> Enum.sort_by(fn fare -> fare |> Map.get(:cents) end)
+
+    min_full_fare = full_fares |> List.first() |> Map.get(:cents)
+    max_full_fare = full_fares |> List.last() |> Map.get(:cents)
+
+    reduced_fares =
+      Fares.Repo.for_fare_class(:commuter_rail_fare)
+      |> Fares.Repo.filter(%{
+        duration: :single_trip,
+        includes_media: :student_card
+      })
+      |> Enum.sort_by(fn fare -> fare |> Map.get(:cents) end)
+
+    min_reduced_fare = reduced_fares |> List.first() |> Map.get(:cents)
+    max_reduced_fare = reduced_fares |> List.last() |> Map.get(:cents)
+
+    assigns =
+      assigns
+      |> assign(:min_full_fare, min_full_fare)
+      |> assign(:max_full_fare, max_full_fare)
+      |> assign(:min_reduced_fare, min_reduced_fare)
+      |> assign(:max_reduced_fare, max_reduced_fare)
+
+    ~H"""
+    <div class="c-fare-card--commuter-rail c-fare-card--grouped c-fare-card">
+      <div class="c-fare-card__header">
+        <div class="c-fare-card__icon">
+          <DotcomWeb.Components.RouteSymbols.route_icon
+            route={%Routes.Route{type: 2}}
+            class="c-svg__icon"
+          />
+        </div>
+        <h3 class="c-fare-card__name">{gettext("%{route} One-Way", %{route: "Commuter Rail"})}*</h3>
+      </div>
+      <div class="c-multi-column__column border-b-2">
+        <h4 class="mt-0">
+          {Fares.Format.price(@min_full_fare)} - {Fares.Format.price(@max_full_fare)}
+        </h4>
+        <p>
+          {gettext("with %{ccard}, %{ctick}, contactless payment, or cash", %{
+            ccard: "CharlieCard",
+            ctick: "CharlieTicket"
+          })}
+        </p>
+      </div>
+      <div class="c-multi-column__column c-fare-card__note">
+        <h4 class="mt-0">
+          {Fares.Format.price(@min_reduced_fare)} - {Fares.Format.price(@max_reduced_fare)}
+        </h4>
+        <p>
+          {gettext("with reduced fare card")}<br />
+          <a href="/fares/reduced">{~t"Learn more about reduced fares"}</a>
+        </p>
+      </div>
+    </div>
+    <div>*{~t"Price based on distance traveled"}</div>
+    <.fare_note route={@route} />
+    """
+  end
+
   # Ferry Fare cards that vary depending on the route
   def fare_card(%{route: %{type: 4, id: id}} = assigns) do
     full_fare =
