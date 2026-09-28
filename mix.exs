@@ -174,7 +174,7 @@ defmodule DotCom.Mixfile do
       {:recase, "0.9.1"},
       {:recon, "2.5.6", [only: :prod]},
       {:redix, "1.9.1"},
-      {:req, "0.5.17"},
+      {:req, "0.7.4"},
       {:rstar, github: "armon/erl-rstar"},
       {:sentry, "13.5.1"},
       {:server_sent_event_stage, "1.2.1"},
