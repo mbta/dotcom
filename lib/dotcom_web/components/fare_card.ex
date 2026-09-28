@@ -48,7 +48,7 @@ defmodule DotcomWeb.Components.FareCard do
   def fare_card(%{route: %{fare_class: :rapid_transit_fare, type: 3}} = assigns) do
     full_fare =
       Fares.Repo.for_fare_class(:rapid_transit_fare)
-      |> Fares.Repo.filter(%{duration: :single_trip, includes_media: :charlie_card})
+      |> Fares.Repo.filter(duration: :single_trip, includes_media: :charlie_card)
       |> List.first()
       |> Map.get(:cents)
 
