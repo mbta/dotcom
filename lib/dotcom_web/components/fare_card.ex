@@ -6,6 +6,7 @@ defmodule DotcomWeb.Components.FareCard do
   use DotcomWeb, :component
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
+  import Routes.Route, only: [is_rapid_silver_line?: 1]
 
   @dialyzer {:nowarn_function, fare_card: 1}
   @ferry_routes_to_fare_names %{
@@ -45,7 +46,7 @@ defmodule DotcomWeb.Components.FareCard do
   end
 
   # Silver Line rapid transit fare (same as subway)
-  def fare_card(%{route: %{fare_class: :rapid_transit_fare, type: 3}} = assigns) do
+  def fare_card(%{route: route} = assigns) when is_rapid_silver_line?(route) do
     full_fare =
       Fares.Repo.for_fare_class(:rapid_transit_fare)
       |> Fares.Repo.filter(duration: :single_trip, includes_media: :charlie_card)
