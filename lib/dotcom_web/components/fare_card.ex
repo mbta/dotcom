@@ -61,7 +61,7 @@ defmodule DotcomWeb.Components.FareCard do
     assigns = assigns |> assign(:full_fare, full_fare) |> assign(:reduced_fare, reduced_fare)
 
     ~H"""
-    <div class="c-fare-card--subway c-fare-card--grouped c-fare-card">
+    <div class="c-fare-card--rapid-sl c-fare-card--grouped c-fare-card">
       <div class="c-fare-card__header">
         <div class="c-fare-card__icon">
           <DotcomWeb.Components.RouteSymbols.route_icon

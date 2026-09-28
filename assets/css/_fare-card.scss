@@ -82,6 +82,10 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
   &--the-ride {
     border-color: $brand-the-ride;
   }
+
+  &--rapid-sl {
+    border-color: $brand-silver-line;
+  }
 }
 
 .c-fare-card--grouped {
@@ -136,6 +140,11 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
   &.c-fare-card--the-ride .c-fare-card__header,
   &.c-fare-card--the-ride .c-multi-column__column {
     border-color: $brand-the-ride;
+  }
+
+   &.c-fare-card--rapid-sl .c-fare-card__header,
+  &.c-fare-card--rapid-sl .c-multi-column__column {
+    border-color: $brand-silver-line;
   }
 }
 
