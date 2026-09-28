@@ -256,7 +256,7 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
-  def fare_link(%{route: %{type: 3, id: id}} = assigns) when id in ~w(741 742 743 746) do
+  def fare_link(%{route: route} = assigns) when is_rapid_silver_line?(route) do
     ~H"""
     <a href="/fares/subway-fares">{~t"More subway fare options"}</a>
     """
