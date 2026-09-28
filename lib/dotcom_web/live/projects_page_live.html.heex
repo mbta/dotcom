@@ -1,7 +1,7 @@
 <div class="container">
   {@intro_content}
 </div>
-<div class="bg-gray-bordered-background">
+<div :if={@projects.ok? && @has_any_projects?} class="bg-gray-bordered-background">
   <div class="container pt-sm pb-lg">
     <div id="mode-filter-label" class="py-sm font-bold">{~t"Filter by Mode"}</div>
     <div
@@ -96,7 +96,7 @@
     </div>
   </.async_result>
 
-  <h2>
+  <h2 id="all-projects-heading">
     {if @selected_line_or_mode == "all",
       do: ~t"All Projects",
       else: gettext("All %{mode} Projects", mode: mode_label(@selected_line_or_mode))}
@@ -113,7 +113,11 @@
       <.spinner aria_label={~t"Loading projects"} />
     </div>
     <.callout :if={@projects.failed}>{~t"Projects could not be loaded."}</.callout>
-    <table :if={@projects.ok?} class="m-more-projects-table" aria-label="More Projects">
+    <table
+      :if={@projects.ok? && @has_any_projects?}
+      class="m-more-projects-table"
+      aria-labelledby="all-projects-heading"
+    >
       <thead class="bg-charcoal-80 hidden-md-down">
         <tr>
           <th
