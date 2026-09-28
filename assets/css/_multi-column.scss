@@ -16,7 +16,6 @@
 // Multi-column with either Fare Cards or Descriptive Links
 .c-paragraph--with-cards {
   container-type: inline-size;
-
   @container (width >= 544px) {
 
     .c-multi-column__row,
@@ -40,7 +39,6 @@
     float: none;
   }
 }
-
 
 // Multi-column with Fare Cards
 .c-paragraph--with-fares {
