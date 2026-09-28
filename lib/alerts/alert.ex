@@ -339,12 +339,12 @@ end
 
 defimpl Poison.Encoder, for: Alerts.Alert do
   def encode(%Alerts.Alert{} = alert, options) do
-    alert =
-      Map.update!(alert, :active_period, fn active_period_pairs ->
-        Enum.map(active_period_pairs, &alert_active_period/1)
-      end)
-
-    Poison.Encoder.Map.encode(alert, options)
+    alert
+    |> Map.from_struct()
+    |> Map.update!(:active_period, fn active_period_pairs ->
+      Enum.map(active_period_pairs, &alert_active_period/1)
+    end)
+    |> Poison.Encoder.Map.encode(options)
   end
 
   @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]

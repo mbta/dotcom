@@ -30,7 +30,9 @@ defmodule Stops.Stop do
             platform_code: nil,
             description: nil,
             zone: nil,
-            place_id: nil
+            vehicle_type: nil,
+            place_id: nil,
+            connecting_stops: []
 
   @type id_t :: String.t()
 
@@ -61,7 +63,9 @@ defmodule Stops.Stop do
           platform_code: String.t() | nil,
           description: String.t() | nil,
           zone: String.t() | nil,
-          place_id: String.t() | nil
+          vehicle_type: Routes.Route.gtfs_route_type() | nil,
+          place_id: String.t() | nil,
+          connecting_stops: [id_t]
         }
 
   defimpl Util.Position do

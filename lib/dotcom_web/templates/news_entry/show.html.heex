@@ -3,6 +3,29 @@
     <div class="c-cms__header">
       <div class="c-cms__title">
         <h1 class="c-cms__title-text">{@news_entry.title}</h1>
+        <div :if={@age > 365} class="c-cms__old_news">
+          <.cta
+            classes="text-sm"
+            icon="circle-info"
+            icon_type="solid"
+            style="background-color: #fff5bf"
+          >
+            {cond do
+              @age > 365 * 2 ->
+                gettext(
+                  "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations.",
+                  %{age: floor(@age / 365)}
+                )
+                |> Phoenix.HTML.raw()
+
+              @age > 365 ->
+                gettext(
+                  "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
+                )
+                |> Phoenix.HTML.raw()
+            end}
+          </.cta>
+        </div>
         <h2 class="c-cms__meta">{~t(Posted on)} {format_date(@news_entry.posted_on)}</h2>
       </div>
     </div>

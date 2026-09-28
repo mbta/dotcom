@@ -10,6 +10,10 @@ description: "Setup and install Dotcom dependencies"
 runs:
   using: "composite"
   steps:
+  - name: Install inotify-tools (required by file_system for ExUnit/Phoenix live reload)
+    run: sudo apt-get update && sudo apt-get install -y inotify-tools
+    shell: bash
+
   - name: Restore cache of languages from .tool-versions
     uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
     with:
@@ -18,7 +22,7 @@ runs:
     id: asdf-cache
   
   - name: Install languages from .tool-versions (if needed)
-    uses: asdf-vm/actions/install@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
+    uses: asdf-vm/actions/install@b7bcd026f18772e44fe1026d729e1611cc435d47 # v4.0.1
     if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
  
   - name: Install Hex/Rebar (if needed)

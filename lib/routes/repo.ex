@@ -4,8 +4,6 @@ defmodule Routes.Repo do
   use Dotcom.Gettext.Sigils
   use Nebulex.Caching.Decorators
 
-  require Logger
-
   import Routes.Parser
 
   alias Dotcom.Cache.KeyGenerator
@@ -35,7 +33,7 @@ defmodule Routes.Repo do
     for {:ok, routes} <- [result], route <- routes do
       key = KeyGenerator.generate(__MODULE__, :cached_get, [route.id, opts])
 
-      @cache.put(key, {:ok, route})
+      @cache.put(key, {:ok, route}, ttl: @ttl)
     end
 
     result
@@ -109,9 +107,9 @@ defmodule Routes.Repo do
         shapes = Enum.flat_map(data, &parse_shape/1)
 
         for shape <- shapes do
-          key = KeyGenerator.generate(__MODULE__, :get_shape, shape.id)
+          key = KeyGenerator.generate(__MODULE__, :get_shape, [shape.id])
 
-          @cache.put(key, [shape])
+          @cache.put(key, [shape], ttl: @ttl)
         end
 
         shapes

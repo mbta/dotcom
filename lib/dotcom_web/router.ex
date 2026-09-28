@@ -13,26 +13,30 @@ defmodule DotcomWeb.Router do
   """
 
   use DotcomWeb, :router
-  use Plug.ErrorHandler
 
-  alias DotcomWeb.ControllerHelpers
+  if Mix.env() == :dev do
+    use Plug.Debugger, otp_app: :dotcom
+  else
+    use Plug.ErrorHandler
 
-  @impl Plug.ErrorHandler
+    alias DotcomWeb.ControllerHelpers
 
-  @doc """
-  A custom error handling function that renders the appropriate
-  error page.
+    @impl Plug.ErrorHandler
+    @doc """
+    A custom error handling function that renders the appropriate
+    error page.
 
-  For most (unexpected) errors, we render a 500 page. When we see a
-  `DotcomWeb.NotFoundError`, we render the 404 page instead.
-  """
-  def handle_errors(conn, %{reason: reason}) do
-    case reason do
-      %{plug_status: 404} ->
-        ControllerHelpers.render_404(conn)
+    For most (unexpected) errors, we render a 500 page. When we see a
+    `DotcomWeb.NotFoundError`, we render the 404 page instead.
+    """
+    def handle_errors(conn, %{reason: reason}) do
+      case reason do
+        %{plug_status: 404} ->
+          ControllerHelpers.render_404(conn)
 
-      _ ->
-        ControllerHelpers.render_500(conn)
+        _ ->
+          ControllerHelpers.render_500(conn)
+      end
     end
   end
 
@@ -97,6 +101,8 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     # no pipe
     get("/_health", HealthController, :index)
+    get("/_health/open-trip-planner", HealthController, :open_trip_planner)
+    get("/version", VersionController, :version)
   end
 
   scope "/_flags", DotcomWeb do
@@ -116,17 +122,6 @@ defmodule DotcomWeb.Router do
   scope "/cache", DotcomWeb do
     get("/", CacheController, :get_cache_keys)
     get("/*path", CacheController, :get_cache_values)
-  end
-
-  # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
-  scope "/", DotcomWeb, host: "t." do
-    # no pipe
-    get("/*path", WwwRedirector, [])
-  end
-
-  scope "/", DotcomWeb, host: "beta." do
-    # no pipe
-    get("/*path", WwwRedirector, [])
   end
 
   scope "/", DotcomWeb do
@@ -451,7 +446,7 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
-    get("/*path", CMSController, :page)
+    get "/*path", CMSController, :page, warn_on_verify: true
   end
 
   defp basic_auth(conn, _) do

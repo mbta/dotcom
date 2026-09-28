@@ -75,6 +75,12 @@ jobs:
             type=raw,value=${{ inputs.deployment-env }}
             type=raw,priority=900,value=${{ inputs.extra-docker-tag }},enable=${{ inputs.extra-docker-tag != ''}}
 
+      - name: Get version ids
+        id: version-ids
+        run: |
+          sanitized="$(tr '/' '-' <<< "${GITHUB_REF}_${GITHUB_SHA}")"
+          echo "sentry-release=${sanitized}" >> "$GITHUB_OUTPUT"
+
       - name: Login to AWS ECR
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
@@ -88,6 +94,8 @@ jobs:
         with:
           load: true
           tags: assets-image
+          build-args: |
+            SENTRY_RELEASE=${{ steps.version-ids.outputs.sentry-release }}
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
@@ -104,6 +112,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            SENTRY_RELEASE=${{ steps.version-ids.outputs.sentry-release }}
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 

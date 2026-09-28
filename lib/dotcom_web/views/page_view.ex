@@ -36,10 +36,12 @@ defmodule DotcomWeb.PageView do
         _ -> []
       end)
 
-    render("_alerts.html",
+    __MODULE__
+    |> render_to_string("_alerts.html",
       routes_with_high_priority_alerts_by_mode: routes,
       stops_with_accessibility_alerts_by_issue: stops
     )
+    |> Phoenix.HTML.raw()
   end
 
   @spec alerts_mode_url(Routes.Route.gtfs_route_type()) :: String.t()

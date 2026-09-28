@@ -185,7 +185,8 @@ defmodule Test.Support.Factories.MBTA.Api do
             "child_stops" => [],
             "facilities" => [build(:facility_item)],
             "parent_station" => [],
-            "zone" => []
+            "zone" => [],
+            "connecting_stops" => []
           },
           type: "stop"
         },
@@ -357,12 +358,22 @@ defmodule Test.Support.Factories.MBTA.Api do
             "arrival_time" => formatted_datetime(),
             "departure_time" => formatted_datetime(),
             "pickup_type" => "",
+            "drop_off_type" => "",
+            "timepoint" => "",
             "stop_headsign" => "",
             "stop_sequence" => stop_sequence || 90
           },
+          relationships: %{
+            "route" => [build(:route_item)],
+            "stop" => [build(:stop_item)],
+            "trip" => [build(:trip_item)]
+          },
           type: "schedule"
         },
-        attrs
+        attrs,
+        fn _k, v1, v2 ->
+          Map.merge(v1, v2)
+        end
       )
     )
   end

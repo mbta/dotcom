@@ -6,7 +6,7 @@ defmodule Predictions.Parser do
   alias JsonApi.Item
   alias Predictions.Prediction
 
-  @type record :: {
+  @type parsed_record :: {
           Prediction.id_t() | nil,
           Schedules.Trip.id_t() | nil,
           Stops.Stop.id_t(),
@@ -24,7 +24,7 @@ defmodule Predictions.Parser do
           boolean
         }
 
-  @spec parse(Item.t()) :: record
+  @spec parse(Item.t()) :: parsed_record
   def parse(%Item{} = item) do
     arrival = arrival_time(item)
     departure = departure_time(item)
