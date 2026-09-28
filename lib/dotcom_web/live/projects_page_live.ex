@@ -7,6 +7,7 @@ defmodule DotcomWeb.ProjectsPageLive do
   import MbtaMetro.Components.SystemIcons
   import Phoenix.HTML.Form, only: [input_id: 2, input_name: 2, input_value: 2]
 
+  alias CMS.Partial.Teaser
   alias Phoenix.LiveView
 
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :projects_page}
