@@ -30,10 +30,26 @@ defmodule DotcomWeb.ProjectsPageLive do
      |> assign_featured_projects("all")}
   end
 
-  defp intro_content do
-    DotcomWeb.PartialView.paragraph("paragraphs/custom-html/projects-index", %Plug.Conn{
-      query_params: %{}
-    })
+  defp intro_content(assigns \\ %{}) do
+    case CMS.Repo.get_paragraph("paragraphs/custom-html/projects-index") do
+      %CMS.Partial.Paragraph.CustomHTML{body: body} ->
+        body
+
+      _ ->
+        ~H"""
+        <h1>{~t(Building a Better T)}</h1>
+        <p>
+          {gettext(
+            "The T is evolving every day. As part of our $9.6 billion, 5-year %{cip}, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system.",
+            cip:
+              link(~t(capital investment plan), to: "/financials/capital-investment-plan")
+              |> safe_to_string()
+          )
+          |> raw()}
+        </p>
+        <p>{~t(Take a look at what we're working on to make the MBTA better)}.</p>
+        """
+    end
   end
 
   @impl LiveView
