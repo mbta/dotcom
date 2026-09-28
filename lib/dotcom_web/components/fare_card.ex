@@ -168,7 +168,7 @@ defmodule DotcomWeb.Components.FareCard do
           slw: "SLW"
         })}
       </div>
-      <div class="text-sm">
+      <div>
         <.fare_link route={@route} />
       </div>
     </div>
