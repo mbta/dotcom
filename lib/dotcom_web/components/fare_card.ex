@@ -69,7 +69,7 @@ defmodule DotcomWeb.Components.FareCard do
             class="c-svg__icon c-svg-icon__rapid-bus"
           />
         </div>
-        <h3 class="c-fare-card__name">{~t"Silver Line One-Way"}<sup>*</sup></h3>
+        <h3 class="c-fare-card__name">{~t"Silver Line One-Way"}*</h3>
       </div>
       <div class="c-multi-column__column border-b-2">
         <h4 class="mt-0">{Fares.Format.price(@full_fare)}</h4>
@@ -161,7 +161,12 @@ defmodule DotcomWeb.Components.FareCard do
     ~H"""
     <div class="text-sm">
       <div :if={@route.id in ["741", "742", "743", "746"]}>
-        {~t"﹡SL1, SL2, SL3, and SLW are priced as subway fares"}
+        *{gettext("%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares", %{
+          sl1: "SL1",
+          sl2: "SL2",
+          sl3: "SL3",
+          slw: "SLW"
+        })}
       </div>
       <div class="text-sm">
         <.fare_link route={@route} />
