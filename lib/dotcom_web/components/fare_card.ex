@@ -30,11 +30,11 @@ defmodule DotcomWeb.Components.FareCard do
         </div>
         <h3 class="c-fare-card__name">{~t"Fare-Free Bus"}</h3>
       </div>
-      <div class="c-multi-column__column">
+      <div class="c-multi-column__column c-fare-card__note">
         <h4 class="mt-0">{~t"Free"}</h4>
         <p>
           {~t"Service on this route is free"}<br />
-          <a class="underline text-sm" href="/projects/fare-free-program-routes-23-28-and-29">
+          <a href="/projects/fare-free-program-routes-23-28-and-29">
             {~t"Learn more about the Fare-Free Program"}
           </a>
         </p>
@@ -80,7 +80,7 @@ defmodule DotcomWeb.Components.FareCard do
           })}
         </p>
       </div>
-      <div class="c-multi-column__column">
+      <div class="c-multi-column__column c-fare-card__note">
         <h4 class="mt-0">{Fares.Format.price(@reduced_fare)}</h4>
         <p>
           {gettext("with reduced fare card")}<br />
@@ -136,7 +136,7 @@ defmodule DotcomWeb.Components.FareCard do
           })}
         </p>
       </div>
-      <div class="c-multi-column__column">
+      <div class="c-multi-column__column c-fare-card__note">
         <h4 class="mt-0">{Fares.Format.price(@reduced_fare)}</h4>
         <p>
           {gettext("with reduced fare card")}<br />
