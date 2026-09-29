@@ -98,7 +98,7 @@ defmodule DotcomWeb.Components.FareCard do
   end
 
   # Commuter Rail Fare Card
-  def fare_card(%{route: %{type: 2, id: id}} = assigns) do
+  def fare_card(%{route: %{type: 2}} = assigns) do
     full_fares =
       Fares.Repo.for_fare_class(:commuter_rail_fare)
       |> Fares.Repo.filter(%{
