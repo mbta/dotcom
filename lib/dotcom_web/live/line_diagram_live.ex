@@ -9,6 +9,7 @@ defmodule DotcomWeb.LineDiagramLive do
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @map_config Application.compile_env(:mbta_metro, :map)
+  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   @guides [
     %{
@@ -110,7 +111,11 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:map_config, @map_config)
      |> assign(:direction_id, direction_id)
      |> assign(:vehicle_topic, vehicle_topic)
-     |> assign(:vehicle_icons, %{})
+     |> assign_new(:vehicle_icons, fn ->
+       route_id
+       |> @vehicles_repo.route(direction_id: direction_id)
+       |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+     end)
      |> assign_route_data()
      |> assign(:route_id, route_id)
      |> assign(:route, route)
