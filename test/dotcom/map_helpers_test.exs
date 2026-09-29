@@ -1,5 +1,5 @@
 defmodule MapHelpersTest do
-  use DotcomWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase, async: false
 
   import Dotcom.MapHelpers
   import Test.Support.EnvHelpers, only: [reassign_env: 3]

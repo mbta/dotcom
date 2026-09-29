@@ -51,7 +51,8 @@ module.exports = {
     "./ts/**/*.{js,ts}",
     "./ts/**/*.tsx",
     "../lib/dotcom_web.ex",
-    "../lib/dotcom_web/**/*.*ex",
+    "../lib/dotcom_web/**/*.ex",
+    "../lib/dotcom_web/**/*.heex",
     "../deps/mbta_metro/lib/mbta_metro/components/*.ex",
     "../deps/mbta_metro/lib/mbta_metro/live/*.ex"
   ],
@@ -215,6 +216,15 @@ module.exports = {
         h4: { "@apply h4": {} },
         h5: { "@apply h5": {} },
         h6: { "@apply h6": {} }
+      })
+    ),
+    plugin(({ addComponents }) =>
+      addComponents({
+        ".mode-filter--active": {
+          "background-color": "var(--button-secondary-hover-background-color)",
+          "border-color": "var(--button-secondary-hover-border-color)",
+          color: "var(--button-secondary-hover-text-color)"
+        }
       })
     )
   ]

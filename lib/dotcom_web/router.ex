@@ -259,9 +259,6 @@ defmodule DotcomWeb.Router do
     get("/news/rss.xml", StaticFileController, :index)
     get("/news/*path_params", NewsEntryController, :show)
 
-    get("/projects", ProjectController, :index)
-    get("/project_api", ProjectController, :api, as: :project_api)
-
     get("/projects/:project_alias/updates", ProjectController, :project_updates,
       as: :project_updates
     )
@@ -361,6 +358,7 @@ defmodule DotcomWeb.Router do
     live_session :rider,
       layout: {DotcomWeb.LayoutView, :live},
       on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live("/projects", ProjectsPageLive)
       live("/search", SearchPageLive)
       live("/trip-planner", TripPlannerLive)
     end

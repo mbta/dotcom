@@ -1,4 +1,5 @@
 defmodule Holiday do
+  @derive Jason.Encoder
   defstruct date: nil,
             name: ""
 

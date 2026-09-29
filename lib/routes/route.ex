@@ -252,6 +252,7 @@ defmodule Routes.Route do
   end
 
   def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
+  def silver_line?(id), do: id in @silver_line_set
 
   def silver_line, do: @silver_line
 
@@ -311,7 +312,7 @@ defmodule Routes.Route do
   end
 end
 
-defimpl Poison.Encoder, for: Routes.Route do
+defimpl Jason.Encoder, for: Routes.Route do
   def encode(
         %Routes.Route{
           direction_names: direction_names,
@@ -324,14 +325,12 @@ defimpl Poison.Encoder, for: Routes.Route do
         do: nil,
         else: encoded_directions(direction_destinations)
 
-    Poison.Encoder.encode(
-      %{
-        Map.from_struct(route)
-        | direction_names: encoded_directions(direction_names),
-          direction_destinations: direction_destinations_value
-      },
-      options
-    )
+    %{
+      Map.from_struct(route)
+      | direction_names: encoded_directions(direction_names),
+        direction_destinations: direction_destinations_value
+    }
+    |> Jason.Encode.map(options)
   end
 
   defp encoded_directions(%{0 => direction0, 1 => direction1}),
