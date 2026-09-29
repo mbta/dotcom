@@ -2028,11 +2028,6 @@ msgstr "Tarifa inválida"
 msgid "Invoice"
 msgstr "Fatura"
 
-#: lib/dotcom_web/components/trip_planner/results.ex
-#, elixir-autogen, elixir-format
-msgid "Is this helpful? Send us feedback"
-msgstr "Isso foi útil? Envie-nos seu feedback"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -5470,3 +5465,8 @@ msgstr "Este comunicado de imprensa foi publicado <strong>há mais de %{age} ano
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr "Este comunicado de imprensa foi publicado <strong>há mais de um ano.</strong> As informações nesta página podem não refletir mais os serviços, políticas"
 " ou operações atuais."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""

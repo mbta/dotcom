@@ -2028,11 +2028,6 @@ msgstr "Tarif ki pa valab"
 msgid "Invoice"
 msgstr "Fakti"
 
-#: lib/dotcom_web/components/trip_planner/results.ex
-#, elixir-autogen, elixir-format
-msgid "Is this helpful? Send us feedback"
-msgstr "Èske sa itil? Voye nou fidbak"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -5461,3 +5456,8 @@ msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase %{age} ane de 
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase yon ane de sa.</strong> Enfòmasyon ki sou paj sa a ka pa reflete sèvis, règleman oswa operasyon"
 " aktyèl yo ankò."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""

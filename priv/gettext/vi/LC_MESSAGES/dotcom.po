@@ -2022,11 +2022,6 @@ msgstr "Giá vé không hợp lệ"
 msgid "Invoice"
 msgstr "Hóa đơn"
 
-#: lib/dotcom_web/components/trip_planner/results.ex
-#, elixir-autogen, elixir-format
-msgid "Is this helpful? Send us feedback"
-msgstr "Thông tin này có hữu ích không? Hãy gửi phản hồi cho chúng tôi"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -5465,3 +5460,8 @@ msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn một năm.</strong> Thông tin trên trang này có thể không còn phản ánh dịch vụ, chính sách hoặc"
 " hoạt động hiện tại."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""
