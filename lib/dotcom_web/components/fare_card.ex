@@ -234,7 +234,7 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
-  def fare_note(assigns) do
+  defp fare_note(assigns) do
     ~H"""
     <div class="text-sm">
       <div :if={rapid_silver_line?(@route)}>
@@ -252,14 +252,14 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
-  def fare_link(%{route: %{type: type} = route} = assigns)
-      when type in [0, 1] or is_rapid_silver_line?(route) do
+  defp fare_link(%{route: %{type: type} = route} = assigns)
+       when type in [0, 1] or is_rapid_silver_line?(route) do
     ~H"""
     <a href="/fares/subway-fares">{~t"More subway fare options"}</a>
     """
   end
 
-  def fare_link(%{route: %{type: 2}} = assigns) do
+  defp fare_link(%{route: %{type: 2}} = assigns) do
     ~H"""
     <a href="/fares/commuter-rail-fares">{~t"More Commuter Rail fare options"}</a>
     """
@@ -271,7 +271,7 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
-  def fare_link(%{route: %{type: 4}} = assigns) do
+  defp fare_link(%{route: %{type: 4}} = assigns) do
     ~H"""
     <a href="/fares/ferry-fares">{~t"More ferry fare options"}</a>
     """
