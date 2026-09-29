@@ -13,6 +13,7 @@ defmodule Dotcom.ScheduleNote do
 
   @green_line_branch_ids GreenLine.branch_ids()
 
+  @derive Jason.Encoder
   defstruct alternate_text: nil,
             exceptions: [],
             offpeak_service: "",

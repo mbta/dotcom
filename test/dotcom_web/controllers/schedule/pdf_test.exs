@@ -1,5 +1,5 @@
 defmodule DotcomWeb.ScheduleController.PdfTest do
-  use DotcomWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase, async: false
 
   import Test.Support.EnvHelpers, only: [reassign_env: 3]
 
