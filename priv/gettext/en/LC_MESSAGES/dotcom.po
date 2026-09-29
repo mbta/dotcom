@@ -2031,11 +2031,6 @@ msgstr ""
 msgid "Invoice"
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/results.ex
-#, elixir-autogen, elixir-format
-msgid "Is this helpful? Send us feedback"
-msgstr ""
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -5668,4 +5663,9 @@ msgstr ""
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
 msgstr ""

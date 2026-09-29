@@ -2029,11 +2029,6 @@ msgstr "Giá vé không hợp lệ"
 msgid "Invoice"
 msgstr "Hóa đơn"
 
-#: lib/dotcom_web/components/trip_planner/results.ex
-#, elixir-autogen, elixir-format
-msgid "Is this helpful? Send us feedback"
-msgstr "Thông tin này có hữu ích không? Hãy gửi phản hồi cho chúng tôi"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -5686,3 +5681,8 @@ msgstr "Xem lịch trình"
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr "Bài hát sẽ được công bố sau."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""
