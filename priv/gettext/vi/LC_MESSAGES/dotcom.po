@@ -5464,4 +5464,4 @@ msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "Tiếp tục"
