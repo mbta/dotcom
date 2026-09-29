@@ -265,7 +265,7 @@ defmodule DotcomWeb.Components.FareCard do
     """
   end
 
-  def fare_link(%{route: %{type: 3}} = assigns) do
+  defp fare_link(%{route: %{type: 3}} = assigns) do
     ~H"""
     <a href="/fares/bus-fares">{~t"More bus fare options"}</a>
     """
