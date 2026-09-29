@@ -172,7 +172,7 @@ defmodule DotcomWeb do
       use Dotcom.Gettext.Sigils
       use MbtaMetro
 
-      import DotcomWeb.{Components, Components.RouteSymbols}
+      import DotcomWeb.Components
       import Phoenix.{Component, HTML, LiveView.Helpers}
       import PhoenixHTMLHelpers.Form, except: [label: 1]
       import PhoenixHTMLHelpers.{Format, Link, Tag}

@@ -30,8 +30,7 @@ module.exports = {
     map: ["./js/leaflet-css.js"], // For leaflet.css only, not js
     stop: ["./ts/stop-entry.ts"],
     leaflet: ["./ts/leaflet-entry.ts"],
-    schedule: ["./ts/schedule-entry.ts"],
-    projects: ["./ts/projects-entry.ts"]
+    schedule: ["./ts/schedule-entry.ts"]
   },
 
   stats: {
