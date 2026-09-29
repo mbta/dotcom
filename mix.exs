@@ -164,7 +164,6 @@ defmodule DotCom.Mixfile do
       {:phoenix_view, "2.0.4"},
       {:plug, "1.20.3"},
       {:plug_cowboy, "2.9.0"},
-      {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
       {:progress_bar, "3.1.0"},
       # Needed for rstar; workaround for mix local.hex bug
