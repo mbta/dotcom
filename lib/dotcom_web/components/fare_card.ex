@@ -107,8 +107,8 @@ defmodule DotcomWeb.Components.FareCard do
       })
       |> Enum.sort_by(fn fare -> fare |> Map.get(:cents) end)
 
-    min_full_fare = full_fares |> List.first() |> Map.get(:cents)
-    max_full_fare = full_fares |> List.last() |> Map.get(:cents)
+    {min_full_fare, max_full_fare} =
+      full_fares |> Enum.min_max_by(fn fare -> fare |> Map.get(:cents) end)
 
     reduced_fares =
       Fares.Repo.for_fare_class(:commuter_rail_fare)
@@ -118,8 +118,8 @@ defmodule DotcomWeb.Components.FareCard do
       })
       |> Enum.sort_by(fn fare -> fare |> Map.get(:cents) end)
 
-    min_reduced_fare = reduced_fares |> List.first() |> Map.get(:cents)
-    max_reduced_fare = reduced_fares |> List.last() |> Map.get(:cents)
+    {min_reduced_fare, max_reduced_fare} =
+      reduced_fares |> Enum.min_max_by(fn fare -> fare |> Map.get(:cents) end)
 
     assigns =
       assigns
