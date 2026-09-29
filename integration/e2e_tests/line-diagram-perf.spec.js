@@ -1,4 +1,4 @@
-import { lineScenario } from "../scenarios/line-diagram_react";
+import { lineScenario } from "../scenarios/load-line-diagram";
 import { test } from "@playwright/test";
 
 const baseURL = process.env.HOST
