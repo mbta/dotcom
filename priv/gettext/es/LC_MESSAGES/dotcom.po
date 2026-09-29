@@ -5473,4 +5473,4 @@ msgstr "Este comunicado de prensa se publicó <strong>hace más de un año.</str
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "Continúa como"
