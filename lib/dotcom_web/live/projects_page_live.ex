@@ -40,13 +40,7 @@ defmodule DotcomWeb.ProjectsPageLive do
         ~H"""
         <h1>{~t(Building a Better T)}</h1>
         <p>
-          {gettext(
-            "The T is evolving every day. As part of our $9.6 billion, 5-year %{cip}, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system.",
-            cip:
-              link(~t(capital investment plan), to: "/financials/capital-investment-plan")
-              |> safe_to_string()
-          )
-          |> raw()}
+          {~t(The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system)}.
         </p>
         <p>{~t(Take a look at what we're working on to make the MBTA better)}.</p>
         """
