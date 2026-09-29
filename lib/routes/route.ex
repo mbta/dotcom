@@ -252,6 +252,7 @@ defmodule Routes.Route do
   end
 
   def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
+  def silver_line?(id), do: id in @silver_line_set
 
   def silver_line, do: @silver_line
 
