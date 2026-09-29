@@ -117,7 +117,7 @@ defmodule DotCom.Mixfile do
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.8", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
-      {:ecto, "3.13.6"},
+      {:ecto, "3.14.2"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_cldr, "2.47.5"},
