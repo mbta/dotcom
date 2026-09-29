@@ -5460,4 +5460,4 @@ msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase yon ane de sa.
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "Kontinye"
