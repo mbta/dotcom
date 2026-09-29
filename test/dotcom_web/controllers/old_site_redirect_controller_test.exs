@@ -58,21 +58,21 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
       old_url = "/schedules_and_maps/subway/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(DotcomWeb.Endpoint, :show, :subway)
+               subway_stops_path(DotcomWeb.Endpoint, :list)
     end
 
     test "Commuter stop redirected to commuter rail stops page", %{conn: conn} do
       old_url = "/schedules_and_maps/rail/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(DotcomWeb.Endpoint, :show, :commuter_rail)
+               commuter_rail_stops_path(DotcomWeb.Endpoint, :list)
     end
 
     test "Ferry stop redirected to ferry stops page", %{conn: conn} do
       old_url = "/schedules_and_maps/boats/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(DotcomWeb.Endpoint, :show, :ferry)
+               ferry_stops_path(DotcomWeb.Endpoint, :list)
     end
 
     test "Specific stops redirect to corresponding stop page", %{conn: conn} do
@@ -83,7 +83,7 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
       old_url = "/schedules_and_maps/rail/lines/stations/?stopId=19"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(DotcomWeb.Endpoint, :show, "place-ER-0183")
+               live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, "place-ER-0183")
     end
 
     test "Other rail routes redirected to commuter rail stops page", %{conn: conn} do
@@ -127,10 +127,10 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
       north_station_rail = "/schedules_and_maps/rail/lines/stations?stopId=13610"
 
       assert redirected_to(get(conn, north_station_subway), :moved_permanently) =~
-               stop_path(DotcomWeb.Endpoint, :show, "place-north")
+               live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, "place-north")
 
       assert redirected_to(get(conn, north_station_rail), :moved_permanently) =~
-               stop_path(DotcomWeb.Endpoint, :show, "place-north")
+               live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, "place-north")
     end
 
     test "Redirects to /schedules if stopId is not found", %{conn: conn} do
