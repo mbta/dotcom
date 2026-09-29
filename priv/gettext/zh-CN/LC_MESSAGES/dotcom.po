@@ -5443,3 +5443,13 @@ msgstr "这篇新闻稿发布<strong>于%{age}年前。</strong>本页面上的�
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr "这篇新闻稿发布<strong>于一年多以前。</strong>本页面上的信息可能不再反映当前的服务、政策或运营情况。"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Download %{mbta_go} to track your %{vehicle_name}"
+msgstr ""

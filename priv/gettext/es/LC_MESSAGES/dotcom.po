@@ -5474,3 +5474,13 @@ msgstr "Este comunicado de prensa se publicó <strong>hace más de %{age} años.
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
 msgstr "Este comunicado de prensa se publicó <strong>hace más de un año.</strong> La información de esta página puede dejar de reflejar el servicio, las políticas"
 " o las operaciones actuales."
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Continues as"
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Download %{mbta_go} to track your %{vehicle_name}"
+msgstr ""
