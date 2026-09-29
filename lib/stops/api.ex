@@ -15,7 +15,7 @@ defmodule Stops.Api do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @default_params [
-    include: "parent_station,facilities,child_stops",
+    include: "parent_station,facilities,child_stops,connecting_stops",
     "fields[facility]": "long_name,type,properties,latitude,longitude,id",
     "fields[stop]":
       "address,name,latitude,longitude," <>
@@ -179,7 +179,8 @@ defmodule Stops.Api do
       description: description(item),
       zone: zone_number(item),
       vehicle_type: Map.get(item.attributes, "vehicle_type"),
-      place_id: stop_place_id(item.id)
+      place_id: stop_place_id(item.id),
+      connecting_stops: connecting_stops(item)
     }
 
     {:ok, stop}
@@ -488,4 +489,10 @@ defmodule Stops.Api do
       _ -> nil
     end
   end
+
+  defp connecting_stops(%Item{relationships: %{"connecting_stops" => connecting_stops}}) do
+    Enum.map(connecting_stops, & &1.id)
+  end
+
+  defp connecting_stops(_), do: []
 end

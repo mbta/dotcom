@@ -185,7 +185,8 @@ defmodule Test.Support.Factories.MBTA.Api do
             "child_stops" => [],
             "facilities" => [build(:facility_item)],
             "parent_station" => [],
-            "zone" => []
+            "zone" => [],
+            "connecting_stops" => []
           },
           type: "stop"
         },
