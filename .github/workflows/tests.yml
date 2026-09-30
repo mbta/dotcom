@@ -46,6 +46,7 @@ jobs:
               - '**.exs'
               - '**.eex'
               - '**.heex'
+              - 'mix.lock'
             scss:
               - 'assets/css/**.scss'
 
