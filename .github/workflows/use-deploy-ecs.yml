@@ -181,7 +181,7 @@ jobs:
           name: critical-user-journey-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
           path: playwright-report
           retention-days: 30
-  # disabled until we can figure out rate-limiting
+  # disabled until we can figure out rate-limiting!
   # crawl:
   #   permissions:
   #     contents: read
