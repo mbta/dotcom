@@ -5622,7 +5622,7 @@ msgstr ""
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr "Cerrar ventana emergente"
+msgstr ""
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
