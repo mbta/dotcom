@@ -305,6 +305,7 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign(
       :map_locale_strings,
       %{
+        "AttributionControl.ToggleAttribution" => ~t(Toggle attribution),
         "NavigationControl.ResetBearing" => ~t(Drag to rotate map, click to reset north),
         "NavigationControl.ZoomIn" => ~t(Zoom in),
         "NavigationControl.ZoomOut" => ~t(Zoom out),

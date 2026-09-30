@@ -5622,7 +5622,7 @@ msgstr ""
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr ""
+msgstr "Cerrar ventana emergente"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5637,4 +5637,9 @@ msgstr ""
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Toggle attribution"
 msgstr ""

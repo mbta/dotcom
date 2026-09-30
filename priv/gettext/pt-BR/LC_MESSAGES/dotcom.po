@@ -5634,3 +5634,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
 msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Toggle attribution"
+msgstr ""
