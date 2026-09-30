@@ -39,8 +39,9 @@ test.describe("React (old) line diagram performance tests", {tag: "@performance"
             let avg_ttfb = 0;
             let avg_dom = 0;
             let avg_full = 0;
+            await lineScenario({page, baseURL, route})
             for(let n=0;n<REPS;n+=1){
-                await lineScenario({page, baseURL, route})
+                await page.reload();
                 const {ttfb, dom, full} = await page.evaluate(()=>{
                     const nav = performance.getEntriesByType('navigation')[0];
                     return {
@@ -83,8 +84,9 @@ test.describe("Phoenix (new) line diagram performance tests", {tag: "@performanc
             let avg_ttfb = 0;
             let avg_dom = 0;
             let avg_full = 0;
+            await lineScenario({page, baseURL, route, newVersion: true})
             for(let n=0;n<REPS;n+=1){
-                await lineScenario({page, baseURL, route, newVersion: true})
+                await page.reload();
                 const {ttfb, dom, full} = await page.evaluate(()=>{
                     const nav = performance.getEntriesByType('navigation')[0];
                     return {
