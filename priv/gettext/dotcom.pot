@@ -5593,3 +5593,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "View Schedule"
+msgstr ""
