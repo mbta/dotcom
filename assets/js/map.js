@@ -73,7 +73,7 @@ export default {
         element: marker.element,
       });
       if(marker.popup){
-        const popup = new maplibregl.Popup({className: ""});
+        const popup = new maplibregl.Popup({className: "m-schedule-line__stop-popup", focusAfterOpen: false});
         popup.setHTML(marker.popup)
         mapMarker.setPopup(popup)
       }

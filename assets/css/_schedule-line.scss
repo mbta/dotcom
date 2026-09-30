@@ -38,3 +38,23 @@
   flex-direction: column;
   padding-left: 0;
 }
+
+.m-schedule-line__stop-popup {
+  .maplibregl-popup-content {
+    background-color: $black;
+    color: $white;
+    a {
+      color: $white;
+      text-decoration: underline;
+    }
+    padding: 0.5rem;
+  }
+  .maplibregl-popup-tip {
+    border-top-color: $black;
+  }
+
+  .popup-title {
+    margin-top: -0.25rem;
+    margin-right: 1rem;
+  }
+}
