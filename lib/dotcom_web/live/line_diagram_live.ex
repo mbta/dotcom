@@ -294,7 +294,7 @@ defmodule DotcomWeb.LineDiagramLive do
           name: "icon-stop-circle-bordered-expanded",
           class: "size-3 cursor-pointer",
           popup:
-            "<div class=\"popup-title\">#{&1.name}</div> <div class=\"popup-link\"> <a href=\"/departures/?route_id=#{route.id}&direction_id=#{direction_id}&stop_id=#{&1.id}\">View Schedule</a> </div>"
+            "<div class=\"popup-title\">#{&1.name}</div> <div class=\"popup-link\"> <a href=\"/departures/?route_id=#{route.id}&direction_id=#{direction_id}&stop_id=#{&1.id}\">#{~t(View Schedule)}</a> </div>"
         }
       )
 
