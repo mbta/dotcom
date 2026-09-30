@@ -16,9 +16,9 @@ export default {
    */
   mounted() {
     this.config = JSON.parse(this.el.dataset.config);
-
     this.map = new maplibregl.Map({
       container: this.el.querySelector(".mbta-map-wrapper"),
+      locale: JSON.parse(this.el.dataset.locale),
       ...this.config,
     });
 

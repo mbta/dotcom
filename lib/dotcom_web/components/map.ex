@@ -51,6 +51,7 @@ defmodule DotcomWeb.Components.Map do
         config: Map.get(assigns, :config, %{}),
         lines: Map.get(assigns, :lines, []),
         loaded: false,
+        locale: Map.get(assigns, :locale, "{}"),
         icons: Map.get(assigns, :icons, []),
         pins: Map.get(assigns, :pins, []),
         points: Map.get(assigns, :points, [])
@@ -74,6 +75,7 @@ defmodule DotcomWeb.Components.Map do
       id={@id}
       class={"mbta-map #{@class}"}
       data-config={Jason.encode!(@config)}
+      data-locale={Jason.encode!(@locale)}
       phx-hook="Map"
     >
       <div
