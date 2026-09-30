@@ -5550,3 +5550,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Price based on distance traveled"
 msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable.html.heex
+#, elixir-autogen, elixir-format
+msgid "Download %{mbta_go} to track your %{vehicle_name}"
+msgstr ""

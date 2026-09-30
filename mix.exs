@@ -117,7 +117,7 @@ defmodule DotCom.Mixfile do
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.8", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
-      {:ecto, "3.13.6"},
+      {:ecto, "3.14.2"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_cldr, "2.47.5"},
@@ -164,7 +164,6 @@ defmodule DotCom.Mixfile do
       {:phoenix_view, "2.0.4"},
       {:plug, "1.20.3"},
       {:plug_cowboy, "2.9.0"},
-      {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
       {:progress_bar, "3.1.0"},
       # Needed for rstar; workaround for mix local.hex bug

@@ -6,5 +6,4 @@ defmodule DotcomWeb.ProjectView do
 
   alias CMS.Field.Link
   alias CMS.Partial.Paragraph.DescriptiveLink
-  alias DotcomWeb.PartialView
 end

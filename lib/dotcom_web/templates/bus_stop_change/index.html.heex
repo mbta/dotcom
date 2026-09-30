@@ -27,7 +27,7 @@ alerts_grouped_by_municipality =
             <h2 class="u-mt-0">{municipality}</h2>
             <%= for {stop, alerts} <- muni_alerts do %>
               <section style="list-style-type: none; margin-bottom: 1.5rem;">
-                <h3 class="u-mt-0">{affected_stop_link(@conn, stop)}</h3>
+                <h3 class="u-mt-0">{affected_stop_link(stop)}</h3>
                 <%= for alert <- alerts do %>
                   <%= for route <- affected_routes(alert) do %>
                     <span class="c-icon__bus-pill--small u-bg--bus" style="margin-right: .25rem;">
