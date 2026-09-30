@@ -290,7 +290,8 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
           name: "icon-stop-circle-bordered-expanded",
-          class: "size-3"
+          class: "size-3 cursor-pointer",
+          popup: "<a href=\"/stops/#{&1.id}\">#{&1.name}</a>"
         }
       )
 
