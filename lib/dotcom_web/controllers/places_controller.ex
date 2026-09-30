@@ -105,22 +105,21 @@ defmodule DotcomWeb.PlacesController do
   def search(conn, _params), do: ControllerHelpers.return_invalid_arguments_error(conn)
 
   defp do_search(conn, query, hit_limit) do
-    case @location_service.autocomplete(query, hit_limit) do
-      {:ok, suggestions} ->
-        json(conn, %{result: with_coordinates(suggestions)})
-
-      {:error, :invalid_arguments} ->
-        ControllerHelpers.return_invalid_arguments_error(conn)
-
-      _ ->
-        ControllerHelpers.return_internal_error(conn)
-    end
+    request_autocomplete(conn, query, hit_limit, fn suggestions ->
+      json(conn, %{result: with_coordinates(suggestions)})
+    end)
   end
 
   defp do_autocomplete(conn, input, hit_limit) do
-    case @location_service.autocomplete(input, hit_limit) do
-      {:ok, predictions} ->
-        json(conn, %{predictions: Jason.encode!(predictions)})
+    request_autocomplete(conn, input, hit_limit, fn predictions ->
+      json(conn, %{predictions: Jason.encode!(predictions)})
+    end)
+  end
+
+  defp request_autocomplete(conn, query, hit_limit, on_success) do
+    case @location_service.autocomplete(query, hit_limit) do
+      {:ok, results} ->
+        on_success.(results)
 
       {:error, :invalid_arguments} ->
         ControllerHelpers.return_invalid_arguments_error(conn)
