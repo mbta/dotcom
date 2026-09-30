@@ -5,10 +5,35 @@ const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
   : "http://localhost:4001";
 
-const REPS = process.env.REPS ? process.env.REPS * 1 : 10
+const TEST_ROUTES = ["Green", "230", "CR-Franklin", "Boat-F2H"]
+let output_table = {}
+TEST_ROUTES.forEach(route=>{
+    output_table = {[`${route}_new`]:false, [route]:false, ...output_table}
+})
+const REPS = process.env.REPS ? process.env.REPS * 1 : 10;
+const centerPad = (str, len) => {
+    const pad = (len - String(str).length)/2
+    const left_pad = Math.floor(pad)
+    const right_pad = Math.ceil(pad)
+    return " ".repeat(left_pad)+String(str)+" ".repeat(right_pad)
+}
+
+const reportResult = ({route, newVersion, ttfb, dom, full})=>{
+    output_table[`${route}${newVersion?"_new":""}`]= { ttfb, dom, full}
+    if(!(Object.keys(output_table).find(key => output_table[key]==false))){
+        console.log("╔═════════════════╤════════╤════════╤════════╗");
+        console.log("║      Route      │  TTFB  │  DOM   │  FULL  ║");
+        console.log("╠═════════════════╪════════╪════════╪════════╣");
+        Object.keys(output_table).sort().forEach((key, index) => {
+            const {ttfb, dom, full} = output_table[key];
+            console.log(`║${centerPad(key, 17)}│${centerPad(ttfb, 8)}│${centerPad(dom, 8)}│${centerPad(full, 8)}║`)
+            index == Object.keys(output_table).length-1 ? console.log("╚═════════════════╧════════╧════════╧════════╝") : console.log("╠═════════════════╪════════╪════════╪════════╣");
+        });
+    }
+}
 
 test.describe("React (old) line diagram performance tests", {tag: "@performance"}, ()=>{
-    ["Green", "230", "CR-Franklin", "Boat-F2H"].forEach((route)=>{
+    TEST_ROUTES.forEach((route)=>{
        
         test(`${route} load time`, {tag: `@${route}`}, async ({ page })=>{
             let avg_ttfb = 0;
@@ -46,13 +71,13 @@ test.describe("React (old) line diagram performance tests", {tag: "@performance"
                 description: `${route}_old_full: ${avg_full}ms`,
             });
             
-            console.log({route, REPS, avg_ttfb, avg_dom, avg_full, newVersion: false})
+            reportResult({route, newVersion: false, ttfb: avg_ttfb, dom: avg_dom, full: avg_full});
         })
     })
 })
 
 test.describe("Phoenix (new) line diagram performance tests", {tag: "@performance"}, ()=>{
-    ["Green", "230", "CR-Franklin", "Boat-F2H"].forEach((route)=>{
+    TEST_ROUTES.forEach((route)=>{
        
         test(`${route} load time`, {tag: `@${route}`}, async ({ page })=>{
             let avg_ttfb = 0;
@@ -90,7 +115,8 @@ test.describe("Phoenix (new) line diagram performance tests", {tag: "@performanc
                 description: `${route}_new_full: ${avg_full}ms`,
             });
             
-            console.log({route, REPS, avg_ttfb, avg_dom, avg_full})
+            reportResult({route, newVersion:true , ttfb: avg_ttfb, dom: avg_dom,full: avg_full});
+
         })
     })
 })
