@@ -35,10 +35,9 @@ defmodule LocationService do
     if valid_autocomplete_request?(text, limit) do
       request = Map.merge(options, %{"Text" => text, "MaxResults" => limit})
 
-      aws_request(:autocomplete, fn ->
+      request_and_handle(:autocomplete, fn ->
         @aws_client.search_place_index_for_suggestions(index(), request)
       end)
-      |> handle_response(:autocomplete)
     else
       {:error, :invalid_arguments}
     end
@@ -57,10 +56,9 @@ defmodule LocationService do
   def geocode(address, options \\ @bounding_options) do
     request = Map.put(options, "Text", address)
 
-    aws_request(:geocode, fn ->
+    request_and_handle(:geocode, fn ->
       @aws_client.search_place_index_for_text(index(), request)
     end)
-    |> handle_response(:geocode)
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
@@ -68,15 +66,18 @@ defmodule LocationService do
   def reverse_geocode(latitude, longitude, options \\ @bounding_options) do
     request = Map.put(options, "Position", [longitude, latitude])
 
-    aws_request(:reverse_geocode, fn ->
+    request_and_handle(:reverse_geocode, fn ->
       @aws_client.search_place_index_for_position(index(), request)
     end)
-    |> handle_response(:reverse_geocode)
   end
 
   defp get_place(place_id) do
-    aws_request(:get_place, fn -> @aws_client.get_place(index(), place_id) end)
-    |> handle_response(:get_place)
+    request_and_handle(:get_place, fn -> @aws_client.get_place(index(), place_id) end)
+  end
+
+  defp request_and_handle(operation, request_fun) do
+    aws_request(operation, request_fun)
+    |> handle_response(operation)
   end
 
   defp aws_request(operation, request_fun, retries \\ 0) do
