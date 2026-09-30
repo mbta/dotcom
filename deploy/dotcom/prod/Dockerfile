@@ -39,8 +39,6 @@ RUN mix release
 
 FROM hexpm/elixir:1.20.4-erlang-29.0.6-alpine-3.23.5
 
-ARG SENTRY_RELEASE
-
 ENV PORT=4000 MIX_ENV="prod" PHX_SERVER=true TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
 
 RUN apk update
@@ -50,6 +48,7 @@ RUN apk add libssl3
 COPY --from=builder /home/_build /home/_build
 
 # RUN
+ARG SENTRY_RELEASE
 ENV SENTRY_RELEASE=${SENTRY_RELEASE}
 
 EXPOSE 4000
