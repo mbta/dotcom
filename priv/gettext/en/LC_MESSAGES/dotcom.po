@@ -51,7 +51,7 @@ msgstr ""
 msgid " at "
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr ""
@@ -213,6 +213,7 @@ msgstr ""
 msgid "%{name} Commuter Rail"
 msgstr ""
 
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "%{place} Information"
@@ -650,6 +651,7 @@ msgstr ""
 msgid "Bikes are allowed on all ferry boats"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Blue Line"
@@ -688,6 +690,7 @@ msgstr ""
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
 #: lib/fares/format.ex
@@ -947,6 +950,7 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1376,12 +1380,12 @@ msgstr ""
 msgid "Enter an origin location"
 msgstr ""
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter keyword(s)"
 msgstr ""
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter project keywords"
 msgstr ""
@@ -1627,6 +1631,7 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1874,6 +1879,7 @@ msgstr ""
 msgid "Google Pay"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Green Line"
@@ -2901,6 +2907,7 @@ msgstr ""
 msgid "Or, go to "
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Orange Line"
@@ -3256,6 +3263,7 @@ msgid "Privacy Policy"
 msgstr ""
 
 #: lib/dotcom_web/controllers/project_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Projects"
@@ -3328,6 +3336,7 @@ msgstr ""
 msgid "Recently Visited Schedules"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Red Line"
@@ -3907,12 +3916,13 @@ msgstr ""
 msgid "Station Issue"
 msgstr ""
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
 msgstr ""
 
 #: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
@@ -3930,6 +3940,7 @@ msgid "Stations and Stops"
 msgstr ""
 
 #: lib/dotcom_web/components/stops.ex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Status"
 msgstr ""
@@ -3992,6 +4003,7 @@ msgstr ""
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/subway.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -4521,6 +4533,7 @@ msgid "Upcoming Changes"
 msgstr ""
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Departures"
 msgstr ""
@@ -4535,6 +4548,7 @@ msgstr ""
 msgid "Upcoming Public Meetings and Events"
 msgstr ""
 
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #: lib/dotcom_web/templates/cms/page/_project_update.html.heex
 #: lib/dotcom_web/templates/project/update.html.heex
 #, elixir-autogen, elixir-format
@@ -5455,7 +5469,147 @@ msgstr ""
 msgid "Continues as"
 msgstr ""
 
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bring your car or bike"
+msgstr ""
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get around the station"
+msgstr ""
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase your fare"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "All"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All %{mode} Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured %{mode} Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured Projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Line"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Mode"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last Updated"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last updated"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading featured projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading more projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading projects"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Mattapan Line"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "No projects found"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Project"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Projects could not be loaded."
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Show More"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "You've reached the end of the list."
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Building a Better T"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Take a look at what we're working on to make the MBTA better"
+msgstr ""
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
+msgstr ""
+
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Close popup"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Drag to rotate map, click to reset north"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom in"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom out"
 msgstr ""

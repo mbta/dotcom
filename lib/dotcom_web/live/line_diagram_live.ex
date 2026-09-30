@@ -300,7 +300,7 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign(:map_icons, map_icons)
   end
 
-  defp assign_map_locale(%{assigns: assigns} = socket) do
+  defp assign_map_locale(socket) do
     socket
     |> assign(
       :map_locale_strings,
