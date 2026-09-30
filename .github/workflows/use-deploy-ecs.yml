@@ -89,15 +89,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
 
-      - name: Build image
+      - name: Build image for asset upload and ECR
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           load: true
           tags: assets-image
+          labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             SENTRY_RELEASE=${{ steps.version-ids.outputs.sentry-release }}
-          cache-from: type=gha,src=/tmp/.buildx-cache
-          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+          cache-from: type=gha,scope=dotcom-${{ inputs.deployment-env }}
+          cache-to: type=gha,scope=dotcom-${{ inputs.deployment-env }},mode=max
 
       - name: Upload assets from image into s3
         env:
@@ -106,16 +107,13 @@ jobs:
           bash upload_assets.sh assets-image
 
       - name: Push to ECR
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
-        id: docker-build
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            SENTRY_RELEASE=${{ steps.version-ids.outputs.sentry-release }}
-          cache-from: type=gha,src=/tmp/.buildx-cache
-          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+        env:
+          DOCKER_TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          while IFS= read -r tag; do
+            docker tag assets-image "$tag"
+            docker push "$tag"
+          done <<< "$DOCKER_TAGS"
 
       - uses: mbta/actions/deploy-ecs@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
         with:
