@@ -1,0 +1,25 @@
+# To be added as a required check in the branch protection rules
+name: Block Merge on Label
+
+on:
+  pull_request:
+    types: [opened, edited, labeled, unlabeled, synchronize]
+
+permissions: {}
+
+jobs:
+  check-label:
+    name: "Check for Block Labels"
+    runs-on: ubuntu-latest
+
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'do not merge') ||
+      contains(github.event.pull_request.labels.*.name, 'on hold') ||
+      contains(github.event.pull_request.labels.*.name, 'WIP') ||
+      contains(github.event.pull_request.labels.*.name, 'Not Ready for Translation')
+
+    steps:
+      - name: Fail the build to block merge
+        run: |
+          echo "::error::This PR contains a blocking label. Remove it to allow merging."
+          exit 1
