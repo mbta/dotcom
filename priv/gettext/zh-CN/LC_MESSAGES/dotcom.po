@@ -5586,7 +5586,7 @@ msgstr "下载%{mbta_go}来跟踪您的%{vehicle_name}"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
-msgstr ""
+msgstr "查看时刻表"
 
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format

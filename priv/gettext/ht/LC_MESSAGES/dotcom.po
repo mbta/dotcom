@@ -5605,7 +5605,7 @@ msgstr "Telechaje %{mbta_go} pou swiv %{vehicle_name}ou a"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
-msgstr ""
+msgstr "Gade Orè a"
 
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
