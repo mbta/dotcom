@@ -194,7 +194,6 @@ defmodule DotcomWeb.LineDiagramLive do
           route_patterns={@route_patterns}
           map_lines={@map_lines}
           map_icons={@map_icons}
-          locale={@map_locale_strings}
         />
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
@@ -255,7 +254,6 @@ defmodule DotcomWeb.LineDiagramLive do
     socket
     |> assign_map_lines()
     |> assign_map_icons()
-    |> assign_map_locale()
   end
 
   defp assign_map_lines(%{assigns: %{route: route, route_patterns: route_patterns}} = socket) do
@@ -300,20 +298,6 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign(:map_icons, map_icons)
   end
 
-  defp assign_map_locale(socket) do
-    socket
-    |> assign(
-      :map_locale_strings,
-      %{
-        "AttributionControl.ToggleAttribution" => ~t(Toggle attribution),
-        "NavigationControl.ResetBearing" => ~t(Drag to rotate map, click to reset north),
-        "NavigationControl.ZoomIn" => ~t(Zoom in),
-        "NavigationControl.ZoomOut" => ~t(Zoom out),
-        "Popup.Close" => ~t(Close popup)
-      }
-    )
-  end
-
   defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
     pdfs =
       Dotcom.RoutePdfs.fetch_and_choose_pdfs(
@@ -333,7 +317,6 @@ defmodule DotcomWeb.LineDiagramLive do
       config={@map_config}
       lines={@map_lines}
       icons={@map_icons}
-      locale={@locale}
     />
     """
   end

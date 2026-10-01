@@ -5615,27 +5615,27 @@ msgstr ""
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom in"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
 msgstr ""
 
-#: lib/dotcom_web/live/line_diagram_live.ex
+#: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
 msgstr ""

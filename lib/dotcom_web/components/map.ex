@@ -25,6 +25,7 @@ defmodule DotcomWeb.Components.Map do
   """
 
   use Phoenix.LiveComponent
+  use Dotcom.Gettext.Sigils
 
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
@@ -32,11 +33,27 @@ defmodule DotcomWeb.Components.Map do
   We check if the map is loaded; if so, we tell the Hook to update the lines and markers every time the component updates.
   If the map is not loaded, we check for for assigns and assign defaults for any not passed into the component.
   """
+
+  def assign_map_locale(socket) do
+    socket
+    |> assign(
+      :locale,
+      %{
+        "AttributionControl.ToggleAttribution" => ~t(Toggle attribution),
+        "NavigationControl.ResetBearing" => ~t(Drag to rotate map, click to reset north),
+        "NavigationControl.ZoomIn" => ~t(Zoom in),
+        "NavigationControl.ZoomOut" => ~t(Zoom out),
+        "Popup.Close" => ~t(Close popup)
+      }
+    )
+  end
+
   @impl true
   def update(assigns, %{assigns: %{loaded: true}} = socket) do
     new_socket =
       socket
       |> assign(assigns)
+      |> assign_map_locale()
       |> push_event("update-lines", %{})
       |> push_event("update-markers", %{})
 
