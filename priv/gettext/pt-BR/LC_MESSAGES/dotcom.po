@@ -51,7 +51,7 @@ msgstr " alerta"
 msgid " at "
 msgstr " no "
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " em %{address}"
@@ -213,6 +213,7 @@ msgstr "%{mode_label} Somente"
 msgid "%{name} Commuter Rail"
 msgstr "%{name} Trem suburbano"
 
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "%{place} Information"
@@ -652,6 +653,7 @@ msgstr "bicicleta Permitido"
 msgid "Bikes are allowed on all ferry boats"
 msgstr "Bicicletas são permitidas em todos os barcos de balsa."
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Blue Line"
@@ -690,6 +692,7 @@ msgstr "Traga seu carro ou bicicleta."
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
 #: lib/fares/format.ex
@@ -949,6 +952,7 @@ msgstr "Balsa para passageiros até AirportLogan"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1379,12 +1383,12 @@ msgstr "Insira um local"
 msgid "Enter an origin location"
 msgstr "Insira um local de origem"
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter keyword(s)"
 msgstr "Digite a(s) palavra(s)-chave"
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter project keywords"
 msgstr "Insira as palavras-chave do projeto"
@@ -1630,6 +1634,7 @@ msgstr "Novidades e projetos em destaque do MBTA"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1877,6 +1882,7 @@ msgstr "Ir"
 msgid "Google Pay"
 msgstr "Google Pay"
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Green Line"
@@ -2912,6 +2918,7 @@ msgstr "Ou,"
 msgid "Or, go to "
 msgstr "Ou acesse "
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Orange Line"
@@ -3267,6 +3274,7 @@ msgid "Privacy Policy"
 msgstr "Política de privacidade"
 
 #: lib/dotcom_web/controllers/project_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Projects"
@@ -3340,6 +3348,7 @@ msgstr "Notícias recentes sobre"
 msgid "Recently Visited Schedules"
 msgstr "Visitado recentemente"
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Red Line"
@@ -3921,12 +3930,13 @@ msgstr "Características da estação"
 msgid "Station Issue"
 msgstr "Problema da estação"
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
 msgstr "estação atendendo MBTA %{lines} linhas%{location}."
 
 #: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
@@ -3944,6 +3954,7 @@ msgid "Stations and Stops"
 msgstr "Estação e paradas"
 
 #: lib/dotcom_web/components/stops.ex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Status"
 msgstr "Status"
@@ -4006,6 +4017,7 @@ msgstr "Envie um pedido de acesso a registros públicos para o MBTA."
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/subway.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -4399,11 +4411,6 @@ msgstr "Alteração de embarque na trilha"
 msgid "Track Change"
 msgstr "Acompanhar alterações"
 
-#: lib/dotcom/schedule_finder.ex
-#, elixir-autogen, elixir-format
-msgid "Track TBA"
-msgstr "Faixa a ser anunciada"
-
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
@@ -4536,6 +4543,7 @@ msgid "Upcoming Changes"
 msgstr "em breve Mudanças"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Departures"
 msgstr "em breve Partidas"
@@ -4550,6 +4558,7 @@ msgstr "em breve Férias"
 msgid "Upcoming Public Meetings and Events"
 msgstr "Em breve Reuniões e Eventos Públicos"
 
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #: lib/dotcom_web/templates/cms/page/_project_update.html.heex
 #: lib/dotcom_web/templates/project/update.html.heex
 #, elixir-autogen, elixir-format
@@ -5474,9 +5483,135 @@ msgstr "Este comunicado de imprensa foi publicado <strong>há mais de um ano.</s
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "Continuar"
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bring your car or bike"
+msgstr "Traga seu carro ou bicicleta."
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get around the station"
+msgstr "Desloque-se pela estação."
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase your fare"
+msgstr "Compre sua passagem"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "All"
+msgstr "Todos"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All %{mode} Projects"
+msgstr "Todos os %{mode} projetos"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Projects"
+msgstr "Todos os projetos"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured %{mode} Projects"
+msgstr "Projetos em destaque %{mode}"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured Projects"
+msgstr "Projetos em destaque"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Line"
+msgstr "Filtrar por linha"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Mode"
+msgstr "Filtrar por Modo"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last Updated"
+msgstr "Sobrenome"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last updated"
+msgstr "Sobrenome"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading featured projects"
+msgstr "Carregando projetos em destaque"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading more projects"
+msgstr "Carregando mais projetos"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading projects"
+msgstr "Carregando projetos"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Mattapan Line"
+msgstr "Mattapan Line"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "No projects found"
+msgstr "Nenhum projeto encontrado"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Project"
+msgstr "Projeto"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Projects could not be loaded."
+msgstr "Não foi possível carregar os projetos."
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Show More"
+msgstr "Mostrar mais"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "You've reached the end of the list."
+msgstr "Você chegou ao fim da lista."
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Building a Better T"
+msgstr "Construindo um T melhor"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Take a look at what we're working on to make the MBTA better"
+msgstr "Confira o que estamos fazendo para melhorar o MBTA."
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
+msgstr "O metrô está evoluindo a cada dia. Estamos reformando estações, modernizando os sistemas de cobrança de tarifas, aprimorando os serviços de nossos ônibus,"
+" metrôs e balsas e melhorando a acessibilidade de todo o sistema."
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
-msgstr ""
+msgstr "Baixe %{mbta_go} para acompanhar seu %{vehicle_name}"
+
+#: lib/dotcom/schedule_finder.ex
+#, elixir-autogen, elixir-format
+msgid "Track TBD"
+msgstr "Pista a ser definida"
