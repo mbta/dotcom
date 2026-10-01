@@ -5,6 +5,8 @@ on:
   pull_request:
     types: [opened, edited, labeled, unlabeled, synchronize]
 
+permissions: {}
+
 jobs:
   check-label:
     name: "Check for Block Labels"
