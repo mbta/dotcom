@@ -5476,22 +5476,22 @@ msgstr "Guía de acceso Subterráneo"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More Commuter Rail fare options"
-msgstr ""
+msgstr "Más opciones de tarifas para el tren de cercanías"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More bus fare options"
-msgstr ""
+msgstr "Más opciones de tarifas de autobús"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More ferry fare options"
-msgstr ""
+msgstr "Más opciones de tarifas de ferry"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More subway fare options"
-msgstr ""
+msgstr "Más opciones de tarifas de subterráneo"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5509,6 +5509,56 @@ msgstr "Este comunicado de prensa se publicó <strong>hace más de un año.</str
 #, elixir-autogen, elixir-format
 msgid "Continues as"
 msgstr "Continúa como"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "%{route} One-Way"
+msgstr "%{route} Solo ida"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Fare-Free Bus"
+msgstr "Adultos mayores sin automóvil"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about reduced fares"
+msgstr "Obtenga más información sobre la Mass ID"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about the Fare-Free Program"
+msgstr "Obtenga más información sobre la Mass ID"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Service on this route is free"
+msgstr "El servicio en esta ruta es gratis"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Silver Line One-Way"
+msgstr "Silver Line solo ida"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
+msgstr "con %{ccard}, %{ctick}, pago sin contacto o efectivo"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with reduced fare card"
+msgstr "con tarjeta de tarifa reducida"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares"
+msgstr "%{sl1}, %{sl2}, %{sl3}y %{slw} se valoran como tarifas de Subterráneo"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Price based on distance traveled"
+msgstr "Precio basado en la distancia recorrida"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5630,56 +5680,6 @@ msgstr "Echa un vistazo a lo que estamos trabajando para mejorar la MBTA"
 msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
 msgstr "La T evoluciona cada día. Estamos renovando estaciones, modernizando los sistemas de cobro de tarifas, mejorando los servicios de nuestros autobuses, subterráneos"
 " y ferris, y mejorando la accesibilidad de todo el sistema"
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "%{route} One-Way"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Fare-Free Bus"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Learn more about reduced fares"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Learn more about the Fare-Free Program"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Service on this route is free"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Silver Line One-Way"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "with reduced fare card"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Price based on distance traveled"
-msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
