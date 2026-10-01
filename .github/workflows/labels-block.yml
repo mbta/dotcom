@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     if: |
-      contains(
-        fromJSON('["do not merge", "on hold", "WIP", "Not Ready for Translation"]'),
-        github.event.pull_request.labels.*.name
-      )
+      contains(github.event.pull_request.labels.*.name, 'do not merge') ||
+      contains(github.event.pull_request.labels.*.name, 'on hold') ||
+      contains(github.event.pull_request.labels.*.name, 'WIP') ||
+      contains(github.event.pull_request.labels.*.name, 'Not Ready for Translation')
 
     steps:
       - name: Fail the build to block merge
