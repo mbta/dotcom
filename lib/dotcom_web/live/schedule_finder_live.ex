@@ -87,6 +87,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           end)
           |> assign_alerts()
           |> assign_departures()
+          |> assign_duplex_stop?()
         }
 
       _ ->
@@ -104,7 +105,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @impl LiveView
   def render(assigns) do
     ~H"""
-    <.route_banner route={@route} direction_id={@direction_id} />
+    <.route_banner route={@route} direction_id={@direction_id} duplex_stop={@duplex_stop} />
     <.stop_banner stop={@stop} />
     <div
       class="container"
@@ -387,6 +388,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
     @schedule_finder.subway_groups(departures, direction_id, stop_id)
   end
 
+  defp assign_duplex_stop?(
+         %{assigns: %{route: route, stop: stop, direction_id: direction_id}} = socket
+       ) do
+    route_stops = Stops.Repo.by_route(route.id, 1 - direction_id)
+
+    # Check if this stop is also served in the other direction, if so it's a duplex stop
+    duplex_stop = stop in route_stops
+    # Check if this stop is at the end of the line (terminal), if so treat it as a one-way stop
+    terminal_stop = stop == List.first(route_stops) || stop == List.last(route_stops)
+
+    socket |> assign(:duplex_stop, duplex_stop && !terminal_stop)
+  end
+
   # Schedule Finder components =================================================
 
   attr :alerts, :list, required: true
@@ -403,6 +417,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :route, Route, required: true
   attr :direction_id, :string, required: true
+  attr :duplex_stop, :boolean, default: false
 
   def route_banner(assigns) do
     mode = assigns.route |> Route.type_atom() |> atom_to_class()
@@ -436,8 +451,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 class="size-4 fill-current justify-self-end"
               />
             </div>
+            <div :if={!@duplex_stop} class="flex items-center gap-xs">
+              <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
+              <span>
+                {@route.direction_names[@direction_id]}
+                <%= if @route.id != "Green" do %>
+                  {~t"towards"}
+                  <strong class="notranslate">{@route.direction_destinations[@direction_id]}</strong>
+                <% end %>
+              </span>
+            </div>
           </.link>
           <div
+            :if={@duplex_stop}
             phx-click="toggle_direction"
             style="background-color:rgb(0,0,0,0.4)"
             class="rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row z-10"
