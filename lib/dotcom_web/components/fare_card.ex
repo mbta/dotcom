@@ -162,8 +162,10 @@ defmodule DotcomWeb.Components.FareCard do
         </p>
       </div>
     </div>
-    <div>*{~t"Price based on distance traveled"}</div>
-    <.fare_note route={@route} />
+    <div class="text-sm">
+      <div>*{~t"Price based on distance traveled"}</div>
+      <.fare_note route={@route} />
+    </div>
     """
   end
 
