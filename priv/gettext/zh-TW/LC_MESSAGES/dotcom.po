@@ -5583,6 +5583,11 @@ msgstr "地鐵每天都在進化。我們正在翻新車站、現代化收費系
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr "下載%{mbta_go}來追蹤您的%{vehicle_name}"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "View Schedule"
+msgstr "查看時刻表"
+
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"

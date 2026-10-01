@@ -5615,6 +5615,11 @@ msgstr "Le métro évolue chaque jour. Nous rénovons les gares, modernisons les
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr "Téléchargez %{mbta_go} pour suivre votre %{vehicle_name}"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "View Schedule"
+msgstr "Voir l'horaire"
+
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"

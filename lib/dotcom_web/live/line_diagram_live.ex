@@ -282,7 +282,9 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign(:map_lines, map_lines)
   end
 
-  defp assign_map_icons(%{assigns: %{stops: stops}} = socket) do
+  defp assign_map_icons(
+         %{assigns: %{stops: stops, route: route, direction_id: direction_id}} = socket
+       ) do
     map_icons =
       stops
       |> Enum.map(
@@ -290,7 +292,9 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
           name: "icon-stop-circle-bordered-expanded",
-          class: "size-3"
+          class: "size-3 cursor-pointer",
+          popup:
+            "<div class=\"popup-title\">#{&1.name}</div> <div class=\"popup-link\"> <a href=\"/departures/?route_id=#{route.id}&direction_id=#{direction_id}&stop_id=#{&1.id}\">#{~t(View Schedule)}</a> </div>"
         }
       )
 

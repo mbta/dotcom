@@ -5602,6 +5602,11 @@ msgstr "Subway a ap evolye chak jou. N ap renove estasyon yo, modènize sistèm 
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr "Telechaje %{mbta_go} pou swiv %{vehicle_name}ou a"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "View Schedule"
+msgstr "Gade Orè a"
+
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
