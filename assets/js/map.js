@@ -67,10 +67,16 @@ export default {
    */
   addMarkers(markers) {
     markers.forEach(marker => {
+      
       const mapMarker = new maplibregl.Marker({
         anchor: marker.anchor,
-        element: marker.element
+        element: marker.element,
       });
+      if(marker.popup){
+        const popup = new maplibregl.Popup({className: "m-schedule-line__stop-popup", focusAfterOpen: false});
+        popup.setHTML(marker.popup)
+        mapMarker.setPopup(popup)
+      }
 
       this.markers.push(mapMarker);
 
@@ -218,6 +224,7 @@ export default {
       return {
         anchor: element.getAttribute("data-anchor"),
         coordinates: JSON.parse(element.getAttribute("data-coordinates")),
+        popup: element.getAttribute("data-popup"),
         element
       }
     }).filter(marker => marker.coordinates.length === 2);
@@ -229,7 +236,8 @@ export default {
     }
 
     this.addMarkers(markers);
-
     this.fitMapToMarkers(markers);
-  }
+  },
+
+ 
 }

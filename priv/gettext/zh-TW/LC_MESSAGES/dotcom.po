@@ -5608,6 +5608,11 @@ msgstr ""
 msgid "Toggle attribution"
 msgstr ""
 
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "View Schedule"
+msgstr "查看時刻表"
+
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"

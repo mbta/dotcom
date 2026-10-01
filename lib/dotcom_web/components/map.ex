@@ -128,6 +128,7 @@ defmodule DotcomWeb.Components.Map do
             class={"mbta-map-icon#{concat_classes(icon |> Map.get(:class))}"}
             data-anchor={icon |> Map.get(:anchor, "center")}
             data-coordinates={Jason.encode!(icon.coordinates)}
+            data-popup={icon |> Map.get(:popup, nil)}
           />
         <% end %>
       </div>
