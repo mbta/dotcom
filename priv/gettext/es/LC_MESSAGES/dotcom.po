@@ -5487,134 +5487,135 @@ msgstr "Este comunicado de prensa se publicó <strong>hace más de un año.</str
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "Continúa como"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bring your car or bike"
-msgstr ""
+msgstr "Lleva tu auto o bicicleta"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Get around the station"
-msgstr ""
+msgstr "Circula por la estación"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Purchase your fare"
-msgstr ""
+msgstr "Compra tu tarifa"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "All %{mode} Projects"
-msgstr ""
+msgstr "Todos %{mode} Proyectos"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "All Projects"
-msgstr ""
+msgstr "Todos los proyectos"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured %{mode} Projects"
-msgstr ""
+msgstr "Proyectos destacados %{mode}"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured Projects"
-msgstr ""
+msgstr "Proyectos destacados"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Filter by Line"
-msgstr ""
+msgstr "Filtrar por línea"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Filter by Mode"
-msgstr ""
+msgstr "Filtrar por modo"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Last Updated"
-msgstr ""
+msgstr "Última actualización"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Last updated"
-msgstr ""
+msgstr "Última actualización"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Loading featured projects"
-msgstr ""
+msgstr "Carga de proyectos destacados"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Loading more projects"
-msgstr ""
+msgstr "Cargando más proyectos"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Loading projects"
-msgstr ""
+msgstr "Proyectos de carga"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Mattapan Line"
-msgstr ""
+msgstr "Mattapan Line"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "No projects found"
-msgstr ""
+msgstr "No se encontraron proyectos"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Projects could not be loaded."
-msgstr ""
+msgstr "No se podían cargar proyectos."
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Show More"
-msgstr ""
+msgstr "Mostrar más"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "You've reached the end of the list."
-msgstr ""
+msgstr "Llegaste al final de la lista."
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Building a Better T"
-msgstr ""
+msgstr "Construyendo una T Mejor"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Take a look at what we're working on to make the MBTA better"
-msgstr ""
+msgstr "Echa un vistazo a lo que estamos trabajando para mejorar la MBTA"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
-msgstr ""
+msgstr "La T evoluciona cada día. Estamos renovando estaciones, modernizando los sistemas de cobro de tarifas, mejorando los servicios de nuestros autobuses, subterráneos"
+" y ferris, y mejorando la accesibilidad de todo el sistema"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
-msgstr ""
+msgstr "Descarga %{mbta_go} para seguir tu %{vehicle_name}"
 
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
-msgstr ""
+msgstr "Canción por definir"
