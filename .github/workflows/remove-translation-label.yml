@@ -18,7 +18,7 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const issue_number = context.payload.pull_request.number;
-            const name = "Not ready for translation";
+            const name = "Not Ready for Translation";
             const { data: labels } = await github.rest.issues.listLabelsOnIssue({
               owner,
               repo,
