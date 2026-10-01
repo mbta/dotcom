@@ -1783,6 +1783,7 @@ msgstr "Sự kiện đặc biệt của Foxboro"
 msgid "Franklin Line"
 msgstr "Tuyến Franklin"
 
+#: lib/dotcom_web/components/fare_card.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5463,6 +5464,26 @@ msgstr "Hướng dẫn cho người mới bắt đầu về phà"
 msgid "Subway Access Guide"
 msgstr "Hướng dẫn tiếp cận tàu điện ngầm"
 
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "More Commuter Rail fare options"
+msgstr "Các tùy chọn giá vé Đường sắt ngoại ô khác"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "More bus fare options"
+msgstr "Nhiều lựa chọn giá vé xe buýt"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "More ferry fare options"
+msgstr "Nhiều lựa chọn giá phà"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "More subway fare options"
+msgstr "Nhiều lựa chọn giá vé tàu điện ngầm"
+
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
@@ -5479,6 +5500,56 @@ msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn
 #, elixir-autogen, elixir-format
 msgid "Continues as"
 msgstr "Tiếp tục"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "%{route} One-Way"
+msgstr "%{route} vé một chiều"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Fare-Free Bus"
+msgstr "Xe buýt miễn phí"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about reduced fares"
+msgstr "Tìm hiểu thêm về các yêu cầu của chương trình giảm giá vé."
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about the Fare-Free Program"
+msgstr "Tìm hiểu thêm về Mass ID"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Service on this route is free"
+msgstr "Dịch vụ trên tuyến đường này là miễn phí."
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Silver Line One-Way"
+msgstr "Silver Line vé một chiều"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
+msgstr "với %{ccard}, %{ctick}, thanh toán không tiếp xúc hoặc tiền mặt"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with reduced fare card"
+msgstr "thẻ mua vé giảm giá"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares"
+msgstr "%{sl1}, %{sl2}, %{sl3} và %{slw} được định giá bằng giá tàu điện ngầm"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Price based on distance traveled"
+msgstr "Giá được tính dựa trên quãng đường di chuyển."
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
