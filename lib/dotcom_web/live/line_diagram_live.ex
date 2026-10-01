@@ -173,6 +173,8 @@ defmodule DotcomWeb.LineDiagramLive do
 
   def render(assigns) do
     ~H"""
+    <p>Hellow</p>
+    <.icon name="icon-flag-france-2" type="icon-svg" />
     <div class={"schedule__header #{ header_class(@route) }"}>
       <div class="schedule__header-container">
         <.route_header route={@route} />
