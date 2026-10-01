@@ -414,8 +414,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         mode: mode
       })
 
-    dbg(assigns.route.direction_names)
-
     ~H"""
     <div data-test={"route_banner:#{@route.id}"} class={route_to_background_class(@route)}>
       <div class="font-heading p-md">
