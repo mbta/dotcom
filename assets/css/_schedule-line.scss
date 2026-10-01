@@ -49,12 +49,34 @@
     }
     padding: 0.5rem;
   }
-  .maplibregl-popup-tip {
-    border-top-color: $black;
-  }
+  
 
   .popup-title {
     margin-top: -0.25rem;
     margin-right: 1rem;
   }
 }
+
+.m-schedule-line__stop-popup.maplibregl-popup-anchor-bottom {
+    .maplibregl-popup-tip {
+      border-top-color: $black;
+    }
+  }
+
+  .m-schedule-line__stop-popup.maplibregl-popup-anchor-top {
+    .maplibregl-popup-tip {
+      border-bottom-color: $black;
+    }
+  }
+
+  .m-schedule-line__stop-popup.maplibregl-popup-anchor-right {
+    .maplibregl-popup-tip {
+      border-left-color: $black;
+    }
+  }
+
+  .m-schedule-line__stop-popup.maplibregl-popup-anchor-left {
+    .maplibregl-popup-tip {
+      border-right-color: $black;
+    }
+  }
