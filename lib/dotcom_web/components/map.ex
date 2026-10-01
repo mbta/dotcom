@@ -73,6 +73,7 @@ defmodule DotcomWeb.Components.Map do
         pins: Map.get(assigns, :pins, []),
         points: Map.get(assigns, :points, [])
       )
+      |> assign_map_locale()
 
     {:ok, new_socket}
   end
