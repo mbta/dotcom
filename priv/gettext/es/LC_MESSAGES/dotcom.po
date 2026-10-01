@@ -5610,16 +5610,6 @@ msgid "The T is evolving every day. We're renovating stations, modernizing fare 
 msgstr "La T evoluciona cada día. Estamos renovando estaciones, modernizando los sistemas de cobro de tarifas, mejorando los servicios de nuestros autobuses, subterráneos"
 " y ferris, y mejorando la accesibilidad de todo el sistema"
 
-#: lib/dotcom_web/live/stop_information_live.html.heex
-#, elixir-autogen, elixir-format
-msgid "Bring your car or bike"
-msgstr ""
-
-#: lib/dotcom_web/live/projects_page_live.ex
-#, elixir-autogen, elixir-format
-msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
-msgstr ""
-
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
