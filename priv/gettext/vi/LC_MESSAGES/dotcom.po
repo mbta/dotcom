@@ -5609,7 +5609,7 @@ msgstr "Tải xuống %{mbta_go} để theo dõi %{vehicle_name}của bạn"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
-msgstr ""
+msgstr "Xem lịch trình"
 
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
