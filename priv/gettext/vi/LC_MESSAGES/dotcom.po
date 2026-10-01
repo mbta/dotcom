@@ -4406,11 +4406,6 @@ msgstr "Thay đổi lịch trình lên tàu"
 msgid "Track Change"
 msgstr "Theo dõi thay đổi"
 
-#: lib/dotcom/schedule_finder.ex
-#, elixir-autogen, elixir-format
-msgid "Track TBA"
-msgstr "Bài hát sẽ được thông báo sau."
-
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
@@ -5483,7 +5478,128 @@ msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "Tiếp tục"
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bring your car or bike"
+msgstr "Mang theo xe hơi hoặc xe đạp"
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get around the station"
+msgstr "Đi xung quanh nhà ga"
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase your fare"
+msgstr "Mua vé của bạn"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "All"
+msgstr "Tất cả"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All %{mode} Projects"
+msgstr "Tất cả %{mode} Dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Projects"
+msgstr "Tất cả các dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured %{mode} Projects"
+msgstr "Dự án nổi bật %{mode}"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured Projects"
+msgstr "Các dự án nổi bật"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Line"
+msgstr "Lọc theo dòng"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Mode"
+msgstr "Lọc theo Chế độ"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last Updated"
+msgstr "Họ:"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last updated"
+msgstr "Họ:"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading featured projects"
+msgstr "Đang tải các dự án nổi bật"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading more projects"
+msgstr "Đang tải thêm dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading projects"
+msgstr "Đang tải dự án"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Mattapan Line"
+msgstr "Mattapan Line"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "No projects found"
+msgstr "Không tìm thấy dự án nào."
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Project"
+msgstr "Dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Projects could not be loaded."
+msgstr "Không thể tải dự án."
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Show More"
+msgstr "Hiển thị thêm"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "You've reached the end of the list."
+msgstr "Bạn đã đến cuối danh sách."
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Building a Better T"
+msgstr "Xây dựng một nền kinh tế tốt đẹp hơn"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Take a look at what we're working on to make the MBTA better"
+msgstr "Hãy xem những gì chúng tôi đang làm để làm cho MBTA tốt hơn"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
+msgstr "Tàu điện ngầm đang phát triển mỗi ngày. Chúng tôi đang cải tạo các nhà ga, hiện đại hóa hệ thống thu giá vé, nâng cấp dịch vụ cho xe buýt, tàu điện ngầm"
+" và phà của chúng tôi và cải thiện khả năng tiếp cận của toàn bộ hệ thống"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5608,9 +5724,14 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
-msgstr ""
+msgstr "Tải xuống %{mbta_go} để theo dõi %{vehicle_name}của bạn"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
 msgstr ""
+
+#: lib/dotcom/schedule_finder.ex
+#, elixir-autogen, elixir-format
+msgid "Track TBD"
+msgstr "Bài hát sẽ được công bố sau."
