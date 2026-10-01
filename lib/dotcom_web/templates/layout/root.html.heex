@@ -1,5 +1,4 @@
-<% assigns = Map.put_new(assigns, :locale, Dotcom.Locales.default_locale_code()) %>
-<!DOCTYPE html>
+<% assigns = Map.put_new(assigns, :locale, Dotcom.Locales.default_locale_code()) %> <!DOCTYPE html>
 <html lang={@locale}>
   <head>
     <% is_prod = Application.get_env(:dotcom, :is_prod_env?) %>
