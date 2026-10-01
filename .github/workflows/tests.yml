@@ -27,6 +27,7 @@ jobs:
       ex: ${{ steps.changes.outputs.ex == 'true' }}
       scss: ${{ steps.changes.outputs.scss == 'true' }}
       run_all: ${{ steps.set_run_all.outputs.run_all == 'true' }}
+      any: ${{ steps.changes.outputs.any == 'true' }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -49,9 +50,13 @@ jobs:
               - 'mix.lock'
             scss:
               - 'assets/css/**.scss'
+            any:
+              - '**'
 
   build_image:
     name: Build Docker image
+    needs: file_changes
+    if: ${{ needs.file_changes.outputs.any == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -135,6 +140,8 @@ jobs:
 
   build_app:
     name: Build application and assets
+    needs: file_changes
+    if: ${{ needs.file_changes.outputs.any == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -148,7 +155,8 @@ jobs:
             _build
             priv
           key: ci-application-cache-${{ github.sha }}
-      - run: | # zizmor: ignore[adhoc-packages] Zizmor is incorrectly pattern-matching the npm command as something like npm install foo@1.0, which would be an adhoc package installation worth avoiding
+      - run:
+          | # zizmor: ignore[adhoc-packages] Zizmor is incorrectly pattern-matching the npm command as something like npm install foo@1.0, which would be an adhoc package installation worth avoiding
           npm install --prefix assets
       - run: npm --prefix assets run webpack:build
       - run: mix compile --all-warnings
