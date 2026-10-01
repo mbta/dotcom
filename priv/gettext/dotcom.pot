@@ -4397,11 +4397,6 @@ msgstr ""
 msgid "Track Change"
 msgstr ""
 
-#: lib/dotcom/schedule_finder.ex
-#, elixir-autogen, elixir-format
-msgid "Track TBA"
-msgstr ""
-
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
@@ -5663,4 +5658,9 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
+msgstr ""
+
+#: lib/dotcom/schedule_finder.ex
+#, elixir-autogen, elixir-format
+msgid "Track TBD"
 msgstr ""

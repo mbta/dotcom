@@ -197,7 +197,8 @@ config :dotcom,
   env: config_env(),
   env_name: System.get_env("SENTRY_ENVIRONMENT"),
   # soon: use a better env var name
-  is_prod_env?: System.get_env("SENTRY_ENVIRONMENT") == "prod"
+  is_prod_env?: System.get_env("SENTRY_ENVIRONMENT") == "prod",
+  version: System.get_env("SENTRY_RELEASE", "missing-version")
 
 if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) &&
      config_env() != :test do

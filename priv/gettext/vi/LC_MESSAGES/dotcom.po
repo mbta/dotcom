@@ -51,7 +51,7 @@ msgstr " cảnh báo"
 msgid " at "
 msgstr " Tại "
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " tại %{address}"
@@ -213,6 +213,7 @@ msgstr "Chỉ %{mode_label}"
 msgid "%{name} Commuter Rail"
 msgstr "%{name} Đường sắt ngoại ô"
 
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "%{place} Information"
@@ -646,6 +647,7 @@ msgstr "xe đạp Allowed"
 msgid "Bikes are allowed on all ferry boats"
 msgstr "Xe đạp được phép trên tất cả các thuyền phà"
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Blue Line"
@@ -684,6 +686,7 @@ msgstr "Mang theo ô tô hoặc xe đạp của bạn"
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
 #: lib/fares/format.ex
@@ -943,6 +946,7 @@ msgstr "Commuter phà đến Logan Airport"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1373,12 +1377,12 @@ msgstr "Nhập vị trí"
 msgid "Enter an origin location"
 msgstr "Nhập vị trí xuất phát"
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter keyword(s)"
 msgstr "Nhập từ khóa"
 
-#: lib/dotcom_web/templates/project/index.html.heex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter project keywords"
 msgstr "Nhập từ khóa dự án"
@@ -1624,6 +1628,7 @@ msgstr "Các cập nhật và dự án nổi bật của MBTA"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1872,6 +1877,7 @@ msgstr "Đi"
 msgid "Google Pay"
 msgstr "Google Pay"
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Green Line"
@@ -2908,6 +2914,7 @@ msgstr "Hoặc,"
 msgid "Or, go to "
 msgstr "Hoặc, hãy truy cập vào "
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Orange Line"
@@ -3264,6 +3271,7 @@ msgid "Privacy Policy"
 msgstr "Chính sách Quyền riêng tư"
 
 #: lib/dotcom_web/controllers/project_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Projects"
@@ -3337,6 +3345,7 @@ msgstr "Tin tức gần đây về tàu điện ngầm"
 msgid "Recently Visited Schedules"
 msgstr "Recently Visited lịch trình"
 
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Red Line"
@@ -3917,12 +3926,13 @@ msgstr "Tính năng nhà ga"
 msgid "Station Issue"
 msgstr "Nhà ga Vấn đề"
 
-#: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
 msgstr "nhà ga phục vụ MBTA %{lines} dây chuyền%{location}."
 
 #: lib/dotcom_web/controllers/stop_controller.ex
+#: lib/dotcom_web/hooks/breadcrumbs.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
@@ -3940,6 +3950,7 @@ msgid "Stations and Stops"
 msgstr "nhà ga và điểm dừng"
 
 #: lib/dotcom_web/components/stops.ex
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Status"
 msgstr "Trạng thái"
@@ -4002,6 +4013,7 @@ msgstr "Gửi yêu cầu cung cấp hồ sơ công khai đến MBTA."
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/subway.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -4395,11 +4407,6 @@ msgstr "Thay đổi lịch trình lên tàu"
 msgid "Track Change"
 msgstr "Theo dõi thay đổi"
 
-#: lib/dotcom/schedule_finder.ex
-#, elixir-autogen, elixir-format
-msgid "Track TBA"
-msgstr "Bài hát sẽ được thông báo sau."
-
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
@@ -4532,6 +4539,7 @@ msgid "Upcoming Changes"
 msgstr "Những thay đổi sắp tới"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Departures"
 msgstr "Khởi hành sắp tới"
@@ -4546,6 +4554,7 @@ msgstr "Những ngày lễ sắp tới"
 msgid "Upcoming Public Meetings and Events"
 msgstr "Các cuộc họp và sự kiện công khai sắp tới"
 
+#: lib/dotcom_web/live/projects_page_live.html.heex
 #: lib/dotcom_web/templates/cms/page/_project_update.html.heex
 #: lib/dotcom_web/templates/project/update.html.heex
 #, elixir-autogen, elixir-format
@@ -5490,7 +5499,128 @@ msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "Tiếp tục"
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Bring your car or bike"
+msgstr "Mang theo xe hơi hoặc xe đạp"
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Get around the station"
+msgstr "Đi xung quanh nhà ga"
+
+#: lib/dotcom_web/live/stop_information_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Purchase your fare"
+msgstr "Mua vé của bạn"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "All"
+msgstr "Tất cả"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All %{mode} Projects"
+msgstr "Tất cả %{mode} Dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "All Projects"
+msgstr "Tất cả các dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured %{mode} Projects"
+msgstr "Dự án nổi bật %{mode}"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Featured Projects"
+msgstr "Các dự án nổi bật"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Line"
+msgstr "Lọc theo dòng"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Filter by Mode"
+msgstr "Lọc theo Chế độ"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last Updated"
+msgstr "Họ:"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Last updated"
+msgstr "Họ:"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading featured projects"
+msgstr "Đang tải các dự án nổi bật"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading more projects"
+msgstr "Đang tải thêm dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Loading projects"
+msgstr "Đang tải dự án"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Mattapan Line"
+msgstr "Mattapan Line"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "No projects found"
+msgstr "Không tìm thấy dự án nào."
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Project"
+msgstr "Dự án"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Projects could not be loaded."
+msgstr "Không thể tải dự án."
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "Show More"
+msgstr "Hiển thị thêm"
+
+#: lib/dotcom_web/live/projects_page_live.html.heex
+#, elixir-autogen, elixir-format
+msgid "You've reached the end of the list."
+msgstr "Bạn đã đến cuối danh sách."
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Building a Better T"
+msgstr "Xây dựng một nền kinh tế tốt đẹp hơn"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "Take a look at what we're working on to make the MBTA better"
+msgstr "Hãy xem những gì chúng tôi đang làm để làm cho MBTA tốt hơn"
+
+#: lib/dotcom_web/live/projects_page_live.ex
+#, elixir-autogen, elixir-format
+msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
+msgstr "Tàu điện ngầm đang phát triển mỗi ngày. Chúng tôi đang cải tạo các nhà ga, hiện đại hóa hệ thống thu giá vé, nâng cấp dịch vụ cho xe buýt, tàu điện ngầm"
+" và phà của chúng tôi và cải thiện khả năng tiếp cận của toàn bộ hệ thống"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5545,4 +5675,9 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
-msgstr ""
+msgstr "Tải xuống %{mbta_go} để theo dõi %{vehicle_name}của bạn"
+
+#: lib/dotcom/schedule_finder.ex
+#, elixir-autogen, elixir-format
+msgid "Track TBD"
+msgstr "Bài hát sẽ được công bố sau."
