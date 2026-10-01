@@ -5,21 +5,39 @@ on:
   pull_request:
     types: [opened, edited, labeled, unlabeled, synchronize]
 
-permissions: {}
+permissions:
+  pull-requests: read
 
 jobs:
   check-label:
     name: "Check for Block Labels"
     runs-on: ubuntu-latest
 
-    if: |
-      contains(github.event.pull_request.labels.*.name, 'do not merge') ||
-      contains(github.event.pull_request.labels.*.name, 'on hold') ||
-      contains(github.event.pull_request.labels.*.name, 'WIP') ||
-      contains(github.event.pull_request.labels.*.name, 'Not Ready for Translation')
-
     steps:
-      - name: Fail the build to block merge
-        run: |
-          echo "::error::This PR contains a blocking label. Remove it to allow merging."
-          exit 1
+      - name: Check for blocking labels
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number,
+            });
+            const blockingLabels = [
+              "do not merge",
+              "on hold",
+              "WIP",
+              "Not Ready for Translation",
+            ];
+            const presentLabels = pullRequest.labels.map((label) => label.name);
+            const blockingLabel = blockingLabels.find((label) =>
+              presentLabels.includes(label)
+            );
+
+            if (blockingLabel) {
+              core.setFailed(
+                `This PR contains the blocking label "${blockingLabel}". Remove it to allow merging.`
+              );
+            }
