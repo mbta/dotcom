@@ -5447,22 +5447,22 @@ msgstr "地铁交通指南"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More Commuter Rail fare options"
-msgstr ""
+msgstr "更多通勤铁路票价选择"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More bus fare options"
-msgstr ""
+msgstr "更多巴士票价选择"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More ferry fare options"
-msgstr ""
+msgstr "更多渡轮票价选择"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More subway fare options"
-msgstr ""
+msgstr "更多地铁票价选择"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5478,6 +5478,56 @@ msgstr "这篇新闻稿发布<strong>于一年多以前。</strong>本页面上�
 #, elixir-autogen, elixir-format
 msgid "Continues as"
 msgstr "继续"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "%{route} One-Way"
+msgstr "%{route}单程票"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Fare-Free Bus"
+msgstr "免费巴士"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about reduced fares"
+msgstr "了解更多关于优惠票价计划要求的信息"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Learn more about the Fare-Free Program"
+msgstr "了解更多 Mass ID 相关信息"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Service on this route is free"
+msgstr "此线路服务免费"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Silver Line One-Way"
+msgstr "Silver Line 单程票"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
+msgstr "使用%{ccard} 、 %{ctick} 、非接触式支付或现金"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with reduced fare card"
+msgstr "优惠票价乘车卡"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares"
+msgstr "%{sl1} 、 %{sl2} 、 %{sl3}和%{slw}价格与地铁票价相同。"
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "Price based on distance traveled"
+msgstr "价格根据行驶距离而定。"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5598,56 +5648,6 @@ msgstr "来看看我们正在努力改进MBTA（马萨诸塞州交通局）的�
 #, elixir-autogen, elixir-format
 msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
 msgstr "地铁每天都在变化。我们正在翻新车站，更新收费系统，提升巴士、地铁和渡轮的服务水平，并改善整个系统的无障碍通行能力。"
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "%{route} One-Way"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Fare-Free Bus"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Learn more about reduced fares"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Learn more about the Fare-Free Program"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Service on this route is free"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Silver Line One-Way"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "with reduced fare card"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares"
-msgstr ""
-
-#: lib/dotcom_web/components/fare_card.ex
-#, elixir-autogen, elixir-format
-msgid "Price based on distance traveled"
-msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
