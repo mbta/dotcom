@@ -1,6 +1,14 @@
 defmodule DotcomWeb.DailySchedulesLive do
   @moduledoc """
-  A simple basic-auth gated page to explore what kinds of daily schedules are actually available for the routes we serve.
+  A simple preview page that can be used to explore which services
+  are active for a given route on the same days, thus dividing the
+  days in a rating up into different days with the exact same trips
+  (same by trip ID, not same by which stops are visited when).
+
+  This isn't intended for riders - it's just another way to examine
+  schedules - eventually, maybe we can clean this up and combine
+  "daily schedules" into something that we do want to show riders,
+  but for right now, this is primarily a debugging tool.
   """
 
   use DotcomWeb, :live_view
