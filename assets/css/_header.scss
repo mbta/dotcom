@@ -286,7 +286,7 @@ nav.m-menu--mobile {
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
-    margin: 1rem 0 0 1rem;
+    margin: 0.75rem 0 0 calc(2px + 1rem);
   }
 
   .m-menu__section {
