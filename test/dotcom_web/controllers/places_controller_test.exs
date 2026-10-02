@@ -42,6 +42,22 @@ defmodule DotcomWeb.PlacesControllerTest do
       assert body["error"] == "Invalid arguments"
     end
 
+    test "rejects hit limits outside the supported range", %{conn: conn} do
+      for hit_limit <- ["0", "-1", "11"] do
+        response = autocomplete(conn, %{"input" => "South Station", "hit_limit" => hit_limit})
+        assert response.status == 400
+        assert %{"error" => "Invalid arguments"} = json_response(response, 400)
+      end
+    end
+
+    test "rejects empty and oversized inputs", %{conn: conn} do
+      for input <- ["", String.duplicate("a", 201)] do
+        response = autocomplete(conn, %{"input" => input, "hit_limit" => "5"})
+        assert response.status == 400
+        assert %{"error" => "Invalid arguments"} = json_response(response, 400)
+      end
+    end
+
     test "responds with 500 error when location service returns an error", %{conn: conn} do
       expect(LocationService.Mock, :autocomplete, fn _, _ ->
         {:error, :internal_error}
@@ -52,6 +68,16 @@ defmodule DotcomWeb.PlacesControllerTest do
       conn = autocomplete(conn, %{"input" => input, "hit_limit" => "#{hit_limit}"})
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
+    end
+
+    test "responds with bad request when the location service rejects the input", %{conn: conn} do
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
+        {:error, :invalid_arguments}
+      end)
+
+      conn = autocomplete(conn, %{"input" => "valid input", "hit_limit" => "5"})
+      assert conn.status == 400
+      assert %{"error" => "Invalid arguments"} = json_response(conn, 400)
     end
   end
 
@@ -142,6 +168,22 @@ defmodule DotcomWeb.PlacesControllerTest do
       assert %{"error" => "Invalid arguments"} = json_response(conn, 400)
     end
 
+    test "rejects hit limits outside the supported range", %{conn: conn} do
+      for hit_limit <- ["0", "-1", "11"] do
+        response = search(conn, %{"query" => "south", "hit_limit" => hit_limit})
+        assert response.status == 400
+        assert %{"error" => "Invalid arguments"} = json_response(response, 400)
+      end
+    end
+
+    test "rejects empty and oversized queries", %{conn: conn} do
+      for query <- ["", String.duplicate("a", 201)] do
+        response = search(conn, %{"query" => query, "hit_limit" => "5"})
+        assert response.status == 400
+        assert %{"error" => "Invalid arguments"} = json_response(response, 400)
+      end
+    end
+
     test "passes query and limit params to AWS autocomplete function", %{conn: conn} do
       search_term = Faker.App.name()
       hit_limit = Faker.random_between(1, 10)
@@ -151,6 +193,16 @@ defmodule DotcomWeb.PlacesControllerTest do
       end)
 
       search(conn, %{"query" => search_term, "hit_limit" => "#{hit_limit}"})
+    end
+
+    test "responds with bad request when the location service rejects the input", %{conn: conn} do
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
+        {:error, :invalid_arguments}
+      end)
+
+      conn = search(conn, %{"query" => "valid input", "hit_limit" => "5"})
+      assert conn.status == 400
+      assert %{"error" => "Invalid arguments"} = json_response(conn, 400)
     end
 
     test "geocodes suggested results", %{conn: conn} do
