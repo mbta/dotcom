@@ -5686,6 +5686,31 @@ msgstr "Le métro évolue chaque jour. Nous rénovons les gares, modernisons les
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr "Téléchargez %{mbta_go} pour suivre votre %{vehicle_name}"
 
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Close popup"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Drag to rotate map, click to reset north"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom in"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom out"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Toggle attribution"
+msgstr ""
+
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"

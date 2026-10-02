@@ -5677,6 +5677,31 @@ msgstr "Tàu điện ngầm đang phát triển mỗi ngày. Chúng tôi đang c
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr "Tải xuống %{mbta_go} để theo dõi %{vehicle_name}của bạn"
 
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Close popup"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Drag to rotate map, click to reset north"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom in"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom out"
+msgstr ""
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Toggle attribution"
+msgstr ""
+
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
