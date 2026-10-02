@@ -5442,4 +5442,4 @@ msgstr "这篇新闻稿发布<strong>于一年多以前。</strong>本页面上�
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr ""
+msgstr "继续"
