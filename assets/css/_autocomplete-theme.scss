@@ -10,7 +10,7 @@
     --aa-accent-color: 179, 0, 15; // matches $error-text
   }
 
-  .aa-Autocomplete {
+  .aa-Autocomplete, .aa-DetachedOverlay, .aa-DetachedSearchButton {
     --aa-icon-color-rgb: var(--aa-accent-color);
     --aa-primary-color-rgb: var(--aa-accent-color);
     --aa-input-border-color-rgb: var(--aa-accent-color);
@@ -178,13 +178,36 @@
 }
 
 #header-desktop,
-#header-mobile {
+#header-mobile,
+.aa-DetachedOverlay {
   .aa-InputWrapper {
     padding-left: 1rem;
   }
 
   .aa-ClearButton {
     padding-right: var(--aa-spacing-half);
+  }
+
+  // Mobile uses the detached modal experience, which has different markup and
+  // selectors, so make sure it matches
+  .aa-DetachedSearchButton {
+    border-radius: var(--border-radius-md);
+    justify-content: space-between;
+    padding-block: .5rem;
+    padding-left: .75rem;
+
+    .aa-DetachedSearchButtonIcon {
+      @include fa-icon-solid($fa-var-search);
+      align-items: center;
+      color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
+      font-size: 1.25rem;
+      font-weight: bold;
+      display: inline-flex;
+      order: 1;
+
+      // hide default icon
+      .aa-SubmitIcon { display: none; }
+    }
   }
 }
 
@@ -195,11 +218,12 @@
 #proposed-sales-locations,
 #sales-locations,
 #stops-search,
-#vote {
+#vote,
+.aa-DetachedOverlay {
   --aa-search-input-height: 2.5rem;
 
   .aa-Form {
-    border-radius: .25rem;
+    border-radius: var(--border-radius-md);
     padding: .25rem;
   }
 
@@ -212,9 +236,33 @@
     @include fa-size($fa-size-scale-lg);
     background-color: rgba(var(--aa-icon-color-rgb),
       var(--aa-icon-color-alpha));
-    border-radius: .25rem;
+    border-radius: var(--border-radius-default);
     color: $white;
     transform: scale(-1, 1);
+  }
+
+  .aa-SubmitIcon {
+    width: calc(var(--aa-spacing) * 1.5 + var(--aa-icon-size) - 1px);
+  }
+
+  // Mobile uses the detached modal experience, which has different markup and
+  // selectors, so make sure it matches
+  .aa-DetachedSearchButton {
+    border-radius: var(--border-radius-md);
+    justify-content: space-between;
+    padding: .25rem;
+    padding-left: .75rem;
+    height: calc(.5rem + var(--aa-search-input-height));
+
+    .aa-DetachedSearchButtonIcon {
+      background-color: rgba(var(--aa-icon-color-rgb),
+        var(--aa-icon-color-alpha));
+      border-radius: var(--border-radius-default);
+      color: $white;
+      transform: scale(-1, 1);
+      padding: var(--spacing-sm);
+      order: 1;
+    }
   }
 }
 
@@ -267,7 +315,7 @@
 
 .aa-DetachedOverlay {
   .aa-InputWrapper {
-    padding-left: calc(var(--aa-spacing));
+    padding-left: calc(var(--aa-spacing) * 0.5);
   }
 
   .aa-InputWrapperSuffix {
