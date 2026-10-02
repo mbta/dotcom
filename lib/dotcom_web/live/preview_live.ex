@@ -5,10 +5,19 @@ defmodule DotcomWeb.PreviewLive do
 
   use DotcomWeb, :live_view
 
+  alias DotcomWeb.DailySchedulesLive
   alias DotcomWeb.Router.Helpers
   alias Phoenix.LiveView
 
-  @pages []
+  @pages [
+    %{
+      arguments: [],
+      icon_name: "calendar-days",
+      icon_type: "solid",
+      module: DailySchedulesLive,
+      title: "Daily Schedules Experiment"
+    }
+  ]
 
   @impl LiveView
   def render(assigns) do
