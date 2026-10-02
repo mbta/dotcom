@@ -108,7 +108,11 @@ defmodule DotcomWeb.Components.Map do
             class={"mbta-map-icon#{concat_classes(icon |> Map.get(:class))}"}
             data-anchor={icon |> Map.get(:anchor, "center")}
             data-coordinates={Jason.encode!(icon.coordinates)}
-            data-popup={icon |> Map.get(:popup, nil)}
+            data-popup={
+              icon
+              |> Map.get(:popup, nil)
+              |> render_popup_heex()
+            }
           />
         <% end %>
       </div>
@@ -119,6 +123,14 @@ defmodule DotcomWeb.Components.Map do
   defp concat_classes(nil), do: ""
   defp concat_classes(classes) when is_binary(classes), do: " #{classes}"
   defp concat_classes(classes) when is_list(classes), do: " #{Enum.join(classes, " ")}"
+
+  defp render_popup_heex(nil), do: nil
+
+  defp render_popup_heex(heex) do
+    heex
+    |> Phoenix.HTML.Safe.to_iodata()
+    |> IO.iodata_to_binary()
+  end
 
   @doc """
   The map has to be loaded before we can draw anything on it.

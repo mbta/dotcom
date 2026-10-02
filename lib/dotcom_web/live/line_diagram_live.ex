@@ -354,8 +354,6 @@ defmodule DotcomWeb.LineDiagramLive do
             socket.assigns
             |> assign(:stop, &1)
             |> stop_popup()
-            |> Phoenix.HTML.Safe.to_iodata()
-            |> IO.iodata_to_binary()
         }
       )
 
