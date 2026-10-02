@@ -39,7 +39,6 @@ export function setHeaderElementPositions(
   rootElement: HTMLElement
 ): void {
   if (!header || !rootElement) return;
-
   const { bottom, height } = header.getBoundingClientRect();
   const bottomPx = `${bottom}px`;
   const heightPx = `${height}px`;
@@ -59,8 +58,10 @@ export function setHeaderElementPositions(
   const cover = rootElement.querySelector(
     "[data-nav='veil']"
   ) as HTMLElement | null;
-  if (cover) {
-    cover.style.top = bottomPx;
+  const navHeader = header.querySelector("[data-search-open]");
+  if (cover && navHeader) {
+    const { bottom: navBottom } = navHeader.getBoundingClientRect();
+    cover.style.top = `${navBottom}px`;
   }
 }
 

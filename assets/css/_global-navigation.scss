@@ -26,6 +26,7 @@ header {
     position: relative;
     background-color: $brand-primary-dark;
     color: $white;
+    z-index: 20;
   }
 }
 
@@ -45,6 +46,19 @@ header {
   .m-menu--cover {
     display: block; // display veil
   }
+
+  .c-modal__cover {
+    z-index: 2; // override the extreme z-index so we can have the nav stay atop
+  }
+
+  .top-tier-header {
+    z-index: 20;
+  }
+}
+
+.header--new[data-search-open], .header--new[data-nav-open] {
+  background-color: $brand-primary-darkest;
+  z-index: 20;
 }
 
 nav.m-menu--dropdown {
