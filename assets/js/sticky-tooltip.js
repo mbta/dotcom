@@ -31,7 +31,7 @@ export default function($) {
 
   const initTooltip = () => {
     $(selector).each(function(i, el) {
-      $(el).tooltip({ container: $(el).parent() });
+      $(el).tooltip({ container: $(el).parent(), trigger: "manual" });
     });
 
     $(document).on("touchstart", selector, function(e) {
@@ -58,6 +58,9 @@ export default function($) {
       if ($this.attr("aria-describedby")) {
         return;
       }
+
+      // Show is called twice to address an issue where tooltip does not show on first hover
+      $this.tooltip("show");
       $this.tooltip("show");
     });
     $(document).on("mouseleave", selector, function(e) {
@@ -66,17 +69,14 @@ export default function($) {
         return;
       }
       // Prevent tooltip from closing when mousing over the tooltip itself
-      if (
-        typeof e?.relatedTarget?.className === "string" &&
-        e.relatedTarget.className.includes("tooltip")
-      ) {
-        const $tooltip = $(`#${$this.attr("aria-describedby")}`);
+      if (e?.relatedTarget?.id === $this.attr("aria-describedby")) {
+        const $tooltip = $(e.relatedTarget);
         // The tooltip trigger's listener doesn't cover the tooltip, so we need a new listener
         // to close the tooltip when the mouse leaves the tooltip
         if (!$tooltip.data("listener")) {
           $tooltip.on("mouseleave", event => {
             if (
-              $(event.relatedTarget).data("original-title") ===
+              $(event.relatedTarget)?.closest("[data-original-title]")?.data("original-title") ===
               $this.data("original-title")
             ) {
               return;
