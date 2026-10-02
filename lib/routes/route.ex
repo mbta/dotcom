@@ -102,6 +102,11 @@ defmodule Routes.Route do
   defguard is_silver_line?(route)
            when route.id in @silver_line and not is_external?(route)
 
+  defguard is_rapid_silver_line?(route)
+           when route.id in @silver_line and not is_external?(route) and
+                  route.fare_class ==
+                    :rapid_transit_fare
+
   @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
   def type_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
@@ -253,6 +258,9 @@ defmodule Routes.Route do
 
   def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
   def silver_line?(id), do: id in @silver_line_set
+
+  def rapid_silver_line?(%__MODULE__{id: id, fare_class: fare_class}),
+    do: id in @silver_line_set and fare_class == :rapid_transit_fare
 
   def silver_line, do: @silver_line
 

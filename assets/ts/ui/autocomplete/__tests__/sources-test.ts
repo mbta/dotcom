@@ -239,7 +239,7 @@ describe("algoliaSource", () => {
         algoliaQuery: query,
         algoliaIndexesWithParams: indexes
       }),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-CSRF-Token": "" },
       method: "POST"
     });
   });
