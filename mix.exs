@@ -21,9 +21,6 @@ defmodule DotCom.Mixfile do
         flags: [:no_opaque, :unmatched_returns]
       ],
       deps: deps(),
-      hex: [
-	ignore_advisories: ["EEF-CVE-2026-43966", "EEF-CVE-2026-43969"],
-      ],
       gettext: [write_reference_line_numbers: false],
       listeners: [Phoenix.CodeReloader],
       # docs
