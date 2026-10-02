@@ -341,9 +341,7 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign(:map_lines, map_lines)
   end
 
-  defp assign_map_icons(
-         %{assigns: %{stops: stops, route: route, direction_id: direction_id}} = socket
-       ) do
+  defp assign_map_icons(%{assigns: %{stops: stops}} = socket) do
     map_icons =
       stops
       |> Enum.map(
@@ -353,12 +351,30 @@ defmodule DotcomWeb.LineDiagramLive do
           name: "icon-stop-circle-bordered-expanded",
           class: "size-3 cursor-pointer",
           popup:
-            "<div class=\"popup-title\">#{&1.name}</div> <div class=\"popup-link\"> <a href=\"/departures/?route_id=#{route.id}&direction_id=#{direction_id}&stop_id=#{&1.id}\">#{~t(View Schedule)}</a> </div>"
+            socket.assigns
+            |> assign(:stop, &1)
+            |> stop_popup()
+            |> Phoenix.HTML.Safe.to_iodata()
+            |> IO.iodata_to_binary()
         }
       )
 
     socket
     |> assign(:map_icons, map_icons)
+  end
+
+  defp stop_popup(assigns) do
+    ~H"""
+    <div class="popup-title">{@stop.name}</div>
+
+    <div class="popup-link">
+      <a href={
+        ~p"/departures/?route_id=#{@route.id}&direction_id=#{@direction_id}&stop_id=#{@stop.id}"
+      }>
+        {~t(View Schedule)}
+      </a>
+    </div>
+    """
   end
 
   defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
