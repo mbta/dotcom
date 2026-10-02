@@ -18,9 +18,7 @@ config :dotcom, :httpoison, HTTPoison
 
 config :dotcom,
   default_locale_code: "en",
-  locale_codes: ["en", "es"]
-
-# locale_codes: ["en", "es", "ht", "pt", "vi", "zh]
+  locale_codes: ["en", "es", "ht", "pt-BR", "vi", "zh-CN", "zh-TW", "fr-FR"]
 
 config :dotcom, :location_service, LocationService
 
@@ -58,6 +56,8 @@ config :dotcom, :req_module, Req
 
 config :dotcom, :search_service, Dotcom.SearchService
 
+config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures
+
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
@@ -67,7 +67,8 @@ config :dotcom, tile_server_url: tile_server_url
 
 config :dotcom, Dotcom.Cache.Multilevel.Local,
   max_size: 1_000_000,
-  allocated_memory: 2_000_000_000
+  allocated_memory: 2_000_000_000,
+  gc_interval: :timer.hours(12)
 
 config :elixir, ansi_enabled: true
 
@@ -87,7 +88,7 @@ end
 config :mbta_metro, :map, %{
   center: [-71.0589, 42.3601],
   maxZoom: 18,
-  minZoom: 8,
+  minZoom: 7,
   style: %{
     "version" => 8,
     "sources" => %{
@@ -113,7 +114,9 @@ config :mbta_metro, :map, %{
 config :sentry,
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()],
-  context_lines: 5
+  context_lines: 5,
+  before_send: {Dotcom.Sentry, :before_send},
+  release: System.get_env("SENTRY_RELEASE")
 
 # Configures the endpoint
 config :dotcom, DotcomWeb.Endpoint,
@@ -124,6 +127,26 @@ config :dotcom, DotcomWeb.Endpoint,
   pubsub_server: Dotcom.PubSub,
   live_view: [
     signing_salt: "gsQiz0LdGqVmqDOR4snAgelIAAphhdfm"
+  ]
+
+config :laboratory,
+  features: [
+    {:new_timetables, "New timetables",
+     "Uses the new timetable component and logic for all timetables"},
+    {:use_smartling_translations, "Smartling translations",
+     "Uses Smartling's translation workflows"},
+    {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"},
+    {:in_seat_transfers, "In Seat Transfers",
+     "Show in-seat transfers available for certain trips"},
+    {:line_diagram, "New Line Diagram",
+     "Adds a tab to the schedules page for the new line diagram"},
+    {:new_stop_page, "New Stop Page Layout",
+     "Reconfigures the stop page and replaces the React view"}
+  ],
+  cookie: [
+    # one month,
+    max_age: 3600 * 24 * 30,
+    http_only: true
   ]
 
 import_config "#{config_env()}.exs"

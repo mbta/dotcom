@@ -19,6 +19,9 @@ defmodule Dotcom.AlertsTest do
       Dotcom.Utils.DateTime.now()
     end)
 
+    Mox.stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
+    Mox.stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
+
     :ok
   end
 
@@ -147,9 +150,7 @@ defmodule Dotcom.AlertsTest do
 
   describe "subway_alert_groups/0" do
     setup do
-      stub(Alerts.Repo.Mock, :all, fn _ -> [] end)
       stub(Alerts.Repo.Mock, :banner, fn -> nil end)
-      stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
       :ok
     end
@@ -169,7 +170,10 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_2.id, route_type: route_2.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn [0, 1] -> [route_1, route_2] end)
 
       groups = subway_alert_groups()
@@ -196,7 +200,10 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: non_subway_route.id, route_type: non_subway_route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn [0, 1] -> [subway_route] end)
 
       refute subway_alert_groups() |> Enum.any?(fn {route, _} -> route == non_subway_route end)
@@ -211,7 +218,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_with_alerts.id, route_type: route_with_alerts.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ -> alerts end)
 
       expect(Routes.Repo.Mock, :by_type, fn [0, 1] ->
         [route_with_alerts, route_without_alerts]
@@ -231,7 +238,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route.id, route_type: route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ -> alerts end)
 
       expect(Alerts.Repo.Mock, :banner, fn ->
         Factories.Alerts.Banner.build(:banner, id: banner_alert.id)
@@ -263,7 +270,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route.id, route_type: route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
         (service_alerts ++ non_service_alerts) |> Enum.shuffle()
       end)
 
@@ -292,7 +299,7 @@ defmodule Dotcom.AlertsTest do
         )
         |> Enum.map(&Factories.Alerts.Alert.active_upcoming/1)
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [0, 1], _ ->
         (service_alerts ++ non_service_alerts) |> Enum.shuffle()
       end)
 
@@ -305,11 +312,66 @@ defmodule Dotcom.AlertsTest do
     end
   end
 
+  describe "subheading_data" do
+    test "returns affected_stops subheading data for station closure" do
+      # Setup
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+      route_ids = [Faker.App.name()]
+
+      # Exercise
+      result =
+        subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids)
+
+      # Verify
+      assert match?({:affected_stops, _}, result)
+    end
+
+    test "returns delay subheading data for delay status" do
+      # Setup
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+
+      # Exercise
+      result = subheading_data(status: :delay, alerts: alerts, route_ids: [])
+
+      # Verify
+      assert result == {:delay}
+    end
+
+    test "returns endpoint_stops subheading data for service_change, shuttle, single_tracking, and suspension with route_ids" do
+      # Setup
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+      endpoint_statuses = [:service_change, :shuttle, :single_tracking, :suspension]
+      route_ids = [Faker.App.name()]
+      status = Faker.Util.pick(endpoint_statuses)
+
+      # Exercise
+      result = subheading_data(status: status, alerts: alerts, route_ids: route_ids)
+
+      # Verify
+      assert match?({:endpoint_stops, _}, result)
+    end
+
+    test "returns nil for statuses that don't have associated subheading text" do
+      # Setup
+      non_subheading_statuses =
+        @service_impacting_effects --
+          [:station_closure, :delay, :service_change, :shuttle, :single_tracking, :suspension]
+
+      status = Faker.Util.pick(non_subheading_statuses)
+      alerts = [Factories.Alerts.Alert.build(:alert_for_route)]
+      route_ids = [Faker.App.name()]
+
+      # Exercise
+      result = subheading_data(status: status, alerts: alerts, route_ids: route_ids)
+
+      # Verify
+      assert result == nil
+    end
+  end
+
   describe "commuter_rail_alert_groups/0" do
     setup do
-      stub(Alerts.Repo.Mock, :all, fn _ -> [] end)
       stub(Alerts.Repo.Mock, :banner, fn -> nil end)
-      stub(Routes.Repo.Mock, :by_type, fn _ -> [] end)
 
       :ok
     end
@@ -329,7 +391,10 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_2.id, route_type: route_2.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn 2 -> [route_1, route_2] end)
 
       groups = commuter_rail_alert_groups()
@@ -360,7 +425,10 @@ defmodule Dotcom.AlertsTest do
           }
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> (alerts_1 ++ alerts_2) |> Enum.shuffle() end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
+        (alerts_1 ++ alerts_2) |> Enum.shuffle()
+      end)
+
       expect(Routes.Repo.Mock, :by_type, fn 2 -> [commuter_rail_route] end)
 
       refute commuter_rail_alert_groups()
@@ -376,7 +444,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route_with_alerts.id, route_type: route_with_alerts.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ -> alerts end)
 
       expect(Routes.Repo.Mock, :by_type, fn 2 ->
         [route_with_alerts, route_without_alerts]
@@ -396,7 +464,7 @@ defmodule Dotcom.AlertsTest do
           informed_entity: %{route: route.id, route_type: route.type}
         )
 
-      expect(Alerts.Repo.Mock, :all, fn _ -> alerts end)
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ -> alerts end)
 
       expect(Alerts.Repo.Mock, :banner, fn ->
         Factories.Alerts.Banner.build(:banner, id: banner_alert.id)
@@ -409,7 +477,8 @@ defmodule Dotcom.AlertsTest do
       {^route, alert_group} =
         commuter_rail_alert_groups() |> Enum.find(fn {r, _} -> r == route end)
 
-      assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts)
+      assert MapSet.new(alert_group) == MapSet.new(non_banner_alerts),
+             "lists of alerts do not match, do we have an id collision?\n #{alerts |> Enum.map(& &1.id) |> List.to_string()}"
     end
 
     test "does not include currently-active service-impacting alerts" do
@@ -429,7 +498,7 @@ defmodule Dotcom.AlertsTest do
         )
         |> Enum.map(&Factories.Alerts.Alert.active_now/1)
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
         (service_alerts ++ non_service_alerts) |> Enum.shuffle()
       end)
 
@@ -460,7 +529,7 @@ defmodule Dotcom.AlertsTest do
 
       all_alerts = service_alerts ++ non_service_alerts
 
-      expect(Alerts.Repo.Mock, :all, fn _ ->
+      expect(Alerts.Repo.Mock, :by_route_types, fn [2], _ ->
         all_alerts |> Enum.shuffle()
       end)
 
@@ -490,5 +559,62 @@ defmodule Dotcom.AlertsTest do
       )
 
     assert systemwide_mode_alert?(alert_without_route, mode)
+  end
+
+  describe "routes_with_high_priority_alerts_by_mode/1" do
+    setup do
+      {:ok, %{alerts: Factories.Alerts.Alert.build_list(50, :alert)}}
+    end
+
+    test "builds list of routes by mode", %{alerts: alerts} do
+      stub(Routes.Repo.Mock, :get, fn _ -> Factories.Routes.Route.build(:route) end)
+
+      for {mode, routes} <- routes_with_high_priority_alerts_by_mode(alerts) do
+        # valid mode
+        assert Routes.Route.types_for_mode(mode)
+
+        if routes != [] do
+          assert [%Routes.Route{} | _] = routes
+        end
+      end
+    end
+
+    test "doesn't error if nil routes", %{alerts: alerts} do
+      stub(Routes.Repo.Mock, :get, fn _ -> nil end)
+
+      assert routes_with_high_priority_alerts_by_mode(alerts) == [
+               subway: [],
+               bus: [],
+               commuter_rail: [],
+               ferry: []
+             ]
+    end
+  end
+
+  describe "stops_with_access_alerts_by_effect/1" do
+    setup do
+      {:ok, %{alerts: Factories.Alerts.Alert.build_list(50, :alert)}}
+    end
+
+    test "builds list of stops by accessibility effect", %{alerts: alerts} do
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> Factories.Stops.Stop.build(:stop) end)
+
+      stops_by_effect = stops_with_access_alerts_by_effect(alerts)
+
+      for {effect, stops} <- stops_by_effect do
+        assert effect in Alerts.Accessibility.effect_types()
+
+        if stops != [] do
+          assert [%Stops.Stop{} | _] = stops
+        end
+      end
+    end
+
+    test "doesn't error if nil stops", %{alerts: alerts} do
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> nil end)
+
+      stops_by_effect = stops_with_access_alerts_by_effect(alerts)
+      assert stops_by_effect == [elevator_closure: [], escalator_closure: [], access_issue: []]
+    end
   end
 end

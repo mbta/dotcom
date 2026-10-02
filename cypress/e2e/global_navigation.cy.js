@@ -9,10 +9,10 @@ const searchPlaceholderText = "Search for routes, info, and more";
 
 const SELECTORS = {
   veil: "[data-nav='veil']",
-  desktopMenu: "[data-nav='desktop-section']",
-  desktopMenuButton: "[data-nav='toggle-desktop-nav']",
-  mobileMenu: "[data-nav='mobile-content']",
-  mobileMenuButton: "button[data-nav='toggle-mobile-nav']",
+  desktopMenu: "[data-nav='dropdown-section']",
+  desktopMenuButton: "[data-nav='toggle-dropdown-nav']",
+  mobileMenu: "[data-nav='fullscreen-menu-content']",
+  mobileMenuButton: "button[data-nav='toggle-fullscreen-nav']",
   searchButton: "[data-nav='toggle-nav-search']",
   searchBarDesktop: "#header-desktop .aa-Autocomplete",
   searchInputDesktop: "#header-desktop .aa-Input",

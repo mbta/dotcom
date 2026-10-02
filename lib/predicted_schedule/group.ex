@@ -86,10 +86,7 @@ defmodule PredictedSchedule.Group do
     false
   end
 
-  @spec trip_ids_for_destination([schedule_pair_t] | nil, String.t() | nil) :: MapSet.t()
-  defp trip_ids_for_destination(_schedules, nil), do: MapSet.new()
-  defp trip_ids_for_destination(nil, _destination_id), do: MapSet.new()
-
+  @spec trip_ids_for_destination([schedule_pair_t], String.t()) :: MapSet.t()
   defp trip_ids_for_destination(schedules, destination_id) do
     MapSet.new(
       schedules,

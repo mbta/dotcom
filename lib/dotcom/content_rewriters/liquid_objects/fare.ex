@@ -6,7 +6,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
 
   IMPORTANT: Any atom changes in the Fares.Fare module need to also be made here, and should
   likewise be updated in the Content team's online legend for fare replacement usage here:
-  https://docs.google.com/spreadsheets/d/18DGY0es_12xy54oDE9lDTJwATx4jhodWkND7MuY7R6E?pli=1#gid=1197832395
+  https://mbta.sharepoint.com/:x:/r/sites/TID/_layouts/15/guestaccess.aspx?e=udCkdJ&share=ESbAg-LEWjRArC5DurkUNWEBrkIpdrte99FcSAGf2KWAsg
 
   """
 
@@ -28,6 +28,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
           | :ferry_cross_harbor
           | :ferry_inner_harbor
           | :ferry_east_boston
+          | :ferry_harbor_loop
           | :ferry_lynn
           | :ferry_winthrop
           | :foxboro
@@ -66,10 +67,12 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
     "ferry_cross_harbor",
     "ferry_inner_harbor",
     "ferry_east_boston",
+    "ferry_harbor_loop",
     "ferry_lynn",
     "ferry_winthrop",
     "foxboro",
     "express_bus",
+    "inner_harbor_1a",
     "local_bus",
     "subway"
   ]
@@ -115,6 +118,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
   @spec fare_request(String.t()) :: {:ok, String.t()} | request_error
   def fare_request(string) do
     string
+    |> String.trim()
     |> String.split(":", trim: true)
     |> parse_tokens()
     |> compose_args()
@@ -126,6 +130,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
   def fare_object_request(string) do
     tokens =
       string
+      |> String.trim()
       |> String.split(":", trim: true)
       |> parse_tokens()
 

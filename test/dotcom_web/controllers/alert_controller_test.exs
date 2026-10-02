@@ -41,8 +41,10 @@ defmodule DotcomWeb.AlertControllerTest do
       Factories.Routes.Route.build_list(2, :route, %{type: route_type})
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _route_ids ->
-      []
+    current_date = Dotcom.Utils.ServiceDateTime.service_date()
+
+    stub(Services.Repo.Mock, :by_route_id, fn _ ->
+      [Factories.Services.Service.build(:service, date: current_date)]
     end)
 
     stub(Stops.Repo.Mock, :get, fn id ->
@@ -127,7 +129,7 @@ defmodule DotcomWeb.AlertControllerTest do
     route_id = Faker.Util.pick(Dotcom.Routes.subway_route_ids())
     route_type = Faker.Util.pick([0, 1])
 
-    expect(Alerts.Repo.Mock, :all, fn date ->
+    expect(Alerts.Repo.Mock, :by_route_types, 2, fn [0, 1], date ->
       Factories.Alerts.Alert.build_list(1, :alert, %{
         active_period: [Utils.ServiceDateTime.service_range_day(date)],
         banner: nil,

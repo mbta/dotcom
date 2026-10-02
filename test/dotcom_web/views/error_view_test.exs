@@ -32,4 +32,17 @@ defmodule DotcomWeb.ErrorViewTest do
 
     assert html_response(conn, 500) =~ "Something went wrong on our end."
   end
+
+  test "root layout renders when locale has not been assigned", %{conn: conn} do
+    conn =
+      conn
+      |> put_private(:phoenix_endpoint, DotcomWeb.Endpoint)
+      |> put_private(:phoenix_view, %{_: DotcomWeb.ErrorView})
+      |> put_private(:phoenix_template, "500.html")
+
+    assert render_to_string(DotcomWeb.LayoutView, "root.html",
+             conn: conn,
+             inner_content: "Something went wrong on our end."
+           ) =~ ~s(<html lang="en">)
+  end
 end

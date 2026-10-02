@@ -28,10 +28,7 @@ defmodule JsonApi do
 
   @spec empty() :: JsonApi.t()
   def empty do
-    %JsonApi{
-      links: %{},
-      data: []
-    }
+    %JsonApi{links: %{}, data: []}
   end
 
   @spec merge(JsonApi.t(), JsonApi.t()) :: JsonApi.t()
@@ -80,12 +77,19 @@ defmodule JsonApi do
   @spec parse_data(term()) :: {:ok, [JsonApi.Item.t()]} | {:error, any}
   defp parse_data(%{"data" => data} = parsed) when is_list(data) do
     included = parse_included(parsed)
-    {:ok, Enum.map(data, &parse_data_item(&1, included))}
+    # cache is a mutable-ish accumulator: {type, id} => %JsonApi.Item{}
+    {items, _cache} =
+      Enum.map_reduce(data, %{}, fn item, cache ->
+        parse_data_item(item, included, cache, MapSet.new())
+      end)
+
+    {:ok, items}
   end
 
   defp parse_data(%{"data" => data} = parsed) do
     included = parse_included(parsed)
-    {:ok, [parse_data_item(data, included)]}
+    {item, _cache} = parse_data_item(data, included, %{}, MapSet.new())
+    {:ok, [item]}
   end
 
   defp parse_data(%{"errors" => errors}) do
@@ -106,56 +110,115 @@ defmodule JsonApi do
     {:error, :invalid}
   end
 
-  def parse_data_item(%{"type" => type, "id" => id, "attributes" => attributes} = item, included) do
-    %JsonApi.Item{
-      type: type,
-      id: id,
-      attributes: attributes,
-      relationships: load_relationships(item["relationships"], included)
-    }
+  # parse_data_item/2 kept as a public, cache-free convenience wrapper for
+  # anywhere else in the codebase that calls it directly (e.g. tests).
+  @spec parse_data_item(map(), map()) :: JsonApi.Item.t()
+  def parse_data_item(item, included) do
+    {parsed, _cache} = parse_data_item(item, included, %{}, MapSet.new())
+    parsed
   end
 
-  def parse_data_item(%{"type" => type, "id" => id}, _) do
-    %JsonApi.Item{
-      type: type,
-      id: id
-    }
-  end
+  # The real implementation. `cache` maps {type, id} => already-built Item,
+  # so a resource referenced from multiple places in the graph is only ever
+  # parsed once. `visiting` is the set of {type, id} pairs currently being
+  # expanded on the *current path* - if we hit one of those again, it means
+  # the included graph is cyclic (e.g. stop <-> transfer <-> stop), and we
+  # stop descending instead of recursing forever.
+  @spec parse_data_item(map(), map(), map(), MapSet.t()) :: {JsonApi.Item.t(), map()}
+  defp parse_data_item(
+         %{"type" => type, "id" => id, "attributes" => attributes} = item,
+         included,
+         cache,
+         visiting
+       ) do
+    key = {type, id}
 
-  defp load_relationships(nil, _) do
-    %{}
-  end
+    cond do
+      Map.has_key?(cache, key) ->
+        {Map.fetch!(cache, key), cache}
 
-  defp load_relationships(%{} = relationships, included) do
-    relationships
-    |> map_values(&load_single_relationship(&1, included))
-  end
+      MapSet.member?(visiting, key) ->
+        # Cycle detected: return a stub without relationships rather than
+        # recursing further. This breaks the loop; the caller already has
+        # (or will have) the fully-expanded version in the cache once its
+        # own parse completes.
+        stub = %JsonApi.Item{
+          type: type,
+          id: id,
+          attributes: attributes,
+          relationships: %{}
+        }
 
-  defp map_values(map, f) do
-    map
-    |> Map.new(fn {key, value} -> {key, f.(value)} end)
-  end
+        {stub, cache}
 
-  defp load_single_relationship(relationship, _) when relationship == %{} do
-    []
-  end
+      true ->
+        visiting = MapSet.put(visiting, key)
 
-  defp load_single_relationship(%{"data" => data}, included) when is_list(data) do
-    data
-    |> Enum.map(&match_included(&1, included))
-    |> Enum.reject(&is_nil/1)
-    |> Enum.map(&parse_data_item(&1, included))
-  end
+        {relationships, cache} =
+          load_relationships(item["relationships"], included, cache, visiting)
 
-  defp load_single_relationship(%{"data" => %{} = data}, included) do
-    case data |> match_included(included) do
-      nil -> []
-      item -> [parse_data_item(item, included)]
+        parsed = %JsonApi.Item{
+          type: type,
+          id: id,
+          attributes: attributes,
+          relationships: relationships
+        }
+
+        {parsed, Map.put(cache, key, parsed)}
     end
   end
 
-  defp load_single_relationship(_, _) do
-    []
+  # Bare resource identifier: no "attributes" key, so this is a
+  # relationship-linkage object rather than a fully-loaded resource.
+  # attributes/relationships are left at their struct defaults (nil/nil).
+  defp parse_data_item(%{"type" => type, "id" => id}, _included, cache, _visiting) do
+    item = %JsonApi.Item{type: type, id: id}
+    {item, Map.put(cache, {type, id}, item)}
+  end
+
+  defp load_relationships(nil, _included, cache, _visiting) do
+    {%{}, cache}
+  end
+
+  defp load_relationships(%{} = relationships, included, cache, visiting) do
+    Enum.map_reduce(relationships, cache, fn {name, relationship}, cache ->
+      {items, cache} = load_single_relationship(relationship, included, cache, visiting)
+      {{name, items}, cache}
+    end)
+    |> then(fn {pairs, cache} -> {Map.new(pairs), cache} end)
+  end
+
+  defp load_single_relationship(relationship, _included, cache, _visiting)
+       when relationship == %{} do
+    {[], cache}
+  end
+
+  defp load_single_relationship(%{"data" => data}, included, cache, visiting)
+       when is_list(data) do
+    {items, cache} =
+      data
+      |> Enum.map(&match_included(&1, included))
+      |> Enum.reject(&is_nil/1)
+      |> Enum.map_reduce(cache, fn item, cache ->
+        parse_data_item(item, included, cache, visiting)
+      end)
+
+    {items, cache}
+  end
+
+  defp load_single_relationship(%{"data" => %{} = data}, included, cache, visiting) do
+    case match_included(data, included) do
+      nil ->
+        {[], cache}
+
+      item ->
+        {parsed, cache} = parse_data_item(item, included, cache, visiting)
+        {[parsed], cache}
+    end
+  end
+
+  defp load_single_relationship(_, _included, cache, _visiting) do
+    {[], cache}
   end
 
   defp match_included(nil, _) do

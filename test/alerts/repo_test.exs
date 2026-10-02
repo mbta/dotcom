@@ -157,4 +157,34 @@ defmodule Alerts.RepoTest do
       assert [%Alert{id: "system"}] = Repo.by_priority(@now, :system)
     end
   end
+
+  describe "by_route_id_and_priority/2" do
+    test "returns the list of alerts for a route filtered by priority from the store" do
+      route_id = Faker.Internet.slug()
+      priority = Alerts.Priority.priority_levels() |> Faker.Util.pick()
+
+      alerts =
+        Factories.Alerts.Alert.build_list(20, :alert_for_route, route_id: route_id) ++
+          Factories.Alerts.Alert.build_list(20, :alert, priority: priority) ++
+          Factories.Alerts.Alert.build_list(20, :alert_for_route,
+            route_id: route_id,
+            priority: priority
+          )
+
+      :ok =
+        alerts
+        |> Enum.with_index(fn alert, index -> %{alert | id: "alert-#{index}"} end)
+        |> Store.update(nil)
+
+      matched_alerts = Repo.by_route_id_and_priority(route_id, priority)
+      assert [%Alert{} | _] = matched_alerts
+      assert Enum.all?(matched_alerts, &(&1.priority == priority))
+
+      matched_routes =
+        Enum.flat_map(matched_alerts, &(&1.informed_entity.route |> MapSet.to_list()))
+        |> Enum.uniq()
+
+      assert matched_routes == [route_id]
+    end
+  end
 end

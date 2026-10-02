@@ -4,8 +4,6 @@ defmodule DotcomWeb.ScheduleView do
   use Phoenix.Component
   use DotcomWeb, :view
 
-  require Routes.Route
-
   import DotcomWeb.ScheduleView.StopList
   import DotcomWeb.ScheduleView.Timetable
   import DotcomWeb.ViewHelpers
@@ -13,6 +11,9 @@ defmodule DotcomWeb.ScheduleView do
 
   import DotcomWeb.Components.SystemStatus.CommuterRailRouteStatus,
     only: [commuter_rail_route_status: 1]
+
+  import DotcomWeb.Components.SystemStatus.CommuterRailUpcomingChanges,
+    only: [commuter_rail_upcoming_changes: 1]
 
   alias CMS.Partial.RoutePdf
   alias Dotcom.MapHelpers
@@ -288,6 +289,7 @@ defmodule DotcomWeb.ScheduleView do
     route = conn.assigns.route
     tab_params = conn.assigns.tab_params
     info_link = line_path(conn, :show, route.id, tab_params)
+    line_path = info_link |> String.replace("/line", "/line_new")
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
 
@@ -299,6 +301,20 @@ defmodule DotcomWeb.ScheduleView do
         badge: conn |> alert_count() |> alert_badge()
       }
     ]
+
+    tabs =
+      if conn.assigns |> Map.get(:line_diagram, false) do
+        [
+          %HeaderTab{
+            id: "new_line_diagram",
+            name: ~t"Schedules & Maps (new)",
+            href: line_path
+          }
+          | tabs
+        ]
+      else
+        tabs
+      end
 
     tabs =
       case route.type do
@@ -314,7 +330,10 @@ defmodule DotcomWeb.ScheduleView do
           ]
       end
 
-    HeaderTabs.render_tabs(tabs, selected: conn.assigns.tab, tab_class: route_tab_class(route))
+    HeaderTabs.render_tabs(tabs,
+      selected: conn.assigns.tab,
+      tab_class: route_tab_class(route)
+    )
   end
 
   @spec alert_count(Conn.t()) :: integer
@@ -322,7 +341,7 @@ defmodule DotcomWeb.ScheduleView do
   defp alert_count(_), do: 0
 
   @spec route_tab_class(Route.t()) :: String.t()
-  defp route_tab_class(%Route{type: 3} = route) do
+  def route_tab_class(%Route{type: 3} = route) do
     if Route.silver_line?(route) do
       ""
     else
@@ -330,7 +349,7 @@ defmodule DotcomWeb.ScheduleView do
     end
   end
 
-  defp route_tab_class(_), do: ""
+  def route_tab_class(_), do: ""
 
   @spec route_fare_link(Route.t()) :: String.t()
   def route_fare_link(route) do

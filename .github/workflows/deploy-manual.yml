@@ -11,9 +11,15 @@ on:
         required: true
         default: dev-blue
 
+permissions:
+  contents: read
+
 jobs:
   branch:
     uses: ./.github/workflows/use-deploy-ecs.yml
+    permissions:
+      contents: read
+      id-token: write
     with:
       deployment-env: ${{ github.event.inputs.env }}
     secrets:

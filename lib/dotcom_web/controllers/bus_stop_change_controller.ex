@@ -17,7 +17,8 @@ defmodule DotcomWeb.BusStopChangeController do
   # groups into current & upcoming
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
-  def show(%{query_params: %{"alerts_timeframe" => _alerts_timeframe}} = conn, _params) do
+  def show(%{query_params: %{"alerts_timeframe" => alerts_timeframe}} = conn, _params)
+      when alerts_timeframe in ["current", "upcoming", ""] do
     conn
     # Don't let Google crawl this page
     |> put_resp_header("x-robots-tag", "noindex")

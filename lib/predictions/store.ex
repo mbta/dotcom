@@ -8,8 +8,6 @@ defmodule Predictions.Store do
 
   use GenServer
 
-  require Logger
-
   alias Predictions.Prediction
   alias Predictions.Store.Behaviour
 
@@ -17,7 +15,7 @@ defmodule Predictions.Store do
 
   @spec start_link(Keyword.t()) :: GenServer.on_start()
   def start_link(_) do
-    GenServer.start_link(__MODULE__, [], name: __MODULE__)
+    GenServer.start_link(__MODULE__, [], name: __MODULE__, hibernate_after: 15_000)
   end
 
   @doc "Deletes predictions associated with the input fetch keys, e.g. clear([route: 'Red', direction: 1])"

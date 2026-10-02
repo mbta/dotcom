@@ -8,6 +8,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   import CSSHelpers
   import DotcomWeb.Components.Alerts
+  import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
@@ -16,10 +17,11 @@ defmodule DotcomWeb.ScheduleFinderLive do
   alias DotcomWeb.Live.UpcomingDeparturesLive
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
-  alias Phoenix.{LiveView, LiveView.AsyncResult}
+  alias Phoenix.{LiveView, LiveView.AsyncResult, LiveView.JS}
   alias Routes.Route
   alias Stops.Stop
 
+  @date_time Application.compile_env!(:dotcom, :date_time_module)
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @schedule_finder Application.compile_env!(:dotcom, :schedule_finder_module)
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
@@ -39,7 +41,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def mount(params, _session, socket) do
     case validate_params(params) do
       {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
-        service_groups = ServiceGroup.for_route(route.id, service_date())
+        today = service_date()
+        yesterday = today |> Date.shift(day: -1)
+
+        yesterday_service_date? =
+          future_trips_from_yesterdays_service?(%{
+            direction_id: direction_id,
+            now: @date_time.now(),
+            route_id: route.id,
+            stop_id: stop.id,
+            yesterday: yesterday
+          })
+
+        service_date = if yesterday_service_date?, do: yesterday, else: today
+        service_groups = ServiceGroup.for_route(route.id, service_date)
+
         all_services = Enum.flat_map(service_groups, & &1.services)
         selected_service = Enum.find(all_services, %{}, &(&1.now_date || &1.next_date))
 
@@ -56,15 +72,17 @@ defmodule DotcomWeb.ScheduleFinderLive do
           |> assign_new(:service_groups, fn -> service_groups end)
           |> assign_new(:loaded_trips, fn -> %{} end)
           |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
+          |> assign_new(:selected_service_key, fn -> service_key(selected_service) end)
           |> assign_new(:service_today?, fn ->
             Enum.any?(all_services, &(!is_nil(&1.now_date)))
           end)
           |> assign_new(:daily_schedule_date, fn assigns ->
             # Current date if there's service today, next available service date otherwise... or current date if there's no service at all!
-            if assigns.service_today? do
-              service_date()
-            else
-              Map.get(selected_service, :next_date, service_date())
+
+            cond do
+              yesterday_service_date? -> yesterday
+              assigns.service_today? -> today
+              true -> Map.get(selected_service, :next_date, today)
             end
           end)
           |> assign_alerts()
@@ -92,7 +110,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       class="container"
       id={"#{@route.id}-#{@direction_id}-#{@stop.id}-schedule-finder"}
     >
-      <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl">
+      <div class="flex flex-col gap-y-xl max-w-xl mx-auto mt-xl relative">
         <.alert_banner alerts={@alerts} />
         <section>
           <h2 class="mt-0 mb-md">{~t"Upcoming Departures"}</h2>
@@ -114,6 +132,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           <.service_picker
             id={"service-picker-#{@route.id}"}
             selected_service_name={@selected_service_name}
+            selected_service_key={@selected_service_key}
             service_groups={@service_groups}
           />
           <.async_result :let={departures} assign={@departures}>
@@ -128,25 +147,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <%= if length(departures) > 0 do %>
-              <%= if @route.type in [0, 1] do %>
-                <div
-                  :for={
-                    {route, destination, times} <-
-                      get_subway_groups(departures, @direction_id, @stop.id)
-                  }
-                  class="mt-lg mb-md"
-                  data-test="subway_group"
-                >
-                  <.subway_destination route={route} destination={destination} />
-                  <.first_last times={times} vehicle_name={@vehicle_name} />
-                </div>
-              <% else %>
-                <.first_last
-                  times={Enum.map(departures, & &1.time)}
-                  vehicle_name={@vehicle_name}
-                />
-                <.departures_table departures={departures} loaded_trips={@loaded_trips} />
-              <% end %>
+              <div
+                id="departures-container"
+                phx-mounted={
+                  JS.transition({"transition-opacity ease-out", "opacity-30", "opacity-100"})
+                }
+                phx-remove={
+                  JS.transition({"transition-opacity ease-in", "opacity-100", "opacity-30"})
+                }
+              >
+                <%= if @route.type in [0, 1] do %>
+                  <div
+                    :for={
+                      {route, destination, times} <-
+                        get_subway_groups(departures, @direction_id, @stop.id)
+                    }
+                    class="mt-lg mb-md"
+                    data-test="subway_group"
+                  >
+                    <.subway_destination route={route} destination={destination} />
+                    <.first_last times={times} vehicle_name={@vehicle_name} />
+                  </div>
+                <% else %>
+                  <.first_last
+                    times={Enum.map(departures, & &1.time)}
+                    vehicle_name={@vehicle_name}
+                  />
+                  <.departures_table departures={departures} loaded_trips={@loaded_trips} />
+                <% end %>
+              </div>
             <% else %>
               <.callout data-test="no_service">
                 {no_service_message(@service_groups, @route, @stop)}
@@ -175,17 +204,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
         update(socket, :loaded_trips, &Map.put(&1, schedule_id, AsyncResult.loading()))
 
       {stop_sequence, _} = Integer.parse(stop_sequence)
-      GenServer.cast(self(), {:get_next, {schedule_id, [trip_id, stop_sequence, date]}})
+      show_in_seat_transfers? = socket.assigns[:in_seat_transfers] || false
+
+      GenServer.cast(
+        self(),
+        {:get_next, {schedule_id, [trip_id, stop_sequence, date, show_in_seat_transfers?]}}
+      )
+
       {:noreply, socket}
     end
   end
 
-  def handle_event("select_service", %{"selected_service" => selected_service_label}, socket) do
-    send(self(), %{selected_service: selected_service_label})
-
+  def handle_event("select_service", %{"selected_service" => selected_service_key}, socket) do
     {:noreply,
      socket
-     |> assign(:departures, AsyncResult.loading())}
+     |> assign_service(selected_service_key)
+     |> assign_departures()}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
@@ -208,13 +242,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @impl LiveView
   def handle_info(%{event: "alerts_updated"}, socket) do
     {:noreply, assign_alerts(socket)}
-  end
-
-  def handle_info(%{selected_service: selected_service_label}, socket) do
-    {:noreply,
-     socket
-     |> assign_service(selected_service_label)
-     |> assign_departures()}
   end
 
   def handle_info(_, socket), do: {:noreply, socket}
@@ -259,11 +286,29 @@ defmodule DotcomWeb.ScheduleFinderLive do
       |> Enum.filter(fn %{informed_entity: %{direction_id: direction_id}} ->
         Enum.any?([nil, direction], &(&1 in direction_id))
       end)
+      |> filter_stale_alerts(stop)
+      |> Enum.map(fn alert ->
+        Map.put(
+          alert,
+          :subheading_data,
+          subheading_data(status: alert.effect, alerts: [alert], route_ids: [route.id])
+        )
+      end)
 
     assign(socket, :alerts, alerts)
   end
 
   defp assign_alerts(socket), do: assign(socket, :alerts, [])
+
+  # Returns alerts that are fresh or are for this stop.  Stale alerts not for this stop will be filtered out.
+  defp filter_stale_alerts(alerts, stop) do
+    alerts
+    |> Enum.filter(fn alert ->
+      alert.informed_entity.stop
+      |> Enum.any?(fn alert_stop -> alert_stop == stop.id end) or
+        !(alert |> Alerts.Alert.stale?())
+    end)
+  end
 
   defp assign_departures(socket) do
     route_id = socket.assigns.route.id
@@ -285,19 +330,22 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  defp assign_service(socket, selected_service_label) do
+  defp assign_service(socket, selected_service_key) do
     selected_dated_service =
       socket.assigns.service_groups
       |> Enum.flat_map(& &1.services)
-      |> Enum.find(&(&1.label == selected_service_label))
-
-    daily_schedule_date =
-      selected_dated_service.last_service_date
+      |> Enum.find(&(service_key(&1) == selected_service_key))
 
     socket
-    |> assign(:selected_service_name, selected_service_label)
-    |> assign(:daily_schedule_date, daily_schedule_date)
+    |> assign(:selected_service_name, selected_dated_service.label)
+    |> assign(:selected_service_key, selected_service_key)
+    |> assign(:daily_schedule_date, selected_dated_service.last_service_date)
   end
+
+  defp service_key(%{label: label, last_service_date: date}),
+    do: "#{Date.to_iso8601(date)}:#{label}"
+
+  defp service_key(_), do: ""
 
   defp get_departures(route_id, direction_id, stop_id, date) do
     case @schedule_finder.daily_departures(route_id, direction_id, stop_id, date) do
@@ -379,6 +427,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :id, :string, required: true
   attr :service_groups, :list, required: true
   attr :selected_service_name, :string, default: ""
+  attr :selected_service_key, :string, default: ""
 
   defp service_picker(assigns) do
     ~H"""
@@ -391,13 +440,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
       <label for={@id} class="sr-only">
         {~t(Choose a schedule type from the available options)}
       </label>
-      <select id={@id} class="mbta-input w-full" name="selected_service" phx-update="ignore">
+      <select id={@id} class="mbta-input w-full" name="selected_service">
         <%= for service_group <- @service_groups do %>
           <optgroup label={service_group.group_label}>
             <option
               :for={service <- service_group.services}
-              value={service.label}
-              selected={service.now_date || service.next_date}
+              value={service_key(service)}
+              selected={service_key(service) == @selected_service_key}
             >
               {service.label} {if(service.now_date, do: " (#{~t(Now)})")}
             </option>
@@ -486,12 +535,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp departures_table(assigns) do
     ~H"""
     <div
-      class="grid grid-cols-1 divide-y-xs divide-gray-lightest border-xs border-gray-lightest"
+      class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest"
       data-test="departures_table"
     >
       <.unstyled_accordion
         :for={departure <- @departures}
-        summary_class="flex items-center gap-sm hover:bg-brand-primary-lightest px-sm py-3"
+        summary_class="flex items-center gap-sm bg-white hover:bg-brand-primary-lightest px-sm py-3 sticky top-0 z-50 group-open:border-b-xs group-open:border-gray-lightest"
         phx-click="open_trip"
         phx-value-schedule_id={departure.schedule_id}
         phx-value-stop_sequence={departure.stop_sequence}
@@ -532,19 +581,39 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <.lined_list_item
-                :for={{arrival, index} <- Enum.with_index(arrivals)}
-                route={departure.route}
-                class={if(index == 0, do: "font-bold")}
-                stop_pin?={index == 0}
-              >
-                <DotcomWeb.Components.Departures.stop_label
-                  stop_name={arrival.stop_name}
-                  platform_name={arrival.platform_name}
-                />
+              <%= for {heading_or_arrival, index} <- Enum.with_index(arrivals) do %>
+                <%= if match?(%Dotcom.ScheduleFinder.TripHeading{}, heading_or_arrival) do %>
+                  <.lined_list_item
+                    route={heading_or_arrival.route}
+                    variant="none"
+                  >
+                    <div class="flex-col w-full">
+                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues as"}</div>
+                      <div class="flex items-center gap-sm">
+                        <RouteComponents.route_icon
+                          route={heading_or_arrival.route}
+                          size="small"
+                          class="shrink-0"
+                        />
+                        <span>{heading_or_arrival.headsign}</span>
+                      </div>
+                    </div>
+                  </.lined_list_item>
+                <% else %>
+                  <.lined_list_item
+                    route={departure.route}
+                    class={if(index == 0, do: "font-bold")}
+                    stop_pin?={index == 0}
+                  >
+                    <DotcomWeb.Components.Departures.stop_label
+                      stop_name={heading_or_arrival.stop_name}
+                      platform_name={heading_or_arrival.platform_name}
+                    />
 
-                <Departures.formatted_time time={arrival.time} />
-              </.lined_list_item>
+                    <Departures.formatted_time time={heading_or_arrival.time} />
+                  </.lined_list_item>
+                <% end %>
+              <% end %>
             </.lined_list>
           </.async_result>
         </:content>
@@ -579,6 +648,31 @@ defmodule DotcomWeb.ScheduleFinderLive do
         route: route_name,
         stop: stop.name
       )
+    end
+  end
+
+  defp future_trips_from_yesterdays_service?(%{
+         direction_id: direction_id,
+         now: now,
+         route_id: route_id,
+         stop_id: stop_id,
+         yesterday: yesterday
+       }) do
+    [route_id]
+    |> Schedules.Repo.by_route_ids(
+      direction_id: direction_id,
+      stop_ids: stop_id,
+      date: yesterday
+    )
+    |> Enum.map(&(&1.departure_time || &1.arrival_time))
+    |> case do
+      [] ->
+        false
+
+      time_list ->
+        time_list
+        |> Enum.max_by(& &1, DateTime)
+        |> DateTime.after?(now)
     end
   end
 end

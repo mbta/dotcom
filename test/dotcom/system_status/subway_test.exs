@@ -9,6 +9,8 @@ defmodule Dotcom.SystemStatus.SubwayTest do
   @lines_without_branches List.delete(Subway.lines(), "Green")
 
   setup _ do
+    Mox.stub(Dotcom.Alerts.AffectedStops.Mock, :affected_stops, fn _, _ -> [] end)
+    Mox.stub(Dotcom.Alerts.EndpointStops.Mock, :endpoint_stops, fn _, _ -> [] end)
     Mox.stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     :ok
   end

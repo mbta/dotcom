@@ -52,6 +52,8 @@ config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
 config :dotcom, :search_service, Dotcom.SearchService.Mock
 
+config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures.Mock
+
 # Let test requests get routed through the :secure pipeline
 config :dotcom, :secure_pipeline,
   force_ssl: [
@@ -64,3 +66,18 @@ config :recaptcha,
   http_client: Recaptcha.Http.MockClient
 
 config :tesla, adapter: Tesla.Mock
+
+config :laboratory,
+  features: [
+    {:test_flag, "Cool Bean", "cool bean for test"},
+    {:use_smartling_translations, "Smartling translations",
+     "Uses Smartling's translation workflows"},
+    {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"},
+    {:line_diagram, "New Line Diagram",
+     "Adds a tab to the schedules page for the new line diagram"}
+  ],
+  cookie: [
+    # one month,
+    max_age: 3600 * 24 * 30,
+    http_only: true
+  ]

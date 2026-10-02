@@ -8,10 +8,12 @@ defmodule Dotcom.TripPlan.Helpers do
   @doc """
   For information associated with a MBTA GTFS feed, return the ID
   """
-  @spec mbta_id(Place.t() | Route.t() | Stop.t() | Trip.t() | any()) :: String.t() | nil
+  @spec mbta_id(Place.t() | Route.t() | Stop.t() | Trip.t() | String.t() | any()) ::
+          String.t() | nil
   def mbta_id(%Place{stop: stop}), do: mbta_id(stop)
-  def mbta_id(%{gtfs_id: "mbta-ma-us:" <> id}), do: id
-  def mbta_id(%{gtfs_id: "mbta-ma-us-initial:" <> id}), do: id
+  def mbta_id(%{gtfs_id: gtfs_id}), do: mbta_id(gtfs_id)
+  def mbta_id("mbta-ma-us:" <> id), do: id
+  def mbta_id("mbta-ma-us-initial:" <> id), do: id
   def mbta_id(_), do: nil
 
   @doc """

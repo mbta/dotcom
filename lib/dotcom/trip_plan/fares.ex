@@ -9,62 +9,17 @@ defmodule Dotcom.TripPlan.Fares do
 
   import Dotcom.TripPlan.Helpers
 
-  alias Dotcom.TripPlan.Transfer
+  alias __MODULE__.State
   alias Fares.Fare
   alias OpenTripPlannerClient.Schema.{Itinerary, Leg, Place, Route}
 
-  @agencies_with_fare_info ["MBTA", "Massport", "Logan Express"]
-
   @spec fare(Itinerary.t()) :: non_neg_integer() | nil
   def fare(%Itinerary{legs: legs}) do
-    transit_legs = Enum.filter(legs, & &1.transit_leg)
-
-    if Enum.any?(transit_legs, fn %Leg{agency: agency} ->
-         agency.name not in @agencies_with_fare_info
-       end) do
-      nil
-    else
-      transit_legs
-      |> Stream.with_index()
-      |> Enum.reduce(0, &add_fares(&1, &2, transit_legs))
-    end
-  end
-
-  defp add_fares({leg, 0}, 0, _), do: cents_for_leg(leg)
-
-  # credo:disable-for-next-line
-  defp add_fares({leg, leg_index}, total, transit_legs) do
-    # Look at this transit leg and previous transit leg(s)
-    two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
-    three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
-    # If this is part of a free transfer, don't add fare
-    cond do
-      Transfer.subway_transfer?(three_legs) ->
-        total
-
-      Transfer.bus_to_subway_transfer?(three_legs) ->
-        if total == cents_for_leg(List.first(three_legs)),
-          do: total + 70,
-          else: total
-
-      Transfer.maybe_transfer?(three_legs) ->
-        total
-
-      Transfer.subway_transfer?(two_legs) ->
-        total
-
-      Transfer.subway_after_sl1_from_airport?(two_legs) ->
-        total
-
-      Transfer.bus_to_subway_transfer?(two_legs) ->
-        total + 70
-
-      Transfer.maybe_transfer?(two_legs) ->
-        total
-
-      true ->
-        total + cents_for_leg(leg)
-    end
+    legs
+    |> Enum.reduce(State.new(), fn leg, state ->
+      State.add_leg(state, leg)
+    end)
+    |> State.fare()
   end
 
   # Massport shuttles are free
@@ -83,9 +38,10 @@ defmodule Dotcom.TripPlan.Fares do
   # All other Logan Express buses are $9.00
   def cents_for_leg(leg) when agency_name?(leg, "Logan Express"), do: 900
 
-  def cents_for_leg(%Leg{from: from, route: route, to: to}) when agency_name?(route, "MBTA") do
+  def cents_for_leg(%Leg{from: from, route: route, to: to, intermediate_stops: between})
+      when agency_name?(route, "MBTA") do
     route
-    |> fare_filter_for_route(from, to)
+    |> fare_filter_for_route(from, to, between)
     |> Keyword.put_new(:duration, :single_trip)
     |> Keyword.put_new(:reduced, nil)
     |> Fares.Repo.all()
@@ -96,7 +52,7 @@ defmodule Dotcom.TripPlan.Fares do
   # Non-transit legs don't have a fare
   def cents_for_leg(_), do: 0
 
-  defp fare_filter_for_route(route, from, to) when route.type == 2 do
+  defp fare_filter_for_route(route, from, to, _) when route.type == 2 do
     if mbta_id(route) == "CR-Foxboro" do
       [name: :foxboro, duration: :round_trip]
     else
@@ -111,17 +67,19 @@ defmodule Dotcom.TripPlan.Fares do
     end
   end
 
-  defp fare_filter_for_route(route, from, to) when route.type == 4 do
+  defp fare_filter_for_route(route, from, to, between) when route.type == 4 do
     origin_id = mbta_id(from.stop)
     destination_id = mbta_id(to.stop)
-    [name: Fares.calculate_ferry(origin_id, destination_id)]
+    between_ids = between |> Enum.map(&mbta_id/1)
+
+    [name: Fares.calculate_ferry(origin_id, destination_id, between_ids)]
   end
 
-  defp fare_filter_for_route(route, _, _) when mbta_shuttle?(route) do
+  defp fare_filter_for_route(route, _, _, _) when mbta_shuttle?(route) do
     [name: :free_fare]
   end
 
-  defp fare_filter_for_route(route, from, _) when route.type == 3 do
+  defp fare_filter_for_route(route, from, _, _) when route.type == 3 do
     route_id = mbta_id(route)
     origin_id = mbta_id(from.stop)
 
@@ -129,6 +87,7 @@ defmodule Dotcom.TripPlan.Fares do
       cond do
         Fares.express?(route_id) -> :express_bus
         Fares.silver_line_airport_stop?(route_id, origin_id) -> :free_fare
+        Fares.fare_free_bus?(route_id) -> :free_fare
         Fares.silver_line_rapid_transit?(route_id) -> :subway
         true -> :local_bus
       end
@@ -136,11 +95,11 @@ defmodule Dotcom.TripPlan.Fares do
     [name: name]
   end
 
-  defp fare_filter_for_route(route, _, _) when route.type in [0, 1] do
+  defp fare_filter_for_route(route, _, _, _) when route.type in [0, 1] do
     [mode: :subway]
   end
 
-  defp fare_filter_for_route(route, _, _), do: [name: mbta_id(route)]
+  defp fare_filter_for_route(route, _, _, _), do: [name: mbta_id(route)]
 
   @spec fare_cents(Fare.t() | nil) :: non_neg_integer()
   defp fare_cents(nil), do: 0

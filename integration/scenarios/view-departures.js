@@ -4,7 +4,7 @@ import { chooseUrl } from "../load_tests/departures.js";
 
 export async function scenario({ page, baseURL, path }) {
   const url = `${baseURL}${path || chooseUrl()}`;
-  const response = await page.goto(url);
+  const response = await page.goto(url, { timeout: 0 });
   await page.waitForLoadState("domcontentloaded");
   await syncLiveView(page, expect);
   expect(response.status()).toBe(200);

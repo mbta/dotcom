@@ -25,6 +25,28 @@ defmodule AlertsTest do
     end
   end
 
+  describe "check_freshness/1" do
+    test "Marks alerts related to the symphony work as stale" do
+      entities = [%Alerts.InformedEntity{stop: "place-symcl"}]
+
+      alert =
+        new(effect: :station_closure, informed_entity: entities)
+
+      assert Alerts.Alert.stale?(alert),
+             "Alertnrelated to symphony expected to be stale, but was not"
+    end
+
+    test "Marks alerts unrelated to the symphony work as fresh" do
+      entities = [%Alerts.InformedEntity{stop: "place-hymnl"}]
+
+      alert =
+        new(effect: :detour, informed_entity: entities)
+
+      assert !Alerts.Alert.stale?(alert),
+             "Alert unrelated to symphony expected to be fresh, but was not"
+    end
+  end
+
   describe "ongoing_effects/0" do
     test "returns a list" do
       assert is_list(ongoing_effects())
@@ -126,26 +148,6 @@ defmodule AlertsTest do
       assert icon(%Alert{effect: :snow_route, priority: :high}) == :snow
       assert icon(%Alert{effect: :shuttle, priority: :high}) == :shuttle
       assert icon(%Alert{effect: :delay, priority: :high}) == :alert
-    end
-  end
-
-  describe "high_severity_or_high_priority?/1" do
-    test "returns true for severity >= 7" do
-      assert high_severity_or_high_priority?(%Alert{severity: 8})
-      assert high_severity_or_high_priority?(%Alert{severity: 8, priority: :low})
-    end
-
-    test "returns true for priority == :high" do
-      assert high_severity_or_high_priority?(%Alert{priority: :high})
-      assert high_severity_or_high_priority?(%Alert{severity: 2, priority: :high})
-    end
-
-    test "returns true for high severity and high priority" do
-      assert high_severity_or_high_priority?(%Alert{severity: 7, priority: :high})
-    end
-
-    test "returns false otherwise" do
-      refute high_severity_or_high_priority?(%Alert{severity: 3, priority: :low})
     end
   end
 

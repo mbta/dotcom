@@ -1,0 +1,32 @@
+name: Load Test Single Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      test-env:
+        description: "Environment to test"
+        type: choice
+        required: true
+        options:
+          - dev-green
+          - dev-blue
+
+permissions:
+  contents: read
+
+concurrency:
+  group: load-test-${{ inputs.test-env }}
+  cancel-in-progress: true
+
+jobs:
+  artillery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - name: Execute load tests
+        uses: artilleryio/action-cli@f15c5c9f14b33beb0fe26efd1aac4ea4b16d7a6e # v2.0.33
+        with:
+          command: run -e ${{ inputs.test-env }} ./homepage-heavy-load.yml
+          working-directory: ./integration/load_tests

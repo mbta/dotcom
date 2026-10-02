@@ -59,7 +59,27 @@ defmodule DotcomWeb.SearchPageLive do
     end
   end
 
-  def handle_event(_, _, socket), do: {:noreply, socket}
+  def handle_event("find", %{"category" => category, "query" => query}, socket) do
+    enabled_categories =
+      category
+      |> Map.filter(fn {_key, v} -> v == "on" end)
+
+    {:noreply,
+     assign(socket, :query, query)
+     |> push_patch(query_patch_opts(query))
+     |> assign(
+       :chosen_categories,
+       if Enum.empty?(enabled_categories) do
+         nil
+       else
+         enabled_categories
+       end
+     )}
+  end
+
+  def handle_event(_event, _params, socket) do
+    {:noreply, socket}
+  end
 
   # Hide the open search filters
   def hide_filters(js \\ %JS{}), do: JS.hide(js, to: "#search-page-filters")

@@ -1,6 +1,8 @@
 defmodule Alerts.Cache.StoreTest do
   use ExUnit.Case
 
+  import Test.Support.Factories.Alerts.Alert
+
   alias Alerts.Cache.Store
 
   @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
@@ -86,5 +88,18 @@ defmodule Alerts.Cache.StoreTest do
     Store.update([alert1, alert2, alert3, alert4], nil)
 
     assert Enum.sort(Store.alert_ids_for_stop_id("543")) == Enum.sort(["123", "124"])
+  end
+
+  test "priority_alerts_from_alert_ids/2 gets alerts for priority" do
+    priority = Alerts.Priority.priority_levels() |> Faker.Util.pick()
+    alerts = build_list(50, :alert)
+    alert_ids = Enum.map(alerts, & &1.id)
+
+    :ok = Store.update(alerts, nil)
+
+    priority_alerts = Store.priority_alerts_from_alert_ids(alert_ids, priority)
+
+    assert [%Alerts.Alert{} | _] = priority_alerts
+    assert Enum.all?(priority_alerts, &(&1.priority == priority))
   end
 end

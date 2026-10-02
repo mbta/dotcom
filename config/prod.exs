@@ -17,9 +17,21 @@ config :dotcom, DotcomWeb.Endpoint,
   # for details about using IPv6 vs IPv4 and loopback vs public addresses.m the server machine.
   http: [
     ip: {0, 0, 0, 0, 0, 0, 0, 0},
+    # Bandit caps connections beyond `num_connections` * `num_acceptors`. Given
+    # our traffic comes in waves (sometimes unpredictably), and we'd rather
+    # avoid rejecting traffic, we provision a generous capacity of 70K
+    # concurrent connections. This is based on GA data for last season's peak
+    # hourly visit count (213,044, April 19 11pm) and average session duration
+    # (367 seconds), which results in an estimated mean concurrent connection
+    # count of 21,718 with a standard deviation of 147. A worst-case scenario
+    # heavy burst in traffic (50% of traffic in 10 min) creates a peak
+    # concurrency of ~65K
     thousand_island_options: [
-      num_acceptors: 2_048,
-      num_connections: 32_768
+      # The number of acceptor processes to run. Defaults to 100
+      # num_acceptors: 100,
+      # The maximum number of concurrent connections which each acceptor will
+      # accept before throttling connections. Defaults to 16_384
+      num_connections: 700
     ],
     http_options: [
       compress: true

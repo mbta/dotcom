@@ -76,8 +76,8 @@ exports[`it renders 1`] = `
                     <div
                       dangerouslySetInnerHTML={
                         Object {
-                          "__html": "<strong>Affected direction:</strong><br />Inbound<br />
-<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St",
+                          "__html": "<strong>Affected direction:</strong> <br />Inbound <br />
+<br /><strong>Affected stops:</strong> <br />Meridian St @ West Eagle St",
                         }
                       }
                     />

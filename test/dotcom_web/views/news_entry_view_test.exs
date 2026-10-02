@@ -46,6 +46,58 @@ defmodule DotcomWeb.NewsEntryViewTest do
   end
 
   describe "show.html" do
+    test "does not display age warning for a fresh news article", %{conn: conn} do
+      news_entry = news_entry_factory(0)
+      news_titles = ["News 1", "News 2"]
+      recent_news = Enum.map(news_titles, fn title -> news_entry_factory(0, title: title) end)
+
+      NewsEntryView
+      |> render_to_string(
+        "show.html",
+        conn: conn,
+        age: 1,
+        news_entry: news_entry,
+        recent_news: recent_news
+      )
+      |> refute_text_visible?("This news release was published")
+    end
+
+    test "shows article age warning for a year old news article", %{conn: conn} do
+      news_entry = news_entry_factory(0)
+      news_titles = ["News 1", "News 2"]
+      recent_news = Enum.map(news_titles, fn title -> news_entry_factory(0, title: title) end)
+
+      rendered =
+        NewsEntryView
+        |> render_to_string(
+          "show.html",
+          conn: conn,
+          age: 366,
+          news_entry: news_entry,
+          recent_news: recent_news
+        )
+
+      assert rendered =~ "more than a year ago"
+    end
+
+    test "shows article age warning for a very old news article", %{conn: conn} do
+      news_entry = news_entry_factory(0)
+      news_titles = ["News 1", "News 2"]
+      recent_news = Enum.map(news_titles, fn title -> news_entry_factory(0, title: title) end)
+
+      rendered =
+        NewsEntryView
+        |> render_to_string(
+          "show.html",
+          conn: conn,
+          age: 800,
+          news_entry: news_entry,
+          recent_news: recent_news
+        )
+
+      assert rendered =~ "more than 2 years ago"
+    end
+
     test "does not display recent_news when there are two or fewer news entries", %{conn: conn} do
       news_entry = news_entry_factory(0)
       news_titles = ["News 1", "News 2"]
@@ -55,6 +107,7 @@ defmodule DotcomWeb.NewsEntryViewTest do
       |> render_to_string(
         "show.html",
         conn: conn,
+        age: 1,
         news_entry: news_entry,
         recent_news: recent_news
       )
@@ -67,7 +120,12 @@ defmodule DotcomWeb.NewsEntryViewTest do
       news_entry = news_entry_factory(0, more_information: nil)
 
       NewsEntryView
-      |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])
+      |> render_to_string("show.html",
+        conn: conn,
+        news_entry: news_entry,
+        recent_news: [],
+        age: 1
+      )
       |> refute_text_visible?("More Information")
     end
 
@@ -88,6 +146,7 @@ defmodule DotcomWeb.NewsEntryViewTest do
             NewsEntryView,
             "show.html",
             conn: conn,
+            age: 1,
             news_entry: news_entry,
             recent_news: []
           )

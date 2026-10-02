@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [review_requested, closed]
 
+permissions:
+  contents: read
+
 jobs:
   call-workflow:
     uses: mbta/workflows/.github/workflows/asana.yml@5c46d99bcf742a09983588d30a2b3ffed710decd

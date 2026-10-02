@@ -10,17 +10,36 @@ defmodule Util do
 
   @endpoint endpoint
   @route_helper_module route_helper_module
-  @local_tz "America/New_York"
+  @timezone Application.compile_env!(:dotcom, :timezone)
 
   @doc "The current datetime in the America/New_York timezone."
   @spec now() :: DateTime.t()
   @spec now((String.t() -> DateTime.t())) :: DateTime.t()
   def now(utc_now_fn \\ &Timex.now/1) do
-    @local_tz
+    @timezone
     |> utc_now_fn.()
     |> to_local_time()
 
     # to_local_time(utc_now_fn.())
+  end
+
+  @doc "Handles comparison of DateTime to nil values.
+  By default, nil is an indefinite future."
+  @spec safe_time_compare(DateTime.t() | nil, DateTime.t() | nil, boolean()) :: :lt | :eq | :gt
+  def safe_time_compare(a, b, nil_is_greater? \\ true)
+
+  def safe_time_compare(nil, nil, _), do: :eq
+
+  def safe_time_compare(nil, _, nil_is_greater?) do
+    if nil_is_greater?, do: :gt, else: :lt
+  end
+
+  def safe_time_compare(_, nil, nil_is_greater?) do
+    if nil_is_greater?, do: :lt, else: :gt
+  end
+
+  def safe_time_compare(a, b, _) do
+    DateTime.compare(a, b)
   end
 
   @spec time_is_greater_or_equal?(
@@ -132,7 +151,7 @@ defmodule Util do
 
   def to_local_time(%DateTime{zone_abbr: "UTC"} = time) do
     time
-    |> Timex.Timezone.convert(@local_tz)
+    |> Timex.Timezone.convert(@timezone)
     |> handle_ambiguous_time()
   end
 
@@ -439,5 +458,143 @@ defmodule Util do
       end)
 
     result
+  end
+
+  @doc """
+
+  Parses an ISO date string or a year/month parameter map into a valid date, or
+  returns an error.
+
+  ## Examples
+      iex> Util.parse_valid_date("2025-12-25")
+      {:ok, ~D[2025-12-25]}
+
+      iex> Util.parse_valid_date("-2342025-12-25")
+      {:error, :invalid_format}
+
+      iex> Util.parse_valid_date("2025-13-35")
+      {:error, :invalid_date}
+
+      iex> Util.parse_valid_date(%{"year" => "2025", "month" => "7"})
+      {:ok, ~D[2025-07-01]}
+
+  """
+  @spec parse_valid_date(String.t() | map) :: {:ok, Date.t()} | {:error, any}
+  def parse_valid_date(str) when is_binary(str) do
+    with {:ok, date} <- Date.from_iso8601(str) do
+      if Timex.is_valid?(date) do
+        {:ok, date}
+      else
+        {:error, :invalid_date}
+      end
+    end
+  end
+
+  def parse_valid_date(%{"year" => year, "month" => month})
+      when is_binary(year) and is_binary(month) do
+    with {year, ""} <- Integer.parse(year),
+         {month, ""} <- Integer.parse(month),
+         {:ok, date} <- Date.new(year, month, 1) do
+      {:ok, date}
+    else
+      _ -> {:error, :invalid_date}
+    end
+  end
+
+  def parse_valid_date(_) do
+    {:error, :invalid_date}
+  end
+
+  @doc """
+
+  Parses a string into a valid datetime, or returns an error.
+
+  ## Examples
+      iex> {:ok, d} = Util.parse_valid_datetime("2025-12-25T12:00:00+00:00")
+      iex> d.time_zone
+      # America/New York
+      "#{@timezone}"
+      iex> DateTime.to_date(d)
+      ~D[2025-12-25]
+      iex> DateTime.to_time(d)
+      # Converted from the input time offset (result differs pre/post DST)
+      ~T[07:00:00] || ~T[08:00:00]
+
+      iex> Util.parse_valid_datetime("2026-11-01T02:01:00-0000004:00")
+      {:error, :invalid_format}
+
+      iex> Util.parse_valid_datetime("2025-13-45T12:00:00+00:00")
+      {:error, :invalid_date}
+
+  If the input doesn't contain offset information, the local timezone is assumed.
+
+  ## Examples
+      iex> {:ok, d} = Util.parse_valid_datetime("2025-12-25T12:00:00")
+      iex> d.time_zone
+      "#{@timezone}"
+      iex> DateTime.to_date(d)
+      ~D[2025-12-25]
+      iex> DateTime.to_time(d)
+      ~T[12:00:00]
+
+      iex> Util.parse_valid_datetime("2025-13-35T12:00:00")
+      {:error, :invalid_date}
+
+      iex> Util.parse_valid_datetime("2025-10-05T26:00:00")
+      {:error, :invalid_time}
+
+      iex> Util.parse_valid_datetime("-22025-12-25T12:00:00")
+      {:error, :invalid_format}
+
+  """
+  @spec parse_valid_datetime(String.t()) :: {:ok, DateTime.t()} | {:error, any}
+  def parse_valid_datetime(str) do
+    case DateTime.from_iso8601(str) do
+      {:ok, datetime, _} ->
+        if Timex.is_valid?(datetime) do
+          DateTime.shift_zone(datetime, @timezone)
+        else
+          {:error, :invalid_date}
+        end
+
+      {:error, :missing_offset} ->
+        case NaiveDateTime.from_iso8601(str) do
+          {:ok, naive_datetime} ->
+            DateTime.from_naive(naive_datetime, @timezone)
+
+          error ->
+            error
+        end
+
+      error ->
+        error
+    end
+  end
+
+  @doc """
+  Uses Erlang's :persistent_term as a store, which is suitable for storing terms
+  that are frequently accessed but never or infrequently updated. This will
+  store the result of the function call if it doesn't already exist, and return
+  the stored value on subsequent calls.
+
+  Only use this for values which you don't expect will change.
+
+  ## Examples
+      iex> Util.get_or_save_persistent_term(:my_key, fn -> "my_value" end)
+      "my_value"
+      iex> Util.get_or_save_persistent_term(:my_key, fn -> "new_value" end)
+      "my_value"
+  """
+  @spec get_or_save_persistent_term(term(), function()) :: term()
+  def get_or_save_persistent_term(key, func) when is_function(func, 0) do
+    case :persistent_term.get(key, :cache_miss) do
+      :cache_miss ->
+        result = func.()
+        :persistent_term.put(key, result)
+        result
+
+      result ->
+        result
+    end
   end
 end

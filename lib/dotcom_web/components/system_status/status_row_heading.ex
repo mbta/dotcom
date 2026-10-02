@@ -12,16 +12,15 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   alias Alerts.Alert
 
-  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
-  @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
-
   attr :alerts, :list, default: []
   attr :future, :boolean, default: false
   attr :hide_route_pill, :boolean, default: false
+  attr :remove_pill_col, :boolean, default: false
   attr :plural, :boolean, default: false
   attr :prefix, :string, default: nil
   attr :route_ids, :list, required: true
   attr :status, :atom, required: true
+  attr :subheading_data, :any, default: nil
 
   def status_row_heading(assigns) do
     %{
@@ -43,14 +42,18 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       |> assign(:subheading_text, subheading_text)
 
     ~H"""
-    <div class="grid grid-cols-[min-content_auto] items-start grow">
-      <.top_padding hide_route_pill={@hide_route_pill} />
+    <div class={[!assigns.remove_pill_col && "grid grid-cols-[min-content_auto]", "items-start grow"]}>
+      <.top_padding
+        hide_route_pill={@hide_route_pill}
+        remove_pill_col={@remove_pill_col}
+      />
 
       <.heading
         future={@future}
         hide_route_pill={@hide_route_pill}
         plural={@plural}
         prefix={@prefix}
+        remove_pill_col={@remove_pill_col}
         route_ids={@route_ids}
         severity={severity(@alerts)}
         status={@status}
@@ -58,14 +61,17 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
         subheading_text={@subheading_text}
       />
 
-      <.bottom_padding hide_route_pill={@hide_route_pill} />
+      <.bottom_padding
+        hide_route_pill={@hide_route_pill}
+        remove_pill_col={@remove_pill_col}
+      />
     </div>
     """
   end
 
   defp bottom_padding(assigns) do
     ~H"""
-    <div class="h-3"></div>
+    <div :if={!@remove_pill_col} class="h-3"></div>
     <div class="h-3"></div>
     """
   end
@@ -87,7 +93,11 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       |> assign(:description, description)
 
     ~H"""
-    <div class={["flex items-center pl-1 pr-2", @hide_route_pill && "opacity-0"]} data-route-pill>
+    <div
+      :if={!@remove_pill_col}
+      class={["flex items-center pl-1 pr-2", @hide_route_pill && "opacity-0"]}
+      data-route-pill
+    >
       <.subway_route_pill class="group-hover/row:ring-brand-primary-lightest" route_ids={@route_ids} />
     </div>
 
@@ -100,16 +110,21 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     """
   end
 
-  defp decorations(%{status: :station_closure, alerts: alerts, route_ids: route_ids}) do
-    affected_stops = @affected_stops.affected_stops(alerts, route_ids)
-
+  defp decorations(%{
+         status: :station_closure,
+         subheading_data: {:affected_stops, affected_stops}
+       }) do
     %{
       plural: affected_stops |> Enum.count() > 1,
       subheading_text: affected_stops |> humanize_affected_stops()
     }
   end
 
-  defp decorations(%{status: :delay, alerts: alerts}) do
+  defp decorations(%{
+         status: :delay,
+         alerts: alerts,
+         subheading_data: {:delay}
+       }) do
     all_single_tracking? = alerts |> Enum.all?(&(&1.cause == :single_tracking))
 
     subheading_text = if all_single_tracking?, do: ~t"Due to Single Tracking"
@@ -119,10 +134,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     }
   end
 
-  defp decorations(%{status: status, alerts: alerts, route_ids: route_ids})
-       when status in [:service_change, :shuttle, :single_tracking, :suspension] do
-    endpoints = @endpoint_stops.endpoint_stops(alerts, route_ids)
-
+  defp decorations(%{subheading_data: {:endpoint_stops, endpoints}}) do
     %{
       subheading_text: endpoints |> humanize_endpoint_list(),
       subheading_aria_label: endpoints |> humanize_endpoint_list_a11y()
@@ -229,7 +241,11 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
 
   defp top_padding(assigns) do
     ~H"""
-    <div class={["h-3", !@hide_route_pill && "border-t-xs border-gray-lightest"]}></div>
+    <div
+      :if={!@remove_pill_col}
+      class={["h-3", !@hide_route_pill && "border-t-xs border-gray-lightest"]}
+    >
+    </div>
     <div class={["h-3", "border-t-xs border-gray-lightest"]}></div>
     """
   end

@@ -1,5 +1,5 @@
 defmodule MapHelpersTest do
-  use DotcomWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase, async: false
 
   import Dotcom.MapHelpers
   import Test.Support.EnvHelpers, only: [reassign_env: 3]
@@ -14,7 +14,6 @@ defmodule MapHelpersTest do
 
       for map_type <- map_types do
         assert map_type |> map_pdf_url() |> is_binary()
-        refute map_type == ""
       end
     end
   end

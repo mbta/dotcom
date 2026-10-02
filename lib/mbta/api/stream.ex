@@ -37,7 +37,7 @@ defmodule MBTA.Api.Stream do
   @spec start_link(Keyword.t()) :: {:ok, pid}
   def start_link(opts) do
     name = Keyword.fetch!(opts, :name)
-    GenStage.start_link(__MODULE__, opts, name: name)
+    GenStage.start_link(__MODULE__, opts, name: name, hibernate_after: 15_000)
   end
 
   @doc """

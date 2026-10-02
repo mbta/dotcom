@@ -34,7 +34,7 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
                %Route{} = green,
                %Route{} = green_b,
                %Route{} = blue
-             ] = conn.assigns.recently_visited
+             ] = conn.assigns.recently_visited |> Enum.to_list()
 
       assert red.id == "Red"
       assert green.id == "Green"
@@ -50,7 +50,7 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
         |> Map.put(:cookies, cookies)
         |> RecentlyVisited.call([])
 
-      assert [%Route{id: "Red"}] = conn.assigns.recently_visited
+      assert [%Route{id: "Red"}] = conn.assigns.recently_visited |> Enum.to_list()
     end
 
     test "does not assign :recently_visited if cookie doesn't exist", %{conn: conn} do
@@ -86,7 +86,8 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
         |> Map.put(:cookies, cookies)
         |> RecentlyVisited.call([])
 
-      assert {:ok, [%Route{id: "Red"}]} = Map.fetch(conn.assigns, :recently_visited)
+      assert {:ok, visited} = Map.fetch(conn.assigns, :recently_visited)
+      assert [%Route{id: "Red"}] = visited |> Enum.to_list()
     end
 
     test "does not include unlisted routes", %{conn: conn} do
@@ -103,7 +104,8 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
         |> Map.put(:cookies, cookies)
         |> RecentlyVisited.call([])
 
-      assert {:ok, []} = Map.fetch(conn.assigns, :recently_visited)
+      assert {:ok, visited} = Map.fetch(conn.assigns, :recently_visited)
+      assert [] = visited |> Enum.to_list()
     end
   end
 end

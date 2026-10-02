@@ -13,7 +13,8 @@ defmodule Dotcom.ViaFairmount do
           _ -> []
         end
       end,
-      name: __MODULE__
+      name: __MODULE__,
+      hibernate_after: 15_000
     )
   end
 

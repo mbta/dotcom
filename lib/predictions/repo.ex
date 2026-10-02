@@ -63,8 +63,8 @@ defmodule Predictions.Repo do
     end
   end
 
-  @spec filter_predictions([Parser.record()] | {:error, any}, Keyword.t()) ::
-          [Parser.record()] | {:error, any}
+  @spec filter_predictions([Parser.parsed_record()] | {:error, any}, Keyword.t()) ::
+          [Parser.parsed_record()] | {:error, any}
   defp filter_predictions(predictions, opts)
 
   defp filter_predictions({:error, error}, _) do
@@ -256,6 +256,7 @@ defmodule Predictions.Repo do
       %Predictions.Prediction{
         id: id,
         trip: trip,
+        trip_id: trip_id,
         stop: stop,
         platform_stop_id: platform_stop_id,
         route: route,

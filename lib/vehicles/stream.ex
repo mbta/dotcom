@@ -18,7 +18,8 @@ defmodule Vehicles.Stream do
     GenStage.start_link(
       __MODULE__,
       opts,
-      name: name
+      name: name,
+      hibernate_after: 15_000
     )
   end
 

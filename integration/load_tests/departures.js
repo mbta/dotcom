@@ -28,6 +28,11 @@ function chooseVisit(allVisits) {
   return expandedVisits[Math.floor(Math.random() * expandedVisits.length)];
 }
 
+function randomMinutes(min, max) {
+  const minMS = min * 60000;
+  const maxMS = max * 60000;
+  return Math.floor(Math.random() * (maxMS - minMS + 1)) + minMS;
+}
 /*
  *
 This load test expands upon the simpler scenario from view-departures.js
@@ -42,6 +47,7 @@ export async function loadScenario(page, context, events, test) {
   const path = chooseUrl(context.vars.sfVisits);
   await scenario({ page, baseURL: context.vars.target, path, test });
   const { step } = test;
+  await page.waitForTimeout(randomMinutes(1, 5)); // 5 minutes
   await step("Upcoming departures", async () => {
     const upcomingSection = page.getByTestId("upcoming-departures");
     const departure = upcomingSection.locator("details");
@@ -70,6 +76,7 @@ export async function loadScenario(page, context, events, test) {
       });
     }
   });
+  await page.waitForTimeout(randomMinutes(1, 5)); // 5 minutes
   await step("Daily schedules", async () => {
     const dailySchedulesSection = page.getByTestId("daily-schedules");
     await syncLiveView(page, expect);

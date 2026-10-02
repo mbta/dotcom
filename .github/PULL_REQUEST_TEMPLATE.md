@@ -19,6 +19,15 @@
   - What remaining questions need to be answered, if any?
 -->
 
+<!--
+> [!NOTE]
+> :robot: If you used AI to write some or all of this PR, please
+> uncomment this block and use it to explain how AI was used.
+>
+> Remember that you are responsible for all work that you PR, whether
+> it's hand-written or AI-generated.
+-->
+
 ## Screenshots
 
 ## How to test

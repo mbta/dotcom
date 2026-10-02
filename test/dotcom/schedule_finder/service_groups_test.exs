@@ -42,11 +42,13 @@ defmodule Dotcom.ScheduleFinder.ServiceGroupTest do
     end
 
     test "if no active routes, mark next active route" do
-      inactive_date = Faker.Date.backward(1) |> Date.shift(day: -120)
+      inactive_date = Generators.Date.random_date()
       route_id = FactoryHelpers.build(:id)
 
       expect(Services.Repo.Mock, :by_route_id, fn ^route_id ->
-        build_list(50, :service)
+        build_list(50, :service,
+          removed_dates: [inactive_date |> Dotcom.Utils.Time.format!(:iso_date)]
+        )
       end)
 
       # not every groups will necessarily have a service which is now/next since that's calculated across all groups. so check all of them

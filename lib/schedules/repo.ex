@@ -11,7 +11,7 @@ defmodule Schedules.Repo do
 
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
-  alias Schedules.{Parser, Repo.Behaviour, Schedule}
+  alias Schedules.{Parser, Repo.Behaviour, Schedule, Trip}
   alias Util
 
   @behaviour Behaviour
@@ -25,7 +25,7 @@ defmodule Schedules.Repo do
   @type schedule_pair :: {Schedule.t(), Schedule.t()}
 
   @default_params [
-    include: "trip,trip.occupancies",
+    include: "trip,trip.occupancies,trip.from_trip_transfers",
     "fields[schedule]":
       "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,stop_headsign,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
@@ -61,19 +61,39 @@ defmodule Schedules.Repo do
   @impl Behaviour
   def schedule_for_trip(trip_id, opts \\ [])
 
+  def schedule_for_trip(nil, _), do: []
+
   def schedule_for_trip("", _) do
     # shortcut a known invalid trip ID
     []
   end
 
   def schedule_for_trip(trip_id, opts) do
+    {include_in_seat_transfers?, api_opts} = Keyword.pop(opts, :include_in_seat_transfers)
+
     @default_params
-    |> Keyword.merge(opts |> Keyword.delete(:min_time))
+    |> Keyword.merge(api_opts |> Keyword.delete(:min_time))
     |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
+    |> append_in_seat_transfer_trips(opts, include_in_seat_transfers?)
+  end
+
+  defp append_in_seat_transfer_trips(schedules, opts, true) do
+    with %Schedule{trip: trip} <- List.last(schedules),
+         %Trip{next_trip_id: next_trip_id} <- trip do
+      schedules
+      |> Enum.concat(schedule_for_trip(next_trip_id, opts))
+    else
+      _ ->
+        schedules
+    end
+  end
+
+  defp append_in_seat_transfer_trips(schedules, _, _) do
+    schedules
   end
 
   def schedules_for_stop(stop_id, opts) do
@@ -155,8 +175,8 @@ defmodule Schedules.Repo do
   defp fetch_trip(trip_id, trip_by_id_fn) do
     trip_opts =
       case Util.config(:dotcom, :enable_experimental_features) do
-        "true" -> [include: "occupancies"]
-        _ -> []
+        "true" -> [include: "occupancies,from_trip_transfers"]
+        _ -> [include: "from_trip_transfers"]
       end
 
     case trip_by_id_fn.(trip_id, trip_opts) do
@@ -239,8 +259,8 @@ defmodule Schedules.Repo do
     Integer.to_string(int)
   end
 
-  @spec filter_by_min_time([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
-          [Parser.record()] | {:error, any}
+  @spec filter_by_min_time([Parser.parsed_record()] | {:error, any}, DateTime.t() | nil) ::
+          [Parser.parsed_record()] | {:error, any}
   defp filter_by_min_time({:error, error}, _) do
     {:error, error}
   end
@@ -277,26 +297,28 @@ defmodule Schedules.Repo do
 
   defp load_from_other_repos(schedules) do
     schedules
-    |> Task.async_stream(fn {route_id, trip_id, stop_id, schedule_id, arrival_time,
-                             departure_time, time, flag?, early_departure?, last_stop?,
-                             stop_sequence, stop_headsign, pickup_type} ->
-      %Schedules.Schedule{
-        route: @routes_repo.get(route_id),
-        trip: trip(trip_id),
-        platform_stop_id: stop_id,
-        schedule_id: schedule_id,
-        stop: @stops_repo.get_parent(stop_id),
-        arrival_time: arrival_time,
-        departure_time: departure_time,
-        time: time,
-        flag?: flag?,
-        early_departure?: early_departure?,
-        last_stop?: last_stop?,
-        stop_sequence: stop_sequence,
-        stop_headsign: stop_headsign,
-        pickup_type: pickup_type
-      }
-    end)
+    |> Task.async_stream(
+      fn {route_id, trip_id, stop_id, schedule_id, arrival_time, departure_time, time, flag?,
+          early_departure?, last_stop?, stop_sequence, stop_headsign, pickup_type} ->
+        %Schedules.Schedule{
+          route: @routes_repo.get(route_id),
+          trip: trip(trip_id),
+          platform_stop_id: stop_id,
+          schedule_id: schedule_id,
+          stop: @stops_repo.get_parent(stop_id),
+          arrival_time: arrival_time,
+          departure_time: departure_time,
+          time: time,
+          flag?: flag?,
+          early_departure?: early_departure?,
+          last_stop?: last_stop?,
+          stop_sequence: stop_sequence,
+          stop_headsign: stop_headsign,
+          pickup_type: pickup_type
+        }
+      end,
+      on_timeout: :kill_task
+    )
     |> Enum.map(fn {:ok, schedule} -> schedule end)
   end
 

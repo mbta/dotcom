@@ -21,16 +21,14 @@ defmodule DotcomWeb.SystemStatus.CommuterRailRouteStatusTest do
       ]
     end)
 
-    stub(Schedules.RepoCondensed.Mock, :by_route_ids, fn _ ->
-      [
-        %Schedules.ScheduleCondensed{
-          time: Dotcom.Utils.DateTime.now()
-        }
-      ]
-    end)
-
     stub(Schedules.Repo.Mock, :schedule_for_trip, fn _, "filter[stop_sequence]": "first,last" ->
       Factories.Schedules.Schedule.build_list(2, :schedule)
+    end)
+
+    current_date = Dotcom.Utils.ServiceDateTime.service_date()
+
+    stub(Services.Repo.Mock, :by_route_id, fn _ ->
+      [Factories.Services.Service.build(:service, date: current_date)]
     end)
 
     :ok

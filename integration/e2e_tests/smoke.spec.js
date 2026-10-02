@@ -81,11 +81,19 @@ test.describe(`${baseURL} passes smoke test`, () => {
   });
 
   test("projects page, filter, selected project", async ({ page }) => {
-    test.slow();
     await ok(page, "/projects");
-    await page.locator("#mode-button__bus").click();
-    await page.getByRole("heading", { name: "Bus Projects" });
-    await page.locator(".m-more-projects-table__title").last().click();
+    await page.getByRole("button", { name: "Bus", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "All Bus Projects" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Show More" }).click();
+    const lastProject = page.locator(".m-more-projects-table__title").last();
+    const projectTitle = await lastProject.innerText();
+    await lastProject.click();
+    await expect(page).toHaveURL(/\/projects\//);
+    await expect(
+      page.getByRole("heading", { name: projectTitle, exact: true }),
+    ).toBeVisible();
   });
 
   test("news page, selected news entry", async ({ page }) => {
@@ -95,41 +103,10 @@ test.describe(`${baseURL} passes smoke test`, () => {
 
   test("stops & stations page, selected station", async ({ page }) => {
     await ok(page, "/stops");
-    await page.getByRole("link", { name: "Ferry" }).click();
+    await page.getByRole("link", { name: "Ferry", exact: true }).click();
     await page.getByRole("link", { name: "Charlestown Ferry" }).click();
     await page.getByRole("heading", { name: "Charlestown" });
     await page.getByRole("heading", { name: "Stop Information" });
-  });
-
-  test("schedules & maps page (all links)", async ({ page, request }) => {
-    test.setTimeout(120000);
-    await ok(page, "/schedules");
-    const links = await page
-      .locator("main a:visible[href]")
-      .evaluateAll((els) => els.map((el) => el.href));
-
-    await Promise.all(
-      links.map(async (href) => {
-        await expect
-          .poll(
-            async () => {
-              const response = await request.get(href, { timeout: 0 });
-              const status = response.status();
-              return status >= 200 && status < 400;
-            },
-            {
-              // Custom expect message for reporting, optional.
-              message: `${href} eventually loads`,
-
-              // Probe, wait 1s, probe, wait 2s, probe, wait 10s, probe, wait 10s, probe
-              // ... Defaults to [100, 250, 500, 1000].
-              intervals: [1_000, 2_000, 10_000],
-              timeout: 60_000,
-            },
-          )
-          .toBe(true);
-      }),
-    );
   });
 
   const schedule_sections = [

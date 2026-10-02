@@ -54,7 +54,7 @@ defmodule Fares.FormatTest do
     end
 
     test "gives a descriptive name for bus fares" do
-      assert name(%Fare{name: :local_bus}) == "Local Bus"
+      assert name(%Fare{name: :local_bus}) == "Bus"
       assert name(%Fare{name: :express_bus}) == "Express Bus"
     end
 
@@ -63,7 +63,7 @@ defmodule Fares.FormatTest do
       assert name(%Fare{name: :ferry_cross_harbor}) == "Cross Harbor Ferry"
       assert name(%Fare{name: :ferry_east_boston}) == "East Boston Ferry"
       assert name(%Fare{name: :ferry_lynn}) == "Lynn Ferry"
-      assert name(%Fare{name: :ferry_winthrop}) == "Winthrop/Quincy Ferry"
+      assert name(%Fare{name: :ferry_winthrop}) == "Winthrop and Quincy Ferry"
       assert name(%Fare{name: :commuter_ferry}) == "Hingham/Hull Ferry"
     end
 

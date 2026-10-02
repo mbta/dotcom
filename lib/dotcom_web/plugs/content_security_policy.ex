@@ -73,11 +73,14 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
         edge.fullstory.com
         https://www.google.com/recaptcha/api.js
         https://www.google.com/recaptcha/api/fallback
+        https://www.gstatic.com
         https://www.googletagmanager.com/gtm.js
         snap.licdn.com
         translate.google.com/translate_a/element.js
         translate-pa.googleapis.com
+        translate.googleapis.com
         www.instagram.com
+        www.google.com/sorry/index
         https://cdn.jsdelivr.net/
         analytics.tiktok.com
       ],
@@ -97,10 +100,17 @@ defmodule DotcomWeb.Plugs.ContentSecurityPolicy do
 
   @impl Plug
   def call(conn, _opts) do
+    policy =
+      Util.get_or_save_persistent_term(:csp_policy, fn ->
+        runtime_directives()
+        |> Enum.reduce(@default_policy, fn {directive, source_value}, policy ->
+          ContentSecurityPolicy.add_source_value(policy, directive, source_value)
+        end)
+      end)
+
     conn
-    |> ContentSecurityPolicy.Plug.Setup.call(default_policy: @default_policy)
+    |> ContentSecurityPolicy.Plug.Setup.call(default_policy: policy)
     |> ContentSecurityPolicy.Plug.AddNonce.call(directives: [:script_src])
-    |> ContentSecurityPolicy.Plug.AddSourceValue.call(runtime_directives())
   end
 
   defp runtime_directives do

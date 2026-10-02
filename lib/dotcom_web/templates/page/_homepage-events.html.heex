@@ -5,21 +5,13 @@
         <h2 class="m-homepage__header">{~t(Upcoming Public Meetings and Events)}</h2>
         <a
           class="c-call-to-action m-homepage__header-link"
-          href={"#{ event_path(@conn, :index) }"}
+          href={event_path(@conn, :index)}
         >
           {~t(See all public meetings and events)}
         </a>
       </div>
       <ul class="m-homepage__events-container">
-        <%= for event_teaser <- @event_teasers do %>
-          {render(DotcomWeb.EventView, "_event_teaser.html",
-            event_teaser: event_teaser,
-            check_event_ended: true,
-            conn: @conn,
-            month_number: event_teaser.date.month,
-            year: event_teaser.date.year
-          )}
-        <% end %>
+        {render_upcoming_events(@conn, @event_teasers)}
       </ul>
     </div>
   </div>

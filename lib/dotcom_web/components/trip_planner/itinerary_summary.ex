@@ -33,6 +33,7 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   attr :itinerary, Itinerary, required: true
   attr :show_accessible, :boolean, default: false
   attr :summarized_legs, :list, doc: "If not provided, will be derived from the itinerary"
+  attr :fares_v2, :boolean, default: false
 
   def itinerary_summary(assigns) do
     itinerary_fare = fare(assigns.itinerary)
@@ -92,6 +93,29 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
           {@price}
         </div>
       </div>
+      <div :if={@fares_v2} class="flex gap-x-md text-xs font-sans">
+        <div :for={
+          leg_fare <- Enum.filter(@itinerary.legs, & &1.transit_leg) |> Enum.map(& &1.fare_products)
+        }>
+          <div class="flex flex-col gap-y-sm bg-charcoal-80">
+            <div
+              :for={product_fare <- leg_fare}
+              class="bg-charcoal-90 text-black p-xs border-charcoal-70 border-xs"
+            >
+              <p class="font-black">{product_fare.name}</p>
+              {product_fare.us_cents} ({product_fare.medium_name})
+              <div :if={product_fare.dependencies != []} class="bg-emerald-90 p-xs">
+                <p class="font-black">With prior fare</p>
+                <ul class="px-sm">
+                  <li :for={dependency <- product_fare.dependencies}>
+                    {dependency.name} ({dependency.medium_name})
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     """
   end
@@ -120,6 +144,13 @@ defmodule DotcomWeb.Components.TripPlanner.ItinerarySummary do
   defp leg_icon(%{routes: [%Route{type: 2} | _]} = assigns) do
     ~H"""
     <.mode_icon mode="commuter-rail" class={@class} />
+    """
+  end
+
+  # Group of ferry routes are summarized to one symbol.
+  defp leg_icon(%{routes: [%Route{type: 4} | _]} = assigns) do
+    ~H"""
+    <.mode_icon mode="ferry" class={@class} />
     """
   end
 

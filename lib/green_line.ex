@@ -29,7 +29,10 @@ defmodule GreenLine do
           stop_routes_pair
   def calculate_stops_on_routes(direction_id, date \\ nil) do
     branch_ids()
-    |> Task.async_stream(&green_line_stops(&1, direction_id, date))
+    |> Task.async_stream(&green_line_stops(&1, direction_id, date),
+      max_concurrency: 4,
+      on_timeout: :kill_task
+    )
     |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)
   end
 

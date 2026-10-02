@@ -3,13 +3,10 @@ defmodule DotcomWeb.PreviewLive do
   A page that we can visit that links to the other preview pages that currently exist.
   """
 
-  alias DotcomWeb.WorldCupTimetableLive
   use DotcomWeb, :live_view
 
   alias DotcomWeb.DailySchedulesLive
   alias DotcomWeb.Router.Helpers
-  alias DotcomWeb.ScheduleFinderLive
-  alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
 
   @pages [
@@ -20,24 +17,6 @@ defmodule DotcomWeb.PreviewLive do
       module: DailySchedulesLive,
       title: "Daily Schedules Experiment"
     },
-    %{
-      arguments: [[route_id: "Red", direction_id: "0"]],
-      icon_name: "icon-realtime-tracking",
-      module: ScheduleFinderLive,
-      title: "Schedule Finder 2.0"
-    },
-    %{
-      arguments: [],
-      icon_name: "icon-stop-default",
-      module: StopMapLive,
-      title: "Stop Page Map"
-    },
-    %{
-      arguments: [],
-      icon_name: "football",
-      module: WorldCupTimetableLive,
-      title: "World Cup Timetable"
-    }
   ]
 
   @impl LiveView

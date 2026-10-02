@@ -254,6 +254,7 @@ describe("support form", () => {
             <div class="support-form-expanded" style="display: none"></div>
             <div class="error-container support-g-recaptcha-response-error-container" tabindex="-1"><div class="support-g-recaptcha-response-error"></div></div>
             <textarea id="g-recaptcha-response" name="g-recaptcha-response"></textarea>
+            <div class="error-indicator hidden" id="recaptcha-error-indicator"> Required</div>
             <button id="support-submit"></button>
             <span class="waiting" hidden>waiting...</span>
             <div class="error-container form-control-feedback hidden" id="support-form-errors">

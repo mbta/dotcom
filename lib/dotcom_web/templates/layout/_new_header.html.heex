@@ -1,50 +1,90 @@
+<%= if Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+  {top_tier_nav(@locale)}
+<% end %>
 <aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
-<header class="header--new">
+<header class="header--new" id="header-with-search">
   <div class="container new">
     <div class="header-navbar new">
       <a
         class="font-white m-menu__toggle font-bold hidden-js"
-        data-nav="toggle-mobile-nav"
+        data-nav="toggle-fullscreen-nav"
         href={~p"/menu"}
       >
         {~t(Menu)}
       </a>
       <button
         class="m-menu__toggle font-bold hidden-no-js"
-        data-nav="toggle-mobile-nav"
+        data-nav="toggle-fullscreen-nav"
         type="button"
         aria-expanded="false"
         aria-controls="navmenu"
       >
         {~t(Menu)}
       </button>
-      <a class="navbar-logo" href="/" data-nav="logo">
-        <span class="sr-only">{~t(MBTA Home Page)}</span>
-        <div class="svg-container" aria-hidden="true">
-          {svg("mbta-logo.svg")}
-          {svg("mbta-name-and-logo.svg")}
-        </div>
-      </a>
+      <%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+        <a class="navbar-logo" href="/" data-nav="logo">
+          <span class="sr-only">{~t(MBTA Home Page)}</span>
+          <div class="svg-container" aria-hidden="true">
+            {svg("mbta-logo.svg")}
+            {svg("mbta-name-and-logo.svg")}
+          </div>
+        </a>
+      <% end %>
 
-      {render("_new_nav_desktop.html", assigns)}
+      <nav id="navmenu-dropdown" class="m-menu--dropdown" aria-label="Main">
+        {desktop_menu(@locale)}
+        <div
+          :if={!Laboratory.enabled?(@conn, :use_smartling_translations)}
+          class="m-menu__language"
+        >
+        </div>
+      </nav>
       <div class="search-wrapper">
         <div class="search">
           <.algolia_autocomplete id="header-desktop" config_type="basic-config" />
         </div>
       </div>
 
-      <button
-        class="header-search__toggle"
-        data-nav="toggle-nav-search"
-        type="button"
-        aria-expanded="false"
-        aria-controls="search-header-mobile__container"
-        aria-label={~t(Search MBTA.com)}
-      >
-        <i class="fa fa-fw fa-search" aria-hidden="true"></i>
-        <i class="fa fa-fw fa-close" aria-hidden="true"></i>
-      </button>
+      <%= if not Laboratory.enabled?(@conn, :use_smartling_translations) do %>
+        <button
+          class="header-search__toggle"
+          data-nav="toggle-nav-search"
+          type="button"
+          aria-expanded="false"
+          aria-controls="search-header-mobile__container"
+          aria-label={~t(Search MBTA.com)}
+        >
+          <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+          <i class="fa fa-fw fa-close" aria-hidden="true"></i>
+        </button>
+      <% else %>
+        <div class="header-search__toggle__container">
+          <button
+            class="header-search__toggle"
+            data-nav="toggle-nav-search"
+            type="button"
+            aria-expanded="false"
+            aria-controls="search-header-mobile__container"
+            aria-label={~t(Search MBTA.com)}
+          >
+            <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+            <i class="fa fa-fw fa-close" aria-hidden="true"></i>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
-  {render("_new_nav_mobile.html", assigns)}
+  <nav class="m-menu--mobile" id="navmenu" aria-label={~t(Navigation Menu)}>
+    <div class="m-menu__content" data-nav="fullscreen-menu-content">
+      {mobile_menu(@locale)}
+      <div
+        :if={!Laboratory.enabled?(@conn, :use_smartling_translations)}
+        class="m-menu__language m-menu__section"
+      >
+      </div>
+    </div>
+    <div class="m-menu__search" data-nav="search">
+      <.algolia_autocomplete id="header-mobile" config_type="basic-config" />
+    </div>
+  </nav>
 </header>

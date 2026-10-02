@@ -6,7 +6,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
-  import Dotcom.SystemStatus.CommuterRail, only: [commuter_rail_route_status: 1]
+  import Dotcom.SystemStatus.CommuterRail,
+    only: [commuter_rail_route_status: 1, commuter_rail_upcoming_changes: 1]
 
   alias Dotcom.Timetables
   alias DotcomWeb.ScheduleView
@@ -26,8 +27,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(DotcomWeb.ScheduleController.DatePicker)
   plug(DotcomWeb.ScheduleController.Core)
   plug(:alert_blocks)
+  plug(:assign_new_timetables_flag)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.ScheduleError)
+  plug(:assign_trip_count)
 
   defdelegate direction_id(conn, params),
     to: DotcomWeb.Schedule.Defaults,
@@ -50,10 +53,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:meta_description, meta_description)
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
-    |> assign_cr_status()
+    |> assign_cr_info()
     |> assign_banner_alerts()
     |> put_view(ScheduleView)
     |> render("show.html", [])
+  end
+
+  defp assign_new_timetables_flag(conn, _) do
+    conn |> assign(:new_timetables?, Laboratory.enabled?(conn, :new_timetables))
   end
 
   defp route_name_for_description(%Route{type: 2} = route) do
@@ -65,16 +72,25 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp station_type_name(%Route{type: 4}), do: ~t"docks"
   defp station_type_name(_route), do: ~t"stations"
 
-  defp assign_cr_status(%{assigns: %{route: route}} = conn) do
-    cr_status =
-      if Routes.Route.type_atom(route) == :commuter_rail do
-        commuter_rail_route_status(route.id)
-      end
-
-    conn |> assign(:cr_status, cr_status)
+  defp assign_cr_info(%{assigns: %{route: route}} = conn) do
+    if Routes.Route.type_atom(route) == :commuter_rail do
+      conn
+      |> assign(%{
+        cr_status: commuter_rail_route_status(route.id),
+        cr_upcoming: commuter_rail_upcoming_changes(route.id)
+      })
+    else
+      conn
+      |> assign(%{
+        cr_status: nil,
+        cr_upcoming: []
+      })
+    end
   end
 
-  defp assign_banner_alerts(%{assigns: %{alerts: alerts, cr_status: cr_status}} = conn) do
+  defp assign_banner_alerts(
+         %{assigns: %{alerts: alerts, cr_status: cr_status, cr_upcoming: cr_upcoming}} = conn
+       ) do
     status_alert_ids =
       case cr_status do
         status when is_map(status) ->
@@ -84,9 +100,16 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         _ ->
           []
       end
+
+    upcoming_alert_ids =
+      cr_upcoming
+      |> Enum.map(& &1.id)
+
+    alert_ids =
+      (status_alert_ids ++ upcoming_alert_ids)
       |> MapSet.new()
 
-    banner_alerts = alerts |> Enum.reject(&MapSet.member?(status_alert_ids, &1.id))
+    banner_alerts = alerts |> Enum.reject(&MapSet.member?(alert_ids, &1.id))
 
     conn
     |> assign(:banner_alerts, banner_alerts)
@@ -109,92 +132,58 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
   end
 
+  # We need a special case for Boat-F10, because that route has a
+  # special timetable layout.
   def assign_trip_schedules(
         %{
           assigns: %{
             route: route,
             blocking_alert: nil,
-            date: date,
-            direction_id: direction_id
+            date_in_rating?: true
           }
         } = conn
       )
-      when date in [
-             ~D[2026-06-13],
-             ~D[2026-06-14],
-             ~D[2026-06-16],
-             ~D[2026-06-19],
-             ~D[2026-06-23],
-             ~D[2026-06-26],
-             ~D[2026-06-29],
-             ~D[2026-07-09]
-           ] and
-             route.id == "CR-Franklin" do
-    shuttle_route = %Route{id: "Shuttle-CantonJunctionForgePark", type: 3}
-
-    shuttle_schedules =
-      timetable_schedules(%{
-        assigns: %{
-          date: date,
-          route: shuttle_route,
-          direction_id: direction_id
-        }
-      })
-
-    route_schedules =
-      timetable_schedules(%{
-        assigns: %{
-          date: date,
-          route: route,
-          direction_id: direction_id
-        }
-      })
-
-    timetable_schedules =
-      route_schedules ++ shuttle_schedules
-
-    trip_ids = Enum.map(timetable_schedules, & &1.trip.id)
-
-    %{
-      trip_schedules: route_schedules,
-      trip_stops: route_stops
-    } = build_timetable(conn, route_schedules)
-
-    %{
-      trip_schedules: shuttle_schedules,
-      trip_stops: shuttle_stops
-    } =
-      build_timetable(
-        %{assigns: %{route: shuttle_route, direction_id: direction_id}},
-        shuttle_schedules
-      )
-
-    trip_schedules = Map.merge(route_schedules, shuttle_schedules)
-
-    trip_stops =
-      shuttle_stops |> Enum.reduce(route_stops, &merge_into_stop_list(&1, &2, direction_id == 1))
-
-    header_schedules =
-      trip_schedules
-      |> Map.values()
-      |> Kernel.then(&header_schedules(route, &1))
-
-    track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
-
-    header_stops =
-      trip_stops
-      |> Enum.map(&@stops_repo.get_parent/1)
-      |> Enum.uniq()
-      |> Enum.with_index()
+      when route.id == "Boat-F10" do
+    [morning_timetable, evening_timetable] =
+      [0, 1] |> Enum.map(&timetable_for_direction(conn, &1))
 
     conn
-    |> assign(:timetable_schedules, timetable_schedules)
-    |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
-    |> assign(:header_schedules, header_schedules)
-    |> assign(:header_stops, header_stops)
-    |> assign(:trip_schedules, trip_schedules)
-    |> assign(:track_changes, track_changes)
-    |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
+    |> assign(:dual_direction_timetable?, true)
+    |> assign(:direction_id, nil)
+    |> assign(:linear_timetable?, false)
+    |> assign(:morning_timetable, morning_timetable)
+    |> assign(:evening_timetable, evening_timetable)
+    |> assign(:morning_trip_count, Enum.count(morning_timetable.trips))
+    |> assign(:evening_trip_count, Enum.count(evening_timetable.trips))
+    |> assign(
+      :trip_count,
+      Enum.count(morning_timetable.trips) + Enum.count(evening_timetable.trips)
+    )
+  end
+
+  def assign_trip_schedules(
+        %{
+          assigns: %{
+            new_timetables?: new_timetables?,
+            route: route,
+            blocking_alert: nil,
+            date_in_rating?: true
+          }
+        } = conn
+      )
+      when route.id in [
+             "Boat-F6",
+             "Boat-F7"
+           ] or new_timetables? == true do
+    timetable =
+      conn
+      |> timetable_schedules()
+      |> Timetables.from_schedules()
+
+    conn
+    |> assign(:linear_timetable?, false)
+    |> assign(:timetable, timetable)
+    |> assign(:trip_count, Enum.count(timetable.trips))
   end
 
   def assign_trip_schedules(
@@ -229,6 +218,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -307,6 +297,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -314,38 +305,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:track_changes, track_changes)
     |> assign(:trip_messages, trip_messages(route, direction_id, trip_ids))
-  end
-
-  def assign_trip_schedules(
-        %{
-          assigns: %{
-            route: route,
-            blocking_alert: nil,
-            date_in_rating?: true
-          }
-        } = conn
-      )
-      when route.type == 4 do
-    timetable_schedules =
-      conn
-      |> timetable_schedules()
-      |> Timetables.from_schedules()
-      |> then(& &1.rows)
-
-    header_schedules = List.first(timetable_schedules, [])
-
-    header_stops =
-      timetable_schedules
-      |> Enum.map(&List.first/1)
-      |> Enum.with_index(fn trip, index ->
-        {@stops_repo.get(trip.stop_id), index}
-      end)
-
-    conn
-    |> assign(:use_pdf_schedules?, true)
-    |> assign(:timetable_schedules, timetable_schedules)
-    |> assign(:header_schedules, header_schedules)
-    |> assign(:header_stops, header_stops)
   end
 
   def assign_trip_schedules(
@@ -379,6 +338,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> Enum.with_index()
 
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:offset, find_offset(timetable_schedules, conn.assigns.date_time))
     |> assign(:header_schedules, header_schedules)
@@ -390,9 +350,18 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   def assign_trip_schedules(conn) do
     conn
+    |> assign(:linear_timetable?, true)
     |> assign(:timetable_schedules, [])
     |> assign(:header_schedules, [])
   end
+
+  defp assign_trip_count(%{assigns: %{trip_count: trip_count}} = conn, _) when trip_count != nil,
+    do: conn
+
+  defp assign_trip_count(%{assigns: %{header_schedules: header_schedules}} = conn, _),
+    do:
+      conn
+      |> assign(:trip_count, header_schedules |> Enum.count())
 
   @spec track_changes(
           %{required({Schedules.Trip.id_t(), Stop.id_t()}) => Schedules.Schedule.t()},
@@ -435,6 +404,17 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     # if the scheduled stop doesn't match a canonical stop, there has been a track change
     length(canonical_stop_ids) > 0 &&
       schedule.platform_stop_id not in canonical_stop_ids
+  end
+
+  # Helper function to return the timetable for the route and date
+  # specified in the conn, and the direction specified in the second
+  # argument.
+  @spec timetable_for_direction(Plug.Conn.t(), 0 | 1) :: Dotcom.Timetables.Timetable.t()
+  defp timetable_for_direction(conn, direction_id) do
+    conn
+    |> assign(:direction_id, direction_id)
+    |> timetable_schedules()
+    |> Timetables.from_schedules()
   end
 
   # Helper function for obtaining schedule data
@@ -729,21 +709,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "Boat-Long-North-5A" => {:after, "Rowes Wharf"},
     "Boat-Long-North-5B" => {:after, "Lewis Mall Wharf"},
     "Boat-Long-North-5C" => {:after, "Blossom Street Pier"},
-    # ----Franklin/Foxboro WC shuttle----
-    # Franklin Station - Bus Shuttle
-    "31330" => {:after, "Forge Park/495"},
-    "31331" => {:after, "Forge Park/495"},
-    # Norfolk Station - Bus Shuttle
-    "92133" => {:after, "Franklin Station - Bus Shuttle"},
-    "39213" => {:after, "Franklin Station - Bus Shuttle"},
-    # Walpole Station - Bus Shuttle
-    "81668" => {:after, "Norfolk Station - Bus Shuttle"},
-    "81698" => {:after, "Norfolk Station - Bus Shuttle"},
-    # Washington Street
-    "91637" => {:after, "Walpole Station - Bus Shuttle"},
-    "71689" => {:after, "Walpole Station - Bus Shuttle"},
-    # Canton Junction
-    "place-NEC-2139" => {:before, "Readville"},
     # ----Providence/Stoughton WC shuttle----
     # Stoughton Station - Bus Shuttle
     "36133" => {:after, "Sharon"},

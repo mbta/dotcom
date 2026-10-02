@@ -41,8 +41,13 @@ defmodule Dotcom.Alerts.StartTime do
         time
       ) do
     cond do
+      # period already ended -- keep iterating
       ends_before?(end_time, time) ->
         next_active_period_active_time(rest_of_active_periods, time)
+
+      # period hasn't ended yet, but no defined start time -- use the current time
+      is_nil(start_time) ->
+        {:current, time}
 
       DateTime.before?(start_time, time) ->
         {:current, start_time}

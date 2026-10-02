@@ -12,4 +12,21 @@ defmodule Dotcom.Assertions do
       assert Enum.sort(unquote(list1)) == Enum.sort(unquote(list2))
     end
   end
+
+  @doc """
+  Retries a function until it succeeds without an assertion error, or the timeout is reached
+  """
+  def wait_until(fun), do: wait_until(1_000, fun)
+
+  def wait_until(0, fun), do: fun.()
+
+  def wait_until(timeout, fun) do
+    try do
+      fun.()
+    rescue
+      ExUnit.AssertionError ->
+        :timer.sleep(10)
+        wait_until(max(0, timeout - 10), fun)
+    end
+  end
 end

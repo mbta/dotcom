@@ -131,7 +131,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       # Verify
       document = render(view) |> Floki.parse_document!()
 
-      assert [{"svg", attrs, content}, _to_marker] = Floki.find(document, ".mbta-metro-map-pin")
+      assert [{"svg", attrs, content}, _to_marker] = Floki.find(document, ".mbta-map-pin")
 
       assert Enum.find(attrs, fn attr ->
                attr ==
@@ -154,7 +154,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       # Verify
       document = render(view) |> Floki.parse_document!()
 
-      assert [_from_marker, {"svg", attrs, content}] = Floki.find(document, ".mbta-metro-map-pin")
+      assert [_from_marker, {"svg", attrs, content}] = Floki.find(document, ".mbta-map-pin")
 
       assert Enum.find(attrs, fn attr ->
                attr ==
@@ -182,7 +182,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       document = render(view) |> Floki.parse_document!()
 
       pins =
-        Floki.find(document, ".mbta-metro-map-pin")
+        Floki.find(document, ".mbta-map-pin")
         |> Enum.map(fn element ->
           element
           |> Floki.attribute("data-coordinates")
@@ -577,6 +577,35 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       # Verify
       assert rendered_time_range(view) ==
                "#{pretty_time(start_time)} pm\u2009–\u2009#{pretty_time(end_time)} am +1"
+    end
+
+    test "renders time range as 'h:mm - h:mm am/pm' if both times are within the minute", %{
+      view: view
+    } do
+      start_time =
+        Generators.DateTime.random_date_time()
+        |> Map.update!(:second, fn _ -> 0 end)
+        |> Map.update!(:hour, fn hour ->
+          if hour >= 12 do
+            hour - 12
+          else
+            hour
+          end
+        end)
+
+      end_time = start_time |> DateTime.add(Enum.random(1..58))
+
+      # Setup
+      expect(OpenTripPlannerClient.Mock, :plan, fn _ ->
+        {:ok, [itinerary_group_with_time_range(start_time, end_time)]}
+      end)
+
+      # Exercise
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+
+      # Verify
+      assert rendered_time_range(view) ==
+               "#{pretty_time(start_time)}\u2009–\u2009#{pretty_time(end_time)} am"
     end
   end
 

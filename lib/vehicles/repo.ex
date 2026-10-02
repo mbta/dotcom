@@ -77,20 +77,22 @@ defmodule Vehicles.Repo do
 
   def start_link(opts) do
     opts = Keyword.put_new(opts, :name, __MODULE__)
-    GenServer.start_link(__MODULE__, opts, name: Keyword.fetch!(opts, :name))
+
+    GenServer.start_link(__MODULE__, opts,
+      name: Keyword.fetch!(opts, :name),
+      hibernate_after: 15_000
+    )
   end
 
   @impl GenServer
   def init(opts) do
-    ets =
-      opts
-      |> Keyword.fetch!(:name)
-      |> :ets.new([:named_table, :protected])
+    table_name = Keyword.fetch!(opts, :name)
+    _ = :ets.new(table_name, [:named_table, :protected])
 
     pubsub_fn = Keyword.get(opts, :pubsub_fn, &Phoenix.PubSub.subscribe/2)
     _ = pubsub_fn.(Vehicles.PubSub, "vehicles")
 
-    {:ok, %{ets: ets}}
+    {:ok, %{table_name: table_name}}
   end
 
   @impl GenServer
@@ -101,26 +103,29 @@ defmodule Vehicles.Repo do
 
   @impl GenServer
   def handle_info({:reset, vehicles}, state) do
-    _ = :ets.delete_all_objects(state.ets)
-    [] = :ets.tab2list(state.ets)
-    _ = add_vehicles(vehicles, state.ets)
+    table = table(state)
+    _ = :ets.delete_all_objects(table)
+    [] = :ets.tab2list(table)
+    _ = add_vehicles(vehicles, table)
     {:noreply, state}
   end
 
   def handle_info({:add, [%Vehicle{} = vehicle]}, state) do
-    _ = add_vehicles([vehicle], state.ets)
+    _ = add_vehicles([vehicle], table(state))
     {:noreply, state}
   end
 
-  def handle_info({:update, [%Vehicle{} = vehicle]}, %{ets: ets} = state) do
-    _ = add_vehicles([vehicle], ets)
+  def handle_info({:update, [%Vehicle{} = vehicle]}, state) do
+    _ = add_vehicles([vehicle], table(state))
     {:noreply, state}
   end
 
-  def handle_info({:remove, [<<id::binary>>]}, %{ets: ets} = state) do
-    _ = :ets.delete(ets, id)
+  def handle_info({:remove, [<<id::binary>>]}, state) do
+    _ = :ets.delete(table(state), id)
     {:noreply, state}
   end
+
+  defp table(%{table_name: table_name}), do: table_name
 
   @spec add_vehicles([Vehicle.t()], atom) :: true
   defp add_vehicles(vehicles, tab) when is_list(vehicles) do

@@ -175,9 +175,14 @@ defmodule DotcomWeb.ScheduleController do
 
   defp trim_response(schedules) do
     schedules
-    |> Enum.map(&Map.drop(&1, [:stop]))
-    |> Enum.map(fn %Schedule{route: route} = schedule ->
-      %Schedule{schedule | route: Map.take(route, [:id])}
-    end)
+    |> Enum.map(fn schedule -> %{schedule | stop: nil} |> route_to_id() end)
+  end
+
+  defp route_to_id(%Schedule{route: nil} = schedule) do
+    schedule
+  end
+
+  defp route_to_id(%Schedule{route: route} = schedule) do
+    %Schedule{schedule | route: Map.take(route, [:id])}
   end
 end

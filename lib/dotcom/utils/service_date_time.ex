@@ -4,19 +4,10 @@ defmodule Dotcom.Utils.ServiceDateTime do
   Currently, we consider the most general case where service starts at 03:00:00am and ends at 02:59:59am.
 
   In the future, we aim to add route-specific service times.
-
-  The service range continuum:
-
-  <---before today---|---this week---|---next week---|---after next week--->
-                     today
-
-  Before today and after next week are open intervals. Today is included in this week.
   """
 
   use Dotcom.Gettext.Sigils
   use Timex
-
-  require Logger
 
   alias Dotcom.Utils
 
@@ -56,7 +47,12 @@ defmodule Dotcom.Utils.ServiceDateTime do
   end
 
   @doc """
-  The service range for the given date_time.
+  The service range for the given date_time. The service range continuum:
+
+  <---before today---|---this week---|---next week---|---after next week--->
+                     today
+
+  Before today and after next week are open intervals. Today is included in this week.
   """
   @spec service_range(DateTime.t()) :: named_service_range()
   def service_range(date_time) do
@@ -246,12 +242,17 @@ defmodule Dotcom.Utils.ServiceDateTime do
 
   @doc """
   Returns service ranges between two datetimes, inclusive.
-  One datetime can be given, which will return only the service range for the given datetime.
+  If only the stop datetime is provided, returns the service range for that datetime.
+  If only the start datetime is provided, returns all service ranges from that datetime onward.
   """
   @spec service_range_range(DateTime.t() | nil, DateTime.t() | nil) :: [named_service_range()]
   def service_range_range(nil, nil), do: []
-  def service_range_range(start, nil) when not is_nil(start), do: [service_range(start)]
-  def service_range_range(nil, stop) when not is_nil(stop), do: [service_range(stop)]
+  def service_range_range(nil, stop), do: [service_range(stop)]
+
+  def service_range_range(start, nil) do
+    all_service_ranges()
+    |> Enum.drop_while(&(&1 != service_range(start)))
+  end
 
   def service_range_range(start, stop) do
     start_index = service_range_index(start)

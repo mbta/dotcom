@@ -4,6 +4,7 @@ defmodule Alerts.Repo do
   alias Alerts.{Alert, Banner, Priority}
   alias Alerts.Cache.Store
   alias Alerts.Repo.Behaviour
+  alias Routes.Route
 
   @behaviour Behaviour
 
@@ -78,5 +79,13 @@ defmodule Alerts.Repo do
     now
     |> Store.all_alerts()
     |> Enum.filter(&(&1.priority == priority))
+  end
+
+  @impl Behaviour
+  @spec by_route_id_and_priority(Route.id_t(), Priority.priority_level()) :: [Alert.t()]
+  def by_route_id_and_priority(route_id, priority) do
+    [route_id]
+    |> Store.alert_ids_for_routes()
+    |> Store.priority_alerts_from_alert_ids(priority)
   end
 end

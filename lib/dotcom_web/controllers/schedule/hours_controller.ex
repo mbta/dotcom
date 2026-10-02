@@ -8,9 +8,6 @@ defmodule DotcomWeb.ScheduleController.HoursController do
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  # uses a date URL parameter to set conn.assigns.date
-  plug(DotcomWeb.Plugs.Date)
-
   def hours_of_operation(conn, %{"route" => "Green"}) do
     # Return an empty object.  Only supports specific routes
     json(conn, %{})

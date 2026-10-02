@@ -1,6 +1,8 @@
 defmodule Routes.Route do
   @moduledoc "Data model and helpers corresponding to the V3 API Route resource."
 
+  use Dotcom.Gettext.Sigils
+
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
   @derive Jason.Encoder
@@ -96,6 +98,14 @@ defmodule Routes.Route do
   defguard is_shuttle?(route)
            when route.type == 3 and route.description == :rail_replacement_bus and
                   not is_external?(route)
+
+  defguard is_silver_line?(route)
+           when route.id in @silver_line and not is_external?(route)
+
+  defguard is_rapid_silver_line?(route)
+           when route.id in @silver_line and not is_external?(route) and
+                  route.fare_class ==
+                    :rapid_transit_fare
 
   @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
@@ -215,18 +225,17 @@ defmodule Routes.Route do
     Map.get(destinations, direction_id)
   end
 
+  @spec vehicle_name(t, Keyword.t()) :: String.t()
   @spec vehicle_name(t) :: String.t()
-  def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do
-    "Train"
-  end
+  def vehicle_name(%__MODULE__{type: type}, plural: true) when type in [0, 1, 2], do: ~t"Trains"
+  def vehicle_name(%__MODULE__{type: 3}, plural: true), do: ~t"Buses"
+  def vehicle_name(%__MODULE__{type: 4}, plural: true), do: ~t"Boats"
 
-  def vehicle_name(%__MODULE__{type: 3}) do
-    "Bus"
-  end
+  def vehicle_name(%__MODULE__{} = route, _opts), do: vehicle_name(route)
 
-  def vehicle_name(%__MODULE__{type: 4}) do
-    "Boat"
-  end
+  def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2], do: ~t"Train"
+  def vehicle_name(%__MODULE__{type: 3}), do: ~t"Bus"
+  def vehicle_name(%__MODULE__{type: 4}), do: ~t"Boat"
 
   @spec vehicle_atom(0..4) :: atom
   def vehicle_atom(0), do: :trolley
@@ -248,6 +257,10 @@ defmodule Routes.Route do
   end
 
   def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
+  def silver_line?(id), do: id in @silver_line_set
+
+  def rapid_silver_line?(%__MODULE__{id: id, fare_class: fare_class}),
+    do: id in @silver_line_set and fare_class == :rapid_transit_fare
 
   def silver_line, do: @silver_line
 
@@ -307,13 +320,7 @@ defmodule Routes.Route do
   end
 end
 
-defimpl Phoenix.Param, for: Routes.Route do
-  alias Routes.Route
-  def to_param(%Route{id: "Green" <> _rest}), do: "Green"
-  def to_param(%Route{id: id}), do: id
-end
-
-defimpl Poison.Encoder, for: Routes.Route do
+defimpl Jason.Encoder, for: Routes.Route do
   def encode(
         %Routes.Route{
           direction_names: direction_names,
@@ -326,14 +333,12 @@ defimpl Poison.Encoder, for: Routes.Route do
         do: nil,
         else: encoded_directions(direction_destinations)
 
-    Poison.Encoder.encode(
-      %{
-        Map.from_struct(route)
-        | direction_names: encoded_directions(direction_names),
-          direction_destinations: direction_destinations_value
-      },
-      options
-    )
+    %{
+      Map.from_struct(route)
+      | direction_names: encoded_directions(direction_names),
+        direction_destinations: direction_destinations_value
+    }
+    |> Jason.Encode.map(options)
   end
 
   defp encoded_directions(%{0 => direction0, 1 => direction1}),

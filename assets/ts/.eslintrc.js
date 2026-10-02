@@ -34,7 +34,16 @@ const config = {
     "@typescript-eslint/no-var-requires": "off",
     // note you must disable the base rule as it can report incorrect errors
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"]
+    "@typescript-eslint/no-shadow": ["error"],
+    // Allows us to mark variables as intentionally unused with a leading _underscore
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
   },
   extends: [
     "plugin:@typescript-eslint/recommended",

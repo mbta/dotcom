@@ -15,7 +15,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   import DotcomWeb.Schedule.Line, only: [line_direction: 2]
   import DotcomWeb.Schedule.RouteBreadcrumbs, only: [assign_breadcrumbs: 2]
 
-  alias DotcomWeb.Schedule.{Predictions, VehicleLocations}
+  alias DotcomWeb.Schedule.VehicleLocations
   alias DotcomWeb.ScheduleController.LineController
   alias DotcomWeb.ScheduleView
 
@@ -27,7 +27,6 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(:assign_next_holidays)
   plug(:stops_on_routes)
   plug(:vehicle_locations)
-  plug(:predictions)
   plug(DotcomWeb.ScheduleController.VehicleTooltips)
   plug(:assign_breadcrumbs)
   plug(DotcomWeb.ScheduleController.ScheduleError)
@@ -74,27 +73,6 @@ defmodule DotcomWeb.ScheduleController.Green do
         _opts
       ) do
     assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id, date))
-  end
-
-  def predictions(conn, _opts) do
-    {predictions, vehicle_predictions} =
-      conn
-      |> conn_with_branches
-      |> Task.async_stream(
-        fn branch_conn ->
-          Predictions.all_predictions(branch_conn)
-        end,
-        timeout: @task_timeout
-      )
-      |> Enum.reduce({[], []}, fn {:ok, branch_conn},
-                                  {acc_predictions, acc_vehicle_predictions} ->
-        {branch_conn.assigns.predictions ++ acc_predictions,
-         branch_conn.assigns.vehicle_predictions ++ acc_vehicle_predictions}
-      end)
-
-    conn
-    |> assign(:predictions, predictions)
-    |> assign(:vehicle_predictions, vehicle_predictions)
   end
 
   def vehicle_locations(conn, opts) do

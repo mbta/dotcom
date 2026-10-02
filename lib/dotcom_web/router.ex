@@ -1,20 +1,47 @@
 defmodule DotcomWeb.Router do
-  @moduledoc false
-  # remove this comment, it is here to try and fix github (don't ask)
+  @moduledoc """
+  Dotcom's router. A normal Phoenix router with a fairly large
+  number of routes, which exist in order to support a large number
+  of historical pages.
+
+  One quirk worth noting is that we have an all-purpose fallback. If
+  a path doesn't resolve to any of our hard-coded routes, then it
+  falls back to the `DotcomWeb.CMSController`. This means that the
+  URL sigil `~p` won't provide a warning if you get a path wrong,
+  because in theory, that path could resolve to something in the
+  CMS.
+  """
+
   use DotcomWeb, :router
-  use Plug.ErrorHandler
 
-  alias DotcomWeb.ControllerHelpers
+  if Mix.env() == :dev do
+    use Plug.Debugger, otp_app: :dotcom
+  else
+    use Plug.ErrorHandler
 
-  @impl Plug.ErrorHandler
-  def handle_errors(conn, %{reason: reason}) do
-    case reason do
-      %{plug_status: 404} ->
-        ControllerHelpers.render_404(conn)
+    alias DotcomWeb.ControllerHelpers
 
-      _ ->
-        ControllerHelpers.render_500(conn)
+    @impl Plug.ErrorHandler
+    @doc """
+    A custom error handling function that renders the appropriate
+    error page.
+
+    For most (unexpected) errors, we render a 500 page. When we see a
+    `DotcomWeb.NotFoundError`, we render the 404 page instead.
+    """
+    def handle_errors(conn, %{reason: reason}) do
+      case reason do
+        %{plug_status: 404} ->
+          ControllerHelpers.render_404(conn)
+
+        _ ->
+          ControllerHelpers.render_500(conn)
+      end
     end
+  end
+
+  pipeline :get_flags do
+    plug(DotcomWeb.Plugs.PutFlagsInSession)
   end
 
   pipeline :secure do
@@ -26,31 +53,34 @@ defmodule DotcomWeb.Router do
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
+    plug(:get_flags)
     plug(:fetch_flash)
     plug(:fetch_cookies)
+    plug(:fetch_live_flash)
+    plug(:protect_from_forgery)
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
     plug(DotcomWeb.Plugs.Banner)
     plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.ClearCookies)
     plug(DotcomWeb.Plugs.Cookies)
-    plug(DotcomWeb.Plugs.CommonFares)
     plug(DotcomWeb.Plugs.ContentSecurityPolicy)
-    plug(DotcomWeb.Plugs.Date)
-    plug(DotcomWeb.Plugs.DateTime)
+
+    plug(DotcomWeb.Plugs.AssignFromParam,
+      param: "date",
+      validator_fn: &Util.parse_valid_date/1,
+      fallback_fn: &Dotcom.Utils.ServiceDateTime.service_date/0
+    )
+
+    plug(DotcomWeb.Plugs.AssignFromParam,
+      param: "date_time",
+      validator_fn: &Util.parse_valid_datetime/1,
+      fallback_fn: &Dotcom.Utils.DateTime.now/0
+    )
+
     plug(DotcomWeb.Plugs.RewriteUrls)
     plug(DotcomWeb.Plugs.SecureHeaders)
     plug(DotcomWeb.Plugs.SetLocale)
-
-    if Mix.env() === :dev do
-      plug(DotcomWeb.Plugs.SetProcessPath)
-    end
-
     plug(:optional_disable_indexing)
-  end
-
-  pipeline :browser_live do
-    plug(:fetch_live_flash)
-    plug(:protect_from_forgery)
   end
 
   pipeline :api do
@@ -68,6 +98,16 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     # no pipe
     get("/_health", HealthController, :index)
+    get("/_health/open-trip-planner", HealthController, :open_trip_planner)
+    get("/version", VersionController, :version)
+  end
+
+  scope "/_flags", DotcomWeb do
+    pipe_through([:browser])
+
+    get("/", FlagsController, :index)
+    post("/disable/:flag_id", FlagsController, :disable)
+    post("/enable/:flag_id", FlagsController, :enable)
   end
 
   scope "/cache", DotcomWeb do
@@ -81,33 +121,26 @@ defmodule DotcomWeb.Router do
     get("/*path", CacheController, :get_cache_values)
   end
 
-  # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
-  scope "/", DotcomWeb, host: "t." do
-    # no pipe
-    get("/*path", WwwRedirector, [])
-  end
-
-  scope "/", DotcomWeb, host: "beta." do
-    # no pipe
-    get("/*path", WwwRedirector, [])
-  end
-
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
-    live_session :alerts, layout: {DotcomWeb.LayoutView, :live} do
+    live_session :alerts,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live("/alerts/subway", SubwayAlertsLive)
       live("/alerts/commuter-rail", CommuterRailAlertsLive)
     end
   end
 
-  scope "/schedules/bostonstadium", DotcomWeb do
+  scope "/schedules", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
-    live_session :world_cup do
-      live "/", WorldCupTimetableLive
+    live_session :schedules,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live("/:route_id/line_new", LineDiagramLive)
     end
   end
 
@@ -203,8 +236,8 @@ defmodule DotcomWeb.Router do
       to: "/schedules/CR-NewBedford"
     )
 
-    # Redirect Foxboro line to World Cup Timetable Page for the World Cup (revert this later)
-    get("/schedules/CR-Foxboro/*path_params", Redirector, to: "/schedules/bostonstadium")
+    # Redirect away from Boston Stadium Timetable now that the 2026 World Cup is over
+    get("/schedules/bostonstadium", Redirector, to: "/schedules/commuter-rail")
 
     # Redirect Boat-F1 to Boat-F2H until Boat-F1 can be unlisted
     get("/schedules/Boat-F1/*path_params", Plugs.PathParamsRedirector, to: "/schedules/Boat-F2H")
@@ -223,9 +256,6 @@ defmodule DotcomWeb.Router do
     get("/news/rss.xml", StaticFileController, :index)
     get("/news/*path_params", NewsEntryController, :show)
 
-    get("/projects", ProjectController, :index)
-    get("/project_api", ProjectController, :api, as: :project_api)
-
     get("/projects/:project_alias/updates", ProjectController, :project_updates,
       as: :project_updates
     )
@@ -236,9 +266,10 @@ defmodule DotcomWeb.Router do
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/place-dudly", Redirector, to: "/stops/place-nubn")
 
-    get("/stops/api", StopController, :api)
-    resources("/stops", StopController, only: [:index, :show])
-    get("/stops/*path", StopController, :stop_with_slash_redirect)
+    get("/stops", StopController, :index)
+    get("/stops/subway", StopController, :list, as: :subway_stops)
+    get("/stops/commuter-rail", StopController, :list, as: :commuter_rail_stops)
+    get("/stops/ferry", StopController, :list, as: :ferry_stops)
 
     get("/schedules", ModeController, :index)
     get("/schedules/map_api", ScheduleController.MapApi, :show)
@@ -302,41 +333,55 @@ defmodule DotcomWeb.Router do
     # get("/vote", VoteController, :show)
   end
 
-  scope "/", DotcomWeb do
-    import Phoenix.LiveDashboard.Router
+  if Mix.env() != :prod do
+    scope "/", DotcomWeb do
+      import Phoenix.LiveDashboard.Router
 
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
-    live_dashboard("/dashboard")
+      pipe_through([:browser])
+
+      live_dashboard("/dashboard",
+        allow_destructive_actions: true,
+        csp_nonce_assign_key: :csp_nonce,
+        additional_pages: [
+          flame_on: FlameOn.DashboardPage
+        ],
+        metrics: Dotcom.Telemetry
+      )
+    end
   end
 
   scope "/", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
-    live_session :rider, layout: {DotcomWeb.LayoutView, :live} do
+    live_session :rider,
+      layout: {DotcomWeb.LayoutView, :live},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
+      live("/projects", ProjectsPageLive)
       live("/search", SearchPageLive)
+      live("/stops/:stop_id", StopInformationLive)
       live("/trip-planner", TripPlannerLive)
     end
   end
 
   scope "/departures", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live])
+    pipe_through([:browser])
 
-    live_session :departures do
+    live_session :departures, on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", ScheduleFinderLive
     end
   end
 
   scope "/preview", DotcomWeb do
     import Phoenix.LiveView.Router
-    pipe_through([:browser, :browser_live, :basic_auth_readonly])
+    pipe_through([:browser, :basic_auth_readonly])
 
-    live_session :default, layout: {DotcomWeb.LayoutView, :preview} do
+    live_session :default,
+      layout: {DotcomWeb.LayoutView, :preview},
+      on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", PreviewLive
       live "/daily-schedules", DailySchedulesLive
-      live "/schedules/bostonstadium", WorldCupTimetableLive
-      live "/stop-map", StopMapLive
     end
   end
 
@@ -399,7 +444,7 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
-    get("/*path", CMSController, :page)
+    get "/*path", CMSController, :page, warn_on_verify: true
   end
 
   defp basic_auth(conn, _) do

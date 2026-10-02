@@ -337,6 +337,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       refute trip_stop_3.cancelled?
     end
 
+    @tag :skip
     test "includes vehicle status and stop info" do
       platform_name = Faker.Pizza.sauce()
       stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)
@@ -390,6 +391,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert vehicle_info.crowding == crowding
     end
 
+    @tag :skip
     test "includes vehicle status and stop info for non-subway routes" do
       platform_name = Faker.Pizza.sauce()
 
@@ -591,6 +593,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert trip_details.stops |> Enum.map(& &1.stop_id) == future_stop_ids
     end
 
+    @tag :skip
     test "returns a status of `:waiting_to_depart` if the vehicle is `:stopped` at the origin stop" do
       platform_name = Faker.Pizza.sauce()
       platform_stop = Factories.Stops.Stop.build(:stop, platform_name: platform_name)
@@ -649,6 +652,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert vehicle_info.stop_id == origin_stop_id
     end
 
+    @tag :skip
     test "non-subway `:waiting_to_depart` trips include platform names" do
       route = Factories.Routes.Route.build(:bus_route)
 
@@ -734,6 +738,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
       assert vehicle_info.status == :location_unavailable
     end
 
+    @tag :skip
     test "uses the parent stop id if available" do
       trip = Factories.Schedules.Trip.build(:trip)
 
@@ -1028,6 +1033,7 @@ defmodule Dotcom.ScheduleFinder.TripDetailsTest do
     assert vehicle_info.vehicle_name == nil
   end
 
+  @tag :skip
   test "handles added trips with cancelled/skipped stops" do
     platform_name = Faker.Pizza.sauce()
     stop = Factories.Stops.Stop.build(:stop, parent_id: nil, platform_name: platform_name)

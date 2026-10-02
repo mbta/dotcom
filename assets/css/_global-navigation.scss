@@ -1,12 +1,17 @@
-// Navigation bar on both desktop and mobile
+// Navigation bar on both dropdown and fullscreen
 // Eventually we can phase out _header.scss file, and all relevant styling will be here
 
 header {
   .navbar-logo,
   .navbar-logo:hover,
   .navbar-logo:focus {
+    @include base-font__new();
     color: inherit;
     text-decoration: none;
+
+    @include media-breakpoint-up(sm) {
+      padding-right: calc(#{$base-spacing});
+    }
   }
 
   .c-svg__mbta-logo,
@@ -18,10 +23,18 @@ header {
   }
 
   &.header--new {
+    position: relative;
     background-color: $brand-primary-dark;
     color: $white;
   }
 }
+
+
+.top-tier-header {
+  background-color: $brand-primary-darkest;
+  color: $white;
+}
+
 
 [data-nav-open] {
   .body-wrapper {
@@ -32,20 +45,12 @@ header {
   .m-menu--cover {
     display: block; // display veil
   }
-
-  .header--new {
-    @include media-breakpoint-down(md) {
-      background-color: $brand-primary-darkest;
-    }
-  }
 }
 
-nav.m-menu--desktop {
+nav.m-menu--dropdown {
   @include base-font__new();
 
   display: flex;
-  margin-left: $base-spacing;
-  padding: 0 calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-down(md) {
     display: none;
@@ -54,6 +59,12 @@ nav.m-menu--desktop {
   .m-menu__language {
     margin-left: calc(#{$base-spacing} / 2);
   }
+}
+
+nav.m-top-tier-menu--dropdown {
+  @include base-font__new();
+
+  display: flex;
 }
 
 .m-menu__language {
@@ -94,15 +105,14 @@ nav.m-menu--desktop {
   }
 }
 
-// Buttons to open/close desktop menu
-.m-menu--desktop__toggle {
+// Buttons to open/close dropdown menu
+.m-menu--dropdown__toggle {
   align-items: center;
   color: inherit;
   display: flex;
   flex-wrap: nowrap;
   font-weight: bold;
   margin-right: calc(#{$base-spacing} / 2);
-
 
   // place for up/down arrows
   .c-indicator--angle {
@@ -113,7 +123,6 @@ nav.m-menu--desktop {
       margin-left: .5rem;
     }
   }
-
   // in expanded menu state
   &[aria-expanded='true'],
   &[aria-expanded='true']:focus,
@@ -130,8 +139,13 @@ nav.m-menu--desktop {
   }
 }
 
-// Desktop menu expanded area
-.m-menu--desktop__menu {
+.m-menu--top-tier__toggle {
+  margin-right: 0px;
+  position: relative;
+  z-index: 1;
+}
+// dropdown menu expanded area
+.m-menu--dropdown__menu {
   background-color: $brand-primary-lightest-contrast;
   box-shadow: 0 7px 14px 0 $gray-shadow;
   display: none; // start off closed
@@ -143,13 +157,26 @@ nav.m-menu--desktop {
   z-index: 102;
 
   // opened
-  .m-menu--desktop__toggle[aria-expanded='true'] + & {
+  .m-menu--dropdown__toggle[aria-expanded='true'] + & {
     display: initial;
   }
 }
 
-// Layout the headers & links in the desktop menu
-.m-menu-desktop__section {
+.m-top-tier-menu__menu {
+  left: unset;
+  padding: 0 1rem;
+  top: $header-navbar-height-new - $base-spacing;
+
+  @include media-breakpoint-only(xs) {
+    left: unset;
+    right: 15px;
+    padding: 0 1rem;
+    top: $header-navbar-height-xs - 0.5;
+  }
+}
+
+// Layout the headers & links in the dropdown menu
+.m-menu-dropdown__section {
   color: $body-color;
   column-gap: $base-spacing;
   display: grid;
@@ -163,11 +190,11 @@ nav.m-menu--desktop {
     line-height: unset; // smaller heading spacing
   }
 
-  .m-menu-desktop__submenu-section {
+  .m-menu-dropdown__submenu-section {
     grid-row: 2;
   }
 
-  .m-menu-desktop__section-feature {
+  .m-menu-dropdown__section-feature {
     grid-row: 1 / 3;
 
     .m-menu__feature {
@@ -185,17 +212,17 @@ nav.m-menu--desktop {
     grid-template-columns: repeat(3, 1fr); // 3 columns
     grid-template-rows: repeat(3, auto); // 3 rows
 
-    .m-menu-desktop__submenu-section:first-of-type {
+    .m-menu-dropdown__submenu-section:first-of-type {
       grid-row: 2 / 4;
     }
 
-    .m-menu-feature.emergency-contacts.desktop {
+    .m-menu-feature.emergency-contacts.dropdown {
       border-radius: 0 .5rem .5rem;
       grid-row: 3 / 4;
       width: unset;
     }
 
-    .m-menu-desktop__section-feature {
+    .m-menu-dropdown__section-feature {
       grid-column: 3 / 4;
       grid-row: 1 / 4;
     }
@@ -213,11 +240,11 @@ nav.m-menu--desktop {
   text-transform: uppercase;
   white-space: normal;
 
-  .m-menu--mobile & {
+  .m-menu--fullscreen & {
     font-size: $font-size-base-xs;
   }
 
-  .m-menu--desktop & {
+  .m-menu--dropdown & {
     margin: 0;
   }
 
@@ -231,14 +258,6 @@ nav.m-menu--desktop {
 // Reusing the veil component
 .m-menu--cover {
   display: none;
-
-  @include media-breakpoint-only(xs) {
-    top: $header-navbar-height-xs;
-  }
-
-  @include media-breakpoint-up(sm) {
-    top: $header-navbar-height-new;
-  }
 }
 
 // Contact numbers & Popular fares sections
@@ -310,7 +329,7 @@ nav.m-menu--desktop {
   }
 
   &.emergency-contacts {
-    &.mobile {
+    &.fullscreen {
       border-radius: 0;
       margin-bottom: .125rem;
       margin-top: 0;

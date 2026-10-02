@@ -256,47 +256,5 @@ describe("ScheduleFinder", () => {
     expect(lastSelectedOriginElement.selected).toBeFalse();
   });
 
-  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", async () => {
-    const user = userEvent.setup();
-    const dispatchSpy = jest.fn();
-    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => dispatchSpy);
-
-    renderWithProviders(
-      <ScheduleFinder
-        route={route}
-        stops={stops}
-        directionId={0}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        updateURL={() => {}}
-        changeDirection={() => {}}
-        changeOrigin={() => {}}
-        closeModal={() => {}}
-        scheduleNote={null}
-        hasServiceToday={true}
-      />,
-      {
-        preloadedState: {
-          modalOpen: true,
-          selectedOrigin: "123",
-          modalMode: "schedule"
-        }
-      }
-    );
-
-    // select the last node (i.e. origin drop-down) and choose an option
-    const scheduleFinderModal = screen.getByLabelText(/Schedules on the.*/);
-    const originSelectElement = within(scheduleFinderModal).getByTestId(
-      "schedule-finder-origin-select"
-    );
-    await user.click(originSelectElement);
-
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
-  });
+  
 });

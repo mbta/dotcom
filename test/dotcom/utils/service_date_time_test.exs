@@ -101,6 +101,8 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range(end_of_service_week) == :today
     end
 
+    # This test fails when run on Sundays.
+    @tag :flaky
     test "returns :this_week for this week" do
       # Setup
       {beginning_of_service_week, end_of_service_week} = service_range_this_week()
@@ -194,6 +196,8 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
   end
 
   describe "service_this_week?/1" do
+    # This test fails when run on Sundays.
+    @tag :flaky
     test "returns true when the date_time is in this week's service" do
       # Setup
       {_, end_of_current_service_week} = service_range_this_week()
@@ -237,20 +241,20 @@ defmodule Dotcom.Utils.ServiceDateTimeTest do
       assert service_range_range(today, next_week) == [:today, :this_week, :next_week]
     end
 
-    test "returns one service range when given only one start datetime" do
-      # Setup
-      next_week = service_range_next_week() |> random_time_range_date_time()
-
-      # Exercise / Verify
-      assert service_range_range(next_week, nil) == [:next_week]
-    end
-
     test "returns one service range when given only one stop datetime" do
       # Setup
       next_week = service_range_next_week() |> random_time_range_date_time()
 
       # Exercise / Verify
       assert service_range_range(nil, next_week) == [:next_week]
+    end
+
+    test "returns all service ranges from the start datetime onward when given only one start datetime" do
+      # Setup
+      next_week = service_range_next_week() |> random_time_range_date_time()
+
+      # Exercise / Verify
+      assert service_range_range(next_week, nil) == [:next_week, :after_next_week]
     end
   end
 

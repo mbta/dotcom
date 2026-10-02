@@ -2,8 +2,11 @@ import AlgoliaAutocomplete from "./algolia-autocomplete";
 import MBTAGoCTABanner from "./mbta-go-cta-banner";
 import PageVisibility from "./page-visibility";
 import ScrollIntoView from "./scroll-into-view";
+import TimetableScroll from "./timetable-scroll";
+import TimetableScrollBar from "./timetable-scroll-bar";
 import TripPlannerForm from "./trip-planner-form";
 import TripPlannerMap from "./trip-planner-map";
+import TripPlannerDatePicker from "../../js/trip-planner/datepicker";
 
 /**
  * Configurations for usage with [Phoenix LiveView's
@@ -18,6 +21,9 @@ const Hooks = {
   MBTAGoCTABanner,
   PageVisibility,
   ScrollIntoView,
+  TimetableScroll,
+  TimetableScrollBar,
+  TripPlannerDatePicker,
   TripPlannerForm,
   TripPlannerMap
 };

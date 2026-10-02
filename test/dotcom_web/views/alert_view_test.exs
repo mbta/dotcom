@@ -60,35 +60,35 @@ defmodule DotcomWeb.AlertViewTest do
     end
 
     test "replaces newlines with breaks" do
-      expected = {:safe, "hi<br />there"}
+      expected = {:safe, "hi <br />there"}
       actual = format_alert_description("hi\nthere")
 
       assert expected == actual
     end
 
     test "combines multiple newlines" do
-      expected = {:safe, "hi<br />there"}
+      expected = {:safe, "hi <br />there"}
       actual = format_alert_description("hi\n\n\nthere")
 
       assert expected == actual
     end
 
     test "combines multiple Windows newlines" do
-      expected = {:safe, "hi<br />there"}
+      expected = {:safe, "hi <br />there"}
       actual = format_alert_description("hi\r\n\r\nthere")
 
       assert expected == actual
     end
 
     test "<strong>ifies a header" do
-      expected = {:safe, "hi<br /><strong>Header:</strong><br />7:30"}
+      expected = {:safe, "hi <br /><strong>Header:</strong> <br />7:30"}
       actual = format_alert_description("hi\nHeader:\n7:30")
 
       assert expected == actual
     end
 
     test "<strong>ifies a starting long header" do
-      expected = {:safe, "<strong>Long Header:</strong><br />7:30"}
+      expected = {:safe, "<strong>Long Header:</strong> <br />7:30"}
       actual = format_alert_description("Long Header:\n7:30")
 
       assert expected == actual

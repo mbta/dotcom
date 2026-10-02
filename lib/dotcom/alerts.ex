@@ -16,6 +16,12 @@ defmodule Dotcom.Alerts do
   @routes_repo_module Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo_module Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
+  @affected_stops Application.compile_env!(:dotcom, :affected_stops_module)
+  @endpoint_stops Application.compile_env!(:dotcom, :endpoint_stops_module)
+
+  @type affected_stop_t() :: Dotcom.Alerts.AffectedStops.Behaviour.affected_stop_t()
+
+  @type endpoint_t() :: Dotcom.Alerts.EndpointStops.Behaviour.endpoint_t()
 
   @type diversion_effect_t() ::
           :detour | :service_change | :shuttle | :station_closure | :stop_closure | :suspension
@@ -33,6 +39,12 @@ defmodule Dotcom.Alerts do
           | :station_closure
           | :stop_closure
           | :suspension
+
+  @type subheading_data_t() ::
+          {:affected_stops, [affected_stop_t()]}
+          | {:endpoint_stops, [{endpoint_t(), endpoint_t()}]}
+          | {:delay}
+          | nil
 
   # A keyword list of effects and the severity level necessary to make an alert 'service impacting.'
   @service_impacting_effects [
@@ -94,9 +106,8 @@ defmodule Dotcom.Alerts do
   """
   @spec in_effect_now?(Alerts.Alert.t()) :: boolean()
   def in_effect_now?(%Alerts.Alert{active_period: active_period}) do
-    Enum.any?(active_period, fn {start, stop} ->
-      in_range?({start, stop}, @date_time_module.now())
-    end)
+    now = @date_time_module.now()
+    Enum.any?(active_period, &in_range?(&1, now))
   end
 
   @doc """
@@ -127,7 +138,7 @@ defmodule Dotcom.Alerts do
   @spec subway_alert_groups() :: [{Route.t(), [Alert.t()]}]
   def subway_alert_groups() do
     alerts =
-      @alerts_repo_module.all(@date_time_module.now())
+      @alerts_repo_module.by_route_types([0, 1], @date_time_module.now())
       |> Enum.reject(&service_impacting_alert?/1)
 
     non_banner_alerts = excluding_banner(@alerts_repo_module.banner(), alerts)
@@ -138,12 +149,36 @@ defmodule Dotcom.Alerts do
     |> drop_empty_groups()
   end
 
+  # Additional information required to compute the subheading for a status entry.
+  # - {:affected_stops, [affected_stop_t()]} if the status is a station closure
+  # - {:endpoint_stops, [{endpoint_t(), endpoint_t()}]} if the status is a service change
+  # - {:delay} if the status is a delay
+  # - nil if there is no data
+  @spec subheading_data(status: atom(), alerts: [Alert.t()], route_ids: [Routes.Route.id_t()]) ::
+          subheading_data_t()
+  def subheading_data(status: :station_closure, alerts: alerts, route_ids: route_ids) do
+    {:affected_stops, @affected_stops.affected_stops(alerts, route_ids)}
+  end
+
+  def subheading_data(status: :delay, alerts: _alerts, route_ids: _route_ids) do
+    {:delay}
+  end
+
+  def subheading_data(status: status, alerts: alerts, route_ids: route_ids)
+      when status in [:service_change, :shuttle, :single_tracking, :suspension] do
+    {:endpoint_stops, @endpoint_stops.endpoint_stops(alerts, route_ids)}
+  end
+
+  def subheading_data(status: _status, alerts: _alerts, route_ids: _route_ids) do
+    nil
+  end
+
   @spec commuter_rail_alert_groups() :: [{Route.t(), [Alert.t()]}]
   def commuter_rail_alert_groups() do
     now = @date_time_module.now()
 
     alerts =
-      @alerts_repo_module.all(now)
+      @alerts_repo_module.by_route_types([2], now)
       |> Enum.reject(&SystemStatus.status_alert?(&1, now))
 
     non_banner_alerts = excluding_banner(@alerts_repo_module.banner(), alerts)
@@ -261,5 +296,85 @@ defmodule Dotcom.Alerts do
       %{route_type: ^route_type} -> true
       %{} -> false
     end)
+  end
+
+  def routes_with_high_priority_alerts_by_mode(alerts) do
+    modes = [:subway, :bus, :commuter_rail, :ferry]
+    empty_by_mode = Map.new(modes, fn mode -> {mode, MapSet.new()} end)
+
+    route_ids_by_mode =
+      alerts
+      |> Enum.filter(&(Alerts.Priority.priority(&1) == :high))
+      |> Enum.reduce(empty_by_mode, fn alert, acc ->
+        route_ids = Alert.get_entity(alert, :route) |> MapSet.delete(nil)
+
+        alert
+        |> alert_route_type()
+        |> Enum.map(&Route.type_atom/1)
+        |> Enum.reduce(acc, fn mode, acc2 ->
+          Map.update!(acc2, mode, &MapSet.union(&1, route_ids))
+        end)
+      end)
+
+    Enum.map(modes, fn mode_key ->
+      route_ids =
+        route_ids_by_mode
+        |> Map.fetch!(mode_key)
+        |> MapSet.to_list()
+
+      {mode_key,
+       get_many(route_ids, &@routes_repo_module.get/1)
+       |> Stream.filter(&match?({:ok, %Route{}}, &1))
+       |> Stream.map(fn {:ok, route} -> route end)
+       |> Enum.sort_by(& &1.sort_order)}
+    end)
+  end
+
+  defp get_many([], _), do: []
+
+  defp get_many(ids, func) do
+    Task.async_stream(ids, func, max_concurrency: 8, on_timeout: :kill_task, ordered: false)
+  end
+
+  def stops_with_access_alerts_by_effect(alerts) do
+    access_effects = Alerts.Accessibility.effect_types()
+    empty_by_effect = Map.new(access_effects, &{&1, MapSet.new()})
+
+    stop_ids_by_effect =
+      alerts
+      |> Enum.reduce(empty_by_effect, fn alert, acc ->
+        if Map.has_key?(acc, alert.effect) do
+          stop_id = alert_stop_ids(alert) |> List.last()
+          Map.update!(acc, alert.effect, &MapSet.put(&1, stop_id))
+        else
+          acc
+        end
+      end)
+
+    Enum.map(access_effects, fn effect ->
+      stops =
+        stop_ids_by_effect
+        |> Map.fetch!(effect)
+        |> get_many(&@stops_repo_module.get_parent/1)
+        |> Stream.filter(&match?({:ok, %Stop{}}, &1))
+        |> Stream.map(fn {:ok, stop} -> stop end)
+        |> Enum.sort_by(& &1.name)
+
+      {effect, stops}
+    end)
+  end
+
+  def alert_route_type(alert) do
+    alert
+    |> Alert.get_entity(:route_type)
+    |> MapSet.delete(nil)
+    |> MapSet.to_list()
+  end
+
+  def alert_stop_ids(alert) do
+    alert
+    |> Alert.get_entity(:stop)
+    |> MapSet.delete(nil)
+    |> MapSet.to_list()
   end
 end

@@ -9,87 +9,6 @@ defmodule Dotcom.TimetablesTest do
   alias Dotcom.Timetables
   alias Test.Support.{Factories, Generators}
 
-  # [
-  #   [
-  #     %{time: "6:15 AM", trip: %{id: "0615", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "7:30 AM", trip: %{id: "0730", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "8:45 AM", trip: %{id: "0845", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "10:00 AM", trip: %{id: "1000", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "11:15 AM", trip: %{id: "1115", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "", trip: %{id: "1350", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "2:40 PM", trip: %{id: "1440", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "3:55 PM", trip: %{id: "1555", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "5:10 PM", trip: %{id: "1710", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "6:25 PM", trip: %{id: "1825", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "7:40 PM", trip: %{id: "1940", name: ""}, stop_id: "Boat-Quincy"}
-  #   ],
-  #   [
-  #     %{time: "", trip: %{id: "0615", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "0730", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "0845", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1000", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1115", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1350", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "3:05 PM", trip: %{id: "1440", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "4:20 PM", trip: %{id: "1555", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "5:35 PM", trip: %{id: "1710", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "6:50 PM", trip: %{id: "1825", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "8:05 PM", trip: %{id: "1940", name: ""}, stop_id: "Boat-Logan"}
-  #   ],
-  #   [
-  #     %{time: "6:40 AM", trip: %{id: "0615", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "7:55 AM", trip: %{id: "0730", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "9:10 AM", trip: %{id: "0845", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "10:25 AM", trip: %{id: "1000", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "11:40 AM", trip: %{id: "1115", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "1:50 PM", trip: %{id: "1350", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "3:15 PM", trip: %{id: "1440", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "4:30 PM", trip: %{id: "1555", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "5:45 PM", trip: %{id: "1710", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "7:00 PM", trip: %{id: "1825", name: ""}, stop_id: "Boat-Fan"},
-  #     %{time: "8:20 PM", trip: %{id: "1940", name: ""}, stop_id: "Boat-Fan"}
-  #   ],
-  #   [
-  #     %{time: "6:50 AM", trip: %{id: "0615", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "8:05 AM", trip: %{id: "0730", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "9:20 AM", trip: %{id: "0845", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "10:35 AM", trip: %{id: "1000", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "11:50 AM", trip: %{id: "1115", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "2:00 PM", trip: %{id: "1350", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "3:25 PM", trip: %{id: "1440", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "4:40 PM", trip: %{id: "1555", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "5:55 PM", trip: %{id: "1710", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "7:10 PM", trip: %{id: "1825", name: ""}, stop_id: "Boat-Aquarium"},
-  #     %{time: "8:30 PM", trip: %{id: "1940", name: ""}, stop_id: "Boat-Aquarium"}
-  #   ],
-  #   [
-  #     %{time: "7:00 AM", trip: %{id: "0615", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "8:15 AM", trip: %{id: "0730", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "9:30 AM", trip: %{id: "0845", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "10:45 AM", trip: %{id: "1000", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1115", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "2:10 PM", trip: %{id: "1350", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1440", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1555", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1710", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1825", name: ""}, stop_id: "Boat-Logan"},
-  #     %{time: "", trip: %{id: "1940", name: ""}, stop_id: "Boat-Logan"}
-  #   ],
-  #   [
-  #     %{time: "7:25 AM", trip: %{id: "0615", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "8:40 AM", trip: %{id: "0730", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "9:55 AM", trip: %{id: "0845", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "11:10 AM", trip: %{id: "1000", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "", trip: %{id: "1115", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "2:35 PM", trip: %{id: "1350", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "3:50 PM", trip: %{id: "1440", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "5:05 PM", trip: %{id: "1555", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "6:20 PM", trip: %{id: "1710", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "7:35 PM", trip: %{id: "1825", name: ""}, stop_id: "Boat-Quincy"},
-  #     %{time: "8:55 PM", trip: %{id: "1940", name: ""}, stop_id: "Boat-Quincy"}
-  #   ]
-  # ]
-
   setup do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
@@ -102,6 +21,7 @@ defmodule Dotcom.TimetablesTest do
     end
 
     test "serializes a single schedule into a single-cell timetable" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
 
       [time_1] = generate_times(1)
@@ -115,18 +35,24 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
-      assert %Timetables.Timetable{
-               rows: [
-                 [entry_1]
-               ]
-             } = Timetables.from_schedules(schedules)
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
 
-      assert entry_1.time == format!(time_1)
+      # Verify
+      assert %Timetables.Timetable{
+               trips: [trip],
+               rows: [row_1]
+             } = timetable
+
+      assert [entry_1] = row_1.cells
+      assert row_1.stop == stop_1
+
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
     end
 
     test "serializes a single trip into a single-column timetable" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -147,23 +73,30 @@ defmodule Dotcom.TimetablesTest do
           )
         ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1],
-                 [entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip]
+             } = timetable
 
-      assert entry_1.time == format!(time_1)
+      assert [entry_1] = row_1.cells
+      assert row_1.stop == stop_1
+
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
 
-      assert entry_2.time == format!(time_2)
+      assert [entry_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip.id
-      assert entry_2.stop_id == stop_2.id
     end
 
     test "sorts visits within a trip by time" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -184,23 +117,30 @@ defmodule Dotcom.TimetablesTest do
           )
         ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1],
-                 [entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip]
+             } = timetable
 
-      assert entry_1.time == format!(time_1)
+      assert [entry_1] = row_1.cells
+      assert row_1.stop == stop_1
+
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip.id
-      assert entry_1.stop_id == stop_1.id
 
-      assert entry_2.time == format!(time_2)
+      assert [entry_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip.id
-      assert entry_2.stop_id == stop_2.id
     end
 
     test "serializes visits to a single stop into a single-row timetable" do
+      # Setup
       stop = Factories.Stops.Stop.build(:stop)
 
       [time_1, time_2] = generate_times(2)
@@ -219,22 +159,27 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1, entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1],
+               trips: [trip_1, trip_2]
+             } = timetable
 
-      assert entry_1.time == format!(time_1)
+      assert [entry_1, entry_2] = row_1.cells
+      assert row_1.stop == stop
+
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip_1.id
-      assert entry_1.stop_id == stop.id
 
-      assert entry_2.time == format!(time_2)
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip_2.id
-      assert entry_2.stop_id == stop.id
     end
 
     test "sorts trips by first-stop time" do
+      # Setup
       stop = Factories.Stops.Stop.build(:stop)
 
       [time_1, time_2] = generate_times(2)
@@ -258,22 +203,27 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1, entry_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1],
+               trips: [trip_1, trip_2]
+             } = timetable
 
-      assert entry_1.time == format!(time_1)
+      assert [entry_1, entry_2] = row_1.cells
+      assert row_1.stop == stop
+
+      assert entry_1.time == time_1
       assert entry_1.trip.id == trip_1.id
-      assert entry_1.stop_id == stop.id
 
-      assert entry_2.time == format!(time_2)
+      assert entry_2.time == time_2
       assert entry_2.trip.id == trip_2.id
-      assert entry_2.stop_id == stop.id
     end
 
     test "inserts a blank cell when a trip does not visit the second stop" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -298,31 +248,36 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1_1, entry_2_1],
-                 [entry_1_2, entry_2_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
+             } = timetable
 
-      assert entry_1_1.time == format!(time_1_1)
+      assert [entry_1_1, entry_2_1] = row_1.cells
+      assert row_1.stop == stop_1
+
+      assert entry_1_1.time == time_1_1
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
 
-      assert entry_1_2.time == format!(time_1_2)
-      assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
-
-      assert entry_2_1.time == format!(time_2_1)
+      assert entry_2_1.time == time_2_1
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
 
-      assert entry_2_2.time == ""
+      assert [entry_1_2, entry_2_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_1_2.time == time_1_2
+      assert entry_1_2.trip.id == trip_1.id
+
+      assert entry_2_2.time == nil
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
 
     test "inserts a blank cell when a trip does not visit the first stop" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -347,31 +302,36 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1_1, entry_2_1],
-                 [entry_1_2, entry_2_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
+             } = timetable
 
-      assert entry_1_1.time == format!(time_1_1)
+      assert [entry_1_1, entry_2_1] = row_1.cells
+      assert row_1.stop == stop_1
+
+      assert entry_1_1.time == time_1_1
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
 
-      assert entry_1_2.time == format!(time_1_2)
-      assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
-
-      assert entry_2_1.time == ""
+      assert entry_2_1.time == nil
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
 
-      assert entry_2_2.time == format!(time_2_2)
+      assert [entry_1_2, entry_2_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_1_2.time == time_1_2
+      assert entry_1_2.trip.id == trip_1.id
+
+      assert entry_2_2.time == time_2_2
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
     end
 
     test "inserts blank cells for the first trip" do
+      # Setup
       stop_1 = Factories.Stops.Stop.build(:stop)
       stop_2 = Factories.Stops.Stop.build(:stop)
 
@@ -396,28 +356,196 @@ defmodule Dotcom.TimetablesTest do
         )
       ]
 
+      # Exercise
+      timetable = Timetables.from_schedules(schedules)
+
+      # Verify
       assert %Timetables.Timetable{
-               rows: [
-                 [entry_1_1, entry_2_1],
-                 [entry_1_2, entry_2_2]
-               ]
-             } = Timetables.from_schedules(schedules)
+               rows: [row_1, row_2],
+               trips: [trip_1, trip_2]
+             } = timetable
 
-      assert entry_1_1.time == ""
+      assert [entry_1_1, entry_2_1] = row_1.cells
+      assert row_1.stop == stop_1
+
+      assert entry_1_1.time == nil
       assert entry_1_1.trip.id == trip_1.id
-      assert entry_1_1.stop_id == stop_1.id
 
-      assert entry_1_2.time == format!(time_1_2)
-      assert entry_1_2.trip.id == trip_1.id
-      assert entry_1_2.stop_id == stop_2.id
-
-      assert entry_2_1.time == format!(time_2_1)
+      assert entry_2_1.time == time_2_1
       assert entry_2_1.trip.id == trip_2.id
-      assert entry_2_1.stop_id == stop_1.id
 
-      assert entry_2_2.time == format!(time_2_2)
+      assert [entry_1_2, entry_2_2] = row_2.cells
+      assert row_2.stop == stop_2
+
+      assert entry_1_2.time == time_1_2
+      assert entry_1_2.trip.id == trip_1.id
+
+      assert entry_2_2.time == time_2_2
       assert entry_2_2.trip.id == trip_2.id
-      assert entry_2_2.stop_id == stop_2.id
+    end
+  end
+
+  describe "first_unfinished_trip_index/2" do
+    test "returns 0 for empty schedule list" do
+      # Setup
+      today = Generators.Date.random_date()
+      timetable = Timetables.from_schedules([])
+
+      # Exercise
+      now =
+        Generators.DateTime.random_time_range_date_time({
+          ServiceDateTime.beginning_of_service_day(today),
+          ServiceDateTime.end_of_service_day(today)
+        })
+
+      index = Timetables.first_unfinished_trip_index(timetable, now)
+
+      # Verify
+      assert index == 0
+    end
+
+    test "returns 0 when now is before all trips" do
+      # Setup
+      stop = Factories.Stops.Stop.build(:stop)
+      [time_1, time_2] = generate_times(2)
+      [trip_1, trip_2] = generate_trips(2)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2,
+          stop: stop
+        )
+      ]
+
+      timetable = Timetables.from_schedules(schedules)
+
+      # Exercise
+      now = Generators.ServiceDateTime.earlier_on_day(time_1)
+      index = Timetables.first_unfinished_trip_index(timetable, now)
+
+      # Verify
+      assert index == 0
+    end
+
+    test "returns index of first trip with future stop when date_time is between trips" do
+      # Setup
+      stop = Factories.Stops.Stop.build(:stop)
+      [time_1, time_2, time_3] = generate_times(3)
+      [trip_1, trip_2, trip_3] = generate_trips(3)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_3,
+          departure_time: time_3,
+          stop: stop
+        )
+      ]
+
+      timetable = Timetables.from_schedules(schedules)
+
+      # Exercise / Verify
+      assert Timetables.first_unfinished_trip_index(
+               timetable,
+               Generators.DateTime.random_time_range_date_time({time_1, time_2})
+             ) == 1
+
+      assert Timetables.first_unfinished_trip_index(
+               timetable,
+               Generators.DateTime.random_time_range_date_time({time_2, time_3})
+             ) == 2
+    end
+
+    test "returns the last index when all trips are in the past" do
+      # Setup
+      stop = Factories.Stops.Stop.build(:stop)
+      [time_1, time_2, time_3] = generate_times(3)
+      [trip_1, trip_2, trip_3] = generate_trips(3)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2,
+          stop: stop
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_3,
+          departure_time: time_3,
+          stop: stop
+        )
+      ]
+
+      timetable = Timetables.from_schedules(schedules)
+
+      # Exercise
+      now = Generators.ServiceDateTime.later_on_day(time_3)
+
+      index = Timetables.first_unfinished_trip_index(timetable, now)
+
+      # Verify
+      assert index == 2
+    end
+
+    test "considers any stop in the future for a trip" do
+      # Setup - trip with multiple stops, only last one is in the future
+      stop_1 = Factories.Stops.Stop.build(:stop)
+      stop_2 = Factories.Stops.Stop.build(:stop)
+      stop_3 = Factories.Stops.Stop.build(:stop)
+
+      [time_1_1, time_1_2, time_1_3, time_2_1] = generate_times(4)
+      [trip_1, trip_2] = generate_trips(2)
+
+      schedules = [
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1_1,
+          stop: stop_1
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1_2,
+          stop: stop_2
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_1,
+          departure_time: time_1_3,
+          stop: stop_3
+        ),
+        Factories.Schedules.Schedule.build(:schedule,
+          trip: trip_2,
+          departure_time: time_2_1,
+          stop: stop_1
+        )
+      ]
+
+      timetable = Timetables.from_schedules(schedules)
+
+      # Exercise
+      now = Generators.DateTime.random_time_range_date_time({time_1_1, time_1_3})
+      index = Timetables.first_unfinished_trip_index(timetable, now)
+
+      # Verify - should return 0 because trip_1 has at least one future stop
+      assert index == 0
     end
   end
 
@@ -438,9 +566,5 @@ defmodule Dotcom.TimetablesTest do
       })
     end)
     |> Enum.sort(DateTime)
-  end
-
-  defp format!(time) do
-    Dotcom.Utils.Time.format!(time, :hour_12_minutes)
   end
 end

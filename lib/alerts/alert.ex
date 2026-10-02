@@ -44,6 +44,8 @@ defmodule Alerts.Alert do
 
   @lifecycles [:new, :ongoing, :ongoing_upcoming, :unknown, :upcoming]
 
+  @symphony_stop_id "place-symcl"
+
   defstruct id: "",
             active_period: [],
             banner: "",
@@ -178,6 +180,14 @@ defmodule Alerts.Alert do
     %__MODULE__{alert | priority: Priority.priority(alert)}
   end
 
+  def stale?(%__MODULE__{} = alert) do
+    affected_stop_ids = alert.informed_entity.stop
+    symphony? = affected_stop_ids |> Enum.member?(@symphony_stop_id)
+    closed? = alert.effect == :station_closure or alert.effect == :stop_closure
+
+    symphony? and closed?
+  end
+
   @spec build_struct(Keyword.t()) :: t()
   defp build_struct(keywords), do: struct!(__MODULE__, keywords)
 
@@ -309,14 +319,6 @@ defmodule Alerts.Alert do
 
   def image_alternative_text(_), do: nil
 
-  @spec high_severity_or_high_priority?(t) :: boolean()
-  def high_severity_or_high_priority?(%{priority: :high}), do: true
-
-  def high_severity_or_high_priority?(%{severity: severity}) when severity >= 7,
-    do: true
-
-  def high_severity_or_high_priority?(_), do: false
-
   @spec municipality(t) :: String.t() | nil
   def municipality(alert) do
     alert
@@ -335,14 +337,14 @@ defmodule Alerts.Alert do
   end
 end
 
-defimpl Poison.Encoder, for: Alerts.Alert do
+defimpl Jason.Encoder, for: Alerts.Alert do
   def encode(%Alerts.Alert{} = alert, options) do
-    alert =
-      Map.update!(alert, :active_period, fn active_period_pairs ->
-        Enum.map(active_period_pairs, &alert_active_period/1)
-      end)
-
-    Poison.Encoder.Map.encode(alert, options)
+    alert
+    |> Map.from_struct()
+    |> Map.update!(:active_period, fn active_period_pairs ->
+      Enum.map(active_period_pairs, &alert_active_period/1)
+    end)
+    |> Jason.Encode.map(options)
   end
 
   @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]

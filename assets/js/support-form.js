@@ -21,6 +21,11 @@ export default function($ = window.jQuery) {
         handleSubmitClick($, toUpload);
         handleModeChangeSelection($);
         handleSubjectChange($);
+        loadCache();
+        document.getElementById("support").addEventListener("change", saveCache)
+        document.getElementById("support").addEventListener("keypress", saveCache)
+        document.getElementById("support").addEventListener("submit", clearCache)
+
       });
     },
     { passive: true }
@@ -482,6 +487,12 @@ export function handleSubmitClick($, toUpload) {
         li.appendChild(text);
         return li;
       });
+      const recaptchaError = document.querySelectorAll(".has-danger > #g-recaptcha-response").length > 0
+      if(recaptchaError){
+        const li = document.createElement("li");
+        li.appendChild(document.createTextNode("Recaptcha"));
+        errors.push(li)
+      }
       if (errors.length) {
         errors.forEach(err => {
           errorList.appendChild(err);
@@ -495,6 +506,11 @@ export function handleSubmitClick($, toUpload) {
       errorIndicatorsToShow.forEach(elem => {
         elem.classList.remove("hidden");
       });
+
+      if(recaptchaError){
+        document.getElementById("recaptcha-error-indicator").classList.remove("hidden");
+      }
+      
       if (!document.getElementById("privacy").checked) {
         document
           .getElementById("privacy-error-indicator")
@@ -540,6 +556,7 @@ export function handleSubmitClick($, toUpload) {
         $(".support-confirmation--error").addClass("hidden-xs-up");
         reactivateSubmitButton($);
         $("#support").remove();
+        clearCache();
       },
       error: (xhr, errorString, errorObject) => {
         console.error(errorString);
@@ -564,4 +581,50 @@ export function handleSubjectChange($) {
   });
 
   subjectEl.change(); // initialize with right value
+}
+
+export const saveCache = ()=>{
+  const { elements } = document.getElementById("support")
+  const cacheString = JSON.stringify({time: Date.now(), data: Array.from(elements).map(elem => [elem.id, elem.checked || elem.value])})
+  localStorage.setItem("support-form-cache", cacheString)
+
+}
+
+const CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
+
+export const loadCache = ()=>{
+  const cacheString = localStorage.getItem("support-form-cache")
+
+  if(!cacheString || cacheString.length<10){return;}//No data, bail
+  try{
+
+    const cacheData = JSON.parse(cacheString)
+    if(!cacheData.data || 
+      !cacheData.time || 
+      isNaN(cacheData.time) || 
+      cacheData.time < Date.now()-CACHE_MAX_AGE
+    ){
+      return;
+    }//Data is invalid or too old, bail
+
+    cacheData.data.forEach(([id, value])=>{
+      const elem = document.getElementById(id);
+      if(id && elem){
+        if(elem.type == "file"){return;}
+        if(value===true){
+          elem.click();
+        }else{
+          elem.value = value;
+          elem.dispatchEvent(new Event("change"))
+        }
+      }
+    });
+
+  }catch(e){
+    console.log(`Error parsing saved form data: ${e.message}`)
+  }
+}
+
+export const clearCache = ()=>{
+  localStorage.setItem("support-form-cache","");
 }

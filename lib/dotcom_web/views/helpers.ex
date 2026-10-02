@@ -6,17 +6,12 @@ defmodule DotcomWeb.ViewHelpers do
   use Dotcom.Gettext.Sigils
 
   import Dotcom.ContentRewriters.LiquidObjects.Fare, only: [fare_object_request: 1]
-  import DotcomWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
+  import DotcomWeb.Router.Helpers, only: [redirect_path: 3]
   import Phoenix.HTML, only: [raw: 1]
-  import PhoenixHTMLHelpers.Link, only: [link: 2]
-  import PhoenixHTMLHelpers.Tag, only: [content_tag: 2, content_tag: 3, tag: 2]
+  import PhoenixHTMLHelpers.Tag, only: [content_tag: 2, content_tag: 3]
   import Plug.Conn
 
-  alias Phoenix.HTML.Safe
-  alias Plug.Conn
   alias Routes.Route
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @subway_lines [
     :red_line,
@@ -339,46 +334,6 @@ defmodule DotcomWeb.ViewHelpers do
   @spec format_full_date(Date.t()) :: String.t()
   def format_full_date(date), do: Dotcom.Utils.Time.format!(date, :date_full)
 
-  def hidden_query_params(conn, opts \\ []) do
-    exclude = Keyword.get(opts, :exclude, [])
-    include = Keyword.get(opts, :include, %{})
-
-    conn.query_params
-    |> Map.merge(include)
-    |> Enum.reject(fn {key, _} -> key in exclude end)
-    |> Enum.uniq_by(fn {key, _} -> to_string(key) end)
-    |> Enum.flat_map(&hidden_tag/1)
-  end
-
-  @doc "Specify the mode each type is associated with"
-  @spec fare_group(atom | integer) :: String.t()
-  def fare_group(type) when is_integer(type) and type in 0..4 do
-    type
-    |> Routes.Route.type_atom()
-    |> fare_group
-  end
-
-  def fare_group(:bus), do: "bus_subway"
-  def fare_group(:subway), do: "bus_subway"
-  def fare_group(type), do: Atom.to_string(type)
-
-  defp hidden_tag({key, value}) when is_list(value) do
-    Enum.flat_map(value, fn sub_value ->
-      hidden_tag({"#{key}[]", sub_value})
-    end)
-  end
-
-  defp hidden_tag({key, %{} = value}) do
-    # nested key
-    Enum.flat_map(value, fn {sub_key, sub_value} ->
-      hidden_tag({"#{key}[#{sub_key}]", sub_value})
-    end)
-  end
-
-  defp hidden_tag({key, value}) do
-    [tag(:input, type: "hidden", name: key, value: value)]
-  end
-
   @doc """
   Puts the conn into the assigns dictionary so that downstream templates can use it
   """
@@ -386,24 +341,6 @@ defmodule DotcomWeb.ViewHelpers do
     assigns
     |> Map.put(:conn, conn)
   end
-
-  @doc "Link a stop's name to its page."
-  @spec stop_link(Stops.Stop.t() | String.t()) :: Phoenix.HTML.Safe.t()
-  def stop_link(%Stops.Stop{} = stop) do
-    link(stop.name, to: stop_path(DotcomWeb.Endpoint, :show, stop.id))
-  end
-
-  def stop_link(stop_id) do
-    stop_id
-    |> @stops_repo.get_parent()
-    |> stop_link
-  end
-
-  @spec external_link(String.t()) :: String.t()
-  @doc "Adds protocol if one is needed"
-  def external_link(<<"http://", _::binary>> = href), do: href
-  def external_link(<<"https://", _::binary>> = href), do: href
-  def external_link(href), do: "http://" <> href
 
   @spec round_distance(float) :: String.t()
   def round_distance(nil), do: ""
@@ -557,20 +494,6 @@ defmodule DotcomWeb.ViewHelpers do
 
   def route_term(type) when type in [:bus, :ferry], do: ~t"route"
   def route_term(type) when type in [:subway, :commuter_rail], do: ~t"line"
-
-  @spec banner_message(Conn.t(), atom) :: Safe.t() | nil
-  def banner_message(conn, key) do
-    if Map.has_key?(conn.assigns, key) do
-      content_tag :div, class: "callout" do
-        [
-          content_tag(:p, conn.assigns[key].header, class: "font-bold"),
-          conn.assigns[key].body
-        ]
-      end
-    else
-      nil
-    end
-  end
 
   @doc """
   Intended for usage with static assets, as these are compatible with the

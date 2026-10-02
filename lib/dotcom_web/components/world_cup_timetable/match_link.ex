@@ -11,11 +11,13 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     :bolivia,
     :england,
     :france,
+    :germany,
     :ghana,
     :haiti,
     :iraq,
     :morocco,
     :norway,
+    :paraguay,
     :scotland,
     :suriname
   ]
@@ -24,6 +26,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
   attr :selected, :boolean, default: false
   attr :label, :string, required: true
   attr :teams, :any, required: true
+  attr :match_title, :string, default: nil
   attr :time, Time, required: true
 
   def match_link(assigns) do
@@ -33,6 +36,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
       patch={~p"/schedules/bostonstadium?#{[date: Date.to_string(@date)]}"}
     >
       <div class="font-bold">{@label} ({formatted_datetime(@date, @time)})</div>
+      <.match_title match_title={@match_title} teams={@teams} />
       <.teams selected={false} teams={@teams} />
     </.link>
     """
@@ -42,6 +46,7 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
     ~H"""
     <div class="w-full p-sm rounded-lg border-xs border-charcoal-70 no-underline bg-brand-primary text-white justify-between">
       <div class="font-bold">{@label} ({formatted_datetime(@date, @time)})</div>
+      <.match_title match_title={@match_title} teams={@teams} />
       <.teams selected teams={@teams} />
     </div>
     """
@@ -52,6 +57,10 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
       date: date |> Dotcom.Utils.Time.format!(:month_day_short),
       time: time |> Util.narrow_time()
     )
+  end
+
+  defp teams(%{teams: nil} = assigns) do
+    ~H""
   end
 
   defp teams(%{teams: [_team1, _team2]} = assigns) do
@@ -66,6 +75,14 @@ defmodule DotcomWeb.WorldCupTimetable.MatchLink do
   defp teams(assigns) do
     ~H"""
     <span class="text-lg font-bold">{@teams}</span>
+    """
+  end
+
+  defp match_title(assigns) do
+    ~H"""
+    <span class={[if(@teams == nil, do: "text-lg", else: "text-sm"), "font-bold"]}>
+      {@match_title}
+    </span>
     """
   end
 

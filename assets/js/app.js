@@ -3,10 +3,10 @@ import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/dropdown";
 import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
-import { Hooks } from "../../deps/mbta_metro/priv/dist/metro";
 import setupChannels from "../ts/app/channels";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
+import Map from './map.js';
 import { accordionInit } from "../ts/ui/accordion";
 import "../vendor/accessible-date-picker";
 import "../vendor/fixedsticky";
@@ -49,7 +49,7 @@ import storageOptions from "./storage.js";
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: { ...Hooks, ...DotcomHooks },
+  hooks: { ...DotcomHooks, Map },
   dom: {
     onBeforeElUpdated(from, to) {
       /*

@@ -1,7 +1,7 @@
 
 <!-- Not translating this file since we're going to replace it -->
 <script id="js-routes-by-mode" type="text/plain">
-  <%= raw Poison.encode!(@all_options_per_mode) %>
+  <%= raw Jason.encode!(@all_options_per_mode) %>
 </script>
 <% form_action = "#{customer_support_path(@conn, :submit)}#support-result" %>
 
@@ -33,7 +33,7 @@
     <div id="support-datepicker">
       <strong class="block mb-sm">Time/Date of incident</strong>
       <script id="form-data" type="text/plain">
-        <%= raw(Poison.encode!(@support_datetime_selector_fields)) %>
+        <%= raw(Jason.encode!(@support_datetime_selector_fields)) %>
       </script>
       <%= DateTimeSelector.custom_date_time_select(f) %>
     </div>
@@ -120,7 +120,7 @@
       <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
         <%= support_error_tag @errors, "email" %>
-        <%= text_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-input support-form-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
+        <%= email_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-input support-form-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
         <div class="error-indicator hidden">
           <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
         </div>
@@ -129,20 +129,6 @@
         <%= help_text "phone" %>
         <%= label f, :phone, "Phone number", [for: "phone", class: "form-control-label"] %>
         <%= telephone_input f, :phone, placeholder: placeholder_text("phone"), class: "support-form-input support-form-input--small form-control", "aria-describedby": "phoneHelp", autocomplete: "tel", id: "phone" %>
-      </div>
-      <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %> u-mb-0 u-mt-1">
-        <%= support_error_tag @errors, "privacy" %>
-        <%= DotcomWeb.PartialView.render("_checkbox.html", %{
-          form: f,
-          field: :privacy,
-          id: "privacy",
-          required: "required",
-          label_text: ["I have read and agree to the ", link("Privacy Policy", target: "_blank", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
-        })
-        %>
-        <div class="error-indicator hidden" id="privacy-error-indicator">
-          <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
-        </div>
       </div>
       <div class="form-group">
         <%= DotcomWeb.PartialView.render("_checkbox.html", %{
@@ -155,10 +141,24 @@
         %>
       </div>
     </div> <!-- End contact info section -->
+    <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %> u-mb-0 u-mt-1">
+      <%= support_error_tag @errors, "privacy" %>
+      <%= DotcomWeb.PartialView.render("_checkbox.html", %{
+        form: f,
+        field: :privacy,
+        id: "privacy",
+        required: "required",
+        label_text: ["I have read and agree to the ", link("Privacy Policy", target: "_blank", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
+      })
+      %>
+      <div class="error-indicator hidden" id="privacy-error-indicator">
+        <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
+      </div>
+    </div>
     <div class="form-group <%= class_for_error("recaptcha", @errors, "has-danger", "has-success") %>">
       <%= support_error_tag @errors, "recaptcha" %>
       <%= raw Recaptcha.Template.display(noscript: true) %>
-      <div class="error-indicator hidden">
+      <div class="error-indicator hidden" id="recaptcha-error-indicator">
         <span aria-hidden="true" class="fa fa-exclamation-circle error-icon"></span> Required
       </div>
       <button class="btn btn-primary submit-button" type="submit" id="support-submit">

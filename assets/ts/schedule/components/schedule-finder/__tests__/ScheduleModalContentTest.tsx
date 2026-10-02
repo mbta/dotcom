@@ -105,7 +105,6 @@ describe("ScheduleModalContent", () => {
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
-          handleOriginSelectClick={() => {}}
           route={busRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}
@@ -131,7 +130,6 @@ describe("ScheduleModalContent", () => {
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
-          handleOriginSelectClick={() => {}}
           route={subwayRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}
@@ -157,7 +155,6 @@ describe("ScheduleModalContent", () => {
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
-          handleOriginSelectClick={() => {}}
           route={busRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}
@@ -189,7 +186,6 @@ describe("ScheduleModalContent", () => {
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
-          handleOriginSelectClick={() => {}}
           route={busRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}
@@ -231,7 +227,6 @@ describe("ScheduleModalContent", () => {
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
-          handleOriginSelectClick={() => {}}
           route={ferryRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}
@@ -272,7 +267,6 @@ it.each`
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
-          handleOriginSelectClick={() => {}}
           route={busRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}

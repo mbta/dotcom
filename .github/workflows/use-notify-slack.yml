@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.job-status != 'cancelled'
     steps:
-    - uses: mbta/actions/notify-slack-deploy@v2
+    - uses: mbta/actions/notify-slack-deploy@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
       with:
         webhook-url: ${{ secrets.slack-webhook }}
         job-status: ${{ inputs.job-status }}

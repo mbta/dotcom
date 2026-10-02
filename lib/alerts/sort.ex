@@ -54,7 +54,7 @@ defmodule Alerts.Sort do
       lifecycle_index(alert.lifecycle),
       -alert.severity,
       -updated_at_date(alert.updated_at),
-      first_future_active_period_start(alert.active_period, now),
+      first_future_active_period_start(alert, now),
       alert.id
     }
   end
@@ -91,26 +91,10 @@ defmodule Alerts.Sort do
   defp priority(%{priority: :high}), do: 0
   defp priority(%{priority: :system}), do: 1
 
-  # atoms are greater than any integer
-  defp first_future_active_period_start([], _now), do: :infinity
-
-  defp first_future_active_period_start(periods, now) do
-    # first active period that's in the future
-    now_unix = DateTime.to_unix(now, :second)
-
-    future_periods =
-      for {start, _} <- periods,
-          start,
-          # wrap in a list to avoid an Erlang 19.3 issue
-          unix <- [DateTime.to_unix(start)],
-          unix > now_unix do
-        unix
-      end
-
-    if future_periods == [] do
-      :infinity
-    else
-      Enum.min(future_periods)
+  defp first_future_active_period_start(alert, now) do
+    case Dotcom.Alerts.StartTime.next_active_time(alert, now) do
+      {_, datetime} -> DateTime.to_unix(datetime)
+      :past -> :infinity
     end
   end
 end

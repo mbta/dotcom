@@ -2,7 +2,7 @@ defmodule DotcomWeb.ControllerHelpers do
   @moduledoc false
 
   import Plug.Conn, only: [halt: 1, put_resp_content_type: 2, put_status: 2]
-  import Phoenix.Controller, only: [render: 3, put_view: 2]
+  import Phoenix.Controller, only: [redirect: 2, render: 3, put_view: 2]
 
   alias Alerts.{Alert, InformedEntity, Match, Repo}
   alias DotcomWeb.CMSController
@@ -73,13 +73,6 @@ defmodule DotcomWeb.ControllerHelpers do
     |> filter_routes(filters)
   end
 
-  @spec get_grouped_route_ids([{atom, [Route.t()]}]) :: [String.t()]
-  def get_grouped_route_ids(grouped_routes) do
-    grouped_routes
-    |> Enum.flat_map(fn {_mode, routes} -> routes end)
-    |> Enum.map(& &1.id)
-  end
-
   @spec green_routes() :: [Route.t()]
   def green_routes, do: Enum.map(GreenLine.branch_ids(), &@routes_repo.get(&1))
 
@@ -114,7 +107,7 @@ defmodule DotcomWeb.ControllerHelpers do
   """
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
-    case CMS.Api.client() |> @req.get(url: url, cache: true) do
+    case CMS.Api.client() |> @req.get(url: url) do
       {:ok, %{status: 200, body: body, headers: headers}} when not is_nil(body) ->
         conn
         |> add_headers_if_valid(headers)
@@ -182,5 +175,21 @@ defmodule DotcomWeb.ControllerHelpers do
     one_year_after = posted_on |> Date.add(365)
 
     "#{Strftime.format!(one_year_after, "%d %b %Y")} 00:00:00 EST"
+  end
+
+  @doc "Redirects to existing path, removing the specified query parameter from the URL."
+  @spec redirect_sans_param(Conn.t(), binary()) :: Conn.t()
+  def redirect_sans_param(conn, param_to_remove) do
+    if Map.has_key?(conn.query_params, param_to_remove) do
+      updated_query_params = Map.delete(conn.query_params, param_to_remove)
+
+      conn
+      |> Map.put(:query_params, updated_query_params)
+      |> Map.update!(:params, &Map.delete(&1, param_to_remove))
+      |> then(&redirect(&1, to: UrlHelpers.update_url(&1, updated_query_params)))
+      |> halt()
+    else
+      conn
+    end
   end
 end

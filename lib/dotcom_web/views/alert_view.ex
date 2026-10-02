@@ -179,8 +179,8 @@ defmodule DotcomWeb.AlertView do
     # an initial header
     |> String.replace(~r/^(.*:)(\r\n|\r|\n)/, "<strong>\\1</strong>\n")
     # all other start with a line break
-    |> String.replace(~r/\n(.*:)(\r\n|\r|\n)/, "<br /><strong>\\1</strong>\n")
-    |> String.replace(~r/\s*\n/s, "<br />")
+    |> String.replace(~r/\n(.*:)(\r\n|\r|\n)/, " <br /><strong>\\1</strong>\n")
+    |> String.replace(~r/\s*\n/s, " <br />")
     |> replace_urls_with_links
   end
 
@@ -195,7 +195,7 @@ defmodule DotcomWeb.AlertView do
   end
 
   def group_header_path(%Stop{id: stop_id}) do
-    stop_path(DotcomWeb.Endpoint, :show, stop_id)
+    live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, stop_id)
   end
 
   @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()
@@ -204,10 +204,6 @@ defmodule DotcomWeb.AlertView do
       content_tag(:span, name, class: "text-xl pr-sm"),
       content_tag(:span, long_name, class: "text-lg")
     ]
-  end
-
-  def group_header_name(%Route{id: "CR-Foxboro"}) do
-    ["Boston Stadium Trains"]
   end
 
   def group_header_name(%Route{name: name}) do

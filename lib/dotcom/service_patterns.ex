@@ -29,8 +29,8 @@ defmodule Dotcom.ServicePatterns do
     |> Enum.any?(&Service.serves_date?(&1, date))
   end
 
-  @spec services_for_route(Routes.Route.id_t()) :: [Service.t()]
-  def services_for_route(route_id) do
+  @spec services_for_route(Routes.Route.id_t(), Date.t()) :: [Service.t()]
+  def services_for_route(route_id, current_date \\ ServiceDateTime.service_date()) do
     route_id
     |> @services_repo.by_route_id()
     |> Stream.reject(&(&1.typicality == :canonical))
@@ -38,7 +38,7 @@ defmodule Dotcom.ServicePatterns do
     |> Stream.map(&add_single_date_description/1)
     |> Stream.map(&{Service.all_valid_dates_for_service(&1), &1})
     |> Stream.map(&adjust_planned_description/1)
-    |> dedup_identical_services()
+    |> dedup_identical_services(current_date)
     |> dedup_similar_services()
   end
 
@@ -54,17 +54,15 @@ defmodule Dotcom.ServicePatterns do
           service_label: typical_label() | atypical_label()
         }
 
-  @spec patterns_for_route(Routes.Route.id_t()) :: [service_pattern()]
-  def patterns_for_route(route_id) do
+  @spec patterns_for_route(Routes.Route.id_t(), Date.t()) :: [service_pattern()]
+  def patterns_for_route(route_id, current_date \\ ServiceDateTime.service_date()) do
     route_id
-    |> services_for_route()
+    |> services_for_route(current_date)
     |> to_service_pattern()
   end
 
-  defp unwrap_multiple_holidays(
-         %{typicality: :holiday_service, added_dates: added_dates} = service
-       )
-       when length(added_dates) > 1 do
+  defp unwrap_multiple_holidays(%{typicality: typicality, added_dates: added_dates} = service)
+       when typicality in [:extra_service, :holiday_service] and length(added_dates) > 1 do
     for added_date <- added_dates do
       %{
         service
@@ -76,25 +74,29 @@ defmodule Dotcom.ServicePatterns do
 
   defp unwrap_multiple_holidays(service), do: [service]
 
-  defp add_single_date_description(
-         %{
-           added_dates: [single_date],
-           added_dates_notes: added_dates_notes,
-           typicality: typicality
-         } = service
-       )
+  defp add_single_date_description(%{typicality: typicality} = service)
        when typicality in [:extra_service, :holiday_service] do
-    date_note = Map.get(added_dates_notes, single_date) || service.description
+    case Service.all_valid_dates_for_service(service) do
+      [single_date] ->
+        date_string = Date.to_string(single_date)
 
-    formatted_date =
-      single_date
-      |> Date.from_iso8601!()
-      |> format_tiny_date()
+        date_note =
+          Map.get(service.added_dates_notes, date_string) || service.description
 
-    %{
-      service
-      | description: "#{date_note}, #{formatted_date}"
-    }
+        formatted_date = format_tiny_date(single_date)
+
+        # In the case of :extra_service, a single valid date may not be present
+        # in added_dates, so we add it here to aid in preventing deduplication
+        %{
+          service
+          | description: "#{date_note}, #{formatted_date}",
+            added_dates: [date_string],
+            added_dates_notes: Map.new([{date_string, date_note}])
+        }
+
+      _ ->
+        service
+    end
   end
 
   defp add_single_date_description(service), do: service
@@ -117,13 +119,13 @@ defmodule Dotcom.ServicePatterns do
 
   defp adjust_planned_description(other), do: other
 
-  defp dedup_identical_services(dated_services) do
+  defp dedup_identical_services(dated_services, current_date) do
     {_unique_dates, unique_services} =
       dated_services
       |> Enum.reject(fn {dates, _} ->
         dates
         |> List.last()
-        |> Date.before?(ServiceDateTime.service_date())
+        |> Date.before?(current_date)
       end)
       |> Enum.uniq_by(fn {dates, _} -> dates end)
       |> Enum.unzip()
@@ -168,6 +170,7 @@ defmodule Dotcom.ServicePatterns do
     end
   end
 
+  defp service_completely_overlapped?(%{typicality: :extra_service}, _), do: false
   defp service_completely_overlapped?(%{typicality: :holiday_service}, _), do: false
 
   defp service_completely_overlapped?(service, services) do
@@ -281,6 +284,7 @@ defmodule Dotcom.ServicePatterns do
          service: %Service{typicality: :typical_service} = service
        }) do
     typical_groups = [
+      {:no_school, nil, fn s -> s.description =~ "(no school)" end},
       {:monday_thursday, ~t"Monday - Thursday schedules",
        fn s ->
          s.type == :weekday &&
@@ -297,8 +301,14 @@ defmodule Dotcom.ServicePatterns do
     ]
 
     case Enum.find(typical_groups, fn {_, _, func} -> func.(service) end) do
-      {key, label, _} -> {:typical, key, label}
-      _ -> {service.typicality, List.first(dates), service.description}
+      {:no_school, _, _} ->
+        {service.typicality, List.first(dates), service.description}
+
+      {key, label, _} ->
+        {:typical, key, label}
+
+      _ ->
+        {service.typicality, List.first(dates), service.description}
     end
   end
 

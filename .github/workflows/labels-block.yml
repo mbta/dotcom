@@ -1,0 +1,43 @@
+# To be added as a required check in the branch protection rules
+name: Block Merge on Label
+
+on:
+  pull_request:
+    types: [opened, edited, labeled, unlabeled, synchronize]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  check-label:
+    name: "Check for Block Labels"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for blocking labels
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number,
+            });
+            const blockingLabels = [
+              "do not merge",
+              "on hold",
+              "WIP",
+              "Not Ready for Translation",
+            ];
+            const presentLabels = pullRequest.labels.map((label) => label.name);
+            const blockingLabel = blockingLabels.find((label) =>
+              presentLabels.includes(label)
+            );
+
+            if (blockingLabel) {
+              core.setFailed(
+                `This PR contains the blocking label "${blockingLabel}". Remove it to allow merging.`
+              );
+            }

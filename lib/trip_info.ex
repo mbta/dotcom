@@ -15,8 +15,6 @@ defmodule TripInfo do
   * base_fare: The minimum, non-discounted, one-way fare for the trip
   """
 
-  require Routes.Route
-
   alias Fares.OneWay
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]

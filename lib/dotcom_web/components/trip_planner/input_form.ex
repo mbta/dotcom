@@ -10,7 +10,8 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
   alias Dotcom.TripPlan.{InputForm, InputForm.Modes}
   alias Dotcom.Utils.ServiceDateTime
-  alias MbtaMetro.Live.DatePicker
+  alias DotcomWeb.Components.DatePicker
+  import DotcomWeb.Components.TimePicker, only: [timepicker: 1]
 
   @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
   @timezone Application.compile_env!(:dotcom, :timezone)
@@ -81,6 +82,13 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
             field={f[:datetime]}
             label={nil}
             id="date-picker"
+          />
+          <.timepicker
+            :if={show_datepicker?(f)}
+            module={TimePicker}
+            form={f}
+            errors={f[:datetime].errors}
+            id="time-picker"
           />
         </div>
         <div class="col-start-3">
@@ -179,7 +187,7 @@ defmodule DotcomWeb.Components.TripPlanner.InputForm do
 
     %{
       default_date: ServiceDateTime.beginning_of_service_day(),
-      enable_time: true,
+      enable_time: false,
       max_date: end_of_rating_day,
       min_date: ServiceDateTime.beginning_of_service_day()
     }

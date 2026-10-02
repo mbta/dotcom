@@ -1,5 +1,3 @@
-/* eslint no-unused-vars: ["error", { "args": "none" }] */
-
 import flatpickr from "flatpickr";
 import { addMinutes, format, getMinutes } from "date-fns";
 

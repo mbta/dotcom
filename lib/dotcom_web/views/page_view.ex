@@ -7,78 +7,41 @@ defmodule DotcomWeb.PageView do
   import DotcomWeb.CMSHelpers
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [homepage_subway_status: 1]
 
+  use Nebulex.Caching.Decorators
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(1)
+
   alias CMS.Page.NewsEntry
   alias CMS.Partial.Banner
   alias DotcomWeb.PartialView
 
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
-  def get_route(id) do
-    case DotcomWeb.ScheduleController.Line.Helpers.get_route(id) do
-      {:ok, route} -> route
-      _ -> nil
-    end
-  end
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: :timer.minutes(1)],
+              key: {"homepage|alerts-tab", locale}
+            )
+  @spec alerts(%{alerts: [Alerts.Alert.t()], locale: String.t()}) :: Phoenix.HTML.Safe.t()
+  def alerts(%{alerts: alerts, locale: locale}) do
+    _ = locale
 
-  @spec sort_routes({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) ::
-          {Routes.Route.gtfs_route_type(), [Routes.Route.t()]}
-  defp sort_routes({mode, routes}) do
-    {mode, Enum.sort_by(routes, & &1.sort_order)}
-  end
-
-  @spec get_mode_order({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) :: integer()
-  defp get_mode_order({:subway, _}), do: 0
-  defp get_mode_order({:bus, _}), do: 1
-  defp get_mode_order({:commuter_rail, _}), do: 2
-  defp get_mode_order({:ferry, _}), do: 3
-
-  @spec get_access_issue_order({Alerts.Accessibility.effect_type(), [Stops.Stop.t()]}) ::
-          integer()
-  defp get_access_issue_order({:elevator_closure, _}), do: 0
-  defp get_access_issue_order({:escalator_closure, _}), do: 1
-  defp get_access_issue_order({:access_issue, _}), do: 2
-
-  @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
-  def alerts(alerts) do
-    routes_with_high_priority_alerts_by_mode =
-      alerts
-      |> Enum.filter(&(Alerts.Priority.priority(&1) == :high))
-      |> Enum.reduce(MapSet.new(), fn alert, routes ->
-        MapSet.union(routes, Alerts.Alert.get_entity(alert, :route))
+    [routes, stops] =
+      [
+        &Dotcom.Alerts.routes_with_high_priority_alerts_by_mode/1,
+        &Dotcom.Alerts.stops_with_access_alerts_by_effect/1
+      ]
+      |> Task.async_stream(& &1.(alerts), timeout: 10_000, on_timeout: :kill_task)
+      |> Enum.map(fn
+        {:ok, result} -> result
+        _ -> []
       end)
-      |> Enum.filter(& &1)
-      |> Enum.map(&get_route/1)
-      |> Enum.filter(& &1)
-      |> Enum.group_by(&Routes.Route.type_atom(&1.type))
-      |> (&Map.merge(%{bus: [], subway: [], ferry: [], commuter_rail: []}, &1)).()
-      |> Enum.map(&sort_routes/1)
-      |> Enum.sort_by(&get_mode_order/1)
 
-    stops_with_accessibility_alerts_by_issue =
-      alerts
-      |> Enum.filter(&Alerts.Accessibility.accessibility?/1)
-      |> Enum.reduce(
-        Map.new(Alerts.Accessibility.effect_types(), fn t -> {t, MapSet.new()} end),
-        fn alert, types ->
-          stops = Alerts.Alert.get_entity(alert, :stop)
-          type = alert.effect
-
-          Map.put(types, type, MapSet.union(Map.get(types, type), stops))
-        end
-      )
-      |> Enum.map(fn {type, stops} ->
-        {type,
-         Enum.map(stops, &@stops_repo.get_parent/1)
-         |> Enum.filter(& &1)
-         |> Enum.uniq_by(& &1.id)
-         |> Enum.sort_by(& &1.name)}
-      end)
-      |> Enum.sort_by(&get_access_issue_order/1)
-
-    render("_alerts.html",
-      routes_with_high_priority_alerts_by_mode: routes_with_high_priority_alerts_by_mode,
-      stops_with_accessibility_alerts_by_issue: stops_with_accessibility_alerts_by_issue
+    __MODULE__
+    |> render_to_string("_alerts.html",
+      routes_with_high_priority_alerts_by_mode: routes,
+      stops_with_accessibility_alerts_by_issue: stops
     )
+    |> Phoenix.HTML.raw()
   end
 
   @spec alerts_mode_url(Routes.Route.gtfs_route_type()) :: String.t()
@@ -136,16 +99,14 @@ defmodule DotcomWeb.PageView do
 
   @spec alerts_stop_url(Stops.Stop.t()) :: String.t()
   defp alerts_stop_url(stop) do
-    DotcomWeb.Router.Helpers.stop_url(
-      DotcomWeb.Endpoint,
-      :show,
-      stop.id
-    )
+    live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, stop.id)
   end
 
-  def shortcut_icons do
-    [:commuter_rail, :subway, :bus, :ferry, :the_ride]
-    |> Enum.map(&shortcut_icon/1)
+  def shortcut_icons(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :shortcut_icons, locale}, fn ->
+      [:commuter_rail, :subway, :bus, :ferry, :the_ride]
+      |> Enum.map(&shortcut_icon/1)
+    end)
   end
 
   @spec shortcut_icon(atom) :: Phoenix.HTML.Safe.t()
@@ -162,15 +123,10 @@ defmodule DotcomWeb.PageView do
   end
 
   @spec shortcut_link(atom) :: String.t()
-  defp shortcut_link(:stations), do: stop_path(DotcomWeb.Endpoint, :index)
-
-  defp shortcut_link(:the_ride),
-    do: cms_static_page_path(DotcomWeb.Endpoint, "/accessibility/the-ride")
-
-  defp shortcut_link(:commuter_rail),
-    do: schedule_path(DotcomWeb.Endpoint, :show, :"commuter-rail")
-
-  defp shortcut_link(mode), do: schedule_path(DotcomWeb.Endpoint, :show, mode)
+  defp shortcut_link(:stations), do: "/stops"
+  defp shortcut_link(:the_ride), do: "/accessibility/the-ride"
+  defp shortcut_link(:commuter_rail), do: "/schedules/commuter-rail"
+  defp shortcut_link(mode), do: "/schedules/#{mode}"
 
   @spec shortcut_text(atom) :: [Phoenix.HTML.Safe.t()]
   defp shortcut_text(:stations) do
@@ -211,6 +167,13 @@ defmodule DotcomWeb.PageView do
     content_tag(:span, "|", aria_hidden: "true", class: "schedule-separator")
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: @ttl],
+              # Even though the text isn't translated, the dates are so locale is part of the key
+              key: {"homepage|news-entries", conn.assigns.locale}
+            )
   @spec render_news_entries(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def render_news_entries(conn) do
     content_tag(
@@ -264,5 +227,45 @@ defmodule DotcomWeb.PageView do
 
   defp banner_cta(%Banner{}) do
     ""
+  end
+
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :raise,
+              opts: [ttl: @ttl],
+              key: {"homepage|upcoming-events", conn.assigns.locale}
+            )
+  def render_upcoming_events(conn, event_teasers) do
+    event_teasers
+    |> Enum.map(fn event_teaser ->
+      render_to_string(DotcomWeb.EventView, "_event_teaser.html",
+        event_teaser: event_teaser,
+        check_event_ended: true,
+        conn: conn,
+        month_number: event_teaser.date.month,
+        year: event_teaser.date.year
+      )
+    end)
+    |> Phoenix.HTML.raw()
+  end
+
+  def important_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :important_links, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_important_links.html", %{})}
+    end)
+  end
+
+  def top_links(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :top_links, locale}, fn ->
+      {:safe,
+       ["_find_a_location.html", "_fares_passes.html", "_contact_us.html"]
+       |> Enum.map(&Phoenix.View.render_to_iodata(DotcomWeb.PageView, &1, %{}))}
+    end)
+  end
+
+  def tab_list(locale) do
+    Util.get_or_save_persistent_term({__MODULE__, :tab_list, locale}, fn ->
+      {:safe, Phoenix.View.render_to_iodata(DotcomWeb.PageView, "_tab_list.html", %{})}
+    end)
   end
 end

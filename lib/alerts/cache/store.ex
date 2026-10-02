@@ -17,6 +17,8 @@ defmodule Alerts.Cache.Store do
   occur via client functions that query the ETS tables directly.
   """
 
+  alias Alerts.{Alert, Priority}
+
   use GenServer
 
   @pubsub_topic "alerts"
@@ -80,6 +82,19 @@ defmodule Alerts.Cache.Store do
   def alert_ids_for_stop_id(stop_id) do
     keys = [{{stop_id, :"$1"}, [], [:"$1"]}]
     :ets.select(:stop_id_to_alert_ids, keys)
+  end
+
+  @doc """
+  Retrieves all the alerts of a given priority for the given list of alert ids.
+  """
+  @spec priority_alerts_from_alert_ids([Alert.id_t()], Priority.priority_level()) :: [Alert.t()]
+  def priority_alerts_from_alert_ids(alert_ids, priority) do
+    selectors =
+      for key <- alert_ids do
+        {{key, :"$1"}, [{:==, {:map_get, :priority, :"$1"}, priority}], [:"$1"]}
+      end
+
+    :ets.select(:alert_id_to_alert, selectors)
   end
 
   @doc """
@@ -149,7 +164,7 @@ defmodule Alerts.Cache.Store do
     # no cover
     _ = :ets.new(:alert_banner, [:set, :protected, :named_table, read_concurrency: true])
 
-    {:ok, []}
+    {:ok, [], :hibernate}
   end
 
   @impl true

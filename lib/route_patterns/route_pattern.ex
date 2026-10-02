@@ -24,6 +24,7 @@ defmodule RoutePatterns.RoutePattern do
   alias Schedules.Trip
   alias Stops.Stop
 
+  @derive Jason.Encoder
   defstruct [
     :direction_id,
     :headsign,

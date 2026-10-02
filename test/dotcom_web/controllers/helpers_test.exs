@@ -154,26 +154,6 @@ defmodule DotcomWeb.ControllerHelpersTest do
     end
   end
 
-  describe "get_grouped_route_ids/1" do
-    @grouped_routes [
-      subway: [
-        %Routes.Route{id: "sub1", type: 0},
-        %Routes.Route{id: "sub2", type: 1}
-      ],
-      bus: [
-        %Routes.Route{id: "bus1", type: 3}
-      ],
-      commuter_rail: [
-        %Routes.Route{id: "comm1", type: 2},
-        %Routes.Route{id: "comm2", type: 2}
-      ]
-    ]
-
-    test "returns list of ids from the given grouped routes" do
-      assert get_grouped_route_ids(@grouped_routes) == ["sub1", "sub2", "bus1", "comm1", "comm2"]
-    end
-  end
-
   describe "assign_alerts/2" do
     @worcester %Alerts.InformedEntity{route: "CR-Worcester", route_type: 2}
     @worcester_inbound %Alerts.InformedEntity{route: "CR-Worcester", direction_id: 1}
@@ -411,5 +391,23 @@ defmodule DotcomWeb.ControllerHelpersTest do
   @tag :external
   test "green_routes/0" do
     assert Enum.map(green_routes(), & &1.id) == ["Green-B", "Green-C", "Green-D", "Green-E"]
+  end
+
+  describe "redirect_sans_param/2" do
+    test "removes the specified param from the query string and redirects", %{conn: conn} do
+      param_name = Faker.Internet.slug()
+      conn = %{conn | query_params: %{param_name => Faker.Pokemon.name()}}
+      assert conn.query_params |> Map.has_key?(param_name)
+      redirected_conn = redirect_sans_param(conn, param_name)
+      assert redirected_conn.status == 302
+      refute redirected_conn.query_params |> Map.has_key?(param_name)
+    end
+
+    test "does not redirect if the param is not present in the query string", %{conn: conn} do
+      param_name = Faker.Internet.slug()
+      refute conn.query_params |> Map.has_key?(param_name)
+      not_redirected_conn = redirect_sans_param(conn, param_name)
+      refute not_redirected_conn.status == 302
+    end
   end
 end

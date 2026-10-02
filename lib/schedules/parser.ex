@@ -4,7 +4,7 @@ defmodule Schedules.Parser do
   alias Routes.Route
   alias Stops.Stop
 
-  @type record :: {
+  @type parsed_record :: {
           route_id :: Route.id_t(),
           trip_id :: String.t(),
           stop_id :: Stop.id_t(),
@@ -22,7 +22,7 @@ defmodule Schedules.Parser do
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
 
-  @spec parse(Item.t()) :: record
+  @spec parse(Item.t()) :: parsed_record
   def parse(item) do
     arrival = arrival_time(item)
     departure = departure_time(item)
@@ -56,42 +56,28 @@ defmodule Schedules.Parser do
   def trip(%JsonApi.Item{
         relationships: %{
           "trip" => [
-            %JsonApi.Item{
-              id: id,
-              attributes:
-                %{"name" => name, "headsign" => headsign, "direction_id" => direction_id} =
-                  attributes,
-              relationships: relationships
-            }
+            %JsonApi.Item{} = trip
             | _
           ]
         }
       }) do
-    %Schedules.Trip{
-      id: id,
-      headsign: headsign,
-      name: name,
-      direction_id: direction_id,
-      bikes_allowed?: bikes_allowed?(attributes),
-      route_pattern_id: route_pattern_id(relationships),
-      shape_id: shape_id(relationships),
-      occupancy: occupancy(relationships)
-    }
+    trip(trip)
   end
 
-  def trip(%JsonApi{
-        data: [
-          %JsonApi.Item{
-            id: id,
-            attributes:
-              %{
-                "headsign" => headsign,
-                "name" => name,
-                "direction_id" => direction_id
-              } = attributes,
-            relationships: relationships
-          }
-        ]
+  def trip(%JsonApi{data: [%JsonApi.Item{type: "trip"} = trip]}) do
+    trip(trip)
+  end
+
+  def trip(%JsonApi.Item{
+        type: "trip",
+        id: id,
+        attributes:
+          %{
+            "headsign" => headsign,
+            "name" => name,
+            "direction_id" => direction_id
+          } = attributes,
+        relationships: relationships
       }) do
     %Schedules.Trip{
       id: id,
@@ -101,15 +87,12 @@ defmodule Schedules.Parser do
       shape_id: shape_id(relationships),
       route_pattern_id: route_pattern_id(relationships),
       bikes_allowed?: bikes_allowed?(attributes),
-      occupancy: occupancy(relationships)
+      occupancy: occupancy(relationships),
+      next_trip_id: next_trip_id(relationships)
     }
   end
 
-  def trip(%JsonApi.Item{relationships: %{"trip" => _}}) do
-    nil
-  end
-
-  def trip(%JsonApi{data: []}), do: nil
+  def trip(_), do: nil
 
   def stop_id(%JsonApi.Item{
         relationships: %{
@@ -210,4 +193,18 @@ defmodule Schedules.Parser do
   end
 
   defp occupancy(_), do: nil
+
+  # 4 is in-seat transfer
+  defp next_trip_id(%{
+         "from_trip_transfers" => [
+           %JsonApi.Item{
+             attributes: %{"transfer_type" => 4},
+             relationships: %{"to_trip" => [%{id: to_trip_id}]}
+           }
+         ]
+       }) do
+    to_trip_id
+  end
+
+  defp next_trip_id(_), do: nil
 end

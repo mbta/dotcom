@@ -3,7 +3,7 @@ defmodule Alerts.Repo.Behaviour do
   Behaviour for the Alerts repo.
   """
 
-  alias Alerts.{Alert, Banner}
+  alias Alerts.{Alert, Banner, Priority}
 
   @doc """
   Return all alerts applicable to the given datetime.
@@ -41,4 +41,11 @@ defmodule Alerts.Repo.Behaviour do
   Sort them so that earlier alerts are displayed first.
   """
   @callback planned_service_impacts_by_routes([String.t()], DateTime.t()) :: [Alert.t()]
+
+  @doc """
+  Return all alerts for the given route id and given priority level.
+  """
+  @callback by_route_id_and_priority(Routes.Route.id_t(), Priority.priority_level()) :: [
+              Alert.t()
+            ]
 end

@@ -13,9 +13,7 @@
         <div class="m-mode__recently-visited">
           {render(DotcomWeb.PartialView, "_recently_visited.html",
             conn: @conn,
-            routes: @recently_visited,
-            alerts: @alerts,
-            date_time: @date_time
+            routes: @recently_visited
           )}
         </div>
         <h2>{~t(Schedules)}</h2>
