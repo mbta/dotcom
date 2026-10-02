@@ -138,7 +138,7 @@ defmodule Dotcom.Mixfile do
       {:httpoison, "3.0.0"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
       {:jason, "1.4.5", override: true},
-      {:lazy_html, "0.1.12", only: [:test]},
+      {:lazy_html, "0.1.13", only: [:test]},
       {:live_isolated_component, "0.11.0", only: [:test]},
       {:logster, "~> 2.0.0-rc.5"},
       # reverted from 0.4
