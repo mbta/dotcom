@@ -124,13 +124,13 @@ defmodule DotcomWeb.Components.Map do
   defp concat_classes(classes) when is_binary(classes), do: " #{classes}"
   defp concat_classes(classes) when is_list(classes), do: " #{Enum.join(classes, " ")}"
 
-  defp render_popup_heex(nil), do: nil
-
-  defp render_popup_heex(heex) do
+  defp render_popup_heex(%Phoenix.LiveView.Rendered{} = heex) do
     heex
     |> Phoenix.HTML.Safe.to_iodata()
     |> IO.iodata_to_binary()
   end
+
+  defp render_popup_heex(html), do: html
 
   @doc """
   The map has to be loaded before we can draw anything on it.
