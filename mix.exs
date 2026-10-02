@@ -1,4 +1,4 @@
-defmodule DotCom.Mixfile do
+defmodule Dotcom.Mixfile do
   @moduledoc false
   use Mix.Project
 
