@@ -110,7 +110,7 @@ defmodule DotcomWeb.Components.Map do
             data-coordinates={Jason.encode!(icon.coordinates)}
             data-popup={
               icon
-              |> Map.get(:popup, nil)
+              |> Map.get(:popup)
               |> render_popup()
             }
           />
