@@ -16,7 +16,7 @@ defmodule DotcomWeb.PreviewLive do
       icon_type: "solid",
       module: DailySchedulesLive,
       title: "Daily Schedules Experiment"
-    },
+    }
   ]
 
   @impl LiveView
