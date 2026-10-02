@@ -58,8 +58,6 @@ config :dotcom, :search_service, Dotcom.SearchService
 
 config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures
 
-config :dotcom, :version, System.get_env("SENTRY_RELEASE", "missing-version")
-
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
