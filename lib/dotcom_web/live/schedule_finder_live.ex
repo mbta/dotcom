@@ -87,6 +87,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           end)
           |> assign_alerts()
           |> assign_departures()
+          |> assign_duplex_stop?()
         }
 
       _ ->
@@ -104,7 +105,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   @impl LiveView
   def render(assigns) do
     ~H"""
-    <.route_banner route={@route} direction_id={@direction_id} />
+    <.route_banner route={@route} direction_id={@direction_id} duplex_stop={@duplex_stop} />
     <.stop_banner stop={@stop} />
     <div
       class="container"
@@ -188,6 +189,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  def handle_params(params, _uri, socket) do
+    case validate_params(params) do
+      {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
+        {:noreply,
+         socket
+         |> assign(:route, route)
+         |> assign(:stop, stop)
+         |> assign(:direction_id, direction_id)}
+
+      _ ->
+        {:noreply, socket}
+    end
+  end
+
   @impl LiveView
   def handle_event(
         "open_trip",
@@ -220,6 +235,21 @@ defmodule DotcomWeb.ScheduleFinderLive do
      socket
      |> assign_service(selected_service_key)
      |> assign_departures()}
+  end
+
+  def handle_event(
+        "toggle_direction",
+        _,
+        %{assigns: %{route: route, stop: stop, direction_id: direction_id}} = socket
+      ) do
+    new_dir = 1 - direction_id
+
+    {:noreply,
+     socket
+     |> assign(:direction_id, new_dir)
+     |> push_patch(
+       to: "/departures/?route_id=#{route.id}&stop_id=#{stop.id}&direction_id=#{new_dir}"
+     )}
   end
 
   def handle_event(_, _, socket), do: {:noreply, socket}
@@ -358,6 +388,19 @@ defmodule DotcomWeb.ScheduleFinderLive do
     @schedule_finder.subway_groups(departures, direction_id, stop_id)
   end
 
+  defp assign_duplex_stop?(
+         %{assigns: %{route: route, stop: stop, direction_id: direction_id}} = socket
+       ) do
+    route_stops = Stops.Repo.by_route(route.id, 1 - direction_id)
+
+    # Check if this stop is also served in the other direction, if so it's a duplex stop
+    duplex_stop = stop in route_stops
+    # Check if this stop is at the end of the line (terminal), if so treat it as a one-way stop
+    terminal_stop = stop == List.first(route_stops) || stop == List.last(route_stops)
+
+    socket |> assign(:duplex_stop, duplex_stop && !terminal_stop)
+  end
+
   # Schedule Finder components =================================================
 
   attr :alerts, :list, required: true
@@ -374,6 +417,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   attr :route, Route, required: true
   attr :direction_id, :string, required: true
+  attr :duplex_stop, :boolean, default: false
 
   def route_banner(assigns) do
     mode = assigns.route |> Route.type_atom() |> atom_to_class()
@@ -387,12 +431,12 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
     ~H"""
     <div data-test={"route_banner:#{@route.id}"} class={route_to_background_class(@route)}>
-      <.link
-        class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
-        patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
-      >
-        <div class="font-heading p-md">
-          <div class="max-w-xl mx-auto flex flex-col gap-sm">
+      <div class="font-heading p-md">
+        <div class="max-w-xl mx-auto flex flex-col gap-sm">
+          <.link
+            class="block text-current hover:text-current focus:text-current hover:no-underline active:no-underline focus:no-underline"
+            patch={~p"/schedules/#{@route.id}?schedule_direction[direction_id]=#{@direction_id}"}
+          >
             <div class="flex items-center gap-xs font-bold">
               <SystemIcons.mode_icon
                 aria-hidden
@@ -407,7 +451,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 class="size-4 fill-current justify-self-end"
               />
             </div>
-            <div class="flex items-center gap-xs">
+            <div :if={!@duplex_stop} class="flex items-center gap-xs">
               <.icon name="arrow-right" aria-hidden class="size-4 mr-xs fill-current" />
               <span>
                 {@route.direction_names[@direction_id]}
@@ -417,9 +461,26 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 <% end %>
               </span>
             </div>
+          </.link>
+          <div
+            :if={@duplex_stop}
+            phx-click="toggle_direction"
+            style="background-color:rgb(0,0,0,0.4)"
+            class="rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row z-10"
+          >
+            <div
+              :for={{index, direction_name} <- @route.direction_names}
+              class={"w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)}"}
+            >
+              {direction_name}
+              <%= if @route.id != "Green" do %>
+                {~t"towards"}
+                <div class="font-bold">{@route.direction_destinations[index]}</div>
+              <% end %>
+            </div>
           </div>
         </div>
-      </.link>
+      </div>
     </div>
     """
   end
