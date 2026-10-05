@@ -171,8 +171,6 @@ defmodule DotcomWeb.LineDiagramLive do
       |> assign(:route, route)
       |> assign(:vehicle_info, vehicle_info)
       |> DotcomWeb.Live.UpcomingDeparturesLive.vehicle_label()
-      |> Phoenix.HTML.Safe.to_iodata()
-      |> IO.iodata_to_binary()
 
     %{
       coordinates: [vehicle.longitude, vehicle.latitude],
