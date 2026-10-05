@@ -500,7 +500,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   attr :vehicle_info, Dotcom.ScheduleFinder.TripDetails.VehicleInfo, required: true
   attr :route, Routes.Route, required: true
 
-  defp vehicle_label(assigns) do
+  def vehicle_label(assigns) do
     ~H"""
     <div class="font-normal text-charcoal-30 text-sm">
       <span :if={@vehicle_info.status != :in_transit} class="sr-only">

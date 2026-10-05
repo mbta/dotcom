@@ -253,6 +253,27 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
     }
   end
 
+  defp vehicle_info(
+         %Vehicle{
+           crowding: crowding,
+           status: status,
+           stop_id: stop_id,
+           stop_sequence: stop_sequence,
+           trip_id: vehicle_trip_id
+         },
+         _
+       ) do
+    stop = @stops_repo.get(stop_id)
+
+    %VehicleInfo{
+      crowding: crowding,
+      status: status,
+      stop_id: stop.parent_id || stop.id,
+      stop_name: stop.name,
+      stop_sequence: stop_sequence
+    }
+  end
+
   defp vehicle_info(_, _),
     do: %VehicleInfo{status: :finishing_another_trip}
 
