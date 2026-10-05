@@ -162,7 +162,8 @@ defmodule DotcomWeb.LineDiagramLive do
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
       name: "icon-vehicle-bordered-expanded",
-      class: "size-6"
+      class: "size-6",
+      rotation: vehicle.bearing || "0"
     }
   end
 
