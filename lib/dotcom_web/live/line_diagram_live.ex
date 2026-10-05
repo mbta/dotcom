@@ -93,7 +93,10 @@ defmodule DotcomWeb.LineDiagramLive do
     route_id = route.id
 
     direction_id =
-      params |> Map.get("schedule_direction", %{"direction_id" => 1}) |> Map.get("direction_id")
+      params
+      |> Map.get("schedule_direction", %{"direction_id" => 1})
+      |> Map.get("direction_id")
+      |> String.to_integer()
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
 
