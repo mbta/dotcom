@@ -1,5 +1,6 @@
 import { lineScenario } from "../scenarios/load-line-diagram";
 import { test } from "@playwright/test";
+import { appendFile } from "node:fs";
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -20,6 +21,11 @@ const centerPad = (str, len) => {
 
 const reportResult = ({route, newVersion, ttfb, dom, full})=>{
     output_table[`${route}${newVersion?"_new":""}`]= { ttfb, dom, full}
+    appendFile(
+            "./perf-results/perf_line-diagram.results_log",
+            ",\n" + JSON.stringify({timestamp: Date.now(), host: baseURL, route: route, newVersion, samples: REPS, results: {ttfb, dom, full}}),
+            (err)=>{err&&console.error(err)}
+        )
     if(!(Object.keys(output_table).find(key => output_table[key]==false))){
         console.log("╔═════════════════╤════════╤════════╤════════╗");
         console.log("║      Route      │  TTFB  │  DOM   │  FULL  ║");
@@ -29,6 +35,7 @@ const reportResult = ({route, newVersion, ttfb, dom, full})=>{
             console.log(`║${centerPad(key, 17)}│${centerPad(ttfb, 8)}│${centerPad(dom, 8)}│${centerPad(full, 8)}║`)
             index == Object.keys(output_table).length-1 ? console.log("╚═════════════════╧════════╧════════╧════════╝") : console.log("╠═════════════════╪════════╪════════╪════════╣");
         });
+        
     }
 }
 
