@@ -170,6 +170,7 @@ defmodule DotcomWeb.LineDiagramLive do
       assigns
       |> assign(:route, route)
       |> assign(:vehicle_info, vehicle_info)
+      |> assign(:classes, "text-white mr-2")
       |> DotcomWeb.Live.UpcomingDeparturesLive.vehicle_label()
 
     %{
