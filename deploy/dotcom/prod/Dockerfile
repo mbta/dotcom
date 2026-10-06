@@ -42,6 +42,10 @@ RUN --mount=type=cache,target=/root/.npm \
 COPY assets ./assets
 COPY priv ./priv
 
+# Tailwind scans these templates for utility classes when generating CSS.
+COPY lib/dotcom_web.ex ./lib/dotcom_web.ex
+COPY lib/dotcom_web ./lib/dotcom_web
+
 # Only asset compilation depends on this build argument, so changing the Sentry
 # DSN does not invalidate dependency installation.
 ARG SENTRY_DSN=""
