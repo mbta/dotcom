@@ -261,7 +261,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
            stop_sequence: stop_sequence,
            trip_id: vehicle_trip_id
          },
-         _
+         []
        ) do
     stop = @stops_repo.get(stop_id)
 
