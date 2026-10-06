@@ -500,6 +500,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   attr :vehicle_info, Dotcom.ScheduleFinder.TripDetails.VehicleInfo, required: true
   attr :route, Routes.Route, required: true
   attr :classes, :string, default: ""
+  attr :crowding_classes, :string, default: ""
 
   def vehicle_label(assigns) do
     ~H"""
@@ -515,6 +516,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     />
     <.vehicle_crowding
       crowding={crowding(@vehicle_info)}
+      classes={@crowding_classes}
       show_label?
     />
     """
@@ -532,12 +534,13 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
   attr :crowding, :atom
   attr :show_label?, :boolean, default: false
+  attr :classes, :string, default: ""
 
   defp vehicle_crowding(%{show_label?: true} = assigns) do
     ~H"""
     <div :if={@crowding} class="flex gap-xs text-sm flex-nowrap items-center">
       <.crowding_icon class="size-4" crowding={@crowding} aria-hidden />
-      <div class="font-normal text-charcoal-30">{crowding_message(@crowding)}</div>
+      <div class={"font-normal text-charcoal-30 #{@classes}"}>{crowding_message(@crowding)}</div>
     </div>
     """
   end
