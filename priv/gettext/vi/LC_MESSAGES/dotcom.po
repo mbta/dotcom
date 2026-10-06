@@ -5609,27 +5609,27 @@ msgstr "Tải xuống %{mbta_go} để theo dõi %{vehicle_name}của bạn"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr ""
+msgstr "Đóng cửa sổ bật lên"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr ""
+msgstr "Kéo để xoay bản đồ, nhấp chuột để đặt lại hướng bắc."
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom in"
-msgstr ""
+msgstr "Phóng to"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr ""
+msgstr "Đăng xuất"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
-msgstr ""
+msgstr "Bật/tắt thông tin tác giả"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5639,4 +5639,4 @@ msgstr "Xem lịch trình"
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
-msgstr "Bài hát sẽ được công bố sau."
+msgstr "Ray Chưa Rõ"
