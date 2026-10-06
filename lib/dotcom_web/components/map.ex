@@ -114,7 +114,6 @@ defmodule DotcomWeb.Components.Map do
               |> Map.get(:popup)
               |> render_popup()
             }
-
           />
         <% end %>
       </div>
