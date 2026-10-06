@@ -5,7 +5,10 @@ import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
-import { MapHooks, MapManager } from "../../deps/maplibrex/priv/static/assets/js/maplibrex.js";
+import {
+  MapHooks,
+  MapManager
+} from "../../deps/maplibrex/priv/static/assets/js/maplibrex.js";
 import MapOverlays from "./map-overlays";
 import { accordionInit } from "../ts/ui/accordion";
 import "../vendor/accessible-date-picker";

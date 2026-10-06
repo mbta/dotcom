@@ -143,17 +143,28 @@ defmodule DotcomWeb.Components.Map do
     end)
   end
 
-  defp marker_bounds([]), do: nil
-
   defp marker_bounds(markers) do
-    coordinates = Enum.map(markers, & &1.coordinates)
-    longitudes = Enum.map(coordinates, &Enum.at(&1, 0))
-    latitudes = Enum.map(coordinates, &Enum.at(&1, 1))
+    coordinates =
+      markers
+      |> Enum.map(& &1.coordinates)
+      |> Enum.filter(fn
+        [longitude, latitude] when is_number(longitude) and is_number(latitude) -> true
+        _ -> false
+      end)
 
-    [
-      [Enum.min(longitudes), Enum.min(latitudes)],
-      [Enum.max(longitudes), Enum.max(latitudes)]
-    ]
+    case coordinates do
+      [] ->
+        nil
+
+      coordinates ->
+        longitudes = Enum.map(coordinates, &Enum.at(&1, 0))
+        latitudes = Enum.map(coordinates, &Enum.at(&1, 1))
+
+        [
+          [Enum.min(longitudes), Enum.min(latitudes)],
+          [Enum.max(longitudes), Enum.max(latitudes)]
+        ]
+    end
   end
 
   defp line_geojson(lines) do
