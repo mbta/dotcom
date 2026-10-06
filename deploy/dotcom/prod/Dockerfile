@@ -25,9 +25,10 @@ RUN mix local.hex --force && \
 RUN --mount=type=cache,target=/root/.hex \
   mix deps.get --only prod
 
-# Compile dependencies while only dependency manifests and configuration are
-# present, so application source changes can reuse their compiled artifacts.
-
+# Dependencies need compile-time configuration, including Metro's custom icons.
+# Keep these inputs ahead of application source to cache compiled dependencies.
+COPY config ./config
+COPY priv/static/icon-svg ./priv/static/icon-svg
 RUN mix deps.compile --only prod
 
 # The asset lockfile is refreshed against the locally fetched Phoenix packages,
@@ -52,7 +53,6 @@ ARG SENTRY_DSN=""
 RUN npm run --prefix assets webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 
 # Copy frequently changing application files only after dependency installation.
-COPY config ./config
 COPY lib ./lib
 COPY rel ./rel
 
