@@ -131,6 +131,7 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       # Verify
       document = render(view) |> Floki.parse_document!()
 
+      assert Floki.find(document, "[phx-hook=\"MapHook\"]") != []
       assert [{"svg", attrs, content}, _to_marker] = Floki.find(document, ".mbta-map-pin")
 
       assert Enum.find(attrs, fn attr ->

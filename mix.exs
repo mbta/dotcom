@@ -144,7 +144,9 @@ defmodule Dotcom.Mixfile do
       # reverted from 0.4
       {:mail, "0.3.1"},
       {:mbta_metro, "1.3.0", runtime: false},
-      {:maplibrex, "~> 0.1.0"},
+      {:maplibrex,
+       github: "CountlinkX-Solutions/maplibrex",
+       ref: "84dcb66530c27ffb78b82e90e8024e9983a1ef1a"},
       {:memoize, "1.4.5"},
       {:mox, "1.3.2", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},

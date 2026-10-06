@@ -2,7 +2,8 @@ import * as maplibregl from "maplibre-gl";
 
 const createMapOverlays = MapManager => {
   const fitMap = hook => {
-    const map = MapManager.get(hook.el.dataset.mapId);
+    const mapId = hook.el.dataset.mapId;
+    const map = MapManager.has(mapId) && MapManager.get(mapId);
     if (!map) return;
 
     const coordinates = Array.from(
@@ -34,7 +35,8 @@ const createMapOverlays = MapManager => {
     mounted() {
       const hook = this;
       const waitForMap = () => {
-        const map = MapManager.get(hook.el.dataset.mapId);
+        const mapId = hook.el.dataset.mapId;
+        const map = MapManager.has(mapId) && MapManager.get(mapId);
         if (!map) {
           hook.animationFrame = window.requestAnimationFrame(waitForMap);
           return;
@@ -48,7 +50,8 @@ const createMapOverlays = MapManager => {
       };
 
       this.handleEvent("update-markers", () => {
-        const map = MapManager.get(this.el.dataset.mapId);
+        const mapId = this.el.dataset.mapId;
+        const map = MapManager.has(mapId) && MapManager.get(mapId);
         if (map && map.loaded()) {
           fitMap(this);
         } else if (map) {
@@ -80,7 +83,8 @@ const createMapOverlays = MapManager => {
     },
 
     addMarker() {
-      const map = MapManager.get(this.el.dataset.mapId);
+      const mapId = this.el.dataset.mapId;
+      const map = MapManager.has(mapId) && MapManager.get(mapId);
       const coordinates = JSON.parse(this.el.dataset.coordinates);
       if (!map || coordinates.length !== 2) return;
 
