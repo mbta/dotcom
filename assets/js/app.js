@@ -5,7 +5,8 @@ import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
-import Map from './map.js';
+import { MapHooks, MapManager } from "../../deps/maplibrex/priv/static/assets/js/maplibrex.js";
+import MapOverlays from "./map-overlays";
 import { accordionInit } from "../ts/ui/accordion";
 import "../vendor/accessible-date-picker";
 import "../vendor/fixedsticky";
@@ -48,7 +49,7 @@ import storageOptions from "./storage.js";
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: { ...DotcomHooks, Map },
+  hooks: { ...DotcomHooks, ...MapHooks, ...MapOverlays(MapManager) },
   dom: {
     onBeforeElUpdated(from, to) {
       /*
