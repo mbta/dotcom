@@ -1,19 +1,17 @@
-import { waitFor } from "@testing-library/react";
 import { Channel, Socket } from "phoenix";
 import {
   makeMockChannel,
   makeMockSocket
 } from "../../helpers/socketTestHelpers";
-import setupChannels, {
-  isVehicleChannel,
-  joinChannel,
-  leaveChannel
-} from "../channels";
+import { isVehicleChannel, joinChannel, leaveChannel } from "../channels";
 
-const mockOnLoadEventListener = () => {
-  const ev = new CustomEvent("load");
-  window.dispatchEvent(ev);
-};
+afterEach(() => {
+  jest.restoreAllMocks();
+  jest.useRealTimers();
+  Reflect.deleteProperty(document, "visibilityState");
+  Reflect.deleteProperty(window, "socket");
+  Reflect.deleteProperty(window, "channels");
+});
 
 describe("isVehicleChannel", () => {
   test("true for vehicle marker channel topic", () => {
@@ -24,7 +22,6 @@ describe("isVehicleChannel", () => {
   });
   test("false for remove vehicles topic", () => {
     expect(isVehicleChannel("vehicles:remove")).toBe(false);
-
     expect(isVehicleChannel("vehicles-v2:remove")).toBe(false);
   });
   test("false for other topics", () => {
@@ -32,201 +29,198 @@ describe("isVehicleChannel", () => {
   });
 });
 
-describe("setupChannels", () => {
-  beforeAll(() => {
-    document.body.innerHTML = `
-      <script data-channel="vehicles:Red:0"></script>
-    `;
-  });
-
-  afterEach(() => {
-    // Will leave channels that are joined
-    const ev = new CustomEvent("DOMContentLoaded");
-    document.dispatchEvent(ev);
-  });
-
-  it("initializes a channel if it does not exist", () => {
-    expect(window.socket).toBeUndefined();
-    expect(window.channels).toBeUndefined();
-    setupChannels();
-    mockOnLoadEventListener();
-    expect(window.socket).toBeDefined();
-    expect(window.socket).toBeInstanceOf(Socket);
-    expect(typeof window.channels).toEqual("object");
-    const channel = window.channels["vehicles:Red:0"];
-    expect(channel).toBeDefined();
-    expect(channel).toBeInstanceOf(Channel);
-  });
-
-  it("returns existing channel if already initialized", () => {
-    expect(typeof window.socket).toEqual("object");
-    expect(typeof window.channels).toEqual("object");
-    setupChannels();
-    mockOnLoadEventListener();
-    const oldChannel = window.channels["vehicles:Red:0"];
-    expect(oldChannel).toBeInstanceOf(Channel);
-    mockOnLoadEventListener();
-    const newChannel = window.channels["vehicles:Red:0"];
-    expect(newChannel).toBeInstanceOf(Channel);
-    expect(newChannel).toEqual(oldChannel);
-  });
-
-  it("responds to channel data with a custom event", () => {
-    setupChannels();
-    mockOnLoadEventListener();
-    const channel = window.channels["vehicles:Red:0"];
-    const mockEventListener = jest.fn();
-    document.addEventListener("vehicles:Red:0", mockEventListener);
-
-    const data = "hello there";
-    // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
-    channel.trigger("data", data);
-
-    const event = new CustomEvent("vehicles:Red:0", { detail: data });
-    expect(mockEventListener).toHaveBeenCalledWith(event);
-  });
-
-  it("responds to channel join error", () => {
-    setupChannels();
-    mockOnLoadEventListener();
-    const channel = window.channels["vehicles:Red:0"];
-    const mockEventListener = jest.fn();
-    document.addEventListener("vehicles:Red:0", mockEventListener);
-    const consoleMock = jest
-      .spyOn(global.console, "error")
-      .mockImplementation(() => {});
-    // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
-    channel.joinPush.trigger("error", { reason: "bad day" });
-    expect(console.error).toHaveBeenCalledWith(
-      "failed to join vehicles:Red:0",
-      "bad day"
-    );
-    const event = new CustomEvent("vehicles:Red:0", {
-      detail: { error: "bad day" }
-    });
-    expect(mockEventListener).toHaveBeenCalledWith(event);
-
-    consoleMock.mockRestore();
-  });
-
-  it("responds to channel join success", () => {
-    setupChannels();
-    mockOnLoadEventListener();
-    const channel = window.channels["vehicles:Red:0"];
-    const consoleMock = jest
-      .spyOn(global.console, "log")
-      .mockImplementation(() => {});
-    // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
-    channel.joinPush.trigger("ok");
-    expect(console.log).toHaveBeenCalledWith("success joining vehicles:Red:0");
-
-    consoleMock.mockRestore();
-  });
-
-  it("responds to an error", () => {
-    // This should test the onError callback of the channel
-    setupChannels();
-    mockOnLoadEventListener();
-
-    const channel = window.channels["vehicles:Red:0"];
-    const consoleMock = jest.spyOn(global.console, "error");
-    // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
-    channel.trigger("phx_error", "bad data");
-    expect(consoleMock).toHaveBeenCalledWith(
-      "error on channel vehicles:Red:0 : bad data"
-    );
-
-    consoleMock.mockRestore();
-  });
-
-  it("responds to socket being closed", async () => {
-    // needed to suppress JSDOM Not implemented error
-    Object.defineProperty(global.window, "location", {
-      get: () => ({
-        protocol: "http:", // avoid throwing error in phoenix.js
-        reload: reloadMock
-      })
-    });
-
-    const reloadMock = jest.fn();
-    const consoleMock = jest.spyOn(console, "log").mockImplementation(() => {});
-
-    setupChannels();
-    //@ts-ignore: phoenix.js isn't properly typed. and technically this is a
-    //private property. force the WebSocket closed!
-    window.socket.conn.close();
-
-    await waitFor(
-      () => {
-        expect(reloadMock).toHaveBeenCalled();
-        expect(consoleMock).toHaveBeenCalledWith(
-          "Socket was forced closed by the browser -- reloading to establish WebSocket connection."
-        );
-      },
-      { timeout: 5000 }
-    );
-
-    jest.restoreAllMocks();
-  });
-});
-
 describe("joinChannel", () => {
-  it("can handle data dispatched on join", () => {
-    const mockHandleJoin = jest.fn();
-    const channelName = "some:channel";
-    window.channels[channelName] = window.socket.channel(channelName, {});
-    joinChannel(channelName, mockHandleJoin);
-    // @ts-ignore
-    window.channels[channelName].joinPush.trigger("ok", { some: "data" });
-    expect(mockHandleJoin).toHaveBeenCalledWith({ some: "data" });
+  it("creates the socket lazily and reuses it", () => {
+    expect(window.socket).toBeUndefined();
+    const connect = jest
+      .spyOn(Socket.prototype, "connect")
+      .mockImplementation(() => {});
+    const channel = makeMockChannel();
+    jest
+      .spyOn(Socket.prototype, "channel")
+      .mockReturnValue((channel as unknown) as Channel);
+
+    joinChannel("predictions:stop:1");
+
+    const socket = window.socket;
+    expect(socket).toBeInstanceOf(Socket);
+    expect(window.channels["predictions:stop:1"]).toBe(channel);
+    expect(connect).toHaveBeenCalledTimes(1);
+
+    joinChannel("predictions:stop:2");
+    expect(window.socket).toBe(socket);
+    expect(connect).toHaveBeenCalledTimes(1);
   });
 
-  it("joins remove channel for vehicles channel", () => {
-    const mockSocket = makeMockSocket();
-    const mockChannel = makeMockChannel("ok");
-    mockSocket.channel.mockImplementation(() => mockChannel);
+  it("does not reload and schedules Phoenix reconnect after an unclean close", () => {
+    const originalLocation = window.location;
+    const reload = jest.fn();
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: { protocol: "http:", reload }
+    });
+    jest.useFakeTimers();
+    const connect = jest
+      .spyOn(Socket.prototype, "connect")
+      .mockImplementation(() => {});
+    jest
+      .spyOn(Socket.prototype, "channel")
+      .mockReturnValue((makeMockChannel() as unknown) as Channel);
 
-    // mock setup global variables on page load
-    window.socket = mockSocket;
+    try {
+      joinChannel("predictions:stop:1");
+      Reflect.set(window.socket, "closeWasClean", false);
+      // Phoenix's reconnect timer remains responsible for recovering the socket.
+      // @ts-expect-error Phoenix exposes this callback at runtime but omits it from its type.
+      window.socket.onConnClose({
+        type: "close",
+        wasClean: false,
+        code: 1006
+      });
+
+      expect(reload).not.toHaveBeenCalled();
+      jest.runOnlyPendingTimers();
+      expect(connect).toHaveBeenCalledTimes(2);
+    } finally {
+      Object.defineProperty(window, "location", {
+        configurable: true,
+        value: originalLocation
+      });
+    }
+  });
+
+  it("dispatches channel data as a custom event", () => {
+    const socket = makeMockSocket();
+    const channel = makeMockChannel();
+    let onData: ((data: string) => void) | undefined;
+    channel.on.mockImplementation((event, handler) => {
+      if (event === "data") onData = handler;
+    });
+    socket.channel.mockReturnValue(channel);
+    window.socket = socket;
     window.channels = {};
 
-    expect(window.channels["vehicles:remove"]).toBeUndefined();
-    joinChannel("vehicles:routeId:directionId");
-    expect(window.channels["vehicles:remove"]).toBeDefined();
+    const listener = jest.fn();
+    document.addEventListener("predictions:stop:1", listener);
+    joinChannel("predictions:stop:1");
+
+    onData?.("hello there");
+
+    expect(listener).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "predictions:stop:1",
+        detail: "hello there"
+      })
+    );
+    document.removeEventListener("predictions:stop:1", listener);
+  });
+
+  it("dispatches join errors", () => {
+    const socket = makeMockSocket();
+    const channel = makeMockChannel("error");
+    socket.channel.mockReturnValue(channel);
+    window.socket = socket;
+    window.channels = {};
+    const listener = jest.fn();
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    document.addEventListener("predictions:stop:1", listener);
+
+    joinChannel("predictions:stop:1");
+
+    expect(consoleError).toHaveBeenCalledWith(
+      "failed to join predictions:stop:1",
+      "ERROR_REASON"
+    );
+    expect(listener).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "predictions:stop:1",
+        detail: { error: "ERROR_REASON" }
+      })
+    );
+    document.removeEventListener("predictions:stop:1", listener);
+  });
+
+  it("dispatches join timeouts", () => {
+    const socket = makeMockSocket();
+    const channel = makeMockChannel("timeout");
+    socket.channel.mockReturnValue(channel);
+    window.socket = socket;
+    window.channels = {};
+    const listener = jest.fn();
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    document.addEventListener("predictions:stop:1", listener);
+
+    joinChannel("predictions:stop:1");
+
+    expect(consoleError).toHaveBeenCalledWith(
+      "failed to join predictions:stop:1",
+      undefined
+    );
+    expect(listener).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "predictions:stop:1",
+        detail: { error: "timeout" }
+      })
+    );
+    document.removeEventListener("predictions:stop:1", listener);
+  });
+
+  it("handles data dispatched on join", () => {
+    const socket = makeMockSocket();
+    const channel = makeMockChannel("ok", { some: "data" });
+    socket.channel.mockReturnValue(channel);
+    window.socket = socket;
+    window.channels = {};
+    const handleJoin = jest.fn();
+
+    joinChannel("predictions:stop:1", handleJoin);
+
+    expect(handleJoin).toHaveBeenCalledWith({ some: "data" });
+  });
+
+  it("joins the remove channel for vehicle channels", () => {
+    const socket = makeMockSocket();
+    socket.channel.mockImplementation(() => makeMockChannel());
+    window.socket = socket;
+    window.channels = {};
+
+    joinChannel("vehicles-v2:routeId:directionId");
+
+    expect(window.channels["vehicles-v2:routeId:directionId"]).toBeDefined();
+    expect(window.channels["vehicles-v2:remove"]).toBeDefined();
   });
 });
 
 describe("leaveChannel", () => {
   it("leaves the channel with the given id", () => {
-    const mockSocket = makeMockSocket();
-    const mockChannel = makeMockChannel("ok");
-    mockSocket.channel.mockImplementation(() => mockChannel);
-    window.socket = mockSocket;
+    const socket = makeMockSocket();
+    const channel = makeMockChannel();
+    socket.channel.mockReturnValue(channel);
+    window.socket = socket;
     window.channels = {};
-    const mockHandleJoin = jest.fn();
-    const channelName = "some:channel";
 
-    joinChannel(channelName, mockHandleJoin);
-    expect(window.channels[channelName]).toBeDefined();
-    leaveChannel(channelName);
-    expect(window.channels[channelName]).toBeUndefined();
+    joinChannel("some:channel");
+    leaveChannel("some:channel");
+
+    expect(channel.leave).toHaveBeenCalled();
+    expect(window.channels["some:channel"]).toBeUndefined();
   });
 
-  it("also leaves vehicles:remove channel for vehicles channel", () => {
-    const mockSocket = makeMockSocket();
-    const mockChannel = makeMockChannel("ok");
-    mockSocket.channel.mockImplementation(() => mockChannel);
-    window.socket = mockSocket;
+  it("also leaves the remove channel for vehicle channels", () => {
+    const socket = makeMockSocket();
+    const channel = makeMockChannel();
+    socket.channel.mockReturnValue(channel);
+    window.socket = socket;
     window.channels = {};
 
-    const vehicleChannelName = "vehicles:routeId:directionId";
-    joinChannel(vehicleChannelName);
+    joinChannel("vehicles:routeId:directionId");
+    leaveChannel("vehicles:routeId:directionId");
 
-    expect(window.channels[vehicleChannelName]).toBeDefined();
-    expect(window.channels["vehicles:remove"]).toBeDefined();
-
-    leaveChannel(vehicleChannelName);
-    expect(window.channels[vehicleChannelName]).toBeUndefined();
+    expect(window.channels["vehicles:routeId:directionId"]).toBeUndefined();
     expect(window.channels["vehicles:remove"]).toBeUndefined();
   });
 });
