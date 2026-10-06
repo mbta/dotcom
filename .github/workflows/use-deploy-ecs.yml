@@ -97,8 +97,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             SENTRY_RELEASE=${{ steps.version-ids.outputs.sentry-release }}
-          cache-from: type=gha,scope=dotcom-${{ inputs.deployment-env }}
-          cache-to: type=gha,scope=dotcom-${{ inputs.deployment-env }},mode=max
+          # Share production-image build layers across deployment environments.
+          cache-from: type=gha,scope=dotcom
+          cache-to: type=gha,scope=dotcom,mode=max
 
       - name: Upload assets from image into s3
         env:
