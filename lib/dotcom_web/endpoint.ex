@@ -7,7 +7,7 @@ defmodule DotcomWeb.Endpoint do
   @session_options store: :cookie,
                    key: "_site_key",
                    signing_salt: "TInvb4GN",
-                   secure: true
+                   secure: Application.compile_env(:dotcom, :secure_session_cookie, true)
 
   socket("/socket", DotcomWeb.UserSocket)
 
