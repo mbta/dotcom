@@ -5586,27 +5586,27 @@ msgstr "下載%{mbta_go}來追蹤您的%{vehicle_name}"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr ""
+msgstr "關閉彈跳窗"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr ""
+msgstr "拖曳旋轉地圖，點選重置地圖北面"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom in"
-msgstr ""
+msgstr "放大"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr ""
+msgstr "登出"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
-msgstr ""
+msgstr "切換歸屬"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5616,4 +5616,4 @@ msgstr "查看時刻表"
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
-msgstr "賽道待定"
+msgstr "軌道待定"
