@@ -1,5 +1,10 @@
 /* eslint-disable */
 import Filter from "bad-words";
+import storageOptions from "./storage.js";
+
+const CACHE_KEY = "support-form-cache";
+const CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
+const CACHE_SAVE_DELAY = 250;
 
 export default function($ = window.jQuery) {
   window.addEventListener(
@@ -22,10 +27,7 @@ export default function($ = window.jQuery) {
         handleModeChangeSelection($);
         handleSubjectChange($);
         loadCache();
-        document.getElementById("support").addEventListener("change", saveCache)
-        document.getElementById("support").addEventListener("keypress", saveCache)
-        document.getElementById("support").addEventListener("submit", clearCache)
-
+        setupCache();
       });
     },
     { passive: true }
@@ -253,23 +255,23 @@ export function setupTextArea() {
   // Track the number of characters in the main <textarea>
   const commentsNode = document.getElementById("comments"),
     formTextNode = findSiblingWithClass(commentsNode, "form-text");
-  commentsNode.addEventListener(
-    "keyup",
-    ev => {
-      // .textLength is not supported in IE
-      // (https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement#Browser_compatibility)
-      const commentLength = commentsNode.value.length;
-      formTextNode.innerHTML = commentLength + "/3000 characters";
-      if (commentLength > 0) {
-        formTextNode.className += " support-comment-success";
-        formTextNode.parentNode.className += " has-success";
-      } else {
-        removeClass(formTextNode, "support-comment-success");
-        removeClass(formTextNode.parentNode, "has-success");
-      }
-    },
-    { passive: true }
-  );
+  const updateCharacterCount = () => {
+    const commentLength = commentsNode.value.length;
+    formTextNode.innerHTML = commentLength + "/3000 characters";
+    if (commentLength > 0) {
+      formTextNode.className += " support-comment-success";
+      formTextNode.parentNode.className += " has-success";
+    } else {
+      removeClass(formTextNode, "support-comment-success");
+      removeClass(formTextNode.parentNode, "has-success");
+    }
+  };
+  commentsNode.addEventListener("keyup", updateCharacterCount, {
+    passive: true
+  });
+  commentsNode.addEventListener("input", updateCharacterCount, {
+    passive: true
+  });
 }
 
 function findSiblingWithClass(node, className) {
@@ -510,7 +512,7 @@ export function handleSubmitClick($, toUpload) {
       if(recaptchaError){
         document.getElementById("recaptcha-error-indicator").classList.remove("hidden");
       }
-      
+
       if (!document.getElementById("privacy").checked) {
         document
           .getElementById("privacy-error-indicator")
@@ -583,48 +585,126 @@ export function handleSubjectChange($) {
   subjectEl.change(); // initialize with right value
 }
 
-export const saveCache = ()=>{
-  const { elements } = document.getElementById("support")
-  const cacheString = JSON.stringify({time: Date.now(), data: Array.from(elements).map(elem => [elem.id, elem.checked || elem.value])})
-  localStorage.setItem("support-form-cache", cacheString)
+export const saveCache = () => {
+  const form = document.getElementById("support");
+  if (!form) return;
 
-}
+  const excludedTypes = ["file", "hidden", "submit", "button"];
+  const data = Array.from(form.elements)
+    .filter(
+      elem =>
+        elem.id &&
+        elem.id !== "g-recaptcha-response" &&
+        !excludedTypes.includes(elem.type)
+    )
+    .map(elem => [
+      elem.id,
+      elem.type === "checkbox" || elem.type === "radio"
+        ? elem.checked
+        : elem.value
+    ]);
+  const cacheString = JSON.stringify({ time: Date.now(), data });
 
-const CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
-
-export const loadCache = ()=>{
-  const cacheString = localStorage.getItem("support-form-cache")
-
-  if(!cacheString || cacheString.length<10){return;}//No data, bail
-  try{
-
-    const cacheData = JSON.parse(cacheString)
-    if(!cacheData.data || 
-      !cacheData.time || 
-      isNaN(cacheData.time) || 
-      cacheData.time < Date.now()-CACHE_MAX_AGE
-    ){
-      return;
-    }//Data is invalid or too old, bail
-
-    cacheData.data.forEach(([id, value])=>{
-      const elem = document.getElementById(id);
-      if(id && elem){
-        if(elem.type == "file"){return;}
-        if(value===true){
-          elem.click();
-        }else{
-          elem.value = value;
-          elem.dispatchEvent(new Event("change"))
-        }
-      }
-    });
-
-  }catch(e){
-    console.log(`Error parsing saved form data: ${e.message}`)
+  try {
+    storageOptions.localStorage.setItem(CACHE_KEY, cacheString);
+  } catch (error) {
+    console.warn("Unable to save customer support draft.", error);
   }
+};
+
+export const loadCache = () => {
+  let cacheString;
+  try {
+    cacheString = storageOptions.localStorage.getItem(CACHE_KEY);
+  } catch (error) {
+    console.warn("Unable to load customer support draft.", error);
+    return;
+  }
+
+  if (!cacheString || cacheString.length < 10) return;
+
+  let cacheData;
+  try {
+    cacheData = JSON.parse(cacheString);
+  } catch (error) {
+    console.warn("Error parsing saved form data.", error);
+    return;
+  }
+
+  if (
+    !cacheData ||
+    typeof cacheData !== "object" ||
+    !Array.isArray(cacheData.data) ||
+    !cacheData.time ||
+    isNaN(cacheData.time) ||
+    cacheData.time < Date.now() - CACHE_MAX_AGE
+  ) {
+    return;
+  }
+
+  cacheData.data.forEach(entry => {
+    if (!Array.isArray(entry) || entry.length < 2) return;
+    const [id, value] = entry;
+    if (
+      typeof id !== "string" ||
+      !["string", "number", "boolean"].includes(typeof value)
+    ) {
+      return;
+    }
+
+    const elem = document.getElementById(id);
+    if (!id || !elem || elem.id === "g-recaptcha-response") return;
+    if (["file", "hidden", "submit", "button"].includes(elem.type)) return;
+
+    if (elem.type === "checkbox" || elem.type === "radio") {
+      elem.checked = value === true;
+    } else {
+      elem.value = value;
+    }
+    ["input", "change"].forEach(eventName => {
+      const event = elem.ownerDocument.createEvent("Event");
+      event.initEvent(eventName, true, false);
+      elem.dispatchEvent(event);
+    });
+  });
+};
+
+export function setupCache() {
+  const form = document.getElementById("support");
+  if (!form) return () => {};
+
+  let timeout;
+  const flushCache = () => {
+    window.clearTimeout(timeout);
+    timeout = undefined;
+    saveCache();
+  };
+  const scheduleCacheSave = () => {
+    window.clearTimeout(timeout);
+    timeout = window.setTimeout(saveCache, CACHE_SAVE_DELAY);
+  };
+  const saveWhenHidden = () => {
+    if (document.visibilityState === "hidden") flushCache();
+  };
+
+  form.addEventListener("input", scheduleCacheSave);
+  form.addEventListener("change", flushCache);
+  window.addEventListener("pagehide", flushCache);
+  document.addEventListener("visibilitychange", saveWhenHidden);
+
+  return () => {
+    window.clearTimeout(timeout);
+    form.removeEventListener("input", scheduleCacheSave);
+    form.removeEventListener("change", flushCache);
+    window.removeEventListener("pagehide", flushCache);
+    document.removeEventListener("visibilitychange", saveWhenHidden);
+  };
 }
 
-export const clearCache = ()=>{
-  localStorage.setItem("support-form-cache","");
-}
+export const clearCache = () => {
+  try {
+    storageOptions.localStorage.setItem(CACHE_KEY, "");
+  } catch (error) {
+    console.warn("Unable to clear customer support draft.", error);
+  }
+};
