@@ -5686,6 +5686,31 @@ msgstr "La T evoluciona cada día. Estamos renovando estaciones, modernizando lo
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr "Descarga %{mbta_go} para seguir tu %{vehicle_name}"
 
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Close popup"
+msgstr "Cierre de ventana emergente"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Drag to rotate map, click to reset north"
+msgstr "Arrastra para voltear el mapa, haz clic para restablecer el norte"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom in"
+msgstr "Haz zoom"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom out"
+msgstr "Aleja la distancia"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Toggle attribution"
+msgstr "Alternar atribución"
+
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
@@ -5694,4 +5719,4 @@ msgstr "Ver horario"
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
-msgstr "Canción por definir"
+msgstr "Vía por definir"

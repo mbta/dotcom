@@ -5673,6 +5673,31 @@ msgstr "Subway a ap evolye chak jou. N ap renove estasyon yo, modènize sistèm 
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
 msgstr "Telechaje %{mbta_go} pou swiv %{vehicle_name}ou a"
 
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Close popup"
+msgstr "Fèmen fenèt popup la"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Drag to rotate map, click to reset north"
+msgstr "Trennen pou vire kat la, klike pou retabli nò a"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom in"
+msgstr "Agrandi"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Zoom out"
+msgstr "Dekonekte"
+
+#: lib/dotcom_web/components/map.ex
+#, elixir-autogen, elixir-format
+msgid "Toggle attribution"
+msgstr "Aktive/dezaktive atribisyon an"
+
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
@@ -5681,4 +5706,4 @@ msgstr "Gade Orè a"
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
-msgstr "Tras pou detèmine"
+msgstr "Ray TBD"
