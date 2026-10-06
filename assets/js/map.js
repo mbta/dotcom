@@ -16,9 +16,9 @@ export default {
    */
   mounted() {
     this.config = JSON.parse(this.el.dataset.config);
-
     this.map = new maplibregl.Map({
       container: this.el.querySelector(".mbta-map-wrapper"),
+      locale: JSON.parse(this.el.dataset.locale),
       ...this.config,
     });
 
@@ -67,10 +67,17 @@ export default {
    */
   addMarkers(markers) {
     markers.forEach(marker => {
+      
       const mapMarker = new maplibregl.Marker({
         anchor: marker.anchor,
-        element: marker.element
+        element: marker.element,
+        rotation: marker.rotation
       });
+      if(marker.popup){
+        const popup = new maplibregl.Popup({className: "m-schedule-line__stop-popup", focusAfterOpen: false});
+        popup.setHTML(marker.popup)
+        mapMarker.setPopup(popup)
+      }
 
       this.markers.push(mapMarker);
 
@@ -218,6 +225,8 @@ export default {
       return {
         anchor: element.getAttribute("data-anchor"),
         coordinates: JSON.parse(element.getAttribute("data-coordinates")),
+        popup: element.getAttribute("data-popup"),
+        rotation: element.getAttribute("data-rotation"),
         element
       }
     }).filter(marker => marker.coordinates.length === 2);
@@ -229,7 +238,8 @@ export default {
     }
 
     this.addMarkers(markers);
-
     this.fitMapToMarkers(markers);
-  }
+  },
+
+ 
 }

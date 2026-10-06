@@ -25,6 +25,7 @@ defmodule DotcomWeb.Components.Map do
   """
 
   use Phoenix.LiveComponent
+  use Dotcom.Gettext.Sigils
 
   import MbtaMetro.Components.Icon, only: [icon: 1]
 
@@ -32,11 +33,27 @@ defmodule DotcomWeb.Components.Map do
   We check if the map is loaded; if so, we tell the Hook to update the lines and markers every time the component updates.
   If the map is not loaded, we check for for assigns and assign defaults for any not passed into the component.
   """
+
+  def assign_map_locale(socket) do
+    socket
+    |> assign(
+      :locale,
+      %{
+        "AttributionControl.ToggleAttribution" => ~t(Toggle attribution),
+        "NavigationControl.ResetBearing" => ~t(Drag to rotate map, click to reset north),
+        "NavigationControl.ZoomIn" => ~t(Zoom in),
+        "NavigationControl.ZoomOut" => ~t(Zoom out),
+        "Popup.Close" => ~t(Close popup)
+      }
+    )
+  end
+
   @impl true
   def update(assigns, %{assigns: %{loaded: true}} = socket) do
     new_socket =
       socket
       |> assign(assigns)
+      |> assign_map_locale()
       |> push_event("update-lines", %{})
       |> push_event("update-markers", %{})
 
@@ -51,10 +68,12 @@ defmodule DotcomWeb.Components.Map do
         config: Map.get(assigns, :config, %{}),
         lines: Map.get(assigns, :lines, []),
         loaded: false,
+        locale: Map.get(assigns, :locale, "{}"),
         icons: Map.get(assigns, :icons, []),
         pins: Map.get(assigns, :pins, []),
         points: Map.get(assigns, :points, [])
       )
+      |> assign_map_locale()
 
     {:ok, new_socket}
   end
@@ -74,6 +93,7 @@ defmodule DotcomWeb.Components.Map do
       id={@id}
       class={"mbta-map #{@class}"}
       data-config={Jason.encode!(@config)}
+      data-locale={Jason.encode!(@locale)}
       phx-hook="Map"
     >
       <div
@@ -108,6 +128,12 @@ defmodule DotcomWeb.Components.Map do
             class={"mbta-map-icon#{concat_classes(icon |> Map.get(:class))}"}
             data-anchor={icon |> Map.get(:anchor, "center")}
             data-coordinates={Jason.encode!(icon.coordinates)}
+            data-rotation={icon |> Map.get(:rotation, "0")}
+            data-popup={
+              icon
+              |> Map.get(:popup)
+              |> render_popup()
+            }
           />
         <% end %>
       </div>
@@ -118,6 +144,14 @@ defmodule DotcomWeb.Components.Map do
   defp concat_classes(nil), do: ""
   defp concat_classes(classes) when is_binary(classes), do: " #{classes}"
   defp concat_classes(classes) when is_list(classes), do: " #{Enum.join(classes, " ")}"
+
+  defp render_popup(%Phoenix.LiveView.Rendered{} = heex) do
+    heex
+    |> Phoenix.HTML.Safe.to_iodata()
+    |> IO.iodata_to_binary()
+  end
+
+  defp render_popup(html), do: html
 
   @doc """
   The map has to be loaded before we can draw anything on it.

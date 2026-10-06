@@ -381,6 +381,7 @@ defmodule DotcomWeb.Router do
       layout: {DotcomWeb.LayoutView, :preview},
       on_mount: DotcomWeb.Plugs.PutFlagsInAssignsHook do
       live "/", PreviewLive
+      live "/daily-schedules", DailySchedulesLive
     end
   end
 
