@@ -94,7 +94,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
     direction_id =
       params
-      |> Map.get("schedule_direction", %{"direction_id" => 1})
+      |> Map.get("schedule_direction", %{"direction_id" => "1"})
       |> Map.get("direction_id")
       |> String.to_integer()
 
