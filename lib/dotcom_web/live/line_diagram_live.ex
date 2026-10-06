@@ -93,7 +93,10 @@ defmodule DotcomWeb.LineDiagramLive do
     route_id = route.id
 
     direction_id =
-      params |> Map.get("schedule_direction", %{"direction_id" => 1}) |> Map.get("direction_id")
+      params
+      |> Map.get("schedule_direction", %{"direction_id" => "1"})
+      |> Map.get("direction_id")
+      |> String.to_integer()
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
 
@@ -178,7 +181,8 @@ defmodule DotcomWeb.LineDiagramLive do
       type: "icon-svg",
       name: "icon-vehicle-bordered-expanded",
       class: "size-6 cursor-pointer",
-      popup: popup
+      popup: popup,
+      rotation: vehicle.bearing || "0"
     }
   end
 
