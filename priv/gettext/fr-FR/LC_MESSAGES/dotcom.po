@@ -5618,27 +5618,27 @@ msgstr "Téléchargez %{mbta_go} pour suivre votre %{vehicle_name}"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr ""
+msgstr "Fenêtre popup fermée"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr ""
+msgstr "Glissez pour faire pivoter la carte, cliquez pour réinitialiser le nord"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom in"
-msgstr ""
+msgstr "Zoom"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr ""
+msgstr "Zoom out"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
-msgstr ""
+msgstr "Basculer l’attribution"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
