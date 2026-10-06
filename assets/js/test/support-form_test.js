@@ -10,12 +10,21 @@ import {
   handleSubjectChange,
   handleSubmitClick,
   handleUploadedPhoto,
+  clearCache,
+  loadCache,
   rescale,
-  setupSubject,
+  saveCache,
+  setupCache,
   setupTextArea
 } from "../support-form";
+import storageOptions from "../storage";
 
 const { testURL } = testConfig;
+const dispatchDOMEvent = (target, eventName) => {
+  const event = document.createEvent("HTMLEvents");
+  event.initEvent(eventName, true, true);
+  target.dispatchEvent(event);
+};
 
 describe("support form", () => {
   let $;
@@ -215,6 +224,12 @@ describe("support form", () => {
       event.initEvent("keyup", true, true);
       $textarea[0].dispatchEvent(event);
       assert.equal($(".form-text").text(), "5/3000 characters");
+    });
+
+    it("updates the character count on input", () => {
+      $("#comments").val("restored draft");
+      dispatchDOMEvent($("#comments")[0], "input");
+      assert.equal($(".form-text").text(), "14/3000 characters");
     });
   });
 
@@ -436,6 +451,7 @@ describe("support form", () => {
     });
 
     it("hides the form and shows a message on success", () => {
+      storageOptions.localStorage.setItem("support-form-cache", "draft");
       $("#request_response").click();
       $("#email").val("test@email.com");
       $("#first_name").val("tom");
@@ -454,9 +470,14 @@ describe("support form", () => {
         $(".support-confirmation--success").hasClass("hidden-xs-up")
       );
       assert.equal($("#support").length, 0);
+      assert.equal(
+        storageOptions.localStorage.getItem("support-form-cache"),
+        null
+      );
     });
 
     it("shows a message on error", () => {
+      storageOptions.localStorage.setItem("support-form-cache", "draft");
       $("#support-submit").on("waiting:end", () => {
         assert.isFalse($("#support-submit").prop("disabled"));
         assert.isTrue($(".waiting")[0].hasAttribute("hidden"));
@@ -472,6 +493,10 @@ describe("support form", () => {
       spy.firstCall.args[0].error();
       assert.isFalse(
         $(".support-confirmation--error").hasClass("hidden-xs-up")
+      );
+      assert.equal(
+        storageOptions.localStorage.getItem("support-form-cache"),
+        "draft"
       );
     });
 
@@ -637,6 +662,200 @@ describe("support form", () => {
       sortBySelect.dispatchEvent(event);
 
       assert.equal($("#charlie-card-or-ticket-number").css("display"), "none");
+    });
+  });
+
+  describe("form cache", () => {
+    const cacheKey = "support-form-cache";
+
+    beforeEach(() => {
+      $("#test").html(`
+        <form id="support">
+          <textarea id="comments"></textarea>
+          <input id="text-field" type="text" />
+          <input id="checked" type="checkbox" checked />
+          <input id="unchecked" type="checkbox" />
+          <input id="radio-a" type="radio" name="radio-group" value="a" />
+          <input id="radio-b" type="radio" name="radio-group" value="b" />
+          <input id="g-recaptcha-response" type="hidden" value="stale-token" />
+          <input id="hidden-field" type="hidden" value="hidden-value" />
+          <input id="photo" type="file" />
+          <button id="submit" type="submit">Submit</button>
+        </form>
+      `);
+      storageOptions.localStorage.setItem(cacheKey, "baseline");
+    });
+
+    afterEach(() => {
+      storageOptions.localStorage.removeItem(cacheKey);
+    });
+
+    it("saves and restores fields and checkbox state", () => {
+      $("#comments").val("A support draft");
+      $("#text-field").val("text value");
+      $("#checked").prop("checked", false);
+      $("#unchecked").prop("checked", true);
+      $("#radio-a").prop("checked", true);
+
+      saveCache();
+      const cache = JSON.parse(storageOptions.localStorage.getItem(cacheKey));
+      const saved = Object.fromEntries(cache.data);
+      assert.equal(saved.comments, "A support draft");
+      assert.equal(saved["text-field"], "text value");
+      assert.equal(saved.checked, false);
+      assert.equal(saved.unchecked, true);
+      assert.equal(saved["radio-a"], true);
+      assert.equal(saved["radio-b"], false);
+
+      $("#comments").val("");
+      $("#text-field").val("");
+      $("#checked").prop("checked", true);
+      $("#unchecked").prop("checked", false);
+      $("#radio-b").prop("checked", true);
+      loadCache();
+
+      assert.equal($("#comments").val(), "A support draft");
+      assert.equal($("#text-field").val(), "text value");
+      assert.isFalse($("#checked").prop("checked"));
+      assert.isTrue($("#unchecked").prop("checked"));
+      assert.isTrue($("#radio-a").prop("checked"));
+      assert.isFalse($("#radio-b").prop("checked"));
+    });
+
+    it("does not restore an unchecked checkbox from a legacy string value", () => {
+      storageOptions.localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+          time: Date.now(),
+          data: [["unchecked", "on"]]
+        })
+      );
+      $("#unchecked").prop("checked", true);
+
+      loadCache();
+
+      assert.isFalse($("#unchecked").prop("checked"));
+    });
+
+    it("skips reCAPTCHA, file, hidden, and button fields", () => {
+      saveCache();
+      const cache = JSON.parse(storageOptions.localStorage.getItem(cacheKey));
+      const savedIds = cache.data.map(([id]) => id);
+
+      assert.notInclude(savedIds, "g-recaptcha-response");
+      assert.notInclude(savedIds, "photo");
+      assert.notInclude(savedIds, "hidden-field");
+      assert.notInclude(savedIds, "submit");
+    });
+
+    it("restores a mode before the dependent route", () => {
+      $("#test").html(`
+        <script id="js-routes-by-mode" type="text/plain">
+          {"bus_options":["39","57"]}
+        </script>
+        <form id="support">
+          <select id="support_mode">
+            <option value="select">Select</option>
+            <option value="bus">Bus</option>
+          </select>
+          <div id="route-and-vehicle">
+            <select id="support_route"></select>
+          </div>
+        </form>
+      `);
+      handleModeChangeSelection($);
+      storageOptions.localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+          time: Date.now(),
+          data: [
+            ["support_mode", "bus"],
+            ["support_route", "39"]
+          ]
+        })
+      );
+
+      loadCache();
+
+      assert.equal($("#support_mode").val(), "bus");
+      assert.equal($("#support_route").val(), "39");
+      assert.equal($("#support_route option").length, 3);
+    });
+
+    it("ignores expired and invalid cache entries", () => {
+      $("#comments").val("current value");
+      storageOptions.localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+          time: Date.now() - 24 * 60 * 60 * 1000 - 1,
+          data: [["comments", "expired value"]]
+        })
+      );
+      loadCache();
+      assert.equal($("#comments").val(), "current value");
+
+      storageOptions.localStorage.setItem(cacheKey, "{invalid");
+      assert.doesNotThrow(loadCache);
+      assert.equal($("#comments").val(), "current value");
+    });
+
+    it("does not throw when storage access fails", () => {
+      const getItem = sinon
+        .stub(storageOptions.localStorage, "getItem")
+        .throws(new Error("storage blocked"));
+      const warn = sinon.stub(console, "warn");
+      assert.doesNotThrow(loadCache);
+      getItem.restore();
+
+      const setItem = sinon
+        .stub(storageOptions.localStorage, "setItem")
+        .throws(new Error("storage blocked"));
+      assert.doesNotThrow(() => {
+        saveCache();
+        clearCache();
+      });
+      setItem.restore();
+      warn.restore();
+    });
+
+    it("debounces input saves and flushes on pagehide and hidden visibility", () => {
+      const clock = sinon.useFakeTimers();
+      const cleanup = setupCache();
+
+      $("#comments").val("debounced");
+      dispatchDOMEvent($("#comments")[0], "input");
+      assert.equal(storageOptions.localStorage.getItem(cacheKey), "baseline");
+      clock.tick(249);
+      assert.equal(storageOptions.localStorage.getItem(cacheKey), "baseline");
+      clock.tick(1);
+      assert.equal(
+        JSON.parse(storageOptions.localStorage.getItem(cacheKey)).data[0][1],
+        "debounced"
+      );
+
+      $("#comments").val("pagehide flush");
+      dispatchDOMEvent($("#comments")[0], "input");
+      dispatchDOMEvent(window, "pagehide");
+      assert.equal(
+        JSON.parse(storageOptions.localStorage.getItem(cacheKey)).data[0][1],
+        "pagehide flush"
+      );
+
+      $("#comments").val("visibility flush");
+      dispatchDOMEvent($("#comments")[0], "input");
+      Object.defineProperty(document, "visibilityState", {
+        configurable: true,
+        value: "hidden"
+      });
+      dispatchDOMEvent(document, "visibilitychange");
+      assert.equal(
+        JSON.parse(storageOptions.localStorage.getItem(cacheKey)).data[0][1],
+        "visibility flush"
+      );
+
+      cleanup();
+      clock.restore();
+      Reflect.deleteProperty(document, "visibilityState");
     });
   });
 });
