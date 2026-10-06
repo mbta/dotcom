@@ -5605,27 +5605,27 @@ msgstr "Telechaje %{mbta_go} pou swiv %{vehicle_name}ou a"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr ""
+msgstr "Fèmen fenèt popup la"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr ""
+msgstr "Trennen pou vire kat la, klike pou retabli nò a"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom in"
-msgstr ""
+msgstr "Agrandi"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr ""
+msgstr "Dekonekte"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
-msgstr ""
+msgstr "Aktive/dezaktive atribisyon an"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5635,4 +5635,4 @@ msgstr "Gade Orè a"
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
-msgstr "Tras pou detèmine"
+msgstr "Ray TBD"
