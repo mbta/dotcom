@@ -501,6 +501,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   attr :route, Routes.Route, required: true
   attr :classes, :string, default: ""
   attr :crowding_classes, :string, default: ""
+  attr :show_vehicle_name, :boolean, default: true
 
   def vehicle_label(assigns) do
     ~H"""
@@ -508,6 +509,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
       <span :if={@vehicle_info.status != :in_transit} class="sr-only">
         {Routes.Route.vehicle_name(@route)}
       </span>
+      <span :if={@show_vehicle_name}>{@vehicle_info.vehicle_name}</span>
       {vehicle_status_message(@vehicle_info.status)}
     </div>
     <Departures.stop_label
