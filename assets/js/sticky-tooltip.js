@@ -75,10 +75,7 @@ export default function($) {
         // to close the tooltip when the mouse leaves the tooltip
         if (!$tooltip.data("listener")) {
           $tooltip.on("mouseleave", event => {
-            if (
-              $(event.relatedTarget)?.closest("[data-original-title]")?.data("original-title") ===
-              $this.data("original-title")
-            ) {
+            if ($(event.relatedTarget) === $this) {
               return;
             }
             hideTooltip($this);
