@@ -143,7 +143,7 @@ defmodule Dotcom.Mixfile do
       {:logster, "~> 2.0.0-rc.5"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      {:mbta_metro, "1.3.0", runtime: false},
+      {:mbta_metro, "1.4.0", runtime: false},
       {:memoize, "1.4.5"},
       {:mox, "1.3.2", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
@@ -151,7 +151,7 @@ defmodule Dotcom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.21.0"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.22.0"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.8.15", override: true},
