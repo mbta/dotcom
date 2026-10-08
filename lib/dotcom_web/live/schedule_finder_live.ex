@@ -247,6 +247,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     {:noreply,
      socket
      |> assign(:direction_id, new_dir)
+     |> assign_departures()
      |> push_patch(
        to: "/departures/?route_id=#{route.id}&stop_id=#{stop.id}&direction_id=#{new_dir}"
      )}
