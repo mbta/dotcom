@@ -26,15 +26,29 @@ export const isVehicleChannel = (channelId: string): boolean =>
   (channelId.includes("vehicles:") || channelId.includes("vehicles-v2:")) &&
   !channelId.includes(":remove");
 
+const getSocket = (): Socket => {
+  if (!window.socket) {
+    const socketOptions = { ...storageOptions } as Partial<SocketConnectOption>;
+    const socket = new Socket("/socket", socketOptions);
+    window.socket = socket;
+    window.channels = {};
+    socket.connect();
+  } else if (!window.channels) {
+    window.channels = {};
+  }
+
+  return window.socket;
+};
+
 const joinChannel = <T>(
   channelId: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleJoin?: (event: any) => void
 ): void => {
-  if (!window.socket) return;
+  const socket = getSocket();
 
   if (!window.channels[channelId]) {
-    window.channels[channelId] = window.socket.channel(channelId, {});
+    window.channels[channelId] = socket.channel(channelId, {});
   }
 
   const channel = window.channels[channelId];
@@ -100,36 +114,4 @@ const leaveChannel = (id: string): void => {
   }
 };
 
-const setupChannels = (): void => {
-  const socketOptions = { ...storageOptions } as Partial<SocketConnectOption>;
-  window.socket = new Socket("/socket", socketOptions);
-  window.socket.onClose(event => {
-    if (event.type === "close" && !event.wasClean) {
-      // eslint-disable-next-line no-console
-      console.log(
-        "Socket was forced closed by the browser -- reloading to establish WebSocket connection."
-      );
-      window.location.reload();
-    }
-  });
-  window.socket.connect();
-  window.channels = {};
-
-  const joinAllChannels = (): void => {
-    document.querySelectorAll("[data-channel]").forEach(el => {
-      const channelId = el.getAttribute("data-channel");
-      if (channelId) joinChannel(channelId);
-    });
-  };
-
-  window.addEventListener("load", joinAllChannels);
-
-  // leave subscribed channels when navigating away from a page.
-  const leaveAllChannels = (): void => {
-    Object.keys(window.channels).forEach(id => leaveChannel(id));
-  };
-  document.addEventListener("DOMContentLoaded", leaveAllChannels);
-};
-
 export { joinChannel, leaveChannel };
-export default setupChannels;

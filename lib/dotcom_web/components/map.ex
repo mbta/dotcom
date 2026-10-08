@@ -49,13 +49,13 @@ defmodule DotcomWeb.Components.Map do
   end
 
   @impl true
-  def update(assigns, %{assigns: %{loaded: true}} = socket) do
+  def update(assigns, %{assigns: %{loaded: true, move_map: move_map}} = socket) do
     new_socket =
       socket
       |> assign(assigns)
       |> assign_map_locale()
       |> push_event("update-lines", %{})
-      |> push_event("update-markers", %{})
+      |> push_event("update-markers", %{move_map: move_map})
 
     {:ok, new_socket}
   end
@@ -70,6 +70,7 @@ defmodule DotcomWeb.Components.Map do
         loaded: false,
         locale: Map.get(assigns, :locale, "{}"),
         icons: Map.get(assigns, :icons, []),
+        move_map: Map.get(assigns, :move_map, true),
         pins: Map.get(assigns, :pins, []),
         points: Map.get(assigns, :points, [])
       )
@@ -159,7 +160,7 @@ defmodule DotcomWeb.Components.Map do
   We then update the `loaded` assign to `true` so we know future updates can be drawn on the map.
   """
   @impl true
-  def handle_event("map-loaded", _params, socket) do
+  def handle_event("map-loaded", params, socket) do
     new_socket =
       socket
       |> assign(:loaded, true)

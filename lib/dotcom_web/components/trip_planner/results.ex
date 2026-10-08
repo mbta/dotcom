@@ -252,13 +252,6 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
           show_accessible={@show_accessible}
         />
       </a>
-      <.promo_banner
-        href={@feedback_url}
-        class="bg-amethyst-80 text-black flex items-center justify-center gap-xs text-sm p-3 font-medium"
-      >
-        {~t(Is this helpful? Send us feedback)}
-        <.icon name="arrow-right" aria-hidden="true" class="w-3 h-3" />
-      </.promo_banner>
     </div>
     """
   end
