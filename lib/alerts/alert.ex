@@ -309,6 +309,7 @@ defmodule Alerts.Alert do
   def icon(%{priority: :high, effect: :stop_closure}), do: :cancel
   def icon(%{priority: :high, effect: :snow_route}), do: :snow
   def icon(%{priority: :high, effect: :shuttle}), do: :shuttle
+  def icon(%{cause: :presence_of_whales}), do: :whale
   def icon(_), do: :alert
 
   def image(%{image: image}), do: image
