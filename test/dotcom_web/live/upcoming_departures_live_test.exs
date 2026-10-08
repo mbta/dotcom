@@ -294,7 +294,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     document = Floki.parse_document!(html)
     struck_time = Floki.find(document, ".text-nowrap .line-through")
     assert Floki.text(struck_time) =~ "4:30"
-    assert Floki.find(document, "span.text-sm") |> Floki.text() =~ "Delayed"
+    assert Floki.find(document, "span.text-xs") |> Floki.text() =~ "Delayed"
   end
 
   defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
