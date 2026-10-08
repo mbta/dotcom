@@ -5683,3 +5683,8 @@ msgstr "查看時刻表"
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr "軌道待定"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Delayed"
+msgstr ""
