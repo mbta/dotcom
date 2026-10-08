@@ -1937,11 +1937,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         schedules: schedules,
         stops: [_, stop, _],
         vehicle: vehicle
-      } = PredictedScheduleHelper.predicted_schedule_trip_data(
-        route_factory_types: [:commuter_rail_route],
-        prediction_status: "Delayed",
-        missing_realtime?: true
-      )
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:commuter_rail_route],
+          prediction_status: "Delayed",
+          missing_realtime?: true
+        )
 
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
