@@ -26,7 +26,7 @@ export default {
 
     this.map.on("load", () => {
       this.handleEvent("update-lines", _ => this.updateLines());
-      this.handleEvent("update-markers", _ => this.updateMarkers());
+      this.handleEvent("update-markers", params => this.updateMarkers(params));
       this.pushEventTo(this.el, "map-loaded", {});
     });
   },
@@ -218,7 +218,8 @@ export default {
    *
    * If there are no markers, we skip the last two steps.
    */
-  updateMarkers() {
+  updateMarkers({move_map = true}) {
+  
     this.resetMarkers();
 
     const markers = Array.from(this.el.querySelectorAll("[data-coordinates]")).map(element => {
@@ -232,13 +233,13 @@ export default {
     }).filter(marker => marker.coordinates.length === 2);
 
     if (markers.length === 0) {
-      this.fitMapToCenter();
+      move_map && this.fitMapToCenter();
 
       return;
     }
 
     this.addMarkers(markers);
-    this.fitMapToMarkers(markers);
+    move_map && this.fitMapToMarkers(markers);
   },
 
  
