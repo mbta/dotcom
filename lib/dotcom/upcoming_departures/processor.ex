@@ -37,6 +37,7 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
     predicted_schedules_at_stop =
       predicted_schedules
+      |> add_fake_delayed_prediction(route_type)
       |> Stream.reject(&end_of_trip?/1)
       |> reject_timeless_predictions()
       |> Enum.sort_by(&PredictedSchedule.display_time/1, DateTime)
@@ -86,6 +87,30 @@ defmodule Dotcom.UpcomingDepartures.Processor do
         end
     end
   end
+
+  defp add_fake_delayed_prediction(predicted_schedules, :commuter_rail) do
+    schedule = List.first(predicted_schedules).schedule
+    fake_trip_id = "fake-trip-id"
+    fake_trip = %{schedule.trip | id: fake_trip_id}
+
+    fake_prediction = %Prediction{
+      id: fake_trip_id,
+      trip: fake_trip,
+      trip_id: fake_trip_id,
+      stop: schedule.stop,
+      platform_stop_id: schedule.platform_stop_id,
+      route: schedule.route,
+      direction_id: fake_trip.direction_id,
+      stop_sequence: schedule.stop_sequence,
+      status: "Delayed"
+    }
+
+    predicted_schedules ++
+      [%PredictedSchedule{schedule: schedule, prediction: fake_prediction}]
+  end
+
+  defp add_fake_delayed_prediction(predicted_schedules, _route_type), do: predicted_schedules
+
 
   defp no_predictions?(predicted_schedules),
     do: !(predicted_schedules |> Enum.any?(&PredictedSchedule.has_prediction?/1))
