@@ -660,12 +660,15 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     """
   end
 
-  defp prediction_time_display(%{arrival_status: {:time, time}} = assigns) do
-    assigns = assigns |> assign(:time, time)
+  defp prediction_time_display(%{arrival_status: {status, time}} = assigns)
+       when status in [:time, :delayed_without_prediction] do
+    assigns = assigns |> assign(:time, time) |> assign(:delayed_without_prediction?, status == :delayed_without_prediction)
 
     ~H"""
     <.realtime_display>
-      <Departures.formatted_time time={@time} />
+      <span class={[@delayed_without_prediction? && "line-through"]}>
+        <Departures.formatted_time time={@time} />
+      </span>
     </.realtime_display>
     """
   end
@@ -701,6 +704,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
   defp realtime_text(:now), do: ~t"Now"
+  defp realtime_text(:delayed_without_prediction), do: ~t"Delayed"
 
   defp prediction_substatus_display(%{arrival_substatus: nil} = assigns), do: ~H""
 

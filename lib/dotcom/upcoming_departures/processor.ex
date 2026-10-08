@@ -392,6 +392,17 @@ defmodule Dotcom.UpcomingDepartures.Processor do
 
   defp arrival_status(%{
          predicted_schedule: %PredictedSchedule{
+           prediction: %Prediction{arrival_time: nil, departure_time: nil, status: "Delayed"},
+           schedule: schedule
+         },
+         route_type: route_type
+       })
+       when route_type in [:commuter_rail, :ferry] do
+    {:delayed_without_prediction, schedule.departure_time}
+  end
+
+  defp arrival_status(%{
+         predicted_schedule: %PredictedSchedule{
            prediction: %Prediction{arrival_time: nil, departure_time: nil},
            schedule: schedule
          }
@@ -530,6 +541,9 @@ defmodule Dotcom.UpcomingDepartures.Processor do
     status = prediction.status
 
     cond do
+      predicted_time == nil and status == "Delayed" ->
+        {:status, status}
+
       predicted_time == nil ->
         prediction.schedule_relationship
 
