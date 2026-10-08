@@ -127,7 +127,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
      |> assign_pdfs()
-     |> assign(:guides, guides_for_this_route)}
+     |> assign(:guides, guides_for_this_route)
+     |> assign(:move_map, true)}
   end
 
   @impl true
@@ -141,7 +142,7 @@ defmodule DotcomWeb.LineDiagramLive do
         %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
         socket
       ) do
-    {:noreply, socket |> assign_vehicle_icons(event, payload.data)}
+    {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
   end
 
   def assign_vehicle_icons(socket, "remove", vehicle_ids) do
@@ -254,6 +255,7 @@ defmodule DotcomWeb.LineDiagramLive do
           map_lines={@map_lines}
           map_icons={@map_icons}
           vehicle_icons={Map.values(@vehicle_icons)}
+          move_map={@move_map}
         />
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
@@ -398,6 +400,7 @@ defmodule DotcomWeb.LineDiagramLive do
       config={@map_config}
       lines={@map_lines}
       icons={@map_icons ++ @vehicle_icons}
+      move_map={@move_map}
     />
     """
   end
