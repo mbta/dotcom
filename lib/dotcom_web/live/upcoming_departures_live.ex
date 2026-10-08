@@ -298,23 +298,6 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   end
 
   def upcoming_departures_section(assigns) do
-    assigns =
-      if assigns.route.type == 2 do
-        assign(
-          assigns,
-          :upcoming_departures,
-          List.update_at(assigns.upcoming_departures, 0, fn departure ->
-            %{
-              departure
-              | arrival_status: {:delayed_without_prediction, departure.time},
-                arrival_substatus: {:status, "Delayed"}
-            }
-          end)
-        )
-      else
-        assigns
-      end
-
     ~H"""
     <.mbta_go_cta
       :if={!Map.has_key?(assigns, :no_realtime)}
