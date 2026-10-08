@@ -395,9 +395,8 @@ defmodule Dotcom.UpcomingDepartures.Processor do
            prediction: %Prediction{arrival_time: nil, departure_time: nil, status: "Delayed"},
            schedule: schedule
          },
-         route_type: route_type
-       })
-       when route_type in [:commuter_rail, :ferry] do
+         route_type: :commuter_rail
+       }) do
     {:delayed_without_prediction, schedule.departure_time}
   end
 
