@@ -97,7 +97,7 @@ defmodule DotcomWeb.LineDiagramLive do
       params
       |> Map.get("schedule_direction", %{
         "direction_id" =>
-          default_direction_id(%Plug.Conn{
+          default_direction_id(%{
             assigns: %{route: route, date_time: @date_time_module.now()}
           })
           |> Integer.to_string()

@@ -35,7 +35,7 @@ defmodule DotcomWeb.Schedule.Defaults do
   If there's no headsign for a direction, default to the other direction. Otherwise, default to
   inbound before 2:00pm and outbound afterwards.
   """
-  @spec default_direction_id(Conn.t()) :: 0 | 1
+  @spec default_direction_id(Conn.t() | %{assigns: map()}) :: 0 | 1
   def default_direction_id(%{assigns: %{route: %{direction_names: %{0 => nil}}}}), do: 1
   def default_direction_id(%{assigns: %{route: %{direction_names: %{1 => nil}}}}), do: 0
 
