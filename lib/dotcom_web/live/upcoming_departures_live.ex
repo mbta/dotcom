@@ -752,7 +752,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
   defp prediction_substatus_display(%{arrival_substatus: {:status, "Delayed"}} = assigns) do
     ~H"""
-    <span class="text-sm inline-flex items-center gap-1">
+    <span class="text-sm text-nowrap inline-flex items-center gap-1">
       <.icon
         aria-hidden
         type="icon-svg"
