@@ -32,13 +32,13 @@ defmodule DotcomWeb.Components.SystemStatus.StatusIcon do
     """
   end
 
+  def status_icon_name(_, :presence_of_whales), do: "icon-whale"
+
   def status_icon_name(:shuttle, _), do: "icon-shuttle-default"
   def status_icon_name(:single_tracking, _), do: "icon-single-tracking-default"
 
   def status_icon_name(status, _) when status in [:cancellation, :station_closure, :suspension],
     do: "icon-cancelled-default"
-
-  def status_icon_name(_, :presence_of_whales), do: "icon-whale"
 
   def status_icon_name(_, _), do: "icon-alerts-triangle"
 end
