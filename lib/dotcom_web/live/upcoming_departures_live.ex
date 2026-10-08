@@ -298,6 +298,23 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   end
 
   def upcoming_departures_section(assigns) do
+    assigns =
+      if assigns.route.type == 2 do
+        assign(
+          assigns,
+          :upcoming_departures,
+          List.update_at(assigns.upcoming_departures, 0, fn departure ->
+            %{
+              departure
+              | arrival_status: {:delayed_without_prediction, departure.time},
+                arrival_substatus: {:status, "Delayed"}
+            }
+          end)
+        )
+      else
+        assigns
+      end
+
     ~H"""
     <.mbta_go_cta
       :if={!Map.has_key?(assigns, :no_realtime)}
@@ -666,7 +683,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
     ~H"""
     <.realtime_display>
-      <span class={[@delayed_without_prediction? && "line-through"]}>
+      <span class={[@delayed_without_prediction? && "line-through font-normal"]}>
         <Departures.formatted_time time={@time} />
       </span>
     </.realtime_display>
@@ -704,7 +721,6 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   defp realtime_text(:arriving), do: ~t"Arriving"
   defp realtime_text(:boarding), do: ~t"Boarding"
   defp realtime_text(:now), do: ~t"Now"
-  defp realtime_text(:delayed_without_prediction), do: ~t"Delayed"
 
   defp prediction_substatus_display(%{arrival_substatus: nil} = assigns), do: ~H""
 
@@ -734,11 +750,27 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     """
   end
 
+  defp prediction_substatus_display(%{arrival_substatus: {:status, "Delayed"}} = assigns) do
+    ~H"""
+    <span class="text-sm inline-flex items-center gap-1">
+      <.icon
+        aria-hidden
+        type="icon-svg"
+        name="icon-alerts-triangle"
+        class="size-2.5"
+      />
+      {~t"Delayed"}
+    </span>
+    """
+  end
+
   defp prediction_substatus_display(%{arrival_substatus: {:status, status}} = assigns) do
     assigns = assigns |> assign(:status, status)
 
     ~H"""
-    <span class="text-xs">{@status}</span>
+    <span class="text-xs inline-flex items-center gap-1">
+      {@status}
+    </span>
     """
   end
 

@@ -295,6 +295,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     struck_time = Floki.find(document, ".text-nowrap .line-through")
     assert Floki.text(struck_time) =~ "4:30"
     assert Floki.find(document, ".font-bold.text-nowrap svg.size-3") != []
+    assert Floki.find(document, "span.text-xs svg.size-3[aria-hidden]") != []
     assert Floki.find(document, "span.text-xs") |> Floki.text() =~ "Delayed"
   end
 
