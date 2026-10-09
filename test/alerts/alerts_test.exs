@@ -148,6 +148,7 @@ defmodule AlertsTest do
       assert icon(%Alert{effect: :snow_route, priority: :high}) == :snow
       assert icon(%Alert{effect: :shuttle, priority: :high}) == :shuttle
       assert icon(%Alert{effect: :delay, priority: :high}) == :alert
+      assert icon(%Alert{effect: :delay, priority: :high, cause: :presence_of_whales}) == :whale
     end
   end
 

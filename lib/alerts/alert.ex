@@ -301,6 +301,7 @@ defmodule Alerts.Alert do
   defp do_human_delay_severity(_), do: nil
 
   @spec icon(t) :: icon_type
+  def icon(%{cause: :presence_of_whales}), do: :whale
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel
   def icon(%{priority: :high, effect: :cancellation}), do: :cancel

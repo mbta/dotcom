@@ -8,6 +8,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
 
   import DotcomWeb.Components.SystemStatus.StatusIcon, only: [status_icon: 1]
 
+  attr :cause, :atom, default: nil
   attr :description, :string, required: true
   attr :status, :atom, required: true
   attr :subheading_text, :string, default: nil
@@ -17,7 +18,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusLabel do
     ~H"""
     <div class="flex">
       <div class="h-6 pr-2 flex items-center">
-        <.status_icon status={@status} />
+        <.status_icon status={@status} cause={@cause} />
       </div>
 
       <div class="grow flex flex-wrap items-baseline gap-x-2">
