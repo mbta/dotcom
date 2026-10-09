@@ -83,6 +83,7 @@ defmodule DotcomWeb.LineDiagramLive do
     ]
 
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
+  import DotcomWeb.Schedule.Defaults, only: [default_direction_id: 1]
 
   on_mount DotcomWeb.Hooks.AssignRoute
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
@@ -94,7 +95,13 @@ defmodule DotcomWeb.LineDiagramLive do
 
     direction_id =
       params
-      |> Map.get("schedule_direction", %{"direction_id" => "1"})
+      |> Map.get("schedule_direction", %{
+        "direction_id" =>
+          default_direction_id(%{
+            assigns: %{route: route, date_time: @date_time_module.now()}
+          })
+          |> Integer.to_string()
+      })
       |> Map.get("direction_id")
       |> String.to_integer()
 
