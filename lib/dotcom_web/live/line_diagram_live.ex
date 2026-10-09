@@ -132,6 +132,39 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   @impl true
+  def handle_params(params, _uri, socket) do
+    direction_id =
+      case Map.get(params, "direction_id") do
+        "0" -> 0
+        _ -> 1
+      end
+
+    if direction_id != socket.assigns.direction_id do
+      route_id = socket.assigns.route_id
+      vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
+
+      if connected?(socket) do
+        Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
+        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+      end
+
+      vehicle_icons =
+        route_id
+        |> @vehicles_repo.route(direction_id: direction_id)
+        |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+
+      {:noreply,
+       socket
+       |> assign(:direction_id, direction_id)
+       |> assign(:vehicle_topic, vehicle_topic)
+       |> assign(:vehicle_icons, vehicle_icons)
+       |> assign_route_data()}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  @impl true
   def terminate(_, socket) do
     # stop listening for new vehicles
     _ = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
@@ -249,6 +282,27 @@ defmodule DotcomWeb.LineDiagramLive do
         >
           🚧 Under Construction 🚧
         </marquee>
+        <div class="m-schedule-direction">
+          <div id="direction-name" class="m-schedule-direction__direction">
+            {Routes.Route.direction_name(@route, @direction_id)}
+          </div>
+          <div>
+
+          </div>
+          <.link
+            :if={Routes.Route.direction_name(@route, 1 - @direction_id)}
+            id="direction-filter"
+            patch={~p"/schedules/#{@route.id}/line_new?direction_id=#{1 - @direction_id}"}
+            class="m-schedule-direction__button btn btn-primary"
+          >
+            <.icon
+              type="icon-svg"
+              name="icon-change-direction"
+              class="size-4 mr-0.5 fill-current"
+            />
+            {~t(Change Direction)}
+          </.link>
+        </div>
         <.map
           map_config={@map_config}
           route_patterns={@route_patterns}

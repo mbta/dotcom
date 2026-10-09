@@ -1,15 +1,18 @@
 <%= if Routes.Route.direction_destination(@route, @direction_id) do %>
   <% has_opposite_direction? =
-    Routes.Route.direction_destination(@route, 1 - @direction_id) != nil %>
+    Routes.Route.direction_destination(@route, 1 - @direction_id) != nil
+    patch_url =
+      if has_opposite_direction? do
+        @patch_url || update_url(@conn, reverse_direction_opts(1 - @direction_id)) <> "#direction-filter"
+      else
+        nil
+      end
+  %>
   <div class={"direction-filter col-xs-12 col-sm-#{@column_width} #{if(@show_date_select?, do: "hidden")}"}>
     <.dynamic_tag
       id="direction-filter"
       tag_name={if(has_opposite_direction?, do: "a", else: "div")}
-      href={
-        if(has_opposite_direction?,
-          do: update_url(@conn, reverse_direction_opts(1 - @direction_id)) <> "#direction-filter"
-        )
-      }
+      href={patch_url}
     >
       <div class="filter-button">
         <div class="filter-text">
