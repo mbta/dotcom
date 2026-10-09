@@ -19,7 +19,13 @@ defmodule DotcomWeb.Mode.Hub do
       if Kernel.function_exported?(mode_module, :routes, 0) do
         mode_module.routes()
       else
-        mode_module.route_type() |> @routes_repo.by_type()
+        (mode_module.route_type()
+         |> @routes_repo.by_type()) ++
+          if(mode_module.mode_icon() == DotcomWeb.Mode.SubwayController.mode_icon()) do
+            [@routes_repo.get("Mattapan"), @routes_repo.get("Green")]
+          else
+            []
+          end
       end
 
     render_index(conn, mode_module, mode_routes, params)
