@@ -319,6 +319,12 @@ defmodule DotcomWeb.LineDiagramLive do
     Enum.reject(route_patterns, &(!&1.canonical))
   end
 
+  # avoid showing route patterns from multi-route trips that are primarily
+  # assigned to another route
+  defp filter_unwanted_route_patterns(route_patterns, %{type: 3} = route) do
+    Enum.reject(route_patterns, &(&1.route_id != route.id))
+  end
+
   defp filter_unwanted_route_patterns(route_patterns, _route), do: route_patterns
 
   # Do stop lookups once and save for future rendering
