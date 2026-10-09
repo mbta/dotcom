@@ -96,7 +96,7 @@ defmodule DotcomWeb.RouteComponents do
         class="w-6 shrink-0 self-stretch flex justify-center relative"
         style="margin-block: calc(-1 * (var(--spacing-3) + 0.06rem));"
       >
-        <div class="w-1 z-10 shrink-0 flex flex-col self-stretch">
+        <div class="w-1 shrink-0 flex flex-col self-stretch">
           <div class={"#{route_to_class(@route)} grow top"} />
           <div class={"#{route_to_class(@route)} grow bottom"} />
         </div>
@@ -111,7 +111,7 @@ defmodule DotcomWeb.RouteComponents do
           :if={@stop_pin?}
           type="icon-svg"
           name="stop-pin"
-          class="h-6 w-6 absolute z-20 -left-7 -top-6"
+          class="h-6 w-6 absolute -left-7 -top-6"
         />
       </div>
       {render_slot(@inner_block)}
@@ -145,7 +145,7 @@ defmodule DotcomWeb.RouteComponents do
       aria-hidden
       line={@line_name}
       mode={@mode}
-      class="absolute top-0 bottom-0 left-0 right-0 z-20 m-auto"
+      class="absolute top-0 bottom-0 left-0 right-0 m-auto"
     />
     <div />
     """
@@ -155,7 +155,7 @@ defmodule DotcomWeb.RouteComponents do
     ~H"""
     <div class={[
       "bg-transparent #{route_to_class(@route)}",
-      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "absolute top-0 bottom-0 left-0 right-0 m-auto",
       "size-5 ring-2 #{background_to_ring_class(@background)}",
       "flex items-center justify-items-center"
     ]}>
@@ -168,7 +168,7 @@ defmodule DotcomWeb.RouteComponents do
     ~H"""
     <div class={[
       "#{route_to_stroke_class(@route)}",
-      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "absolute top-0 bottom-0 left-0 right-0 m-auto",
       "size-5 #{background_to_bg_class(@background)}",
       "flex items-center justify-items-center"
     ]}>
@@ -181,7 +181,7 @@ defmodule DotcomWeb.RouteComponents do
     ~H"""
     <div class={[
       "#{route_to_class(@route)}",
-      "absolute top-0 bottom-0 left-0 right-0 z-20 m-auto",
+      "absolute top-0 bottom-0 left-0 right-0 m-auto",
       "size-3.5 rounded-full border-xs border-[#00000026]"
     ]} />
     """
