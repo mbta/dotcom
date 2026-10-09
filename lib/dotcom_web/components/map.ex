@@ -49,13 +49,15 @@ defmodule DotcomWeb.Components.Map do
   end
 
   @impl true
-  def update(assigns, %{assigns: %{loaded: true, move_map: move_map}} = socket) do
+  def update(assigns, %{assigns: %{loaded: true}} = socket) do
     new_socket =
       socket
       |> assign(assigns)
       |> assign_map_locale()
       |> push_event("update-lines", %{})
-      |> push_event("update-markers", %{move_map: move_map})
+      |> push_event("update-markers", %{
+        move_map: Map.get(assigns, :move_map, socket.assigns.move_map)
+      })
 
     {:ok, new_socket}
   end
