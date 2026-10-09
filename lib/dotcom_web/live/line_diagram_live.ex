@@ -127,9 +127,11 @@ defmodule DotcomWeb.LineDiagramLive do
        |> @vehicles_repo.route(direction_id: direction_id)
        |> Map.new(&{&1.id, to_vehicle_marker(&1)})
      end)
-     |> assign_route_data()
      |> assign(:route_id, route_id)
      |> assign(:route, route)
+     |> assign_route_patterns()
+     |> assign_route_stops()
+     |> assign_route_data()
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
@@ -285,7 +287,6 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp assign_route_data(socket) do
     socket
-    |> assign_route_patterns()
     |> assign_stops()
     |> assign_map_attributes()
   end
@@ -311,12 +312,25 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp filter_unwanted_route_patterns(route_patterns, _route_id), do: route_patterns
 
-  defp assign_stops(%{assigns: %{route_patterns: route_patterns}} = socket) do
+  # Do stop lookups once and save for future rendering
+  defp assign_route_stops(socket) do
+    assign_new(socket, :stops_by_id, fn ->
+      socket.assigns.route_patterns
+      |> Enum.flat_map(& &1.stop_ids)
+      |> Enum.uniq()
+      |> Map.new(&{&1, @stops_repo.get(&1)})
+    end)
+  end
+
+  defp assign_stops(
+         %{assigns: %{route_patterns: route_patterns, stops_by_id: stops_by_id}} =
+           socket
+       ) do
     stops =
       route_patterns
       |> Stream.flat_map(& &1.stop_ids)
       |> Stream.uniq()
-      |> Stream.map(&@stops_repo.get/1)
+      |> Stream.map(&Map.fetch!(stops_by_id, &1))
       |> Enum.to_list()
 
     socket |> assign(:stops, stops)
