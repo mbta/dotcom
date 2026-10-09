@@ -127,9 +127,11 @@ defmodule DotcomWeb.LineDiagramLive do
        |> @vehicles_repo.route(direction_id: direction_id)
        |> Map.new(&{&1.id, to_vehicle_marker(&1)})
      end)
-     |> assign_route_data()
      |> assign(:route_id, route_id)
      |> assign(:route, route)
+     |> assign_route_patterns()
+     |> assign_route_stops()
+     |> assign_route_data()
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
@@ -285,38 +287,65 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp assign_route_data(socket) do
     socket
-    |> assign_route_patterns()
     |> assign_stops()
     |> assign_map_attributes()
   end
 
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
     route_patterns =
-      @route_patterns_repo.by_route_id(route.id,
+      route.id
+      |> maybe_use_green_line_id()
+      |> @route_patterns_repo.by_route_id(
         direction_id: direction_id,
         include: "representative_trip.shape,representative_trip.stops"
       )
-      |> Enum.filter(&(&1.typicality == 1))
-      |> filter_unwanted_route_patterns(route.id)
+      |> filter_unwanted_route_patterns(route)
 
     socket
     |> assign(:route_patterns, route_patterns)
   end
 
-  defp filter_unwanted_route_patterns(route_patterns, route_id)
-       when route_id in ["Boat-F6", "Boat-F7"] do
+  defp maybe_use_green_line_id("Green-" <> _), do: "Green"
+  defp maybe_use_green_line_id(route_id), do: route_id
+
+  defp filter_unwanted_route_patterns(route_patterns, route)
+       when route.id in ["Boat-F6", "Boat-F7"] do
     route_patterns
     |> Enum.reject(&(&1.route_id == "Boat-F8"))
   end
 
-  defp filter_unwanted_route_patterns(route_patterns, _route_id), do: route_patterns
+  # Use canonical route patterns where available!
+  defp filter_unwanted_route_patterns(route_patterns, %{type: type}) when type in [0, 1, 2] do
+    Enum.reject(route_patterns, &(!&1.canonical))
+  end
 
-  defp assign_stops(%{assigns: %{route_patterns: route_patterns}} = socket) do
+  # avoid showing route patterns from multi-route trips that are primarily
+  # assigned to another route
+  defp filter_unwanted_route_patterns(route_patterns, %{type: 3} = route) do
+    Enum.reject(route_patterns, &(&1.route_id != route.id))
+  end
+
+  defp filter_unwanted_route_patterns(route_patterns, _route), do: route_patterns
+
+  # Do stop lookups once and save for future rendering
+  defp assign_route_stops(socket) do
+    assign_new(socket, :stops_by_id, fn ->
+      socket.assigns.route_patterns
+      |> Enum.flat_map(& &1.stop_ids)
+      |> Enum.uniq()
+      |> Map.new(&{&1, @stops_repo.get(&1)})
+    end)
+  end
+
+  defp assign_stops(
+         %{assigns: %{route_patterns: route_patterns, stops_by_id: stops_by_id}} =
+           socket
+       ) do
     stops =
       route_patterns
       |> Stream.flat_map(& &1.stop_ids)
       |> Stream.uniq()
-      |> Stream.map(&@stops_repo.get/1)
+      |> Stream.map(&Map.fetch!(stops_by_id, &1))
       |> Enum.to_list()
 
     socket |> assign(:stops, stops)
