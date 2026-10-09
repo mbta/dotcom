@@ -189,6 +189,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  @impl LiveView
   def handle_params(params, _uri, socket) do
     case validate_params(params) do
       {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
