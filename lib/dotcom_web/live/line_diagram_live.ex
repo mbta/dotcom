@@ -293,7 +293,9 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
     route_patterns =
-      @route_patterns_repo.by_route_id(route.id,
+      route.id
+      |> maybe_use_green_line_id()
+      |> @route_patterns_repo.by_route_id(
         direction_id: direction_id,
         include: "representative_trip.shape,representative_trip.stops"
       )
@@ -303,6 +305,9 @@ defmodule DotcomWeb.LineDiagramLive do
     socket
     |> assign(:route_patterns, route_patterns)
   end
+
+  defp maybe_use_green_line_id("Green-" <> _), do: "Green"
+  defp maybe_use_green_line_id(route_id), do: route_id
 
   defp filter_unwanted_route_patterns(route_patterns, route_id)
        when route_id in ["Boat-F6", "Boat-F7"] do
