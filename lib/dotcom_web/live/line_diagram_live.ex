@@ -297,6 +297,7 @@ defmodule DotcomWeb.LineDiagramLive do
           >
             <.icon
               type="icon-svg"
+              aria-hidden
               name="icon-change-direction"
               class="size-4 mr-0.5 fill-current"
             />
