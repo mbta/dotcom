@@ -10,6 +10,19 @@
   </div>
 </div>
 
+<div class="container" :if={@go_redirect}>
+  <div class="page-section">
+    <DotcomWeb.Components.cta
+      icon="icon-mbta-go"
+      link="https://www.mbta.com/app-store?pt=117998862&ct=dotcom-stop-page-go-redirect&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dstop-page-go-redirect"
+      arrow
+    >
+      {gettext("Download <strong>%{appname}</strong> to track your trip", %{appname: "MBTA Go"})
+      |> Phoenix.HTML.raw()}
+    </DotcomWeb.Components.cta>
+  </div>
+</div>
+
 <div class="container">
   <div class="page-section">
     {DotcomWeb.AlertView.render(
