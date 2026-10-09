@@ -5706,3 +5706,8 @@ msgstr "Xem lịch trình"
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr "Ray Chưa Rõ"
+
+#: lib/dotcom_web/templates/stop/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Download <strong>%{appname}</strong> to track your trip"
+msgstr ""
