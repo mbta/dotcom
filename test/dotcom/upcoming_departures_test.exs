@@ -1928,6 +1928,38 @@ defmodule Dotcom.UpcomingDeparturesTest do
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 
+    test "shows a delayed scheduled time for commuter rail when a delayed prediction has no times" do
+      # Setup
+      %{
+        predictions: predictions,
+        route: route,
+        scheduled_departure_times: [_, scheduled_departure_time, _],
+        schedules: schedules,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:commuter_rail_route],
+          prediction_status: "Delayed",
+          missing_realtime?: true
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        Generators.ServiceDateTime.earlier_on_day(scheduled_departure_time)
+      end)
+
+      # Exercise
+      predicted_schedules = predicted_schedules_for_stop(schedules, predictions, stop.id)
+      departures = UpcomingDepartures.upcoming_departures(predicted_schedules, %{route: route})
+
+      # Verify
+      assert [departure] = departures
+      assert departure.arrival_status == {:delayed_without_prediction, scheduled_departure_time}
+      assert departure.arrival_substatus == {:status, "Delayed"}
+    end
+
     test "shows {:delayed_from, scheduled_time} for commuter rail and ferry if predicted time is more than a minute late even if the status is 'Delayed'" do
       # Setup
       %{

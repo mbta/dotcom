@@ -5715,3 +5715,8 @@ msgstr "Ver horario"
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr "Vía por definir"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Delayed"
+msgstr "Retrasado"
