@@ -16,16 +16,11 @@ defmodule DotcomWeb.Mode.Hub do
 
   def index(mode_module, conn, params) do
     mode_routes =
-      if Kernel.function_exported?(mode_module, :routes, 0) do
+      if Code.ensure_loaded?(mode_module) && Kernel.function_exported?(mode_module, :routes, 0) do
         mode_module.routes()
       else
-        (mode_module.route_type()
-         |> @routes_repo.by_type()) ++
-          if(mode_module.route_type() == 1) do
-            [@routes_repo.get("Mattapan"), @routes_repo.get("Green")]
-          else
-            []
-          end
+        mode_module.route_type()
+        |> @routes_repo.by_type()
       end
 
     render_index(conn, mode_module, mode_routes, params)
