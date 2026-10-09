@@ -299,8 +299,7 @@ defmodule DotcomWeb.LineDiagramLive do
         direction_id: direction_id,
         include: "representative_trip.shape,representative_trip.stops"
       )
-      |> Enum.filter(&(&1.typicality == 1))
-      |> filter_unwanted_route_patterns(route.id)
+      |> filter_unwanted_route_patterns(route)
 
     socket
     |> assign(:route_patterns, route_patterns)
@@ -309,13 +308,18 @@ defmodule DotcomWeb.LineDiagramLive do
   defp maybe_use_green_line_id("Green-" <> _), do: "Green"
   defp maybe_use_green_line_id(route_id), do: route_id
 
-  defp filter_unwanted_route_patterns(route_patterns, route_id)
-       when route_id in ["Boat-F6", "Boat-F7"] do
+  defp filter_unwanted_route_patterns(route_patterns, route)
+       when route.id in ["Boat-F6", "Boat-F7"] do
     route_patterns
     |> Enum.reject(&(&1.route_id == "Boat-F8"))
   end
 
-  defp filter_unwanted_route_patterns(route_patterns, _route_id), do: route_patterns
+  # Use canonical route patterns where available!
+  defp filter_unwanted_route_patterns(route_patterns, %{type: type}) when type in [0, 1, 2] do
+    Enum.reject(route_patterns, &(!&1.canonical))
+  end
+
+  defp filter_unwanted_route_patterns(route_patterns, _route), do: route_patterns
 
   # Do stop lookups once and save for future rendering
   defp assign_route_stops(socket) do
