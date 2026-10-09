@@ -286,9 +286,6 @@ defmodule DotcomWeb.LineDiagramLive do
           <div id="direction-name" class="m-schedule-direction__direction">
             {Routes.Route.direction_name(@route, @direction_id)}
           </div>
-          <div>
-
-          </div>
           <.link
             :if={Routes.Route.direction_name(@route, 1 - @direction_id)}
             id="direction-filter"
