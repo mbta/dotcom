@@ -21,7 +21,7 @@ defmodule DotcomWeb.Mode.Hub do
       else
         (mode_module.route_type()
          |> @routes_repo.by_type()) ++
-          if(mode_module.mode_icon() == DotcomWeb.Mode.SubwayController.mode_icon()) do
+          if(mode_module.route_type() == 1) do
             [@routes_repo.get("Mattapan"), @routes_repo.get("Green")]
           else
             []
