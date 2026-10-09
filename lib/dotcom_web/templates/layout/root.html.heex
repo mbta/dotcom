@@ -86,7 +86,7 @@
             {name}
           </a>
         </div>
-        <span class="fixed bottom-0 left-0 bg-gold-80 p-md text-sm font-medium leading-none z-10 shadow-2xl">
+        <span class="fixed bottom-0 left-0 bg-gold-80 p-md text-sm font-medium leading-none z-[23] shadow-2xl">
           <% enabled_flags =
             Laboratory.features(@conn) |> Enum.filter(& &1.enabled) |> Enum.map(& &1.name) %>
           <i class="fa fa-fw fa-flag"></i>
