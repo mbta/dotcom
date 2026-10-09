@@ -5687,4 +5687,4 @@ msgstr "軌道待定"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
-msgstr ""
+msgstr "延遲"

@@ -5719,4 +5719,4 @@ msgstr "Piste à déterminer"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
-msgstr ""
+msgstr "Retardé"
