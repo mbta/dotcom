@@ -94,10 +94,12 @@ jobs:
         with:
           load: true
           tags: assets-image
+          labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             SENTRY_RELEASE=${{ steps.version-ids.outputs.sentry-release }}
-          cache-from: type=gha,src=/tmp/.buildx-cache
-          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+          # Share production-image build layers across deployment environments.
+          cache-from: type=gha,scope=dotcom
+          cache-to: type=gha,scope=dotcom,mode=max
 
       - name: Upload assets from image into s3
         env:
@@ -106,16 +108,13 @@ jobs:
           bash upload_assets.sh assets-image
 
       - name: Push to ECR
-        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
-        id: docker-build
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            SENTRY_RELEASE=${{ steps.version-ids.outputs.sentry-release }}
-          cache-from: type=gha,src=/tmp/.buildx-cache
-          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+        env:
+          DOCKER_TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          while IFS= read -r tag; do
+            docker tag assets-image "$tag"
+            docker push "$tag"
+          done <<< "$DOCKER_TAGS"
 
       - uses: mbta/actions/deploy-ecs@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
         with:
@@ -183,13 +182,14 @@ jobs:
           name: critical-user-journey-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
           path: playwright-report
           retention-days: 30
-  crawl:
-    permissions:
-      contents: read
-    needs: deploy
-    uses: ./.github/workflows/crawler.yml
-    with:
-      deployment-env: ${{ inputs.deployment-env }}
+  # disabled until we can figure out rate-limiting!
+  # crawl:
+  #   permissions:
+  #     contents: read
+  #   needs: deploy
+  #   uses: ./.github/workflows/crawler.yml
+  #   with:
+  #     deployment-env: ${{ inputs.deployment-env }}
   monitor:
     permissions:
       contents: read
