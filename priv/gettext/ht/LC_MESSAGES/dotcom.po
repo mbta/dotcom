@@ -5706,4 +5706,4 @@ msgstr "Ray TBD"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
-msgstr ""
+msgstr "Anreta"
