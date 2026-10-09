@@ -28,7 +28,7 @@ defmodule DotcomWeb.StopInformationLive do
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :stop_page}
 
   @impl LiveView
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
     %{routes_by_stop: routes_by_stop, stop: stop} = socket.assigns
 
     amenities =
@@ -50,6 +50,7 @@ defmodule DotcomWeb.StopInformationLive do
       |> assign(:escalator_amenity, amenities[:escalator])
       |> assign(:accessibility_amenity, amenities[:accessibility])
       |> assign(:fare_amenity, amenities[:fare])
+      |> assign(:go_redirect, params |> Map.get("utm_source", "") == "go-redirect")
 
     if socket.assigns.new_stop_page do
       socket =
