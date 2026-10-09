@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { syncLiveView } from "../utils.js";
 
 export async function scenario({ page, baseURL }) {
   await page.goto(`${baseURL}/`);
@@ -25,7 +24,6 @@ export async function scenario({ page, baseURL }) {
 
   await page.locator("button#trip-plan__submit").click();
   await page.waitForURL("/trip-planner?plan=*");
-  await syncLiveView(page, expect);
 
   await expect
     .poll(async () =>
