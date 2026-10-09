@@ -238,6 +238,51 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "subway_line_name/1" do
+    test "returns the icon name for each subway line" do
+      for {id, name} <- [
+            {"Red", "red-line"},
+            {"Orange", "orange-line"},
+            {"Blue", "blue-line"},
+            {"Mattapan", "mattapan-line"},
+            {"Green", "green-line"}
+          ] do
+        assert subway_line_name(id) == name
+      end
+    end
+
+    test "returns the icon name for each Green Line branch" do
+      for branch <- ~w(B C D E) do
+        assert subway_line_name("Green-#{branch}") == "green-line-#{String.downcase(branch)}"
+      end
+    end
+
+    test "returns nil for routes that aren't subway lines" do
+      for id <- ["1", "741", "CR-Providence", "Boat-F1", "", nil] do
+        assert subway_line_name(id) == nil
+      end
+    end
+  end
+
+  describe "line_name/1" do
+    test "returns subway line icon names" do
+      assert line_name("Red") == "red-line"
+      assert line_name("Green-C") == "green-line-c"
+    end
+
+    test "returns silver-line for Silver Line routes" do
+      for id <- Route.silver_line() do
+        assert line_name(id) == "silver-line"
+      end
+    end
+
+    test "returns nil for other routes" do
+      for id <- ["1", "CR-Providence", "Boat-F1", nil] do
+        assert line_name(id) == nil
+      end
+    end
+  end
+
   describe "hidden?/1" do
     test "Returns true for hidden routes" do
       hidden_routes = [

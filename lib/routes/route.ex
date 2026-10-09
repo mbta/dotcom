@@ -139,6 +139,32 @@ defmodule Routes.Route do
   def types_for_mode(:mattapan_line), do: [0]
   def types_for_mode(:silver_line), do: [3]
 
+  @doc """
+  The `MbtaMetro` route icon line name (e.g. `"green-line-b"`) for a subway line
+  route ID, or `nil` if the ID is not a subway line.
+  """
+  @spec subway_line_name(id_t() | nil) :: String.t() | nil
+  def subway_line_name("Mattapan"), do: "mattapan-line"
+  def subway_line_name("Red"), do: "red-line"
+  def subway_line_name("Green"), do: "green-line"
+  def subway_line_name("Green-" <> branch), do: "green-line-#{String.downcase(branch)}"
+  def subway_line_name("Blue"), do: "blue-line"
+  def subway_line_name("Orange"), do: "orange-line"
+  def subway_line_name(_), do: nil
+
+  @doc """
+  Like `subway_line_name/1`, but also returns `"silver-line"` for Silver Line
+  route IDs.
+  """
+  @spec line_name(id_t() | nil) :: String.t() | nil
+  def line_name(id) do
+    if silver_line?(id) do
+      "silver-line"
+    else
+      subway_line_name(id)
+    end
+  end
+
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
   def icon_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
   def icon_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
