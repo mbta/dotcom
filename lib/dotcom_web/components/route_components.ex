@@ -33,7 +33,7 @@ defmodule DotcomWeb.RouteComponents do
   end
 
   def route_icon(%{route: %Route{id: route_id}} = assigns) do
-    case line_name(route_id) do
+    case Route.subway_line_name(route_id) do
       nil ->
         ~H"""
         <SystemIcons.route_icon name={@route.name} size={@size} {@rest} />
@@ -45,18 +45,6 @@ defmodule DotcomWeb.RouteComponents do
         ~H"""
         <SystemIcons.route_icon line={@line} size={@size} {@rest} />
         """
-    end
-  end
-
-  defp line_name(route_id) do
-    case route_id do
-      "Mattapan" -> "mattapan-line"
-      "Red" -> "red-line"
-      "Green" -> "green-line"
-      "Green-" <> branch -> "green-line-#{String.downcase(branch)}"
-      "Blue" -> "blue-line"
-      "Orange" -> "orange-line"
-      _ -> nil
     end
   end
 
