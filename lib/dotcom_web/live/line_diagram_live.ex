@@ -70,8 +70,12 @@ defmodule DotcomWeb.LineDiagramLive do
     }
   ]
 
+  alias DotcomWeb.Hooks.SyncUrlParam
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
   import DotcomWeb.Components.FareCard, only: [fare_card: 1]
+
+  import DotcomWeb.Components.VariantPicker, only: [variant_picker: 1, variant_picker?: 1]
+
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
 
   import DotcomWeb.ScheduleView,
@@ -87,6 +91,15 @@ defmodule DotcomWeb.LineDiagramLive do
 
   on_mount DotcomWeb.Hooks.AssignRoute
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
+
+  on_mount {SyncUrlParam,
+            %{
+              param: "variant",
+              assign: :selected_variant,
+              event: "set_variant",
+              event_key: "option",
+              validate: &__MODULE__.valid_variant?/2
+            }}
 
   @impl true
   def mount(params, _session, socket) do
@@ -152,6 +165,49 @@ defmodule DotcomWeb.LineDiagramLive do
         socket
       ) do
     {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+  end
+
+  # selected_variant is set from the URL by the SyncUrlParam hook, which runs first
+  @impl true
+
+  def handle_params(_params, _uri, socket) do
+    {:noreply,
+     socket
+     |> apply_if_param_changed(:selected_variant, fn s ->
+       s
+       |> update(:selected_route_patterns, &apply_selected_variant/2)
+       |> refresh_selection()
+     end)}
+  end
+
+  defp apply_if_param_changed(socket, param, func) do
+    if changed?(socket, param) do
+      func.(socket)
+    else
+      socket
+    end
+  end
+
+  def valid_variant?(variant, %{assigns: %{route_patterns: route_patterns}}) do
+    Enum.any?(route_patterns, &(&1.id == variant))
+  end
+
+  defp apply_selected_variant(_, %{route_patterns: all_route_patterns, selected_variant: id}) do
+    case Enum.find(all_route_patterns, &(&1.id == id)) do
+      nil ->
+        all_route_patterns
+
+      selected ->
+        [selected]
+    end
+  end
+
+  # re-fit the map to the newly selected variant
+  defp refresh_selection(socket) do
+    socket
+    |> assign_stops()
+    |> assign_map_attributes()
+    |> assign(:move_map, true)
   end
 
   def assign_vehicle_icons(socket, "remove", vehicle_ids) do
@@ -258,6 +314,18 @@ defmodule DotcomWeb.LineDiagramLive do
         >
           🚧 Under Construction 🚧
         </marquee>
+        <div class="m-schedule-direction">
+          <div class="m-schedule-direction__direction">
+            {@route.direction_names[@direction_id]}
+          </div>
+          <div :if={variant_picker?(@route)} class="-ml-sm">
+            <.variant_picker
+              route={@route}
+              route_patterns={@route_patterns}
+              selected_variant={@selected_variant}
+            />
+          </div>
+        </div>
         <.map
           map_config={@map_config}
           route_patterns={@route_patterns}
@@ -303,6 +371,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
     socket
     |> assign(:route_patterns, route_patterns)
+    |> assign(:selected_route_patterns, route_patterns)
   end
 
   defp maybe_use_green_line_id("Green-" <> _), do: "Green"
@@ -338,11 +407,11 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp assign_stops(
-         %{assigns: %{route_patterns: route_patterns, stops_by_id: stops_by_id}} =
+         %{assigns: %{selected_route_patterns: selected_route_patterns, stops_by_id: stops_by_id}} =
            socket
        ) do
     stops =
-      route_patterns
+      selected_route_patterns
       |> Stream.flat_map(& &1.stop_ids)
       |> Stream.uniq()
       |> Stream.map(&Map.fetch!(stops_by_id, &1))
@@ -357,9 +426,11 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign_map_icons()
   end
 
-  defp assign_map_lines(%{assigns: %{route: route, route_patterns: route_patterns}} = socket) do
+  defp assign_map_lines(
+         %{assigns: %{route: route, selected_route_patterns: selected_route_patterns}} = socket
+       ) do
     map_line_shapes =
-      route_patterns
+      selected_route_patterns
       |> Enum.map(fn route_pattern ->
         %{
           coordinates:
@@ -371,11 +442,11 @@ defmodule DotcomWeb.LineDiagramLive do
 
     map_lines_outlines =
       map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 6, color: "\#000000"})))
+      |> Enum.map(&(&1 |> Map.merge(%{width: 6, color: "#000000"})))
 
     map_lines_with_route_colors =
       map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 4, color: "\##{route.color}"})))
+      |> Enum.map(&(&1 |> Map.merge(%{width: 4, color: "##{route.color}"})))
 
     map_lines = map_lines_outlines ++ map_lines_with_route_colors
 
