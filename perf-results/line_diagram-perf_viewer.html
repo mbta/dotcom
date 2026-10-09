@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <title>
+            Line Diagram Performance Log Viewer
+        </title>
+        <script>
+            let PERF_DATA = [];
+            const parseData = ()=>{
+                fetch("perf_line-diagram.results_log").then(response=>response.text()).then(text => {
+                    PERF_DATA = JSON.parse(`[${text}]`);
+                })
+            }
+          
+
+            const doFilters = () => {
+                let filtered_data = [...PERF_DATA];
+                if(host_filter.value.length){
+                    filtered_data = filtered_data.filter(row => row.host == host_filter.value);
+                }
+                if(route_filter.value.length){
+                    filtered_data = filtered_data.filter(row => row.route == route_filter.value);
+                }
+                if(sample_filter.value.length){
+                    filtered_data = filtered_data.filter(row => row.samples == sample_filter.value);
+                }
+
+                renderData(filtered_data)
+            }
+
+            const renderData = (filtered_data)=>{
+                const new_data = filtered_data.filter(({newVersion})=>newVersion);
+                const old_data = filtered_data.filter(({newVersion})=>!newVersion);
+                console.log({new_data, old_data});
+                let old_chart_data = google.visualization.arrayToDataTable([
+                    ["Time", "TTFB", "DOM", "Full"],
+                    ...old_data.map(row=>(
+                        [new Date(row.timestamp), row.results.ttfb, row.results.dom, row.results.full]
+                    ))
+                ])
+                let new_chart_data = google.visualization.arrayToDataTable([
+                    ["Time", "TTFB", "DOM", "Full"],
+                    ...new_data.map(row=>(
+                        [new Date(row.timestamp), row.results.ttfb, row.results.dom, row.results.full]
+                    ))
+                ])
+              
+                let old_chart = new google.visualization.AreaChart(old_chart_elem);
+                let new_chart = new google.visualization.AreaChart(new_chart_elem);
+                old_chart.draw(old_chart_data, {title: `${filtered_data[0].route} (old)`});
+                new_chart.draw(new_chart_data, {title: `${filtered_data[0].route} (new)`});
+
+            }
+        </script>
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+        google.charts.load('current', {packages: ['corechart']});
+        
+        </script>
+    </head>
+    <body>
+        <h1>Line Diagram Performance Results Viewer</h1>
+        <div>
+            <h2>Filters:</h2>
+            <div >
+                <form action="#" onSubmit="doFilters()" style="display:flex;flex-direction:row;justify-content:space-evenly;">
+                    <div class="filter">
+                        Host: <input type='text' value='https://dev.mbtace.com' id="host_filter"/>
+                    </div>
+                    <div class="filter">
+                        Route: 
+                        <select id="route_filter">
+                            <option value="Green">Green</option>
+                            <option value="230">230</option>
+                            <option value="CR-Franklin">CR-Franklin</option>
+                            <option value="Boat-F2H">Boat-F2H</option>
+                        </select>
+                    </div>
+                    <div class="filter">
+                        Samples: <input type='text' value='10' id="sample_filter"/>
+                    </div>
+                    <input type="submit" value="Filter"/>
+                </form>
+            </div>
+            <div>
+                <h2>Results:</h2>
+                <div class="chart_elem" id="old_chart_elem"></div>
+                <div class="chart_elem" id="new_chart_elem"></div>
+            </div>
+        </div>
+    </body>
+    <script>
+        parseData();
+    </script>
+</html>
