@@ -44,7 +44,7 @@ defmodule DotcomWeb.Schedule.Defaults do
   # which are typically outbound
   def default_direction_id(%{assigns: %{route: %{id: "CR-Foxboro"}}}), do: 0
 
-  def default_direction_id(%Conn{assigns: %{route: %Route{id: route_id}}} = conn) do
+  def default_direction_id(%{assigns: %{route: %Route{id: route_id}}} = conn) do
     direction_id = default_direction_id_for_hour(conn.assigns.date_time.hour)
 
     # SL1, SL2, and Harbor Loop Ferry are outbound in the morning, inbound otherwise
