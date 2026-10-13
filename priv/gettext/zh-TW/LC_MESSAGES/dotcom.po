@@ -5683,3 +5683,8 @@ msgstr "查看時刻表"
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr "軌道待定"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr ""

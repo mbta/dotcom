@@ -5689,3 +5689,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr ""
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr ""

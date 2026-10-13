@@ -5715,3 +5715,8 @@ msgstr "Ver horario"
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr "Vía por definir"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr ""
