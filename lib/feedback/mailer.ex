@@ -93,6 +93,8 @@ defmodule Feedback.Mailer do
   defp topic(%Message{service: "Complaint", subject: "TAlerts/Countdowns/Apps"}), do: "Other"
   defp topic(%Message{service: "Inquiry", subject: "Disability ID Cards"}), do: "Other"
   defp topic(%Message{service: "Inquiry", subject: "Senior ID Cards"}), do: "Other"
+  defp topic(%Message{service: _, subject: "Bus Lane/Stop Enforcement"}), do: "Other"
+
   defp topic(_), do: ""
 
   @spec format_name(String.t() | nil, String.t()) :: String.t()
