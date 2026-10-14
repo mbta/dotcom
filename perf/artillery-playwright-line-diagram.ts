@@ -1,5 +1,6 @@
 import { type Config, type Scenario } from 'artillery';
-import { oldTest } from '../integration/e2e_tests/line-diagram-perf.spec';
+import { appendFile } from 'node:fs/promises';
+
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
   : "http://localhost:4001";
@@ -12,6 +13,8 @@ const SPLUNK_INDEX_NAME = "dotcom-test-metrics"
 const SPLUNK_TOKEN_NAME = SPLUNK_INDEX_NAME;
 const SPLUNK_TOKEN = process.env.SPLUNK_TOKEN;
 
+const VERSION = process.env.OLD_NEW=="new" ? "_new" : ""
+
 export const config: Config = {
     target: baseURL,
     engines: {
@@ -21,17 +24,13 @@ export const config: Config = {
     },
     phases: [
         {
-            duration: "1m",
+            duration: "2m",
             arrivalRate: 1,
-            rampTo: 10
+            
         },
         {
-            pause: '10s'
-        },
-        {
-            duration: "1m",
-            arrivalRate: 10,
-            rampTo: 100
+            duration: "2m",
+            arrivalRate: 2,
         }
     ] 
 
@@ -39,14 +38,14 @@ export const config: Config = {
 };
 
 export const scenarios: Scenario[]  = [
-    {
-        engine: 'playwright',
-        testFunction: oldTests
-    },
-    {
-        engine: 'playwright',
-        testFunction: newTests
-    }];
+    ...(TEST_ROUTES.map(route => ({
+            engine: 'playwright',
+            testFunction: (page) => lineTests(page, route, VERSION)
+        })
+    )),
+    
+   
+    ];
 
 async function lineScenario({ page, baseURL, route, newVersion = false}) {
   await page.goto(`${baseURL}/schedules/${route}/line${newVersion ? "_new" : ""}`);
@@ -76,20 +75,32 @@ async function lineScenario({ page, baseURL, route, newVersion = false}) {
 }
 
 async function report_result({route, newVersion, ttfb, dom, full, baseURL, REPS, tag}){
-    await fetch(SPLUNK_URL, {
+    try {
+        await appendFile(
+            "./perf-results/perf_line-diagram.results_log",
+             ",\n" + JSON.stringify({
+                timestamp: Date.now(),
+                route, 
+                newVersion, 
+                results: {ttfb, dom, full}, 
+                host:  baseURL, 
+                samples: REPS, 
+                tag})
+            )
+    }catch(e){
+        console.error(`File error: ${e}`);
+    }
+
+    //If we figure the splunk credentials out, uncomment this
+   /* await fetch(SPLUNK_URL, {
         headers: {"Authorization": `Splunk ${SPLUNK_TOKEN}`},
         body: JSON.stringify({timestamp: Date.now(), route, newVersion, ttfb, dom, full, baseURL, REPS, tag}),
         method: "POST"
-    }).then(response=>response.text()).then(text => console.log(text))
+    }).then(response=>response.text()).then(text => console.log(text));*/
+
 }
 
-async function oldTests(page) {
-    
-    await lineScenario({page, baseURL, route: "Green", newVersion: false})
-    
-}
-
-async function newTests(page) {
-    await lineScenario({page, baseURL, route: "Green", newVersion: true})
+async function lineTests(page, route, newVersion) {
+    await lineScenario({page, baseURL, route: route, newVersion})
 
 }
