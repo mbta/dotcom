@@ -4,6 +4,8 @@ defmodule DotcomWeb.LineDiagramLive do
   """
 
   use DotcomWeb, :live_view
+  require Logger
+
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
@@ -74,6 +76,8 @@ defmodule DotcomWeb.LineDiagramLive do
   import DotcomWeb.Components.FareCard, only: [fare_card: 1]
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
 
+  import DotcomWeb.ModeView, only: [mode_fare_card: 1]
+
   import DotcomWeb.ScheduleView,
     only: [
       header_class: 1,
@@ -135,6 +139,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
+     |> assign_fare_card()
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)
      |> assign(:move_map, true)}
@@ -152,6 +157,31 @@ defmodule DotcomWeb.LineDiagramLive do
         socket
       ) do
     {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+  end
+
+  @impl true
+  def handle_async("route_pdfs", {:ok, route_pdfs}, socket) do
+    {:noreply, assign(socket, :route_pdfs, route_pdfs)}
+  end
+
+  def handle_async("route_pdfs", {:exit, reason}, socket) do
+    Logger.warning(
+      "module=#{__MODULE__} Error fetching schedule PDFs for route #{socket.assigns.route_id}: #{inspect(reason)}"
+    )
+
+    {:noreply, assign(socket, :route_pdfs, [])}
+  end
+
+  def handle_async("fare_card", {:ok, fare_card}, socket) when fare_card != [] do
+    {:noreply, assign(socket, :fare_card, fare_card)}
+  end
+
+  def handle_async("fare_card", _, socket) do
+    Logger.warning(
+      "module=#{__MODULE__} Error fetching fare card for route #{socket.assigns.route_id}, using default []"
+    )
+
+    {:noreply, assign(socket, :fare_card, [])}
   end
 
   def assign_vehicle_icons(socket, "remove", vehicle_ids) do
@@ -277,7 +307,7 @@ defmodule DotcomWeb.LineDiagramLive do
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
         <div style="container-type: inline-size;" class="w-full">
-          <.fare_card route={@route} />
+          <.fare_card fare_card={@fare_card} route={@route} />
         </div>
         <.guides guides={@guides} />
       </div>
@@ -417,14 +447,23 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
-    pdfs =
-      Dotcom.RoutePdfs.fetch_and_choose_pdfs(
-        route_id,
-        date
-      )
+  defp assign_fare_card(%{assigns: %{route: route}} = socket) do
+    socket
+    |> assign(:fare_card, [])
+    |> start_async("fare_card", fn ->
+      route
+      |> Routes.Route.type_atom()
+      |> mode_fare_card()
+      |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
+    end)
+  end
 
-    socket |> assign(:route_pdfs, pdfs)
+  defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
+    socket
+    |> assign(:route_pdfs, [])
+    |> start_async("route_pdfs", fn ->
+      Dotcom.RoutePdfs.fetch_and_choose_pdfs(route_id, date)
+    end)
   end
 
   defp map(assigns) do
@@ -459,7 +498,12 @@ defmodule DotcomWeb.LineDiagramLive do
       href={guide.link}
       class="text-black text-lg font-bold"
     >
-      <img src={guide.image} class="w-[380px] rounded-sm mb-[8px]" alt="" />
+      <img
+        src={Util.site_path(:static_url, [guide.image])}
+        class="w-[380px] rounded-sm mb-[8px]"
+        loading="lazy"
+        alt=""
+      />
       <div>{guide.title}</div>
     </a>
     """

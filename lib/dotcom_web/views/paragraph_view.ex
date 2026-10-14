@@ -23,6 +23,8 @@ defmodule DotcomWeb.CMS.ParagraphView do
 
   alias Plug.Conn
 
+  @type render_conn :: Conn.t() | %Conn{remote_ip: nil, query_params: map()}
+
   @doc "Map paragraph module names to their templates"
   def get_template(%{__struct__: type}) do
     type
@@ -32,7 +34,7 @@ defmodule DotcomWeb.CMS.ParagraphView do
   end
 
   @doc "Universal wrapper around all paragraph types"
-  @spec render_paragraph(Paragraph.t(), Conn.t()) :: Phoenix.HTML.safe()
+  @spec render_paragraph(Paragraph.t(), render_conn()) :: Phoenix.HTML.safe()
   # Don't render if there is an error locating the partial
   def render_paragraph({:error, _error}, _), do: []
   # Don't render Content List if list has no items
@@ -58,7 +60,7 @@ defmodule DotcomWeb.CMS.ParagraphView do
   Intelligently choose and render paragraph template based on type, except
   for certain types which either have no template or require special values.
   """
-  @spec render_paragraph_content(Paragraph.t(), Conn.t()) :: Phoenix.HTML.safe()
+  @spec render_paragraph_content(Paragraph.t(), render_conn()) :: Phoenix.HTML.safe()
   def render_paragraph_content(paragraph, conn)
 
   def render_paragraph_content(%ContentList{} = paragraph, conn) do
