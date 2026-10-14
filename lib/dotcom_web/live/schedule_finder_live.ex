@@ -189,6 +189,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
+  @impl LiveView
   def handle_params(params, _uri, socket) do
     case validate_params(params) do
       {:ok, %{route: route, stop: stop, direction_id: direction_id}} ->
@@ -247,8 +248,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
     {:noreply,
      socket
      |> assign(:direction_id, new_dir)
+     |> assign_departures()
      |> push_patch(
-       to: "/departures/?route_id=#{route.id}&stop_id=#{stop.id}&direction_id=#{new_dir}"
+       to: "/departures/?route_id=#{route.id}&stop_id=#{stop.id}&direction_id=#{new_dir}",
+       replace: true
      )}
   end
 
@@ -466,7 +469,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             :if={@duplex_stop}
             phx-click="toggle_direction"
             style="background-color:rgb(0,0,0,0.4)"
-            class="rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row z-10"
+            class="rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row"
           >
             <div
               :for={{index, direction_name} <- @route.direction_names}
@@ -601,7 +604,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     >
       <.unstyled_accordion
         :for={departure <- @departures}
-        summary_class="flex items-center gap-sm bg-white hover:bg-brand-primary-lightest px-sm py-3 sticky top-0 z-50 group-open:border-b-xs group-open:border-gray-lightest"
+        summary_class="flex items-center gap-sm bg-white hover:bg-brand-primary-lightest px-sm py-3 sticky top-0 z-[2] group-open:border-b-xs group-open:border-gray-lightest"
         phx-click="open_trip"
         phx-value-schedule_id={departure.schedule_id}
         phx-value-stop_sequence={departure.stop_sequence}

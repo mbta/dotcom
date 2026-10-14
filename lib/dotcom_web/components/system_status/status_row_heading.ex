@@ -13,6 +13,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
   alias Alerts.Alert
 
   attr :alerts, :list, default: []
+  attr :cause, :atom, default: nil
   attr :future, :boolean, default: false
   attr :hide_route_pill, :boolean, default: false
   attr :remove_pill_col, :boolean, default: false
@@ -49,6 +50,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
       />
 
       <.heading
+        cause={@cause}
         future={@future}
         hide_route_pill={@hide_route_pill}
         plural={@plural}
@@ -102,6 +104,7 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     </div>
 
     <.status_label
+      cause={@cause}
       description={"#{@rendered_prefix}#{@description}#{severity_suffix(@status, @severity)}"}
       status={@status}
       subheading_aria_label={@subheading_aria_label}

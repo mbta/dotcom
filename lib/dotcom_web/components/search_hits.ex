@@ -72,7 +72,7 @@ defmodule DotcomWeb.Components.SearchHits do
   end
 
   defp hit_icon(%{hit: %{"index" => "routes", "route" => route}} = assigns) do
-    line_name = hit_route_line_name(route)
+    line_name = Routes.Route.subway_line_name(route["id"])
 
     cond do
       not is_nil(line_name) ->
@@ -220,18 +220,6 @@ defmodule DotcomWeb.Components.SearchHits do
   end
 
   defp hit_highlight(_), do: nil
-
-  defp hit_route_line_name(%{"id" => route_id}) do
-    case route_id do
-      "Mattapan" -> "mattapan-line"
-      "Red" -> "red-line"
-      "Green" -> "green-line"
-      "Green-" <> branch -> "green-line-#{String.downcase(branch)}"
-      "Blue" -> "blue-line"
-      "Orange" -> "orange-line"
-      _ -> nil
-    end
-  end
 
   defp transit_name("CR-" <> _), do: "commuter-rail"
   defp transit_name("local_bus"), do: "bus"

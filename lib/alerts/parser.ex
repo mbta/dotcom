@@ -182,6 +182,7 @@ defmodule Alerts.Parser do
     defp do_cause("MEDICAL_EMERGENCY"), do: :medical_emergency
     defp do_cause("SINGLE_TRACKING"), do: :single_tracking
     defp do_cause("UNKNOWN_CAUSE"), do: :unknown_cause
+    defp do_cause("PRESENCE_OF_WHALES"), do: :presence_of_whales
     defp do_cause(_), do: :unknown_cause
 
     @spec severity(String.t() | integer) :: Alerts.Alert.severity()

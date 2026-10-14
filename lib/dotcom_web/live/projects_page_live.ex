@@ -185,10 +185,6 @@ defmodule DotcomWeb.ProjectsPageLive do
     Enum.uniq_by(routes, &route_to_mode_name/1)
   end
 
-  def bus_name(id) do
-    if Routes.Route.silver_line?(id), do: "silver-line", else: "bus"
-  end
-
   def route_to_mode_name(%{mode: "subway", id: id}) do
     cond do
       Regex.run(~r/^green/i, id) ->
@@ -207,7 +203,7 @@ defmodule DotcomWeb.ProjectsPageLive do
 
   def route_to_mode_name(%{mode: "commuter_rail"}), do: "commuter-rail"
   def route_to_mode_name(%{mode: "ferry"}), do: "ferry"
-  def route_to_mode_name(%{id: id}), do: bus_name(id)
+  def route_to_mode_name(%{id: id}), do: Routes.Route.line_name(id) || "bus"
 
   attr :route, :any, required: true
   attr :size, :string, default: "default"
