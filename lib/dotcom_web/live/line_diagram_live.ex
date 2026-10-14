@@ -286,7 +286,7 @@ defmodule DotcomWeb.LineDiagramLive do
           scrollamount="16"
           scrolldelay="60"
         >
-          🚧 Under Construction 🚧
+          &#x1F6A7; Under Construction &#x1F6A7;
         </marquee>
         <.map
           map_config={@map_config}
@@ -303,7 +303,7 @@ defmodule DotcomWeb.LineDiagramLive do
           scrollamount="16"
           scrolldelay="60"
         >
-          ⚠️ Watch Your Step ⚠️
+          &#x26A0;&#xFE0F; Watch your step &#x26A0;&#xFE0F;
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
         <div style="container-type: inline-size;" class="w-full">
