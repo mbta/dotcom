@@ -270,6 +270,33 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
     assert render(view) =~ "There was a problem loading upcoming departures"
   end
 
+  test "renders a delayed scheduled time with realtime indicator and Delayed substatus" do
+    route = Factories.Routes.Route.build(:commuter_rail_route)
+    scheduled_time = ~U[2026-10-07 16:30:00Z]
+
+    departure =
+      Factories.UpcomingDepartures.build(:upcoming_departure,
+        route: route,
+        arrival_status: {:delayed_without_prediction, scheduled_time},
+        arrival_substatus: {:status, "Delayed"},
+        time: scheduled_time
+      )
+
+    html =
+      render_component(&UpcomingDeparturesLive.upcoming_departures_section/1,
+        upcoming_departures: [departure],
+        loaded_upcoming_trips: %{},
+        route: route,
+        stop: Factories.Stops.Stop.build(:stop),
+        last_trip_time: nil
+      )
+
+    document = Floki.parse_document!(html)
+    struck_time = Floki.find(document, ".text-nowrap .line-through")
+    assert Floki.text(struck_time) =~ "4:30"
+    assert Floki.find(document, "span.text-xs") |> Floki.text() =~ "Delayed"
+  end
+
   defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
     route_id = route_id || FactoryHelpers.build(:id)
     direction_id = direction_id || FactoryHelpers.build(:direction_id)

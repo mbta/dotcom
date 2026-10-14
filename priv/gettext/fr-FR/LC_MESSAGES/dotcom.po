@@ -5716,6 +5716,11 @@ msgstr "Voir l'horaire"
 msgid "Track TBD"
 msgstr "Piste à déterminer"
 
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Delayed"
+msgstr "Retardé"
+
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
