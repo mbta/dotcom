@@ -5687,7 +5687,7 @@ msgstr "轨道（待定）"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Lane/Stop Enforcement"
-msgstr ""
+msgstr "公交车道/停车执法"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format

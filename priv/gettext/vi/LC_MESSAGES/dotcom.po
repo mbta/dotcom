@@ -5710,7 +5710,7 @@ msgstr "Ray Chưa Rõ"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Lane/Stop Enforcement"
-msgstr ""
+msgstr "Thực thi hành ngõ bộ/trạm dừng xe buýt"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
