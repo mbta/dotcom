@@ -6,6 +6,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
   import Phoenix.LiveViewTest
   import Test.Support.Generators.DateTime, only: [random_date_time: 0]
 
+  alias Dotcom.ScheduleFinder.{FutureArrival, TripHeading}
   alias DotcomWeb.ScheduleFinderLive
   alias Test.Support.Factories
   alias Test.Support.FactoryHelpers
@@ -461,6 +462,95 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         assert Floki.find(row, "time[datetime=\"#{DateTime.to_iso8601(t)}\"]") != []
       end
     end
+
+    test "trims at the second occurrence of the viewed stop and keeps an earlier trip heading", %{
+      conn: conn
+    } do
+      {:ok, view, _html} = visit_with_valid_params(conn, [2, 3, 4])
+      render_async(view)
+
+      stop_name =
+        view
+        |> render()
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test^='stop_banner:'] span")
+        |> Floki.text()
+
+      arrivals = [
+        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_name: "Intermediate stop", time: random_date_time()},
+        %TripHeading{
+          headsign: "Continuing trip",
+          route: Factories.Routes.Route.build(:route)
+        },
+        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_name: "After stop", time: random_date_time()}
+      ]
+
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
+
+      click_first_departure(view)
+
+      assert has_element?(view, "[data-test='departures_table']", "Intermediate stop")
+      assert has_element?(view, "[data-test='departures_table']", "Continuing trip")
+      assert has_element?(view, "[data-test='departures_table']", stop_name)
+      refute has_element?(view, "[data-test='departures_table']", "After stop")
+    end
+
+    test "removes the trip heading if it would be the last trimmed arrival", %{conn: conn} do
+      {:ok, view, _html} = visit_with_valid_params(conn, [2, 3, 4])
+      render_async(view)
+
+      stop_name =
+        view
+        |> render()
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test^='stop_banner:'] span")
+        |> Floki.text()
+
+      arrivals = [
+        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_name: "Intermediate stop", time: random_date_time()},
+        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %TripHeading{
+          headsign: "Terminal heading",
+          route: Factories.Routes.Route.build(:route)
+        },
+        %FutureArrival{stop_name: "After stop", time: random_date_time()}
+      ]
+
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
+
+      click_first_departure(view)
+
+      assert has_element?(view, "[data-test='departures_table']", "Intermediate stop")
+      refute has_element?(view, "[data-test='departures_table']", "Terminal heading")
+      refute has_element?(view, "[data-test='departures_table']", "After stop")
+    end
+
+    test "does not trim arrivals without a trip heading", %{conn: conn} do
+      {:ok, view, _html} = visit_with_valid_params(conn, [2, 3, 4])
+      render_async(view)
+
+      stop_name =
+        view
+        |> render()
+        |> Floki.parse_fragment!()
+        |> Floki.find("[data-test^='stop_banner:'] span")
+        |> Floki.text()
+
+      arrivals = [
+        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_name: "After stop", time: random_date_time()}
+      ]
+
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
+
+      click_first_departure(view)
+
+      assert has_element?(view, "[data-test='departures_table']", stop_name)
+      assert has_element?(view, "[data-test='departures_table']", "After stop")
+    end
   end
 
   describe "Daily Departures (subway)" do
@@ -583,5 +673,20 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     stop_id = FactoryHelpers.build(:id)
 
     visit_with_set_params(conn, route_id, direction_id, stop_id, route_types)
+  end
+
+  defp click_first_departure(view) do
+    schedule_id =
+      view
+      |> render()
+      |> Floki.parse_fragment!()
+      |> Floki.find("[phx-value-schedule_id]")
+      |> hd()
+      |> Floki.attribute("phx-value-schedule_id")
+      |> hd()
+
+    view
+    |> element("[phx-value-schedule_id='#{schedule_id}']")
+    |> render_click()
   end
 end
