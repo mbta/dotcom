@@ -687,9 +687,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   <.lined_list_item
                     route={heading_or_arrival.route}
                     variant="none"
+                    class="bg-charcoal-90"
                   >
                     <div class="flex-col w-full">
-                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues as"}</div>
+                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Trip continues as"}</div>
                       <div class="flex items-center gap-sm">
                         <RouteComponents.route_icon
                           route={heading_or_arrival.route}
