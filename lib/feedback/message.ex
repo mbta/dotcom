@@ -17,6 +17,7 @@ defmodule Feedback.Message do
     {~t"Complaint", "Complaint",
      [
        ~t"Bus Stop",
+       ~t"Bus Lane/Stop Enforcement",
        ~t"CharlieCards & Tickets",
        ~t"Employee Complaint",
        ~t"Fare Evasion",
@@ -30,6 +31,7 @@ defmodule Feedback.Message do
     {~t"Comment", "Suggestion",
      [
        ~t"Bus Stop",
+       ~t"Bus Lane/Stop Enforcement",
        ~t"CharlieCards & Tickets",
        ~t"Fare Policy",
        ~t"Maintenance",
@@ -42,6 +44,7 @@ defmodule Feedback.Message do
      ]},
     {~t"Question", "Inquiry",
      [
+       ~t"Bus Lane/Stop Enforcement",
        ~t"CharlieCards & Tickets",
        ~t"Disability ID Cards",
        ~t"Fare Policy",
@@ -57,6 +60,7 @@ defmodule Feedback.Message do
      ]},
     {~t"Compliment", "Commendation",
      [
+       ~t"Bus Lane/Stop Enforcement",
        ~t"Employee",
        ~t"Maintenance",
        ~t"MBTA Projects/Programs",

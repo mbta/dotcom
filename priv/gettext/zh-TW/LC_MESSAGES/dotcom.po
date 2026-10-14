@@ -5684,6 +5684,11 @@ msgstr "查看時刻表"
 msgid "Track TBD"
 msgstr "軌道待定"
 
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr "巴士線/車站管制"
+
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"

@@ -5690,6 +5690,11 @@ msgstr ""
 msgid "Track TBD"
 msgstr ""
 
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr ""
+
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"

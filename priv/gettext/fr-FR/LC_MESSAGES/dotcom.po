@@ -5716,6 +5716,11 @@ msgstr "Voir l'horaire"
 msgid "Track TBD"
 msgstr "Piste à déterminer"
 
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr "Contrôle des voies de bus / arrêts"
+
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
