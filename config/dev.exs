@@ -6,7 +6,8 @@ config :dotcom, :cache, Dotcom.Cache.Multilevel
 config :dotcom, :cms_api, connect_options: [transport_opts: [verify: :verify_none]]
 
 config :dotcom,
-  dev_server?: true
+  dev_server?: true,
+  secure_session_cookie: false
 
 config :dotcom, DotcomWeb.Endpoint,
   code_reloader: true,

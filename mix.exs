@@ -1,4 +1,4 @@
-defmodule DotCom.Mixfile do
+defmodule Dotcom.Mixfile do
   @moduledoc false
   use Mix.Project
 
@@ -110,14 +110,14 @@ defmodule DotCom.Mixfile do
         git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
       },
       {:cowlib, "2.20.0"},
-      {:crc, "0.10.6"},
+      {:crc, "0.11.0"},
       {:credo, "1.7.19", only: [:dev, :test]},
       {:csv, "3.2.2"},
       {:cva, "0.2.2"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.8", [only: [:dev, :test], runtime: false]},
       {:diskusage_logger, "0.2.0"},
-      {:ecto, "3.13.6"},
+      {:ecto, "3.14.2"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_cldr, "2.47.5"},
@@ -138,12 +138,12 @@ defmodule DotCom.Mixfile do
       {:httpoison, "3.0.0"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
       {:jason, "1.4.5", override: true},
-      {:lazy_html, "0.1.12", only: [:test]},
+      {:lazy_html, "0.1.13", only: [:test]},
       {:live_isolated_component, "0.11.0", only: [:test]},
       {:logster, "~> 2.0.0-rc.5"},
       # reverted from 0.4
       {:mail, "0.3.1"},
-      {:mbta_metro, "1.3.0", runtime: false},
+      {:mbta_metro, "1.4.0", runtime: false},
       {:memoize, "1.4.5"},
       {:mox, "1.3.2", [only: [:dev, :test]]},
       {:msgpack, "0.8.1"},
@@ -151,20 +151,19 @@ defmodule DotCom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.21.0"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.22.0"]
       },
       {:parallel_stream, "1.1.0"},
-      {:phoenix, "1.8.14", override: true},
+      {:phoenix, "1.8.15", override: true},
       {:phoenix_ecto, "4.7.0"},
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.9.1"},
       {:phoenix_live_reload, "1.7.0", only: [:dev, :test]},
-      {:phoenix_live_view, "1.2.11", override: true},
-      {:phoenix_pubsub, "2.3.0"},
+      {:phoenix_live_view, "1.2.12", override: true},
+      {:phoenix_pubsub, "2.4.0"},
       {:phoenix_view, "2.0.4"},
       {:plug, "1.20.3"},
       {:plug_cowboy, "2.9.0"},
-      {:poison, "6.0.0"},
       {:polyline, "1.6.0"},
       {:progress_bar, "3.1.0"},
       # Needed for rstar; workaround for mix local.hex bug
@@ -173,8 +172,8 @@ defmodule DotCom.Mixfile do
       {:recaptcha, "3.1.0"},
       {:recase, "0.9.1"},
       {:recon, "2.5.6", [only: :prod]},
-      {:redix, "1.9.1"},
-      {:req, "0.7.4"},
+      {:redix, "1.9.2"},
+      {:req, "0.7.5"},
       {:rstar, github: "armon/erl-rstar"},
       {:sentry, "13.5.1"},
       {:server_sent_event_stage, "1.2.1"},

@@ -58,8 +58,6 @@ config :dotcom, :search_service, Dotcom.SearchService
 
 config :dotcom, :upcoming_departures_module, Dotcom.UpcomingDepartures
 
-config :dotcom, :version, System.get_env("SENTRY_RELEASE", "missing-version")
-
 config :dotcom, :service_rollover_time, ~T[03:00:00]
 
 config :dotcom, :timezone, "America/New_York"
@@ -141,7 +139,9 @@ config :laboratory,
     {:in_seat_transfers, "In Seat Transfers",
      "Show in-seat transfers available for certain trips"},
     {:line_diagram, "New Line Diagram",
-     "Adds a tab to the schedules page for the new line diagram"}
+     "Adds a tab to the schedules page for the new line diagram"},
+    {:new_stop_page, "New Stop Page Layout",
+     "Reconfigures the stop page and replaces the React view"}
   ],
   cookie: [
     # one month,

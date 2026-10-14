@@ -81,11 +81,19 @@ test.describe(`${baseURL} passes smoke test`, () => {
   });
 
   test("projects page, filter, selected project", async ({ page }) => {
-    test.slow();
     await ok(page, "/projects");
-    await page.locator("#mode-button__bus").click();
-    await page.getByRole("heading", { name: "Bus Projects" });
-    await page.locator(".m-more-projects-table__title").last().click();
+    await page.getByRole("button", { name: "Bus", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "All Bus Projects" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Show More" }).click();
+    const lastProject = page.locator(".m-more-projects-table__title").last();
+    const projectTitle = await lastProject.innerText();
+    await lastProject.click();
+    await expect(page).toHaveURL(/\/projects\//);
+    await expect(
+      page.getByRole("heading", { name: projectTitle, exact: true }),
+    ).toBeVisible();
   });
 
   test("news page, selected news entry", async ({ page }) => {

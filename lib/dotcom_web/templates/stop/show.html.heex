@@ -22,8 +22,9 @@
 
 <div>
   <div
+    phx-update="ignore"
     id="react-stop-root"
-    data-mbta-stop-id={"#{@stop.id}"}
+    data-mbta-stop-id={@stop.id}
   >
   </div>
 </div>
@@ -32,8 +33,8 @@
   <h2 class="capitalize">
     {gettext("%{place} Information", place: station_or_stop(@stop))}
   </h2>
-  <.external_map_link stop={@stop} is_ios?={Browser.ios?(@conn)} />
-  <div class="mt-lg station-amenities">
+  <.external_map_link stop={@stop} is_ios?={Browser.ios?(@user_agent)} />
+  <div class="mt-lg station-amenities grid md:gap-4 grid-cols-1 lg:grid-cols-3 [&_.c-descriptive-link]:mb-md md:[&_.c-descriptive-link]:mb-0">
     <h3
       :if={@stop.station? || Stop.has_parking?(@stop) || Stop.has_bike_storage?(@stop)}
       class="hidden-md-up"
@@ -47,7 +48,7 @@
       amenity={@parking_amenity}
       alerts={alerts_for_amenity(@parking_amenity, @alerts)}
       date_time={@date_time}
-      is_ios?={Browser.ios?(@conn)}
+      is_ios?={Browser.ios?(@user_agent)}
     />
     <.bike_amenity
       :if={@stop.station? || Stop.has_bike_storage?(@stop)}

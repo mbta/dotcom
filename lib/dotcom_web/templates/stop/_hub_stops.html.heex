@@ -4,7 +4,7 @@
       <%= for %HubStop{detailed_stop: detailed_stop, image: path, alt_text: alt_text} <- @hubs do %>
         <%= if detailed_stop do %>
           <div class="hub-stop-link col-md-6 col-xs-12">
-            <% image_path = static_url(@conn, path) %>
+            <% image_path = Phoenix.VerifiedRoutes.static_url(@conn, path) %>
             {img_tag("#{image_path}.jpg",
               class: "img-fluid hidden-sm-down",
               srcset: "#{image_path}-2x.jpg 760w, #{image_path}.jpg 380w",
@@ -12,7 +12,7 @@
             )}
             <%= if detailed_stop.stop do %>
               {link(detailed_stop.stop.name,
-                to: stop_path(@conn, :show, detailed_stop.stop.id),
+                to: "/stops/#{detailed_stop.stop.id}",
                 class: "hub-stop-name notranslate"
               )}
             <% end %>

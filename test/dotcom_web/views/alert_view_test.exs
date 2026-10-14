@@ -449,6 +449,25 @@ defmodule DotcomWeb.AlertViewTest do
       assert response =~ "Snow Route"
     end
 
+    test "Whale icons is displayed for whale delay" do
+      response =
+        "_item.html"
+        |> render(
+          alert: %Alert{
+            effect: :delay,
+            cause: :presence_of_whales,
+            lifecycle: :ongoing,
+            severity: 7,
+            priority: :high
+          },
+          date_time: @now
+        )
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      assert response =~ "c-svg__icon-whale"
+    end
+
     test "Icons and labels are displayed for cancellation" do
       response =
         render(

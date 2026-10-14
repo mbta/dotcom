@@ -1,6 +1,6 @@
 defmodule Schedules.Departures do
   @enforce_keys [:first_departure, :last_departure]
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :first_departure,
     :last_departure,

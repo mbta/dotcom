@@ -99,11 +99,7 @@ defmodule DotcomWeb.PageView do
 
   @spec alerts_stop_url(Stops.Stop.t()) :: String.t()
   defp alerts_stop_url(stop) do
-    DotcomWeb.Router.Helpers.stop_url(
-      DotcomWeb.Endpoint,
-      :show,
-      stop.id
-    )
+    live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, stop.id)
   end
 
   def shortcut_icons(locale) do

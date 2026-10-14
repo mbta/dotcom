@@ -16,9 +16,9 @@ export default {
    */
   mounted() {
     this.config = JSON.parse(this.el.dataset.config);
-
     this.map = new maplibregl.Map({
       container: this.el.querySelector(".mbta-map-wrapper"),
+      locale: JSON.parse(this.el.dataset.locale),
       ...this.config,
     });
 
@@ -26,7 +26,7 @@ export default {
 
     this.map.on("load", () => {
       this.handleEvent("update-lines", _ => this.updateLines());
-      this.handleEvent("update-markers", _ => this.updateMarkers());
+      this.handleEvent("update-markers", params => this.updateMarkers(params));
       this.pushEventTo(this.el, "map-loaded", {});
     });
   },
@@ -67,10 +67,17 @@ export default {
    */
   addMarkers(markers) {
     markers.forEach(marker => {
+      
       const mapMarker = new maplibregl.Marker({
         anchor: marker.anchor,
-        element: marker.element
+        element: marker.element,
+        rotation: marker.rotation
       });
+      if(marker.popup){
+        const popup = new maplibregl.Popup({className: "m-schedule-line__stop-popup", focusAfterOpen: false});
+        popup.setHTML(marker.popup)
+        mapMarker.setPopup(popup)
+      }
 
       this.markers.push(mapMarker);
 
@@ -211,25 +218,29 @@ export default {
    *
    * If there are no markers, we skip the last two steps.
    */
-  updateMarkers() {
+  updateMarkers({move_map = true}) {
+  
     this.resetMarkers();
 
     const markers = Array.from(this.el.querySelectorAll("[data-coordinates]")).map(element => {
       return {
         anchor: element.getAttribute("data-anchor"),
         coordinates: JSON.parse(element.getAttribute("data-coordinates")),
+        popup: element.getAttribute("data-popup"),
+        rotation: element.getAttribute("data-rotation"),
         element
       }
     }).filter(marker => marker.coordinates.length === 2);
 
     if (markers.length === 0) {
-      this.fitMapToCenter();
+      move_map && this.fitMapToCenter();
 
       return;
     }
 
     this.addMarkers(markers);
+    move_map && this.fitMapToMarkers(markers);
+  },
 
-    this.fitMapToMarkers(markers);
-  }
+ 
 }

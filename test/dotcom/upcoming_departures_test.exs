@@ -352,7 +352,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "treats a platform name of 'Commuter Rail' as Track TBA" do
+    test "treats a platform name of 'Commuter Rail' as Track TBD" do
       # Setup
       %{
         predictions: predictions,
@@ -379,7 +379,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.platform_name == "Track TBA"
+      assert departure.platform_name == "Track TBD"
     end
 
     test "does not include trip name for bus or subway departures" do

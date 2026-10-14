@@ -4,8 +4,6 @@ FROM hexpm/elixir:1.20.4-erlang-29.0.6-alpine-3.23.5 AS builder
 ENV LANG="C.UTF-8" MIX_ENV="prod"
 ENV CYPRESS_INSTALL_BINARY=0
 ARG SENTRY_DSN=""
-ARG SENTRY_RELEASE
-ENV SENTRY_RELEASE=${SENTRY_RELEASE}
 
 WORKDIR /home
 
@@ -50,5 +48,8 @@ RUN apk add libssl3
 COPY --from=builder /home/_build /home/_build
 
 # RUN
+ARG SENTRY_RELEASE
+ENV SENTRY_RELEASE=${SENTRY_RELEASE}
+
 EXPOSE 4000
 CMD ["/home/_build/prod/rel/dotcom/bin/dotcom", "start"]

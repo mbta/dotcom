@@ -66,25 +66,9 @@
 }
 
 .station-amenities {
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
-
-  @include media-breakpoint-down(lg) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @include media-breakpoint-down(sm) {
-    grid-gap: unset;
-    grid-template-columns: repeat(1, 1fr);
-  }
-
   .c-descriptive-link {
     height: auto;
     padding: 0;
-
-    @include media-breakpoint-down(sm) {
-      margin-bottom: 1rem;
-    }
 
     &[disabled] {
       background-color: $gray-lightest;

@@ -4,11 +4,11 @@ defmodule DotcomWeb.VersionController do
   """
   use DotcomWeb, :controller
 
-  @version Application.compile_env(:dotcom, :version)
-
   def version(conn, _params) do
+    version = Application.get_env(:dotcom, :version)
+
     conn
     |> put_resp_content_type("text/plain")
-    |> send_resp(:ok, @version)
+    |> send_resp(:ok, version)
   end
 end

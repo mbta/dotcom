@@ -4,10 +4,15 @@ defmodule LocationService do
   """
 
   use Nebulex.Caching.Decorators
+  require Logger
 
   @aws_client Application.compile_env!(:dotcom, :aws_client)
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)
+  @max_query_bytes 200
+  @max_results 10
+  @max_transient_retries 2
+  @retry_delay_ms 50
 
   @base_options %{
     "FilterCountries" => ["USA"],
@@ -26,54 +31,131 @@ defmodule LocationService do
 
   @impl LocationService.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def autocomplete(text, limit, options \\ @bias_options)
+  def autocomplete(text, limit, options \\ @bias_options) do
+    if valid_autocomplete_request?(text, limit) do
+      request = Map.merge(options, %{"Text" => text, "MaxResults" => limit})
 
-  def autocomplete(text, _, _) when byte_size(text) > 200, do: {:ok, []}
-
-  def autocomplete(text, limit, options) do
-    options
-    |> Map.merge(%{"Text" => text, "MaxResults" => limit})
-    |> then(&@aws_client.search_place_index_for_suggestions(index(), &1))
-    |> handle_response()
+      request_and_handle(:autocomplete, fn ->
+        @aws_client.search_place_index_for_suggestions(index(), request)
+      end)
+    else
+      {:error, :invalid_arguments}
+    end
   end
+
+  @spec valid_autocomplete_request?(term(), term()) :: boolean()
+  def valid_autocomplete_request?(text, limit)
+      when is_binary(text) and is_integer(limit) do
+    byte_size(text) in 1..@max_query_bytes and limit in 1..@max_results
+  end
+
+  def valid_autocomplete_request?(_text, _limit), do: false
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @impl LocationService.Behaviour
   def geocode(address, options \\ @bounding_options) do
-    options
-    |> Map.merge(%{"Text" => address})
-    |> then(&@aws_client.search_place_index_for_text(index(), &1))
-    |> handle_response()
+    request = Map.put(options, "Text", address)
+
+    request_and_handle(:geocode, fn ->
+      @aws_client.search_place_index_for_text(index(), request)
+    end)
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @impl LocationService.Behaviour
   def reverse_geocode(latitude, longitude, options \\ @bounding_options) do
-    options
-    |> Map.merge(%{"Position" => [longitude, latitude]})
-    |> then(&@aws_client.search_place_index_for_position(index(), &1))
-    |> handle_response()
+    request = Map.put(options, "Position", [longitude, latitude])
+
+    request_and_handle(:reverse_geocode, fn ->
+      @aws_client.search_place_index_for_position(index(), request)
+    end)
   end
 
   defp get_place(place_id) do
-    @aws_client.get_place(index(), place_id)
-    |> handle_response()
+    request_and_handle(:get_place, fn -> @aws_client.get_place(index(), place_id) end)
   end
 
-  defp handle_response({:error, {:unexpected_response, error}}) do
-    handle_response({:error, error})
+  defp request_and_handle(operation, request_fun) do
+    aws_request(operation, request_fun)
+    |> handle_response(operation)
   end
 
-  defp handle_response({:error, error}) do
-    error |> inspect() |> Sentry.capture_message()
+  defp aws_request(operation, request_fun, retries \\ 0) do
+    case request_fun.() do
+      {:error, reason} = error when retries < @max_transient_retries ->
+        if transient_connection_error?(reason) do
+          delay = @retry_delay_ms * (retries + 1)
+
+          Logger.warning(
+            "Retrying Location Service #{operation} request after #{inspect(reason)}"
+          )
+
+          Process.sleep(delay)
+          aws_request(operation, request_fun, retries + 1)
+        else
+          error
+        end
+
+      response ->
+        response
+    end
+  end
+
+  defp transient_connection_error?(:closed), do: true
+  defp transient_connection_error?({:closed, _reason}), do: true
+  defp transient_connection_error?({:goaway, :no_error}), do: true
+
+  defp transient_connection_error?({:unexpected_response, %{status_code: status}})
+       when status >= 500 or status == 429,
+       do: true
+
+  defp transient_connection_error?(%{status_code: status}) when status >= 500 or status == 429,
+    do: true
+
+  defp transient_connection_error?(_reason), do: false
+
+  defp validation_exception?(headers) when is_list(headers) do
+    Enum.any?(headers, fn
+      {name, value} when is_binary(name) and is_binary(value) ->
+        String.downcase(name) == "x-amzn-errortype" and
+          String.starts_with?(value, "ValidationException")
+
+      _ ->
+        false
+    end)
+  end
+
+  defp validation_exception?(_headers), do: false
+
+  defp handle_response(
+         {:error, {:unexpected_response, %{status_code: 400, headers: headers} = error}},
+         operation
+       ) do
+    if validation_exception?(headers) do
+      Sentry.capture_message("Location Service #{operation} rejected request: #{inspect(error)}")
+      {:error, :invalid_arguments}
+    else
+      handle_response({:error, error}, operation)
+    end
+  end
+
+  defp handle_response({:error, {:unexpected_response, error}}, operation) do
+    handle_response({:error, error}, operation)
+  end
+
+  defp handle_response({:error, error}, operation) do
+    Sentry.capture_message("Location Service #{operation} failed: #{inspect(error)}")
     {:error, :internal_error}
   end
 
-  defp handle_response({:ok, %{"Place" => place}, _raw_response}) do
+  defp handle_response({:ok, %{"Place" => place}, _raw_response}, _operation) do
     place
   end
 
-  defp handle_response({:ok, %{"Results" => results, "Summary" => summary}, _raw_reponse}) do
+  defp handle_response(
+         {:ok, %{"Results" => results, "Summary" => summary}, _raw_reponse},
+         _operation
+       ) do
     input = Map.get(summary, "Text")
 
     results =

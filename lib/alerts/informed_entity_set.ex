@@ -9,6 +9,7 @@ defmodule Alerts.InformedEntitySet do
 
   alias Alerts.InformedEntity
 
+  @derive Jason.Encoder
   defstruct activities: MapSet.new(),
             direction_id: MapSet.new(),
             entities: [],

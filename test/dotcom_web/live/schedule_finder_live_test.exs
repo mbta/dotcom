@@ -18,8 +18,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
 
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
-    stub(MBTA.Api.Mock, :get_json, fn "/schedules/", _ -> %JsonApi{} end)
-
+    stub(MBTA.Api.Mock, :get_json, fn _, _ -> %JsonApi{} end)
     :ok
   end
 
@@ -57,7 +56,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       []
     end)
 
-    expect(Routes.Repo.Mock, :get, 2, fn ^route_id ->
+    expect(Routes.Repo.Mock, :get, 4, fn ^route_id ->
       Factories.Routes.Route.build(:route, %{id: route_id})
     end)
 
@@ -65,7 +64,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       []
     end)
 
-    expect(Stops.Repo.Mock, :get, 2, fn ^stop_id ->
+    expect(Stops.Repo.Mock, :get, 4, fn ^stop_id ->
       Factories.Stops.Stop.build(:stop, %{id: stop_id})
     end)
 

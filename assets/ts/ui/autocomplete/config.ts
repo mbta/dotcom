@@ -36,8 +36,9 @@ export type Options =
 type ConfigurationOptions = Partial<Options>;
 
 // configuration used for every single autocomplete instance
+const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
 const baseOptions: ConfigurationOptions = {
-  detachedMediaQuery: "none",
+  detachedMediaQuery: isMobile ? "screen and (max-width: 544px)" : "none",
   openOnFocus: true,
   renderer: customRenderer
 };
@@ -246,7 +247,6 @@ const TRIP_PLANNER = ({
 
   return {
     ...baseOptions,
-    detachedMediaQuery: "screen and (max-width: 544px)",
     initialState: {
       query: initialState()
     },

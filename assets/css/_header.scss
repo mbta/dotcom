@@ -256,7 +256,7 @@ nav.m-menu--mobile {
   background-color: $brand-primary-darkest;
   display: none;
   height: 0;
-  padding: 0  .75rem 1rem;
+  padding: .5rem  .75rem 1rem;
   width: 100%;
 
   .c-form__input-container {
@@ -286,7 +286,7 @@ nav.m-menu--mobile {
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
-    margin: 1rem 0 0 1rem;
+    margin: 0.75rem 0 0 calc(2px + 1rem);
   }
 
   .m-menu__section {
@@ -418,7 +418,7 @@ nav.m-menu--mobile {
 .header--new[data-search-open] {
   .m-menu__search {
     display: block;
-    height: 3.75rem;
+    height: 4.25rem;
   }
 
   .m-menu__toggle {
@@ -491,11 +491,10 @@ nav.m-menu--mobile {
 .header-search__toggle {
   align-items: center;
   display: flex;
-  height: 1.875rem;
-  justify-content: center;
+  height: stretch;
+  margin-block: .45rem;
   margin-left: calc(4rem - 1.875rem);
-  padding: unset;
-  width: 1.875rem;
+  padding-inline: .5rem;
 }
 
 .header-search__toggle__container {

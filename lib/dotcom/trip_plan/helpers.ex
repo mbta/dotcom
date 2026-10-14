@@ -112,15 +112,7 @@ defmodule Dotcom.TripPlan.Helpers do
   def route_line_name(route) do
     route
     |> mbta_id()
-    |> case do
-      "Mattapan" -> "mattapan-line"
-      "Red" -> "red-line"
-      "Green" -> "green-line"
-      "Green-" <> branch -> "green-line-#{String.downcase(branch)}"
-      "Blue" -> "blue-line"
-      "Orange" -> "orange-line"
-      _ -> nil
-    end
+    |> Routes.Route.subway_line_name()
   end
 
   # Icons we know we have SVGs for, modify if new icons are added/removed

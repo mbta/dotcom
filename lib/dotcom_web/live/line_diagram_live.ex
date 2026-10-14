@@ -9,6 +9,7 @@ defmodule DotcomWeb.LineDiagramLive do
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @map_config Application.compile_env(:mbta_metro, :map)
+  @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
   @guides [
     %{
@@ -70,7 +71,7 @@ defmodule DotcomWeb.LineDiagramLive do
   ]
 
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
-
+  import DotcomWeb.Components.FareCard, only: [fare_card: 1]
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
 
   import DotcomWeb.ScheduleView,
@@ -82,34 +83,101 @@ defmodule DotcomWeb.LineDiagramLive do
     ]
 
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
+  import DotcomWeb.Schedule.Defaults, only: [default_direction_id: 1]
 
   on_mount DotcomWeb.Hooks.AssignRoute
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
 
+  @impl true
   def mount(params, _session, socket) do
     route = socket.assigns.route
     route_id = route.id
 
     direction_id =
-      params |> Map.get("schedule_direction", %{"direction_id" => 1}) |> Map.get("direction_id")
+      params
+      |> Map.get("schedule_direction", %{
+        "direction_id" =>
+          default_direction_id(%{
+            assigns: %{route: route, date_time: @date_time_module.now()}
+          })
+          |> Integer.to_string()
+      })
+      |> Map.get("direction_id")
+      |> String.to_integer()
 
     tab_params = %{"schedule_direction[direction_id]": direction_id}
 
     guides_for_this_route =
       @guides |> Enum.filter(fn guide -> route.type in guide.modes end)
 
+    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
+
+    _ =
+      if connected?(socket) do
+        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+      end
+
     {:ok,
      socket
      |> assign(:map_config, @map_config)
      |> assign(:direction_id, direction_id)
-     |> assign_route_data()
+     |> assign(:vehicle_topic, vehicle_topic)
+     |> assign_new(:vehicle_icons, fn ->
+       route_id
+       |> @vehicles_repo.route(direction_id: direction_id)
+       |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+     end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
+     |> assign_route_patterns()
+     |> assign_route_stops()
+     |> assign_route_data()
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
      |> assign_pdfs()
-     |> assign(:guides, guides_for_this_route)}
+     |> assign(:guides, guides_for_this_route)
+     |> assign(:move_map, true)}
+  end
+
+  @impl true
+  def terminate(_, socket) do
+    # stop listening for new vehicles
+    _ = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
+  end
+
+  @impl true
+  def handle_info(
+        %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
+        socket
+      ) do
+    {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+  end
+
+  def assign_vehicle_icons(socket, "remove", vehicle_ids) do
+    update(socket, :vehicle_icons, &Map.drop(&1, vehicle_ids))
+  end
+
+  def assign_vehicle_icons(socket, "reset", vehicles) do
+    vehicles
+    |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+    |> then(&assign(socket, :vehicle_icons, &1))
+  end
+
+  # add or update
+  def assign_vehicle_icons(socket, _, vehicles) do
+    updated_vehicles = Map.new(vehicles, &{&1.id, to_vehicle_marker(&1)})
+    update(socket, :vehicle_icons, &Map.merge(&1, updated_vehicles))
+  end
+
+  defp to_vehicle_marker(vehicle) do
+    %{
+      coordinates: [vehicle.longitude, vehicle.latitude],
+      type: "icon-svg",
+      name: "icon-vehicle-bordered-expanded",
+      class: "size-6",
+      rotation: vehicle.bearing || "0"
+    }
   end
 
   def make_link(assigns, page, add_params? \\ false) do
@@ -171,6 +239,7 @@ defmodule DotcomWeb.LineDiagramLive do
     HeaderTabs.render_tabs(tabs, selected: assigns.tab, tab_class: route_tab_class(route))
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class={"schedule__header #{ header_class(@route) }"}>
@@ -194,6 +263,8 @@ defmodule DotcomWeb.LineDiagramLive do
           route_patterns={@route_patterns}
           map_lines={@map_lines}
           map_icons={@map_icons}
+          vehicle_icons={Map.values(@vehicle_icons)}
+          move_map={@move_map}
         />
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
@@ -205,6 +276,9 @@ defmodule DotcomWeb.LineDiagramLive do
           ⚠️ Watch Your Step ⚠️
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
+        <div style="container-type: inline-size;" class="w-full">
+          <.fare_card route={@route} />
+        </div>
         <.guides guides={@guides} />
       </div>
     </div>
@@ -213,38 +287,65 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp assign_route_data(socket) do
     socket
-    |> assign_route_patterns()
     |> assign_stops()
     |> assign_map_attributes()
   end
 
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
     route_patterns =
-      @route_patterns_repo.by_route_id(route.id,
+      route.id
+      |> maybe_use_green_line_id()
+      |> @route_patterns_repo.by_route_id(
         direction_id: direction_id,
         include: "representative_trip.shape,representative_trip.stops"
       )
-      |> Enum.filter(&(&1.typicality == 1))
-      |> filter_unwanted_route_patterns(route.id)
+      |> filter_unwanted_route_patterns(route)
 
     socket
     |> assign(:route_patterns, route_patterns)
   end
 
-  defp filter_unwanted_route_patterns(route_patterns, route_id)
-       when route_id in ["Boat-F6", "Boat-F7"] do
+  defp maybe_use_green_line_id("Green-" <> _), do: "Green"
+  defp maybe_use_green_line_id(route_id), do: route_id
+
+  defp filter_unwanted_route_patterns(route_patterns, route)
+       when route.id in ["Boat-F6", "Boat-F7"] do
     route_patterns
     |> Enum.reject(&(&1.route_id == "Boat-F8"))
   end
 
-  defp filter_unwanted_route_patterns(route_patterns, _route_id), do: route_patterns
+  # Use canonical route patterns where available!
+  defp filter_unwanted_route_patterns(route_patterns, %{type: type}) when type in [0, 1, 2] do
+    Enum.reject(route_patterns, &(!&1.canonical))
+  end
 
-  defp assign_stops(%{assigns: %{route_patterns: route_patterns}} = socket) do
+  # avoid showing route patterns from multi-route trips that are primarily
+  # assigned to another route
+  defp filter_unwanted_route_patterns(route_patterns, %{type: 3} = route) do
+    Enum.reject(route_patterns, &(&1.route_id != route.id))
+  end
+
+  defp filter_unwanted_route_patterns(route_patterns, _route), do: route_patterns
+
+  # Do stop lookups once and save for future rendering
+  defp assign_route_stops(socket) do
+    assign_new(socket, :stops_by_id, fn ->
+      socket.assigns.route_patterns
+      |> Enum.flat_map(& &1.stop_ids)
+      |> Enum.uniq()
+      |> Map.new(&{&1, @stops_repo.get(&1)})
+    end)
+  end
+
+  defp assign_stops(
+         %{assigns: %{route_patterns: route_patterns, stops_by_id: stops_by_id}} =
+           socket
+       ) do
     stops =
       route_patterns
       |> Stream.flat_map(& &1.stop_ids)
       |> Stream.uniq()
-      |> Stream.map(&@stops_repo.get/1)
+      |> Stream.map(&Map.fetch!(stops_by_id, &1))
       |> Enum.to_list()
 
     socket |> assign(:stops, stops)
@@ -290,12 +391,30 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
           name: "icon-stop-circle-bordered-expanded",
-          class: "size-3"
+          class: "size-3 cursor-pointer",
+          popup:
+            socket.assigns
+            |> assign(:stop, &1)
+            |> stop_popup()
         }
       )
 
     socket
     |> assign(:map_icons, map_icons)
+  end
+
+  defp stop_popup(assigns) do
+    ~H"""
+    <div class="popup-title">{@stop.name}</div>
+
+    <div class="popup-link">
+      <a href={
+        ~p"/departures/?route_id=#{@route.id}&direction_id=#{@direction_id}&stop_id=#{@stop.id}"
+      }>
+        {~t(View Schedule)}
+      </a>
+    </div>
+    """
   end
 
   defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
@@ -312,11 +431,12 @@ defmodule DotcomWeb.LineDiagramLive do
     ~H"""
     <.live_component
       module={DotcomWeb.Components.Map}
-      id="trip-planner-map"
+      id="line-diagram-map"
       class="h-96 w-full"
       config={@map_config}
       lines={@map_lines}
-      icons={@map_icons}
+      icons={@map_icons ++ @vehicle_icons}
+      move_map={@move_map}
     />
     """
   end

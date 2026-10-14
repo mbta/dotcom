@@ -5,16 +5,17 @@ defmodule DotcomWeb.PreviewLive do
 
   use DotcomWeb, :live_view
 
+  alias DotcomWeb.DailySchedulesLive
   alias DotcomWeb.Router.Helpers
-  alias DotcomWeb.StopMapLive
   alias Phoenix.LiveView
 
   @pages [
     %{
       arguments: [],
-      icon_name: "icon-stop-default",
-      module: StopMapLive,
-      title: "Stop Page Map"
+      icon_name: "calendar-days",
+      icon_type: "solid",
+      module: DailySchedulesLive,
+      title: "Daily Schedules Experiment"
     }
   ]
 

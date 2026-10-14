@@ -1,8 +1,6 @@
 defmodule CMS.JsonHelpers do
   @moduledoc false
 
-  alias Poison.Parser
-
   def parse_json_file("fixtures" <> filename) do
     file_path = [Path.dirname(__ENV__.file), "../fixtures", filename]
     parse_file(file_path)
@@ -17,6 +15,6 @@ defmodule CMS.JsonHelpers do
     file_path
     |> Path.join()
     |> File.read!()
-    |> Parser.parse!()
+    |> Jason.decode!()
   end
 end

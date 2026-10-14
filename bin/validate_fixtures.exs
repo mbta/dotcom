@@ -38,8 +38,6 @@ end
 defmodule Fixture do
   @moduledoc false
 
-  alias Poison.Parser
-
   def attributes(filename) do
     filename
     |> parse_json()
@@ -50,7 +48,7 @@ defmodule Fixture do
   def parse_json(filename) do
     filename
     |> read()
-    |> Parser.parse!()
+    |> Jason.decode!()
   end
 
   defp read(filename) do

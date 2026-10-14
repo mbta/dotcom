@@ -11,18 +11,20 @@ defmodule DotcomWeb.PlacesController do
 
   @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str}) do
-    with {hit_limit, ""} <- Integer.parse(hit_limit_str),
-         {:ok, predictions} <-
-           @location_service.autocomplete(input, hit_limit) do
-      json(conn, %{predictions: Jason.encode!(predictions)})
-    else
-      {:error, :internal_error} ->
-        ControllerHelpers.return_internal_error(conn)
+    case Integer.parse(hit_limit_str) do
+      {hit_limit, ""} ->
+        if LocationService.valid_autocomplete_request?(input, hit_limit) do
+          do_autocomplete(conn, input, hit_limit)
+        else
+          ControllerHelpers.return_invalid_arguments_error(conn)
+        end
 
       _ ->
         ControllerHelpers.return_invalid_arguments_error(conn)
     end
   end
+
+  def autocomplete(conn, _params), do: ControllerHelpers.return_invalid_arguments_error(conn)
 
   @spec details(Conn.t(), map) :: Conn.t()
   def details(conn, %{"address" => address}) do
@@ -91,19 +93,33 @@ defmodule DotcomWeb.PlacesController do
   /places/search/Prudential/6 returns 6 results, each with an object containing URLs specific to that location for the Retail Sales Location page, and the Proposed Sales Location pages.
   """
   def search(conn, %{"query" => query, "hit_limit" => hit_limit_str}) do
-    case Integer.parse(hit_limit_str) do
-      {hit_limit, ""} when hit_limit > 0 ->
-        do_search(conn, query, hit_limit)
-
+    with {hit_limit, ""} <- Integer.parse(hit_limit_str),
+         true <- LocationService.valid_autocomplete_request?(query, hit_limit) do
+      do_search(conn, query, hit_limit)
+    else
       _ ->
         ControllerHelpers.return_invalid_arguments_error(conn)
     end
   end
 
+  def search(conn, _params), do: ControllerHelpers.return_invalid_arguments_error(conn)
+
   defp do_search(conn, query, hit_limit) do
+    request_autocomplete(conn, query, hit_limit, fn suggestions ->
+      json(conn, %{result: with_coordinates(suggestions)})
+    end)
+  end
+
+  defp do_autocomplete(conn, input, hit_limit) do
+    request_autocomplete(conn, input, hit_limit, fn predictions ->
+      json(conn, %{predictions: Jason.encode!(predictions)})
+    end)
+  end
+
+  defp request_autocomplete(conn, query, hit_limit, on_success) do
     case @location_service.autocomplete(query, hit_limit) do
-      {:ok, suggestions} ->
-        json(conn, %{result: with_coordinates(suggestions)})
+      {:ok, results} ->
+        on_success.(results)
 
       {:error, :invalid_arguments} ->
         ControllerHelpers.return_invalid_arguments_error(conn)
