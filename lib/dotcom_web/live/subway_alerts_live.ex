@@ -8,6 +8,7 @@ defmodule DotcomWeb.SubwayAlertsLive do
 
   import DotcomWeb.Components.PlannedDisruptions, only: [disruptions: 1]
   import DotcomWeb.Components.SystemStatus.SubwayStatus, only: [alerts_subway_status: 1]
+  import DotcomWeb.Components.RouteSymbols
 
   alias Dotcom.Alerts.Subway.Disruptions
 

@@ -352,7 +352,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
       assert departure.platform_name == platform_name
     end
 
-    test "treats a platform name of 'Commuter Rail' as Track TBA" do
+    test "treats a platform name of 'Commuter Rail' as Track TBD" do
       # Setup
       %{
         predictions: predictions,
@@ -379,7 +379,7 @@ defmodule Dotcom.UpcomingDeparturesTest do
 
       # Verify
       assert [departure] = departures
-      assert departure.platform_name == "Track TBA"
+      assert departure.platform_name == "Track TBD"
     end
 
     test "does not include trip name for bus or subway departures" do
@@ -1925,6 +1925,38 @@ defmodule Dotcom.UpcomingDeparturesTest do
       assert [departure] = departures
 
       assert departure.arrival_status == {:time, predicted_departure_time |> truncate(:minute)}
+      assert departure.arrival_substatus == {:status, "Delayed"}
+    end
+
+    test "shows a delayed scheduled time for commuter rail when a delayed prediction has no times" do
+      # Setup
+      %{
+        predictions: predictions,
+        route: route,
+        scheduled_departure_times: [_, scheduled_departure_time, _],
+        schedules: schedules,
+        stops: [_, stop, _],
+        vehicle: vehicle
+      } =
+        PredictedScheduleHelper.predicted_schedule_trip_data(
+          route_factory_types: [:commuter_rail_route],
+          prediction_status: "Delayed",
+          missing_realtime?: true
+        )
+
+      expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
+
+      expect(Dotcom.Utils.DateTime.Mock, :now, fn ->
+        Generators.ServiceDateTime.earlier_on_day(scheduled_departure_time)
+      end)
+
+      # Exercise
+      predicted_schedules = predicted_schedules_for_stop(schedules, predictions, stop.id)
+      departures = UpcomingDepartures.upcoming_departures(predicted_schedules, %{route: route})
+
+      # Verify
+      assert [departure] = departures
+      assert departure.arrival_status == {:delayed_without_prediction, scheduled_departure_time}
       assert departure.arrival_substatus == {:status, "Delayed"}
     end
 

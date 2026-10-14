@@ -97,7 +97,7 @@ defmodule DotcomWeb.CmsRouterHelpers do
   def project_path(conn, verb, opts \\ [])
 
   def project_path(conn, :index, opts) do
-    RouterHelpers.project_path(conn, :index, opts)
+    RouterHelpers.live_path(conn, DotcomWeb.ProjectsPageLive, opts)
   end
 
   def project_path(conn, :show, %Teaser{} = project) do

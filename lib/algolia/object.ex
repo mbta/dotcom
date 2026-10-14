@@ -9,7 +9,14 @@ defimpl Algolia.Object, for: Stops.Stop do
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   def object_id(stop), do: "stop-" <> stop.id
-  def url(stop), do: Util.site_path(:stop_path, [:show, stop])
+
+  def url(stop),
+    do:
+      DotcomWeb.Router.Helpers.live_path(
+        DotcomWeb.Endpoint,
+        DotcomWeb.StopInformationLive,
+        stop.id
+      )
 
   def data(stop) do
     routes_for_stop = @routes_repo.by_stop(stop.id, include: "")

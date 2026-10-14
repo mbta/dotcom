@@ -367,6 +367,10 @@ defmodule Stops.RepoTest do
 
   describe "stop_features/1" do
     setup do
+      stub(Stops.Repo.Mock, :get, fn id ->
+        %Stop{id: id}
+      end)
+
       stub(Routes.Repo.Mock, :by_stop, fn _ ->
         []
       end)
@@ -377,9 +381,9 @@ defmodule Stops.RepoTest do
     test "Returns stop features for a given stop" do
       expect(Routes.Repo.Mock, :by_stop, fn _ ->
         [
-          Route.build(:route, %{type: 2}),
-          Route.build(:route, %{id: "Red"}),
-          Route.build(:route, %{type: 3})
+          Route.build(:route, %{type: 2, description: :commuter_rail, listed?: true}),
+          Route.build(:route, %{id: "Red", description: :rapid_transit, listed?: true}),
+          Route.build(:route, %{type: 3, description: :local_bus, listed?: true})
         ]
       end)
 
@@ -401,11 +405,11 @@ defmodule Stops.RepoTest do
     test "includes specific green_line branches if specified" do
       expect(Routes.Repo.Mock, :by_stop, 2, fn _ ->
         [
-          Route.build(:route, %{id: "Red"}),
-          Route.build(:route, %{id: "Green-B"}),
-          Route.build(:route, %{id: "Green-C"}),
-          Route.build(:route, %{id: "Green-D"}),
-          Route.build(:route, %{id: "Green-E"})
+          Route.build(:route, %{id: "Red", description: :rapid_transit, listed?: true}),
+          Route.build(:route, %{id: "Green-B", description: :rapid_transit, listed?: true}),
+          Route.build(:route, %{id: "Green-C", description: :rapid_transit, listed?: true}),
+          Route.build(:route, %{id: "Green-D", description: :rapid_transit, listed?: true}),
+          Route.build(:route, %{id: "Green-E", description: :rapid_transit, listed?: true})
         ]
       end)
 

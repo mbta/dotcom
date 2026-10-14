@@ -7,7 +7,6 @@ defmodule CMS.Api.Static do
 
   alias CMS.Helpers
   alias CMS.Page.NewsEntry
-  alias Poison.Parser
 
   @behaviour CMS.Api.Behaviour
 
@@ -514,7 +513,7 @@ defmodule CMS.Api.Static do
     file_path
     |> Path.join()
     |> File.read!()
-    |> Parser.parse!()
+    |> Jason.decode!()
   end
 
   # Generates multiple revisions on the fly for a single fixture

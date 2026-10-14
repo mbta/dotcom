@@ -7,10 +7,13 @@ defmodule DotcomWeb.Endpoint do
   @session_options store: :cookie,
                    key: "_site_key",
                    signing_salt: "TInvb4GN",
-                   secure: true
+                   secure: Application.compile_env(:dotcom, :secure_session_cookie, true)
 
   socket("/socket", DotcomWeb.UserSocket)
-  socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
+
+  socket("/live", Phoenix.LiveView.Socket,
+    websocket: [connect_info: [:user_agent, session: @session_options]]
+  )
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -34,7 +37,7 @@ defmodule DotcomWeb.Endpoint do
     Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
   )
 
   plug(Sentry.PlugContext)

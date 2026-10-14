@@ -1,4 +1,4 @@
-<h1 class="m-menu__title h2">{~t(Main Menu)}</h1>
+<h1 class="m-menu__title h2 m-0">{~t(Main Menu)}</h1>
 <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content()) do %>
   <nav aria-labelledby={"section-heading-#{menu_section}"} class="m-menu__section">
     <h2 id={"section-heading-#{menu_section}"} class="m-menu__section-heading">

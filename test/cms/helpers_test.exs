@@ -1,5 +1,5 @@
 defmodule CMS.HelpersTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   import CMS.Helpers
   import Test.Support.EnvHelpers, only: [reassign_env: 3]

@@ -102,6 +102,11 @@ defmodule Routes.Route do
   defguard is_silver_line?(route)
            when route.id in @silver_line and not is_external?(route)
 
+  defguard is_rapid_silver_line?(route)
+           when route.id in @silver_line and not is_external?(route) and
+                  route.fare_class ==
+                    :rapid_transit_fare
+
   @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
   def type_atom(%__MODULE__{external_agency_name: "Logan Express"}), do: :logan_express
@@ -133,6 +138,32 @@ defmodule Routes.Route do
   def types_for_mode(:orange_line), do: [1]
   def types_for_mode(:mattapan_line), do: [0]
   def types_for_mode(:silver_line), do: [3]
+
+  @doc """
+  The `MbtaMetro` route icon line name (e.g. `"green-line-b"`) for a subway line
+  route ID, or `nil` if the ID is not a subway line.
+  """
+  @spec subway_line_name(id_t() | nil) :: String.t() | nil
+  def subway_line_name("Mattapan"), do: "mattapan-line"
+  def subway_line_name("Red"), do: "red-line"
+  def subway_line_name("Green"), do: "green-line"
+  def subway_line_name("Green-" <> branch), do: "green-line-#{String.downcase(branch)}"
+  def subway_line_name("Blue"), do: "blue-line"
+  def subway_line_name("Orange"), do: "orange-line"
+  def subway_line_name(_), do: nil
+
+  @doc """
+  Like `subway_line_name/1`, but also returns `"silver-line"` for Silver Line
+  route IDs.
+  """
+  @spec line_name(id_t() | nil) :: String.t() | nil
+  def line_name(id) do
+    if silver_line?(id) do
+      "silver-line"
+    else
+      subway_line_name(id)
+    end
+  end
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
   def icon_atom(%__MODULE__{external_agency_name: "Massport"}), do: :massport_shuttle
@@ -252,6 +283,10 @@ defmodule Routes.Route do
   end
 
   def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
+  def silver_line?(id), do: id in @silver_line_set
+
+  def rapid_silver_line?(%__MODULE__{id: id, fare_class: fare_class}),
+    do: id in @silver_line_set and fare_class == :rapid_transit_fare
 
   def silver_line, do: @silver_line
 
@@ -311,7 +346,7 @@ defmodule Routes.Route do
   end
 end
 
-defimpl Poison.Encoder, for: Routes.Route do
+defimpl Jason.Encoder, for: Routes.Route do
   def encode(
         %Routes.Route{
           direction_names: direction_names,
@@ -324,14 +359,12 @@ defimpl Poison.Encoder, for: Routes.Route do
         do: nil,
         else: encoded_directions(direction_destinations)
 
-    Poison.Encoder.encode(
-      %{
-        Map.from_struct(route)
-        | direction_names: encoded_directions(direction_names),
-          direction_destinations: direction_destinations_value
-      },
-      options
-    )
+    %{
+      Map.from_struct(route)
+      | direction_names: encoded_directions(direction_names),
+        direction_destinations: direction_destinations_value
+    }
+    |> Jason.Encode.map(options)
   end
 
   defp encoded_directions(%{0 => direction0, 1 => direction1}),

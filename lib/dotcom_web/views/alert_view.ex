@@ -195,7 +195,7 @@ defmodule DotcomWeb.AlertView do
   end
 
   def group_header_path(%Stop{id: stop_id}) do
-    stop_path(DotcomWeb.Endpoint, :show, stop_id)
+    live_path(DotcomWeb.Endpoint, DotcomWeb.StopInformationLive, stop_id)
   end
 
   @spec group_header_name(Route.t() | Stop.t()) :: Phoenix.HTML.Safe.t()
@@ -252,6 +252,7 @@ defmodule DotcomWeb.AlertView do
   def alert_icon(:cancel), do: svg("icon-cancelled-default.svg")
   def alert_icon(:snow), do: svg("icon-snow-default.svg")
   def alert_icon(:alert), do: svg("icon-alerts-triangle.svg")
+  def alert_icon(:whale), do: svg("icon-whale.svg")
   def alert_icon(:none), do: ""
 
   def header(%Alert{effect: :station_closure} = alert) do

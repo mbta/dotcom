@@ -300,7 +300,13 @@ defmodule DotcomWeb.Components do
   """
   def dialog_modal(assigns) do
     ~H"""
-    <dialog id={@modal_id} class="mbta-modal min-w-[40%] min-h-[50%]" closedby="any" data-open={@open}>
+    <dialog
+      id={@modal_id}
+      class="mbta-modal min-w-[40%] min-h-[50%]"
+      closedby="any"
+      data-open={@open}
+      phx-update="ignore"
+    >
       <form method="dialog" class="flex justify-between gap-md items-center">
         <h1 :if={@modal_heading} class="h4 m-0">
           {render_slot(@modal_heading)}
@@ -427,8 +433,10 @@ defmodule DotcomWeb.Components do
   def cta(assigns) do
     ~H"""
     <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
-      <.icon :if={@icon} type={@icon_type} name={@icon} class="size-5 shrink-0" aria-hidden />
-      <span class="leading-tight grow">
+      <div :if={@icon} class="size-5 shrink-0 flex items-center justify-center">
+        <.icon type={@icon_type} name={@icon} class="size-4 shrink-0" aria-hidden />
+      </div>
+      <span class="leading-5 grow">
         {render_slot(@inner_block)}
       </span>
       <span :if={@arrow} aria-hidden="true">&#8594;</span>

@@ -21,7 +21,7 @@ defmodule Schedules.HoursOfOperation do
           sunday: {departure, departure},
           special_service: %{String.t() => {departure, departure}}
         }
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct week: {:no_service, :no_service},
             friday: {:no_service, :no_service},
             saturday: {:no_service, :no_service},

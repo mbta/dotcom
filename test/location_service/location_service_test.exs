@@ -92,14 +92,101 @@ defmodule LocationServiceTest do
       assert {:error, :internal_error} = autocomplete(text, 2)
     end
 
-    test "does nothing with excessively long text" do
+    test "rejects invalid queries and result limits without calling AWS" do
       deny(AwsClient.Mock, :search_place_index_for_suggestions, 2)
 
-      long_text =
-        Faker.random_between(201, 1000)
-        |> Faker.String.base64()
+      assert {:error, :invalid_arguments} = autocomplete("", 1)
+      assert {:error, :invalid_arguments} = autocomplete(String.duplicate("a", 201), 1)
+      assert {:error, :invalid_arguments} = autocomplete("south", 0)
+      assert {:error, :invalid_arguments} = autocomplete("south", -1)
+      assert {:error, :invalid_arguments} = autocomplete("south", 11)
+      assert true == LocationService.valid_autocomplete_request?(String.duplicate("a", 200), 10)
+      assert false == LocationService.valid_autocomplete_request?(nil, 1)
+      assert false == LocationService.valid_autocomplete_request?("south", "5")
+    end
 
-      assert {:ok, []} = autocomplete(long_text, 2)
+    test "retries a transient goaway error and returns a later success" do
+      attempts = start_supervised!({Agent, fn -> 0 end})
+
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, 2, fn _, _ ->
+        Agent.get_and_update(attempts, fn
+          0 -> {{:error, {:goaway, :no_error}}, 1}
+          1 -> {{:ok, %{"Results" => [], "Summary" => %{"Text" => "south"}}, %{}}, 2}
+        end)
+      end)
+
+      assert {:ok, []} = autocomplete("south goaway retry", 2)
+    end
+
+    test "retries a transient AWS server error and returns a later success" do
+      attempts = start_supervised!({Agent, fn -> 0 end})
+
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, 2, fn _, _ ->
+        Agent.get_and_update(attempts, fn
+          0 ->
+            {{:error, {:unexpected_response, %{status_code: 500, body: "Internal server error"}}},
+             1}
+
+          1 ->
+            {{:ok, %{"Results" => [], "Summary" => %{"Text" => "south"}}, %{}}, 2}
+        end)
+      end)
+
+      assert {:ok, []} = autocomplete("south server retry", 2)
+    end
+
+    test "retries closed connections at most twice" do
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, 3, fn _, _ ->
+        {:error, :closed}
+      end)
+
+      assert {:error, :internal_error} = autocomplete("south closed retry", 2)
+    end
+
+    test "maps AWS validation errors to invalid arguments without retrying" do
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, _ ->
+        {:error,
+         {:unexpected_response,
+          %{
+            status_code: 400,
+            body: "ValidationException",
+            headers: [{"x-amzn-errortype", "ValidationException"}]
+          }}}
+      end)
+
+      assert {:error, :invalid_arguments} = autocomplete("south validation", 2)
+    end
+
+    test "treats an unclassified AWS 400 response as an upstream failure" do
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, _ ->
+        {:error, {:unexpected_response, %{status_code: 400, headers: []}}}
+      end)
+
+      assert {:error, :internal_error} = autocomplete("south bad request", 2)
+    end
+
+    test "retries get-place connection failures while resolving suggestions" do
+      text = "123 Main St, Boston, MA, 02110, USA"
+
+      response = %{
+        "Results" => [%{"PlaceId" => "place-1", "Text" => text}],
+        "Summary" => %{"Text" => text}
+      }
+
+      expect(AwsClient.Mock, :search_place_index_for_suggestions, fn _, _ ->
+        {:ok, response, %{}}
+      end)
+
+      attempts = start_supervised!({Agent, fn -> 0 end})
+
+      expect(AwsClient.Mock, :get_place, 2, fn _, "place-1" ->
+        Agent.get_and_update(attempts, fn
+          0 -> {{:error, :closed}, 1}
+          1 -> {{:ok, %{"Place" => build(:place)}, %{}}, 2}
+        end)
+      end)
+
+      assert {:ok, [%LocationService.Address{}]} = autocomplete(text, 1)
     end
   end
 end

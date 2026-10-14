@@ -301,6 +301,7 @@ defmodule Alerts.Alert do
   defp do_human_delay_severity(_), do: nil
 
   @spec icon(t) :: icon_type
+  def icon(%{cause: :presence_of_whales}), do: :whale
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel
   def icon(%{priority: :high, effect: :cancellation}), do: :cancel
@@ -337,14 +338,14 @@ defmodule Alerts.Alert do
   end
 end
 
-defimpl Poison.Encoder, for: Alerts.Alert do
+defimpl Jason.Encoder, for: Alerts.Alert do
   def encode(%Alerts.Alert{} = alert, options) do
     alert
     |> Map.from_struct()
     |> Map.update!(:active_period, fn active_period_pairs ->
       Enum.map(active_period_pairs, &alert_active_period/1)
     end)
-    |> Poison.Encoder.Map.encode(options)
+    |> Jason.Encode.map(options)
   end
 
   @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]

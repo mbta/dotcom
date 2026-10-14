@@ -4,7 +4,6 @@ defmodule Schedules.Schedule do
   """
 
   @derive Jason.Encoder
-
   defstruct route: nil,
             trip: nil,
             stop: nil,
