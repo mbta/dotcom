@@ -472,7 +472,12 @@ defmodule DotcomWeb.LineDiagramLive do
       href={guide.link}
       class="text-black text-lg font-bold"
     >
-      <img src={guide.image} class="w-[380px] rounded-sm mb-[8px]" alt="" />
+      <img
+        src={Util.site_path(:static_url, [guide.image])}
+        class="w-[380px] rounded-sm mb-[8px]"
+        loading="lazy"
+        alt=""
+      />
       <div>{guide.title}</div>
     </a>
     """
