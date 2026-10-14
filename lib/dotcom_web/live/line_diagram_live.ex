@@ -175,7 +175,8 @@ defmodule DotcomWeb.LineDiagramLive do
         route: route,
         vehicle_info: vehicle_info,
         classes: "text-white mr-2",
-        crowding_classes: "text-white fill-current"
+        crowding_classes: "text-white",
+        white_bg?: true
       })
 
     %{
