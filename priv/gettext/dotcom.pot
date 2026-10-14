@@ -5689,3 +5689,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
 msgstr ""
+
+#: lib/dotcom_web/templates/stop/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Download <strong>%{appname}</strong> to track your trip"
+msgstr ""
