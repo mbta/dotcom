@@ -5719,4 +5719,4 @@ msgstr "Vía por definir"
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
-msgstr ""
+msgstr "Descarga <strong>%{appname}</strong> para registrar tu viaje"

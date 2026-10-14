@@ -5710,4 +5710,4 @@ msgstr "Ray Chưa Rõ"
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
-msgstr ""
+msgstr "Tải xuống <strong>%{appname}</strong> để theo dõi chuyến đi của bạn"

@@ -5706,4 +5706,4 @@ msgstr "Ray TBD"
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
-msgstr ""
+msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
