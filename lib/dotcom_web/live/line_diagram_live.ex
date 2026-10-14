@@ -4,6 +4,8 @@ defmodule DotcomWeb.LineDiagramLive do
   """
 
   use DotcomWeb, :live_view
+  require Logger
+
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
@@ -152,6 +154,19 @@ defmodule DotcomWeb.LineDiagramLive do
         socket
       ) do
     {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+  end
+
+  @impl true
+  def handle_async("route_pdfs", {:ok, route_pdfs}, socket) do
+    {:noreply, assign(socket, :route_pdfs, route_pdfs)}
+  end
+
+  def handle_async("route_pdfs", {:exit, reason}, socket) do
+    Logger.warning(
+      "module=#{__MODULE__} Error fetching schedule PDFs for route #{socket.assigns.route_id}: #{inspect(reason)}"
+    )
+
+    {:noreply, assign(socket, :route_pdfs, [])}
   end
 
   def assign_vehicle_icons(socket, "remove", vehicle_ids) do
@@ -418,13 +433,11 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
-    pdfs =
-      Dotcom.RoutePdfs.fetch_and_choose_pdfs(
-        route_id,
-        date
-      )
-
-    socket |> assign(:route_pdfs, pdfs)
+    socket
+    |> assign(:route_pdfs, [])
+    |> start_async("route_pdfs", fn ->
+      Dotcom.RoutePdfs.fetch_and_choose_pdfs(route_id, date)
+    end)
   end
 
   defp map(assigns) do
