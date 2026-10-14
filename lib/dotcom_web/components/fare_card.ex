@@ -5,7 +5,6 @@ defmodule DotcomWeb.Components.FareCard do
   """
   use DotcomWeb, :component
 
-  import DotcomWeb.ModeView, only: [mode_fare_card: 1]
   import Routes.Route, only: [is_rapid_silver_line?: 1, rapid_silver_line?: 1]
 
   @dialyzer {:nowarn_function, fare_card: 1}
@@ -230,8 +229,7 @@ defmodule DotcomWeb.Components.FareCard do
   # Stock CMS fare cards already in use on the site
   def fare_card(assigns) do
     ~H"""
-    {mode_fare_card(@route |> Routes.Route.type_atom())
-    |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})}
+    {@fare_card}
     <.fare_note route={@route} />
     """
   end
