@@ -5706,7 +5706,7 @@ msgstr "Ray TBD"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Lane/Stop Enforcement"
-msgstr ""
+msgstr "Aplikasyon Liy Bis/Arè"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
