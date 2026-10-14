@@ -79,12 +79,7 @@ defmodule Stops.Repo do
   @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
-    stops_by_route = do_by_route(route_id, direction_id, opts)
-
-    case stops_by_route do
-      {:error, _} -> []
-      _ -> stops_by_route
-    end
+    do_by_route(route_id, direction_id, opts)
   end
 
   # Combine Green Line branch stops into one list for the "Green" route
@@ -102,7 +97,9 @@ defmodule Stops.Repo do
   end
 
   defp do_by_route(route_id, direction_id, opts) do
-    with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
+    stops = Api.by_route({route_id, direction_id, opts})
+
+    if is_list(stops) do
       for stop <- stops do
         key = KeyGenerator.generate(__MODULE__, :stop, [stop.id])
 
@@ -110,6 +107,8 @@ defmodule Stops.Repo do
 
         stop
       end
+    else
+      []
     end
   end
 
