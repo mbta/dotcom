@@ -361,7 +361,7 @@ defmodule Stops.RouteStop do
   end
 
   @spec flatten_branches([[RouteStop.t()]], boolean) :: [RouteStop.t()]
-  defp flatten_branches([], prefer_shorter_trunk) do
+  defp flatten_branches([], _prefer_shorter_trunk) do
     []
   end
 
