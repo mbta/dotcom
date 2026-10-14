@@ -117,6 +117,8 @@ defmodule DotcomWeb.LineDiagramLive do
         Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
       end
 
+    dbg(Map.get(params, "schedule_direction"))
+    dbg(direction_id)
     {:ok,
      socket
      |> assign(:map_config, @map_config)
@@ -145,8 +147,11 @@ defmodule DotcomWeb.LineDiagramLive do
     direction_id =
       case Map.get(params, "direction_id") do
         "0" -> 0
-        _ -> 1
+        "1" -> 1
+        _ -> socket.assigns.direction_id
       end
+    dbg(socket.assigns.direction_id)
+    dbg(direction_id)
 
     if direction_id != socket.assigns.direction_id do
       route_id = socket.assigns.route_id
@@ -162,6 +167,7 @@ defmodule DotcomWeb.LineDiagramLive do
         |> @vehicles_repo.route(direction_id: direction_id)
         |> Map.new(&{&1.id, to_vehicle_marker(&1)})
 
+      dbg(direction_id)
       {:noreply,
        socket
        |> assign(:direction_id, direction_id)
@@ -172,6 +178,14 @@ defmodule DotcomWeb.LineDiagramLive do
       {:noreply, socket}
     end
   end
+
+  # def assign_direction_id(socket, direction_id) do
+  #   # direction_id = case Map.get(params, "direction_id") do
+
+  #   end
+  #   assign(socket, :direction_id, direction_id)
+  # end
+
 
   @impl true
   def terminate(_, socket) do
@@ -292,8 +306,11 @@ defmodule DotcomWeb.LineDiagramLive do
           🚧 Under Construction 🚧
         </marquee>
         <div class="m-schedule-direction">
-          <div id="direction-name" class="m-schedule-direction__direction">
+          <div class="m-schedule-direction__direction">
             {Routes.Route.direction_name(@route, @direction_id)}
+          </div>
+          <div class="m-schedule-direction__route-pattern notranslate">
+            DESTINATION
           </div>
           <.link
             :if={Routes.Route.direction_name(@route, 1 - @direction_id)}
