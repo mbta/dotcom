@@ -168,19 +168,13 @@ defmodule DotcomWeb.LineDiagramLive do
        |> assign(:direction_id, direction_id)
        |> assign(:vehicle_topic, vehicle_topic)
        |> assign(:vehicle_icons, vehicle_icons)
+       |> assign_route_patterns()
+       |> assign_route_stops()
        |> assign_route_data()}
     else
       {:noreply, socket}
     end
   end
-
-  # def assign_direction_id(socket, direction_id) do
-  #   # direction_id = case Map.get(params, "direction_id") do
-
-  #   end
-  #   assign(socket, :direction_id, direction_id)
-  # end
-
 
   @impl true
   def terminate(_, socket) do
@@ -391,14 +385,14 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp filter_unwanted_route_patterns(route_patterns, _route), do: route_patterns
 
-  # Do stop lookups once and save for future rendering
   defp assign_route_stops(socket) do
-    assign_new(socket, :stops_by_id, fn ->
+    stops_by_id =
       socket.assigns.route_patterns
       |> Enum.flat_map(& &1.stop_ids)
       |> Enum.uniq()
       |> Map.new(&{&1, @stops_repo.get(&1)})
-    end)
+
+    assign(socket, :stops_by_id, stops_by_id)
   end
 
   defp assign_stops(
