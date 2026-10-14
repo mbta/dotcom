@@ -79,7 +79,12 @@ defmodule Stops.Repo do
   @impl Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
-    stops_by_route = do_by_route(route_id, direction_id, opts)
+    stops_by_route =
+    if route_id == "Green-E" do # TODO: remove -- testing code
+      do_by_route(route_id, direction_id, Keyword.put(opts, :sort, "5"))
+    else
+      do_by_route(route_id, direction_id, opts)
+    end
 
     case stops_by_route do
       {:error, _} -> []
