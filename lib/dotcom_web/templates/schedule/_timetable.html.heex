@@ -3,7 +3,7 @@
     ferry_or_commuter_rail?(@route) && @route.id != "CR-Franklin" && @route.id != "CR-Foxboro" &&
       @conn |> user_agent() |> Browser.mobile?()
   }
-  banner_source={commuter_rail?(@route) && "cr-banner" || "ferry-banner"}
+  banner_source={(commuter_rail?(@route) && "cr-banner") || "ferry-banner"}
 >
   <div class="leading-tight">
     {gettext("Download %{mbta_go} to track your %{vehicle_name}",
