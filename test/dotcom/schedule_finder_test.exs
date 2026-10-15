@@ -5,7 +5,8 @@ defmodule Dotcom.ScheduleFinderTest do
   import Mox
 
   alias Dotcom.InSeatTransfers.TripHeading
-  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
+  alias Dotcom.ScheduleFinder.{DailyDeparture, Platforms}
+  alias Dotcom.ScheduleFinder.TripDetails.TripStop
 
   alias Test.Support.Factories.{
     Routes.Route,
@@ -151,7 +152,12 @@ defmodule Dotcom.ScheduleFinderTest do
       end)
 
       assert {:ok, arrivals} = next_arrivals(trip_id, stop_sequence_for_stop, date)
-      assert %FutureArrival{} = List.first(arrivals)
+
+      assert %TripStop{
+               cancelled?: false,
+               stop_sequence: ^stop_sequence_for_arrivals,
+               time: {:time, %DateTime{}}
+             } = List.first(arrivals)
     end
 
     test "adds a trip heading between arrivals for different trips" do
@@ -180,7 +186,7 @@ defmodule Dotcom.ScheduleFinderTest do
       end)
 
       assert {:ok, arrivals} = next_arrivals(trip_id1, stop_sequence_for_stop, date)
-      assert %FutureArrival{} = List.first(arrivals)
+      assert %TripStop{} = List.first(arrivals)
       assert [_, _, _, _, %TripHeading{} | _] = arrivals
     end
   end

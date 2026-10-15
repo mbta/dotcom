@@ -7,7 +7,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
   import Test.Support.Generators.DateTime, only: [random_date_time: 0]
 
   alias Dotcom.InSeatTransfers.TripHeading
-  alias Dotcom.ScheduleFinder.FutureArrival
+  alias Dotcom.ScheduleFinder.TripDetails.TripStop
   alias DotcomWeb.ScheduleFinderLive
   alias Test.Support.Factories
   alias Test.Support.FactoryHelpers
@@ -482,14 +482,28 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         stop_banner |> Floki.attribute("data-test") |> List.first()
 
       arrivals = [
-        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
-        %FutureArrival{stop_name: "Intermediate stop", time: random_date_time()},
+        %TripStop{
+          cancelled?: false,
+          stop_id: stop_id,
+          stop_name: stop_name,
+          time: {:time, random_date_time()}
+        },
+        %TripStop{
+          cancelled?: false,
+          stop_name: "Intermediate stop",
+          time: {:time, random_date_time()}
+        },
         %TripHeading{
           headsign: "Continuing trip",
           route: Factories.Routes.Route.build(:route)
         },
-        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
-        %FutureArrival{stop_name: "After stop", time: random_date_time()}
+        %TripStop{
+          cancelled?: false,
+          stop_id: stop_id,
+          stop_name: stop_name,
+          time: {:time, random_date_time()}
+        },
+        %TripStop{cancelled?: false, stop_name: "After stop", time: {:time, random_date_time()}}
       ]
 
       expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
@@ -518,14 +532,28 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         stop_banner |> Floki.attribute("data-test") |> List.first()
 
       arrivals = [
-        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
-        %FutureArrival{stop_name: "Intermediate stop", time: random_date_time()},
-        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
+        %TripStop{
+          cancelled?: false,
+          stop_id: stop_id,
+          stop_name: stop_name,
+          time: {:time, random_date_time()}
+        },
+        %TripStop{
+          cancelled?: false,
+          stop_name: "Intermediate stop",
+          time: {:time, random_date_time()}
+        },
+        %TripStop{
+          cancelled?: false,
+          stop_id: stop_id,
+          stop_name: stop_name,
+          time: {:time, random_date_time()}
+        },
         %TripHeading{
           headsign: "Terminal heading",
           route: Factories.Routes.Route.build(:route)
         },
-        %FutureArrival{stop_name: "After stop", time: random_date_time()}
+        %TripStop{cancelled?: false, stop_name: "After stop", time: {:time, random_date_time()}}
       ]
 
       expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
@@ -553,8 +581,13 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         stop_banner |> Floki.attribute("data-test") |> List.first()
 
       arrivals = [
-        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
-        %FutureArrival{stop_name: "After stop", time: random_date_time()}
+        %TripStop{
+          cancelled?: false,
+          stop_id: stop_id,
+          stop_name: stop_name,
+          time: {:time, random_date_time()}
+        },
+        %TripStop{cancelled?: false, stop_name: "After stop", time: {:time, random_date_time()}}
       ]
 
       expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)

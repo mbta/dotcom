@@ -10,7 +10,8 @@ defmodule Dotcom.ScheduleFinder do
   alias Alerts.{Alert, InformedEntity, InformedEntitySet}
   alias Dotcom.InSeatTransfers
   alias Dotcom.InSeatTransfers.TripHeading
-  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
+  alias Dotcom.ScheduleFinder.{DailyDeparture, Platforms}
+  alias Dotcom.ScheduleFinder.TripDetails.TripStop
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
@@ -47,20 +48,6 @@ defmodule Dotcom.ScheduleFinder do
             time_desc: String.t() | nil,
             trip_id: Trip.id_t(),
             trip_name: String.t() | nil
-          }
-  end
-
-  defmodule FutureArrival do
-    @moduledoc """
-    A scheduled arrival at a stop (and optionally platform) with a time.
-    """
-    defstruct [:platform_name, :stop_id, :stop_name, :time]
-
-    @type t :: %__MODULE__{
-            platform_name: String.t() | nil,
-            stop_id: Stop.id_t(),
-            stop_name: String.t(),
-            time: DateTime.t()
           }
   end
 
@@ -198,7 +185,8 @@ defmodule Dotcom.ScheduleFinder do
          arrival_time: arrival_time,
          route: %Route{type: route_type},
          stop: parent_stop,
-         platform_stop_id: platform_stop_id
+         platform_stop_id: platform_stop_id,
+         stop_sequence: stop_sequence
        }) do
     platform_stop =
       if platform_stop_id && parent_stop.child_ids != [] do
@@ -208,12 +196,14 @@ defmodule Dotcom.ScheduleFinder do
     arrival_stop = platform_stop || parent_stop
 
     # If we happen to be looking at a stop that's the trip origin, there'll only be a departure time. Can use that if needed.
-    %FutureArrival{
-      time: if(arrival_time, do: arrival_time, else: departure_time),
+    %TripStop{
+      cancelled?: false,
+      time: {:time, arrival_time || departure_time},
       platform_name:
         platform_name_for_stop(arrival_stop.platform_name, route_type, parent_stop.id),
       stop_id: parent_stop.id,
-      stop_name: arrival_stop.name
+      stop_name: arrival_stop.name,
+      stop_sequence: stop_sequence
     }
   end
 

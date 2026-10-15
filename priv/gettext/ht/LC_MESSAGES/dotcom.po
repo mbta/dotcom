@@ -3818,8 +3818,8 @@ msgstr "Suivi Single"
 msgid "Skip to main content"
 msgstr "kontoune nan kontni prensipal la"
 
+#: lib/dotcom_web/components/departures.ex
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
-#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
 msgstr "kontoune"
