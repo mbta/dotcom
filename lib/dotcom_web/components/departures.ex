@@ -76,4 +76,27 @@ defmodule DotcomWeb.Components.Departures do
     </div>
     """
   end
+
+  attr :trip_heading, Dotcom.InSeatTransfers.TripHeading, required: true
+
+  @doc """
+  A trip stop list item marking where a trip continues as an in-seat transfer trip
+  """
+  def trip_continues_as(assigns) do
+    ~H"""
+    <RouteComponents.lined_list_item
+      route={@trip_heading.route}
+      variant="none"
+      class="bg-charcoal-90"
+    >
+      <div class="flex-col w-full">
+        <div class="text-charcoal-30 text-sm text-nowrap">{~t"Trip continues as"}</div>
+        <div class="flex items-center gap-sm">
+          <RouteComponents.route_icon route={@trip_heading.route} size="small" class="shrink-0" />
+          <span>{@trip_heading.headsign}</span>
+        </div>
+      </div>
+    </RouteComponents.lined_list_item>
+    """
+  end
 end
