@@ -4411,7 +4411,7 @@ msgstr "Changement de planche sur voie"
 msgid "Track Change"
 msgstr "Changement de voie"
 
-#: lib/dotcom_web/components/components.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
 msgstr "Suivez votre %{route_type_text} voyage en direct avec l’application <strong>MBTA Go</strong>"

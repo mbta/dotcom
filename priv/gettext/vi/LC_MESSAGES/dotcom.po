@@ -4402,7 +4402,7 @@ msgstr "Thay đổi lịch trình lên tàu"
 msgid "Track Change"
 msgstr "Theo dõi thay đổi"
 
-#: lib/dotcom_web/components/components.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
 msgstr "Theo dõi hành trình %{route_type_text} của bạn trực tiếp với ứng dụng <strong>MBTA Go</strong>"

@@ -4400,7 +4400,7 @@ msgstr "Chanjman Anbakman Track"
 msgid "Track Change"
 msgstr "Suivi Chanjman"
 
-#: lib/dotcom_web/components/components.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
 msgstr "Swiv vwayaj %{route_type_text} ou an dirèk avèk aplikasyon <strong>MBTA Go</strong> a"

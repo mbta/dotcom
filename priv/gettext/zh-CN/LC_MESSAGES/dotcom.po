@@ -4386,7 +4386,7 @@ msgstr "轨道登机变更"
 msgid "Track Change"
 msgstr "轨道变换"
 
-#: lib/dotcom_web/components/components.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
 msgstr "使用<strong>MBTA Go</strong>应用程序实时追踪您的%{route_type_text}行程"

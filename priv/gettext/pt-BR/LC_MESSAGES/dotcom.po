@@ -4407,7 +4407,7 @@ msgstr "Alteração de embarque na trilha"
 msgid "Track Change"
 msgstr "Acompanhar alterações"
 
-#: lib/dotcom_web/components/components.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
 msgstr "Acompanhe sua viagem %{route_type_text} em tempo real com o aplicativo <strong>MBTA Go.</strong>"
