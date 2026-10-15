@@ -5491,11 +5491,6 @@ msgid "This news release was published <strong>more than a year ago.</strong> In
 msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn một năm.</strong> Thông tin trên trang này có thể không còn phản ánh dịch vụ, chính sách hoặc"
 " hoạt động hiện tại."
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Continues as"
-msgstr "Tiếp tục"
-
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{route} One-Way"
@@ -5721,3 +5716,8 @@ msgstr "Bị trì hoãn"
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Tải xuống <strong>%{appname}</strong> để theo dõi chuyến đi của bạn"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Trip continues as"
+msgstr ""

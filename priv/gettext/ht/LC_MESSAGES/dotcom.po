@@ -5487,11 +5487,6 @@ msgid "This news release was published <strong>more than a year ago.</strong> In
 msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase yon ane de sa.</strong> Enfòmasyon ki sou paj sa a ka pa reflete sèvis, règleman oswa operasyon"
 " aktyèl yo ankò."
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Continues as"
-msgstr "Kontinye"
-
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{route} One-Way"
@@ -5717,3 +5712,8 @@ msgstr "Anreta"
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Trip continues as"
+msgstr ""
