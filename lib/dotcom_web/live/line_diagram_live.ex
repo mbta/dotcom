@@ -168,11 +168,10 @@ defmodule DotcomWeb.LineDiagramLive do
        socket
        |> assign(:direction_id, direction_id)
        |> assign(:vehicle_topic, vehicle_topic)
-       |> assign(:vehicle_icons, fn ->
-        route_id
-        |> @vehicles_repo.route(direction_id: direction_id)
-        |> Map.new(&{&1.id, to_vehicle_marker(&1)})
-       end)
+       |> assign_vehicle_icons(
+         "reset",
+         @vehicles_repo.route(route_id, direction_id: direction_id)
+       )
        |> assign_route_patterns()
        |> assign_route_stops()
        |> assign_route_data()}
