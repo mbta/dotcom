@@ -160,7 +160,7 @@ defmodule DotcomWeb.Components.Map do
   We then update the `loaded` assign to `true` so we know future updates can be drawn on the map.
   """
   @impl true
-  def handle_event("map-loaded", params, socket) do
+  def handle_event("map-loaded", _params, socket) do
     new_socket =
       socket
       |> assign(:loaded, true)
