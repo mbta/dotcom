@@ -5720,4 +5720,4 @@ msgstr "Tải xuống <strong>%{appname}</strong> để theo dõi chuyến đi c
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr ""
+msgstr "Chuyến đi tiếp tục khi"
