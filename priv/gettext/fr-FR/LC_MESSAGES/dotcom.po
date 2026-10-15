@@ -5720,3 +5720,18 @@ msgstr "Piste à déterminer"
 #, elixir-autogen, elixir-format
 msgid "Change Direction"
 msgstr ""
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr "Contrôle des voies de bus / arrêts"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Delayed"
+msgstr "Retardé"
+
+#: lib/dotcom_web/templates/stop/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Download <strong>%{appname}</strong> to track your trip"
+msgstr "<strong>Téléchargez%{appname}</strong> pour suivre votre voyage"
