@@ -5718,7 +5718,7 @@ msgstr "Anreta"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "Vwayaj la kontinye tankou"

@@ -5727,7 +5727,7 @@ msgstr "Atrasado"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Baixe <strong>%{appname}</strong> para acompanhar sua viagem"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "A viagem continua como"

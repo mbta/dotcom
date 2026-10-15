@@ -11,6 +11,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
   import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
+  alias Dotcom.InSeatTransfers.TripHeading
   alias Dotcom.ServiceDateRollover
   alias DotcomWeb.Components.Departures
   alias Phoenix.{LiveView, LiveView.AsyncResult}
@@ -494,11 +495,13 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         other_stop={@trip_details.stop}
         route={@route}
       />
-      <.other_stop
-        :for={other_stop <- @trip_details.stops_after}
-        other_stop={other_stop}
-        route={@route}
-      />
+      <%= for stop_or_heading <- @trip_details.stops_after do %>
+        <%= if match?(%TripHeading{}, stop_or_heading) do %>
+          <Departures.trip_continues_as trip_heading={stop_or_heading} />
+        <% else %>
+          <.other_stop other_stop={stop_or_heading} route={@route} />
+        <% end %>
+      <% end %>
     </.lined_list>
     """
   end

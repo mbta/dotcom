@@ -6,7 +6,8 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
   import Phoenix.LiveViewTest
   import Test.Support.Generators.DateTime, only: [random_date_time: 0]
 
-  alias Dotcom.ScheduleFinder.{FutureArrival, TripHeading}
+  alias Dotcom.InSeatTransfers.TripHeading
+  alias Dotcom.ScheduleFinder.FutureArrival
   alias DotcomWeb.ScheduleFinderLive
   alias Test.Support.Factories
   alias Test.Support.FactoryHelpers
@@ -469,21 +470,25 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       {:ok, view, _html} = visit_with_valid_params(conn, [2, 3, 4])
       render_async(view)
 
-      stop_name =
+      stop_banner =
         view
         |> render()
         |> Floki.parse_fragment!()
-        |> Floki.find("[data-test^='stop_banner:'] span")
-        |> Floki.text()
+        |> Floki.find("[data-test^='stop_banner:']")
+
+      stop_name = stop_banner |> Floki.find("span") |> Floki.text()
+
+      "stop_banner:" <> stop_id =
+        stop_banner |> Floki.attribute("data-test") |> List.first()
 
       arrivals = [
-        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
         %FutureArrival{stop_name: "Intermediate stop", time: random_date_time()},
         %TripHeading{
           headsign: "Continuing trip",
           route: Factories.Routes.Route.build(:route)
         },
-        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
         %FutureArrival{stop_name: "After stop", time: random_date_time()}
       ]
 
@@ -501,17 +506,21 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       {:ok, view, _html} = visit_with_valid_params(conn, [2, 3, 4])
       render_async(view)
 
-      stop_name =
+      stop_banner =
         view
         |> render()
         |> Floki.parse_fragment!()
-        |> Floki.find("[data-test^='stop_banner:'] span")
-        |> Floki.text()
+        |> Floki.find("[data-test^='stop_banner:']")
+
+      stop_name = stop_banner |> Floki.find("span") |> Floki.text()
+
+      "stop_banner:" <> stop_id =
+        stop_banner |> Floki.attribute("data-test") |> List.first()
 
       arrivals = [
-        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
         %FutureArrival{stop_name: "Intermediate stop", time: random_date_time()},
-        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
         %TripHeading{
           headsign: "Terminal heading",
           route: Factories.Routes.Route.build(:route)
@@ -532,15 +541,19 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       {:ok, view, _html} = visit_with_valid_params(conn, [2, 3, 4])
       render_async(view)
 
-      stop_name =
+      stop_banner =
         view
         |> render()
         |> Floki.parse_fragment!()
-        |> Floki.find("[data-test^='stop_banner:'] span")
-        |> Floki.text()
+        |> Floki.find("[data-test^='stop_banner:']")
+
+      stop_name = stop_banner |> Floki.find("span") |> Floki.text()
+
+      "stop_banner:" <> stop_id =
+        stop_banner |> Floki.attribute("data-test") |> List.first()
 
       arrivals = [
-        %FutureArrival{stop_name: stop_name, time: random_date_time()},
+        %FutureArrival{stop_id: stop_id, stop_name: stop_name, time: random_date_time()},
         %FutureArrival{stop_name: "After stop", time: random_date_time()}
       ]
 

@@ -5705,7 +5705,7 @@ msgstr ""
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr ""
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr ""

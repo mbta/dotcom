@@ -25,7 +25,8 @@ defmodule Dotcom.ScheduleFinder.Behaviour do
   Get scheduled arrivals for one trip on a date, starting at a given stop_sequence.
   """
   @callback next_arrivals(Trip.id_t(), non_neg_integer(), Date.t(), boolean()) ::
-              {:ok, [FutureArrival.t()]} | {:error, term()}
+              {:ok, [FutureArrival.t() | Dotcom.InSeatTransfers.TripHeading.t()]}
+              | {:error, term()}
 
   @doc """
   Clearly group a list of departures by route and destination. Intended to be used with subway departures.

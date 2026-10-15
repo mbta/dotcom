@@ -5699,7 +5699,7 @@ msgstr "延迟"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "下载<strong>%{appname}</strong>来追踪您的行程"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "旅程继续"

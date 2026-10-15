@@ -8,6 +8,8 @@ defmodule Dotcom.ScheduleFinder do
   use Dotcom.Gettext.Sigils
 
   alias Alerts.{Alert, InformedEntity, InformedEntitySet}
+  alias Dotcom.InSeatTransfers
+  alias Dotcom.InSeatTransfers.TripHeading
   alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
   alias RoutePatterns.RoutePattern
   alias Routes.Route
@@ -52,24 +54,13 @@ defmodule Dotcom.ScheduleFinder do
     @moduledoc """
     A scheduled arrival at a stop (and optionally platform) with a time.
     """
-    defstruct [:platform_name, :stop_name, :time]
+    defstruct [:platform_name, :stop_id, :stop_name, :time]
 
     @type t :: %__MODULE__{
             platform_name: String.t() | nil,
+            stop_id: Stop.id_t(),
             stop_name: String.t(),
             time: DateTime.t()
-          }
-  end
-
-  defmodule TripHeading do
-    @moduledoc """
-    A headsign-route pairing
-    """
-    defstruct [:headsign, :route]
-
-    @type t :: %__MODULE__{
-            headsign: Trip.headsign(),
-            route: Route.t()
           }
   end
 
@@ -168,19 +159,12 @@ defmodule Dotcom.ScheduleFinder do
       schedules when is_list(schedules) ->
         arrivals =
           schedules
-          |> Stream.filter(&makes_subsequent_stop?(&1, trip_id, min_stop_sequence))
-          |> Stream.chunk_by(& &1.trip.id)
-          |> Stream.with_index(fn
-            trip_schedules, 0 ->
-              Enum.map(trip_schedules, &to_arrival/1)
-
-            [next_schedule | more_schedules], _ ->
-              [
-                to_trip_heading(next_schedule)
-                | Enum.map(more_schedules, &to_arrival/1)
-              ]
+          |> Enum.filter(&makes_subsequent_stop?(&1, trip_id, min_stop_sequence))
+          |> InSeatTransfers.insert_trip_headings(& &1.trip.id, &to_trip_heading/1)
+          |> Enum.map(fn
+            %TripHeading{} = heading -> heading
+            schedule -> to_arrival(schedule)
           end)
-          |> Enum.flat_map(& &1)
 
         {:ok, arrivals}
 
@@ -228,6 +212,7 @@ defmodule Dotcom.ScheduleFinder do
       time: if(arrival_time, do: arrival_time, else: departure_time),
       platform_name:
         platform_name_for_stop(arrival_stop.platform_name, route_type, parent_stop.id),
+      stop_id: parent_stop.id,
       stop_name: arrival_stop.name
     }
   end
