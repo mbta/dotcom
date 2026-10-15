@@ -55,6 +55,26 @@ defmodule DotcomWeb.Components.Departures do
     """
   end
 
+  attr :rest, :global, doc: "Additional attributes (e.g. `id`, `phx-click`) for the `<details>`"
+
+  slot :heading, required: true, doc: "The summary content, typically a `departure_heading/1`"
+  slot :content, required: true, doc: "The trip details shown when the accordion is open"
+
+  @doc """
+  Expandable row for a single departure which, when opened, shows trip details
+  """
+  def departure_accordion(assigns) do
+    ~H"""
+    <.unstyled_accordion
+      summary_class="flex items-center gap-sm px-sm py-3 bg-white hover:bg-brand-primary-lightest group-open:bg-gray-lightest group-open:hover:bg-brand-primary-lightest sticky top-0 z-[2] group-open:border-b-xs group-open:border-gray-lightest"
+      {@rest}
+    >
+      <:heading>{render_slot(@heading)}</:heading>
+      <:content>{render_slot(@content)}</:content>
+    </.unstyled_accordion>
+    """
+  end
+
   attr :time, DateTime, required: true
 
   def formatted_time(assigns) do
