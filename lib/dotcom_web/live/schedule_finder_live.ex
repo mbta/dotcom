@@ -614,9 +614,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
       class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest"
       data-test="departures_table"
     >
-      <.unstyled_accordion
+      <Departures.departure_accordion
         :for={departure <- @departures}
-        summary_class="flex items-center gap-sm bg-white hover:bg-brand-primary-lightest px-sm py-3 sticky top-0 z-[2] group-open:border-b-xs group-open:border-gray-lightest"
         phx-click="open_trip"
         phx-value-schedule_id={departure.schedule_id}
         phx-value-stop_sequence={departure.stop_sequence}
@@ -661,7 +660,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             </.lined_list>
           </.async_result>
         </:content>
-      </.unstyled_accordion>
+      </Departures.departure_accordion>
     </div>
     """
   end
