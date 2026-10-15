@@ -5706,7 +5706,7 @@ msgstr "Ray TBD"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Change Direction"
-msgstr ""
+msgstr "Chanje Direksyon"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
