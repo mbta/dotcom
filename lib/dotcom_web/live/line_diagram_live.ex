@@ -146,6 +146,41 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   @impl true
+  def handle_params(params, _uri, socket) do
+    direction_id =
+      case Map.get(params, "direction_id") do
+        "0" -> 0
+        "1" -> 1
+        _ -> socket.assigns.direction_id
+      end
+
+    if direction_id != socket.assigns.direction_id do
+      route_id = socket.assigns.route_id
+      vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
+
+      _ =
+        if connected?(socket) do
+          Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
+          Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+        end
+
+      {:noreply,
+       socket
+       |> assign(:direction_id, direction_id)
+       |> assign(:vehicle_topic, vehicle_topic)
+       |> assign_vehicle_icons(
+         "reset",
+         @vehicles_repo.route(route_id, direction_id: direction_id)
+       )
+       |> assign_route_patterns()
+       |> assign_route_stops()
+       |> assign_route_data()}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  @impl true
   def terminate(_, socket) do
     # stop listening for new vehicles
     _ = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
@@ -306,6 +341,29 @@ defmodule DotcomWeb.LineDiagramLive do
         >
           &#x1F6A7; Under Construction &#x1F6A7;
         </marquee>
+        <div class="m-schedule-direction">
+          <div class="m-schedule-direction__direction">
+            {Routes.Route.direction_name(@route, @direction_id)}
+          </div>
+          <div class="m-schedule-direction__route-pattern notranslate">
+            DESTINATION
+          </div>
+          <.link
+            :if={Routes.Route.direction_name(@route, 1 - @direction_id)}
+            id="direction-filter"
+            patch={~p"/schedules/#{@route.id}/line_new?direction_id=#{1 - @direction_id}"}
+            class="m-schedule-direction__button btn btn-primary"
+            replace
+          >
+            <.icon
+              type="icon-svg"
+              aria-hidden
+              name="icon-change-direction"
+              class="size-4 mr-0.5 fill-current"
+            />
+            {~t(Change Direction)}
+          </.link>
+        </div>
         <.map
           map_config={@map_config}
           route_patterns={@route_patterns}
@@ -375,14 +433,14 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp filter_unwanted_route_patterns(route_patterns, _route), do: route_patterns
 
-  # Do stop lookups once and save for future rendering
   defp assign_route_stops(socket) do
-    assign_new(socket, :stops_by_id, fn ->
+    stops_by_id =
       socket.assigns.route_patterns
       |> Enum.flat_map(& &1.stop_ids)
       |> Enum.uniq()
       |> Map.new(&{&1, @stops_repo.get(&1)})
-    end)
+
+    assign(socket, :stops_by_id, stops_by_id)
   end
 
   defp assign_stops(

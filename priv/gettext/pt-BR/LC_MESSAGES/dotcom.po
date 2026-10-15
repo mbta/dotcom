@@ -5712,6 +5712,11 @@ msgstr "Ver horário"
 msgid "Track TBD"
 msgstr "Via a definir"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Change Direction"
+msgstr "Mudar de direção"
+
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Lane/Stop Enforcement"
