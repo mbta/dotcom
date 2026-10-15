@@ -158,10 +158,11 @@ defmodule DotcomWeb.LineDiagramLive do
       route_id = socket.assigns.route_id
       vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
 
-      if connected?(socket) do
-        Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
-      end
+      _ =
+        if connected?(socket) do
+          Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
+          Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+        end
 
       vehicle_icons =
         route_id
