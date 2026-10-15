@@ -4,7 +4,8 @@ defmodule Dotcom.ScheduleFinderTest do
   import Dotcom.ScheduleFinder
   import Mox
 
-  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms, TripHeading}
+  alias Dotcom.InSeatTransfers.TripHeading
+  alias Dotcom.ScheduleFinder.{DailyDeparture, FutureArrival, Platforms}
 
   alias Test.Support.Factories.{
     Routes.Route,
