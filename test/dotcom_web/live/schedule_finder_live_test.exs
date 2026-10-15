@@ -487,7 +487,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         %FutureArrival{stop_name: "After stop", time: random_date_time()}
       ]
 
-      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
 
       click_first_departure(view)
 
@@ -519,7 +519,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         %FutureArrival{stop_name: "After stop", time: random_date_time()}
       ]
 
-      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
 
       click_first_departure(view)
 
@@ -544,7 +544,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         %FutureArrival{stop_name: "After stop", time: random_date_time()}
       ]
 
-      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
 
       click_first_departure(view)
 
