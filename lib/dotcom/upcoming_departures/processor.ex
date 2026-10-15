@@ -335,14 +335,12 @@ defmodule Dotcom.UpcomingDepartures.Processor do
     end
   end
 
-  defp predictions_for_trip(predictions, trip_id) when is_list(predictions) do
+  defp predictions_for_trip(predictions, trip_id) do
     case Enum.filter(predictions, &(prediction_trip_id(&1) == trip_id)) do
       [] -> predictions
       trip_predictions -> trip_predictions
     end
   end
-
-  defp predictions_for_trip(predictions, _), do: predictions
 
   defp prediction_trip_id(%Prediction{trip: %Trip{id: trip_id}}), do: trip_id
   defp prediction_trip_id(%Prediction{trip_id: trip_id}), do: trip_id
