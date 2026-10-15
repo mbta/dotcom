@@ -306,6 +306,7 @@ defmodule DotcomWeb.LineDiagramLive do
             id="direction-filter"
             patch={~p"/schedules/#{@route.id}/line_new?direction_id=#{1 - @direction_id}"}
             class="m-schedule-direction__button btn btn-primary"
+            replace
           >
             <.icon
               type="icon-svg"
