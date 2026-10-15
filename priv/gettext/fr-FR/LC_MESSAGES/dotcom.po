@@ -5729,4 +5729,4 @@ msgstr "<strong>Téléchargez%{appname}</strong> pour suivre votre voyage"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr ""
+msgstr "Le voyage continue comme"
