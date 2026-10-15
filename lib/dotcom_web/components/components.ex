@@ -406,7 +406,7 @@ defmodule DotcomWeb.Components do
       icon="icon-mbta-go"
       large_icon
       arrow
-      classes={"hidden items-center " <> @classes}
+      classes={"hidden items-center bg-cobalt-90 border-xs border-cobalt-70 rounded-lg " <> @classes}
     >
       {render_slot(@inner_block)}
     </.cta>
