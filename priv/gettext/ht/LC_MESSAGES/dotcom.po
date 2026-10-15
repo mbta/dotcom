@@ -5716,4 +5716,4 @@ msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr ""
+msgstr "Vwayaj la kontinye tankou"

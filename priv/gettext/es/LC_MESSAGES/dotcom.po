@@ -5729,4 +5729,4 @@ msgstr "Descarga <strong>%{appname}</strong> para registrar tu viaje"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr ""
+msgstr "El viaje continúa como"
