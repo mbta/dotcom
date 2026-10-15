@@ -164,16 +164,15 @@ defmodule DotcomWeb.LineDiagramLive do
           Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
         end
 
-      vehicle_icons =
-        route_id
-        |> @vehicles_repo.route(direction_id: direction_id)
-        |> Map.new(&{&1.id, to_vehicle_marker(&1)})
-
       {:noreply,
        socket
        |> assign(:direction_id, direction_id)
        |> assign(:vehicle_topic, vehicle_topic)
-       |> assign(:vehicle_icons, vehicle_icons)
+       |> assign(:vehicle_icons, fn ->
+        route_id
+        |> @vehicles_repo.route(direction_id: direction_id)
+        |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+       end)
        |> assign_route_patterns()
        |> assign_route_stops()
        |> assign_route_data()}
