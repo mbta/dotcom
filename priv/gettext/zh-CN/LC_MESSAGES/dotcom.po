@@ -5697,4 +5697,4 @@ msgstr "下载<strong>%{appname}</strong>来追踪您的行程"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr ""
+msgstr "旅程继续"
