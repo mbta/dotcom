@@ -9,6 +9,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
   alias Dotcom.ServiceDateRollover
   alias DotcomWeb.Components.Departures
@@ -301,8 +302,13 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
     ~H"""
     <.mbta_go_cta
       :if={!Map.has_key?(assigns, :no_realtime)}
-      route_type_atom={Routes.Route.type_atom(@route)}
-    />
+      banner_source="schedule-finder"
+    >
+      {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
+        route_type_text: Routes.Route.type_atom(@route) |> mode_name() |> String.downcase()
+      )
+      |> Phoenix.HTML.raw()}
+    </.mbta_go_cta>
     <.upcoming_departures_table
       stop_id={@stop.id}
       upcoming_departures={@upcoming_departures |> Enum.take(5)}

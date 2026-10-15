@@ -11,7 +11,6 @@ defmodule DotcomWeb.Components do
     endpoint: DotcomWeb.Endpoint,
     router: DotcomWeb.Router
 
-  import DotcomWeb.ViewHelpers, only: [mode_name: 1]
   import MbtaMetro.Components.Badge, only: [badge: 1]
   import MbtaMetro.Components.Button, only: [button: 1]
   import MbtaMetro.Components.Icon, only: [icon: 1]
@@ -392,31 +391,24 @@ defmodule DotcomWeb.Components do
     """
   end
 
-  attr :route_type_atom, :atom, required: true
-  @doc "Renders a banner with a call-to-action to download the MBTA Go app"
-  def mbta_go_cta(%{route_type_atom: route_type_atom} = assigns) do
-    assigns =
-      assigns
-      |> assign(
-        :route_type_text,
-        route_type_atom
-        |> mode_name()
-        |> String.downcase()
-      )
+  attr :banner_source, :string, required: true
+  attr :classes, :string, required: false, default: ""
 
+  slot :inner_block, required: true
+
+  @doc "Renders a banner with a call-to-action to download the MBTA Go app"
+  def mbta_go_cta(assigns) do
     ~H"""
     <.cta
       phx-hook="MBTAGoCTABanner"
       id="mbta-go-cta-banner"
-      link="/app-store?pt=117998862&ct=dotcom-schedule-finder&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3Dschedule-finder"
+      link="/app-store?pt=117998862&ct=dotcom-#{@banner_source}&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3D#{@banner_source}"
       icon="icon-mbta-go"
+      large_icon
       arrow
-      classes="hidden"
+      classes={"hidden items-center " <> @classes}
     >
-      {gettext("Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app",
-        route_type_text: @route_type_text
-      )
-      |> Phoenix.HTML.raw()}
+      {render_slot(@inner_block)}
     </.cta>
     """
   end
@@ -426,6 +418,7 @@ defmodule DotcomWeb.Components do
   attr :classes, :string, required: false, default: ""
   attr :icon, :string, required: false, default: nil
   attr :icon_type, :string, required: false, default: "icon-svg"
+  attr :large_icon, :boolean, required: false, default: false
   attr :rest, :global
 
   slot :inner_block
@@ -433,8 +426,8 @@ defmodule DotcomWeb.Components do
   def cta(assigns) do
     ~H"""
     <.cta_wrapper class={"cta-a gap-2 " <> @classes} link={@link} {@rest}>
-      <div :if={@icon} class="size-5 shrink-0 flex items-center justify-center">
-        <.icon type={@icon_type} name={@icon} class="size-4 shrink-0" aria-hidden />
+      <div :if={@icon} class={"size-#{if @large_icon, do: "11", else: "5"} shrink-0 flex items-center justify-center"}>
+        <.icon type={@icon_type} name={@icon} class={"size-#{if @large_icon, do: "11", else: "4"} shrink-0"} aria-hidden />
       </div>
       <span class="leading-5 grow">
         {render_slot(@inner_block)}
