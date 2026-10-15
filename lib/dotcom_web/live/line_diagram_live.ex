@@ -129,7 +129,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_new(:vehicle_icons, fn ->
        route_id
        |> @vehicles_repo.route(direction_id: direction_id)
-       |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+       |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
      end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
@@ -190,22 +190,40 @@ defmodule DotcomWeb.LineDiagramLive do
 
   def assign_vehicle_icons(socket, "reset", vehicles) do
     vehicles
-    |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+    |> Map.new(&{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
     |> then(&assign(socket, :vehicle_icons, &1))
   end
 
   # add or update
   def assign_vehicle_icons(socket, _, vehicles) do
-    updated_vehicles = Map.new(vehicles, &{&1.id, to_vehicle_marker(&1)})
+    updated_vehicles =
+      Map.new(vehicles, &{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
+
     update(socket, :vehicle_icons, &Map.merge(&1, updated_vehicles))
   end
 
-  defp to_vehicle_marker(vehicle) do
+  defp to_vehicle_marker(vehicle, route) do
+    %{stops: _, vehicle_info: vehicle_info} =
+      Dotcom.ScheduleFinder.TripDetails.trip_details(%{
+        predicted_schedules: [],
+        trip_vehicle: vehicle
+      })
+
+    popup =
+      DotcomWeb.Live.UpcomingDeparturesLive.vehicle_label(%{
+        route: route,
+        vehicle_info: vehicle_info,
+        classes: "text-white mr-2",
+        crowding_classes: "text-white",
+        white_bg?: true
+      })
+
     %{
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
       name: "icon-vehicle-bordered-expanded",
-      class: "size-6",
+      class: "size-6 cursor-pointer",
+      popup: popup,
       rotation: vehicle.bearing || "0"
     }
   end

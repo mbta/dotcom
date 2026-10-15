@@ -3,13 +3,11 @@
   height: 100%;
 }
 
-.mbta-map svg {
-  fill: var(--colors-cobalt-30);
-}
-
 .mbta-map-pin {
   width: 4rem;
   height: 4rem;
+  fill: var(--colors-cobalt-30);
+
 }
 
 .mbta-map-point {
