@@ -54,6 +54,20 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
   end
 
   describe "POST" do
+    test "rejects missing and invalid CSRF tokens with 403", %{conn: conn} do
+      for params <- [%{}, %{"_csrf_token" => "invalid"}] do
+        assert {403, _, body} =
+                 assert_error_sent(403, fn ->
+                   conn
+                   |> put_private(:plug_skip_csrf_protection, false)
+                   |> post("/customer-support", params)
+                 end)
+
+        assert body =~ "403"
+        refute body =~ "Something went wrong on our end."
+      end
+    end
+
     def valid_request_response_data do
       %{
         "support" => %{
@@ -119,8 +133,20 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
     end
 
     test "submits successfully if customer does not want a response", %{conn: conn} do
-      conn = post(conn, customer_support_path(conn, :submit), valid_no_response_data())
+      form_conn = get(conn, customer_support_path(conn, :index))
 
+      [token] =
+        form_conn.resp_body
+        |> Floki.parse_document!()
+        |> Floki.attribute("input[name=_csrf_token]", "value")
+
+      conn =
+        form_conn
+        |> recycle(~w(x-forwarded-for))
+        |> put_private(:plug_skip_csrf_protection, false)
+        |> post("/customer-support", Map.put(valid_no_response_data(), "_csrf_token", token))
+
+      assert redirected_to(conn) == customer_support_path(conn, :thanks)
       refute conn.assigns["errors"]
       wait_for_ticket_task(conn)
     end

@@ -15,6 +15,7 @@ defmodule Dotcom.Sentry do
 
   # Phoenix.NotAcceptableError is returned when the client requests an unsupported format, we don't need to report these
   defp exclude_exception?(%Phoenix.NotAcceptableError{}), do: true
+  defp exclude_exception?(%Plug.CSRFProtection.InvalidCSRFTokenError{}), do: true
   # Exclude Redis connection/disconnection from Sentry
   defp exclude_exception?(%Redix.ConnectionError{}), do: true
   defp exclude_exception?(_exception), do: false

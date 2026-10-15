@@ -38,6 +38,14 @@ defmodule DotcomWeb.ControllerHelpers do
     |> render("500.html", [])
   end
 
+  def render_client_error(conn, status) when status in 400..499 do
+    conn
+    |> put_status(status)
+    |> put_view(DotcomWeb.ErrorView)
+    |> render("4xx.html", status: status)
+    |> halt()
+  end
+
   def return_internal_error(conn),
     do: return_error(conn, :internal_server_error, "Internal error")
 

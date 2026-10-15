@@ -3,6 +3,23 @@ defmodule Phoenix.Router.RoutingTest do
 
   @canonical_host "www.mbta.com"
 
+  describe "error handling" do
+    test "preserves client error statuses", %{conn: conn} do
+      for status <- [400, 403, 404, 422, 429] do
+        response = DotcomWeb.Router.handle_errors(conn, %{reason: %{plug_status: status}})
+        assert html_response(response, status) =~ Integer.to_string(status)
+        refute response.resp_body =~ "Something went wrong on our end."
+      end
+    end
+
+    test "renders unexpected errors as 500", %{conn: conn} do
+      for reason <- [%RuntimeError{}, %{plug_status: 503}] do
+        response = DotcomWeb.Router.handle_errors(conn, %{reason: reason})
+        assert html_response(response, 500) =~ "Something went wrong on our end."
+      end
+    end
+  end
+
   describe "routes" do
     test "Proposed Sales Locations page", %{conn: conn} do
       conn = get(conn, "/fare-transformation/proposed-sales-locations")
