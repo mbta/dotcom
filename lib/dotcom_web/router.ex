@@ -26,13 +26,15 @@ defmodule DotcomWeb.Router do
     A custom error handling function that renders the appropriate
     error page.
 
-    For most (unexpected) errors, we render a 500 page. When we see a
-    `DotcomWeb.NotFoundError`, we render the 404 page instead.
+    Client errors retain their 4xx status. Unexpected errors render a 500 page.
     """
     def handle_errors(conn, %{reason: reason}) do
       case reason do
         %{plug_status: 404} ->
           ControllerHelpers.render_404(conn)
+
+        %{plug_status: status} when status in 400..499 ->
+          ControllerHelpers.render_client_error(conn, status)
 
         _ ->
           ControllerHelpers.render_500(conn)
@@ -322,7 +324,6 @@ defmodule DotcomWeb.Router do
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)
     resources("/fares", FareController, only: [:show])
-    post("/search/query", SearchController, :query)
     get("/bus-stop-changes", BusStopChangeController, :show)
 
     # Temporarily removed because the elections API only returns
@@ -405,6 +406,13 @@ defmodule DotcomWeb.Router do
     get("/stop/:id/route-patterns", StopController, :grouped_route_patterns)
     get("/map-config", MapConfigController, :get)
     get("/routes/:route_ids", RouteController, :get_by_route_ids)
+  end
+
+  # This endpoint only reads public search results; it does not use session state.
+  scope "/search", DotcomWeb do
+    pipe_through([:secure, :api])
+
+    post("/query", SearchController, :query)
   end
 
   scope "/algolia", DotcomWeb do

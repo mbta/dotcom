@@ -19,8 +19,14 @@
           class={"support-confirmation support-confirmation--error #{ if !show_error_message(@conn), do: "hidden-xs-up" }"}
           tabindex="-1"
         >
-          <div id={"#{ if show_error_message(@conn), do: "support-result" }"}>
+          <div
+            class="support-submission-error"
+            id={"#{ if show_error_message(@conn), do: "support-result" }"}
+          >
             {fa("exclamation-circle")} {~t(We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes.)}
+          </div>
+          <div class="support-csrf-error hidden-xs-up">
+            {fa("exclamation-circle")} {~t(We couldn't submit your feedback. Please reload the page and try again.)}
           </div>
         </div>
         <%= if @show_form do %>

@@ -1433,6 +1433,7 @@ msgstr "antre nan estasyon Ruggles"
 msgid "Entrances to Red Line and Commuter Rail outside South Station"
 msgstr "antre pou Red Line ak Tren an deyò South Station"
 
+#: lib/dotcom_web/templates/error/4xx.html.heex
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid "Error"
@@ -5717,3 +5718,18 @@ msgstr "Anreta"
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
+
+#: lib/dotcom_web/templates/error/4xx.html.heex
+#, elixir-autogen, elixir-format
+msgid "Please reload the page and try again."
+msgstr ""
+
+#: lib/dotcom_web/templates/error/4xx.html.heex
+#, elixir-autogen, elixir-format
+msgid "We couldn't process your request."
+msgstr ""
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "We couldn't submit your feedback. Please reload the page and try again."
+msgstr ""

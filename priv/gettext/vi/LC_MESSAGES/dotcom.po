@@ -1427,6 +1427,7 @@ msgstr "lối vào to Ruggles nhà ga"
 msgid "Entrances to Red Line and Commuter Rail outside South Station"
 msgstr "lối vào to Red Line và Đường sắt ngoại ô outside South Station"
 
+#: lib/dotcom_web/templates/error/4xx.html.heex
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid "Error"
@@ -5721,3 +5722,18 @@ msgstr "Bị trì hoãn"
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Tải xuống <strong>%{appname}</strong> để theo dõi chuyến đi của bạn"
+
+#: lib/dotcom_web/templates/error/4xx.html.heex
+#, elixir-autogen, elixir-format
+msgid "Please reload the page and try again."
+msgstr ""
+
+#: lib/dotcom_web/templates/error/4xx.html.heex
+#, elixir-autogen, elixir-format
+msgid "We couldn't process your request."
+msgstr ""
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "We couldn't submit your feedback. Please reload the page and try again."
+msgstr ""
