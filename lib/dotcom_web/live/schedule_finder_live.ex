@@ -10,10 +10,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.Components.Alerts
   import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
-  import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.RouteComponents, only: [lined_list: 1]
 
   alias Dotcom.InSeatTransfers
-  alias Dotcom.InSeatTransfers.TripHeading
   alias Dotcom.ScheduleFinder.ServiceGroup
   alias DotcomWeb.Components.Departures
   alias DotcomWeb.Live.UpcomingDeparturesLive
@@ -658,24 +657,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <%= for {heading_or_arrival, index} <- Enum.with_index(arrivals) do %>
-                <%= if match?(%TripHeading{}, heading_or_arrival) do %>
-                  <Departures.trip_continues_as trip_heading={heading_or_arrival} />
-                <% else %>
-                  <.lined_list_item
-                    route={departure.route}
-                    class={if(index == 0, do: "font-bold")}
-                    stop_pin?={index == 0}
-                  >
-                    <DotcomWeb.Components.Departures.stop_label
-                      stop_name={heading_or_arrival.stop_name}
-                      platform_name={heading_or_arrival.platform_name}
-                    />
-
-                    <Departures.formatted_time time={heading_or_arrival.time} />
-                  </.lined_list_item>
-                <% end %>
-              <% end %>
+              <Departures.trip_stops highlight_first? route={departure.route} stops={arrivals} />
             </.lined_list>
           </.async_result>
         </:content>
