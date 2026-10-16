@@ -506,7 +506,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         %TripStop{cancelled?: false, stop_name: "After stop", time: {:time, random_date_time()}}
       ]
 
-      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
 
       click_first_departure(view)
 
@@ -556,7 +556,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         %TripStop{cancelled?: false, stop_name: "After stop", time: {:time, random_date_time()}}
       ]
 
-      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
 
       click_first_departure(view)
 
@@ -590,7 +590,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         %TripStop{cancelled?: false, stop_name: "After stop", time: {:time, random_date_time()}}
       ]
 
-      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _, _ -> {:ok, arrivals} end)
+      expect(Dotcom.ScheduleFinder.Mock, :next_arrivals, fn _, _, _ -> {:ok, arrivals} end)
 
       click_first_departure(view)
 
