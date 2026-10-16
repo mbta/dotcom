@@ -286,6 +286,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
 
+
     %{
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
@@ -302,7 +303,6 @@ defmodule DotcomWeb.LineDiagramLive do
     <div :if={@route.type == 2} class="italic">
       {gettext("Train %{train_no}", %{train_no: @vehicle.trip_id |> String.split("-") |> Enum.at(2)})}
     </div>
-
     <DotcomWeb.Live.UpcomingDeparturesLive.vehicle_label
       route={@route}
       vehicle_info={@vehicle_info}

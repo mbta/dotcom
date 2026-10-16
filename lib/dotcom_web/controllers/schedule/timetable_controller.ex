@@ -482,11 +482,21 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     ~w[place-bbsta place-rugg place-NEC-2203]
   end
 
+  # As of Fall 2026, weekend train numbers via Fairmount are 4-digits leading with 75
+  # These weekend trains happen to skip Forest Hills.
+  defp stops_for_fairmount(<<"75", _rest::binary-size(2)>>, 0) do
+    ~w[place-bbsta place-rugg place-NEC-2203]
+  end
+
   defp stops_for_fairmount(_, 0) do
     ~w[place-bbsta place-rugg place-forhl place-NEC-2203]
   end
 
   defp stops_for_fairmount(<<"5", _rest::binary-size(3)>>, 1) do
+    ~w[place-NEC-2203 place-rugg place-bbsta]
+  end
+
+  defp stops_for_fairmount(<<"75", _rest::binary-size(2)>>, 1) do
     ~w[place-NEC-2203 place-rugg place-bbsta]
   end
 
