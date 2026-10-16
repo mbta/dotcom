@@ -13,11 +13,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
 
   alias Dotcom.ScheduleFinder.ServiceGroup
+  alias Dotcom.ScheduleFinder.{FutureArrival, TripHeading}
   alias DotcomWeb.Components.Departures
   alias DotcomWeb.Live.UpcomingDeparturesLive
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
-  alias Phoenix.{LiveView, LiveView.AsyncResult, LiveView.JS}
+  alias Phoenix.LiveView
+  alias Phoenix.LiveView.AsyncResult
+  alias Phoenix.LiveView.JS
   alias Routes.Route
   alias Stops.Stop
 
@@ -261,11 +264,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
   def handle_cast({:get_next, {schedule_id, args}}, socket) do
     {:noreply,
      socket
-     |> update(:loaded_trips, fn loaded_trips ->
+     |> update(:loaded_trips, fn loaded_trips, %{stop: stop} ->
        result =
          case Kernel.apply(@schedule_finder, :next_arrivals, args) do
-           {:ok, arrivals} -> AsyncResult.ok(arrivals)
-           error -> AsyncResult.failed(error, :reason)
+           {:ok, arrivals} ->
+             arrivals
+             |> trim_arrivals(stop)
+             |> AsyncResult.ok()
+
+           error ->
+             AsyncResult.failed(error, :reason)
          end
 
        Map.put(loaded_trips, schedule_id, result)
@@ -360,6 +368,35 @@ defmodule DotcomWeb.ScheduleFinderLive do
       )
     else
       assign(socket, :departures, AsyncResult.ok([]))
+    end
+  end
+
+  defp trim_arrivals(arrivals, stop) do
+    with true <- Enum.any?(arrivals, &match?(%TripHeading{}, &1)),
+         stop_index when is_integer(stop_index) <- second_stop_index(arrivals, stop.name) do
+      arrivals
+      |> Enum.take(stop_index + 1)
+      |> drop_trailing_heading()
+    else
+      _ -> arrivals
+    end
+  end
+
+  # The list starts at the viewed stop, so the second match is where a looped trip returns to it
+  defp second_stop_index(arrivals, stop_name) do
+    arrivals
+    |> Enum.with_index()
+    |> Enum.flat_map(fn
+      {%FutureArrival{stop_name: ^stop_name}, index} -> [index]
+      _ -> []
+    end)
+    |> Enum.at(1)
+  end
+
+  defp drop_trailing_heading(arrivals) do
+    case List.last(arrivals) do
+      %TripHeading{} -> Enum.drop(arrivals, -1)
+      _ -> arrivals
     end
   end
 
@@ -650,9 +687,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
                   <.lined_list_item
                     route={heading_or_arrival.route}
                     variant="none"
+                    class="bg-charcoal-90"
                   >
                     <div class="flex-col w-full">
-                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Continues as"}</div>
+                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Trip continues as"}</div>
                       <div class="flex items-center gap-sm">
                         <RouteComponents.route_icon
                           route={heading_or_arrival.route}

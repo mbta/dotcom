@@ -4402,7 +4402,7 @@ msgstr "Thay đổi lịch trình lên tàu"
 msgid "Track Change"
 msgstr "Theo dõi thay đổi"
 
-#: lib/dotcom_web/components/components.ex
+#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
 msgstr "Theo dõi hành trình %{route_type_text} của bạn trực tiếp với ứng dụng <strong>MBTA Go</strong>"
@@ -5491,11 +5491,6 @@ msgid "This news release was published <strong>more than a year ago.</strong> In
 msgstr "Thông cáo báo chí này được phát hành <strong>cách đây hơn một năm.</strong> Thông tin trên trang này có thể không còn phản ánh dịch vụ, chính sách hoặc"
 " hoạt động hiện tại."
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Continues as"
-msgstr "Tiếp tục"
-
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{route} One-Way"
@@ -5727,32 +5722,7 @@ msgstr "Bị trì hoãn"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Tải xuống <strong>%{appname}</strong> để theo dõi chuyến đi của bạn"
 
-#: lib/dotcom_web/components/variant_picker.ex
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
-msgid "%{time_desc} from %{origin}"
-msgstr ""
-
-#: lib/dotcom_web/components/variant_picker.ex
-#, elixir-autogen, elixir-format
-msgid "All branches"
-msgstr ""
-
-#: lib/dotcom_web/components/variant_picker.ex
-#, elixir-autogen, elixir-format
-msgid "All variants"
-msgstr ""
-
-#: lib/dotcom_web/components/variant_picker.ex
-#, elixir-autogen, elixir-format
-msgid "Uncommon destinations"
-msgstr ""
-
-#: lib/dotcom_web/components/variant_picker.ex
-#, elixir-autogen, elixir-format
-msgid "from %{origin}, less common route"
-msgstr ""
-
-#: lib/dotcom_web/components/variant_picker.ex
-#, elixir-autogen, elixir-format
-msgid "typical route"
-msgstr ""
+msgid "Trip continues as"
+msgstr "Chuyến đi tiếp tục khi"
