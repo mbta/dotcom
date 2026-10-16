@@ -154,43 +154,23 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_new(:date, &@date_time_module.now/0)
      |> assign_fare_card()
      |> assign_pdfs()
-     |> assign(:guides, guides_for_this_route)
-     |> assign(:move_map, true)}
+     |> assign(:guides, guides_for_this_route)}
   end
 
   @impl true
   def handle_params(params, _uri, socket) do
-    direction_id =
-      case Map.get(params, "direction_id") do
-        "0" -> 0
-        "1" -> 1
-        _ -> socket.assigns.direction_id
-      end
-
-    if direction_id != socket.assigns.direction_id do
-      route_id = socket.assigns.route_id
-      vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
-
-      _ =
-        if connected?(socket) do
-          Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-          Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
-        end
-
-      {:noreply,
-       socket
-       |> assign(:direction_id, direction_id)
-       |> assign(:vehicle_topic, vehicle_topic)
-       |> assign_vehicle_icons(
-         "reset",
-         @vehicles_repo.route(route_id, direction_id: direction_id)
-       )
-       |> assign_route_patterns()
-       |> assign_route_stops()
-       |> assign_route_data()}
-    else
-      {:noreply, socket}
-    end
+    {:noreply,
+     socket
+     |> update(:direction_id, fn current_direction ->
+       case Map.get(params, "direction_id") do
+         "0" -> 0
+         "1" -> 1
+         _ -> current_direction
+       end
+     end)
+     |> apply_if_param_changed(:direction_id, &apply_direction_change/1)
+     |> apply_if_param_changed(:selected_variant, &apply_variant_change/1)
+     |> assign_route_data()}
   end
 
   @impl true
@@ -231,18 +211,6 @@ defmodule DotcomWeb.LineDiagramLive do
 
     {:noreply, assign(socket, :fare_card, [])}
   end
-  
-  # selected_variant is set from the URL by the SyncUrlParam hook, which runs first
-  @impl true
-  def handle_params(_params, _uri, socket) do
-    {:noreply,
-     socket
-     |> apply_if_param_changed(:selected_variant, fn s ->
-       s
-       |> update(:selected_route_patterns, &apply_selected_variant/2)
-       |> refresh_selection()
-     end)}
-  end
 
   defp apply_if_param_changed(socket, param, func) do
     if changed?(socket, param) do
@@ -256,22 +224,39 @@ defmodule DotcomWeb.LineDiagramLive do
     Enum.any?(route_patterns, &(&1.id == variant))
   end
 
-  defp apply_selected_variant(_, %{route_patterns: all_route_patterns, selected_variant: id}) do
-    case Enum.find(all_route_patterns, &(&1.id == id)) do
-      nil ->
-        all_route_patterns
+  defp apply_direction_change(socket) do
+    %{route_id: route_id, direction_id: direction_id} = socket.assigns
+    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
 
-      selected ->
-        [selected]
-    end
+    _ =
+      if connected?(socket) do
+        Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
+        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+      end
+
+    socket
+    |> assign(:vehicle_topic, vehicle_topic)
+    |> assign_vehicle_icons(
+      "reset",
+      @vehicles_repo.route(route_id, direction_id: direction_id)
+    )
+    |> assign_route_patterns()
+    |> assign_route_stops()
   end
 
-  # re-fit the map to the newly selected variant
-  defp refresh_selection(socket) do
+  defp apply_variant_change(socket) do
     socket
-    |> assign_stops()
-    |> assign_map_attributes()
-    |> assign(:move_map, true)
+    |> update(:selected_route_patterns, fn _, assigns ->
+      %{route_patterns: all_route_patterns, selected_variant: id} = assigns
+
+      case Enum.find(all_route_patterns, &(&1.id == id)) do
+        nil ->
+          all_route_patterns
+
+        selected ->
+          [selected]
+      end
+    end)
   end
 
   def assign_vehicle_icons(socket, "remove", vehicle_ids) do
@@ -400,12 +385,21 @@ defmodule DotcomWeb.LineDiagramLive do
           <div class="m-schedule-direction__direction">
             {Routes.Route.direction_name(@route, @direction_id)}
           </div>
-          <div :if={variant_picker?(@route)} class="m-schedule-direction__route-pattern notranslate -ml-sm">
+          <div
+            :if={variant_picker?(@route)}
+            class="-ml-[0.375rem]"
+          >
             <.variant_picker
               route={@route}
               route_patterns={@route_patterns}
               selected_variant={@selected_variant}
             />
+          </div>
+          <div
+            :if={!variant_picker?(@route)}
+            class="m-schedule-direction__route-pattern"
+          >
+            {Routes.Route.direction_destination(@route, @direction_id)}
           </div>
           <.link
             :if={Routes.Route.direction_name(@route, 1 - @direction_id)}
@@ -450,10 +444,12 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
+  # re-fit the map to the newly selected variant or direction
   defp assign_route_data(socket) do
     socket
     |> assign_stops()
     |> assign_map_attributes()
+    |> assign(:move_map, true)
   end
 
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
