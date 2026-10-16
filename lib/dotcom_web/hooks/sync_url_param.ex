@@ -57,7 +57,7 @@ defmodule DotcomWeb.Hooks.SyncUrlParam do
                {:halt,
                 socket
                 |> assign(key, nil)
-                |> push_patch(to: patched_path(socket, param, nil))}
+                |> push_patch(to: patched_path(socket, param, nil), replace: true)}
            end
        end
      end)
