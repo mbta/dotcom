@@ -68,7 +68,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: npm run ci:lint:ts
 
   jslint:
@@ -80,7 +80,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: npm run ci:lint:js
 
   stylelint:
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: npm run ci:lint:scss
 
   elixirlint:
@@ -104,7 +104,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: git fetch origin main:main
       - run: npm run ci:lint:ex
 
@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: mix deps.unlock --check-unused
 
   zizmor:
@@ -140,7 +140,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - name: Cache _build
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
         with:
@@ -162,7 +162,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
         with:
           path: |
@@ -188,7 +188,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: npm run ci:unit:mocha
 
   js_unit_2:
@@ -200,7 +200,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: TZ="America/New_York" npm run ci:unit:jest
 
   type_dialyzer:
@@ -212,7 +212,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - uses: mbta/actions/dialyzer@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
 
   type_typescript:
@@ -224,7 +224,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: npm run ci:types:ts
 
   elixir_format_check:
@@ -236,7 +236,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: npm run ci:format:ex
 
   js_format_check:
@@ -248,7 +248,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - run: npm run ci:format:ts
 
   check_translations:
@@ -260,7 +260,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup-all
+      - uses: $/.github/actions/setup-all
       - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
         with:
           path: |
