@@ -286,7 +286,6 @@ defmodule DotcomWeb.LineDiagramLive do
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
 
-
     %{
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
