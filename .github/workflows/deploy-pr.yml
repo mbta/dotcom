@@ -26,7 +26,7 @@ jobs:
   pr:
     # env not available for job if
     if: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
-    uses: ./.github/workflows/use-deploy-ecs.yml
+    uses: $/.github/workflows/use-deploy-ecs.yml
     permissions:
       contents: read
       id-token: write
@@ -39,7 +39,7 @@ jobs:
 
   notify:
     needs: [pr]
-    uses: ./.github/workflows/use-notify-slack.yml
+    uses: $/.github/workflows/use-notify-slack.yml
     if: ${{ success() || failure() }}
     secrets:
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   branch:
-    uses: ./.github/workflows/use-deploy-ecs.yml
+    uses: $/.github/workflows/use-deploy-ecs.yml
     permissions:
       contents: read
       id-token: write
@@ -29,7 +29,7 @@ jobs:
 
   notify:
     needs: [branch]
-    uses: ./.github/workflows/use-notify-slack.yml
+    uses: $/.github/workflows/use-notify-slack.yml
     if: ${{ !cancelled() }}
     secrets:
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
