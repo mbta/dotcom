@@ -5752,3 +5752,8 @@ msgstr "soti nan %{origin}, wout ki mwens komen"
 #, elixir-autogen, elixir-format
 msgid "typical route"
 msgstr "wout tipik"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Train %{train_no}"
+msgstr ""
