@@ -33,6 +33,7 @@ defmodule Dotcom.UpcomingDepartures.UpcomingDeparture do
           realtime_arrival_status_t()
           | :hidden
           | {:cancelled, DateTime.t()}
+          | {:delayed_without_prediction, DateTime.t()}
           | {:scheduled, DateTime.t()}
           | {:status, String.t()}
           | {:time, DateTime.t()}

@@ -135,7 +135,8 @@ defmodule DotcomWeb.PartialView do
   @doc """
   Renders a specific CMS paragraph, provided an alias to it and the conn.
   """
-  @spec paragraph(String.t(), Conn.t()) :: Phoenix.HTML.Safe.t()
+  @spec paragraph(String.t(), DotcomWeb.CMS.ParagraphView.render_conn()) ::
+          Phoenix.HTML.Safe.t()
   def paragraph(path, conn) do
     path
     |> Repo.get_paragraph(conn.query_params)

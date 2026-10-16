@@ -4,6 +4,8 @@ defmodule DotcomWeb.LineDiagramLive do
   """
 
   use DotcomWeb, :live_view
+  require Logger
+
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
@@ -78,6 +80,8 @@ defmodule DotcomWeb.LineDiagramLive do
 
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
 
+  import DotcomWeb.ModeView, only: [mode_fare_card: 1]
+
   import DotcomWeb.ScheduleView,
     only: [
       header_class: 1,
@@ -138,7 +142,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_new(:vehicle_icons, fn ->
        route_id
        |> @vehicles_repo.route(direction_id: direction_id)
-       |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+       |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
      end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
@@ -148,9 +152,45 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:tab, "new_line")
      |> assign(:tab_params, tab_params)
      |> assign_new(:date, &@date_time_module.now/0)
+     |> assign_fare_card()
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)
      |> assign(:move_map, true)}
+  end
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    direction_id =
+      case Map.get(params, "direction_id") do
+        "0" -> 0
+        "1" -> 1
+        _ -> socket.assigns.direction_id
+      end
+
+    if direction_id != socket.assigns.direction_id do
+      route_id = socket.assigns.route_id
+      vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
+
+      _ =
+        if connected?(socket) do
+          Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
+          Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+        end
+
+      {:noreply,
+       socket
+       |> assign(:direction_id, direction_id)
+       |> assign(:vehicle_topic, vehicle_topic)
+       |> assign_vehicle_icons(
+         "reset",
+         @vehicles_repo.route(route_id, direction_id: direction_id)
+       )
+       |> assign_route_patterns()
+       |> assign_route_stops()
+       |> assign_route_data()}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
@@ -167,9 +207,33 @@ defmodule DotcomWeb.LineDiagramLive do
     {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
   end
 
+  @impl true
+  def handle_async("route_pdfs", {:ok, route_pdfs}, socket) do
+    {:noreply, assign(socket, :route_pdfs, route_pdfs)}
+  end
+
+  def handle_async("route_pdfs", {:exit, reason}, socket) do
+    Logger.warning(
+      "module=#{__MODULE__} Error fetching schedule PDFs for route #{socket.assigns.route_id}: #{inspect(reason)}"
+    )
+
+    {:noreply, assign(socket, :route_pdfs, [])}
+  end
+
+  def handle_async("fare_card", {:ok, fare_card}, socket) when fare_card != [] do
+    {:noreply, assign(socket, :fare_card, fare_card)}
+  end
+
+  def handle_async("fare_card", _, socket) do
+    Logger.warning(
+      "module=#{__MODULE__} Error fetching fare card for route #{socket.assigns.route_id}, using default []"
+    )
+
+    {:noreply, assign(socket, :fare_card, [])}
+  end
+  
   # selected_variant is set from the URL by the SyncUrlParam hook, which runs first
   @impl true
-
   def handle_params(_params, _uri, socket) do
     {:noreply,
      socket
@@ -216,22 +280,40 @@ defmodule DotcomWeb.LineDiagramLive do
 
   def assign_vehicle_icons(socket, "reset", vehicles) do
     vehicles
-    |> Map.new(&{&1.id, to_vehicle_marker(&1)})
+    |> Map.new(&{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
     |> then(&assign(socket, :vehicle_icons, &1))
   end
 
   # add or update
   def assign_vehicle_icons(socket, _, vehicles) do
-    updated_vehicles = Map.new(vehicles, &{&1.id, to_vehicle_marker(&1)})
+    updated_vehicles =
+      Map.new(vehicles, &{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
+
     update(socket, :vehicle_icons, &Map.merge(&1, updated_vehicles))
   end
 
-  defp to_vehicle_marker(vehicle) do
+  defp to_vehicle_marker(vehicle, route) do
+    %{stops: _, vehicle_info: vehicle_info} =
+      Dotcom.ScheduleFinder.TripDetails.trip_details(%{
+        predicted_schedules: [],
+        trip_vehicle: vehicle
+      })
+
+    popup =
+      DotcomWeb.Live.UpcomingDeparturesLive.vehicle_label(%{
+        route: route,
+        vehicle_info: vehicle_info,
+        classes: "text-white mr-2",
+        crowding_classes: "text-white",
+        white_bg?: true
+      })
+
     %{
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
       name: "icon-vehicle-bordered-expanded",
-      class: "size-6",
+      class: "size-6 cursor-pointer",
+      popup: popup,
       rotation: vehicle.bearing || "0"
     }
   end
@@ -312,19 +394,34 @@ defmodule DotcomWeb.LineDiagramLive do
           scrollamount="16"
           scrolldelay="60"
         >
-          🚧 Under Construction 🚧
+          &#x1F6A7; Under Construction &#x1F6A7;
         </marquee>
         <div class="m-schedule-direction">
           <div class="m-schedule-direction__direction">
-            {@route.direction_names[@direction_id]}
+            {Routes.Route.direction_name(@route, @direction_id)}
           </div>
-          <div :if={variant_picker?(@route)} class="-ml-sm">
+          <div :if={variant_picker?(@route)} class="m-schedule-direction__route-pattern notranslate -ml-sm">
             <.variant_picker
               route={@route}
               route_patterns={@route_patterns}
               selected_variant={@selected_variant}
             />
           </div>
+          <.link
+            :if={Routes.Route.direction_name(@route, 1 - @direction_id)}
+            id="direction-filter"
+            patch={~p"/schedules/#{@route.id}/line_new?direction_id=#{1 - @direction_id}"}
+            class="m-schedule-direction__button btn btn-primary"
+            replace
+          >
+            <.icon
+              type="icon-svg"
+              aria-hidden
+              name="icon-change-direction"
+              class="size-4 mr-0.5 fill-current"
+            />
+            {~t(Change Direction)}
+          </.link>
         </div>
         <.map
           map_config={@map_config}
@@ -341,11 +438,11 @@ defmodule DotcomWeb.LineDiagramLive do
           scrollamount="16"
           scrolldelay="60"
         >
-          ⚠️ Watch Your Step ⚠️
+          &#x26A0;&#xFE0F; Watch your step &#x26A0;&#xFE0F;
         </marquee>
         <.route_pdf_sidebar_content route_pdfs={@route_pdfs} date={@date} route={@route} />
         <div style="container-type: inline-size;" class="w-full">
-          <.fare_card route={@route} />
+          <.fare_card fare_card={@fare_card} route={@route} />
         </div>
         <.guides guides={@guides} />
       </div>
@@ -396,14 +493,14 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp filter_unwanted_route_patterns(route_patterns, _route), do: route_patterns
 
-  # Do stop lookups once and save for future rendering
   defp assign_route_stops(socket) do
-    assign_new(socket, :stops_by_id, fn ->
+    stops_by_id =
       socket.assigns.route_patterns
       |> Enum.flat_map(& &1.stop_ids)
       |> Enum.uniq()
       |> Map.new(&{&1, @stops_repo.get(&1)})
-    end)
+
+    assign(socket, :stops_by_id, stops_by_id)
   end
 
   defp assign_stops(
@@ -488,14 +585,23 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
-    pdfs =
-      Dotcom.RoutePdfs.fetch_and_choose_pdfs(
-        route_id,
-        date
-      )
+  defp assign_fare_card(%{assigns: %{route: route}} = socket) do
+    socket
+    |> assign(:fare_card, [])
+    |> start_async("fare_card", fn ->
+      route
+      |> Routes.Route.type_atom()
+      |> mode_fare_card()
+      |> DotcomWeb.PartialView.paragraph(%Plug.Conn{query_params: %{}})
+    end)
+  end
 
-    socket |> assign(:route_pdfs, pdfs)
+  defp assign_pdfs(%{assigns: %{route_id: route_id, date: date}} = socket) do
+    socket
+    |> assign(:route_pdfs, [])
+    |> start_async("route_pdfs", fn ->
+      Dotcom.RoutePdfs.fetch_and_choose_pdfs(route_id, date)
+    end)
   end
 
   defp map(assigns) do
@@ -530,7 +636,12 @@ defmodule DotcomWeb.LineDiagramLive do
       href={guide.link}
       class="text-black text-lg font-bold"
     >
-      <img src={guide.image} class="w-[380px] rounded-sm mb-[8px]" alt="" />
+      <img
+        src={Util.site_path(:static_url, [guide.image])}
+        class="w-[380px] rounded-sm mb-[8px]"
+        loading="lazy"
+        alt=""
+      />
       <div>{guide.title}</div>
     </a>
     """

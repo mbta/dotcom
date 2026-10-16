@@ -5707,6 +5707,21 @@ msgstr "Xem lịch trình"
 msgid "Track TBD"
 msgstr "Ray Chưa Rõ"
 
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Change Direction"
+msgstr "Thay đổi hướng đi"
+
+#: lib/feedback/message.ex
+#, elixir-autogen, elixir-format
+msgid "Bus Lane/Stop Enforcement"
+msgstr "Thực thi hành ngõ bộ/trạm dừng xe buýt"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Delayed"
+msgstr "Bị trì hoãn"
+
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"

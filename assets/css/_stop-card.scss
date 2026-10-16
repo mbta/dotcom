@@ -110,6 +110,7 @@ $radius: 4px;
       position: fixed;
       right: 0;
       top: 0;
+      z-index: 101; // Needs to be higher than [data-nav-open].c-modal__cover to stay above navbar
     }
   }
 
