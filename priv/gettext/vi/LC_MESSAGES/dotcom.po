@@ -5730,29 +5730,29 @@ msgstr "Chuyến đi tiếp tục khi"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "%{time_desc} from %{origin}"
-msgstr ""
+msgstr "%{time_desc} - hết hạn %{origin}"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All branches"
-msgstr ""
+msgstr "Tất cả các chi nhánh"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
-msgstr ""
+msgstr "Tất cả các biến thể"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "Uncommon destinations"
-msgstr ""
+msgstr "Những điểm đến độc đáo"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr ""
+msgstr "từ %{origin}, tuyến đường ít phổ biến hơn"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "typical route"
-msgstr ""
+msgstr "tuyến đường điển hình"
