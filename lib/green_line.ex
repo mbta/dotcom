@@ -224,7 +224,7 @@ defmodule GreenLine do
   # map of {route_id => [stop_id]} representing all the stops on the route.
   # The {:ok, _} part of the pattern match is due to using Task.async_stream.
   @spec merge_green_line_stops(
-          {:ok, {Route.id_t(), [Stop.t()] | {:error, any}}},
+          {:ok, {Route.id_t(), [Stop.t()] | {:error, any} | {:exit, any}}},
           stop_routes_pair
         ) :: stop_routes_pair
   defp merge_green_line_stops(_, {{:error, _}, _} = acc) do
@@ -257,6 +257,10 @@ defmodule GreenLine do
       |> Enum.flat_map(fn {_op, stops} -> stops end)
 
     {current_stops, route_id_stop_map}
+  end
+
+  defp merge_green_line_stops({:exit, reason}, {_current_stops, route_id_stop_map}) do
+    {{:error, reason}, route_id_stop_map}
   end
 
   defp insert_stop_id(map, route_id, stop_id) do
