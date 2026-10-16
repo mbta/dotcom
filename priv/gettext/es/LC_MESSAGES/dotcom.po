@@ -5735,3 +5735,33 @@ msgstr "Descarga <strong>%{appname}</strong> para registrar tu viaje"
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "El viaje continúa como"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "%{time_desc} from %{origin}"
+msgstr "%{time_desc} de %{origin}"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "All branches"
+msgstr "Todas las ramas"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "All variants"
+msgstr "Todas las variantes"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "Uncommon destinations"
+msgstr "Destinos poco comunes"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "from %{origin}, less common route"
+msgstr "Desde %{origin}, ruta menos común"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "typical route"
+msgstr "Ruta típica"

@@ -5726,3 +5726,33 @@ msgstr "Tải xuống <strong>%{appname}</strong> để theo dõi chuyến đi c
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "Chuyến đi tiếp tục khi"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "%{time_desc} from %{origin}"
+msgstr "%{time_desc} - hết hạn %{origin}"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "All branches"
+msgstr "Tất cả các chi nhánh"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "All variants"
+msgstr "Tất cả các biến thể"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "Uncommon destinations"
+msgstr "Những điểm đến độc đáo"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "from %{origin}, less common route"
+msgstr "từ %{origin}, tuyến đường ít phổ biến hơn"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "typical route"
+msgstr "tuyến đường điển hình"

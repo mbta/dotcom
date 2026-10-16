@@ -5722,3 +5722,33 @@ msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "Vwayaj la kontinye tankou"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "%{time_desc} from %{origin}"
+msgstr "%{time_desc} - expires %{origin}"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "All branches"
+msgstr "Tout branch yo"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "All variants"
+msgstr "Tout varyant yo"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "Uncommon destinations"
+msgstr "Destinasyon estraòdinè"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "from %{origin}, less common route"
+msgstr "soti nan %{origin}, wout ki mwens komen"
+
+#: lib/dotcom_web/components/variant_picker.ex
+#, elixir-autogen, elixir-format
+msgid "typical route"
+msgstr "wout tipik"
