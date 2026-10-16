@@ -5756,3 +5756,8 @@ msgstr "từ %{origin}, tuyến đường ít phổ biến hơn"
 #, elixir-autogen, elixir-format
 msgid "typical route"
 msgstr "tuyến đường điển hình"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Train %{train_no}"
+msgstr "Tàu %{train_no}"

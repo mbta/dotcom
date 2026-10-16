@@ -5765,3 +5765,8 @@ msgstr "depuis %{origin}, itinéraire moins courant"
 #, elixir-autogen, elixir-format
 msgid "typical route"
 msgstr "Itinéraire typique"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Train %{train_no}"
+msgstr "Train %{train_no}"
