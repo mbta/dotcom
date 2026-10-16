@@ -5500,11 +5500,6 @@ msgid "This news release was published <strong>more than a year ago.</strong> In
 msgstr "Este comunicado de prensa se publicó <strong>hace más de un año.</strong> La información de esta página puede dejar de reflejar el servicio, las políticas"
 " o las operaciones actuales."
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Continues as"
-msgstr "Continúa como"
-
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{route} One-Way"
@@ -5735,3 +5730,8 @@ msgstr "Retrasado"
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Descarga <strong>%{appname}</strong> para registrar tu viaje"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Trip continues as"
+msgstr "El viaje continúa como"
