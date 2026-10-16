@@ -284,14 +284,7 @@ defmodule DotcomWeb.LineDiagramLive do
         trip_vehicle: vehicle
       })
 
-    popup =
-      DotcomWeb.Live.UpcomingDeparturesLive.vehicle_label(%{
-        route: route,
-        vehicle_info: vehicle_info,
-        classes: "text-white mr-2",
-        crowding_classes: "text-white",
-        white_bg?: true
-      })
+    popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info})
 
     %{
       coordinates: [vehicle.longitude, vehicle.latitude],
@@ -301,6 +294,19 @@ defmodule DotcomWeb.LineDiagramLive do
       popup: popup,
       rotation: vehicle.bearing || "0"
     }
+  end
+
+  def vehicle_popup(assigns) do
+    ~H"""
+    <div :if={@route.type == 4} class="italic">{@vehicle_info.vehicle_name}</div>
+    <DotcomWeb.Live.UpcomingDeparturesLive.vehicle_label
+      route={@route}
+      vehicle_info={@vehicle_info}
+      classes="text-white mr-2"
+      crowding_classes="text-white"
+      white_bg?={true}
+    />
+    """
   end
 
   def make_link(assigns, page, add_params? \\ false) do
