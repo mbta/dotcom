@@ -5739,29 +5739,29 @@ msgstr "Le voyage continue comme"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "%{time_desc} from %{origin}"
-msgstr ""
+msgstr "%{time_desc} de %{origin}"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All branches"
-msgstr ""
+msgstr "Toutes les branches"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
-msgstr ""
+msgstr "Toutes les variantes"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "Uncommon destinations"
-msgstr ""
+msgstr "Destinations peu communes"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr ""
+msgstr "depuis %{origin}, itinéraire moins courant"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "typical route"
-msgstr ""
+msgstr "Itinéraire typique"
