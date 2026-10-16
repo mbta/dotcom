@@ -11,6 +11,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
   import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
+  alias Dotcom.InSeatTransfers
   alias Dotcom.ServiceDateRollover
   alias DotcomWeb.Components.Departures
   alias Phoenix.{LiveView, LiveView.AsyncResult}
@@ -345,6 +346,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         </:heading>
         <:content>
           <.trip_details_wrapper
+            stop_id={@stop_id}
             route={upcoming_departure.route}
             trip_details={
               Map.get(
@@ -404,6 +406,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
   attr :trip_details, AsyncResult, required: true
   attr :route, Routes.Route, required: true
+  attr :stop_id, :string, required: true
 
   defp trip_details_wrapper(assigns) do
     ~H"""
@@ -417,15 +420,19 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         <.callout>{~t(There was a problem loading trip details)}</.callout>
       </:failed>
 
-      <.trip_details trip_details={trip_details} route={@route} />
+      <.trip_details trip_details={trip_details} route={@route} stop_id={@stop_id} />
     </.async_result>
     """
   end
 
   attr :trip_details, Dotcom.UpcomingDepartures.UpcomingTripDetails, required: true
   attr :route, Routes.Route, required: true
+  attr :stop_id, :string, required: true
 
   defp trip_details(assigns) do
+    stops_after = stops_after(assigns.trip_details.stops_after, assigns.stop_id)
+    assigns = assign(assigns, :stops_after, stops_after)
+
     ~H"""
     <.lined_list>
       <.lined_list_item
@@ -494,9 +501,19 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         route={@route}
         trip_stop={@trip_details.stop}
       />
-      <Departures.trip_stops route={@route} stops={@trip_details.stops_after} />
+      <Departures.trip_stops route={@route} stops={@stops_after} />
     </.lined_list>
     """
+  end
+
+  defp stops_after([%{stop_id: stop_id} | _] = stops, stop_id) do
+    InSeatTransfers.trim_at_return(stops, &(&1.stop_id == stop_id))
+  end
+
+  defp stops_after(stops, stop_id) do
+    [%{stop_id: stop_id} | stops]
+    |> InSeatTransfers.trim_at_return(&(&1.stop_id == stop_id))
+    |> Enum.drop(1)
   end
 
   attr :vehicle_info, Dotcom.ScheduleFinder.TripDetails.VehicleInfo, required: true
