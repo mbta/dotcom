@@ -23,7 +23,10 @@ defmodule Predictions.Repo do
       "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
     "fields[trip]": "direction_id,headsign,name,bikes_allowed",
     "fields[stop]": "platform_code",
-    include: "trip,trip.occupancies,stop"
+    # `trip.from_trip_transfers` is needed because trips fetched here are
+    # cached by `Schedules.Repo.insert_trips_into_cache/1`, and dropping it
+    # would erase the trip's `next_trip_id` (used for in-seat transfers)
+    include: "trip,trip.occupancies,trip.from_trip_transfers,stop"
   ]
 
   def all(opts) when is_list(opts) and opts != [] do
