@@ -345,6 +345,55 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLiveTest do
              ~r/Last stop on trip.*Trip continues as.*Continuing destination.*Stop on continuing trip/s
   end
 
+  test "trims trip details when the vehicle returns to the viewed stop" do
+    route = Factories.Routes.Route.build(:bus_route)
+    continuing_route = Factories.Routes.Route.build(:bus_route)
+    viewed_stop_id = FactoryHelpers.build(:id)
+
+    departure = Factories.UpcomingDepartures.build(:upcoming_departure, route: route)
+
+    time = {:time, ~U[2026-10-07 16:30:00Z]}
+
+    trip_stop = fn id, name ->
+      %TripStop{
+        cancelled?: false,
+        stop_id: id,
+        stop_name: name,
+        stop_sequence: 1,
+        time: time
+      }
+    end
+
+    trip_details = %UpcomingTripDetails{
+      stops_before: [],
+      stop: nil,
+      stops_after: [
+        trip_stop.(viewed_stop_id, "Viewed stop"),
+        trip_stop.(FactoryHelpers.build(:id), "Last stop on trip"),
+        %TripHeading{headsign: "Continuing destination", route: continuing_route},
+        trip_stop.(viewed_stop_id, "Return to viewed stop"),
+        trip_stop.(FactoryHelpers.build(:id), "Stop after return")
+      ],
+      vehicle_info: %VehicleInfo{status: :location_unavailable}
+    }
+
+    html =
+      render_component(&UpcomingDeparturesLive.upcoming_departures_section/1,
+        upcoming_departures: [departure],
+        loaded_upcoming_trips: %{
+          {departure.trip_id, departure.stop_sequence} => AsyncResult.ok(trip_details)
+        },
+        route: route,
+        stop: Factories.Stops.Stop.build(:stop, id: viewed_stop_id),
+        last_trip_time: nil
+      )
+
+    text = html |> Floki.parse_document!() |> Floki.text()
+
+    assert text =~ "Return to viewed stop"
+    refute text =~ "Stop after return"
+  end
+
   defp start_live_view(conn, route_id \\ nil, direction_id \\ nil, stop_id \\ nil) do
     route_id = route_id || FactoryHelpers.build(:id)
     direction_id = direction_id || FactoryHelpers.build(:direction_id)
