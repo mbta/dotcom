@@ -5726,29 +5726,29 @@ msgstr "Vwayaj la kontinye tankou"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "%{time_desc} from %{origin}"
-msgstr ""
+msgstr "%{time_desc} - expires %{origin}"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All branches"
-msgstr ""
+msgstr "Tout branch yo"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
-msgstr ""
+msgstr "Tout varyant yo"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "Uncommon destinations"
-msgstr ""
+msgstr "Destinasyon estraòdinè"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr ""
+msgstr "soti nan %{origin}, wout ki mwens komen"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "typical route"
-msgstr ""
+msgstr "wout tipik"
