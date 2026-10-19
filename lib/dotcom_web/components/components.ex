@@ -402,7 +402,7 @@ defmodule DotcomWeb.Components do
     <.cta
       phx-hook="MBTAGoCTABanner"
       id="mbta-go-cta-banner"
-      link="/app-store?pt=117998862&ct=dotcom-#{@banner_source}&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3D#{@banner_source}"
+      link={"/app-store?pt=117998862&ct=dotcom-#{@banner_source}&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3D#{@banner_source}"}
       icon="icon-mbta-go"
       large_icon
       arrow
