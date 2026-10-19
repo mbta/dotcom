@@ -183,6 +183,17 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await ok(page, "/destinations");
     await ok(page, "/parking");
   });
+
+  test("inaccessible stations don't show accesiblity icon", async ({page}) => {
+    await ok(page, "/stops/place-bomnl");
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false})
+  });
+
+  test("accessible stations do show the accessible icon", async ({page}) => {
+    await ok(page, "/stops/place-aqucl");
+    await expect( page.getByLabel("Accessible") ).toBeVisible()
+
+  })
 });
 
 async function ok(page, path) {
