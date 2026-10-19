@@ -180,6 +180,11 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   @impl true
+  def handle_event(_event, _params, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(
         %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
         socket
@@ -426,14 +431,24 @@ defmodule DotcomWeb.LineDiagramLive do
             {~t(Change Direction)}
           </.link>
         </div>
-        <.map
-          map_config={@map_config}
-          route_patterns={@route_patterns}
-          map_lines={@map_lines}
-          map_icons={@map_icons}
-          vehicle_icons={Map.values(@vehicle_icons)}
-          move_map={@move_map}
-        />
+        <div class="flex flex-col gap-2">
+          <.map
+            map_config={@map_config}
+            route_patterns={@route_patterns}
+            map_lines={@map_lines}
+            map_icons={@map_icons}
+            vehicle_icons={Map.values(@vehicle_icons)}
+            move_map={@move_map}
+          />
+
+          <.new_map
+            map_style={@map_config.style}
+            route_patterns={@route_patterns}
+            map_lines={@map_lines}
+            map_icons={@map_icons}
+            vehicle_icons={Map.values(@vehicle_icons)}
+          />
+        </div>
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
         <marquee
@@ -621,6 +636,39 @@ defmodule DotcomWeb.LineDiagramLive do
       move_map={@move_map}
     />
     """
+  end
+
+  defp new_map(assigns) do
+    ~H"""
+    <MaplibreX.Components.map
+      id="new-map"
+      center={[-71.0589, 42.3601]}
+      style={@map_style}
+      zoom={10}
+      class="h-96 w-full"
+    />
+
+    <MaplibreX.Components.geojson_layer
+      :for={{line, index} <- Enum.with_index(@map_lines)}
+      id={"new-map-lines-#{index}"}
+      map_id="new-map"
+      data={line_to_feature(line)}
+      type="line"
+      paint={%{"line-color" => line.color, "line-width" => line.width}}
+      layout={%{"line-cap" => "round", "line-join" => "round"}}
+    />
+    """
+  end
+
+  defp line_to_feature(%{coordinates: coordinates}) do
+    %{
+      "type" => "Feature",
+      "properties" => %{},
+      "geometry" => %{
+        "type" => "LineString",
+        "coordinates" => coordinates
+      }
+    }
   end
 
   defp route_pdf_sidebar_content(assigns) do
