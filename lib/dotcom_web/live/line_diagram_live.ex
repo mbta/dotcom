@@ -649,25 +649,34 @@ defmodule DotcomWeb.LineDiagramLive do
     />
 
     <MaplibreX.Components.geojson_layer
-      :for={{line, index} <- Enum.with_index(@map_lines)}
-      id={"new-map-lines-#{index}"}
+      id="new-map-lines"
       map_id="new-map"
-      data={line_to_feature(line)}
+      data={map_lines_to_feature_collection(@map_lines)}
       type="line"
-      paint={%{"line-color" => line.color, "line-width" => line.width}}
-      layout={%{"line-cap" => "round", "line-join" => "round"}}
+      paint={%{"line-color" => ["get", "color"], "line-width" => ["get", "width"]}}
+      layout={
+        %{
+          "line-cap" => "round",
+          "line-join" => "round",
+          "line-sort-key" => ["-", 10, ["get", "width"]]
+        }
+      }
     />
     """
   end
 
-  defp line_to_feature(%{coordinates: coordinates}) do
+  # `line-sort-key` draws wider features (outlines) first, since higher keys draw on top, so route colors sit on top.
+  defp map_lines_to_feature_collection(map_lines) do
     %{
-      "type" => "Feature",
-      "properties" => %{},
-      "geometry" => %{
-        "type" => "LineString",
-        "coordinates" => coordinates
-      }
+      "type" => "FeatureCollection",
+      "features" =>
+        Enum.map(map_lines, fn %{coordinates: coordinates, color: color, width: width} ->
+          %{
+            "type" => "Feature",
+            "properties" => %{"color" => color, "width" => width},
+            "geometry" => %{"type" => "LineString", "coordinates" => coordinates}
+          }
+        end)
     }
   end
 
