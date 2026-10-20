@@ -675,6 +675,7 @@ defmodule DotcomWeb.LineDiagramLive do
     />
 
     <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} />
+    <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} />
     """
   end
 
