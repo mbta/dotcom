@@ -134,6 +134,28 @@ describe("IconMarkers hook", () => {
     expect(mockCreated[1].options.rotation).toBe(0);
   });
 
+  it("applies data-z-index to marker elements, including ones added later", () => {
+    hook.el.dataset.zIndex = "2";
+    setIcons([{ id: "a", coordinates: [-71, 42] }]);
+    hook.mounted();
+
+    setIcons([
+      { id: "a", coordinates: [-71, 42] },
+      { id: "b", coordinates: [-72, 43] }
+    ]);
+    hook.updated();
+
+    expect(mockCreated.map(m => m.element.style.zIndex)).toEqual(["2", "2"]);
+  });
+
+  it("leaves z-index unset without data-z-index", () => {
+    setIcons([{ id: "a", coordinates: [-71, 42] }]);
+
+    hook.mounted();
+
+    expect(mockCreated[0].element.style.zIndex).toBe("");
+  });
+
   it("clones the source element instead of moving it", () => {
     setIcons([{ id: "a", coordinates: [-71, 42] }]);
 

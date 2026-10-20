@@ -682,8 +682,8 @@ defmodule DotcomWeb.LineDiagramLive do
       }
     />
 
-    <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} />
-    <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} />
+    <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
+    <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} z_index={2} />
     """
   end
 
@@ -701,9 +701,19 @@ defmodule DotcomWeb.LineDiagramLive do
     doc:
       "Maps with `:coordinates`, `:type`, `:name`, and optionally `:id`, `:class`, `:anchor`, `:rotation`, `:popup`"
 
+  attr :z_index, :integer,
+    default: nil,
+    doc: "Stacking order against other icon groups on the map; higher draws on top"
+
   defp icon_markers(assigns) do
     ~H"""
-    <div id={@id} phx-hook="IconMarkers" data-map-id={@map_id} class="hidden">
+    <div
+      id={@id}
+      phx-hook="IconMarkers"
+      data-map-id={@map_id}
+      data-z-index={@z_index}
+      class="hidden"
+    >
       <.icon
         :for={icon <- @icons}
         type={icon.type}

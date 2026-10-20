@@ -120,6 +120,17 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       assert mounted =~ ~s|"padding":50|
     end
 
+    test "stacks vehicle markers above stop markers", %{conn: conn, route: route} do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      z_index = fn id ->
+        [value] = view |> new_map_html() |> Floki.attribute("##{id}", "data-z-index")
+        String.to_integer(value)
+      end
+
+      assert z_index.("new-map-vehicles") > z_index.("new-map-stops")
+    end
+
     test "renders the route lines as a single layer", %{conn: conn, route: route} do
       {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
 

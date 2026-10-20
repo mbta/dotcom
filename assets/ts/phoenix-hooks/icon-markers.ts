@@ -17,7 +17,9 @@ interface IconMarkersHook extends ViewHook {
 /**
  * Hook that places custom HTML elements on a MaplibreX map.
  *
- * Set `data-map-id` to the id of the map. Each child with a
+ * Set `data-map-id` to the id of the map. Set `data-z-index` to control how
+ * this group's markers stack against other marker groups on the same map
+ * (otherwise later-added markers draw on top). Each child with a
  * `data-coordinates` attribute (JSON `[lng, lat]`) becomes a marker, using a
  * clone of that child as the marker element. Optional attributes on each child:
  *
@@ -71,11 +73,14 @@ const IconMarkers: Partial<IconMarkersHook> = {
           return;
         }
 
+        const element = source.cloneNode(true) as HTMLElement;
+        if (this.el.dataset.zIndex) element.style.zIndex = this.el.dataset.zIndex;
+
         const marker = new maplibregl.Marker({
           anchor: (source.getAttribute("data-anchor") ||
             "center") as maplibregl.PositionAnchor,
           rotation,
-          element: source.cloneNode(true) as HTMLElement
+          element
         }).setLngLat(lngLat);
 
         const entry: MarkerEntry = { marker, popup: null, popupHtml: null };
