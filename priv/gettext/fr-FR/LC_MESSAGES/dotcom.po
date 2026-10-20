@@ -5769,4 +5769,4 @@ msgstr "Train %{train_no}"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
-msgstr ""
+msgstr "ou payer en espèces ou en paiement sans contact sur n’importe quel bus"
