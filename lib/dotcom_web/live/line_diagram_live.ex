@@ -445,7 +445,8 @@ defmodule DotcomWeb.LineDiagramLive do
           <.new_map
             map_style={@map_config.style}
             route_patterns={@route_patterns}
-            map_lines={@map_lines}
+            map_route_shapes={@map_route_shapes}
+            route_color={"##{@route.color}"}
             map_icons={@map_icons}
             vehicle_icons={Map.values(@vehicle_icons)}
           />
@@ -570,6 +571,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
     socket
     |> assign(:map_lines, map_lines)
+    |> assign(:map_route_shapes, map_line_shapes)
   end
 
   defp assign_map_icons(%{assigns: %{stops: stops}} = socket) do
@@ -668,18 +670,21 @@ defmodule DotcomWeb.LineDiagramLive do
     />
 
     <MaplibreX.Components.geojson_layer
+      id="new-map-lines-outline"
+      map_id="new-map"
+      data={map_shapes_to_feature_collection(@map_route_shapes)}
+      type="line"
+      paint={%{"line-color" => "#000000", "line-width" => 6}}
+      layout={%{"line-cap" => "round", "line-join" => "round"}}
+    />
+
+    <%!-- Shares the source created by the outline layer above; added after it so it draws on top --%>
+    <MaplibreX.Components.line_layer
       id="new-map-lines"
       map_id="new-map"
-      data={map_lines_to_feature_collection(@map_lines)}
-      type="line"
-      paint={%{"line-color" => ["get", "color"], "line-width" => ["get", "width"]}}
-      layout={
-        %{
-          "line-cap" => "round",
-          "line-join" => "round",
-          "line-sort-key" => ["-", 10, ["get", "width"]]
-        }
-      }
+      source_id="new-map-lines-outline-source"
+      paint={%{"line-color" => @route_color, "line-width" => 4}}
+      layout={%{"line-cap" => "round", "line-join" => "round"}}
     />
 
     <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
@@ -739,15 +744,14 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp render_popup(html), do: html
 
-  # `line-sort-key` draws wider features (outlines) first, since higher keys draw on top, so route colors sit on top.
-  defp map_lines_to_feature_collection(map_lines) do
+  defp map_shapes_to_feature_collection(shapes) do
     %{
       "type" => "FeatureCollection",
       "features" =>
-        Enum.map(map_lines, fn %{coordinates: coordinates, color: color, width: width} ->
+        Enum.map(shapes, fn %{coordinates: coordinates} ->
           %{
             "type" => "Feature",
-            "properties" => %{"color" => color, "width" => width},
+            "properties" => %{},
             "geometry" => %{"type" => "LineString", "coordinates" => coordinates}
           }
         end)

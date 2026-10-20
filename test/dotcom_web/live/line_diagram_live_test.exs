@@ -131,17 +131,28 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       assert z_index.("new-map-vehicles") > z_index.("new-map-stops")
     end
 
-    test "renders the route lines as a single layer", %{conn: conn, route: route} do
+    test "renders an outline layer and a route layer sharing one source", %{
+      conn: conn,
+      route: route
+    } do
       {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+      html = new_map_html(view)
 
-      assert [config] =
-               view |> new_map_html() |> Floki.attribute("#new-map-lines", "data-config")
+      assert [outline] = Floki.attribute(html, "#new-map-lines-outline", "data-config")
 
       assert %{"source" => %{"data" => %{"type" => "FeatureCollection", "features" => features}}} =
-               Jason.decode!(config)
+               Jason.decode!(outline)
 
       assert Enum.all?(features, &(&1["geometry"]["type"] == "LineString"))
-      assert Enum.any?(features, &(&1["properties"]["color"] == "#000000"))
+
+      assert [line] = Floki.attribute(html, "#new-map-lines", "data-config")
+
+      assert %{
+               "sourceId" => "new-map-lines-outline-source",
+               "paint" => %{"line-color" => line_color}
+             } = Jason.decode!(line)
+
+      assert line_color == "##{route.color}"
     end
 
     test "renders vehicle markers with their bearing", %{conn: conn, route: route} do
