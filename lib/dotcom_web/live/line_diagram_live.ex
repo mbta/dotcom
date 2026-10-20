@@ -650,6 +650,12 @@ defmodule DotcomWeb.LineDiagramLive do
       class="h-96 w-full"
     />
 
+    <MaplibreX.Components.navigation_control
+      id="new-map-navigation"
+      map_id="new-map"
+      position="top-left"
+    />
+
     <%!-- `phx-mounted` runs once when the element is added, not on later updates, so this fits on page load only --%>
     <div
       :if={Enum.any?(@map_icons)}
