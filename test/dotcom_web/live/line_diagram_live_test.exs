@@ -53,7 +53,7 @@ defmodule DotcomWeb.LineDiagramLiveTest do
   } do
     stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [pattern] end)
 
-    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
 
     refute has_element?(view, "#variant-menu-button")
 
