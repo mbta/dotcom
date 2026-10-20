@@ -1,4 +1,5 @@
 import AlgoliaAutocomplete from "./algolia-autocomplete";
+import IconMarkers from "./icon-markers";
 import MBTAGoCTABanner from "./mbta-go-cta-banner";
 import MenuButton from "./menu-button";
 import PageVisibility from "./page-visibility";
@@ -19,6 +20,7 @@ import TripPlannerDatePicker from "../../js/trip-planner/datepicker";
  */
 const Hooks = {
   AlgoliaAutocomplete,
+  IconMarkers,
   MBTAGoCTABanner,
   MenuButton,
   PageVisibility,
