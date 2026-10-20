@@ -8,13 +8,16 @@ import { MapManager } from "maplibrex";
  * `data-coordinates` attribute (JSON `[lng, lat]`) becomes a marker, using a
  * clone of that child as the marker element. Optional attributes on each child:
  *
+ *   - `data-marker-id`: stable id for the marker. When the hook updates, markers
+ *     with the same id are moved in place (keeping any open popup), new ids are
+ *     added, and missing ids are removed. Defaults to the child's position.
  *   - `data-anchor`: marker anchor, e.g. "center" (default) or "bottom"
  *   - `data-rotation`: marker rotation in degrees
  *   - `data-popup`: HTML for a popup that opens when the marker is clicked
  */
 const IconMarkers = {
   mounted() {
-    this.markers = [];
+    this.markers = new Map();
     this.renderMarkers();
   },
 
@@ -23,43 +26,76 @@ const IconMarkers = {
   },
 
   destroyed() {
-    this.removeMarkers();
-  },
-
-  removeMarkers() {
-    this.markers.forEach(marker => marker.remove());
-    this.markers = [];
+    this.markers.forEach(({ marker }) => marker.remove());
+    this.markers.clear();
   },
 
   renderMarkers() {
-    this.removeMarkers();
-
     const map = MapManager.get(this.el.dataset.mapId);
     if (!map) return;
 
-    this.el.querySelectorAll("[data-coordinates]").forEach(source => {
+    const seen = new Set();
+
+    this.el.querySelectorAll("[data-coordinates]").forEach((source, index) => {
       const coordinates = JSON.parse(source.getAttribute("data-coordinates"));
       if (coordinates.length !== 2) return;
 
+      const id = source.getAttribute("data-marker-id") || `index-${index}`;
+      seen.add(id);
+
+      const rotation = Number(source.getAttribute("data-rotation")) || 0;
+      const popupHtml = source.getAttribute("data-popup");
+      const existing = this.markers.get(id);
+
+      if (existing) {
+        existing.marker.setLngLat(coordinates).setRotation(rotation);
+        this.updatePopup(existing, popupHtml);
+        return;
+      }
+
       const marker = new maplibregl.Marker({
         anchor: source.getAttribute("data-anchor") || "center",
-        rotation: Number(source.getAttribute("data-rotation")) || 0,
+        rotation,
         element: source.cloneNode(true)
       }).setLngLat(coordinates);
 
-      const popupHtml = source.getAttribute("data-popup");
-      if (popupHtml) {
-        marker.setPopup(
-          new maplibregl.Popup({
-            className: "m-schedule-line__stop-popup",
-            focusAfterOpen: false
-          }).setHTML(popupHtml)
-        );
-      }
+      const entry = { marker, popup: null, popupHtml: null };
+      this.updatePopup(entry, popupHtml);
 
       marker.addTo(map);
-      this.markers.push(marker);
+      this.markers.set(id, entry);
     });
+
+    this.markers.forEach((entry, id) => {
+      if (!seen.has(id)) {
+        entry.marker.remove();
+        this.markers.delete(id);
+      }
+    });
+  },
+
+  updatePopup(entry, popupHtml) {
+    if (!popupHtml) {
+      if (entry.popup) {
+        entry.marker.setPopup(null);
+        entry.popup = null;
+        entry.popupHtml = null;
+      }
+      return;
+    }
+
+    if (!entry.popup) {
+      entry.popup = new maplibregl.Popup({
+        className: "m-schedule-line__stop-popup",
+        focusAfterOpen: false
+      });
+      entry.marker.setPopup(entry.popup);
+    }
+
+    if (entry.popupHtml !== popupHtml) {
+      entry.popup.setHTML(popupHtml);
+      entry.popupHtml = popupHtml;
+    }
   }
 };
 

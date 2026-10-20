@@ -292,6 +292,7 @@ defmodule DotcomWeb.LineDiagramLive do
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
 
     %{
+      id: vehicle.id,
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
       name: "icon-vehicle-bordered-expanded",
@@ -576,6 +577,7 @@ defmodule DotcomWeb.LineDiagramLive do
       stops
       |> Enum.map(
         &%{
+          id: &1.id,
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
           name: "icon-stop-circle-bordered-expanded",
@@ -691,7 +693,7 @@ defmodule DotcomWeb.LineDiagramLive do
   attr :icons, :list,
     required: true,
     doc:
-      "Maps with `:coordinates`, `:type`, `:name`, and optionally `:class`, `:anchor`, `:rotation`, `:popup`"
+      "Maps with `:coordinates`, `:type`, `:name`, and optionally `:id`, `:class`, `:anchor`, `:rotation`, `:popup`"
 
   defp icon_markers(assigns) do
     ~H"""
@@ -702,6 +704,7 @@ defmodule DotcomWeb.LineDiagramLive do
         name={icon.name}
         class={Map.get(icon, :class)}
         data-coordinates={Jason.encode!(icon.coordinates)}
+        data-marker-id={Map.get(icon, :id)}
         data-anchor={Map.get(icon, :anchor, "center")}
         data-rotation={Map.get(icon, :rotation, 0)}
         data-popup={icon |> Map.get(:popup) |> render_popup()}
