@@ -5094,11 +5094,6 @@ msgstr "hoặc là "
 msgid "or complete the feedback form on this page."
 msgstr "Hoặc điền vào mẫu phản hồi trên trang này."
 
-#: lib/dotcom_web/components/stops/fare_amenity.html.heex
-#, elixir-autogen, elixir-format
-msgid "or pay with cash on any bus"
-msgstr "hoặc thanh toán bằng Tiền mặt trên bất kỳ xe buýt nào"
-
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "outbound"
@@ -5761,3 +5756,8 @@ msgstr "tuyến đường điển hình"
 #, elixir-autogen, elixir-format
 msgid "Train %{train_no}"
 msgstr "Tàu %{train_no}"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "or pay with cash or contactless payment on any bus"
+msgstr ""

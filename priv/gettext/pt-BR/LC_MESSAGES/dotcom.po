@@ -5099,11 +5099,6 @@ msgstr "ou "
 msgid "or complete the feedback form on this page."
 msgstr "ou preencha o formulário de feedback nesta página."
 
-#: lib/dotcom_web/components/stops/fare_amenity.html.heex
-#, elixir-autogen, elixir-format
-msgid "or pay with cash on any bus"
-msgstr "ou pague com Dinheiro em qualquer ônibus"
-
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "outbound"
@@ -5766,3 +5761,8 @@ msgstr "rota típica"
 #, elixir-autogen, elixir-format
 msgid "Train %{train_no}"
 msgstr "Trem %{train_no}"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "or pay with cash or contactless payment on any bus"
+msgstr ""
