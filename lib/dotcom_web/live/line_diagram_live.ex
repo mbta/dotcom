@@ -648,6 +648,17 @@ defmodule DotcomWeb.LineDiagramLive do
       class="h-96 w-full"
     />
 
+    <%!-- `phx-mounted` runs once when the element is added, not on later updates, so this fits on page load only --%>
+    <div
+      :if={Enum.any?(@map_icons)}
+      phx-mounted={
+        MaplibreX.Components.Map.fit_bounds("new-map", icons_to_bounds(@map_icons),
+          padding: 50,
+          max_zoom: 16
+        )
+      }
+    />
+
     <MaplibreX.Components.geojson_layer
       id="new-map-lines"
       map_id="new-map"
@@ -665,6 +676,12 @@ defmodule DotcomWeb.LineDiagramLive do
 
     <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} />
     """
+  end
+
+  defp icons_to_bounds(icons) do
+    {lngs, lats} = icons |> Enum.map(&List.to_tuple(&1.coordinates)) |> Enum.unzip()
+
+    [[Enum.min(lngs), Enum.min(lats)], [Enum.max(lngs), Enum.max(lats)]]
   end
 
   attr :id, :string, required: true
