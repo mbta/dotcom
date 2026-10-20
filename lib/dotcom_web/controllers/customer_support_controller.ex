@@ -223,7 +223,8 @@ defmodule DotcomWeb.CustomerSupportController do
 
   defp photo_attachments(nil), do: nil
 
-  defp simple_filename(name), do: String.replace(name, ~r/(\s)+/, "-")
+  defp simple_filename(name),
+    do: name |> String.replace(~r/(\s)+/, "-") |> String.replace(~r/[\(\)\,\@\[\]\~]/, "")
 
   defp render_form(conn, %{errors: errors, comments: comments}) do
     Logger.warning("#{__MODULE__} form validation failed: #{inspect(errors)}")
