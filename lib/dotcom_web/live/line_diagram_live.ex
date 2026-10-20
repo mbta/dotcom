@@ -662,7 +662,24 @@ defmodule DotcomWeb.LineDiagramLive do
         }
       }
     />
+
+    <div id="new-map-stops" phx-hook="StopMarkers" data-map-id="new-map" class="hidden">
+      <.icon
+        :for={icon <- @map_icons}
+        type={icon.type}
+        name={icon.name}
+        class={icon.class}
+        data-coordinates={Jason.encode!(icon.coordinates)}
+        data-popup={render_popup(icon.popup)}
+      />
+    </div>
     """
+  end
+
+  defp render_popup(%Phoenix.LiveView.Rendered{} = heex) do
+    heex
+    |> Phoenix.HTML.Safe.to_iodata()
+    |> IO.iodata_to_binary()
   end
 
   # `line-sort-key` draws wider features (outlines) first, since higher keys draw on top, so route colors sit on top.
