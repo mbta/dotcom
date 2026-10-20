@@ -273,7 +273,7 @@ defmodule DotcomWeb.Components do
 
   def promo_banner(assigns) do
     ~H"""
-    <a href={@href} class={"block text-black #{@class}"} target="_blank">
+    <a href={@href} class={"block text-black #{@class}"} target="mbta_new_tab">
       {render_slot(@inner_block)}
     </a>
     """

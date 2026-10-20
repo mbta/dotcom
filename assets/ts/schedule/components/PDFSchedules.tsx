@@ -11,7 +11,7 @@ const link = (pdf: SchedulePDF): ReactElement<HTMLElement> => (
     key={pdf.url}
     href={pdf.url}
     rel="noopener noreferrer"
-    target="_blank"
+    target="mbta_new_tab"
     className="m-schedule-page__sidebar-pdfs"
   >
     {renderSvg("c-svg__icon-pdf", pdfIcon)}

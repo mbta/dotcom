@@ -53,7 +53,7 @@ defmodule Alerts.URLParsingHelpers do
         stripped_url
       end
 
-    ~s(<a target="_blank" href="#{full_url}">#{stripped_url}</a>#{suffix})
+    ~s(<a target="mbta_new_tab" href="#{full_url}">#{stripped_url}</a>#{suffix})
   end
 
   defp ensure_scheme("http://" <> _ = url), do: url
