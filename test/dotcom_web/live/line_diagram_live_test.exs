@@ -226,6 +226,11 @@ defmodule DotcomWeb.LineDiagramLiveTest do
   end
 
   describe "variant map updates" do
+    defp outline_features(html) do
+      [config] = Floki.attribute(html, "#new-map-lines-outline", "data-config")
+      Jason.decode!(config)["source"]["data"]["features"]
+    end
+
     test "reuses loaded stops when switching variants", %{
       conn: conn,
       route: route,
@@ -242,16 +247,13 @@ defmodule DotcomWeb.LineDiagramLiveTest do
         |> render_click()
 
         assert has_element?(view, "#variant-menu-button", pattern.headsign)
-        assert has_element?(view, "#line-diagram-map [data-line]:nth-child(2)")
-        refute has_element?(view, "#line-diagram-map [data-line]:nth-child(3)")
 
-        icons =
-          view
-          |> render()
-          |> Floki.parse_document!()
-          |> Floki.find("#line-diagram-map .mbta-map-icon")
+        html = view |> render() |> Floki.parse_document!()
 
-        assert length(icons) == length(Enum.uniq(pattern.stop_ids))
+        assert length(outline_features(html)) == 1
+
+        assert length(Floki.find(html, "#new-map-stops [data-coordinates]")) ==
+                 length(Enum.uniq(pattern.stop_ids))
       end
 
       view
@@ -259,33 +261,7 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       |> render_click()
 
       assert has_element?(view, "#variant-menu-button", "All variants")
-      assert has_element?(view, "#line-diagram-map [data-line]:nth-child(4)")
-    end
-
-    test "refits on selection immediately after a vehicle update", %{
-      conn: conn,
-      route: route,
-      pattern_a: a
-    } do
-      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
-
-      view |> with_target("#line-diagram-map") |> render_hook("map-loaded", %{})
-      assert_push_event(view, "update-markers", %{})
-
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "reset",
-        payload: %{data: []}
-      })
-
-      render(view)
-      assert_push_event(view, "update-markers", %{move_map: false})
-
-      view
-      |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
-      |> render_click()
-
-      assert_push_event(view, "update-markers", %{move_map: true})
+      assert view |> render() |> Floki.parse_document!() |> outline_features() |> length() == 2
     end
   end
 end

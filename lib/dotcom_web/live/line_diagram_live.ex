@@ -189,7 +189,7 @@ defmodule DotcomWeb.LineDiagramLive do
         %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
         socket
       ) do
-    {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+    {:noreply, assign_vehicle_icons(socket, event, payload.data)}
   end
 
   @impl true
@@ -434,17 +434,7 @@ defmodule DotcomWeb.LineDiagramLive do
         </div>
         <div class="flex flex-col gap-2">
           <.map
-            map_config={@map_config}
-            route_patterns={@route_patterns}
-            map_lines={@map_lines}
-            map_icons={@map_icons}
-            vehicle_icons={Map.values(@vehicle_icons)}
-            move_map={@move_map}
-          />
-
-          <.new_map
             map_style={@map_config.style}
-            route_patterns={@route_patterns}
             map_route_shapes={@map_route_shapes}
             route_color={"##{@route.color}"}
             map_icons={@map_icons}
@@ -470,12 +460,10 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  # re-fit the map to the newly selected variant or direction
   defp assign_route_data(socket) do
     socket
     |> assign_stops()
     |> assign_map_attributes()
-    |> assign(:move_map, true)
   end
 
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
@@ -545,10 +533,8 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign_map_icons()
   end
 
-  defp assign_map_lines(
-         %{assigns: %{route: route, selected_route_patterns: selected_route_patterns}} = socket
-       ) do
-    map_line_shapes =
+  defp assign_map_lines(%{assigns: %{selected_route_patterns: selected_route_patterns}} = socket) do
+    map_route_shapes =
       selected_route_patterns
       |> Enum.map(fn route_pattern ->
         %{
@@ -559,19 +545,7 @@ defmodule DotcomWeb.LineDiagramLive do
         }
       end)
 
-    map_lines_outlines =
-      map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 6, color: "#000000"})))
-
-    map_lines_with_route_colors =
-      map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 4, color: "##{route.color}"})))
-
-    map_lines = map_lines_outlines ++ map_lines_with_route_colors
-
-    socket
-    |> assign(:map_lines, map_lines)
-    |> assign(:map_route_shapes, map_line_shapes)
+    assign(socket, :map_route_shapes, map_route_shapes)
   end
 
   defp assign_map_icons(%{assigns: %{stops: stops}} = socket) do
@@ -629,20 +603,6 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp map(assigns) do
-    ~H"""
-    <.live_component
-      module={DotcomWeb.Components.Map}
-      id="line-diagram-map"
-      class="h-96 w-full"
-      config={@map_config}
-      lines={@map_lines}
-      icons={@map_icons ++ @vehicle_icons}
-      move_map={@move_map}
-    />
-    """
-  end
-
-  defp new_map(assigns) do
     ~H"""
     <MaplibreX.Components.map
       id="new-map"
