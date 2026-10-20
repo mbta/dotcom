@@ -92,6 +92,117 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     assert label(view) =~ "All variants"
   end
 
+  describe "new map" do
+    defp new_map_html(view) do
+      view |> render() |> Floki.parse_document!()
+    end
+
+    test "renders a marker for each stop with a popup, and fits to them", %{
+      conn: conn,
+      route: route,
+      pattern_a: a
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{a.id}")
+
+      stops = view |> new_map_html() |> Floki.find("#new-map-stops [data-coordinates]")
+
+      assert length(stops) == length(Enum.uniq(a.stop_ids))
+      assert has_element?(view, ~s|#new-map-stops[phx-hook="IconMarkers"][data-map-id="new-map"]|)
+
+      for stop <- stops do
+        assert [_] = Floki.attribute(stop, "data-marker-id")
+        assert [popup] = Floki.attribute(stop, "data-popup")
+        assert popup =~ "popup-title"
+      end
+
+      assert [mounted] = view |> new_map_html() |> Floki.attribute("[phx-mounted]", "phx-mounted")
+      assert mounted =~ "maplibrex:fit_bounds"
+      assert mounted =~ ~s|"padding":50|
+    end
+
+    test "renders the route lines as a single layer", %{conn: conn, route: route} do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      assert [config] =
+               view |> new_map_html() |> Floki.attribute("#new-map-lines", "data-config")
+
+      assert %{"source" => %{"data" => %{"type" => "FeatureCollection", "features" => features}}} =
+               Jason.decode!(config)
+
+      assert Enum.all?(features, &(&1["geometry"]["type"] == "LineString"))
+      assert Enum.any?(features, &(&1["properties"]["color"] == "#000000"))
+    end
+
+    test "renders vehicle markers with their bearing", %{conn: conn, route: route} do
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: 90
+        })
+
+      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      assert [marker] =
+               view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
+
+      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id]
+      assert Floki.attribute(marker, "data-rotation") == ["90"]
+      assert Floki.attribute(marker, "data-coordinates") == ["[-71.06,42.35]"]
+    end
+
+    test "updates vehicle markers when a vehicle moves", %{conn: conn, route: route} do
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: 90
+        })
+
+      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      send(view.pid, %Phoenix.Socket.Broadcast{
+        topic: "vehicles-v2:#{route.id}:1",
+        event: "update",
+        payload: %{data: [%{vehicle | latitude: 42.4, longitude: -71.1, bearing: 180}]}
+      })
+
+      assert [marker] =
+               view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
+
+      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id]
+      assert Floki.attribute(marker, "data-rotation") == ["180"]
+      assert Floki.attribute(marker, "data-coordinates") == ["[-71.1,42.4]"]
+    end
+
+    test "defaults the rotation to 0 when a vehicle has no bearing", %{
+      conn: conn,
+      route: route
+    } do
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: nil
+        })
+
+      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      assert view
+             |> new_map_html()
+             |> Floki.attribute("#new-map-vehicles [data-coordinates]", "data-rotation") == ["0"]
+    end
+  end
+
   describe "variant map updates" do
     test "reuses loaded stops when switching variants", %{
       conn: conn,
