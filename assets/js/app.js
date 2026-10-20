@@ -18,7 +18,7 @@ import googleAnalytics from "./google-analytics";
 import googleTranslate from "./google-translate";
 import juxtapose from "./juxtapose";
 import { MapHooks } from "maplibrex"
-import StopMarkers from "./maplibrex-stop-markers";
+import IconMarkers from "./maplibrex-icon-markers";
 import modal from "./modal";
 import photoGallery from "./photo-gallery";
 import pslPageSetup from "./psl-page-setup.js";
@@ -50,7 +50,7 @@ import storageOptions from "./storage.js";
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: { ...DotcomHooks, ...MapHooks, Map, StopMarkers },
+  hooks: { ...DotcomHooks, ...MapHooks, Map, IconMarkers },
   dom: {
     onBeforeElUpdated(from, to) {
       /*

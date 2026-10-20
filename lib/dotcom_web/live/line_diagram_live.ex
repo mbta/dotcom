@@ -663,24 +663,44 @@ defmodule DotcomWeb.LineDiagramLive do
       }
     />
 
-    <div id="new-map-stops" phx-hook="StopMarkers" data-map-id="new-map" class="hidden">
+    <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} />
+    """
+  end
+
+  attr :id, :string, required: true
+  attr :map_id, :string, required: true, doc: "The id of the MaplibreX map to add the icons to"
+
+  attr :icons, :list,
+    required: true,
+    doc:
+      "Maps with `:coordinates`, `:type`, `:name`, and optionally `:class`, `:anchor`, `:rotation`, `:popup`"
+
+  defp icon_markers(assigns) do
+    ~H"""
+    <div id={@id} phx-hook="IconMarkers" data-map-id={@map_id} class="hidden">
       <.icon
-        :for={icon <- @map_icons}
+        :for={icon <- @icons}
         type={icon.type}
         name={icon.name}
-        class={icon.class}
+        class={Map.get(icon, :class)}
         data-coordinates={Jason.encode!(icon.coordinates)}
-        data-popup={render_popup(icon.popup)}
+        data-anchor={Map.get(icon, :anchor, "center")}
+        data-rotation={Map.get(icon, :rotation, 0)}
+        data-popup={icon |> Map.get(:popup) |> render_popup()}
       />
     </div>
     """
   end
+
+  defp render_popup(nil), do: nil
 
   defp render_popup(%Phoenix.LiveView.Rendered{} = heex) do
     heex
     |> Phoenix.HTML.Safe.to_iodata()
     |> IO.iodata_to_binary()
   end
+
+  defp render_popup(html), do: html
 
   # `line-sort-key` draws wider features (outlines) first, since higher keys draw on top, so route colors sit on top.
   defp map_lines_to_feature_collection(map_lines) do
