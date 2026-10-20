@@ -106,8 +106,8 @@ defmodule DotcomWeb.AlertViewTest do
 
   describe "replace_urls_with_links/1" do
     test "does not include a period at the end of the URL" do
-      expected = mbta_new_tab
-      raw(~s(<a target="mbta_new_tab" href="http://mbta.com/foo/bar">MBTA.com/foo/bar</a>.))
+      expected =
+        raw(~s(<a target="mbta_new_tab" href="http://mbta.com/foo/bar">MBTA.com/foo/bar</a>.))
 
       actual = replace_urls_with_links("http://mbta.com/foo/bar.")
 
