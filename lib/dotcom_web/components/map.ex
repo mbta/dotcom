@@ -137,6 +137,7 @@ defmodule DotcomWeb.Components.Map do
               |> Map.get(:popup)
               |> render_popup()
             }
+            data-id={icon.marker_id}
           />
         <% end %>
       </div>
