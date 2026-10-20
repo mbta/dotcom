@@ -189,6 +189,7 @@ defmodule Dotcom.Mixfile do
       {:timex, git: "https://github.com/bitwalker/timex.git", override: true, branch: "main"},
       {:topo, "~> 1.0"},
       {:typed_ecto_schema, "0.5.0"},
+      {:unidecode, "~> 1.0.0"},
       {:unrooted_polytree, "0.1.1"},
       {:uuid, "1.1.8"},
       {:wallaby, "0.31.0", [runtime: false, only: [:dev, :test]]},
