@@ -115,9 +115,38 @@ defmodule DotcomWeb.LineDiagramLiveTest do
         assert popup =~ "popup-title"
       end
 
-      assert [mounted] = view |> new_map_html() |> Floki.attribute("[phx-mounted]", "phx-mounted")
-      assert mounted =~ "maplibrex:fit_bounds"
-      assert mounted =~ ~s|"padding":50|
+      assert has_element?(view, ~s|#new-map-fit[phx-hook="FitBounds"]|)
+
+      assert_push_event(view, "fit-bounds", %{
+        map_id: "new-map",
+        bounds: [[_, _], [_, _]],
+        padding: 50
+      })
+    end
+
+    test "re-fits on variant change but not on vehicle updates", %{
+      conn: conn,
+      route: route,
+      pattern_a: a,
+      pattern_b: b
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{a.id}")
+      assert_push_event(view, "fit-bounds", %{})
+
+      send(view.pid, %Phoenix.Socket.Broadcast{
+        topic: "vehicles-v2:#{route.id}:1",
+        event: "reset",
+        payload: %{data: []}
+      })
+
+      render(view)
+      refute_push_event(view, "fit-bounds", %{}, 50)
+
+      view
+      |> element(~s|#variant-menu-menu li[phx-value-option="#{b.id}"]|)
+      |> render_click()
+
+      assert_push_event(view, "fit-bounds", %{map_id: "new-map"})
     end
 
     test "stacks vehicle markers above stop markers", %{conn: conn, route: route} do

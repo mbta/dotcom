@@ -170,7 +170,8 @@ defmodule DotcomWeb.LineDiagramLive do
      end)
      |> apply_if_param_changed(:direction_id, &apply_direction_change/1)
      |> apply_if_param_changed(:selected_variant, &apply_variant_change/1)
-     |> assign_route_data()}
+     |> assign_route_data()
+     |> push_fit_bounds()}
   end
 
   @impl true
@@ -466,6 +467,18 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign_map_attributes()
   end
 
+  # re-fit the map to the newly selected variant or direction
+  defp push_fit_bounds(%{assigns: %{map_icons: [_ | _] = map_icons}} = socket) do
+    push_event(socket, "fit-bounds", %{
+      map_id: "new-map",
+      bounds: icons_to_bounds(map_icons),
+      padding: 50,
+      max_zoom: 16
+    })
+  end
+
+  defp push_fit_bounds(socket), do: socket
+
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
     route_patterns =
       route.id
@@ -618,16 +631,8 @@ defmodule DotcomWeb.LineDiagramLive do
       position="top-left"
     />
 
-    <%!-- `phx-mounted` runs once when the element is added, not on later updates, so this fits on page load only --%>
-    <div
-      :if={Enum.any?(@map_icons)}
-      phx-mounted={
-        MaplibreX.Components.Map.fit_bounds("new-map", icons_to_bounds(@map_icons),
-          padding: 50,
-          max_zoom: 16
-        )
-      }
-    />
+    <%!-- Receives the "fit-bounds" event pushed when the direction or variant changes --%>
+    <div id="new-map-fit" phx-hook="FitBounds" />
 
     <MaplibreX.Components.geojson_layer
       id="new-map-lines-outline"
