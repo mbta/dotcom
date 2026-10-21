@@ -144,6 +144,7 @@ defmodule Dotcom.Mixfile do
       {:logster, "~> 2.0.0-rc.5"},
       # reverted from 0.4
       {:mail, "0.3.1"},
+      {:maplibrex, "0.1.0"},
       {:mbta_metro, "1.4.0", runtime: false},
       {:memoize, "1.4.5"},
       {:mox, "1.3.2", [only: [:dev, :test]]},

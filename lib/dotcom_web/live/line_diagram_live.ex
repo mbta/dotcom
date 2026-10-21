@@ -180,11 +180,16 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   @impl true
+  def handle_event(_event, _params, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(
         %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
         socket
       ) do
-    {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+    {:noreply, assign_vehicle_icons(socket, event, payload.data)}
   end
 
   @impl true
@@ -287,6 +292,7 @@ defmodule DotcomWeb.LineDiagramLive do
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
 
     %{
+      id: vehicle.id,
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
       name: "icon-vehicle-bordered-expanded",
@@ -426,14 +432,15 @@ defmodule DotcomWeb.LineDiagramLive do
             {~t(Change Direction)}
           </.link>
         </div>
-        <.map
-          map_config={@map_config}
-          route_patterns={@route_patterns}
-          map_lines={@map_lines}
-          map_icons={@map_icons}
-          vehicle_icons={Map.values(@vehicle_icons)}
-          move_map={@move_map}
-        />
+        <div class="flex flex-col gap-2">
+          <.map
+            map_style={@map_config.style}
+            map_route_shapes={@map_route_shapes}
+            route_color={"##{@route.color}"}
+            map_icons={@map_icons}
+            vehicle_icons={Map.values(@vehicle_icons)}
+          />
+        </div>
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
         <marquee
@@ -453,12 +460,10 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  # re-fit the map to the newly selected variant or direction
   defp assign_route_data(socket) do
     socket
     |> assign_stops()
     |> assign_map_attributes()
-    |> assign(:move_map, true)
   end
 
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
@@ -528,10 +533,8 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign_map_icons()
   end
 
-  defp assign_map_lines(
-         %{assigns: %{route: route, selected_route_patterns: selected_route_patterns}} = socket
-       ) do
-    map_line_shapes =
+  defp assign_map_lines(%{assigns: %{selected_route_patterns: selected_route_patterns}} = socket) do
+    map_route_shapes =
       selected_route_patterns
       |> Enum.map(fn route_pattern ->
         %{
@@ -542,18 +545,7 @@ defmodule DotcomWeb.LineDiagramLive do
         }
       end)
 
-    map_lines_outlines =
-      map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 6, color: "#000000"})))
-
-    map_lines_with_route_colors =
-      map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 4, color: "##{route.color}"})))
-
-    map_lines = map_lines_outlines ++ map_lines_with_route_colors
-
-    socket
-    |> assign(:map_lines, map_lines)
+    assign(socket, :map_route_shapes, map_route_shapes)
   end
 
   defp assign_map_icons(%{assigns: %{stops: stops}} = socket) do
@@ -561,6 +553,7 @@ defmodule DotcomWeb.LineDiagramLive do
       stops
       |> Enum.map(
         &%{
+          id: &1.id,
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
           name: "icon-stop-circle-bordered-expanded",
@@ -611,16 +604,118 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp map(assigns) do
     ~H"""
-    <.live_component
-      module={DotcomWeb.Components.Map}
-      id="line-diagram-map"
+    <MaplibreX.Components.map
+      id="new-map"
+      center={[-71.0589, 42.3601]}
+      style={@map_style}
+      zoom={10}
       class="h-96 w-full"
-      config={@map_config}
-      lines={@map_lines}
-      icons={@map_icons ++ @vehicle_icons}
-      move_map={@move_map}
     />
+
+    <MaplibreX.Components.navigation_control
+      id="new-map-navigation"
+      map_id="new-map"
+      position="top-left"
+    />
+
+    <%!-- `phx-mounted` runs once when the element is added, not on later updates, so this fits on page load only --%>
+    <div
+      :if={Enum.any?(@map_icons)}
+      phx-mounted={
+        MaplibreX.Components.Map.fit_bounds("new-map", icons_to_bounds(@map_icons),
+          padding: 50,
+          max_zoom: 16
+        )
+      }
+    />
+
+    <MaplibreX.Components.geojson_layer
+      id="new-map-lines-outline"
+      map_id="new-map"
+      data={map_shapes_to_feature_collection(@map_route_shapes)}
+      type="line"
+      paint={%{"line-color" => "#000000", "line-width" => 6}}
+      layout={%{"line-cap" => "round", "line-join" => "round"}}
+    />
+
+    <%!-- Shares the source created by the outline layer above; added after it so it draws on top --%>
+    <MaplibreX.Components.line_layer
+      id="new-map-lines"
+      map_id="new-map"
+      source_id="new-map-lines-outline-source"
+      paint={%{"line-color" => @route_color, "line-width" => 4}}
+      layout={%{"line-cap" => "round", "line-join" => "round"}}
+    />
+
+    <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
+    <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} z_index={2} />
     """
+  end
+
+  defp icons_to_bounds(icons) do
+    {lngs, lats} = icons |> Enum.map(&List.to_tuple(&1.coordinates)) |> Enum.unzip()
+
+    [[Enum.min(lngs), Enum.min(lats)], [Enum.max(lngs), Enum.max(lats)]]
+  end
+
+  attr :id, :string, required: true
+  attr :map_id, :string, required: true, doc: "The id of the MaplibreX map to add the icons to"
+
+  attr :icons, :list,
+    required: true,
+    doc:
+      "Maps with `:coordinates`, `:type`, `:name`, and optionally `:id`, `:class`, `:anchor`, `:rotation`, `:popup`"
+
+  attr :z_index, :integer,
+    default: nil,
+    doc: "Stacking order against other icon groups on the map; higher draws on top"
+
+  defp icon_markers(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="IconMarkers"
+      data-map-id={@map_id}
+      data-z-index={@z_index}
+      class="hidden"
+    >
+      <.icon
+        :for={icon <- @icons}
+        type={icon.type}
+        name={icon.name}
+        class={Map.get(icon, :class)}
+        data-coordinates={Jason.encode!(icon.coordinates)}
+        data-marker-id={Map.get(icon, :id)}
+        data-anchor={Map.get(icon, :anchor, "center")}
+        data-rotation={Map.get(icon, :rotation, 0)}
+        data-popup={icon |> Map.get(:popup) |> render_popup()}
+      />
+    </div>
+    """
+  end
+
+  defp render_popup(nil), do: nil
+
+  defp render_popup(%Phoenix.LiveView.Rendered{} = heex) do
+    heex
+    |> Phoenix.HTML.Safe.to_iodata()
+    |> IO.iodata_to_binary()
+  end
+
+  defp render_popup(html), do: html
+
+  defp map_shapes_to_feature_collection(shapes) do
+    %{
+      "type" => "FeatureCollection",
+      "features" =>
+        Enum.map(shapes, fn %{coordinates: coordinates} ->
+          %{
+            "type" => "Feature",
+            "properties" => %{},
+            "geometry" => %{"type" => "LineString", "coordinates" => coordinates}
+          }
+        end)
+    }
   end
 
   defp route_pdf_sidebar_content(assigns) do

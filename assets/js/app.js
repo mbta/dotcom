@@ -17,6 +17,7 @@ import fullstory from "./fullstory";
 import googleAnalytics from "./google-analytics";
 import googleTranslate from "./google-translate";
 import juxtapose from "./juxtapose";
+import { MapHooks } from "maplibrex"
 import modal from "./modal";
 import photoGallery from "./photo-gallery";
 import pslPageSetup from "./psl-page-setup.js";
@@ -48,7 +49,7 @@ import storageOptions from "./storage.js";
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: { ...DotcomHooks, Map },
+  hooks: { ...DotcomHooks, ...MapHooks, Map },
   dom: {
     onBeforeElUpdated(from, to) {
       /*
