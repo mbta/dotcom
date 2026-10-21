@@ -104,7 +104,7 @@ defmodule Dotcom.Mixfile do
       {:aws_credentials, "1.1.1", optional: true},
       {:bandit, "1.12.5"},
       {:browser, "0.5.5"},
-      {:castore, "1.0.21"},
+      {:castore, "1.0.22"},
       {
         :content_security_policy,
         git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
