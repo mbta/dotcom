@@ -52,7 +52,7 @@ defmodule DotcomWeb.Components.TripPlanner.Place do
 
   defp wrap_with_url(assigns) do
     ~H"""
-    <a class="hover:no-underline text-black leading-5" href={@url} target="_blank">
+    <a class="hover:no-underline text-black leading-5" href={@url} target="mbta_new_tab">
       {render_slot(@inner_block)}
     </a>
     """

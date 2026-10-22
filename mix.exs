@@ -102,9 +102,9 @@ defmodule Dotcom.Mixfile do
       {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.15"},
       {:aws_credentials, "1.1.1", optional: true},
-      {:bandit, "1.12.5"},
+      {:bandit, "1.13.0"},
       {:browser, "0.5.5"},
-      {:castore, "1.0.21"},
+      {:castore, "1.0.22"},
       {
         :content_security_policy,
         git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"

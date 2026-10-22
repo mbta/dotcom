@@ -37,7 +37,7 @@ Array [
       className="m-schedule-page__sidebar-pdfs"
       href="https://mbta.com/example-pdf.pdf"
       rel="noopener noreferrer"
-      target="_blank"
+      target="mbta_new_tab"
     >
       <span
         aria-hidden="true"
@@ -76,7 +76,7 @@ Array [
         className="m-schedule-page__sidebar-pdfs"
         href="https://mbta.com/example-pdf.pdf"
         rel="noopener noreferrer"
-        target="_blank"
+        target="mbta_new_tab"
       >
         <span
           aria-hidden="true"

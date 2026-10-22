@@ -95,7 +95,8 @@ defmodule DotcomWeb.AlertViewTest do
     end
 
     test "linkifies a URL" do
-      expected = raw(~s(before <a target="_blank" href="http://mbta.com">MBTA.com</a> after))
+      expected =
+        raw(~s(before <a target="mbta_new_tab" href="http://mbta.com">MBTA.com</a> after))
 
       actual = format_alert_description("before http://mbta.com after")
 
@@ -105,7 +106,8 @@ defmodule DotcomWeb.AlertViewTest do
 
   describe "replace_urls_with_links/1" do
     test "does not include a period at the end of the URL" do
-      expected = raw(~s(<a target="_blank" href="http://mbta.com/foo/bar">MBTA.com/foo/bar</a>.))
+      expected =
+        raw(~s(<a target="mbta_new_tab" href="http://mbta.com/foo/bar">MBTA.com/foo/bar</a>.))
 
       actual = replace_urls_with_links("http://mbta.com/foo/bar.")
 
@@ -113,22 +115,24 @@ defmodule DotcomWeb.AlertViewTest do
     end
 
     test "can replace multiple URLs" do
-      expected = raw(~s(<a target="_blank" href="http://one.com">one.com</a> \
-<a target="_blank" href="https://two.net">two.net</a>))
+      expected = raw(~s(<a target="mbta_new_tab" href="http://one.com">one.com</a> \
+<a target="mbta_new_tab" href="https://two.net">two.net</a>))
       actual = replace_urls_with_links("http://one.com https://two.net")
 
       assert expected == actual
     end
 
     test "adds http:// to the URL if it's missing" do
-      expected = raw(~s(<a target="_blank" href="http://http.com">http.com</a>))
+      expected = raw(~s(<a target="mbta_new_tab" href="http://http.com">http.com</a>))
       actual = replace_urls_with_links("http.com")
 
       assert expected == actual
     end
 
     test "adds https:// to the URL if it's mbta.com" do
-      expected = raw(~s(<a target="_blank" href="https://mbta.com/GLwork">MBTA.com/GLwork</a>))
+      expected =
+        raw(~s(<a target="mbta_new_tab" href="https://mbta.com/GLwork">MBTA.com/GLwork</a>))
+
       actual = replace_urls_with_links("mbta.com/GLwork")
 
       assert expected == actual

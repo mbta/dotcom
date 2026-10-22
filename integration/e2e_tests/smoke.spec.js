@@ -183,6 +183,31 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await ok(page, "/destinations");
     await ok(page, "/parking");
   });
+
+  test("inaccessible stations don't show accesiblity icon", async ({page}) => {
+    await ok(page, "/stops/place-bomnl");//Bowdoin (blue)
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
+    await ok(page, "/stops/place-WML-0081");//Newtonvile (Worcester)
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
+    await ok(page, "/stops/place-valrd");//Valley Road (Mattapan)
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
+    await ok(page, "/stops/place-hymnl");//Hynes (Green)
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
+    //Busses, ferries, orange, and red are all accessible it seems.
+  });
+
+  test("accessible stations do show the accessible icon", async ({page}) => {
+    await ok(page, "/stops/place-dwnxg");
+    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await ok(page, "/stops/place-sstat");
+    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await ok(page, "/stops/place-north");
+    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await ok(page, "/stops/place-pktrm");
+    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await ok(page, "/stops/place-gover");
+    await expect( page.getByLabel("Accessible") ).toBeVisible();
+  })
 });
 
 async function ok(page, path) {

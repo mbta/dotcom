@@ -5,16 +5,16 @@ defmodule Dotcom.ContentRewriters.LinksTest do
   import Dotcom.ContentRewriters.Links
 
   describe "add_target_to_redirect/1" do
-    test "adds target=_blank to redirect link without target" do
+    test "adds target=mbta_new_tab to redirect link without target" do
       assert Floki.attribute(add_target_to_redirect(make_link("/redirect/page_name")), "target") ==
-               ["_blank"]
+               ["mbta_new_tab"]
     end
 
-    test "doesn't add target to redirect link with target=_blank" do
+    test "doesn't add target to redirect link with target=mbta_new_tab" do
       assert Floki.attribute(
-               add_target_to_redirect(make_link("/redirect/page_name", "_blank")),
+               add_target_to_redirect(make_link("/redirect/page_name", "mbta_new_tab")),
                "target"
-             ) == ["_blank"]
+             ) == ["mbta_new_tab"]
     end
 
     test "doesn't add target to redirect link with target=_self" do

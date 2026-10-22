@@ -373,6 +373,13 @@ defmodule DotcomWeb.LineDiagramLive do
 
   @impl true
   def render(assigns) do
+    assigns =
+      assign(
+        assigns,
+        :show_variant_picker?,
+        variant_picker?(assigns.route) and length(assigns.route_patterns) > 1
+      )
+
     ~H"""
     <div class={"schedule__header #{ header_class(@route) }"}>
       <div class="schedule__header-container">
@@ -395,7 +402,7 @@ defmodule DotcomWeb.LineDiagramLive do
             {Routes.Route.direction_name(@route, @direction_id)}
           </div>
           <div
-            :if={variant_picker?(@route)}
+            :if={@show_variant_picker?}
             class="-ml-[0.375rem]"
           >
             <.variant_picker
@@ -405,7 +412,7 @@ defmodule DotcomWeb.LineDiagramLive do
             />
           </div>
           <div
-            :if={!variant_picker?(@route)}
+            :if={!@show_variant_picker?}
             class="m-schedule-direction__route-pattern"
           >
             {Routes.Route.direction_destination(@route, @direction_id)}
@@ -425,6 +432,13 @@ defmodule DotcomWeb.LineDiagramLive do
             />
             {~t(Change Direction)}
           </.link>
+        </div>
+        <div class="m-schedule-diagram my-4">
+          <ol>
+            <li :for={stop <- @stops} class="m-schedule-diagram__stop border-xs border-gray-lightest">
+              <.stop_card stop={stop} />
+            </li>
+          </ol>
         </div>
         <.map
           map_config={@map_config}
@@ -587,6 +601,18 @@ defmodule DotcomWeb.LineDiagramLive do
         {~t(View Schedule)}
       </a>
     </div>
+    """
+  end
+
+  defp stop_card(assigns) do
+    ~H"""
+    <section class="m-schedule-diagram__content">
+      <.link navigate={~p"/stops/#{@stop.id}"}>
+        <h4 class="m-schedule-diagram__stop-link notranslate">
+          {@stop.name}
+        </h4>
+      </.link>
+    </section>
     """
   end
 
