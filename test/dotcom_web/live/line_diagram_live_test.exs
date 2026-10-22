@@ -24,7 +24,9 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     stub(Routes.Repo.Mock, :get, fn _ -> route end)
     stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [pattern_a, pattern_b] end)
-    stub(Stops.Repo.Mock, :get, fn id -> Factories.Stops.Stop.build(:stop, %{id: id}) end)
+    stub(Stops.Repo.Mock, :get, fn id ->
+      Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
+    end)
     stub(Vehicles.Repo.Mock, :route, fn _, _ -> [] end)
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
@@ -40,10 +42,25 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     |> String.trim()
   end
 
-  test "defaults to all variants without a variant param", %{conn: conn, route: route} do
+  defp stop_names(view) do
+    view
+    |> render()
+    |> Floki.parse_document!()
+    |> Floki.find(".m-schedule-diagram__stop-link")
+    |> Enum.map(&(Floki.text(&1) |> String.trim()))
+  end
+
+  test "defaults to all variants without a variant param", %{
+    conn: conn,
+    route: route,
+    pattern_a: a,
+    pattern_b: b
+  } do
     {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
 
     assert label(view) =~ "All variants"
+    expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
+    assert stop_names(view) == expected_stop_names
   end
 
   test "hides the variant picker when there is only one variant", %{
@@ -153,6 +170,8 @@ defmodule DotcomWeb.LineDiagramLiveTest do
         |> render_click()
 
         assert has_element?(view, "#variant-menu-button", pattern.headsign)
+        expected_stop_names = Enum.uniq(pattern.stop_ids) |> Enum.map(&"Stop #{&1}")
+        assert stop_names(view) == expected_stop_names
         assert has_element?(view, "#line-diagram-map [data-line]:nth-child(2)")
         refute has_element?(view, "#line-diagram-map [data-line]:nth-child(3)")
 
@@ -170,6 +189,8 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       |> render_click()
 
       assert has_element?(view, "#variant-menu-button", "All variants")
+      expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
+      assert stop_names(view) == expected_stop_names
       assert has_element?(view, "#line-diagram-map [data-line]:nth-child(4)")
     end
 

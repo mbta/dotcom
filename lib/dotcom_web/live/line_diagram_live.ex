@@ -433,6 +433,13 @@ defmodule DotcomWeb.LineDiagramLive do
             {~t(Change Direction)}
           </.link>
         </div>
+        <div class="m-schedule-diagram my-4">
+          <ol>
+            <li :for={stop <- @stops} class="m-schedule-diagram__stop border-xs border-gray-lightest">
+              <.stop_card stop={stop} />
+            </li>
+          </ol>
+        </div>
         <.map
           map_config={@map_config}
           route_patterns={@route_patterns}
@@ -594,6 +601,18 @@ defmodule DotcomWeb.LineDiagramLive do
         {~t(View Schedule)}
       </a>
     </div>
+    """
+  end
+
+  defp stop_card(assigns) do
+    ~H"""
+    <section class="m-schedule-diagram__content">
+      <.link navigate={~p"/stops/#{@stop.id}"}>
+        <h4 class="m-schedule-diagram__stop-link notranslate">
+          {@stop.name}
+        </h4>
+      </.link>
+    </section>
     """
   end
 
