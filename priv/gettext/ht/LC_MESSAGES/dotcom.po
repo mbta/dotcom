@@ -5091,11 +5091,6 @@ msgstr "oubyen "
 msgid "or complete the feedback form on this page."
 msgstr "oubyen ranpli fòm fidbak la sou paj sa a."
 
-#: lib/dotcom_web/components/stops/fare_amenity.html.heex
-#, elixir-autogen, elixir-format
-msgid "or pay with cash on any bus"
-msgstr "oubyen peye ak Lajan chak sou nenpòt bis"
-
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "outbound"
@@ -5757,3 +5752,8 @@ msgstr "wout tipik"
 #, elixir-autogen, elixir-format
 msgid "Train %{train_no}"
 msgstr "Tren %{train_no}"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "or pay with cash or contactless payment on any bus"
+msgstr "oubyen peye ak lajan kach oubyen pèman san kontak nan nenpòt bis"
