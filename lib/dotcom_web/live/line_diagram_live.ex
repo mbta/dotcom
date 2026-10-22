@@ -292,7 +292,8 @@ defmodule DotcomWeb.LineDiagramLive do
       name: "icon-vehicle-bordered-expanded",
       class: "size-6 cursor-pointer",
       popup: popup,
-      rotation: vehicle.bearing || "0"
+      rotation: vehicle.bearing || "0",
+      marker_id: vehicle.id
     }
   end
 
@@ -575,7 +576,8 @@ defmodule DotcomWeb.LineDiagramLive do
           popup:
             socket.assigns
             |> assign(:stop, &1)
-            |> stop_popup()
+            |> stop_popup(),
+          marker_id: &1.id
         }
       )
 

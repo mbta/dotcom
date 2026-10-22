@@ -71,7 +71,8 @@ export default {
       const mapMarker = new maplibregl.Marker({
         anchor: marker.anchor,
         element: marker.element,
-        rotation: marker.rotation
+        rotation: marker.rotation,
+        coordinates: marker.coordinates
       });
       if(marker.popup){
         const popup = new maplibregl.Popup({className: "m-schedule-line__stop-popup", focusAfterOpen: false});
@@ -116,9 +117,13 @@ export default {
    * Calculate the bounds of collection of markers and fit the map to those bounds.
    */
   fitMapToMarkers(markers) {
-    const coordinates = markers.map(marker => marker.coordinates);
-
-    this.fitMapToCoordinates(coordinates);
+    const coordinates = markers.map((marker) => 
+      [marker.getLngLat()["lng"], marker.getLngLat()["lat"]]
+    ).filter((coords) => coords?.length==2 );
+    
+    if(coordinates.length > 0){
+      this.fitMapToCoordinates(coordinates);
+    }
   },
   /**
    * Returns the NE most coordinates from a collection of coordinates.
@@ -220,26 +225,52 @@ export default {
    */
   updateMarkers({move_map = true}) {
   
-    this.resetMarkers();
 
-    const markers = Array.from(this.el.querySelectorAll("[data-coordinates]")).map(element => {
+    const newMarkers = Array.from(this.el.querySelectorAll("[data-coordinates]")).map(element => {
       return {
         anchor: element.getAttribute("data-anchor"),
         coordinates: JSON.parse(element.getAttribute("data-coordinates")),
         popup: element.getAttribute("data-popup"),
         rotation: element.getAttribute("data-rotation"),
+        id: element.getAttribute("data-id"),
         element
       }
     }).filter(marker => marker.coordinates.length === 2);
 
-    if (markers.length === 0) {
+    if (newMarkers.length === 0) {
+      this.resetMarkers();
       move_map && this.fitMapToCenter();
-
       return;
     }
 
-    this.addMarkers(markers);
-    move_map && this.fitMapToMarkers(markers);
+    //Update existing markers or add new ones
+    newMarkers.forEach((marker) => {
+      const existingMarker = this.markers.find(
+        (oldMarker)=>
+          oldMarker.getElement().dataset.id == marker.element.dataset.id
+      );
+
+      if(existingMarker){
+        existingMarker.setLngLat(marker.coordinates);
+        existingMarker.setRotation(marker.rotation);
+        existingMarker.getPopup().setHTML(marker.popup);
+      }else{
+        this.addMarkers([marker]);
+      }
+    });
+
+    //Remove markers not found
+    const deadMarkers = this.markers.filter(
+      (oldMarker)=> newMarkers.findIndex(
+        (newMarker) => newMarker.element.dataset.id == oldMarker.getElement().dataset.id
+      ) == -1);
+  
+    deadMarkers.forEach(marker=>{marker.remove()});
+
+    //Center map on the markers if desired
+    if(this.markers.length > 0){
+      move_map && this.fitMapToMarkers(this.markers);
+    }
   },
 
  
