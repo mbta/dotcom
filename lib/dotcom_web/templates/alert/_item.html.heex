@@ -10,7 +10,7 @@
       <%= if @alert.description || Alerts.Alert.image(@alert) do %>
         <div class={"c-alert-item__bottom c-alert-item__bottom--#{ @alert.priority }"}>
           <%= if Map.get(@alert, :image) do %>
-            <a href={"#{ Alerts.Alert.image(@alert) }"} target="_blank">
+            <a href={"#{ Alerts.Alert.image(@alert) }"} target="mbta_new_tab">
               <img
                 src={"#{ Alerts.Alert.image(@alert) }"}
                 alt={"#{ Alerts.Alert.image_alternative_text(@alert) }"}

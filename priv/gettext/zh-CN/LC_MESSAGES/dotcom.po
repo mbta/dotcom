@@ -5076,11 +5076,6 @@ msgstr "或 "
 msgid "or complete the feedback form on this page."
 msgstr "或者填写此页面上的反馈表。"
 
-#: lib/dotcom_web/components/stops/fare_amenity.html.heex
-#, elixir-autogen, elixir-format
-msgid "or pay with cash on any bus"
-msgstr "或在任何巴士上用现金支付"
-
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "outbound"
@@ -5738,3 +5733,8 @@ msgstr "典型路线"
 #, elixir-autogen, elixir-format
 msgid "Train %{train_no}"
 msgstr "列车%{train_no}"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "or pay with cash or contactless payment on any bus"
+msgstr "或者在任何巴士上使用现金或非接触式支付方式付款。"

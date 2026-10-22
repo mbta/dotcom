@@ -80,7 +80,7 @@ test("it includes the URL field when it exists", () => {
 
   wrapper.find(highAlertID).simulate("click");
   expect(wrapper.html()).toContain(
-    `<a href="https://www.mbta.com" target="_blank">MBTA.com</a>`
+    `<a href="https://www.mbta.com" target="mbta_new_tab">MBTA.com</a>`
   );
 
   wrapper.unmount();
