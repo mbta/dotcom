@@ -24,9 +24,11 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     stub(Routes.Repo.Mock, :get, fn _ -> route end)
     stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [pattern_a, pattern_b] end)
+
     stub(Stops.Repo.Mock, :get, fn id ->
       Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
     end)
+
     stub(Vehicles.Repo.Mock, :route, fn _, _ -> [] end)
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
