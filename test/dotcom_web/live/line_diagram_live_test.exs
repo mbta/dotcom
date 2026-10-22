@@ -46,6 +46,50 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     assert label(view) =~ "All variants"
   end
 
+  test "hides the variant picker when there is only one variant", %{
+    conn: conn,
+    route: route,
+    pattern_a: pattern
+  } do
+    stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [pattern] end)
+
+    {:ok, view, _html} =
+      live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
+
+    refute has_element?(view, "#variant-menu-button")
+
+    assert has_element?(
+             view,
+             ".m-schedule-direction__route-pattern",
+             Routes.Route.direction_destination(route, 0)
+           )
+  end
+
+  test "updates variant picker visibility when changing direction", %{
+    conn: conn,
+    route: route,
+    pattern_a: pattern_a,
+    pattern_b: pattern_b
+  } do
+    stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, opts ->
+      case Keyword.fetch!(opts, :direction_id) do
+        0 -> [pattern_a, pattern_b]
+        1 -> [pattern_a]
+      end
+    end)
+
+    {:ok, view, _html} =
+      live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
+
+    assert has_element?(view, "#variant-menu-button")
+
+    view |> element("#direction-filter") |> render_click()
+    refute has_element?(view, "#variant-menu-button")
+
+    view |> element("#direction-filter") |> render_click()
+    assert has_element?(view, "#variant-menu-button")
+  end
+
   test "selects the variant from the URL param", %{conn: conn, route: route, pattern_b: b} do
     {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{b.id}")
 
