@@ -454,7 +454,7 @@ exports[`ScheduleDirectionTest renders with a static map 1`] = `
     <a
       href="http://example.com/map.pdf"
       rel="noopener noreferrer"
-      target="_blank"
+      target="mbta_new_tab"
     >
       <i
         aria-hidden="true"

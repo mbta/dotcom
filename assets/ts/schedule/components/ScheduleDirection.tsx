@@ -274,7 +274,7 @@ const ScheduleDirection = ({
           <a
             href={staticMapData.pdf_url}
             rel="noopener noreferrer"
-            target="_blank"
+            target="mbta_new_tab"
           >
             <i className="fa fa-search-plus" aria-hidden="true" />
             View map as a PDF

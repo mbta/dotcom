@@ -13,7 +13,7 @@ const pdfLink = (pdf: SchedulePDF | null): ReactElement<HTMLElement> | null => {
         href={pdf.url}
         rel="noopener noreferrer"
         className="c-call-to-action"
-        target="_blank"
+        target="mbta_new_tab"
       >
         {`Open full schedule and map PDF`}{" "}
         {renderFa("fa-arrow-up-right-from-square", "")}

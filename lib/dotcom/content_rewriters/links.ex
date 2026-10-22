@@ -2,7 +2,7 @@ defmodule Dotcom.ContentRewriters.Links do
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @doc """
-  Adds the target=_blank attribute to links that redirect to
+  Adds the target= attribute to links that redirect to
   the old site so they open in a new tab.
   """
   @spec add_target_to_redirect(Floki.html_tree()) :: Floki.html_tree()
@@ -10,7 +10,7 @@ defmodule Dotcom.ContentRewriters.Links do
     case Floki.attribute(element, "href") do
       ["/redirect/" <> _] ->
         case Floki.attribute(element, "target") do
-          [] -> {"a", [{"target", "_blank"} | attrs], children}
+          [] -> {"a", [{"target", "mbta_new_tab"} | attrs], children}
           _ -> element
         end
 
