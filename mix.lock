@@ -148,7 +148,6 @@
   "typed_ecto_schema": {:hex, :typed_ecto_schema, "0.5.0", "cf0e387727dd898b6a67c80c8528d54bdb96e2318ee07dfbd65848fec2cde91f", [:mix], [{:ecto, "~> 3.5", [hex: :ecto, repo: "hexpm", optional: false]}], "hexpm", "061c500aa5ce03ed4defd85a2fa8ba9a53d036fc096459d570e7a4de05171ed1"},
   "typed_struct": {:hex, :typed_struct, "0.3.0", "939789e3c1dca39d7170c87f729127469d1315dcf99fee8e152bb774b17e7ff7", [:mix], [], "hexpm", "c50bd5c3a61fe4e198a8504f939be3d3c85903b382bde4865579bc23111d1b6d"},
   "tzdata": {:hex, :tzdata, "1.1.5", "83290fc7d14f6413340f69bc59faa79012d74bbaf122573aaa661306f55db7c9", [:mix], [{:hackney, "~> 1.17 or ~> 4.0", [hex: :hackney, repo: "hexpm", optional: false]}], "hexpm", "38cc53f7ad4450f3bf72b66e2d5dc697690008a8c52be78b82b5b2959a66b74f"},
-  "unidecode": {:hex, :unidecode, "1.0.2", "271b9f4b4ec6362e6da0a48d0f9b7d6e6e5ba12b6b9c1425db06015fba613efd", [:mix], [], "hexpm", "da4d54e13217a3ef7f969fbcbbcf761ed9d01d9343abc3575e75b5363023110f"},
   "unrooted_polytree": {:hex, :unrooted_polytree, "0.1.1", "95027b1619d707fcbbd8980708a50efd170782142dd3de5112e9332d4cc27fef", [:mix], [], "hexpm", "9c8143d2015526ae49c3642ca509802e4db129685a57a0ec413e66546fe0c251"},
   "uuid": {:hex, :uuid, "1.1.8", "e22fc04499de0de3ed1116b770c7737779f226ceefa0badb3592e64d5cfb4eb9", [:mix], [], "hexpm", "c790593b4c3b601f5dc2378baae7efaf5b3d73c4c6456ba85759905be792f2ac"},
   "vector": {:hex, :vector, "1.1.0", "0789b5e00e9c551d8d5880acab9a8f44ed46690d083af397018bf0c7f30c1092", [:mix], [], "hexpm", "48b0a800ec88e55b12c689b09100e4c9ba41ea1befb459221c085a4e70040696"},
