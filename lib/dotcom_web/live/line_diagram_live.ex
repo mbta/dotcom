@@ -556,6 +556,7 @@ defmodule DotcomWeb.LineDiagramLive do
           id: &1.id,
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
+          stop_name: &1.name,
           name: "icon-stop-circle-bordered-expanded",
           class: "size-3 cursor-pointer",
           popup:
@@ -647,7 +648,51 @@ defmodule DotcomWeb.LineDiagramLive do
       layout={%{"line-cap" => "round", "line-join" => "round"}}
     />
 
-    <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
+    <MaplibreX.Components.geojson_layer
+      id="new-map-markers"
+      map_id="new-map"
+      data={map_icons_to_feature_collection(@map_icons)}
+      type="symbol"
+    />
+
+    <%!-- Shares the source created by the marker layer above; added after it so it draws on top --%>
+    <MaplibreX.Components.symbol_layer
+      id="new-map-stops"
+      map_id="new-map"
+      source_id="new-map-markers-source"
+      layout={
+        %{
+          "text-field" => ["get", "name"],
+          "text-size" => [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10,
+            12,
+            15,
+            16
+          ],
+          "text-font" => ["Helvetica Neue Bold", "Helvetica Bold", "Arial Bold"],
+          "text-max-width" => 14,
+          "icon-image" => "stop-marker-icon",
+          "icon-size" => 0.45,
+          "icon-allow-overlap" => true,
+          "symbol-avoid-edges" => true,
+          "text-justify" => "auto",
+          "text-variable-anchor" => ["top-left", "top-right", "left", "right"],
+          "text-optional" => true,
+          "text-radial-offset" => 0.4
+        }
+      }
+      paint={
+        %{
+          "text-color" => "#000",
+          "text-halo-color" => "#fff",
+          "text-halo-width" => 1.6
+        }
+      }
+    />
+
     <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} z_index={2} />
     """
   end
@@ -713,6 +758,20 @@ defmodule DotcomWeb.LineDiagramLive do
             "type" => "Feature",
             "properties" => %{},
             "geometry" => %{"type" => "LineString", "coordinates" => coordinates}
+          }
+        end)
+    }
+  end
+
+  defp map_icons_to_feature_collection(icons) do
+    %{
+      "type" => "FeatureCollection",
+      "features" =>
+        Enum.map(icons, fn %{id: id, coordinates: coordinates, stop_name: stop_name} ->
+          %{
+            "type" => "Feature",
+            "properties" => %{"id" => id, "name" => stop_name},
+            "geometry" => %{"type" => "Point", "coordinates" => coordinates}
           }
         end)
     }

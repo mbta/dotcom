@@ -1,6 +1,7 @@
 import maplibregl from "maplibre-gl";
 import { MapManager } from "maplibrex";
 import { ViewHook } from "phoenix_live_view";
+import stopIcon from "../../../priv/static/icon-svg/icon-stop-circle-bordered-expanded.svg";
 
 interface MarkerEntry {
   marker: maplibregl.Marker;
@@ -9,9 +10,31 @@ interface MarkerEntry {
 }
 
 interface IconMarkersHook extends ViewHook {
+  maplibreMap: maplibregl.Map;
   markers: Map<string, MarkerEntry>;
   renderMarkers(): void;
   updatePopup(entry: MarkerEntry, popupHtml: string | null): void;
+}
+
+// A reusable function to convert a raw SVG string into a MapLibre-compatible image object
+function createMaplibreIconFromSvg(
+  svgString: string,
+  width: number,
+  height: number
+): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image(width, height);
+
+    img.onload = () => resolve(img);
+    img.onerror = err =>
+      reject(new Error(`Failed to render SVG: ${err.message}`));
+
+    // Convert raw string into an escaped Data URI
+    // NOTE: Ensure your raw SVG has explicit 'width' and 'height' attributes or a viewBox!
+    img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+      svgString
+    )}`;
+  });
 }
 
 /**
@@ -31,8 +54,16 @@ interface IconMarkersHook extends ViewHook {
  *   - `data-popup`: HTML for a popup that opens when the marker is clicked
  */
 const IconMarkers: Partial<IconMarkersHook> = {
-  mounted(this: IconMarkersHook) {
+  async mounted(this: IconMarkersHook) {
     this.markers = new Map();
+    this.maplibreMap = MapManager.get(this.el.dataset.mapId || "");
+
+    const rasterizedSvgImage = await createMaplibreIconFromSvg(
+      stopIcon,
+      32,
+      32
+    );
+    this.maplibreMap.addImage("stop-marker-icon", rasterizedSvgImage);
     this.renderMarkers();
   },
 
@@ -46,7 +77,7 @@ const IconMarkers: Partial<IconMarkersHook> = {
   },
 
   renderMarkers(this: IconMarkersHook) {
-    const map = MapManager.get(this.el.dataset.mapId || "");
+    const map = this.maplibreMap;
     if (!map) return;
 
     const seen = new Set<string>();
@@ -74,7 +105,8 @@ const IconMarkers: Partial<IconMarkersHook> = {
         }
 
         const element = source.cloneNode(true) as HTMLElement;
-        if (this.el.dataset.zIndex) element.style.zIndex = this.el.dataset.zIndex;
+        if (this.el.dataset.zIndex)
+          element.style.zIndex = this.el.dataset.zIndex;
 
         const marker = new maplibregl.Marker({
           anchor: (source.getAttribute("data-anchor") ||
