@@ -223,12 +223,11 @@ defmodule DotcomWeb.CustomerSupportController do
 
   defp photo_attachments(nil), do: nil
 
-  defp simple_filename(name),
-    do:
-      name
-      |> Unidecode.decode()
-      |> String.replace(~r/(\s)+/, "-")
-      |> String.replace(~r/[\=\?\(\)\,\@\[\]\~]/, "")
+  defp simple_filename(name) do
+    # I attempted to limit the characters allowed, but emoji were still able to get through and break things
+    # Instead of trying to preserve the uploaded filename we generate a random string instead
+    UUID.uuid4()
+  end
 
   defp render_form(conn, %{errors: errors, comments: comments}) do
     Logger.warning("#{__MODULE__} form validation failed: #{inspect(errors)}")
