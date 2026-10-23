@@ -224,9 +224,11 @@ defmodule DotcomWeb.CustomerSupportController do
   defp photo_attachments(nil), do: nil
 
   defp simple_filename(name) do
+    extension = name |> String.split(".") |> List.last() |> String.downcase()
+
     # I attempted to limit the characters allowed, but emoji were still able to get through and break things
     # Instead of trying to preserve the uploaded filename we generate a random string instead
-    UUID.uuid4()
+    UUID.uuid4() <> "." <> extension
   end
 
   defp render_form(conn, %{errors: errors, comments: comments}) do
