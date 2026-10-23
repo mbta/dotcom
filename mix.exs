@@ -109,6 +109,7 @@ defmodule Dotcom.Mixfile do
         :content_security_policy,
         git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
       },
+      {:certifi, "2.18.0", override: true},
       {:cowlib, "2.20.0"},
       # Optional dependency of nebulex_redis_adapter, required for Redis Cluster mode (key slot hashing)
       {:crc, "0.11.0"},
