@@ -10,10 +10,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.Components.Alerts
   import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
-  import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.RouteComponents, only: [lined_list: 1]
 
+  alias Dotcom.InSeatTransfers
   alias Dotcom.ScheduleFinder.ServiceGroup
-  alias Dotcom.ScheduleFinder.{FutureArrival, TripHeading}
   alias DotcomWeb.Components.Departures
   alias DotcomWeb.Live.UpcomingDeparturesLive
   alias DotcomWeb.RouteComponents
@@ -372,32 +372,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   defp trim_arrivals(arrivals, stop) do
-    with true <- Enum.any?(arrivals, &match?(%TripHeading{}, &1)),
-         stop_index when is_integer(stop_index) <- second_stop_index(arrivals, stop.name) do
-      arrivals
-      |> Enum.take(stop_index + 1)
-      |> drop_trailing_heading()
-    else
-      _ -> arrivals
-    end
-  end
-
-  # The list starts at the viewed stop, so the second match is where a looped trip returns to it
-  defp second_stop_index(arrivals, stop_name) do
-    arrivals
-    |> Enum.with_index()
-    |> Enum.flat_map(fn
-      {%FutureArrival{stop_name: ^stop_name}, index} -> [index]
-      _ -> []
-    end)
-    |> Enum.at(1)
-  end
-
-  defp drop_trailing_heading(arrivals) do
-    case List.last(arrivals) do
-      %TripHeading{} -> Enum.drop(arrivals, -1)
-      _ -> arrivals
-    end
+    InSeatTransfers.trim_at_return(arrivals, &(&1.stop_id == stop.id))
   end
 
   defp assign_service(socket, selected_service_key) do
@@ -682,40 +657,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </.error_container>
             </:failed>
             <.lined_list :if={arrivals}>
-              <%= for {heading_or_arrival, index} <- Enum.with_index(arrivals) do %>
-                <%= if match?(%Dotcom.ScheduleFinder.TripHeading{}, heading_or_arrival) do %>
-                  <.lined_list_item
-                    route={heading_or_arrival.route}
-                    variant="none"
-                    class="bg-charcoal-90"
-                  >
-                    <div class="flex-col w-full">
-                      <div class="text-charcoal-30 text-sm text-nowrap">{~t"Trip continues as"}</div>
-                      <div class="flex items-center gap-sm">
-                        <RouteComponents.route_icon
-                          route={heading_or_arrival.route}
-                          size="small"
-                          class="shrink-0"
-                        />
-                        <span>{heading_or_arrival.headsign}</span>
-                      </div>
-                    </div>
-                  </.lined_list_item>
-                <% else %>
-                  <.lined_list_item
-                    route={departure.route}
-                    class={if(index == 0, do: "font-bold")}
-                    stop_pin?={index == 0}
-                  >
-                    <DotcomWeb.Components.Departures.stop_label
-                      stop_name={heading_or_arrival.stop_name}
-                      platform_name={heading_or_arrival.platform_name}
-                    />
-
-                    <Departures.formatted_time time={heading_or_arrival.time} />
-                  </.lined_list_item>
-                <% end %>
-              <% end %>
+              <Departures.trip_stops highlight_first? route={departure.route} stops={arrivals} />
             </.lined_list>
           </.async_result>
         </:content>
