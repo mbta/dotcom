@@ -484,7 +484,7 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp search_class(stop, search_phrase) do
-    if(String.length(search_phrase) > 0 and !String.contains?(stop.name, search_phrase)) do
+    if String.length(search_phrase) > 0 and !String.contains?(stop.name, search_phrase) do
       "hidden"
     else
       ""
