@@ -208,6 +208,47 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await ok(page, "/stops/place-gover");
     await expect( page.getByLabel("Accessible") ).toBeVisible();
   })
+
+  test("inaccessible stations that only serve buses show accessibilty icon", async ({page}) => {
+    // This is only a subset of applicable stops.
+    // Bus Route 1
+    await ok(page, "/stops/104");//Massachusetts Ave @ Inman St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // Bus Route 15
+    await ok(page, "/stops/1481");//Dudley St @ Belden St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/1489");//Dudley St @ Dearborn St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // Bus Route 18
+    await ok(page, "/stops/312");//Auckland St @ Dewar St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // Bus Route 21
+    await ok(page, "/stops/542");//Morton St @ Theodore St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // 34E
+    await ok(page, "/stops/91618");//624 Washington St opp Bird Middle School
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // 59
+    await ok(page, "/stops/81442");//Hillside Ave @ Hunnewell St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/84885");//Winchester St @ Centre St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // 100
+    await ok(page, "/stops/5269");//Fellsway @ Myrtle St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // 139
+    await ok(page, "/stops/16000");//Wyoming St @ Ravine Rd
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // 350/354
+    await ok(page, "/stops/8234");//Cambridge St @ Church Ln
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // 429/430
+    await ok(page, "/stops/7523");//Vine St @ Beech St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    // 558
+    await ok(page, "/stops/78121");//River St @ Jackson St
+    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+  });
 });
 
 async function ok(page, path) {

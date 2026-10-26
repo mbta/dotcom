@@ -42,7 +42,7 @@ defmodule DotcomWeb.StopInformationLive do
       |> assign_new(:amenity_param, fn -> nil end)
       |> assign_new(:date_time, fn -> @date_time_module.now() end)
       |> assign_new(:new_stop_page, fn -> false end)
-      |> assign(:accessible?, accessible?(stop))
+      |> assign(:accessible?, accessible?(stop, routes_by_stop))
       |> assign(:one_way_fares, one_way_ranges(routes_by_stop))
       |> assign(:parking_amenity, amenities[:parking])
       |> assign(:bike_amenity, amenities[:bike])
@@ -74,8 +74,9 @@ defmodule DotcomWeb.StopInformationLive do
   end
 
   # A stop is accessible if it is labeled as accessible in GTFS
-  defp accessible?(stop) do
-    Enum.member?(stop.accessibility, "accessible")
+  # or if serves only bus routes
+  defp accessible?(stop, routes_by_stop) do
+    Enum.member?(stop.accessibility, "accessible") || Enum.all?(routes_by_stop, &(&1.type == 3))
   end
 
   defp map_icons(stop) do
