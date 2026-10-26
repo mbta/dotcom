@@ -5738,3 +5738,8 @@ msgstr "列車%{train_no}"
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
 msgstr "或使用現金或非接觸式支付在任何巴士上付款"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a station"
+msgstr "搜尋車站"
