@@ -464,25 +464,28 @@ defmodule DotcomWeb.LineDiagramLive do
               <.stop_card stop={stop} />
             </li>
           </ol>
-          <details
+          <DotcomWeb.Components.unstyled_accordion
             :if={@other_stops |> Enum.count() > 0}
             open
             class="group/other-stops"
+            summary_class="flex justify-between w-full bg-charcoal-90 border-x-[1px] border-b-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium"
           >
-            <summary class="flex justify-between w-full bg-charcoal-90 border-x-[1px] border-b-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium">
+            <:heading>
               {gettext("%{count} stops served by other trips on this route", %{
                 count: @other_stops |> Enum.count()
               })}
-            </summary>
-            <ol>
-              <li
-                :for={stop <- @other_stops}
-                class="m-schedule-diagram__stop border-xs border-gray-lightest"
-              >
-                <.stop_card stop={stop} />
-              </li>
-            </ol>
-          </details>
+            </:heading>
+            <:content>
+              <ol>
+                <li
+                  :for={stop <- @other_stops}
+                  class="m-schedule-diagram__stop border-xs border-gray-lightest"
+                >
+                  <.stop_card stop={stop} />
+                </li>
+              </ol>
+            </:content>
+          </DotcomWeb.Components.unstyled_accordion>
         </div>
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
