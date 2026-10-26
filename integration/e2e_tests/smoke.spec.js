@@ -11,6 +11,7 @@
  */
 import { expect, test } from "@playwright/test";
 import { syncLiveView } from "../utils";
+import { scenario as otp_scenario } from '../scenarios/plan-a-trip'; 
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -207,7 +208,11 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await expect( page.getByLabel("Accessible") ).toBeVisible();
     await ok(page, "/stops/place-gover");
     await expect( page.getByLabel("Accessible") ).toBeVisible();
-  })
+  });
+
+  test("a trip can be planned on OTP", async ({page}) => {
+    return otp_scenario({page, baseURL});
+  });
 });
 
 async function ok(page, path) {
