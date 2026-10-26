@@ -375,14 +375,11 @@ defmodule DotcomWeb.LineDiagramLive do
   @impl true
   def render(assigns) do
     assigns =
-      assign(
-        assigns,
+      assigns
+      |> assign(:bus_route?, assigns.route.type == 3)
+      |> assign(
         :show_variant_picker?,
         variant_picker?(assigns.route) and length(assigns.route_patterns) > 1
-      )
-      |> assign(
-        :bus_route?,
-        assigns.route.type == 3
       )
 
     ~H"""
