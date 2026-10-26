@@ -603,8 +603,8 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign(
       :other_stops,
       stops_by_id
-      |> Enum.filter(fn {stop_id, _other_stop} ->
-        !(stops |> Enum.find(fn stop -> stop.id == stop_id end))
+      |> Enum.reject(fn {stop_id, _other_stop} ->
+        stops |> Enum.find(fn stop -> stop.id == stop_id end)
       end)
       |> Enum.filter(fn {_stop_id, stop} ->
         stop.name |> String.downcase() |> String.contains?(search_phrase |> String.downcase())
