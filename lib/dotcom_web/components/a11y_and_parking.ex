@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.A11yParking do
 
   def a11y_and_parking(assigns) do
     ~H"""
-    <div class="flex items-center gap-0.5">
+    <div class={"flex items-center gap-#{@rounded? && "0.5" || "1"}"}>
       <%= if length(@stop.parking_lots) > 0 do %>
         <.tooltip title={~t(Parking available)} placement={@tooltip_placement}>
           <.icon
