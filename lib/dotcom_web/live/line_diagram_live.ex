@@ -146,6 +146,7 @@ defmodule DotcomWeb.LineDiagramLive do
      end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
+     |> assign(:stop_type_label, Routes.Route.stop_type_label(route))
      |> assign_route_patterns()
      |> assign_route_stops()
      |> assign_route_data()
@@ -451,7 +452,7 @@ defmodule DotcomWeb.LineDiagramLive do
               phx-change="search"
               phx-submit="search"
               name="search"
-              placeholder={~t(Search for a station)}
+              placeholder={gettext("Search for a %{stop}", %{stop: @stop_type_label})}
             />
           </form>
         </div>
@@ -471,8 +472,9 @@ defmodule DotcomWeb.LineDiagramLive do
             summary_class="flex justify-between w-full bg-charcoal-90 border-x-[1px] border-b-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium"
           >
             <:heading>
-              {gettext("%{count} stops served by other trips on this route", %{
-                count: @other_stops |> Enum.count()
+              {gettext("%{count} %{stop} served by other trips on this route", %{
+                count: @other_stops |> Enum.count(),
+                stop: @stop_type_label
               })}
             </:heading>
             <:content>
