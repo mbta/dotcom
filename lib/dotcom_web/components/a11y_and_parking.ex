@@ -6,6 +6,7 @@ defmodule DotcomWeb.Components.A11yParking do
   use DotcomWeb, :component
 
   attr :stop, :map, required: true
+  attr :bus_route?, :boolean, required: true
 
   def a11y_and_parking(assigns) do
     ~H"""
@@ -22,7 +23,7 @@ defmodule DotcomWeb.Components.A11yParking do
         <span class="sr-only">{~t(No parking)}</span>
       <% end %>
 
-      <%= if Stops.Stop.accessible?(@stop) do %>
+      <%= if @bus_route? || Stops.Stop.accessible?(@stop) do %>
         <.tooltip title={~t(Accessible)} placement={:top}>
           <.icon
             type="icon-svg"

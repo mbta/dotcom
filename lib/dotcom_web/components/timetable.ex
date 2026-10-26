@@ -219,6 +219,7 @@ defmodule DotcomWeb.Components.Timetable do
           <.stop_header_cell
             cell_background={cell_background(idx)}
             stop={row.stop}
+            bus_route?={@route.type == 3}
           />
           <td class="js-tt-cell hidden-no-js" style="padding-left: 0.5rem">
             <div class="m-timetable__row-header"></div>
@@ -235,6 +236,8 @@ defmodule DotcomWeb.Components.Timetable do
     """
   end
 
+  attr :bus_route?, :boolean, default: false
+
   defp stop_header_cell(assigns) do
     ~H"""
     <th
@@ -249,7 +252,7 @@ defmodule DotcomWeb.Components.Timetable do
         <.link navigate={~p"/stops/#{@stop.id}"} class="m-timetable__stop-link">
           {break_text_at_slash(@stop.name)}
         </.link>
-        <.a11y_and_parking stop={@stop} />
+        <.a11y_and_parking stop={@stop} bus_route?={@bus_route?} />
       </div>
     </th>
     """
