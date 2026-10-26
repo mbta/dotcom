@@ -5761,4 +5761,4 @@ msgstr "oubyen peye ak lajan kach oubyen pèman san kontak nan nenpòt bis"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Search for a station"
-msgstr ""
+msgstr "Chèche yon estasyon"

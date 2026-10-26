@@ -5770,4 +5770,4 @@ msgstr "ou pague em dinheiro ou com pagamento por aproximação em qualquer ôni
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Search for a station"
-msgstr ""
+msgstr "Procure uma estação"
