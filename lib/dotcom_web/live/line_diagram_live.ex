@@ -397,7 +397,7 @@ defmodule DotcomWeb.LineDiagramLive do
         >
           &#x1F6A7; Under Construction &#x1F6A7;
         </marquee>
-        <div class="m-schedule-direction">
+        <div class="m-schedule-direction mb-4">
           <div class="m-schedule-direction__direction">
             {Routes.Route.direction_name(@route, @direction_id)}
           </div>
@@ -433,13 +433,6 @@ defmodule DotcomWeb.LineDiagramLive do
             {~t(Change Direction)}
           </.link>
         </div>
-        <div class="m-schedule-diagram my-4">
-          <ol>
-            <li :for={stop <- @stops} class="m-schedule-diagram__stop border-xs border-gray-lightest">
-              <.stop_card stop={stop} />
-            </li>
-          </ol>
-        </div>
         <.map
           map_config={@map_config}
           route_patterns={@route_patterns}
@@ -448,6 +441,13 @@ defmodule DotcomWeb.LineDiagramLive do
           vehicle_icons={Map.values(@vehicle_icons)}
           move_map={@move_map}
         />
+        <div class="m-schedule-diagram my-4">
+          <ol>
+            <li :for={stop <- @stops} class="m-schedule-diagram__stop border-xs border-gray-lightest">
+              <.stop_card stop={stop} />
+            </li>
+          </ol>
+        </div>
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
         <marquee
