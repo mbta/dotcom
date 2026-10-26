@@ -642,6 +642,8 @@ defmodule DotcomWeb.LineDiagramLive do
       <.a11y_and_parking
         stop={@stop}
         bus_route?={@bus_route?}
+        placement={:bottom}
+        rounded?={true}
       />
     </section>
     """
