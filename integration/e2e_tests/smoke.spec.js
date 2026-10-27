@@ -11,6 +11,7 @@
  */
 import { expect, test } from "@playwright/test";
 import { syncLiveView } from "../utils";
+import { scenario as otp_scenario } from '../scenarios/plan-a-trip'; 
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -207,7 +208,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await expect( page.getByLabel("Accessible") ).toBeVisible();
     await ok(page, "/stops/place-gover");
     await expect( page.getByLabel("Accessible") ).toBeVisible();
-  })
+  });
 
   test("inaccessible stations that only serve buses show accessibilty icon", async ({page}) => {
     // This is only a subset of applicable stops.
@@ -248,6 +249,10 @@ test.describe(`${baseURL} passes smoke test`, () => {
     // 558
     await ok(page, "/stops/78121");//River St @ Jackson St
     await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+  });
+
+  test("a trip can be planned on OTP", async ({page}) => {
+    return otp_scenario({page, baseURL});
   });
 });
 

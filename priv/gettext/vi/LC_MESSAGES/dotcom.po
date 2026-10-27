@@ -5761,3 +5761,8 @@ msgstr "Tàu %{train_no}"
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
 msgstr "hoặc thanh toán bằng tiền mặt hoặc thanh toán không tiếp xúc trên bất kỳ xe buýt nào"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a station"
+msgstr "Tìm kiếm một nhà ga"

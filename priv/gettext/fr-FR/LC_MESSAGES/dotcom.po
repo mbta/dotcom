@@ -5770,3 +5770,8 @@ msgstr "Train %{train_no}"
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
 msgstr "ou payer en espèces ou en paiement sans contact sur n’importe quel bus"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a station"
+msgstr "Recherche d’une station"
