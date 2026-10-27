@@ -453,6 +453,7 @@ defmodule DotcomWeb.LineDiagramLive do
               placeholder={~t(Search for a station)}
             />
             <button
+              :if={String.length(@search_phrase) > 0}
               onclick="stop_search_form.reset()"
               class="c-form__reset-btn btn-link"
               aria-label="reset"
