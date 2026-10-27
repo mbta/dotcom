@@ -72,7 +72,7 @@ defmodule Dotcom.Alerts do
     |> Enum.reject(&is_nil/1)
     |> Enum.map(&@stops_repo_module.get(&1))
     |> Enum.reject(&is_nil/1)
-    |> Enum.filter(& &1.station?)
+    |> Enum.filter(&(&1.station? or &1.ferry?))
     |> Enum.sort_by(& &1.name)
   end
 
