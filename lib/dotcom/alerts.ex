@@ -66,13 +66,15 @@ defmodule Dotcom.Alerts do
   """
   @spec affected_stations(Alert.t()) :: [Stop.t()]
   def affected_stations(alert) do
+    dock_effect? = effects_match?([dock_closure: 1, dock_bypass: 1, dock_issue: 1], alert)
+
     alert
     |> Map.get(:informed_entity, %{stop: nil})
     |> Map.get(:stop, [])
     |> Enum.reject(&is_nil/1)
     |> Enum.map(&@stops_repo_module.get(&1))
     |> Enum.reject(&is_nil/1)
-    |> Enum.filter(&(&1.station? or &1.ferry?))
+    |> Enum.filter(&(&1.station? or (&1.ferry? and dock_effect?)))
     |> Enum.sort_by(& &1.name)
   end
 
