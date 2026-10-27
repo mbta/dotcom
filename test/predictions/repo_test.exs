@@ -349,7 +349,7 @@ defmodule Predictions.RepoTest do
 
     test "returns a list even if the server is down" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        {:error, %HTTPoison.Error{reason: :econnrefused}}
+        {:error, %Req.TransportError{reason: :econnrefused}}
       end)
 
       assert Repo.all(route: "test_down_server") == []
