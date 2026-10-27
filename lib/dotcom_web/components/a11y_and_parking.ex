@@ -6,15 +6,18 @@ defmodule DotcomWeb.Components.A11yParking do
   use DotcomWeb, :component
 
   attr :stop, :map, required: true
+  attr :bus_route?, :boolean, default: false
+  attr :tooltip_placement, :atom, default: :top
+  attr :rounded?, :boolean, default: false
 
   def a11y_and_parking(assigns) do
     ~H"""
-    <div class="flex items-center gap-0.5">
+    <div class={"flex items-center gap-#{if @rounded?, do: "0.5", else: "1"}"}>
       <%= if length(@stop.parking_lots) > 0 do %>
-        <.tooltip title={~t(Parking available)} placement={:top}>
+        <.tooltip title={~t(Parking available)} placement={@tooltip_placement}>
           <.icon
             name="square-parking"
-            class="size-4 fill-gray-light"
+            class={"#{if @rounded?, do: "h-5 w-auto", else: "size-4"} fill-gray-light"}
             aria-hidden="true"
           />
         </.tooltip>
@@ -22,12 +25,12 @@ defmodule DotcomWeb.Components.A11yParking do
         <span class="sr-only">{~t(No parking)}</span>
       <% end %>
 
-      <%= if Stops.Stop.accessible?(@stop) do %>
-        <.tooltip title={~t(Accessible)} placement={:top}>
+      <%= if @bus_route? || Stops.Stop.accessible?(@stop) do %>
+        <.tooltip title={~t(Accessible)} placement={@tooltip_placement}>
           <.icon
             type="icon-svg"
-            name="icon-accessible-default"
-            class="size-4 fill-brand-primary"
+            name={"icon-accessible-#{if @rounded?, do: "small", else: "default"}"}
+            class={"#{if @rounded?, do: "size-[18px]", else: "size-4"} fill-brand-primary"}
             aria-hidden="true"
           />
         </.tooltip>

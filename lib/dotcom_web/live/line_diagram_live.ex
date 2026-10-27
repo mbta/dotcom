@@ -74,6 +74,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
   alias DotcomWeb.Hooks.SyncUrlParam
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
+  import DotcomWeb.Components.A11yParking, only: [a11y_and_parking: 1]
   import DotcomWeb.Components.FareCard, only: [fare_card: 1]
 
   import DotcomWeb.Components.VariantPicker, only: [variant_picker: 1, variant_picker?: 1]
@@ -375,8 +376,9 @@ defmodule DotcomWeb.LineDiagramLive do
   @impl true
   def render(assigns) do
     assigns =
-      assign(
-        assigns,
+      assigns
+      |> assign(:bus_route?, assigns.route.type == 3)
+      |> assign(
         :show_variant_picker?,
         variant_picker?(assigns.route) and length(assigns.route_patterns) > 1
       )
@@ -460,7 +462,7 @@ defmodule DotcomWeb.LineDiagramLive do
               :for={stop <- @stops}
               class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest"}
             >
-              <.stop_card stop={stop} />
+              <.stop_card stop={stop} bus_route?={@bus_route?} />
             </li>
           </ol>
         </div>
@@ -545,10 +547,29 @@ defmodule DotcomWeb.LineDiagramLive do
       socket.assigns.route_patterns
       |> Enum.flat_map(& &1.stop_ids)
       |> Enum.uniq()
-      |> Map.new(&{&1, @stops_repo.get(&1)})
+      |> Map.new(fn id ->
+        stop = @stops_repo.get(id)
+        {id, inherit_parent_parking(stop)}
+      end)
 
     assign(socket, :stops_by_id, stops_by_id)
   end
+
+  defp inherit_parent_parking(%Stops.Stop{} = stop) do
+    if Stops.Stop.has_parking?(stop) do
+      stop
+    else
+      case @stops_repo.get_parent(stop) do
+        %Stops.Stop{parking_lots: [_ | _] = parking_lots} ->
+          %{stop | parking_lots: parking_lots}
+
+        _ ->
+          stop
+      end
+    end
+  end
+
+  defp inherit_parent_parking(stop), do: stop
 
   defp assign_stops(
          %{assigns: %{selected_route_patterns: selected_route_patterns, stops_by_id: stops_by_id}} =
@@ -632,14 +653,23 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
+  attr :stop, Stops.Stop, required: true
+  attr :bus_route?, :integer, required: true
+
   defp stop_card(assigns) do
     ~H"""
-    <section class="m-schedule-diagram__content">
+    <section class="m-schedule-diagram__content flex justify-between">
       <.link navigate={~p"/stops/#{@stop.id}"}>
         <h4 class="m-schedule-diagram__stop-link notranslate">
           {@stop.name}
         </h4>
       </.link>
+      <.a11y_and_parking
+        stop={@stop}
+        bus_route?={@bus_route?}
+        tooltip_placement={:bottom}
+        rounded?={true}
+      />
     </section>
     """
   end
