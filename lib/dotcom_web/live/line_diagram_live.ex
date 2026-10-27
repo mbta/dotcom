@@ -154,7 +154,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_new(:date, &@date_time_module.now/0)
      |> assign_fare_card()
      |> assign_pdfs()
-     |> assign(:guides, guides_for_this_route)}
+     |> assign(:guides, guides_for_this_route)
+     |> assign(:search_phrase, "")}
   end
 
   @impl true
@@ -392,7 +393,7 @@ defmodule DotcomWeb.LineDiagramLive do
       <div class="col-md-7">
         <marquee
           style="font-size:1cm;filter: drop-shadow(2px 4px 6px orange);"
-          scrollamount="16"
+          scrollamount="2"
           scrolldelay="60"
         >
           &#x1F6A7; Under Construction &#x1F6A7;
@@ -441,9 +442,24 @@ defmodule DotcomWeb.LineDiagramLive do
           vehicle_icons={Map.values(@vehicle_icons)}
           move_map={@move_map}
         />
+        <div class="m-schedule-diagram__filter c-form__input-container">
+          <form>
+            <input
+              class="c-form__input"
+              type="text"
+              phx-change="search"
+              phx-submit="search"
+              name="search"
+              placeholder={~t(Search for a station)}
+            />
+          </form>
+        </div>
         <div class="m-schedule-diagram my-4">
           <ol>
-            <li :for={stop <- @stops} class="m-schedule-diagram__stop border-xs border-gray-lightest">
+            <li
+              :for={stop <- @stops}
+              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest"}
+            >
               <.stop_card stop={stop} />
             </li>
           </ol>
@@ -452,7 +468,7 @@ defmodule DotcomWeb.LineDiagramLive do
       <div class="col-md-5 gap-[32px] flex flex-col">
         <marquee
           style="font-size:1cm;filter: drop-shadow(2px 4px 6px orange);"
-          scrollamount="16"
+          scrollamount="2"
           scrolldelay="60"
         >
           &#x26A0;&#xFE0F; Watch your step &#x26A0;&#xFE0F;
@@ -465,6 +481,18 @@ defmodule DotcomWeb.LineDiagramLive do
       </div>
     </div>
     """
+  end
+
+  defp search_class(stop, search_phrase) do
+    if String.length(search_phrase) > 0 and !String.contains?(stop.name, search_phrase) do
+      "hidden"
+    else
+      ""
+    end
+  end
+
+  def handle_event("search", %{"search" => search}, socket) do
+    {:noreply, assign(socket, search_phrase: search)}
   end
 
   # re-fit the map to the newly selected variant or direction
