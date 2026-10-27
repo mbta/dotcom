@@ -12,7 +12,7 @@ defmodule DotcomWeb.Components.A11yParking do
 
   def a11y_and_parking(assigns) do
     ~H"""
-    <div class={"flex items-center gap-#{@rounded? && "0.5" || "1"}"}>
+    <div class={"flex items-center gap-#{if @rounded?, do: "0.5", else: "1"}"}>
       <%= if length(@stop.parking_lots) > 0 do %>
         <.tooltip title={~t(Parking available)} placement={@tooltip_placement}>
           <.icon
@@ -30,7 +30,7 @@ defmodule DotcomWeb.Components.A11yParking do
           <.icon
             type="icon-svg"
             name={"icon-accessible-#{if @rounded?, do: "small", else: "default"}"}
-            class={"size-#{if @rounded?, do: "[18px]", else: "4"} fill-brand-primary"}
+            class={"#{if @rounded?, do: "size-[18px]", else: "size-4"} fill-brand-primary"}
             aria-hidden="true"
           />
         </.tooltip>
