@@ -493,6 +493,7 @@ defmodule DotcomWeb.LineDiagramLive do
     end
   end
 
+  @impl true
   def handle_event("search", %{"search" => search}, socket) do
     {:noreply, assign(socket, search_phrase: search)}
   end

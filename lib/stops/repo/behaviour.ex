@@ -26,8 +26,8 @@ defmodule Stops.Repo.Behaviour do
 
   @callback get_parent(Stop.t() | Stop.id_t() | nil) :: Stop.t() | nil
 
-  @callback by_route(Route.id_t(), 0 | 1) :: stops_response()
-  @callback by_route(Route.id_t(), 0 | 1, Keyword.t()) :: stops_response()
+  @callback by_route(Route.id_t(), 0 | 1) :: [Stop.t()]
+  @callback by_route(Route.id_t(), 0 | 1, Keyword.t()) :: [Stop.t()]
 
   @callback by_routes([Route.id_t()], 0 | 1) :: stops_response()
   @callback by_routes([Route.id_t()], 0 | 1, Keyword.t()) :: stops_response()

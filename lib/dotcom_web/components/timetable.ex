@@ -237,6 +237,8 @@ defmodule DotcomWeb.Components.Timetable do
   end
 
   attr :bus_route?, :boolean, default: false
+  attr :cell_background, :string
+  attr :stop, Stops.Stop, required: true
 
   defp stop_header_cell(assigns) do
     ~H"""
