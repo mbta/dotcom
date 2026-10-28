@@ -7,11 +7,9 @@ defmodule Fares.ProposedLocations do
 
   alias Fares.ProposedLocations.Location
 
-  @httpoison Application.compile_env(:dotcom, :httpoison, HTTPoison)
-
   @base_url "https://services1.arcgis.com/ceiitspzDAHrdGO1/ArcGIS/rest/services/ProposedSalesNetworkSpringOutreach/FeatureServer/0/query?f=json&outFields=*&inSR=4326&outSR=4326&returnGeometry=true"
-
   @distance_in_miles 100
+  @req Application.compile_env(:dotcom, :req_module)
 
   @spec by_lat_lon(LocationService.Address.t()) :: [Location.t()] | nil
   def by_lat_lon(%{latitude: lat, longitude: lon}) do
@@ -27,18 +25,11 @@ defmodule Fares.ProposedLocations do
 
   @spec get_parsed_proposed_locations(String.t()) :: [Location.t()] | nil
   defp get_parsed_proposed_locations(url) do
-    case @httpoison.get(url) do
-      {:ok, %{status_code: 200, body: body, headers: _headers}} ->
-        case Jason.decode(body) do
-          {:ok, json} ->
-            Enum.map(json["features"], &parse_proposed_location(&1))
+    case @req.get(url, []) do
+      {:ok, %Req.Response{status: 200, body: %{"features" => features}}} ->
+        Enum.map(features, &parse_proposed_location(&1))
 
-          {:error, _} ->
-            Logger.warning("error decoding json -> original_request=#{url}")
-            nil
-        end
-
-      {:error, _} ->
+      _ ->
         Logger.warning("error in http request -> original_request=#{url}")
         nil
     end
