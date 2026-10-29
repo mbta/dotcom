@@ -444,8 +444,8 @@ defmodule DotcomWeb.LineDiagramLive do
           vehicle_icons={Map.values(@vehicle_icons)}
           move_map={@move_map}
         />
-        <div class="m-schedule-diagram__filter c-form__input-container">
-          <form>
+        <form id="stop_search_form">
+          <div class="m-schedule-diagram__filter c-form__input-container">
             <input
               class="c-form__input"
               type="text"
@@ -454,8 +454,23 @@ defmodule DotcomWeb.LineDiagramLive do
               name="search"
               placeholder={~t(Search for a station)}
             />
-          </form>
-        </div>
+            <button
+              :if={String.length(@search_phrase) > 0}
+              onclick="stop_search_form.reset()"
+              class="c-form__reset-btn btn-link"
+              aria-label="reset"
+              type="button"
+              phx-click="search"
+              phx-value-search=""
+            >
+              <i
+                aria-hidden="true"
+                class="c-form__reset-icon fa fa-times-circle"
+              ></i>
+            </button>
+          </div>
+        </form>
+
         <div class="m-schedule-diagram my-4">
           <ol>
             <li
