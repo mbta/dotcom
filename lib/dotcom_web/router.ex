@@ -284,9 +284,6 @@ defmodule DotcomWeb.Router do
     get("/schedules/Green/line", ScheduleController.Green, :line)
     get("/schedules/Green/alerts", ScheduleController.Green, :alerts)
     get("/schedules/Green", ScheduleController.Green, :show)
-    get("/schedules/finder_api/journeys", ScheduleController.FinderApi, :journeys)
-    get("/schedules/finder_api/departures", ScheduleController.FinderApi, :departures)
-    get("/schedules/finder_api/trip", ScheduleController.FinderApi, :trip)
 
     get(
       "/schedules/:route/timetable",
