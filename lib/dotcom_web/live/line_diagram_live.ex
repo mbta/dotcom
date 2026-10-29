@@ -683,7 +683,6 @@ defmodule DotcomWeb.LineDiagramLive do
                 rounded?={true}
               />
             </div>
-            <% dbg(@stop.zone) %>
             <div id="top_right" class="flex flex-row m-schedule-diagram__features">
               <span :if={!is_nil(@stop.zone)} class="c-icon__cr-zone h-[1.25rem]">
                 {gettext("Zone %{zone}", %{zone: @stop.zone})}
