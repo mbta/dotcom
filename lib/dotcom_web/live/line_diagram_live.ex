@@ -672,9 +672,9 @@ defmodule DotcomWeb.LineDiagramLive do
       }
     >
       <section class="m-schedule-diagram__content flex justify-between">
-        <div id="left" class="w-full">
-          <div id="top_row" class="flex flex-row justify-between w-full">
-            <div id="top_left" class="flex flex-row">
+        <div class="w-full">
+          <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row">
               <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
                 {@stop.name}
               </h4>
@@ -685,14 +685,14 @@ defmodule DotcomWeb.LineDiagramLive do
                 rounded?={true}
               />
             </div>
-            <div id="top_right" class="flex flex-row m-schedule-diagram__features">
+            <div class="flex flex-row m-schedule-diagram__features">
               <span :if={!is_nil(@stop.zone)} class="c-icon__cr-zone h-[1.25rem]">
                 {gettext("Zone %{zone}", %{zone: @stop.zone})}
               </span>
             </div>
           </div>
         </div>
-        <div id="right">
+        <div>
           <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
         </div>
       </section>
