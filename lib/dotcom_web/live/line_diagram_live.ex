@@ -660,6 +660,8 @@ defmodule DotcomWeb.LineDiagramLive do
 
   attr :stop, Stops.Stop, required: true
   attr :bus_route?, :integer, required: true
+  attr :route, Routes.Route, required: true
+  attr :direction_id, :string, required: true
 
   defp stop_card(assigns) do
     ~H"""
