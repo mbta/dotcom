@@ -9,7 +9,6 @@ export interface State {
   directionId: DirectionId;
   routePatternsByDirection: RoutePatternsByDirection;
   routePatternMenuOpen: boolean;
-  routePatternMenuAll: boolean;
   itemFocus: string | null;
 }
 
@@ -36,17 +35,12 @@ export const closeRoutePatternMenuAction = (): MenuAction => ({
   type: "closeRoutePatternMenu"
 });
 
-export const showAllRoutePatternsAction = (): MenuAction => ({
-  type: "showAllRoutePatterns"
-});
-
 export interface MenuAction {
   type:
     | "toggleDirection"
     | "setRoutePattern"
     | "toggleRoutePatternMenu"
-    | "closeRoutePatternMenu"
-    | "showAllRoutePatterns";
+    | "closeRoutePatternMenu";
   payload?: Payload;
 }
 
@@ -121,12 +115,6 @@ const setRoutePattern = (state: State, data: Payload): State => {
   };
 };
 
-const showAllRoutePatterns = (state: State): State => ({
-  ...state,
-  routePatternMenuAll: true,
-  itemFocus: "first-uncommon"
-});
-
 export const menuReducer = (state: State, action: MenuAction): State => {
   switch (action.type) {
     case "toggleDirection":
@@ -134,9 +122,6 @@ export const menuReducer = (state: State, action: MenuAction): State => {
 
     case "toggleRoutePatternMenu":
       return toggleRoutePatternMenu(state);
-
-    case "showAllRoutePatterns":
-      return showAllRoutePatterns(state);
 
     case "closeRoutePatternMenu":
       return {
