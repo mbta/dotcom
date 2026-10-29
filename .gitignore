@@ -68,7 +68,7 @@ playwright-report
 test-results
 
 #Performance test build artifacts
-/perf/dist/
+/perf/dist
 
 # Emacs auto-save files
 *~
