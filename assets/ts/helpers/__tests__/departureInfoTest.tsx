@@ -10,7 +10,6 @@ import {
   SUBWAY,
   departureInfoToTime,
   departuresListFromInfos,
-  isAtDestination,
   mergeIntoDepartureInfo
 } from "../departureInfo";
 
@@ -110,18 +109,6 @@ describe("departureInfo", () => {
 
       // Checking subway check
       expect(departureInfos[4].routeMode).toBe(SUBWAY);
-    });
-  });
-
-  describe("isAtDestination", () => {
-    it("should return true if at destination else false", () => {
-      const route = baseRoute("Blue", 2);
-      route.direction_destinations = [
-        "Wonderland Station",
-        "Inbound Destination"
-      ];
-      expect(isAtDestination("Wonderland", route, 0)).toBe(true);
-      expect(isAtDestination("Airport", route, 0)).toBe(false);
     });
   });
 

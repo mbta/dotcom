@@ -7,7 +7,6 @@ import { TEST_LOADER_VALUE, baseRoute, renderWithRouter } from "./helpers";
 import * as useSchedules from "../../hooks/useSchedules";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add } from "date-fns";
-import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { PredictionWithTimestamp } from "../../models/predictions";
@@ -47,7 +46,6 @@ beforeEach(() => {
   jest
     .spyOn(useSchedules, "useSchedulesByStop")
     .mockReturnValue({ status: FetchStatus.Data, data: schedules });
-  jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
 });
 
 afterAll(() => {
