@@ -152,3 +152,13 @@ tunneled to `localhost` on your machine. For example: `http://local:4001/`
   our fixture files to production Drupal API endpoints to see if any are
   missing. Note that rather than using this script, it is better to update these
   fixture attributes at the time you are making API changes.
+
+## Performance test scripts
+
+* `npx artillery run ./perf/artillery-playwright-line-diagram.ts` Runs an artillery+playwright    performance test to measure client and server performance.  
+Environment variables:
+  - HOST (what host to target [https://dev-blue.mbtace.com])
+  - REPS (How many samples to average for each measurement [10])
+  - VERSION (set to "new" to test the new version, otherwise it tests the old version. This allows us to separate old vs new tests in time so we can then correlate splunk and local data)  
+  Results can be viewed by hosting and viewing `/perf-results/line_diagram-perf_viewer.html`
+  (I use `npx serve` to quickly host the html file)
