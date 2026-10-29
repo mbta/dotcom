@@ -472,7 +472,14 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
 
     conn =
       %{conn | request_path: schedule_path(conn, :show, "1"), query_params: nil}
-      |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
+      |> assign(
+        :journeys,
+        %JourneyList{
+          journeys: [
+            %Journey{departure: %PredictedSchedule{prediction: prediction}}
+          ]
+        }
+      )
       |> assign(:date, ~D[2017-01-01])
       |> assign(:date_time, ~N[2017-01-01T12:00:00])
       |> assign(:route, %Routes.Route{type: 1})
@@ -492,7 +499,14 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
 
     conn =
       %{conn | request_path: schedule_path(conn, :show, "1"), query_params: nil}
-      |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
+      |> assign(
+        :journeys,
+        %JourneyList{
+          journeys: [
+            %Journey{departure: %PredictedSchedule{prediction: prediction}}
+          ]
+        }
+      )
       |> assign(:date, ~D[2017-01-01])
       |> assign(:date_time, ~N[2017-01-01T12:00:00])
       |> assign(:route, %Routes.Route{type: 1})

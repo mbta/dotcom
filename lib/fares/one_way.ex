@@ -1,6 +1,7 @@
 defmodule Fares.OneWay do
   @moduledoc """
-  Calculates the lowest, highest and reduced one-way fares for a particular trip for the given mode.
+  Calculates the recommended non-discounted one-way fare for a trip.
+
   Commuter rail and ferry fares distinguish between the possible sets of stops.
   Bus fares for express buses do not distinguish between the local and express portions;
   the express fare is always returned.
@@ -27,42 +28,6 @@ defmodule Fares.OneWay do
     |> get_fares(origin_id, destination_id, fare_fn)
     |> Enum.filter(fn fare -> fare.reduced == nil end)
     |> Enum.min_by(& &1.cents, fn -> nil end)
-  end
-
-  @spec base_fare(
-          Route.t() | map,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
-          (Keyword.t() -> [Fare.t()])
-        ) ::
-          Fare.t() | nil
-  def base_fare(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
-  def base_fare(nil, _, _, _), do: nil
-
-  def base_fare(route, origin_id, destination_id, fare_fn) do
-    route
-    |> get_fares(origin_id, destination_id, fare_fn)
-    |> Enum.filter(fn fare -> fare.reduced == nil end)
-    |> Enum.max_by(& &1.cents, fn -> nil end)
-  end
-
-  @spec reduced_fare(
-          Route.t() | map,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
-          (Keyword.t() -> [Fare.t()])
-        ) ::
-          Fare.t() | nil
-  def reduced_fare(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
-
-  def reduced_fare(nil, _, _, _), do: nil
-
-  def reduced_fare(route, origin_id, destination_id, fare_fn) do
-    # The reduced fare is always the same so we just return any element from the list
-    route
-    |> get_fares(origin_id, destination_id, fare_fn)
-    |> Enum.filter(fn fare -> fare.reduced != nil end)
-    |> List.first()
   end
 
   @spec get_fares(
