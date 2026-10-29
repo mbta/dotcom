@@ -3,7 +3,7 @@ import { Route } from "../../../../__v3api";
 import { SimpleStopMap } from "../../__schedule";
 import ScheduleFinderForm from "../ScheduleFinderForm";
 import { renderWithProviders } from "../../../../__tests__/test-render-helper";
-import { fireEvent, screen, waitFor } from "@testing-library/dom";
+import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
 const route: Route = {

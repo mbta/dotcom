@@ -9,7 +9,6 @@ import {
 import { EnhancedRoute } from "../../../__v3api";
 import { MapData } from "../../../leaflet/components/__mapdata";
 import * as scheduleLoader from "../../schedule-loader";
-import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 import * as useStop from "../../../hooks/useStop";
 import { FetchStatus } from "../../../helpers/use-fetch";
@@ -193,11 +192,8 @@ jest.mock("../ScheduleDirection", () => {
   };
 });
 
-let store = scheduleStoreModule.createScheduleStore(0);
-
 describe("schedule-loader", () => {
   beforeEach(() => {
-    store = scheduleStoreModule.createScheduleStore(0);
     jest.spyOn(useStop, "useStop").mockImplementation(stopId => {
       return {
         status: FetchStatus.Data,

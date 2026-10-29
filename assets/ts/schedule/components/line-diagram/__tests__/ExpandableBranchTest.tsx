@@ -4,7 +4,6 @@ import { mount, ReactWrapper } from "enzyme";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import { RouteStop, StopTree } from "../../__schedule";
 import ExpandableBranch from "../ExpandableBranch";
-import { RouteType } from "../../../../__v3api";
 
 const stopTree: StopTree = {
   byId: {
