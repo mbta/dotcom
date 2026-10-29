@@ -232,13 +232,6 @@ defmodule PredictedSchedule do
   end
 
   @doc """
-  Determines if the given PredictedSchedule has a schedule
-  """
-  @spec has_schedule?(PredictedSchedule.t()) :: boolean
-  def has_schedule?(%PredictedSchedule{schedule: nil}), do: false
-  def has_schedule?(%PredictedSchedule{}), do: true
-
-  @doc """
   Determines if the given PredictedSchedule has a prediction
   """
   @spec has_prediction?(PredictedSchedule.t()) :: boolean
@@ -319,43 +312,6 @@ defmodule PredictedSchedule do
   def vehicle(_), do: nil
 
   @doc """
-  Determines if the given predicted schedule occurs after the given time
-  """
-  @spec upcoming?(PredictedSchedule.t(), DateTime.t()) :: boolean
-  def upcoming?(
-        %PredictedSchedule{
-          schedule: nil,
-          prediction: %Prediction{time: nil, departing?: departing?}
-        },
-        _
-      ) do
-    departing?
-  end
-
-  def upcoming?(ps, %{__struct__: mod} = current_time) do
-    # in the tests, schedule.time and prediction.time are NaiveDateTime,
-    # rather than DateTime, structs. Luckily they both have a `diff`
-    # function, so we can use the `__struct__` attribute to call the
-    # correct function.
-    mod.compare(time(ps) || current_time, current_time) == :gt
-  end
-
-  @doc """
-  Determines if this `PredictedSchedule` is departing.
-  Departing status is determined by the `pickup_type` field on schedules
-  and the `departing?` or `status` field on Predictions. Schedules are preferred for
-  determining departing? status.
-  """
-  @spec departing?(PredictedSchedule.t()) :: boolean
-  def departing?(%PredictedSchedule{schedule: nil, prediction: prediction}) do
-    prediction.departing?
-  end
-
-  def departing?(%PredictedSchedule{schedule: schedule}) do
-    schedule.pickup_type != 1
-  end
-
-  @doc """
   Returns true if the PredictedSchedule represents a cancelled trip,
   as indicated by a nil display_time in the prediction and a non-nil
   display_time in the schedule.
@@ -375,57 +331,6 @@ defmodule PredictedSchedule do
   end
 
   def cancelled?(_), do: false
-
-  @doc """
-  Returns true if the PredictedSchedule doesn't have a prediction or schedule.
-  """
-  @spec empty?(PredictedSchedule.t()) :: boolean
-  def empty?(%__MODULE__{schedule: nil, prediction: nil}), do: true
-  def empty?(%__MODULE__{}), do: false
-
-  @doc """
-
-  Given a Predicted schedule and an order of keys, call the given function
-  with the prediction/schedule that's not nil.  If all are nil, then return
-  the default value.
-
-  """
-  @spec map_optional(
-          PredictedSchedule.t(),
-          [:schedule | :prediction],
-          any,
-          (Schedule.t() | Prediction.t() -> any)
-        ) :: any
-  def map_optional(predicted_schedule, ordering, default \\ nil, func)
-
-  def map_optional(nil, _ordering, default, _func) do
-    default
-  end
-
-  def map_optional(_predicted_schedule, [], default, _func) do
-    default
-  end
-
-  def map_optional(predicted_schedule, [:schedule | rest], default, func) do
-    case predicted_schedule.schedule do
-      nil -> map_optional(predicted_schedule, rest, default, func)
-      schedule -> func.(schedule)
-    end
-  end
-
-  def map_optional(predicted_schedule, [:prediction | rest], default, func) do
-    case predicted_schedule.prediction do
-      nil -> map_optional(predicted_schedule, rest, default, func)
-      prediction -> func.(prediction)
-    end
-  end
-
-  @spec schedule_after?(PredictedSchedule.t(), DateTime.t()) :: boolean
-  def schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
-
-  def schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
-    DateTime.compare(schedule.time, time) == :gt
-  end
 
   # Returns unique list of all stop_id's from given schedules and predictions
   @spec unique_map_keys(%{key => Schedule.t()}, %{key => Prediction.t()}) :: [key]

@@ -10,7 +10,6 @@ defmodule DotcomWeb.Schedule.VehicleLocations do
   alias Stops.Stop
 
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @default_opts [
     location_fn: &Vehicles.Repo.route/2,
@@ -30,30 +29,6 @@ defmodule DotcomWeb.Schedule.VehicleLocations do
       end
 
     assign(conn, :vehicle_locations, locations)
-  end
-
-  @spec active_stop(t, String.t()) :: String.t()
-  def active_stop(vehicle_locations, trip_id) do
-    vehicle_locations
-    |> Map.keys()
-    |> Enum.find(fn stop_tuple -> elem(stop_tuple, 0) == trip_id end)
-    |> stop_name_from_tuple()
-  end
-
-  @spec stop_name_from_tuple({String.t(), String.t() | nil} | nil) :: String.t()
-  defp stop_name_from_tuple(nil), do: ""
-  defp stop_name_from_tuple({_trip_id, nil}), do: ""
-  defp stop_name_from_tuple({_trip_id, stop_id}), do: stop_name(stop_id)
-
-  @spec stop_name(String.t()) :: String.t()
-  defp stop_name(<<stop_id::binary>>) do
-    stop = @stops_repo.get_parent(stop_id)
-
-    if stop do
-      stop.name
-    else
-      ""
-    end
   end
 
   # don't fetch vehicles for non-commuter rail without an origin.  otherwise
