@@ -8,11 +8,6 @@ const TEST_ROUTES = ["Green", "230", "CR-Franklin", "Boat-F2H"]
 
 const REPS = process.env.REPS ? Number(process.env.REPS) : 10;
 
-const SPLUNK_URL = "https://http-inputs-mbta.splunkcloud.com/services/collector";
-const SPLUNK_INDEX_NAME = "dotcom-test-metrics"
-const SPLUNK_TOKEN_NAME = SPLUNK_INDEX_NAME;
-const SPLUNK_TOKEN = process.env.SPLUNK_TOKEN;
-
 const VERSION = process.env.OLD_NEW=="new" ? "_new" : ""
 
 export const config: Config = {
@@ -90,13 +85,6 @@ async function report_result({route, newVersion, ttfb, dom, full, baseURL, REPS,
     }catch(e){
         console.error(`File error: ${e}`);
     }
-
-    //If we figure the splunk credentials out, uncomment this
-   /* await fetch(SPLUNK_URL, {
-        headers: {"Authorization": `Splunk ${SPLUNK_TOKEN}`},
-        body: JSON.stringify({timestamp: Date.now(), route, newVersion, ttfb, dom, full, baseURL, REPS, tag}),
-        method: "POST"
-    }).then(response=>response.text()).then(text => console.log(text));*/
 
 }
 
