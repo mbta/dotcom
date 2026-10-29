@@ -18,12 +18,10 @@ import {
 } from "./__schedule";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import ScheduleFinder from "./ScheduleFinder";
-import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
 import { DirectionId, Route } from "../../__v3api";
 import { StoreProps } from "../store/ScheduleStore";
 import { isFerryRoute, isSubwayRoute } from "../../models/route";
 import HoursOfOperation from "./HoursOfOperation";
-import useDirectionChangeEvent from "../../hooks/useDirectionChangeEvent";
 import { isTripSpecific } from "../../models/alert";
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
@@ -72,15 +70,6 @@ export const changeDirection = (
   });
 };
 
-const closeModal = (dispatch: Dispatch): void => {
-  dispatch({
-    type: "CLOSE_MODAL",
-    newStoreValues: {}
-  });
-  // clear parameters from URL when closing the modal:
-  updateURL("");
-};
-
 const getDirectionAndMap = (
   schedulePageData: SchedulePageData,
   mapData: MapData,
@@ -91,11 +80,7 @@ const getDirectionAndMap = (
     route,
     stops,
     route_patterns: routePatternsByDirection,
-    services,
-    today,
-    schedule_note: scheduleNote,
     route_stop_lists: routeStopLists,
-    "service_today?": hasServiceToday,
     stop_tree: stopTree,
     alerts,
     variant: busVariantId
@@ -107,18 +92,11 @@ const getDirectionAndMap = (
   return isFerryRoute(route) ? (
     <>
       <ScheduleFinder
-        updateURL={updateURL}
         route={route}
         stops={stops}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        hasServiceToday={hasServiceToday}
         directionId={directionId}
         changeDirection={changeDirection}
         changeOrigin={changeOrigin}
-        closeModal={closeModal}
-        scheduleNote={scheduleNote}
       />
       <div className="schedule-map-container">
         <h2>Route Map</h2>
@@ -160,77 +138,25 @@ const getScheduleFinder = (
   schedulePageData: SchedulePageData,
   directionId: DirectionId
 ): JSX.Element | undefined => {
-  const {
-    route,
-    stops,
-    services,
-    route_patterns: routePatternsByDirection,
-    today,
-    "service_today?": hasServiceToday,
-    schedule_note: scheduleNote
-  } = schedulePageData;
+  const { route, stops } = schedulePageData;
   return (
     <ScheduleFinder
-      updateURL={updateURL}
       route={route}
       stops={stops}
-      services={services}
-      routePatternsByDirection={routePatternsByDirection}
-      today={today}
       directionId={directionId}
       changeDirection={changeDirection}
       changeOrigin={changeOrigin}
-      closeModal={closeModal}
-      scheduleNote={scheduleNote}
-      hasServiceToday={hasServiceToday}
     />
   );
 };
 
 const ScheduleNote = ({
-  schedulePageData,
-  directionId,
-  modalOpen
+  schedulePageData
 }: {
   schedulePageData: SchedulePageData;
-  directionId: DirectionId;
-  modalOpen: boolean;
 }): JSX.Element => {
-  const {
-    pdfs,
-    hours,
-    route,
-    schedule_note: scheduleNote,
-    route_patterns: routePatternsByDirection,
-    today,
-    "service_today?": hasServiceToday,
-    services,
-    stops
-  } = schedulePageData;
-
-  const currentDirection = useDirectionChangeEvent(directionId);
-
-  return (
-    <>
-      <HoursOfOperation route={route} pdfs={pdfs} hours={hours} />
-      {modalOpen && (
-        <ScheduleFinderModal
-          closeModal={closeModal}
-          directionChanged={changeDirection}
-          initialDirection={currentDirection}
-          originChanged={changeOrigin}
-          route={route}
-          routePatternsByDirection={routePatternsByDirection}
-          services={services}
-          stops={stops}
-          today={today}
-          hasServiceToday={hasServiceToday}
-          updateURL={updateURL}
-          scheduleNote={scheduleNote}
-        />
-      )}
-    </>
-  );
+  const { pdfs, hours, route } = schedulePageData;
+  return <HoursOfOperation route={route} pdfs={pdfs} hours={hours} />;
 };
 
 const getAdditionalLineInfo = (
@@ -314,7 +240,6 @@ export const SchedulePage = ({
   useEffect(() => {
     // get initial values from the store:
     const { selectedDirection, selectedOrigin } = currentState;
-    let { modalOpen, modalMode } = currentState;
 
     let newDirection: DirectionId | undefined;
     const newOrigin: SelectedOrigin | undefined =
@@ -328,19 +253,12 @@ export const SchedulePage = ({
       newDirection = queryDirectionId === "0" ? 0 : 1;
     }
 
-    if (newDirection !== undefined && newOrigin !== undefined) {
-      modalMode = "schedule";
-      modalOpen = true;
-    }
-
     dispatch({
       type: "INITIALIZE",
       newStoreValues: {
         selectedDirection:
           newDirection !== undefined ? newDirection : selectedDirection,
-        selectedOrigin: newOrigin || selectedOrigin,
-        modalMode,
-        modalOpen
+        selectedOrigin: newOrigin || selectedOrigin
       }
     });
     // we disable linting in this next line because we DO want to specify an empty array since we want this piece to run only once
@@ -396,11 +314,7 @@ export const SchedulePage = ({
           className={`col-md-5 col-lg-4 ${offset} m-schedule-page__schedule-finder-or-note`}
         >
           {isSubwayRoute(route) && schedulePageData.schedule_note !== null && (
-            <ScheduleNote
-              schedulePageData={schedulePageData}
-              directionId={readjustedDirectionId}
-              modalOpen={currentState.modalOpen}
-            />
+            <ScheduleNote schedulePageData={schedulePageData} />
           )}
           {schedulePageData.schedule_note === null &&
             !isFerryRoute(route) &&
