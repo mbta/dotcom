@@ -686,7 +686,7 @@ defmodule DotcomWeb.LineDiagramLive do
               />
             </div>
             <div class="flex flex-row m-schedule-diagram__features">
-              <span :if={!is_nil(@stop.zone)} class="c-icon__cr-zone h-[1.25rem]">
+              <span :if={!is_nil(@stop.zone) and @route.type == 2} class="c-icon__cr-zone h-[1.25rem]">
                 {gettext("Zone %{zone}", %{zone: @stop.zone})}
               </span>
             </div>
