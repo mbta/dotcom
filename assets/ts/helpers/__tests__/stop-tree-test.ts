@@ -14,18 +14,15 @@ import {
   nextEdges,
   nextStopIds,
   nodeForId,
-  nodeId,
   nodeValue,
   paths,
   previousEdges,
   previousStopIds,
   sliceForId,
   slices,
-  sliceSizeForId,
   startingNodes,
   stopForId,
-  stopIds,
-  isEmptyTree
+  stopIds
 } from "../stop-tree";
 
 const routeStopA: RouteStop = { id: "a" } as RouteStop;
@@ -92,12 +89,6 @@ const branchingStopTree: StopTree = {
   startingNodes: ["a1", "b1", "c1"]
 };
 
-const emptyStopTree: StopTree = {
-  byId: {},
-  edges: {},
-  startingNodes: []
-};
-
 describe("nodeForId", () => {
   test("returns the node for the given id", () => {
     expect(nodeForId(simpleStopTree, "a")).toEqual({
@@ -137,12 +128,6 @@ describe("nextEdges", () => {
 describe("previousEdges", () => {
   test("returns the next edges", () => {
     expect(previousEdges({ next: ["c"], previous: ["a"] })).toEqual(["a"]);
-  });
-});
-
-describe("nodeId", () => {
-  test("returns the node's ID", () => {
-    expect(nodeId({ id: "a", value: routeStopA })).toEqual("a");
   });
 });
 
@@ -265,12 +250,6 @@ describe("sliceForId", () => {
   });
 });
 
-describe("sliceSizeForId", () => {
-  test("returns the size of theh slice of the tree the given Stop ID is found in", () => {
-    expect(sliceSizeForId(branchingStopTree, "c2")).toEqual(2);
-  });
-});
-
 describe("hasBranches", () => {
   test("returns whether or not the tree contains branches at either end", () => {
     expect(hasBranches(branchingStopTree)).toBeTruthy();
@@ -283,19 +262,5 @@ describe("newBranchesStartingInSlice", () => {
     expect(newBranchesStartingInSlice(branchingStopTree, "b1")).toEqual([]);
     expect(newBranchesStartingInSlice(branchingStopTree, "b2")).toEqual(["a1"]);
     expect(newBranchesStartingInSlice(branchingStopTree, "b3")).toEqual(["c1"]);
-  });
-});
-
-describe("isEmptyTree", () => {
-  test("returns true for stop trees with empty data", () => {
-    expect(isEmptyTree(emptyStopTree)).toBe(true);
-    expect(isEmptyTree({ ...simpleStopTree, edges: {} })).toBe(true);
-    expect(isEmptyTree({ ...simpleStopTree, byId: {} })).toBe(true);
-    expect(isEmptyTree({ ...simpleStopTree, startingNodes: [] })).toBe(true);
-  });
-
-  test("returns false when tree has complete data", () => {
-    expect(isEmptyTree(simpleStopTree)).toBe(false);
-    expect(isEmptyTree(branchingStopTree)).toBe(false);
   });
 });

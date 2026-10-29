@@ -17,7 +17,6 @@ import mattapanLineIconSvg from "../../../priv/static/icon-svg/icon-mattapan-lin
 import orangeLineIconSvg from "../../../priv/static/icon-svg/icon-orange-line-small.svg";
 import redLineIconSvg from "../../../priv/static/icon-svg/icon-red-line-small.svg";
 import silverLineIconSvg from "../../../priv/static/icon-svg/icon-silver-line-small.svg";
-import vehicleArrowSvg from "../../../priv/static/icon-svg/icon-vehicle-bordered-expanded.svg";
 import searchIconSvg from "../../../priv/static/icon-svg/icon-search-reverse-default.svg";
 import crowdingIconSvg from "../../../priv/static/icon-svg/icon-crowding.svg";
 
@@ -101,9 +100,6 @@ export const silverLineIcon = (
   className: string = "",
   ariaLabel: string = ""
 ): JSX.Element => renderSvg(className, silverLineIconSvg, false, ariaLabel);
-
-export const vehicleArrowIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, vehicleArrowSvg, false);
 
 export const searchIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, searchIconSvg, false);
