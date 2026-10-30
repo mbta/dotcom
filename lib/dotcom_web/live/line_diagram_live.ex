@@ -725,15 +725,16 @@ defmodule DotcomWeb.LineDiagramLive do
             class="connections flex flex-row w-full overflow-x-auto"
             aria-label={~t"Connections"}
           >
-            <span :for={route <- @connections} class="mr-1">
-              <.link navigate={~p"/schedules/#{route.id}/line"}>
-                <DotcomWeb.RouteComponents.route_icon
-                  size="small"
-                  route={route}
-                  class=""
-                />
-              </.link>
-            </span>
+            <.link
+              :for={route <- @connections}
+              class="mr-1"
+              navigate={~p"/schedules/#{route.id}/line"}
+            >
+              <DotcomWeb.RouteComponents.route_icon
+                size="small"
+                route={route}
+              />
+            </.link>
           </div>
         </div>
       </div>
