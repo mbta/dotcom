@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.job-status != 'cancelled'
     steps:
+    - name: Update CA certificates
+      run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
     - uses: mbta/actions/notify-slack-deploy@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
       with:
         webhook-url: ${{ secrets.slack-webhook }}
