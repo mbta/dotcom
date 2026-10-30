@@ -333,13 +333,12 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   defp upcoming_departures_table(assigns) do
     ~H"""
     <div class="divide-y-xs divide-gray-lightest border-xs border-gray-lightest">
-      <.unstyled_accordion
+      <Departures.departure_accordion
         :for={upcoming_departure <- @upcoming_departures}
         phx-click="open_upcoming_trip"
         phx-value-trip-id={upcoming_departure.trip_id}
         phx-value-stop-sequence={upcoming_departure.stop_sequence}
         id={"upcoming-departure-#{upcoming_departure.trip_id}-#{upcoming_departure.stop_sequence}"}
-        summary_class="flex items-center border-gray-lightest py-3 px-2 gap-2 bg-white group-open:bg-gray-lightest hover:bg-brand-primary-lightest group-open:hover:bg-brand-primary-lightest sticky top-0 z-[2] group-open:border-b-xs group-open:border-gray-lightest"
       >
         <:heading>
           <.upcoming_departure_heading upcoming_departure={upcoming_departure} />
@@ -357,7 +356,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
             }
           />
         </:content>
-      </.unstyled_accordion>
+      </Departures.departure_accordion>
     </div>
     """
   end
