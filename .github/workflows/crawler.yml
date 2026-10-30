@@ -29,6 +29,8 @@ jobs:
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env || 'dev') }}
 
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - id: setup-beam
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
         with:

@@ -56,6 +56,8 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - name: Unlabel other PRs (if needed)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
