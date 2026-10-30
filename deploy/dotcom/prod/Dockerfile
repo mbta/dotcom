@@ -10,6 +10,7 @@ WORKDIR /home
 ADD . .
 
 # ALPINE PACKAGES
+RUN apk add --no-cache --upgrade 'ca-certificates>=20261020-r0' 'ca-certificates-bundle>=20261020-r0'
 RUN apk update
 RUN apk add build-base
 RUN apk add git
@@ -41,6 +42,7 @@ FROM hexpm/elixir:1.20.4-erlang-29.0.6-alpine-3.23.5
 
 ENV PORT=4000 MIX_ENV="prod" PHX_SERVER=true TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
 
+RUN apk add --no-cache --upgrade 'ca-certificates>=20261020-r0' 'ca-certificates-bundle>=20261020-r0'
 RUN apk update
 RUN apk add curl
 RUN apk add libssl3
