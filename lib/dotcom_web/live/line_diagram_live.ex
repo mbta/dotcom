@@ -691,52 +691,56 @@ defmodule DotcomWeb.LineDiagramLive do
     assigns = assigns |> assign(:connections, stop_connections(stop_id, assigns.route.id))
 
     ~H"""
-    <.link
-      class="w-full"
-      navigate={
-        ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
-      }
-    >
-      <section class="m-schedule-diagram__content flex justify-between">
-        <div data-id="wrapper" class="w-full flex flex-row justify-between">
-          <div data-id="left" class="flex flex-col w-full">
-            <div data-id="top" class="flex flex-row w-full justify-between">
-              <div class="flex flex-row">
-                <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
-                  {@stop.name}
-                </h4>
-                <.a11y_and_parking
-                  stop={@stop}
-                  bus_route?={@bus_route?}
-                  tooltip_placement={:bottom}
-                  rounded?={true}
-                />
-              </div>
-              <div data-id="right" class="flex flex-row m-schedule-diagram__features">
-                <span
-                  :if={!is_nil(@stop.zone) and @route.type == 2}
-                  class="c-icon__cr-zone h-[1.25rem]"
-                >
-                  {gettext("Zone %{zone}", %{zone: @stop.zone})}
-                </span>
-              </div>
-            </div>
-            <div data-id="bottom" class="connections flex flex-row w-full">
-              <span :for={route <- @connections} class="mr-1">
-                <DotcomWeb.RouteComponents.route_icon
-                  size="small"
-                  route={route}
-                  class="shrink-0"
-                />
+    <section class="m-schedule-diagram__content flex justify-between">
+      <div data-id="wrapper" class="w-full flex flex-row justify-between">
+        <div data-id="left" class="flex flex-col w-full">
+          <div data-id="top" class="flex flex-row w-full justify-between">
+            <.link
+              class="w-full flex flex-row"
+              navigate={
+                ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
+              }
+            >
+              <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
+                {@stop.name}
+              </h4>
+              <.a11y_and_parking
+                stop={@stop}
+                bus_route?={@bus_route?}
+                tooltip_placement={:bottom}
+                rounded?={true}
+              />
+            </.link>
+            <div data-id="right" class="flex flex-row m-schedule-diagram__features">
+              <span
+                :if={!is_nil(@stop.zone) and @route.type == 2}
+                class="c-icon__cr-zone h-[1.25rem]"
+              >
+                {gettext("Zone %{zone}", %{zone: @stop.zone})}
               </span>
             </div>
           </div>
+          <div data-id="bottom" class="connections flex flex-row w-full">
+            <span :for={route <- @connections} class="mr-1">
+              <.link navigate={~p"/schedules/#{route.id}/line"}>
+                <DotcomWeb.RouteComponents.route_icon
+                  size="small"
+                  route={route}
+                  class=""
+                />
+              </.link>
+            </span>
+          </div>
         </div>
-        <div class="flex-col content-center">
+      </div>
+      <div class="flex-col content-center">
+        <.link navigate={
+          ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
+        }>
           <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
-        </div>
-      </section>
-    </.link>
+        </.link>
+      </div>
+    </section>
     """
   end
 
