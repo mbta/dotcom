@@ -101,11 +101,6 @@ msgstr " ka kite pi bonè orè nan arè sa yo."
 msgid " minute walk"
 msgstr " mache yon minit"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr " sou "
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1159,11 +1154,6 @@ msgstr "Pas pou jounen an"
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr "reta"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr "Anreta %{minutes}"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
@@ -5233,11 +5223,6 @@ msgstr "plas pakin total"
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr "nan direksyon"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr "tras "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format

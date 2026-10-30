@@ -101,11 +101,6 @@ msgstr " 可能會在時刻表之前在這些站點出發。"
 msgid " minute walk"
 msgstr " 步行幾分鐘"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr " 在 "
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1150,11 +1145,6 @@ msgstr "日通票"
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr "延誤"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr "延遲%{minutes}"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
@@ -5218,11 +5208,6 @@ msgstr "停車位總數"
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr "向"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr "追蹤 "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format

@@ -101,11 +101,6 @@ msgstr " Puede salir antes de horario en estas atajada."
 msgid " minute walk"
 msgstr " Un minuto andando"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr " en "
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1159,11 +1154,6 @@ msgstr "Día de día"
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr "demora"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr "Retrasado %{minutes}"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
@@ -5245,11 +5235,6 @@ msgstr "Total de plazas de parqueadero"
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr "hacia"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr "Pista "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
