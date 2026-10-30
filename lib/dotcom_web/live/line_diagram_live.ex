@@ -722,7 +722,13 @@ defmodule DotcomWeb.LineDiagramLive do
               </div>
             </div>
             <div data-id="bottom" class="connections flex flex-row w-full">
-              <span :for={route <- @connections}>{route.id}</span>
+              <span :for={route <- @connections} class="mr-1">
+                <DotcomWeb.RouteComponents.route_icon
+                  size="small"
+                  route={route}
+                  class="shrink-0"
+                />
+              </span>
             </div>
           </div>
         </div>
