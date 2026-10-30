@@ -131,6 +131,12 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.58.1-jammy
     steps:
+      # The image's ca-certificates predates the eMudhra distrust (USN-8944-1).
+      - name: Update CA certificates
+        run: |
+          apt-get update
+          apt-get install -y --only-upgrade ca-certificates
+          dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge 20260816ubuntu0.22.04.1
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
@@ -161,6 +167,12 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.58.1-jammy
     steps:
+      # The image's ca-certificates predates the eMudhra distrust (USN-8944-1).
+      - name: Update CA certificates
+        run: |
+          apt-get update
+          apt-get install -y --only-upgrade ca-certificates
+          dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge 20260816ubuntu0.22.04.1
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
