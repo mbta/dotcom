@@ -101,11 +101,6 @@ msgstr ""
 msgid " minute walk"
 msgstr ""
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr ""
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1155,11 +1150,6 @@ msgstr ""
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Delay"
-msgstr ""
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
 msgstr ""
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
@@ -5223,11 +5213,6 @@ msgstr ""
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "towards"
-msgstr ""
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex

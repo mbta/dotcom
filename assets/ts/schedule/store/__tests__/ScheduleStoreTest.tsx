@@ -2,9 +2,7 @@ import { Action, scheduleStoreReducer, StoreProps } from "../ScheduleStore";
 
 const mockState: StoreProps = {
   selectedDirection: 0,
-  selectedOrigin: "",
-  modalMode: "schedule",
-  modalOpen: true
+  selectedOrigin: ""
 };
 
 describe("Schedule store reducer", () => {
@@ -13,18 +11,14 @@ describe("Schedule store reducer", () => {
       type: "INITIALIZE",
       newStoreValues: {
         selectedDirection: 0,
-        selectedOrigin: "",
-        modalMode: "schedule",
-        modalOpen: true
+        selectedOrigin: ""
       }
     };
     expect(
       scheduleStoreReducer(
         {
           selectedDirection: 0,
-          selectedOrigin: "",
-          modalMode: "schedule",
-          modalOpen: true
+          selectedOrigin: ""
         },
         action
       )
@@ -56,34 +50,6 @@ describe("Schedule store reducer", () => {
     expect(scheduleStoreReducer(mockState, action)).toEqual({
       ...mockState,
       selectedOrigin: "8279"
-    });
-  });
-
-  it("Handles OPEN_MODAL", () => {
-    const action: Action = {
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin",
-        modalOpen: true
-      }
-    };
-    expect(scheduleStoreReducer(mockState, action)).toEqual({
-      ...mockState,
-      modalMode: "origin",
-      modalOpen: true
-    });
-  });
-
-  it("Handles CLOSE_MODAL", () => {
-    const action: Action = {
-      type: "CLOSE_MODAL",
-      newStoreValues: {
-        modalOpen: false
-      }
-    };
-    expect(scheduleStoreReducer(mockState, action)).toEqual({
-      ...mockState,
-      modalOpen: false
     });
   });
 });

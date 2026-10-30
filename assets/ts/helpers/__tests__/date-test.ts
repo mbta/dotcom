@@ -1,26 +1,5 @@
 import { addMinutes, addSeconds } from "date-fns";
-import {
-  compareStringTimes,
-  formatRelativeTime,
-  formatToBostonTime
-} from "../date";
-
-describe("compareStringTimes", () => {
-  it.each`
-    time1                   | time2                   | result
-    ${["9:05", " ", "AM"]}  | ${["9:08", " ", "AM"]}  | ${"lt"}
-    ${["9:05", " ", "AM"]}  | ${["9:05", " ", "AM"]}  | ${"eq"}
-    ${["9:08", " ", "AM"]}  | ${["9:05", " ", "AM"]}  | ${"gt"}
-    ${["11:55", " ", "AM"]} | ${["1:10", " ", "PM"]}  | ${"lt"}
-    ${["9:08", " ", "AM"]}  | ${["9:05", " ", "PM"]}  | ${"lt"}
-    ${["9:08", " ", "PM"]}  | ${["10:05", " ", "AM"]} | ${"gt"}
-  `(
-    "comparing times has expected result $result",
-    ({ time1, time2, result }) => {
-      expect(compareStringTimes(time1, time2)).toEqual(result);
-    }
-  );
-});
+import { formatRelativeTime, formatToBostonTime } from "../date";
 
 describe("formatToBostonTime", () => {
   it("should format the string in the same timezone as Boston", () => {

@@ -1,10 +1,5 @@
 import camelcaseKeys from "camelcase-keys"
-import { formatISO } from "date-fns"
 import flatpickr from "flatpickr"
-
-import { Mandarin } from "../../node_modules/flatpickr/dist/l10n/zh.js"
-import { Portuguese } from "../../node_modules/flatpickr/dist/l10n/pt.js"
-import { Spanish } from "../../node_modules/flatpickr/dist/l10n/es.js"
 
 const SERVER_DATE_FORMAT = "Z"
 const CONFIG = {

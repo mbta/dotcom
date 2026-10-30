@@ -1,4 +1,4 @@
-import { getByTestId, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { add, format } from "date-fns";
 import { mount, ReactWrapper } from "enzyme";
 import React from "react";
@@ -43,7 +43,6 @@ const stopTree: StopTree = {
 };
 const store = createStopTreeCoordStore(stopTree);
 
-const [testX, testY] = [7, 17];
 // mock the redux state so that snapshot has positioned stops
 const mockState = stopIds(stopTree).reduce(
   (acc, stopId, index) => ({

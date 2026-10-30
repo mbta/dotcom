@@ -524,36 +524,6 @@ defmodule PredictedScheduleTest do
     end
   end
 
-  describe "map_optional/4" do
-    test "returns nil if predicted_schedule is nil" do
-      assert map_optional(nil, [:schedule], &is_nil/1) == nil
-    end
-
-    test "returns nil with an empty PredictedSchedule" do
-      assert map_optional(%PredictedSchedule{}, [:schedule], &is_nil/1) == nil
-    end
-
-    test "can return a different default" do
-      assert map_optional(nil, [:schedule], :default, &is_nil/1) == :default
-    end
-
-    test "returns the first valid value, mapped" do
-      prediction = %PredictedSchedule{prediction: List.first(@predictions)}
-      schedule = %PredictedSchedule{schedule: List.first(@schedules)}
-
-      both = %PredictedSchedule{
-        schedule: List.first(@schedules),
-        prediction: List.first(@predictions)
-      }
-
-      assert map_optional(prediction, [:schedule, :prediction], & &1) == prediction.prediction
-      assert map_optional(schedule, [:prediction, :schedule], & &1) == schedule.schedule
-      assert map_optional(both, [:schedule, :prediction], & &1) == both.schedule
-      assert map_optional(both, [:prediction, :schedule], & &1) == both.prediction
-      assert map_optional(both, [:prediction, :schedule], & &1.__struct__) == Prediction
-    end
-  end
-
   describe "delay/1" do
     @time ~N[2017-01-01T12:00:00]
 
@@ -579,62 +549,6 @@ defmodule PredictedScheduleTest do
       assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: nil}) == 0
       assert delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
       assert delay(nil) == 0
-    end
-  end
-
-  describe "upcoming?/2" do
-    test "determines if given predicted schedule occurs after given time" do
-      early_schedule = %Schedule{time: Timex.shift(@base_time, minutes: -2)}
-      early_prediction = %Prediction{time: Timex.shift(@base_time, minutes: -1)}
-      late_schedule = %Schedule{time: Timex.shift(@base_time, minutes: 2)}
-      late_prediction = %Prediction{time: Timex.shift(@base_time, minutes: 1)}
-
-      assert upcoming?(
-               %PredictedSchedule{schedule: late_schedule, prediction: late_prediction},
-               @base_time
-             )
-
-      refute upcoming?(
-               %PredictedSchedule{schedule: early_schedule, prediction: early_prediction},
-               @base_time
-             )
-
-      assert upcoming?(
-               %PredictedSchedule{schedule: early_schedule, prediction: late_prediction},
-               @base_time
-             )
-    end
-
-    test "departing? field is used if no time is available" do
-      upcoming_prediction = %PredictedSchedule{
-        prediction: %Prediction{time: nil, departing?: true}
-      }
-
-      past_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, departing?: false}}
-      assert upcoming?(upcoming_prediction, @base_time)
-      refute upcoming?(past_prediction, @base_time)
-    end
-  end
-
-  describe "departing?/1" do
-    test "If schedule is given, determines departing status by pickup type" do
-      schedule = %Schedule{pickup_type: 1}
-      prediction = %Prediction{departing?: true}
-      refute departing?(%PredictedSchedule{schedule: schedule, prediction: prediction})
-
-      assert departing?(%PredictedSchedule{
-               schedule: %{schedule | pickup_type: 2},
-               prediction: prediction
-             })
-    end
-
-    test "Prediction is used to determine departing status if no schedule is given" do
-      refute departing?(%PredictedSchedule{prediction: %Prediction{departing?: false}})
-
-      assert departing?(%PredictedSchedule{
-               prediction: %Prediction{departing?: true},
-               schedule: nil
-             })
     end
   end
 end

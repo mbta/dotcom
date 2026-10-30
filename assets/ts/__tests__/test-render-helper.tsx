@@ -24,26 +24,19 @@ const partialToStoreProps = (
     selectedOrigin:
       preloadedState.selectedOrigin !== undefined
         ? preloadedState.selectedOrigin
-        : "",
-    modalOpen: !!preloadedState.modalOpen,
-    modalMode: preloadedState.modalMode ? preloadedState.modalMode : "schedule"
+        : ""
   };
 };
 
 export const createScheduleStoreFromPartial = (
   partialState: Partial<StoreProps>
 ): Store => {
-  const {
-    selectedDirection,
-    selectedOrigin,
-    modalOpen,
-    modalMode
-  } = partialToStoreProps(partialState);
+  const { selectedDirection, selectedOrigin } = partialToStoreProps(
+    partialState
+  );
   return createStore(scheduleStoreReducer, {
     selectedDirection,
-    selectedOrigin,
-    modalOpen,
-    modalMode
+    selectedOrigin
   });
 };
 

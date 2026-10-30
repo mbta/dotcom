@@ -101,11 +101,6 @@ msgstr " có thể khởi hành trước lịch trình tại các điểm dừng
 msgid " minute walk"
 msgstr " đi bộ vài phút"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr " TRÊN "
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1153,11 +1148,6 @@ msgstr "Đĩa vé"
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr "trễ chuyến"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr "Bị trì hoãn %{minutes}"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
@@ -5236,11 +5226,6 @@ msgstr "tổng số chỗ đậu xe"
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr "đối với"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr "theo dõi "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format

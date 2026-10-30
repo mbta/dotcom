@@ -171,12 +171,7 @@ export interface UserInput {
   direction: DirectionId;
 }
 
-export type StoreAction =
-  | "INITIALIZE"
-  | "CHANGE_DIRECTION"
-  | "CHANGE_ORIGIN"
-  | "OPEN_MODAL"
-  | "CLOSE_MODAL";
+export type StoreAction = "INITIALIZE" | "CHANGE_DIRECTION" | "CHANGE_ORIGIN";
 
 export type ComponentToRender =
   | "ADDITIONAL_LINE_INFORMATION"

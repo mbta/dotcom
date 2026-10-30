@@ -6,7 +6,7 @@ import {
   makeMockSocket
 } from "../../helpers/socketTestHelpers";
 import { waitFor } from "@testing-library/dom";
-import { Channel, Socket } from "phoenix";
+import { Socket } from "phoenix";
 
 interface MockData {
   thing: string;

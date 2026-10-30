@@ -1,8 +1,6 @@
 import { StopId } from "../../schedule/components/__schedule";
 import {
-  Activity,
   Alert,
-  Facility,
   InformedEntitySet,
   TimePeriodPairs
 } from "../../__v3api";
@@ -30,7 +28,6 @@ const activePeriodDateFormatted = (date: Date): string => {
 
 export const aroundNow = () => {
   const now = Date.now();
-  const five_minutes = 300_000;
   return [
     [
       activePeriodDateFormatted(add(now, { minutes: -5 })),
@@ -41,7 +38,6 @@ export const aroundNow = () => {
 
 export const beforeNow = () => {
   const now = Date.now();
-  const five_minutes = 300_000;
   return [
     [
       activePeriodDateFormatted(add(now, { days: -2 })),

@@ -9,23 +9,10 @@ import {
 import { EnhancedRoute } from "../../../__v3api";
 import { MapData } from "../../../leaflet/components/__mapdata";
 import * as scheduleLoader from "../../schedule-loader";
-import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 import * as useStop from "../../../hooks/useStop";
 import { FetchStatus } from "../../../helpers/use-fetch";
 import { screen, waitFor } from "@testing-library/react";
-import { EnhancedJourney } from "../__trips";
-import * as upcomingDepartures from "../schedule-finder/upcoming-departures/UpcomingDepartures";
-import * as useHoursOfOperation from "../../../hooks/useHoursOfOperation";
-
-jest.mock("../../../helpers/use-fetch", () => ({
-  __esModule: true,
-  hasData: () => false,
-  isLoading: () => true,
-  isNotStarted: () => false,
-  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()]),
-  FetchStatus: { Data: 3 }
-}));
 
 const stops = {
   "1": [
@@ -205,11 +192,8 @@ jest.mock("../ScheduleDirection", () => {
   };
 });
 
-let store = scheduleStoreModule.createScheduleStore(0);
-
 describe("schedule-loader", () => {
   beforeEach(() => {
-    store = scheduleStoreModule.createScheduleStore(0);
     jest.spyOn(useStop, "useStop").mockImplementation(stopId => {
       return {
         status: FetchStatus.Data,
@@ -218,20 +202,6 @@ describe("schedule-loader", () => {
         } as any
       };
     });
-
-    jest
-      .spyOn(useHoursOfOperation, "useHoursOfOperationByStop")
-      .mockImplementation(() => {
-        return null;
-      });
-
-    jest
-      .spyOn(upcomingDepartures, "fetchData")
-      .mockImplementation((routeid, a, s, d) => {
-        return new Promise<EnhancedJourney[]>(resolve => {
-          resolve([]);
-        });
-      });
   });
 
   afterEach(() => {
