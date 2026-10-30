@@ -477,7 +477,7 @@ defmodule DotcomWeb.LineDiagramLive do
               :for={stop <- @stops}
               class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest"}
             >
-              <.stop_card stop={stop} bus_route?={@bus_route?} />
+              <.stop_card stop={stop} bus_route?={@bus_route?} search_phrase={@search_phrase} />
             </li>
           </ol>
         </div>
@@ -673,11 +673,29 @@ defmodule DotcomWeb.LineDiagramLive do
   attr :bus_route?, :integer, required: true
 
   defp stop_card(assigns) do
+    stop_name_parts =
+      Regex.named_captures(
+        ~r/^(?<start>.*)(?<match>#{assigns.search_phrase})(?<end>.*)$/i,
+        assigns.stop.name
+      )
+
+    assigns =
+      assigns
+      |> assign(
+        :stop_name_parts,
+        if is_nil(stop_name_parts) do
+          %{"start" => assigns.stop.name, "match" => "", "end" => ""}
+        else
+          stop_name_parts
+        end
+      )
+
     ~H"""
     <section class="m-schedule-diagram__content flex justify-between">
       <.link navigate={~p"/stops/#{@stop.id}"}>
         <h4 class="m-schedule-diagram__stop-link notranslate">
-          {@stop.name}
+          {@stop_name_parts |> Map.get("start")}<span class="u-highlight strong">{@stop_name_parts |> Map.get("match")}</span>{@stop_name_parts
+          |> Map.get("end")}
         </h4>
       </.link>
       <.a11y_and_parking
