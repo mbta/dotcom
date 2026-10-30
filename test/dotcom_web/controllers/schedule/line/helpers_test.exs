@@ -767,7 +767,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
     end
 
     test "handles an error response from the stops function" do
-      stub(Stops.Repo.Mock, :by_route, fn _, _, _ -> {:error, "Error"} end)
+      stub(Stops.Repo.Mock, :by_route, fn _, _, _ -> [] end)
       assert Helpers.get_route_stops("1", 0) == %{}
     end
 

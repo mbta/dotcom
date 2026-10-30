@@ -52,7 +52,8 @@ defmodule Dotcom.Mixfile do
   defp aliases do
     [
       localize: ["gettext.extract", "gettext.merge priv/gettext --no-fuzzy"],
-      check_localized: ["gettext.extract --check-up-to-date --verbose"]
+      check_localized: ["gettext.extract --check-up-to-date --verbose"],
+      compile: ["compile --warnings-as-errors --all-warnings"]
     ]
   end
 
@@ -137,7 +138,6 @@ defmodule Dotcom.Mixfile do
       {:gettext, "1.0.2", override: true},
       {:hammer, "7.5.0"},
       {:html_sanitize_ex, "1.5.5"},
-      {:httpoison, "3.0.0"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
       {:jason, "1.4.5", override: true},
       {:lazy_html, "0.1.13", only: [:test]},

@@ -258,8 +258,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
            crowding: crowding,
            status: status,
            stop_id: stop_id,
-           stop_sequence: stop_sequence,
-           trip_id: vehicle_trip_id
+           stop_sequence: stop_sequence
          },
          []
        ) do
