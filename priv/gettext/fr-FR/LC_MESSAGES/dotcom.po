@@ -3829,8 +3829,8 @@ msgstr "Suivi simple"
 msgid "Skip to main content"
 msgstr "Contourner vers le contenu principal"
 
+#: lib/dotcom_web/components/departures.ex
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
-#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
 msgstr "contourner"
@@ -5726,7 +5726,7 @@ msgstr "Retardé"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "<strong>Téléchargez%{appname}</strong> pour suivre votre voyage"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "Le voyage continue comme"
