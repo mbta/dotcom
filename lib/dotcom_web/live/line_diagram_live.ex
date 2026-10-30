@@ -147,6 +147,7 @@ defmodule DotcomWeb.LineDiagramLive do
      end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
+     |> assign(:stop_type_label, Routes.Route.stop_type_label(route))
      |> assign_route_patterns()
      |> assign_route_stops()
      |> assign_route_data()
@@ -156,7 +157,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_fare_card()
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)
-     |> assign(:search_phrase, "")}
+     |> assign(:search_phrase, "")
+     |> assign_other_stops()}
   end
 
   @impl true
@@ -452,7 +454,7 @@ defmodule DotcomWeb.LineDiagramLive do
               phx-change="search"
               phx-submit="search"
               name="search"
-              placeholder={~t(Search for a station)}
+              placeholder={gettext("Search for a %{stop}", %{stop: @stop_type_label})}
             />
             <button
               :if={String.length(@search_phrase) > 0}
@@ -485,6 +487,29 @@ defmodule DotcomWeb.LineDiagramLive do
               />
             </li>
           </ol>
+          <DotcomWeb.Components.unstyled_accordion
+            :if={@other_stops |> Enum.count() > 0}
+            open
+            class="group/other-stops"
+            summary_class="flex justify-between w-full bg-charcoal-90 border-x-[1px] border-b-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium"
+          >
+            <:heading>
+              {gettext("%{count} %{stop} served by other trips on this route", %{
+                count: @other_stops |> Enum.count(),
+                stop: @stop_type_label
+              })}
+            </:heading>
+            <:content>
+              <ol>
+                <li
+                  :for={stop <- @other_stops}
+                  class="m-schedule-diagram__stop border-xs border-gray-lightest"
+                >
+                  <.stop_card stop={stop} />
+                </li>
+              </ol>
+            </:content>
+          </DotcomWeb.Components.unstyled_accordion>
         </div>
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
@@ -506,7 +531,8 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp search_class(stop, search_phrase) do
-    if String.length(search_phrase) > 0 and !String.contains?(stop.name, search_phrase) do
+    if String.length(search_phrase) > 0 and
+         !String.contains?(stop.name |> String.downcase(), search_phrase |> String.downcase()) do
       "hidden"
     else
       ""
@@ -515,7 +541,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
   @impl true
   def handle_event("search", %{"search" => search}, socket) do
-    {:noreply, assign(socket, search_phrase: search)}
+    {:noreply, socket |> assign(search_phrase: search) |> assign_other_stops()}
   end
 
   # re-fit the map to the newly selected variant or direction
@@ -604,6 +630,29 @@ defmodule DotcomWeb.LineDiagramLive do
       |> Enum.to_list()
 
     socket |> assign(:stops, stops)
+  end
+
+  defp assign_other_stops(%{search_phrase: ""}) do
+    []
+  end
+
+  defp assign_other_stops(
+         %{
+           assigns: %{stops: stops, stops_by_id: stops_by_id, search_phrase: search_phrase}
+         } = socket
+       ) do
+    socket
+    |> assign(
+      :other_stops,
+      stops_by_id
+      |> Enum.reject(fn {stop_id, _other_stop} ->
+        stops |> Enum.find(fn stop -> stop.id == stop_id end)
+      end)
+      |> Enum.filter(fn {_stop_id, stop} ->
+        stop.name |> String.downcase() |> String.contains?(search_phrase |> String.downcase())
+      end)
+      |> Enum.map(fn {_, stop} -> stop end)
+    )
   end
 
   defp assign_map_attributes(socket) do

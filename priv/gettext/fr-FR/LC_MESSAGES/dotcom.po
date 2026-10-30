@@ -5170,6 +5170,7 @@ msgstr "Sud"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "station"
 msgstr "station"
@@ -5180,6 +5181,7 @@ msgid "stations"
 msgstr "station"
 
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stop"
 msgstr "Stop"
@@ -5773,5 +5775,10 @@ msgstr "ou payer en espèces ou en paiement sans contact sur n’importe quel bu
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a station"
-msgstr "Recherche d’une station"
+msgid "%{count} %{stop} served by other trips on this route"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a %{stop}"
+msgstr ""

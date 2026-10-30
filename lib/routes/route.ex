@@ -232,6 +232,14 @@ defmodule Routes.Route do
     type_name(atom)
   end
 
+  def stop_type_label(%__MODULE__{type: 3}) do
+    ~t"stop"
+  end
+
+  def stop_type_label(_) do
+    ~t"station"
+  end
+
   @spec bus_route_list([Routes.Route.t()]) :: String.t()
   defp bus_route_list(routes) when is_list(routes) do
     routes
