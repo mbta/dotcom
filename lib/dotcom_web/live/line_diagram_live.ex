@@ -720,7 +720,11 @@ defmodule DotcomWeb.LineDiagramLive do
               </span>
             </div>
           </div>
-          <div data-id="bottom" class="connections flex flex-row w-full">
+          <div
+            data-id="bottom"
+            class="connections flex flex-row w-full overflow-x-auto"
+            aria-label={~t"Connections"}
+          >
             <span :for={route <- @connections} class="mr-1">
               <.link navigate={~p"/schedules/#{route.id}/line"}>
                 <DotcomWeb.RouteComponents.route_icon
@@ -737,7 +741,11 @@ defmodule DotcomWeb.LineDiagramLive do
         <.link navigate={
           ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
         }>
-          <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+          <.icon
+            name="chevron-right"
+            class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0"
+            aria-label={@route.name}
+          />
         </.link>
       </div>
     </section>
