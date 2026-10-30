@@ -2,31 +2,18 @@ export interface QueryParams {
   [key: string]: string;
 }
 
-// The encoder/decoder functions must be injected
+// The decoder function must be injected
 // because this helper is used by some vanilla JS files,
 // and MochaJS insists that the window object does not
-// include encodeURIComponent or decodeURIComponent,
+// include decodeURIComponent,
 // which causes a compiler error. If/when there are
 // no more JS modules using these helpers, the
-// injections should be removed.
-type EncoderDecoder = (str: string) => string;
-
-export const paramsToString = (
-  params: QueryParams,
-  encoder: EncoderDecoder
-): string => {
-  if (!params || Object.keys(params).length === 0) {
-    return "";
-  }
-
-  return `?${Object.keys(params)
-    .map(key => `${key}=${encoder(params[key])}`)
-    .join("&")}`;
-};
+// injection should be removed.
+type Decoder = (str: string) => string;
 
 type QueryReducer = (params: QueryParams, kvString: string) => QueryParams;
 
-const queryReducer = (decoder: EncoderDecoder): QueryReducer => (
+const queryReducer = (decoder: Decoder): QueryReducer => (
   params: QueryParams,
   kvString: string
 ) => {
@@ -43,10 +30,7 @@ const queryReducer = (decoder: EncoderDecoder): QueryReducer => (
   return { ...params, [decoder(key)]: decoder(val.replace(/\+/g, " ")) };
 };
 
-export const parseQuery = (
-  query: string,
-  decoder: EncoderDecoder
-): QueryParams =>
+export const parseQuery = (query: string, decoder: Decoder): QueryParams =>
   query
     ? query
         .substring(1)

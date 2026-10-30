@@ -191,7 +191,7 @@ describe("DailyScheduleSubway", () => {
   });
 
   it("should still render if there are no hours", () => {
-    jest.spyOn(hours, "default").mockImplementation(() => {
+    jest.spyOn(hours, "useHoursOfOperationByStop").mockImplementation(() => {
       return null;
     });
 

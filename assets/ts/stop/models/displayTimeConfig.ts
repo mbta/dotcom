@@ -1,17 +1,4 @@
-import { slice } from "lodash";
-import { getNextUnCancelledDeparture } from "../../helpers/departureInfo";
 import { DepartureInfo } from "../../models/departureInfo";
-
-// Returns 3 times from the departureInfo array
-// ensuring that at most time is cancelled
-const getNextTwoTimes = (
-  departureInfos: DepartureInfo[]
-): [DepartureInfo | undefined, DepartureInfo | undefined] => {
-  const departure1 = departureInfos[0];
-  const departure2 = getNextUnCancelledDeparture(slice(departureInfos, 1));
-
-  return [departure1, departure2];
-};
 
 const getInfoKey = (departureInfo: DepartureInfo): string => {
   const trip = departureInfo.prediction
@@ -22,4 +9,5 @@ const getInfoKey = (departureInfo: DepartureInfo): string => {
   return `${trip.id}-${departureInfo.prediction?.vehicle_id}`;
 };
 
-export { getInfoKey, getNextTwoTimes };
+// eslint-disable-next-line import/prefer-default-export
+export { getInfoKey };

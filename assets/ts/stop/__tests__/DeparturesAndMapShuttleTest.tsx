@@ -6,7 +6,6 @@ import { renderWithRouter } from "./helpers";
 import * as useSchedules from "../../hooks/useSchedules";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add } from "date-fns";
-import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { PredictionWithTimestamp } from "../../models/predictions";
@@ -185,7 +184,6 @@ describe("DeparturesAndMap", () => {
   });
 
   it("should merge the rail replacement shuttles into the commuter rail cards", async () => {
-    jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
     jest
       .spyOn(usePredictionsChannel, "default")
       .mockReturnValue([] as PredictionWithTimestamp[]);
@@ -229,7 +227,6 @@ describe("DeparturesAndMap", () => {
   });
 
   it("should not show the rapid tranist shuttle routes", async () => {
-    jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
     jest
       .spyOn(usePredictionsChannel, "default")
       .mockReturnValue([] as PredictionWithTimestamp[]);

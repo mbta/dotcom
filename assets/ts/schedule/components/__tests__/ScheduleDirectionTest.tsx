@@ -8,7 +8,6 @@ import { mount } from "enzyme";
 import {
   closeRoutePatternMenuAction,
   menuReducer as reducer,
-  showAllRoutePatternsAction,
   State
 } from "../direction/reducer";
 import ScheduleDirection, {
@@ -113,7 +112,6 @@ const state = {
   shapesById: shapesById,
   routePatternsByDirection: routePatternsByDirection,
   routePatternMenuOpen: false,
-  routePatternMenuAll: false,
   itemFocus: null
 } as State;
 
@@ -485,14 +483,6 @@ describe("ScheduleDirectionTest", () => {
     const nextState = reducer(previousState, closeRoutePatternMenuAction());
 
     expect(nextState.routePatternMenuOpen).toEqual(false);
-  });
-
-  it("reducer can change state correctly for showAllRoutePatterns", () => {
-    const previousState = { ...state, routePatternMenuAll: false } as State;
-
-    const nextState = reducer(previousState, showAllRoutePatternsAction());
-
-    expect(nextState.routePatternMenuAll).toEqual(true);
   });
 });
 

@@ -128,7 +128,6 @@ const ScheduleDirection = ({
     directionId,
     routePatternsByDirection,
     routePatternMenuOpen: false,
-    routePatternMenuAll: false,
     itemFocus: null
   });
 

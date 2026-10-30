@@ -1,7 +1,6 @@
 import { act, renderHook } from "@testing-library/react-hooks";
 import useFetch, {
   FetchStatus,
-  gotError,
   hasData,
   isNotStarted,
   isLoading
@@ -135,14 +134,5 @@ describe("hasData", () => {
     expect(hasData({ status: FetchStatus.NotStarted })).toBeFalsy();
     expect(hasData({ status: FetchStatus.Loading })).toBeFalsy();
     expect(hasData({ status: FetchStatus.Error })).toBeFalsy();
-  });
-});
-
-describe("gotError", () => {
-  it("returns true if the state has a status of NotStarted", () => {
-    expect(gotError({ status: FetchStatus.Error })).toBeTruthy();
-    expect(gotError({ status: FetchStatus.NotStarted })).toBeFalsy();
-    expect(gotError({ status: FetchStatus.Loading })).toBeFalsy();
-    expect(gotError({ status: FetchStatus.Data })).toBeFalsy();
   });
 });

@@ -11,11 +11,6 @@ jest.mock("../../hooks/useMapConfig", () => ({
   })
 }));
 
-jest.mock("../../hooks/useVehiclesChannel", () => ({
-  __esModule: true,
-  default: jest.fn(() => [])
-}));
-
 const testStop = {
   id: "Test Stop ID",
   name: "Test Stop Name",
