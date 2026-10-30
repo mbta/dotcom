@@ -477,7 +477,12 @@ defmodule DotcomWeb.LineDiagramLive do
               :for={stop <- @stops}
               class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest"}
             >
-              <.stop_card stop={stop} bus_route?={@bus_route?} />
+              <.stop_card
+                stop={stop}
+                bus_route?={@bus_route?}
+                route={@route}
+                direction_id={@direction_id}
+              />
             </li>
           </ol>
         </div>
@@ -671,22 +676,43 @@ defmodule DotcomWeb.LineDiagramLive do
 
   attr :stop, Stops.Stop, required: true
   attr :bus_route?, :integer, required: true
+  attr :route, Routes.Route, required: true
+  attr :direction_id, :string, required: true
 
   defp stop_card(assigns) do
     ~H"""
-    <section class="m-schedule-diagram__content flex justify-between">
-      <.link navigate={~p"/stops/#{@stop.id}"}>
-        <h4 class="m-schedule-diagram__stop-link notranslate">
-          {@stop.name}
-        </h4>
-      </.link>
-      <.a11y_and_parking
-        stop={@stop}
-        bus_route?={@bus_route?}
-        tooltip_placement={:bottom}
-        rounded?={true}
-      />
-    </section>
+    <.link
+      class="w-full"
+      navigate={
+        ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
+      }
+    >
+      <section class="m-schedule-diagram__content flex justify-between">
+        <div class="w-full">
+          <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row">
+              <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
+                {@stop.name}
+              </h4>
+              <.a11y_and_parking
+                stop={@stop}
+                bus_route?={@bus_route?}
+                tooltip_placement={:bottom}
+                rounded?={true}
+              />
+            </div>
+            <div class="flex flex-row m-schedule-diagram__features">
+              <span :if={!is_nil(@stop.zone) and @route.type == 2} class="c-icon__cr-zone h-[1.25rem]">
+                {gettext("Zone %{zone}", %{zone: @stop.zone})}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+        </div>
+      </section>
+    </.link>
     """
   end
 

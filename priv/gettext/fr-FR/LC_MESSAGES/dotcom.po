@@ -4898,6 +4898,7 @@ msgid "Zone"
 msgstr "Zone"
 
 #: lib/dotcom_web/components/transit_icons.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Zone %{zone}"
