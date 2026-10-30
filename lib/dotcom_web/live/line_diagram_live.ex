@@ -8,6 +8,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @map_config Application.compile_env(:mbta_metro, :map)
@@ -680,6 +681,15 @@ defmodule DotcomWeb.LineDiagramLive do
   attr :direction_id, :string, required: true
 
   defp stop_card(assigns) do
+    stop_id =
+      if assigns.stop.parent_id do
+        assigns.stop.parent_id
+      else
+        assigns.stop.id
+      end
+
+    assigns = assigns |> assign(:connections, stop_connections(stop_id, assigns.route.id))
+
     ~H"""
     <.link
       class="w-full"
@@ -688,32 +698,59 @@ defmodule DotcomWeb.LineDiagramLive do
       }
     >
       <section class="m-schedule-diagram__content flex justify-between">
-        <div class="w-full">
-          <div class="flex flex-row justify-between w-full">
-            <div class="flex flex-row">
-              <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
-                {@stop.name}
-              </h4>
-              <.a11y_and_parking
-                stop={@stop}
-                bus_route?={@bus_route?}
-                tooltip_placement={:bottom}
-                rounded?={true}
-              />
+        <div data-id="wrapper" class="w-full flex flex-row justify-between">
+          <div data-id="left" class="flex flex-col w-full">
+            <div data-id="top" class="flex flex-row w-full justify-between">
+              <div class="flex flex-row">
+                <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
+                  {@stop.name}
+                </h4>
+                <.a11y_and_parking
+                  stop={@stop}
+                  bus_route?={@bus_route?}
+                  tooltip_placement={:bottom}
+                  rounded?={true}
+                />
+              </div>
+              <div data-id="right" class="flex flex-row m-schedule-diagram__features">
+                <span
+                  :if={!is_nil(@stop.zone) and @route.type == 2}
+                  class="c-icon__cr-zone h-[1.25rem]"
+                >
+                  {gettext("Zone %{zone}", %{zone: @stop.zone})}
+                </span>
+              </div>
             </div>
-            <div class="flex flex-row m-schedule-diagram__features">
-              <span :if={!is_nil(@stop.zone) and @route.type == 2} class="c-icon__cr-zone h-[1.25rem]">
-                {gettext("Zone %{zone}", %{zone: @stop.zone})}
-              </span>
+            <div data-id="bottom" class="connections flex flex-row w-full">
+              <span :for={route <- @connections}>{route.id}</span>
             </div>
           </div>
         </div>
-        <div>
+        <div class="flex-col content-center">
           <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
         </div>
       </section>
     </.link>
     """
+  end
+
+  defp stop_connections(stop_id, route_id) do
+    connections =
+      @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+      |> Enum.reject(fn route -> route.id == route_id end)
+      |> consolidate_type(2)
+      |> consolidate_type(4)
+  end
+
+  defp consolidate_type(connections, type) do
+    # Only keep the first #{type} connection
+    first_found = connections |> Enum.find(fn route -> route.type == type end)
+
+    if(first_found) do
+      connections |> Enum.reject(fn route -> route.type == type and route != first_found end)
+    else
+      connections
+    end
   end
 
   defp assign_fare_card(%{assigns: %{route: route}} = socket) do
