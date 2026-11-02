@@ -782,7 +782,7 @@ defmodule DotcomWeb.LineDiagramLive do
     # Only keep the first #{type} connection
     first_found = connections |> Enum.find(fn route -> route.type == type end)
 
-    if(first_found) do
+    if first_found do
       connections |> Enum.reject(fn route -> route.type == type and route != first_found end)
     else
       connections
