@@ -772,11 +772,10 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp stop_connections(stop_id, route_id) do
-    connections =
-      @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
-      |> Enum.reject(fn route -> route.id == route_id end)
-      |> consolidate_type(2)
-      |> consolidate_type(4)
+    @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+    |> Enum.reject(fn route -> route.id == route_id end)
+    |> consolidate_type(2)
+    |> consolidate_type(4)
   end
 
   defp consolidate_type(connections, type) do
