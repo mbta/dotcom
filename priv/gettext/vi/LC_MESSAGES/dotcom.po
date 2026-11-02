@@ -1628,6 +1628,7 @@ msgstr "Các cập nhật và dự án nổi bật của MBTA"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
@@ -5766,3 +5767,13 @@ msgstr "hoặc thanh toán bằng tiền mặt hoặc thanh toán không tiếp 
 #, elixir-autogen, elixir-format
 msgid "Search for a station"
 msgstr "Tìm kiếm một nhà ga"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Bus %{num}"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr ""
