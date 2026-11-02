@@ -40,8 +40,8 @@
 }
 
 .m-schedule-line__stop-popup {
-  // Must stay above the z-index set on marker groups (see `z_index` on `icon_markers`)
-  // and below the nav menu veil (`$z-index-desktop-menu`)
+  // Must stay above the z-index set on marker groups (see `z_index` on `icon_markers`).
+  // The map wrapper is `isolate`d so this can't overlap dropdowns outside the map.
   z-index: $z-index-map-popup;
 
   .maplibregl-popup-content {

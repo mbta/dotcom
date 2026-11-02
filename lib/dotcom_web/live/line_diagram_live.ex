@@ -433,7 +433,7 @@ defmodule DotcomWeb.LineDiagramLive do
             {~t(Change Direction)}
           </.link>
         </div>
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 isolate">
           <.map
             map_style={@map_config.style}
             map_route_shapes={@map_route_shapes}
