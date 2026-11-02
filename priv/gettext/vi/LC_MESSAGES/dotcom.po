@@ -5770,10 +5770,10 @@ msgstr "Tìm kiếm một nhà ga"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Bus %{num}"
+msgid "Connections"
 msgstr ""
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Connections"
+msgid "Route %{num}"
 msgstr ""
