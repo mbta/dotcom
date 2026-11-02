@@ -693,7 +693,7 @@ defmodule DotcomWeb.LineDiagramLive do
     ~H"""
     <section class="m-schedule-diagram__content flex justify-between">
       <div data-id="wrapper" class="w-full flex flex-row justify-between">
-        <div data-id="left" class="flex flex-col w-full">
+        <div data-id="left" class="flex flex-col w-full" style="width: calc( 100% - 2rem )">
           <div data-id="top" class="flex flex-row w-full justify-between">
             <.link
               class="w-full flex flex-row"
@@ -737,17 +737,17 @@ defmodule DotcomWeb.LineDiagramLive do
             </.link>
           </div>
         </div>
-      </div>
-      <div class="flex-col content-center">
-        <.link navigate={
-          ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
-        }>
-          <.icon
-            name="chevron-right"
-            class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0"
-            aria-label={@route.name}
-          />
-        </.link>
+        <div data-id="right" class="flex-col content-center">
+          <.link navigate={
+            ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
+          }>
+            <.icon
+              name="chevron-right"
+              class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0"
+              aria-label={@route.name}
+            />
+          </.link>
+        </div>
       </div>
     </section>
     """
