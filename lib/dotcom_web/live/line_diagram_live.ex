@@ -764,7 +764,7 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp connection_route_name(%{type: 3, name: name} = _route) do
-    gettext("Bus %{num}", %{num: name})
+    gettext("Route %{num}", %{num: name})
   end
 
   defp connection_route_name(%{name: name} = _route) do
