@@ -33,7 +33,7 @@
               <h3>{~t(Related Files)}</h3>
               <%= if @event.agenda_file do %>
                 <div>
-                  <%= link to: @event.agenda_file.url, target: "_blank" do %>
+                  <%= link to: @event.agenda_file.url, target: "mbta_new_tab" do %>
                     <span class="content-file-icon">
                       {fa_icon_for_file_type(@event.agenda_file.type)}
                     </span>
@@ -43,7 +43,7 @@
               <% end %>
               <%= if @event.minutes_file do %>
                 <div>
-                  <%= link to: @event.minutes_file.url, target: "_blank" do %>
+                  <%= link to: @event.minutes_file.url, target: "mbta_new_tab" do %>
                     <span class="content-file-icon">
                       {fa_icon_for_file_type(@event.minutes_file.type)}
                     </span>
@@ -54,7 +54,7 @@
               <%= unless Enum.empty?(@event.files) do %>
                 <%= for file <- @event.files do %>
                   <div>
-                    <%= link to: file.url, target: "_blank" do %>
+                    <%= link to: file.url, target: "mbta_new_tab" do %>
                       <span class="content-file-icon">{fa_icon_for_file_type(file.type)}</span>
                       {file_description(file)}
                     <% end %>
@@ -150,7 +150,7 @@
               <div class="page-section">
                 <h3>{~t(Agenda)}</h3>
                 <div>
-                  <%= link to: @event.agenda_file.url, target: "_blank" do %>
+                  <%= link to: @event.agenda_file.url, target: "mbta_new_tab" do %>
                     <span class="content-file-icon">
                       {fa_icon_for_file_type(@event.agenda_file.type)}
                     </span>
@@ -164,7 +164,7 @@
               <div class="page-section">
                 <h3>{~t(Minutes)}</h3>
                 <div>
-                  <%= link to: @event.minutes_file.url, target: "_blank" do %>
+                  <%= link to: @event.minutes_file.url, target: "mbta_new_tab" do %>
                     <span class="content-file-icon">
                       {fa_icon_for_file_type(@event.minutes_file.type)}
                     </span>
@@ -179,7 +179,7 @@
                 <h3>{~t(Related Files)}</h3>
                 <%= for file <- @event.files do %>
                   <div>
-                    <%= link to: file.url, target: "_blank" do %>
+                    <%= link to: file.url, target: "mbta_new_tab" do %>
                       <span class="content-file-icon">{fa_icon_for_file_type(file.type)}</span>
                       {file_description(file)}
                     <% end %>

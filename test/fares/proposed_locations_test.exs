@@ -19,39 +19,28 @@ defmodule Fares.ProposedLocationsTest do
     stop_id: "2250",
     name: "Massachusetts Ave @ Daniels St"
   }
-  @arcgis_response "{
-    \"objectIdFieldName\" : \"FID\",
-    \"uniqueIdField\" :
-    {
-      \"name\" : \"FID\",
-      \"isSystemMaintained\" : true
-    },
-    \"globalIdFieldName\" : \"\",
-    \"geometryType\" : \"esriGeometryPoint\",
-    \"spatialReference\" : {
-      \"wkid\" : 4326,
-      \"latestWkid\" : 4326
-    },
-    \"fields\" : [],
-    \"features\" : [
-      {
-        \"attributes\" : {
-          \"FID\" : 124,
-          \"stop_id\" : \"2250\",
-          \"stop_name\" : \"Massachusetts Ave @ Daniels St\",
-          \"municipali\" : \"Arlington\",
-          \"Line\" : \"Bus\",
-          \"RetailFVM\" : \"Fare vending machine\",
-          \"Routes\" : \"77, 79\"
+  @arcgis_response %{
+    "features" => [
+      %{
+        "attributes" => %{
+          "FID" => 124,
+          "Line" => "Bus",
+          "RetailFVM" => "Fare vending machine",
+          "Routes" => "77, 79",
+          "municipali" => "Arlington",
+          "stop_id" => "2250",
+          "stop_name" => "Massachusetts Ave @ Daniels St"
         },
-        \"geometry\" :
-        {
-          \"x\" : -71.17941003354629,
-          \"y\" : 42.42412295861601
-        }
+        "geometry" => %{"x" => -71.17941003354629, "y" => 42.42412295861601}
       }
-    ]
-  }"
+    ],
+    "fields" => [],
+    "geometryType" => "esriGeometryPoint",
+    "globalIdFieldName" => "",
+    "objectIdFieldName" => "FID",
+    "spatialReference" => %{"latestWkid" => 4326, "wkid" => 4326},
+    "uniqueIdField" => %{"isSystemMaintained" => true, "name" => "FID"}
+  }
 
   describe "coordinates" do
     test "latitude" do
@@ -65,17 +54,17 @@ defmodule Fares.ProposedLocationsTest do
 
   describe "requests data from ArcGIS and parses the response into a list of locations" do
     test "by_lat_lon - successful parsed response" do
-      HTTPoison.Mock
-      |> expect(:get, fn _url ->
-        {:ok, %{status_code: 200, body: @arcgis_response, headers: []}}
+      Req.Mock
+      |> expect(:get, fn _, _ ->
+        {:ok, %Req.Response{status: 200, body: @arcgis_response}}
       end)
 
       assert by_lat_lon(@location) == [@proposed_location]
     end
 
     test "by_lat_lon - unsuccessful response due to error in request" do
-      HTTPoison.Mock
-      |> expect(:get, fn _url -> {:error, %{}} end)
+      Req.Mock
+      |> expect(:get, fn _, _ -> {:error, %{}} end)
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
@@ -85,20 +74,24 @@ defmodule Fares.ProposedLocationsTest do
       assert log =~ "error in http request"
     end
 
-    test "by_lat_lon - unsuccessful response due to error in parsing" do
-      HTTPoison.Mock
-      |> expect(:get, fn _url -> {:ok, %{status_code: 200, body: "invalid json", headers: []}} end)
+    test "by_lat_lon - unsuccessful response due to unexpected data" do
+      Req.Mock
+      |> expect(:get, fn _, _ -> {:ok, %Req.Response{status: 200, body: %{}}} end)
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
           assert by_lat_lon(@location) == nil
         end)
 
-      assert log =~ "error decoding json"
+      assert log =~ "error in http request"
     end
 
-    @tag :external
     test "returns nearby locations given a lat and a long" do
+      Req.Mock
+      |> expect(:get, fn _, _ ->
+        {:ok, %Req.Response{status: 200, body: @arcgis_response}}
+      end)
+
       locations =
         Fares.ProposedLocations.get_nearby(%{latitude: 42.352271, longitude: -71.055242})
 

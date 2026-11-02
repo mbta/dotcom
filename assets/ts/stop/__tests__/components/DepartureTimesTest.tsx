@@ -8,7 +8,6 @@ import { DepartureInfo } from "../../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/predictions";
 import { mergeIntoDepartureInfo } from "../../../helpers/departureInfo";
-import { getNextTwoTimes } from "../../models/displayTimeConfig";
 
 describe("DepartureTimes", () => {
   it("should display a default", async () => {
@@ -226,119 +225,6 @@ describe("DepartureTimes", () => {
       expect(screen.getByText("Detour")).toBeDefined();
       expect(screen.getByText("45 min")).toBeDefined();
       expect(screen.queryByText("See alternatives")).toBeNull();
-    });
-  });
-
-  describe("getNextTwoTimes", () => {
-    it("should return the next 2 departure infos times", () => {
-      const departureInfos = [
-        {
-          prediction: { time: new Date("2022-04-26T11:15:00-04:00") }
-        },
-        {
-          prediction: { time: new Date("2022-04-26T11:25:00-04:00") }
-        },
-        {
-          prediction: { time: new Date("2022-04-27T01:03:00-04:00") }
-        }
-      ] as DepartureInfo[];
-
-      const [time1, time2] = getNextTwoTimes(departureInfos);
-      expect(time1?.prediction?.time).toEqual(
-        new Date("2022-04-26T11:15:00-04:00")
-      );
-      expect(time2?.prediction?.time).toEqual(
-        new Date("2022-04-26T11:25:00-04:00")
-      );
-    });
-    it("should return the next departure info that is not cancelled", () => {
-      const departureInfos = [
-        {
-          prediction: { time: new Date("2022-04-26T11:15:00-04:00") }
-        },
-        {
-          prediction: {
-            time: new Date("2022-04-26T11:25:00-04:00"),
-            schedule_relationship: "cancelled"
-          },
-          isCancelled: true
-        },
-        {
-          prediction: { time: new Date("2022-04-27T01:03:00-04:00") }
-        }
-      ] as DepartureInfo[];
-
-      const [time1, time2] = getNextTwoTimes(departureInfos);
-      expect(time1?.prediction?.time).toEqual(
-        new Date("2022-04-26T11:15:00-04:00")
-      );
-      expect(time2?.prediction?.time).toEqual(
-        new Date("2022-04-27T01:03:00-04:00")
-      );
-    });
-    it("should return an array of undefineds if no departure info passed to it", () => {
-      const [time1, time2] = getNextTwoTimes([]);
-      expect(time1).toBeUndefined();
-      expect(time2).toBeUndefined();
-    });
-    it("should return the first departure info even if it is cancelled", () => {
-      const departureInfos = [
-        {
-          prediction: {
-            time: new Date("2022-04-26T11:15:00-04:00"),
-            schedule_relationship: "cancelled"
-          }
-        },
-        {
-          prediction: { time: new Date("2022-04-26T11:25:00-04:00") }
-        }
-      ] as DepartureInfo[];
-      const [time1, time2] = getNextTwoTimes(departureInfos);
-      expect(time1?.prediction?.time).toEqual(
-        new Date("2022-04-26T11:15:00-04:00")
-      );
-      expect(time2?.prediction?.time).toEqual(
-        new Date("2022-04-26T11:25:00-04:00")
-      );
-    });
-
-    it("should return one departure time and undefined if only one departure info", () => {
-      const departureInfos = [
-        {
-          prediction: { time: new Date("2022-04-26T11:15:00-04:00") }
-        }
-      ] as DepartureInfo[];
-      const [time1, time2] = getNextTwoTimes(departureInfos);
-      expect(time1?.prediction?.time).toEqual(
-        new Date("2022-04-26T11:15:00-04:00")
-      );
-      expect(time2).toBeUndefined();
-    });
-    it("should return one departure and an undefined if all remaining are cancelled", () => {
-      const departureInfos = [
-        {
-          prediction: { time: new Date("2022-04-26T11:15:00-04:00") }
-        },
-        {
-          prediction: {
-            time: new Date("2022-04-26T11:25:00-04:00"),
-            schedule_relationship: "cancelled"
-          },
-          isCancelled: true
-        },
-        {
-          prediction: {
-            time: new Date("2022-04-26T11:35:00-04:00"),
-            schedule_relationship: "cancelled"
-          },
-          isCancelled: true
-        }
-      ] as DepartureInfo[];
-      const [time1, time2] = getNextTwoTimes(departureInfos);
-      expect(time1?.prediction?.time).toEqual(
-        new Date("2022-04-26T11:15:00-04:00")
-      );
-      expect(time2).toBeUndefined();
     });
   });
 

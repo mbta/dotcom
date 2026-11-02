@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchJsonOrThrow } from "../helpers/fetch-json";
-import { TransitHoursByStop, TransitHours } from "../__v3api";
-
-const fetchData = async (routeIdString: string): Promise<TransitHours> =>
-  fetchJsonOrThrow(
-    `/schedules/${routeIdString}/line/hours?${window.location.search.substring(
-      1
-    )}`
-  );
+import { TransitHoursByStop } from "../__v3api";
 
 const fetchDataByStop = async (
   routeIdString: string
@@ -17,18 +10,6 @@ const fetchDataByStop = async (
       1
     )}`
   );
-
-const useHoursOfOperation = (routeId: string): TransitHours | null => {
-  const [hoursOfOperation, setHoursOfOperation] = useState<TransitHours | null>(
-    null
-  );
-
-  useEffect(() => {
-    fetchData(routeId).then(result => setHoursOfOperation(result));
-  }, [routeId]);
-
-  return hoursOfOperation;
-};
 
 const useHoursOfOperationByStop = (
   routeId: string
@@ -45,4 +26,5 @@ const useHoursOfOperationByStop = (
   return hoursOfOperation;
 };
 
-export { useHoursOfOperation as default, useHoursOfOperationByStop };
+// eslint-disable-next-line import/prefer-default-export
+export { useHoursOfOperationByStop };

@@ -52,11 +52,11 @@
     <div :if={@polling_error} class="flex flex-col">
       <p class="italic">
         {~t(We weren't able to find a polling place for your address. You can also visit the)}
-        <a href="https://www.sec.state.ma.us/WhereDoIVoteMA/WhereDoIVote" target="_blank">
+        <a href="https://www.sec.state.ma.us/WhereDoIVoteMA/WhereDoIVote" target="mbta_new_tab">
           {~t(Secretary of State's official site)}
         </a>
         {~t(to find your polling place, and then use the)}
-        <a href={~p"/trip-planner"} target="_blank">
+        <a href={~p"/trip-planner"} target="mbta_new_tab">
           {~t(MBTA Trip Planner)}
         </a>
         {~t(to plan your trip)}.
@@ -84,7 +84,7 @@
       </p>
       {link(~t"View all guides",
         to: cms_static_page_path(@conn, "/guides"),
-        target: "_blank",
+        target: "mbta_new_tab",
         class: "c-call-to-action"
       )}
     </div>

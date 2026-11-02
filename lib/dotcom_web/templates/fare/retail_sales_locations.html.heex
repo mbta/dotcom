@@ -10,7 +10,7 @@
           charlie_card:
             link(~t(CharlieCards),
               to: cms_static_page_path(@conn, "/fares/charliecard"),
-              target: "_blank",
+              target: "mbta_new_tab",
               class: "c-call-to-action"
             )
             |> safe_to_string()
@@ -50,7 +50,7 @@
       </p>
       {link(~t(Learn more about MBTA fares),
         to: cms_static_page_path(@conn, "/fares"),
-        target: "_blank",
+        target: "mbta_new_tab",
         class: "c-call-to-action"
       )}
     </div>
@@ -61,7 +61,7 @@
       </p>
       {link(~t(Fill out the form),
         to: "https://form.asana.com/?k=WXmGhGmZFkehGfely4967Q&d=15492006741476",
-        target: "_blank",
+        target: "mbta_new_tab",
         class: "c-call-to-action"
       )}
     </div>
@@ -70,7 +70,7 @@
       {render_charliecard_teaser(@conn)}
       {link(~t(Learn more about CharlieCard),
         to: cms_static_page_path(@conn, "/fares/charliecard"),
-        target: "_blank",
+        target: "mbta_new_tab",
         class: "c-call-to-action"
       )}
     </div>

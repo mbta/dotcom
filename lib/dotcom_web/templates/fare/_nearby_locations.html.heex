@@ -43,14 +43,14 @@
           <li>
             {link(~t(View on MBTA Trip Planner),
               to: "/trip-planner/to/#{URI.encode(url_address)}",
-              target: "_blank",
+              target: "mbta_new_tab",
               class: "dropdown-item"
             )}
           </li>
           <li>
             {link(~t(View on Google Maps),
               to: direction_map_url(@search_position, location),
-              target: "_blank",
+              target: "mbta_new_tab",
               class: "dropdown-item"
             )}
           </li>

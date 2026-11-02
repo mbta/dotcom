@@ -2,8 +2,9 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
   @moduledoc """
   Plug to redirect before other kinds of data are loaded.
 
-  Currently, only used to redirect from the old Boat-F3 (Hull Ferry) schedule
-  to the new Boat-F1 (Hingham/Hull Ferry) schedule.
+  Redirects old schedule finder URLs to departures, accepting directions from
+  either schedule_finder or schedule_direction, and redirects the old Boat-F3
+  (Hull Ferry) schedule to the new Boat-F1 (Hingham/Hull Ferry) schedule.
   """
 
   import Plug.Conn
@@ -44,6 +45,16 @@ defmodule DotcomWeb.Plugs.RewriteUrls do
          }
        }) do
     "/departures?route_id=Green&direction_id=#{direction_id}&stop_id=#{stop_id}"
+  end
+
+  defp rewrite_url(%{
+         path_info: ["schedules", route_id, "line"],
+         params: %{
+           "schedule_direction" => %{"direction_id" => direction_id},
+           "schedule_finder" => %{"origin" => stop_id}
+         }
+       }) do
+    "/departures?route_id=#{route_id}&direction_id=#{direction_id}&stop_id=#{stop_id}"
   end
 
   defp rewrite_url(%{path_info: ["schedules", "Boat-F3" | _]} = conn) do

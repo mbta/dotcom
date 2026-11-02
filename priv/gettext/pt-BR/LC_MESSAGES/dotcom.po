@@ -4625,7 +4625,6 @@ msgstr "Ver biografia de %{name}"
 
 #: lib/dotcom_web/templates/alert/_summary_content.html.heex
 #: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
-#: lib/dotcom_web/templates/schedule/_timetable_suppressed.html.heex
 #, elixir-autogen, elixir-format
 msgid "View PDF Timetable"
 msgstr "Ver tabela de horários em PDF"
@@ -4895,6 +4894,7 @@ msgid "Zone"
 msgstr "Zona"
 
 #: lib/dotcom_web/components/transit_icons.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Zone %{zone}"
@@ -5098,11 +5098,6 @@ msgstr "ou "
 #, elixir-autogen, elixir-format
 msgid "or complete the feedback form on this page."
 msgstr "ou preencha o formulário de feedback nesta página."
-
-#: lib/dotcom_web/components/stops/fare_amenity.html.heex
-#, elixir-autogen, elixir-format
-msgid "or pay with cash on any bus"
-msgstr "ou pague com Dinheiro em qualquer ônibus"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -5766,3 +5761,13 @@ msgstr "rota típica"
 #, elixir-autogen, elixir-format
 msgid "Train %{train_no}"
 msgstr "Trem %{train_no}"
+
+#: lib/dotcom_web/components/stops/fare_amenity.html.heex
+#, elixir-autogen, elixir-format
+msgid "or pay with cash or contactless payment on any bus"
+msgstr "ou pague em dinheiro ou com pagamento por aproximação em qualquer ônibus."
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a station"
+msgstr "Procure uma estação"

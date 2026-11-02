@@ -61,9 +61,6 @@ export const isLoading = <T>({ status }: FetchState<T>): boolean =>
 export const hasData = <T>({ status }: FetchState<T>): boolean =>
   status === FetchStatus.Data;
 
-export const gotError = <T>({ status }: FetchState<T>): boolean =>
-  status === FetchStatus.Error;
-
 type Reducer<T> = (
   state: FetchState<T>,
   action: FetchAction<T>

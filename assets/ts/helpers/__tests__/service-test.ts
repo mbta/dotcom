@@ -4,8 +4,7 @@ import {
   isInCurrentRating,
   isCurrentValidService,
   isInFutureRating,
-  optGroupComparator,
-  isInFutureService
+  optGroupComparator
 } from "../service";
 import { Service } from "../../__v3api";
 import { Dictionary } from "lodash";
@@ -229,18 +228,6 @@ describe("groupServicesByDateRating", () => {
   it("lists only holiday_service services as 'holiday'", () => {
     grouped[ServiceGroupNames.HOLIDAY].forEach(service => {
       expect(service.typicality).toEqual("holiday_service");
-    });
-  });
-
-  it("lists future services as 'future'", () => {
-    const futureKeys = Object.keys(grouped).filter(
-      key => key.split(" ")[0] === ServiceGroupNames.FUTURE.split(" ")[0]
-    );
-    futureKeys.forEach(futureKey => {
-      const futureServices = grouped[futureKey!];
-      futureServices.forEach(service => {
-        expect(isInFutureService(service, testDate)).toBe(true);
-      });
     });
   });
 

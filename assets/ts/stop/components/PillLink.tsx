@@ -18,7 +18,7 @@ const PillLink = ({
 }): ReactElement<HTMLElement> => {
   return (
     <a
-      target={externalLink ? "_blank" : "_self"}
+      target={externalLink ? "mbta_new_tab" : "_self"}
       rel="noreferrer"
       href={linkURL}
       className={`

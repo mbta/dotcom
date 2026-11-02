@@ -2,7 +2,6 @@
 
 # External
 Mox.defmock(AwsClient.Mock, for: AwsClient.Behaviour)
-Mox.defmock(HTTPoison.Mock, for: HTTPoison.Base)
 Mox.defmock(Req.Mock, for: Req.Behaviour)
 Mox.defmock(Dotcom.SearchService.Mock, for: Dotcom.SearchService)
 

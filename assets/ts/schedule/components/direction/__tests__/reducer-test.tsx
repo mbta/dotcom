@@ -66,7 +66,6 @@ const initialState: State = {
     1: routePatternsForInbound
   },
   routePatternMenuOpen: true,
-  routePatternMenuAll: true,
   itemFocus: null
 };
 

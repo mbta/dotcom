@@ -148,7 +148,7 @@
         field: :privacy,
         id: "privacy",
         required: "required",
-        label_text: ["I have read and agree to the ", link("Privacy Policy", target: "_blank", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
+        label_text: ["I have read and agree to the ", link("Privacy Policy", target: "mbta_new_tab", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
       })
       %>
       <div class="error-indicator hidden" id="privacy-error-indicator">

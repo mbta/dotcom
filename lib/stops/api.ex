@@ -62,7 +62,7 @@ defmodule Stops.Api do
     |> parse_v3_multiple()
   end
 
-  @spec by_route({Routes.Route.id_t(), 0 | 1, Keyword.t()}) :: [Stop.t()]
+  @spec by_route({Routes.Route.id_t(), 0 | 1, Keyword.t()}) :: [Stop.t()] | {:error, any()}
   def by_route({route_id, direction_id, opts}) do
     @default_params
     |> Keyword.put(:route, route_id)

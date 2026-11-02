@@ -17,8 +17,8 @@
         phx-value-mode={value}
         phx-click="set_mode"
         aria-controls="project-results"
-        aria-pressed={@selected_line_or_mode == value}
-        class={"basis-[calc(50%-0.25rem)] first:basis-full sm:basis-auto sm:first:basis-auto justify-center sm:justify-normal #{if(@selected_line_or_mode == value, do: "mode-filter--active")}"}
+        aria-pressed={@selected_mode == value}
+        class={"basis-[calc(50%-0.25rem)] first:basis-full sm:basis-auto sm:first:basis-auto justify-center sm:justify-normal #{if(@selected_mode == value, do: "mode-filter--active")}"}
       >
         <.mode_icon mode={value} size="small" aria-hidden="true" /> {label}
       </.button>

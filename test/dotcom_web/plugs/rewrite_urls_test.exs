@@ -33,6 +33,69 @@ defmodule DotcomWeb.Plugs.RewriteUrlsTest do
       assert conn.halted
     end
 
+    for route_id <- ["Red", "Green"] do
+      test "redirects #{route_id} schedule finder URLs using schedule_direction", %{conn: conn} do
+        route_id = unquote(route_id)
+
+        params = %{
+          "schedule_direction" => %{"direction_id" => "0"},
+          "schedule_finder" => %{"origin" => "place-sstat"}
+        }
+
+        params = if route_id == "Green", do: params, else: Map.put(params, "route", route_id)
+
+        conn =
+          call(
+            %{conn | params: params, path_info: ["schedules", route_id, "line"]},
+            []
+          )
+
+        assert redirected_to(conn, 302) ==
+                 "/departures?route_id=#{route_id}&direction_id=0&stop_id=place-sstat"
+
+        assert conn.halted
+      end
+    end
+
+    test "prefers the schedule finder direction when both directions are present", %{conn: conn} do
+      conn =
+        call(
+          %{
+            conn
+            | params: %{
+                "route" => "Red",
+                "schedule_direction" => %{"direction_id" => "1"},
+                "schedule_finder" => %{"direction_id" => "0", "origin" => "place-sstat"}
+              },
+              path_info: ["schedules", "Red", "line"]
+          },
+          []
+        )
+
+      assert redirected_to(conn, 302) ==
+               "/departures?route_id=Red&direction_id=0&stop_id=place-sstat"
+
+      assert conn.halted
+    end
+
+    test "does not redirect a schedule direction without an origin", %{conn: conn} do
+      conn =
+        call(
+          %{
+            conn
+            | params: %{
+                "route" => "Red",
+                "schedule_direction" => %{"direction_id" => "0"}
+              },
+              path_info: ["schedules", "Red", "line"]
+          },
+          []
+        )
+
+      refute conn.state == :set
+      refute conn.halted
+    end
+
     test "includes a query string if present", %{conn: conn} do
       conn = %{
         conn

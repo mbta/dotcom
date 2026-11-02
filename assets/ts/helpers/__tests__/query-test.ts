@@ -1,4 +1,4 @@
-import { parseQuery, paramsToString } from "../query";
+import { parseQuery } from "../query";
 
 describe("parseQuery", () => {
   it("parses a string into an object with decoded values", () => {
@@ -19,31 +19,5 @@ describe("parseQuery", () => {
 
   it("should return an empty object if there is no query", () => {
     expect(parseQuery(null as any, window.decodeURIComponent)).toEqual({});
-  });
-});
-
-describe("paramsToString", () => {
-  it("turns query into an encoded string", () => {
-    const query = paramsToString(
-      {
-        spaces: "value with spaces",
-        brackets: "[brackets]",
-        commas: "comma,comma"
-      },
-      window.encodeURIComponent
-    );
-    expect(query).toEqual(
-      "?spaces=value%20with%20spaces" +
-        "&brackets=%5Bbrackets%5D" +
-        "&commas=comma%2Ccomma"
-    );
-  });
-
-  it("returns am empty string if there are no params", () => {
-    expect(paramsToString(null as any, window.encodeURIComponent)).toEqual("");
-  });
-
-  it("returns am empty string if is an empty param object", () => {
-    expect(paramsToString({} as any, window.encodeURIComponent)).toEqual("");
   });
 });

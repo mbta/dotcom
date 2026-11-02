@@ -24,6 +24,7 @@ defmodule DotcomWeb.ProjectsPageLive do
      |> assign(:offset, 0)
      |> assign(:show_subway_filters?, false)
      |> assign(:selected_line_or_mode, "all")
+     |> assign(:selected_mode, "all")
      |> assign(:has_more_projects?, true)
      |> assign(:has_any_projects?, false)
      |> stream_configure(:projects, dom_id: &"project-#{&1.id}")
@@ -63,6 +64,7 @@ defmodule DotcomWeb.ProjectsPageLive do
      |> assign(:show_subway_filters?, mode == "subway")
      |> assign(:offset, 0)
      |> assign(:selected_line_or_mode, mode)
+     |> assign(:selected_mode, mode)
      |> assign_projects(0, mode, reset: true)
      |> assign_featured_projects(mode)}
   end

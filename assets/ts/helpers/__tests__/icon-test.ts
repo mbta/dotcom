@@ -14,7 +14,6 @@ import {
   redLineIcon,
   silverLineIcon,
   alertIcon,
-  vehicleArrowIcon,
   searchIcon,
   crowdingIcon
 } from "../../helpers/icon";
@@ -120,13 +119,6 @@ describe("silverLineIcon", () => {
 describe("alertIcon", () => {
   it("works with a default className", () => {
     const result = alertIcon();
-    expect(result.props.className).toEqual("notranslate");
-  });
-});
-
-describe("vehicleArrowIcon", () => {
-  it("works with a default className", () => {
-    const result = vehicleArrowIcon();
     expect(result.props.className).toEqual("notranslate");
   });
 });

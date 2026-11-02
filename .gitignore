@@ -67,5 +67,8 @@ node_modules
 playwright-report
 test-results
 
+#Performance test build artifacts
+/perf/dist
+
 # Emacs auto-save files
 *~

@@ -233,7 +233,7 @@ defmodule DotcomWeb.Components.TripPlanner.Results do
       class="border border-solid border-gray-lighter"
       data-test={"results:itinerary_group:#{@index}"}
     >
-      <a href={@alerts_href} class="no-underline text-black block" target="_blank">
+      <a href={@alerts_href} class="no-underline text-black block" target="mbta_new_tab">
         <div class="flex gap-2 items-center whitespace-nowrap bg-gray-lightest p-3 w-full text-sm">
           <.icon name="triangle-exclamation" class="h-[1.125rem] w-[1.125rem]" />
           <span class="font-bold font-heading text-sm text-black">

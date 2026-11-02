@@ -131,7 +131,7 @@ const getDirectionAndMap = (
             />
             <a
               href={staticMapData.pdf_url}
-              target="_blank"
+              target="mbta_new_tab"
               rel="noopener noreferrer"
             >
               <i className="fa fa-search-plus" aria-hidden="true" />

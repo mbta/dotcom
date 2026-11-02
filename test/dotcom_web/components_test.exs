@@ -156,6 +156,34 @@ defmodule DotcomWeb.ComponentsTest do
     end
   end
 
+  describe "mbta_go_cta" do
+    test "interpolates the banner source in the app store URL" do
+      for source <- ["homepage", "schedule"] do
+        assigns = %{banner_source: source}
+
+        href =
+          rendered_to_string(~H"""
+          <.mbta_go_cta banner_source={@banner_source}>
+            Download MBTA Go
+          </.mbta_go_cta>
+          """)
+          |> Floki.parse_fragment!()
+          |> Floki.find("a#mbta-go-cta-banner")
+          |> Floki.attribute("href")
+
+        assert href == [
+                 "/app-store?pt=117998862&ct=dotcom-#{source}&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3D#{source}"
+               ]
+      end
+    end
+
+    test "raises an error without a banner source" do
+      assert_raise KeyError, fn ->
+        render_component(&mbta_go_cta/1, %{})
+      end
+    end
+  end
+
   describe "promo_banner" do
     test "renders a link tag if given a href" do
       assigns = %{

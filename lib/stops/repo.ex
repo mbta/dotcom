@@ -77,12 +77,22 @@ defmodule Stops.Repo do
   end
 
   @impl Behaviour
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
-    do_by_route(route_id, direction_id, opts)
+    stops_by_route = do_by_route(route_id, direction_id, opts)
+
+    case stops_by_route do
+      {:error, _} -> []
+      _ -> stops_by_route
+    end
   end
 
   # Combine Green Line branch stops into one list for the "Green" route
+  @decorate cacheable(
+              cache: @cache,
+              key: {"Green", direction_id, opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp do_by_route("Green", direction_id, opts) do
     by_routes(GreenLine.branch_ids(), direction_id, opts)
   end
@@ -90,12 +100,19 @@ defmodule Stops.Repo do
   # Combine stops from Boat-F1 onto the Boat-F2H route.
   # Unfortunately by_routes recurses infinitely if we use it,
   # since it would just call this function again
+  @decorate cacheable(
+              cache: @cache,
+              key: {"Boat-F2H", direction_id, opts},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp do_by_route("Boat-F2H", direction_id, opts) do
     with stops1 when is_list(stops1) <- Api.by_route({"Boat-F2H", direction_id, opts}) do
       (stops1 ++ by_route("Boat-F1", direction_id, opts)) |> Enum.uniq()
     end
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp do_by_route(route_id, direction_id, opts) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do

@@ -230,7 +230,7 @@ defmodule Dotcom.ContentRewriterTest do
     } do
       rewritten =
         ~s(<div class="embedded-entity"><a class="media-link"
-          href="/projects/wollaston-station-improvements" target="_blank">
+          href="/projects/wollaston-station-improvements" target="mbta_new_tab">
           <div class="media media--type-image media--view-mode-full"><div class="media-content">
           <img src="/sites/default/files/styles/max_2600x2600/public/2018-01/hingham-ferry-dock-repair.png?itok=NWs0V_7W"
           alt="My Image Alt Text" typeof="foaf:Image" class="image-style-max-2600x2600" height="756" width="1008"></div></div></a></div>)
@@ -242,7 +242,7 @@ defmodule Dotcom.ContentRewriterTest do
                ~s(<figure class="c-media c-media--image c-media--wide"><div class="c-media__content">)
 
       assert rewritten =~
-               ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="_blank">)
+               ~s(<a class="c-media__link" href="/projects/wollaston-station-improvements" target="mbta_new_tab">)
 
       assert rewritten =~ ~s(<img class="image-style-max-2600x2600 c-media__element img-fluid")
 

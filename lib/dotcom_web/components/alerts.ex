@@ -34,7 +34,7 @@ defmodule DotcomWeb.Components.Alerts do
     >
       {AlertView.format_alert_description(@header)}
       <div class="mt-sm">
-        <a :if={@alert.image} href={@alert.image} target="_blank">
+        <a :if={@alert.image} href={@alert.image} target="mbta_new_tab">
           <img
             class="w-full mb-4"
             src={@alert.image}

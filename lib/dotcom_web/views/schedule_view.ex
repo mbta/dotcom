@@ -154,7 +154,7 @@ defmodule DotcomWeb.ScheduleView do
     content_tag :div, class: "pdf-links" do
       for pdf <- route_pdfs do
         content_tag :div, class: "schedules-pdf-link" do
-          link(to: pdf.path, target: "_blank") do
+          link(to: pdf.path, target: "mbta_new_tab") do
             text_for_route_pdf(pdf, route, today, all_current?)
           end
         end

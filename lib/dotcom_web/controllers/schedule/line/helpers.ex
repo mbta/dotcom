@@ -181,8 +181,11 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
           stops_by_route()
   defp do_get_route_stops(route_id, direction_id) do
     case @stops_repo.by_route(route_id, direction_id, []) do
-      {:error, _} -> %{}
-      stops -> %{route_id => stops}
+      [_ | _] = stops ->
+        %{route_id => stops}
+
+      _ ->
+        %{}
     end
   end
 
@@ -226,11 +229,17 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
       |> get_branches(%{branch_id => stops}, %Route{id: branch_id, type: 0}, direction_id)
       |> List.first()
 
-    %{
-      branch
-      | branch: branch_id,
-        stops: Enum.map(branch.stops, &update_green_branch_stop(&1, branch_id))
-    }
+    case branch do
+      nil ->
+        %RouteStops{branch: branch_id, stops: []}
+
+      branch ->
+        %{
+          branch
+          | branch: branch_id,
+            stops: Enum.map(branch.stops, &update_green_branch_stop(&1, branch_id))
+        }
+    end
   end
 
   @spec update_green_branch_stop(RouteStop.t(), GreenLine.branch_name()) :: RouteStop.t()

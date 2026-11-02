@@ -52,7 +52,8 @@ defmodule Dotcom.Mixfile do
   defp aliases do
     [
       localize: ["gettext.extract", "gettext.merge priv/gettext --no-fuzzy"],
-      check_localized: ["gettext.extract --check-up-to-date --verbose"]
+      check_localized: ["gettext.extract --check-up-to-date --verbose"],
+      compile: ["compile --warnings-as-errors --all-warnings"]
     ]
   end
 
@@ -102,13 +103,14 @@ defmodule Dotcom.Mixfile do
       {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.15"},
       {:aws_credentials, "1.1.1", optional: true},
-      {:bandit, "1.12.5"},
+      {:bandit, "1.13.0"},
       {:browser, "0.5.5"},
-      {:castore, "1.0.21"},
+      {:castore, "1.0.22"},
       {
         :content_security_policy,
         git: "https://github.com/unill-io/content_security_policy.git", tag: "v1.1.1"
       },
+      {:certifi, "2.18.0", override: true},
       {:cowlib, "2.20.0"},
       # Optional dependency of nebulex_redis_adapter, required for Redis Cluster mode (key slot hashing)
       {:crc, "0.11.0"},
@@ -136,7 +138,6 @@ defmodule Dotcom.Mixfile do
       {:gettext, "1.0.2", override: true},
       {:hammer, "7.5.0"},
       {:html_sanitize_ex, "1.5.5"},
-      {:httpoison, "3.0.0"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
       {:jason, "1.4.5", override: true},
       {:lazy_html, "0.1.13", only: [:test]},

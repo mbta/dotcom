@@ -189,8 +189,10 @@ defmodule Stops.RepoTest do
       assert response |> Enum.map(& &1.id) |> MapSet.new() ==
                [f1_stop_id, f2h_stop_id, shared_stop_id] |> MapSet.new()
     end
+  end
 
-    test "correctly segregates 'Green' and 'Boat-F2H' responses in the cache" do
+  describe "do_by_route/3 cache keys" do
+    test "keeps Green and Boat-F2H responses separate" do
       f2h_stop_id = "Boat-F2H-#{Test.Support.FactoryHelpers.build(:id)}"
       f2h_stop_item = build(:stop_item, id: f2h_stop_id)
 
@@ -207,14 +209,13 @@ defmodule Stops.RepoTest do
 
       direction_id = Faker.Util.pick([0, 1])
 
-      response = by_route("Green", direction_id)
+      green_response = by_route("Green", direction_id)
+      f2h_response = by_route("Boat-F2H", direction_id)
 
-      assert response |> Enum.map(& &1.id) |> MapSet.new() ==
+      assert green_response |> Enum.map(& &1.id) |> MapSet.new() ==
                [green_stop_id] |> MapSet.new()
 
-      response = by_route("Boat-F2H", direction_id)
-
-      assert response |> Enum.map(& &1.id) |> MapSet.new() ==
+      assert f2h_response |> Enum.map(& &1.id) |> MapSet.new() ==
                [f2h_stop_id] |> MapSet.new()
     end
   end

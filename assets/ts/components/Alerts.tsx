@@ -125,7 +125,7 @@ const createUrl = (url: string): string => {
     ? strippedUrl.replace("mbta", "MBTA")
     : strippedUrl;
 
-  return `<a target="_blank" href="${fullUrl}">${capitalStrippedUrl}</a>${suffix}`;
+  return `<a target="mbta_new_tab" href="${fullUrl}">${capitalStrippedUrl}</a>${suffix}`;
 };
 
 const replaceUrlsWithLinks = (desc: string): string => {
@@ -156,7 +156,7 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
     ref={panel => panel && panel.focus()}
   >
     {alert.image && (
-      <a href={alert.image} target="_blank" rel="noopener noreferrer">
+      <a href={alert.image} target="mbta_new_tab" rel="noopener noreferrer">
         <img
           src={alert.image}
           alt={alert.image_alternative_text}
@@ -195,7 +195,7 @@ const AlertSummary = ({
   strippedAlertUrl = strippedAlertUrl.replace(/mbta/gi, "MBTA");
 
   const headerContent = alert.url
-    ? `${alert.header}<span>&nbsp;</span><a href="${alert.url}" target="_blank">${strippedAlertUrl}</a>`
+    ? `${alert.header}<span>&nbsp;</span><a href="${alert.url}" target="mbta_new_tab">${strippedAlertUrl}</a>`
     : alert.header;
 
   return (

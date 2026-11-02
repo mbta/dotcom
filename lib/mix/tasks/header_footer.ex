@@ -193,13 +193,13 @@ if Mix.env() in [:dev, :test] do
       |> Floki.attr("a", "rel", fn _ -> "noopener" end)
     end
 
-    # External links should have target='_blank' and rel='noopener noreferrer'
+    # External links should have target='mbta_new_tab' and rel='noopener noreferrer'
     defp handle_external_link(link) do
       # IO.puts(" * modifying external link")
 
       [link]
       |> Floki.attr("a", "rel", fn _ -> "noopener noreferrer" end)
-      |> Floki.attr("a", "target", fn _ -> "_blank" end)
+      |> Floki.attr("a", "target", fn _ -> "mbta_new_tab" end)
     end
 
     defp process_link(link) do

@@ -159,7 +159,7 @@ jobs:
           | # zizmor: ignore[adhoc-packages] Zizmor is incorrectly pattern-matching the npm command as something like npm install foo@1.0, which would be an adhoc package installation worth avoiding
           npm install --prefix assets
       - run: npm --prefix assets run webpack:build
-      - run: mix compile --all-warnings
+      - run: mix compile --all-warnings --warnings-as-errors
 
   elixir_unit:
     name: Unit tests / Elixir / mix coveralls.html
