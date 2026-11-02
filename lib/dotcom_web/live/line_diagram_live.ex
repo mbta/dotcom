@@ -730,7 +730,7 @@ defmodule DotcomWeb.LineDiagramLive do
               class="mr-1"
               navigate={~p"/schedules/#{route.id}/line"}
             >
-              <.tooltip title={route.name} placement={:top}>
+              <.tooltip title={connection_route_name(route)} placement={:top}>
                 <DotcomWeb.RouteComponents.route_icon
                   size="small"
                   route={route}
@@ -746,13 +746,29 @@ defmodule DotcomWeb.LineDiagramLive do
             <.icon
               name="chevron-right"
               class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0"
-              aria-label={@route.name}
+              aria-label={connection_route_name(@route)}
             />
           </.link>
         </div>
       </div>
     </section>
     """
+  end
+
+  defp connection_route_name(%{type: 2} = _route) do
+    "Commuter Rail"
+  end
+
+  defp connection_route_name(%{type: 4} = _route) do
+    ~t"Ferry"
+  end
+
+  defp connection_route_name(%{type: 3, name: name} = _route) do
+    gettext("Bus %{num}", %{num: name})
+  end
+
+  defp connection_route_name(%{name: name} = _route) do
+    name
   end
 
   defp stop_connections(stop_id, route_id) do
