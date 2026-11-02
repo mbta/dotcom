@@ -489,7 +489,6 @@ defmodule DotcomWeb.LineDiagramLive do
               />
             </li>
           </ol>
-
         </div>
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
