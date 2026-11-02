@@ -691,10 +691,10 @@ defmodule DotcomWeb.LineDiagramLive do
     assigns = assigns |> assign(:connections, stop_connections(stop_id, assigns.route.id))
 
     ~H"""
-    <section class="m-schedule-diagram__content flex justify-between">
+    <section class="m-schedule-diagram__content flex justify-between p-1">
       <div data-id="wrapper" class="w-full flex flex-row justify-between">
         <div data-id="left" class="flex flex-col w-full" style="width: calc( 100% - 2rem )">
-          <div data-id="top" class="flex flex-row w-full justify-between">
+          <div data-id="top" class="flex flex-row w-full justify-between mb-1">
             <.link
               class="w-full flex flex-row"
               navigate={
@@ -722,7 +722,7 @@ defmodule DotcomWeb.LineDiagramLive do
           </div>
           <div
             data-id="bottom"
-            class="connections flex flex-row w-full overflow-x-auto"
+            class="connections flex flex-row w-full overflow-x-auto mt-1"
             aria-label={~t"Connections"}
           >
             <.link
@@ -730,10 +730,12 @@ defmodule DotcomWeb.LineDiagramLive do
               class="mr-1"
               navigate={~p"/schedules/#{route.id}/line"}
             >
-              <DotcomWeb.RouteComponents.route_icon
-                size="small"
-                route={route}
-              />
+              <.tooltip title={route.name} placement={:top}>
+                <DotcomWeb.RouteComponents.route_icon
+                  size="small"
+                  route={route}
+                />
+              </.tooltip>
             </.link>
           </div>
         </div>
