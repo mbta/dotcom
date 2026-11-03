@@ -510,7 +510,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp search_class(stop, search_phrase) do
     if String.length(search_phrase) > 0 and
-         !String.contains?(stop.name |> String.downcase(), search_phrase |> String.downcase()) do
+         !stop_name_match?(stop.name, search_phrase) do
       "hidden"
     else
       ""
@@ -518,7 +518,7 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   def handle_event("search", %{"search" => search}, socket) do
-    {:noreply, socket |> assign(search_phrase: search) |> assign_other_stops()}
+    {:noreply, socket |> assign(search_phrase: search |> String.trim()) |> assign_other_stops()}
   end
 
   # re-fit the map to the newly selected variant or direction
