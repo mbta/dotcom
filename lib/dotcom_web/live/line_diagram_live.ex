@@ -480,7 +480,7 @@ defmodule DotcomWeb.LineDiagramLive do
           <ol>
             <li
               :for={stop <- @stops}
-              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest"}
+              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest stop_list_main_result"}
             >
               <.stop_card
                 stop={stop}

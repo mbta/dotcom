@@ -50,6 +50,7 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     view
     |> render()
     |> Floki.parse_document!()
+    |> Floki.find(".stop_list_main_result")
     |> Floki.find(".m-schedule-diagram__stop-link")
     |> Enum.map(&(Floki.text(&1) |> String.trim()))
   end
