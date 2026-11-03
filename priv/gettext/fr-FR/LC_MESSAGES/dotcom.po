@@ -5176,6 +5176,7 @@ msgid "station"
 msgstr "station"
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stations"
 msgstr "station"
@@ -5187,6 +5188,7 @@ msgid "stop"
 msgstr "Stop"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stops"
 msgstr "arrêts"
