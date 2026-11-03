@@ -147,6 +147,7 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:stop_type_label, Routes.Route.stop_type_label(route))
+     |> assign(:stop_type_label_plural, Routes.Route.stop_type_label_plural(route))
      |> assign_route_patterns()
      |> assign_route_stops()
      |> assign_route_data()
@@ -474,7 +475,12 @@ defmodule DotcomWeb.LineDiagramLive do
             <:heading>
               {gettext("%{count} %{stop} served by other trips on this route", %{
                 count: @other_stops |> Enum.count(),
-                stop: @stop_type_label
+                stop:
+                  if @other_stops |> Enum.count() > 1 do
+                    @stop_type_label_plural
+                  else
+                    @stop_type_label
+                  end
               })}
             </:heading>
             <:content>
