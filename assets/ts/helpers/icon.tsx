@@ -17,13 +17,8 @@ import mattapanLineIconSvg from "../../../priv/static/icon-svg/icon-mattapan-lin
 import orangeLineIconSvg from "../../../priv/static/icon-svg/icon-orange-line-small.svg";
 import redLineIconSvg from "../../../priv/static/icon-svg/icon-red-line-small.svg";
 import silverLineIconSvg from "../../../priv/static/icon-svg/icon-silver-line-small.svg";
-import vehicleArrowSvg from "../../../priv/static/icon-svg/icon-vehicle-bordered-expanded.svg";
 import searchIconSvg from "../../../priv/static/icon-svg/icon-search-reverse-default.svg";
 import crowdingIconSvg from "../../../priv/static/icon-svg/icon-crowding.svg";
-import bikeIconSvg from "../../../priv/static/icon-svg/icon-bike.svg";
-import escalatorIconSvg from "../../../priv/static/icon-svg/icon-escalator.svg";
-import elevatorIconSvg from "../../../priv/static/icon-svg/icon-elevator.svg";
-import faresIconSvg from "../../../priv/static/icon-svg/icon-fares.svg";
 
 import renderFa from "./render-fa";
 
@@ -106,20 +101,8 @@ export const silverLineIcon = (
   ariaLabel: string = ""
 ): JSX.Element => renderSvg(className, silverLineIconSvg, false, ariaLabel);
 
-export const vehicleArrowIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, vehicleArrowSvg, false);
-
 export const searchIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, searchIconSvg, false);
-
-export const bikeIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, bikeIconSvg, false);
-export const escalatorIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, escalatorIconSvg, false);
-export const elevatorIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, elevatorIconSvg, false);
-export const faresIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, faresIconSvg, false);
 
 export const modeIcon = (
   routeId: string,

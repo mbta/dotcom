@@ -82,20 +82,6 @@ export const isCurrentValidService = (
   return isInCurrentRating(service, currentDate);
 };
 
-export const startToEnd = (
-  startDateObject: Date,
-  endDateObject: Date
-): string => `${shortDate(startDateObject)} to ${shortDate(endDateObject)}`;
-
-export const isInFutureService = (
-  service: Service,
-  currentDate: Date
-): boolean => {
-  const serviceStartDate = stringToDateObject(service.start_date);
-  const serviceEndDate = stringToDateObject(service.end_date);
-  return currentDate < serviceStartDate && currentDate < serviceEndDate;
-};
-
 export const isInFutureRating = (
   service: Service,
   currentDate: Date

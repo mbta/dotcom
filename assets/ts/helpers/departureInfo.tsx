@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  chain,
-  concat,
-  difference,
-  find,
-  keyBy,
-  keys,
-  map,
-  sortBy
-} from "lodash";
+import { chain, concat, difference, keyBy, keys, map, sortBy } from "lodash";
 import { PredictionWithTimestamp } from "../models/predictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
 import { isCancelled, isDelayed, isSkipped } from "./prediction-helpers";
@@ -18,7 +9,7 @@ import {
   isACommuterRailRoute,
   isSubwayRoute
 } from "../models/route";
-import { DirectionId, Route } from "../__v3api";
+import { Route } from "../__v3api";
 import DisplayTime from "../stop/components/DisplayTime";
 import { getInfoKey } from "../stop/models/displayTimeConfig";
 import { RoutePatternWithPolyline } from "../models/route-patterns";
@@ -47,12 +38,6 @@ const departureInfoToTime = (
   departureInfo: DepartureInfo
 ): Date | undefined => {
   return departureInfo.prediction?.time || departureInfo.schedule?.time;
-};
-
-const getNextUnCancelledDeparture = (
-  departureInfos: DepartureInfo[]
-): DepartureInfo | undefined => {
-  return find(departureInfos, (di: DepartureInfo) => !di.isCancelled);
 };
 
 const displayInfoContainsPrediction = (
@@ -119,22 +104,6 @@ const mergeIntoDepartureInfo = (
   });
 
   return sortedDepartureInfo;
-};
-
-const isAtDestination = (
-  stopName: string,
-  route: Route,
-  directionId: DirectionId
-): boolean => {
-  const destination = route.direction_destinations[directionId];
-  if (destination) {
-    return destination.includes(stopName) && !destination.includes(" or ");
-  }
-  return false;
-};
-
-const isCommuterRail = (departureInfo: DepartureInfo): boolean => {
-  return departureInfo?.routeMode === "commuter_rail";
 };
 
 const DefaultWrapper: React.FunctionComponent<unknown> = ({ children }) => (
@@ -213,9 +182,6 @@ export {
   mergeIntoDepartureInfo,
   departureInfoToTime,
   displayInfoContainsPrediction,
-  getNextUnCancelledDeparture,
-  isAtDestination,
-  isCommuterRail,
   departuresListFromInfos,
   departureInfoInRoutePatterns
 };

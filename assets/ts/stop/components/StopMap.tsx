@@ -7,7 +7,7 @@ import {
   Polyline
 } from "../../leaflet/components/__mapdata";
 import useMapConfig from "../../hooks/useMapConfig";
-import { Vehicle } from "../../hooks/useVehiclesChannel";
+import { Vehicle } from "../../models/vehicle";
 import {
   isABusRoute,
   isACommuterRailRoute,

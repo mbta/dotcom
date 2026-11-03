@@ -25,19 +25,6 @@ export const isDiversion = ({ effect }: Alert): boolean =>
     "detour"
   ].includes(effect);
 
-export const isHighPriorityAlert = ({ effect }: Alert): boolean =>
-  effect === "detour" || effect === "suspension" || effect === "shuttle";
-
-export const alertsInEffect = (alerts: Alert[]): Alert[] =>
-  alerts.filter(a => {
-    return a.active_period?.some((period: TimePeriodPairs): boolean => {
-      const [start, end] = activePeriodToDates(period);
-      const now = new Date();
-
-      return (start === null || now >= start) && (end === null || now <= end);
-    });
-  });
-
 export const alertsForRoute = (alerts: Alert[], routeId: string): Alert[] => {
   return alerts.filter(
     ({ informed_entity: entities }: Alert): boolean =>
@@ -80,11 +67,6 @@ export const hasStationClosure = (alerts: Alert[]): boolean =>
 
 export const hasClosure = (alerts: Alert[]): boolean =>
   hasStopClosure(alerts) || hasStationClosure(alerts);
-
-export const alertsWithStop = (alerts: Alert[]): Alert[] =>
-  alerts.filter(
-    ({ informed_entity: entites }: Alert): boolean => !!entites.stop
-  );
 
 export const routeWideAlerts = (alerts: Alert[]): Alert[] =>
   alerts.filter(({ informed_entity: { entities } }: Alert): boolean =>
@@ -170,12 +152,6 @@ export const allAlertsForDirection = (
   return concat(alertsAffectingBothDirectionsArray, alertsDirectionArray);
 };
 
-export const uniqueByEffect = (
-  alert: Alert,
-  index: number,
-  alerts: Alert[]
-): boolean => alerts.findIndex(a => a.effect === alert.effect) === index;
-
 export const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
   lifecycle === "new" ||
   lifecycle === "ongoing" ||
@@ -223,18 +199,6 @@ export const hasAnActiveDiversion = (
   stopId: StopId,
   alerts: Alert[]
 ): boolean => alertsByStop(alerts, stopId).some(isActiveDiversion);
-
-export const hasCurrentFacilityAlert = (
-  facilityId: string,
-  alerts: Alert[]
-): boolean => {
-  return alerts.filter(isCurrentLifecycle).some(alert => {
-    if (alert.informed_entity?.facility) {
-      return alert.informed_entity.facility.includes(facilityId);
-    }
-    return false;
-  });
-};
 
 /**
  * Sometimes we want to use the alerts to affect the display of departures. This

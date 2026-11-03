@@ -74,6 +74,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
   alias DotcomWeb.Hooks.SyncUrlParam
   alias DotcomWeb.PartialView.{HeaderTab, HeaderTabs}
+  import DotcomWeb.Components.A11yParking, only: [a11y_and_parking: 1]
   import DotcomWeb.Components.FareCard, only: [fare_card: 1]
 
   import DotcomWeb.Components.VariantPicker, only: [variant_picker: 1, variant_picker?: 1]
@@ -379,8 +380,9 @@ defmodule DotcomWeb.LineDiagramLive do
   @impl true
   def render(assigns) do
     assigns =
-      assign(
-        assigns,
+      assigns
+      |> assign(:bus_route?, assigns.route.type == 3)
+      |> assign(
         :show_variant_picker?,
         variant_picker?(assigns.route) and length(assigns.route_patterns) > 1
       )
@@ -446,8 +448,8 @@ defmodule DotcomWeb.LineDiagramLive do
           vehicle_icons={Map.values(@vehicle_icons)}
           move_map={@move_map}
         />
-        <div class="m-schedule-diagram__filter c-form__input-container">
-          <form>
+        <form id="stop_search_form">
+          <div class="m-schedule-diagram__filter c-form__input-container">
             <input
               class="c-form__input"
               type="text"
@@ -457,15 +459,35 @@ defmodule DotcomWeb.LineDiagramLive do
               placeholder={gettext("Search for a %{stop}", %{stop: @stop_type_label})}
               value={@search_phrase}
             />
-          </form>
-        </div>
+            <button
+              :if={String.length(@search_phrase) > 0}
+              onclick="stop_search_form.reset()"
+              class="c-form__reset-btn btn-link"
+              aria-label="reset"
+              type="button"
+              phx-click="search"
+              phx-value-search=""
+            >
+              <i
+                aria-hidden="true"
+                class="c-form__reset-icon fa fa-times-circle"
+              ></i>
+            </button>
+          </div>
+        </form>
+
         <div class="m-schedule-diagram my-4">
           <ol>
             <li
               :for={stop <- @stops}
               class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest"}
             >
-              <.stop_card stop={stop} />
+              <.stop_card
+                stop={stop}
+                bus_route?={@bus_route?}
+                route={@route}
+                direction_id={@direction_id}
+              />
             </li>
           </ol>
           <DotcomWeb.Components.unstyled_accordion
@@ -525,6 +547,7 @@ defmodule DotcomWeb.LineDiagramLive do
     end
   end
 
+  @impl true
   def handle_event("search", %{"search" => search}, socket) do
     {:noreply, socket |> assign(search_phrase: search |> String.trim()) |> assign_other_stops()}
   end
@@ -579,10 +602,29 @@ defmodule DotcomWeb.LineDiagramLive do
       socket.assigns.route_patterns
       |> Enum.flat_map(& &1.stop_ids)
       |> Enum.uniq()
-      |> Map.new(&{&1, @stops_repo.get(&1)})
+      |> Map.new(fn id ->
+        stop = @stops_repo.get(id)
+        {id, inherit_parent_parking(stop)}
+      end)
 
     assign(socket, :stops_by_id, stops_by_id)
   end
+
+  defp inherit_parent_parking(%Stops.Stop{} = stop) do
+    if Stops.Stop.has_parking?(stop) do
+      stop
+    else
+      case @stops_repo.get_parent(stop) do
+        %Stops.Stop{parking_lots: [_ | _] = parking_lots} ->
+          %{stop | parking_lots: parking_lots}
+
+        _ ->
+          stop
+      end
+    end
+  end
+
+  defp inherit_parent_parking(stop), do: stop
 
   defp assign_stops(
          %{assigns: %{selected_route_patterns: selected_route_patterns, stops_by_id: stops_by_id}} =
@@ -700,15 +742,45 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
+  attr :stop, Stops.Stop, required: true
+  attr :bus_route?, :integer, required: true
+  attr :route, Routes.Route, required: true
+  attr :direction_id, :string, required: true
+
   defp stop_card(assigns) do
     ~H"""
-    <section class="m-schedule-diagram__content">
-      <.link navigate={~p"/stops/#{@stop.id}"}>
-        <h4 class="m-schedule-diagram__stop-link notranslate">
-          {@stop.name}
-        </h4>
-      </.link>
-    </section>
+    <.link
+      class="w-full"
+      navigate={
+        ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
+      }
+    >
+      <section class="m-schedule-diagram__content flex justify-between">
+        <div class="w-full">
+          <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row">
+              <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
+                {@stop.name}
+              </h4>
+              <.a11y_and_parking
+                stop={@stop}
+                bus_route?={@bus_route?}
+                tooltip_placement={:bottom}
+                rounded?={true}
+              />
+            </div>
+            <div class="flex flex-row m-schedule-diagram__features">
+              <span :if={!is_nil(@stop.zone) and @route.type == 2} class="c-icon__cr-zone h-[1.25rem]">
+                {gettext("Zone %{zone}", %{zone: @stop.zone})}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <.icon name="chevron-right" class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0" />
+        </div>
+      </section>
+    </.link>
     """
   end
 

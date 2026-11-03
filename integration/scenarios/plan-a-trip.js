@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { expect, selectors } from "@playwright/test";
 import { syncLiveView } from "../utils.js";
 
 export async function scenario({ page, baseURL }) {
@@ -36,4 +36,26 @@ export async function scenario({ page, baseURL }) {
       page.locator("section#trip-planner-results").count(),
     )
     .toBeGreaterThan(0);
+
+  //Find the first details link and expand that itinerary
+  await expect
+    .poll(async () =>
+      page.getByText(/Details/).count(),
+    )
+    .toBeGreaterThan(0);
+ 
+  await page.getByText(/Details/).first().click();
+
+  //Assert that the details show up
+  selectors.setTestIdAttribute("data-test, data-testid");
+  await expect.poll(async () => 
+    page.getByTestId(/itinerary_detail/).count()
+  ).toBeGreaterThan(0);
+
+  //Assert that we can go back to the results list
+  expect(await page.getByText(/View All Options/)).toBeVisible();
+  await page.getByText(/View All Options/).click();
+
+
+
 }

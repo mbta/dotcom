@@ -4618,7 +4618,6 @@ msgstr "Gade Biyografi pou %{name}"
 
 #: lib/dotcom_web/templates/alert/_summary_content.html.heex
 #: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
-#: lib/dotcom_web/templates/schedule/_timetable_suppressed.html.heex
 #, elixir-autogen, elixir-format
 msgid "View PDF Timetable"
 msgstr "Gade Orè PDF la"
@@ -4887,6 +4886,7 @@ msgid "Zone"
 msgstr "Zòn"
 
 #: lib/dotcom_web/components/transit_icons.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Zone %{zone}"

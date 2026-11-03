@@ -29,6 +29,8 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
     end)
 
+    stub(Stops.Repo.Mock, :get_parent, fn stop -> stop end)
+
     stub(Vehicles.Repo.Mock, :route, fn _, _ -> [] end)
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
@@ -63,6 +65,73 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     assert label(view) =~ "All variants"
     expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
     assert stop_names(view) == expected_stop_names
+  end
+
+  test "shows parking when the parent station has parking", %{
+    conn: conn,
+    route: route,
+    pattern_a: pattern
+  } do
+    stop_id = hd(pattern.stop_ids)
+    parent = Factories.Stops.Stop.build(:stop, %{parking_lots: [%Stops.Stop.ParkingLot{}]})
+
+    stub(Stops.Repo.Mock, :get, fn
+      ^stop_id -> Factories.Stops.Stop.build(:stop, %{id: stop_id, parent_id: parent.id})
+      id -> Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
+    end)
+
+    stub(Stops.Repo.Mock, :get_parent, fn
+      %{id: ^stop_id} -> parent
+      stop -> stop
+    end)
+
+    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+    assert has_element?(view, ~s|[title="Parking available"]|)
+  end
+
+  test "shows accessibility for accessible stops", %{
+    conn: conn,
+    route: route,
+    pattern_a: pattern
+  } do
+    stop_id = hd(pattern.stop_ids)
+
+    stub(Stops.Repo.Mock, :get, fn
+      ^stop_id ->
+        Factories.Stops.Stop.build(:stop, %{id: stop_id, accessibility: ["accessible"]})
+
+      id ->
+        Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
+    end)
+
+    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+    assert has_element?(view, ~s|[title="Accessible"]|)
+  end
+
+  test "shows accessibility for bus stops by default", %{
+    conn: conn,
+    route: route,
+    pattern_a: pattern
+  } do
+    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+    assert has_element?(view, ~s|[title="Accessible"]|)
+  end
+
+  test "does not assume non-bus stops are accessible", %{
+    conn: conn,
+    route: route,
+    pattern_a: pattern
+  } do
+    stub(Routes.Repo.Mock, :get, fn _ -> %{route | type: 2} end)
+    canonical_pattern = %{pattern | canonical: true}
+    stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [canonical_pattern] end)
+
+    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+    refute has_element?(view, ~s|[title="Accessible"]|)
   end
 
   test "hides the variant picker when there is only one variant", %{
