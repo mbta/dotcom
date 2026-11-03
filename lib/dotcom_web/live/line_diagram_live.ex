@@ -492,7 +492,7 @@ defmodule DotcomWeb.LineDiagramLive do
           </ol>
           <DotcomWeb.Components.unstyled_accordion
             :if={@other_stops |> Enum.count() > 0}
-            open
+            open={true}
             class="group/other-stops"
             summary_class="flex justify-between w-full bg-charcoal-90 border-x-[1px] border-b-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium"
           >
@@ -513,7 +513,12 @@ defmodule DotcomWeb.LineDiagramLive do
                   :for={stop <- @other_stops}
                   class="m-schedule-diagram__stop border-xs border-gray-lightest"
                 >
-                  <.stop_card stop={stop} />
+                  <.stop_card
+                    stop={stop}
+                    bus_route?={@bus_route?}
+                    route={@route}
+                    direction_id={@direction_id}
+                  />
                 </li>
               </ol>
             </:content>
