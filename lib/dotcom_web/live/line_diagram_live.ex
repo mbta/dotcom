@@ -606,11 +606,22 @@ defmodule DotcomWeb.LineDiagramLive do
       |> Enum.reject(fn {stop_id, _other_stop} ->
         stops |> Enum.find(fn stop -> stop.id == stop_id end)
       end)
-      |> Enum.filter(fn {_stop_id, stop} ->
-        stop.name |> String.downcase() |> String.contains?(search_phrase |> String.downcase())
-      end)
-      |> Enum.map(fn {_, stop} -> stop end)
+      |> stop_search(search_phrase)
     )
+  end
+
+  defp stop_name_match?(stop_name, search_phrase) do
+    stop_name
+    |> String.downcase()
+    |> String.contains?(search_phrase |> String.downcase())
+  end
+
+  defp stop_search(stops, search_phrase) do
+    stops
+    |> Enum.filter(fn {_stop_id, %{name: stop_name}} ->
+      stop_name_match?(stop_name, search_phrase)
+    end)
+    |> Enum.map(fn {_stop_id, stop} -> stop end)
   end
 
   defp assign_map_attributes(socket) do
