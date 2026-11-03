@@ -174,7 +174,8 @@ defmodule DotcomWeb.LineDiagramLive do
      end)
      |> apply_if_param_changed(:direction_id, &apply_direction_change/1)
      |> apply_if_param_changed(:selected_variant, &apply_variant_change/1)
-     |> assign_route_data()}
+     |> assign_route_data()
+     |> assign_other_stops()}
   end
 
   @impl true
@@ -454,6 +455,7 @@ defmodule DotcomWeb.LineDiagramLive do
               phx-submit="search"
               name="search"
               placeholder={gettext("Search for a %{stop}", %{stop: @stop_type_label})}
+              value={@search_phrase}
             />
           </form>
         </div>
