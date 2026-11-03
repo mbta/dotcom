@@ -1,6 +1,7 @@
 FROM hexpm/elixir:1.20.4-erlang-29.0.6-debian-trixie-20260824-slim
 
-RUN apt-get update && apt-get install -y curl git make build-essential inotify-tools
+RUN apt-get update && apt-get install -y ca-certificates curl git make build-essential inotify-tools \
+  && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge 20250419+deb13u1
 RUN apt-get install -y nodejs npm
 
 WORKDIR /app
