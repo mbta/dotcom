@@ -18,7 +18,12 @@ const FitBounds: Partial<ViewHook> = {
   mounted(this: ViewHook) {
     this.handleEvent(
       "fit-bounds",
-      ({ map_id: mapId, bounds, padding, max_zoom: maxZoom }: FitBoundsPayload) => {
+      ({
+        map_id: mapId,
+        bounds,
+        padding,
+        max_zoom: maxZoom
+      }: FitBoundsPayload) => {
         document.getElementById(mapId)?.dispatchEvent(
           new CustomEvent("maplibrex:fit_bounds", {
             detail: { bounds, padding, maxZoom }

@@ -74,7 +74,8 @@ const IconMarkers: Partial<IconMarkersHook> = {
         }
 
         const element = source.cloneNode(true) as HTMLElement;
-        if (this.el.dataset.zIndex) element.style.zIndex = this.el.dataset.zIndex;
+        if (this.el.dataset.zIndex)
+          element.style.zIndex = this.el.dataset.zIndex;
 
         const marker = new maplibregl.Marker({
           anchor: (source.getAttribute("data-anchor") ||
@@ -103,6 +104,7 @@ const IconMarkers: Partial<IconMarkersHook> = {
     entry: MarkerEntry,
     popupHtml: string | null
   ) {
+    /* eslint-disable no-param-reassign */
     if (!popupHtml) {
       if (entry.popup) {
         entry.marker.setPopup(null);
@@ -124,6 +126,7 @@ const IconMarkers: Partial<IconMarkersHook> = {
       entry.popup.setHTML(popupHtml);
       entry.popupHtml = popupHtml;
     }
+    /* eslint-enable no-param-reassign */
   }
 };
 
