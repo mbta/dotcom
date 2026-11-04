@@ -3,16 +3,8 @@ import { Route } from "../../../../__v3api";
 import { SimpleStopMap } from "../../__schedule";
 import ScheduleFinderForm from "../ScheduleFinderForm";
 import { renderWithProviders } from "../../../../__tests__/test-render-helper";
-import { fireEvent, screen, waitFor } from "@testing-library/dom";
+import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-
-jest.mock("../../../../helpers/use-fetch", () => ({
-  __esModule: true,
-  hasData: () => false,
-  isLoading: () => true,
-  isNotStarted: () => false,
-  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()])
-}));
 
 const route: Route = {
   description: "",
@@ -178,7 +170,7 @@ describe("ScheduleFinderForm", () => {
     renderWithProviders(
       <ScheduleFinderForm
         onDirectionChange={noCall}
-        onOriginChange={()=>{}}
+        onOriginChange={() => {}}
         route={route}
         selectedDirection={0}
         selectedOrigin={null}
@@ -197,7 +189,6 @@ describe("ScheduleFinderForm", () => {
 
     const errorTextElement = screen.queryByText("Please provide an origin");
     expect(errorTextElement).toBeNull();
-
   });
 
   it("calls the direction and origin change handlers", async () => {
@@ -229,6 +220,4 @@ describe("ScheduleFinderForm", () => {
     expect(directionChanged).toHaveBeenCalledWith(1, expect.any(Function));
     expect(originChanged).toHaveBeenCalledWith("123", expect.any(Function));
   });
-
-  
 });

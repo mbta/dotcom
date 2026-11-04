@@ -1,21 +1,16 @@
 import { Reducer, createStore, Store } from "redux";
 import { StoreAction, SelectedOrigin } from "../components/__schedule";
 import { DirectionId } from "../../__v3api";
-import { Mode as ModalMode } from "../components/schedule-finder/ScheduleFinderModal";
 import { dispatchChangedDirection } from "../../hooks/useDirectionChangeEvent";
 
 export interface StoreProps {
   selectedDirection: DirectionId;
   selectedOrigin: SelectedOrigin | "";
-  modalOpen: boolean;
-  modalMode: ModalMode;
 }
 
 interface ActionData {
   selectedDirection?: DirectionId;
   selectedOrigin?: SelectedOrigin | "";
-  modalOpen?: boolean;
-  modalMode?: ModalMode;
 }
 
 export interface Action {
@@ -30,9 +25,7 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
   const newState: StoreProps = Object.assign(
     {
       selectedDirection: undefined,
-      selectedOrigin: undefined,
-      modalOpen: false,
-      modalMode: "schedule"
+      selectedOrigin: undefined
     },
     state
   );
@@ -54,17 +47,6 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
         ...newState,
         selectedOrigin: action.newStoreValues.selectedOrigin!
       };
-    case "OPEN_MODAL":
-      return {
-        ...newState,
-        modalMode: action.newStoreValues.modalMode!,
-        modalOpen: true
-      };
-    case "CLOSE_MODAL":
-      return {
-        ...newState,
-        modalOpen: false
-      };
     default:
       return newState;
   }
@@ -74,7 +56,5 @@ export const createScheduleStore = (directionId: DirectionId): Store =>
   // create store with preloadedState:
   createStore(scheduleStoreReducer, {
     selectedDirection: directionId,
-    selectedOrigin: "",
-    modalOpen: false,
-    modalMode: "schedule"
+    selectedOrigin: ""
   });

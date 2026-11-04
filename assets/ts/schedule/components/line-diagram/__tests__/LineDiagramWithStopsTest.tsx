@@ -1,12 +1,10 @@
 import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import LineDiagramWithStops from "../LineDiagramWithStops";
-import { CrowdingType, RouteStop, StopTree } from "../../__schedule";
+import { RouteStop, StopTree } from "../../__schedule";
 import * as UseTreeStopPositions from "../graphics/useTreeStopPositions";
-import { cloneDeep } from "lodash";
-import * as simpleLiveData from "./lineDiagramData/live-data.json";
 import { Alert, InformedEntitySet, RouteType } from "../../../../__v3api";
 import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
 
