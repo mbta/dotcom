@@ -50,6 +50,8 @@ jobs:
       deployment-env: ${{ inputs.deployment-env }}
       deployment-host: ${{ inputs.deployment-env == 'prod' && 'www.mbta.com' || format('{0}.mbtace.com', inputs.deployment-env) }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
@@ -131,6 +133,12 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.58.1-jammy
     steps:
+      # The image's ca-certificates predates the eMudhra distrust (USN-8944-1).
+      - name: Update CA certificates
+        run: |
+          apt-get update
+          apt-get install -y --only-upgrade ca-certificates
+          dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge 20260816ubuntu0.22.04.1
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
@@ -161,6 +169,12 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.58.1-jammy
     steps:
+      # The image's ca-certificates predates the eMudhra distrust (USN-8944-1).
+      - name: Update CA certificates
+        run: |
+          apt-get update
+          apt-get install -y --only-upgrade ca-certificates
+          dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge 20260816ubuntu0.22.04.1
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0

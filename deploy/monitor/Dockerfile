@@ -2,6 +2,9 @@ FROM mcr.microsoft.com/playwright:v1.58.1-jammy
 
 RUN apt-get update
 RUN apt-get install dumb-init -y
+# The base image's ca-certificates predates the eMudhra distrust (USN-8944-1).
+RUN apt-get update && apt-get install -y --only-upgrade ca-certificates \
+  && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ca-certificates)" ge 20260816ubuntu0.22.04.1
 
 RUN useradd -m runner
 USER runner

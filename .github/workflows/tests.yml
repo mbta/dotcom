@@ -29,6 +29,8 @@ jobs:
       run_all: ${{ steps.set_run_all.outputs.run_all == 'true' }}
       any: ${{ steps.changes.outputs.any == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -59,6 +61,8 @@ jobs:
     if: ${{ needs.file_changes.outputs.any == 'true' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -70,6 +74,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -82,6 +88,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -94,6 +102,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.scss == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -106,6 +116,8 @@ jobs:
     needs: file_changes
     if: ${{ (needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true') && github.event_name == 'pull_request' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -119,6 +131,8 @@ jobs:
     needs: file_changes
     if: ${{ (needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true') && github.event_name == 'pull_request' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -129,6 +143,8 @@ jobs:
     name: Security / Zizmor
     runs-on: ubuntu-latest
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - name: Checkout repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -144,12 +160,14 @@ jobs:
     if: ${{ needs.file_changes.outputs.any == 'true' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
       - uses: $/.github/actions/setup-all
       - name: Cache _build
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             _build
@@ -167,11 +185,13 @@ jobs:
     needs: [file_changes, build_app]
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
       - uses: $/.github/actions/setup-all
-      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             _build
@@ -193,6 +213,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -205,6 +227,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' || needs.file_changes.outputs.js == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -217,6 +241,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -229,6 +255,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -241,6 +269,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -253,6 +283,8 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.js == 'true' || needs.file_changes.outputs.ts == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
@@ -265,11 +297,13 @@ jobs:
     needs: [file_changes, build_app]
     if: ${{ needs.file_changes.outputs.run_all == 'true' || needs.file_changes.outputs.ex == 'true' }}
     steps:
+      - name: Update CA certificates
+        run: sudo apt-get update && sudo apt-get install -y --only-upgrade ca-certificates
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           persist-credentials: false
       - uses: $/.github/actions/setup-all
-      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             _build
