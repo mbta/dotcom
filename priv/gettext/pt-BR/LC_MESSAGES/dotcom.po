@@ -5759,21 +5759,6 @@ msgstr "ou pague em dinheiro ou com pagamento por aproximação em qualquer ôni
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a station"
-msgstr "Procure uma estação"
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
-msgid "Connections"
-msgstr ""
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
-msgid "Route %{num}"
-msgstr ""
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
 msgstr "%{count} %{stop} servido por outras viagens nesta rota"
 
@@ -5781,3 +5766,13 @@ msgstr "%{count} %{stop} servido por outras viagens nesta rota"
 #, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
 msgstr "Procure por um %{stop}"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr "conexões"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{num}"
+msgstr "Rota %{num}"
