@@ -73,9 +73,9 @@ const LineDiagram = ({
 
   const handleStopClick = (stop: RouteStop): void => {
     changeOrigin(stop.id);
-    const { modalOpen: modalIsOpen, selectedOrigin } = currentState;
+    const { selectedOrigin } = currentState;
 
-    if (selectedOrigin !== undefined && !modalIsOpen) {
+    if (selectedOrigin !== undefined) {
       window.location.assign(
         `/departures?route_id=${route.id}&direction_id=${directionId}&stop_id=${stop.id}`
       );

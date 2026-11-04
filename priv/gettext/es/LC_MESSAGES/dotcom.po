@@ -101,11 +101,6 @@ msgstr " Puede salir antes de horario en estas atajada."
 msgid " minute walk"
 msgstr " Un minuto andando"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr " en "
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1159,11 +1154,6 @@ msgstr "Día de día"
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr "demora"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr "Retrasado %{minutes}"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
@@ -5171,21 +5161,25 @@ msgstr "Sur"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "station"
 msgstr "estación"
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stations"
 msgstr "estación"
 
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stop"
 msgstr "¡Para"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stops"
 msgstr "atajada"
@@ -5247,11 +5241,6 @@ msgstr "Total de plazas de parqueadero"
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr "hacia"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr "Pista "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
@@ -5786,3 +5775,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
 msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "%{count} %{stop} served by other trips on this route"
+msgstr "%{count} %{stop} servida por otros viajes en esta ruta"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a %{stop}"
+msgstr "Busca un %{stop}"

@@ -101,11 +101,6 @@ msgstr " có thể khởi hành trước lịch trình tại các điểm dừng
 msgid " minute walk"
 msgstr " đi bộ vài phút"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr " TRÊN "
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1153,11 +1148,6 @@ msgstr "Đĩa vé"
 #, elixir-autogen, elixir-format
 msgid "Delay"
 msgstr "trễ chuyến"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr "Bị trì hoãn %{minutes}"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
@@ -5162,21 +5152,25 @@ msgstr "phía nam"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "station"
 msgstr "nhà ga"
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stations"
 msgstr "nhà ga"
 
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stop"
 msgstr "dừng lại"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stops"
 msgstr "dừng lại"
@@ -5238,11 +5232,6 @@ msgstr "tổng số chỗ đậu xe"
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr "đối với"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr "theo dõi "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
@@ -5777,3 +5766,12 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
 msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-formatmsgid "%{count} %{stop} served by other trips on this route"
+msgstr "%{count} %{stop} được phục vụ bởi các chuyến đi khác trên tuyến đường này"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a %{stop}"
+msgstr "Tìm kiếm %{stop}"
