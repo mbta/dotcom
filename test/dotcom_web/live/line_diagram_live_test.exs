@@ -224,7 +224,174 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     assert label(view) =~ "All variants"
   end
 
+  describe "new map" do
+    defp new_map_html(view) do
+      view |> render() |> Floki.parse_document!()
+    end
+
+    test "renders a marker for each stop with a popup, and fits to them", %{
+      conn: conn,
+      route: route,
+      pattern_a: a
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{a.id}")
+
+      stops = view |> new_map_html() |> Floki.find("#new-map-stops [data-coordinates]")
+
+      assert length(stops) == length(Enum.uniq(a.stop_ids))
+      assert has_element?(view, ~s|#new-map-stops[phx-hook="IconMarkers"][data-map-id="new-map"]|)
+
+      for stop <- stops do
+        assert [_] = Floki.attribute(stop, "data-marker-id")
+        assert [popup] = Floki.attribute(stop, "data-popup")
+        assert popup =~ "popup-title"
+      end
+
+      assert has_element?(view, ~s|#new-map-fit[phx-hook="FitBounds"]|)
+
+      assert_push_event(view, "fit-bounds", %{
+        map_id: "new-map",
+        bounds: [[_, _], [_, _]],
+        padding: 50
+      })
+    end
+
+    test "re-fits on variant change but not on vehicle updates", %{
+      conn: conn,
+      route: route,
+      pattern_a: a,
+      pattern_b: b
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{a.id}")
+      assert_push_event(view, "fit-bounds", %{})
+
+      send(view.pid, %Phoenix.Socket.Broadcast{
+        topic: "vehicles-v2:#{route.id}:1",
+        event: "reset",
+        payload: %{data: []}
+      })
+
+      render(view)
+      refute_push_event(view, "fit-bounds", %{}, 50)
+
+      view
+      |> element(~s|#variant-menu-menu li[phx-value-option="#{b.id}"]|)
+      |> render_click()
+
+      assert_push_event(view, "fit-bounds", %{map_id: "new-map"})
+    end
+
+    test "stacks vehicle markers above stop markers", %{conn: conn, route: route} do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      z_index = fn id ->
+        [value] = view |> new_map_html() |> Floki.attribute("##{id}", "data-z-index")
+        String.to_integer(value)
+      end
+
+      assert z_index.("new-map-vehicles") > z_index.("new-map-stops")
+    end
+
+    test "renders an outline layer and a route layer sharing one source", %{
+      conn: conn,
+      route: route
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+      html = new_map_html(view)
+
+      assert [outline] = Floki.attribute(html, "#new-map-lines-outline", "data-config")
+
+      assert %{"source" => %{"data" => %{"type" => "FeatureCollection", "features" => features}}} =
+               Jason.decode!(outline)
+
+      assert Enum.all?(features, &(&1["geometry"]["type"] == "LineString"))
+
+      assert [line] = Floki.attribute(html, "#new-map-lines", "data-config")
+
+      assert %{
+               "sourceId" => "new-map-lines-outline-source",
+               "paint" => %{"line-color" => line_color}
+             } = Jason.decode!(line)
+
+      assert line_color == "##{route.color}"
+    end
+
+    test "renders vehicle markers with their bearing", %{conn: conn, route: route} do
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: 90
+        })
+
+      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      assert [marker] =
+               view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
+
+      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id]
+      assert Floki.attribute(marker, "data-rotation") == ["90"]
+      assert Floki.attribute(marker, "data-coordinates") == ["[-71.06,42.35]"]
+    end
+
+    test "updates vehicle markers when a vehicle moves", %{conn: conn, route: route} do
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: 90
+        })
+
+      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      send(view.pid, %Phoenix.Socket.Broadcast{
+        topic: "vehicles-v2:#{route.id}:1",
+        event: "update",
+        payload: %{data: [%{vehicle | latitude: 42.4, longitude: -71.1, bearing: 180}]}
+      })
+
+      assert [marker] =
+               view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
+
+      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id]
+      assert Floki.attribute(marker, "data-rotation") == ["180"]
+      assert Floki.attribute(marker, "data-coordinates") == ["[-71.1,42.4]"]
+    end
+
+    test "defaults the rotation to 0 when a vehicle has no bearing", %{
+      conn: conn,
+      route: route
+    } do
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: nil
+        })
+
+      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      assert view
+             |> new_map_html()
+             |> Floki.attribute("#new-map-vehicles [data-coordinates]", "data-rotation") == ["0"]
+    end
+  end
+
   describe "variant map updates" do
+    defp outline_features(html) do
+      [config] = Floki.attribute(html, "#new-map-lines-outline", "data-config")
+      Jason.decode!(config)["source"]["data"]["features"]
+    end
+
     test "reuses loaded stops when switching variants", %{
       conn: conn,
       route: route,
@@ -243,16 +410,13 @@ defmodule DotcomWeb.LineDiagramLiveTest do
         assert has_element?(view, "#variant-menu-button", pattern.headsign)
         expected_stop_names = Enum.uniq(pattern.stop_ids) |> Enum.map(&"Stop #{&1}")
         assert stop_names(view) == expected_stop_names
-        assert has_element?(view, "#line-diagram-map [data-line]:nth-child(2)")
-        refute has_element?(view, "#line-diagram-map [data-line]:nth-child(3)")
 
-        icons =
-          view
-          |> render()
-          |> Floki.parse_document!()
-          |> Floki.find("#line-diagram-map .mbta-map-icon")
+        html = view |> render() |> Floki.parse_document!()
 
-        assert length(icons) == length(Enum.uniq(pattern.stop_ids))
+        assert length(outline_features(html)) == 1
+
+        assert length(Floki.find(html, "#new-map-stops [data-coordinates]")) ==
+                 length(Enum.uniq(pattern.stop_ids))
       end
 
       view
@@ -260,9 +424,9 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       |> render_click()
 
       assert has_element?(view, "#variant-menu-button", "All variants")
+      assert view |> render() |> Floki.parse_document!() |> outline_features() |> length() == 2
       expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
       assert stop_names(view) == expected_stop_names
-      assert has_element?(view, "#line-diagram-map [data-line]:nth-child(4)")
     end
 
     test "refits on selection immediately after a vehicle update", %{
@@ -272,9 +436,6 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     } do
       {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
 
-      view |> with_target("#line-diagram-map") |> render_hook("map-loaded", %{})
-      assert_push_event(view, "update-markers", %{})
-
       send(view.pid, %Phoenix.Socket.Broadcast{
         topic: "vehicles-v2:#{route.id}:1",
         event: "reset",
@@ -282,13 +443,12 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       })
 
       render(view)
-      assert_push_event(view, "update-markers", %{move_map: false})
 
       view
       |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
       |> render_click()
 
-      assert_push_event(view, "update-markers", %{move_map: true})
+      assert_push_event(view, "fit-bounds", %{map_id: "new-map"})
     end
   end
 end

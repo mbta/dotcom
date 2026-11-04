@@ -189,7 +189,12 @@ module.exports = {
   resolve: {
     alias: {
       // Metro's Flatpickr import briefly, optionally references jQuery without importing it, which breaks Webpack unless we add this line
-      jquery: path.resolve(__dirname, "./node_modules/jquery")
+      jquery: path.resolve(__dirname, "./node_modules/jquery"),
+      // Optional MaplibreX deck.gl deps; we don't use <.deckgl_layer>
+      "@deck.gl/core": false,
+      "@deck.gl/layers": false,
+      "@deck.gl/aggregation-layers": false,
+      "@deck.gl/mapbox": false
     },
     symlinks: false,
     extensions: [".tsx", ".ts", ".jsx", ".js"]
