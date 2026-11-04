@@ -1,4 +1,4 @@
-import { expect, assert } from "chai";
+import { assert } from "chai";
 import * as Cookies from "../cookies";
 
 describe("Cookies", () => {
