@@ -1624,6 +1624,7 @@ msgstr "Mizajou ak Pwojè MBTA yo"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
@@ -5756,3 +5757,13 @@ msgstr "%{count} %{stop} sèvi pa lòt vwayaj sou wout sa a"
 #, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
 msgstr "Chèche yon %{stop}"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr "koneksyon"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{num}"
+msgstr "Wout %{num}"

@@ -1618,6 +1618,7 @@ msgstr "Các cập nhật và dự án nổi bật của MBTA"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
@@ -5760,3 +5761,13 @@ msgstr "%{count} %{stop} được phục vụ bởi các chuyến đi khác trê
 #, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
 msgstr "Tìm kiếm %{stop}"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr "các điểm kết nối"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{num}"
+msgstr "Tuyến đường %{num}"
