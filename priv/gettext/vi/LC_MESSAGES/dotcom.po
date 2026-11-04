@@ -5754,21 +5754,6 @@ msgstr "hoặc thanh toán bằng tiền mặt hoặc thanh toán không tiếp 
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a station"
-msgstr "Tìm kiếm một nhà ga"
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
-msgid "Connections"
-msgstr ""
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
-msgid "Route %{num}"
-msgstr ""
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
 msgstr "%{count} %{stop} được phục vụ bởi các chuyến đi khác trên tuyến đường này"
 
@@ -5776,3 +5761,13 @@ msgstr "%{count} %{stop} được phục vụ bởi các chuyến đi khác trê
 #, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
 msgstr "Tìm kiếm %{stop}"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr "các điểm kết nối"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{num}"
+msgstr "Tuyến đường %{num}"

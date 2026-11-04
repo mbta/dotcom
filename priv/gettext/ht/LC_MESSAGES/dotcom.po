@@ -5750,21 +5750,6 @@ msgstr "oubyen peye ak lajan kach oubyen pèman san kontak nan nenpòt bis"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a station"
-msgstr "Chèche yon estasyon"
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
-msgid "Connections"
-msgstr ""
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
-msgid "Route %{num}"
-msgstr ""
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
 msgstr "%{count} %{stop} sèvi pa lòt vwayaj sou wout sa a"
 
@@ -5772,3 +5757,13 @@ msgstr "%{count} %{stop} sèvi pa lòt vwayaj sou wout sa a"
 #, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
 msgstr "Chèche yon %{stop}"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr "koneksyon"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{num}"
+msgstr "Wout %{num}"
