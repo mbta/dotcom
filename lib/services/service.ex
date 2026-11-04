@@ -192,46 +192,4 @@ defmodule Services.Service do
     Enum.uniq(explicitly_added_dates ++ valid_dates)
     |> Enum.sort(Date)
   end
-
-  def monday_to_thursday_typical_service?(service) do
-    service.valid_days == [1, 2, 3, 4] && typical_weekday_service?(service)
-  end
-
-  def friday_typical_service?(service) do
-    service.valid_days == [5] && typical_weekday_service?(service)
-  end
-
-  def typical_weekday_service?(%__MODULE__{
-        type: :weekday,
-        typicality: :typical_service
-      }),
-      do: true
-
-  def typical_weekday_service?(_), do: false
-
-  @doc "Is this service in the current rating?"
-  @spec in_current_rating?(t()) :: boolean()
-  def in_current_rating?(%__MODULE__{rating_start_date: nil}), do: false
-
-  def in_current_rating?(%__MODULE__{rating_start_date: start_date, rating_end_date: end_date}) do
-    today = Dotcom.Utils.ServiceDateTime.service_date()
-
-    if end_date do
-      # Today is between the rating start/end dates
-      today in Date.range(start_date, end_date)
-    else
-      # Today is after the rating start date
-      Date.after?(today, start_date)
-    end
-  end
-
-  @doc "Is this service in a future rating?"
-  @spec in_future_rating?(t()) :: boolean()
-  def in_future_rating?(%__MODULE__{rating_start_date: nil}), do: false
-
-  def in_future_rating?(service) do
-    # Today is before the rating start date
-    Dotcom.Utils.ServiceDateTime.service_date()
-    |> Date.before?(service.rating_start_date)
-  end
 end
