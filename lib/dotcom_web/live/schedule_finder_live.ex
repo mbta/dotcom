@@ -14,6 +14,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   alias Dotcom.InSeatTransfers
   alias Dotcom.ScheduleFinder.ServiceGroup
+  alias Dotcom.ServicePatterns
   alias DotcomWeb.Components.Departures
   alias DotcomWeb.Live.UpcomingDeparturesLive
   alias DotcomWeb.RouteComponents
@@ -74,6 +75,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
           |> assign_new(:alerts, fn -> [] end)
           |> assign_new(:service_groups, fn -> service_groups end)
           |> assign_new(:loaded_trips, fn -> %{} end)
+          |> assign_new(:served_dates, fn ->
+            ServicePatterns.served_dates_for_route(route.id)
+          end)
           |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
           |> assign_new(:selected_service_key, fn -> service_key(selected_service) end)
           |> assign_new(:service_today?, fn ->
@@ -85,7 +89,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             cond do
               yesterday_service_date? -> yesterday
               assigns.service_today? -> today
-              true -> Map.get(selected_service, :next_date, today)
+              true -> Enum.find(assigns.served_dates, today, &Date.after?(&1, today))
             end
           end)
           |> assign_alerts()
@@ -182,7 +186,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             <% else %>
               <.callout data-test="no_service">
-                {no_service_message(@service_groups, @route, @stop)}
+                {no_service_message(@served_dates, @route, @stop)}
               </.callout>
             <% end %>
           </.async_result>
@@ -676,14 +680,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp no_service_message(service_groups, route, stop) do
+  defp no_service_message(served_dates, route, stop) do
     route_name =
       if(route.type == 3 && not Route.silver_line?(route),
         do: gettext("Route %{route}", route: route.name),
         else: route.name
       )
 
-    if service_groups == [] do
+    if served_dates == [] do
       gettext("There is currently no scheduled %{route_name}.", route_name: route_name)
     else
       gettext("There is no scheduled %{route} service at %{stop} for this time period.",

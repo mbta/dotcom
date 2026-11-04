@@ -62,7 +62,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       Factories.Routes.Route.build(:route, %{id: route_id})
     end)
 
-    expect(Services.Repo.Mock, :by_route_id, 2, fn ^route_id ->
+    expect(Services.Repo.Mock, :by_route_id, 4, fn ^route_id ->
       []
     end)
 
@@ -371,7 +371,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     end
 
     test "indicates no service", %{conn: conn} do
-      expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)
+      expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> [] end)
       expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
       assert {:ok, view, _html} = visit_with_valid_params(conn)
 
@@ -388,7 +388,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
 
     test "indicates no service for selected schedule", %{conn: conn} do
       active_services = Factories.Services.Service.build_list(15, :service)
-      expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> active_services end)
+      expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> active_services end)
 
       expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
 

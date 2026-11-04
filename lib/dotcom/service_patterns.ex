@@ -29,6 +29,15 @@ defmodule Dotcom.ServicePatterns do
     |> Enum.any?(&Service.serves_date?(&1, date))
   end
 
+  @spec served_dates_for_route(Routes.Route.id_t()) :: [Date.t()]
+  def served_dates_for_route(route_id) do
+    route_id
+    |> @services_repo.by_route_id()
+    |> Stream.flat_map(& &1.all_active_dates)
+    |> Stream.uniq()
+    |> Enum.sort(Date)
+  end
+
   @spec services_for_route(Routes.Route.id_t(), Date.t()) :: [Service.t()]
   def services_for_route(route_id, current_date \\ ServiceDateTime.service_date()) do
     route_id
