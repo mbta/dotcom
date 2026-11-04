@@ -5768,7 +5768,8 @@ msgid "Route %{num}"
 msgstr ""
 
 #: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-formatmsgid "%{count} %{stop} served by other trips on this route"
+#, elixir-autogen, elixir-format
+msgid "%{count} %{stop} served by other trips on this route"
 msgstr "%{count} %{stop} được phục vụ bởi các chuyến đi khác trên tuyến đường này"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
