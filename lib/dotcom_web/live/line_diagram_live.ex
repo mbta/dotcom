@@ -794,6 +794,19 @@ defmodule DotcomWeb.LineDiagramLive do
             </div>
           </div>
           <div
+            :if={
+              !is_nil(@stop.platform_name) and
+                Dotcom.ScheduleFinder.Platforms.has_platforms?(
+                  @route.type,
+                  if(@stop.parent_id, do: @stop.parent_id, else: @stop.id)
+                )
+            }
+            data-id="middle"
+            class="platform_name mt-[-0.25rem] mb-1 font-semibold"
+          >
+            {@stop.platform_name}
+          </div>
+          <div
             data-id="bottom"
             class="connections flex flex-row w-full overflow-x-auto mt-1"
             aria-label={~t"Connections"}
