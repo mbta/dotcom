@@ -722,7 +722,7 @@ defmodule DotcomWeb.LineDiagramLive do
           </div>
           <div
             data-id="bottom"
-            class="connections flex flex-row w-full overflow-x-auto mt-1"
+            class="connections flex flex-row w-full flex-wrap mt-1"
             aria-label={~t"Connections"}
           >
             <.link
