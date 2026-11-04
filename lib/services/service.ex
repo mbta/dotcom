@@ -7,7 +7,8 @@ defmodule Services.Service do
   @services_repo Application.compile_env!(:dotcom, :repo_modules)[:services]
 
   @derive Jason.Encoder
-  defstruct added_dates: [],
+  defstruct all_active_dates: [],
+            added_dates: [],
             added_dates_notes: [],
             description: "",
             end_date: nil,
@@ -48,6 +49,7 @@ defmodule Services.Service do
   @type valid_day :: 1 | 2 | 3 | 4 | 5 | 6 | 7
 
   @type t :: %__MODULE__{
+          all_active_dates: [Date.t()],
           added_dates: [String.t()],
           added_dates_notes: date_notes,
           description: String.t(),
@@ -77,6 +79,7 @@ defmodule Services.Service do
     |> Map.put(:typicality, attributes |> Map.get("schedule_typicality") |> typicality())
     |> Map.put(:valid_days, Map.get(attributes, "valid_days", []))
     |> Map.put(:rating_description, Map.get(attributes, "rating_description", ""))
+    |> then(&Map.put(&1, :all_active_dates, all_valid_dates_for_service(&1)))
   end
 
   defp dates(service, attributes) do
