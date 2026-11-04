@@ -113,6 +113,11 @@
   [class*='c-svg__icon'] {
     height: $base-spacing * 2;
     width: $base-spacing * 2;
+    svg {
+      path {
+        fill: #000
+      }
+    }
   }
 }
 
