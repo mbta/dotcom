@@ -3820,8 +3820,8 @@ msgstr "Suivi simple"
 msgid "Skip to main content"
 msgstr "Contourner vers le contenu principal"
 
+#: lib/dotcom_web/components/departures.ex
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
-#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
 msgstr "contourner"
@@ -5716,7 +5716,7 @@ msgstr "Retardé"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "<strong>Téléchargez%{appname}</strong> pour suivre votre voyage"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "Le voyage continue comme"
@@ -5764,7 +5764,7 @@ msgstr "ou payer en espèces ou en paiement sans contact sur n’importe quel bu
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
-msgstr ""
+msgstr "%{count} %{stop} desservi par d’autres trajets sur cette ligne"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5773,15 +5773,15 @@ msgstr "Recherche d’une station"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Connections"
-msgstr ""
+msgid "Search for a %{stop}"
+msgstr "Cherchez un %{stop}"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a %{stop}"
-msgstr ""
+msgid "Connections"
+msgstr "correspondances"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
-msgstr ""
+msgstr "Itinéraire %{num}"

@@ -3809,8 +3809,8 @@ msgstr "Suivi Single"
 msgid "Skip to main content"
 msgstr "kontoune nan kontni prensipal la"
 
+#: lib/dotcom_web/components/departures.ex
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
-#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
 msgstr "kontoune"
@@ -5703,7 +5703,7 @@ msgstr "Anreta"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "Vwayaj la kontinye tankou"
@@ -5751,7 +5751,7 @@ msgstr "oubyen peye ak lajan kach oubyen pèman san kontak nan nenpòt bis"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
-msgstr ""
+msgstr "%{count} %{stop} sèvi pa lòt vwayaj sou wout sa a"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5760,15 +5760,15 @@ msgstr "Chèche yon estasyon"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Connections"
-msgstr ""
+msgid "Search for a %{stop}"
+msgstr "Chèche yon %{stop}"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a %{stop}"
-msgstr ""
+msgid "Connections"
+msgstr "koneksyon"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
-msgstr ""
+msgstr "Wout %{num}"

@@ -3796,8 +3796,8 @@ msgstr "單軌"
 msgid "Skip to main content"
 msgstr "轉向主要內容"
 
+#: lib/dotcom_web/components/departures.ex
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
-#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
 msgstr "繞行"
@@ -5684,7 +5684,7 @@ msgstr "延遲"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "下載<strong>%{appname}</strong>來追蹤您的行程"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "旅程繼續"
@@ -5732,22 +5732,25 @@ msgstr "或使用現金或非接觸式支付在任何巴士上付款"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
-msgstr ""
-
-msgid "Search for a station"
-msgstr "搜尋車站"
+msgstr "此路線上的其他行程也提供%{count} %{stop}服務"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Connections"
-msgstr ""
+msgid "Search for a station"
+msgstr "搜尋車站"
+
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
-msgstr ""
+msgstr "搜尋%{stop}"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr "換乘"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
-msgstr ""
+msgstr "路線%{num}"

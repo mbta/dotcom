@@ -488,6 +488,7 @@ defmodule DotcomWeb.LineDiagramLive do
                 bus_route?={@bus_route?}
                 route={@route}
                 direction_id={@direction_id}
+                search_phrase={@search_phrase}
               />
             </li>
           </ol>
@@ -752,6 +753,7 @@ defmodule DotcomWeb.LineDiagramLive do
   attr :bus_route?, :integer, required: true
   attr :route, Routes.Route, required: true
   attr :direction_id, :string, required: true
+  attr :search_phrase, :string, default: ""
 
   defp stop_card(assigns) do
     stop_id =
@@ -761,7 +763,24 @@ defmodule DotcomWeb.LineDiagramLive do
         assigns.stop.id
       end
 
-    assigns = assigns |> assign(:connections, stop_connections(stop_id, assigns.route.id))
+    stop_name_parts =
+      Regex.named_captures(
+        ~r/^(?<start>.*)(?<match>#{assigns.search_phrase})(?<end>.*)$/iU,
+        assigns.stop.name
+      )
+
+    assigns =
+      assigns
+      |> assign(:connections, stop_connections(stop_id, assigns.route.id))
+      |> assign(
+        :stop_name_parts,
+        if is_nil(stop_name_parts) do
+          %{"start" => assigns.stop.name, "match" => "", "end" => ""}
+        else
+          stop_name_parts
+        end
+      )
+      |> assign(:connections, stop_connections(stop_id, assigns.route.id))
 
     ~H"""
     <section class="m-schedule-diagram__content flex justify-between p-1">
@@ -775,7 +794,8 @@ defmodule DotcomWeb.LineDiagramLive do
               }
             >
               <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
-                {@stop.name}
+                {@stop_name_parts |> Map.get("start")}<span class="u-highlight strong">{@stop_name_parts |> Map.get("match")}</span>{@stop_name_parts
+                |> Map.get("end")}
               </h4>
               <.a11y_and_parking
                 stop={@stop}
@@ -801,6 +821,8 @@ defmodule DotcomWeb.LineDiagramLive do
                   if(@stop.parent_id, do: @stop.parent_id, else: @stop.id)
                 )
             }
+            <<<<<<<
+            HEAD
             data-id="middle"
             class="platform_name mt-[-0.25rem] mb-1 font-semibold"
           >
@@ -808,7 +830,7 @@ defmodule DotcomWeb.LineDiagramLive do
           </div>
           <div
             data-id="bottom"
-            class="connections flex flex-row w-full overflow-x-auto mt-1"
+            class="connections flex flex-row w-full flex-wrap mt-1"
             aria-label={~t"Connections"}
           >
             <.link
