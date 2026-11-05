@@ -117,6 +117,13 @@ defmodule Dotcom.TripPlan.Fares.State do
 
   @dtx_park_stations ~w(place-dwnxg place-pktrm) |> Enum.map(&"mbta-ma-us:#{&1}")
 
+  # Fairmount Line trips that both start and end in Zone 1A are
+  # eligible for free transfers to and from subway, bus, and Silver
+  # Line.
+  defguardp fairmount_zone_1a?(leg)
+            when leg.route.type == 2 and leg.route.gtfs_id == "mbta-ma-us:CR-Fairmount" and
+                   leg.from.stop.zone_id == "CR-zone-1A" and leg.to.stop.zone_id == "CR-zone-1A"
+
   @doc """
   Adds a leg to the fare state, updating the accumulated fare and, if
   applicable, the current transfer window and station.
@@ -161,8 +168,7 @@ defmodule Dotcom.TripPlan.Fares.State do
   # at the end.
   #
   # If the leg is a tap on the subway, bus, or ferry, or a Fairmount
-  # Line trip within Zone 1A (see `transfer_eligible?/1`), then we
-  # check the following:
+  # Line trip within Zone 1A, then we check the following:
   #
   # - If there's no transfer window, we start one, and set the
   #   `transfer_window_fare` to the leg's fare.
@@ -185,51 +191,30 @@ defmodule Dotcom.TripPlan.Fares.State do
   # be added to the current window and sets the `transfer_window_fare`
   # appropriately.
   @spec add_fare_from_leg(t(), Leg.t()) :: t()
-  defp add_fare_from_leg(%__MODULE__{non_transfer_fare: non_transfer_fare} = fare_state, leg) do
+  defp add_fare_from_leg(
+         %__MODULE__{} = fare_state,
+         leg
+       )
+       when (leg.route.type in [0, 1, 3, 4] or fairmount_zone_1a?(leg)) and
+              agency_name?(leg, "MBTA") do
     fare_for_leg = Dotcom.TripPlan.Fares.cents_for_leg(leg)
 
-    cond do
-      not transfer_eligible?(leg) ->
-        %__MODULE__{fare_state | non_transfer_fare: non_transfer_fare + fare_for_leg}
+    if fare_for_leg == 0 || in_station_transfer?(fare_state, leg) do
+      fare_state
+    else
+      leg_start_time = leg.start.scheduled_time
 
-      fare_for_leg == 0 || in_station_transfer?(fare_state, leg) ->
-        fare_state
-
-      true ->
-        leg_start_time = leg.start.scheduled_time
-
-        fare_state
-        |> maybe_reset_transfer_window(leg_start_time)
-        |> add_fare_to_transfer_window(fare_for_leg)
+      fare_state
+      |> maybe_reset_transfer_window(leg_start_time)
+      |> add_fare_to_transfer_window(fare_for_leg)
     end
   end
 
-  # A leg is eligible for transfer discounts if it's an MBTA subway,
-  # bus, or ferry trip, or if it's a Fairmount Line Commuter Rail trip
-  # that both starts and ends in Zone 1A.
-  @spec transfer_eligible?(Leg.t()) :: boolean()
-  defp transfer_eligible?(leg)
-       when leg.route.type in [0, 1, 3, 4] and agency_name?(leg, "MBTA") do
-    true
+  defp add_fare_from_leg(%__MODULE__{non_transfer_fare: non_transfer_fare} = fare_state, leg) do
+    fare_for_leg = Dotcom.TripPlan.Fares.cents_for_leg(leg)
+
+    %__MODULE__{fare_state | non_transfer_fare: non_transfer_fare + fare_for_leg}
   end
-
-  defp transfer_eligible?(leg) when leg.route.type == 2 and agency_name?(leg, "MBTA") do
-    fairmount_zone_1a?(leg)
-  end
-
-  defp transfer_eligible?(_leg), do: false
-
-  @spec fairmount_zone_1a?(Leg.t()) :: boolean()
-  defp fairmount_zone_1a?(%Leg{
-         from: %Place{stop: %Stop{} = from_stop},
-         route: %Route{} = route,
-         to: %Place{stop: %Stop{} = to_stop}
-       }) do
-    mbta_id(route) == "CR-Fairmount" and mbta_zone_id(from_stop) == "1A" and
-      mbta_zone_id(to_stop) == "1A"
-  end
-
-  defp fairmount_zone_1a?(_leg), do: false
 
   # If the following are true, the it's an in-station transfer, and
   # thus should not reset the transfer window or incur any additional
