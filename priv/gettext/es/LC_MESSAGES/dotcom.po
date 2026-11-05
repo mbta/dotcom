@@ -5768,6 +5768,11 @@ msgstr "%{count} %{stop} servida por otros viajes en esta ruta"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
+msgid "Search for a station"
+msgstr "Búsqueda de una estación"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
 msgstr "Busca un %{stop}"
 

@@ -780,6 +780,7 @@ defmodule DotcomWeb.LineDiagramLive do
           stop_name_parts
         end
       )
+      |> assign(:connections, stop_connections(stop_id, assigns.route.id))
 
     ~H"""
     <section class="m-schedule-diagram__content flex justify-between p-1">
@@ -792,7 +793,7 @@ defmodule DotcomWeb.LineDiagramLive do
                 ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
               }
             >
-              <h4 class="m-schedule-diagram__stop-link notranslate mr-1">
+              <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
                 {@stop_name_parts |> Map.get("start")}<span class="u-highlight strong">{@stop_name_parts |> Map.get("match")}</span>{@stop_name_parts
                 |> Map.get("end")}
               </h4>
@@ -811,6 +812,21 @@ defmodule DotcomWeb.LineDiagramLive do
                 {gettext("Zone %{zone}", %{zone: @stop.zone})}
               </span>
             </div>
+          </div>
+          <div
+            :if={
+              !is_nil(@stop.platform_name) and
+                Dotcom.ScheduleFinder.Platforms.has_platforms?(
+                  @route.type,
+                  if(@stop.parent_id, do: @stop.parent_id, else: @stop.id)
+                )
+            }
+            <<<<<<<
+            HEAD
+            data-id="middle"
+            class="platform_name mt-[-0.25rem] mb-1 font-semibold"
+          >
+            {@stop.platform_name}
           </div>
           <div
             data-id="bottom"
