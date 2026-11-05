@@ -5760,3 +5760,8 @@ msgstr "o pagar con Efectivo o Pago sin contacto en cualquier colectivo"
 #, elixir-autogen, elixir-format
 msgid "Search for a station"
 msgstr "Búsqueda de una estación"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last updated:"
+msgstr ""

@@ -5747,3 +5747,8 @@ msgstr "oubyen peye ak lajan kach oubyen pèman san kontak nan nenpòt bis"
 #, elixir-autogen, elixir-format
 msgid "Search for a station"
 msgstr "Chèche yon estasyon"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last updated:"
+msgstr ""
