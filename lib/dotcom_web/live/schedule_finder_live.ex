@@ -502,7 +502,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
         default_date: assigns.displayed_date,
         enable_time: false,
         enable: assigns.valid_dates,
-        date_format: "Y-m-d"
+        min_date: assigns.today,
+        date_format: "Y-m-d",
+        position: "above"
       })
 
     ~H"""
