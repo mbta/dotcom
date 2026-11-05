@@ -25,7 +25,7 @@ defmodule Dotcom.ScheduleFinder.Behaviour do
   @doc """
   Get scheduled arrivals for one trip on a date, starting at a given stop_sequence.
   """
-  @callback next_arrivals(Trip.id_t(), non_neg_integer(), Date.t(), boolean()) ::
+  @callback next_arrivals(Trip.id_t(), non_neg_integer(), Date.t()) ::
               {:ok, [TripStop.t() | Dotcom.InSeatTransfers.TripHeading.t()]}
               | {:error, term()}
 
