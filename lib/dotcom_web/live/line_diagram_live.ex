@@ -753,6 +753,7 @@ defmodule DotcomWeb.LineDiagramLive do
   attr :bus_route?, :integer, required: true
   attr :route, Routes.Route, required: true
   attr :direction_id, :string, required: true
+  attr :search_phrase, :string, default: ""
 
   defp stop_card(assigns) do
     stop_id =
