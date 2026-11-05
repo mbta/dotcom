@@ -46,6 +46,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
      |> assign_new(:loaded_upcoming_trips, fn -> %{} end)
      |> assign_last_trip_time(service_date())
      |> assign(:departures, AsyncResult.loading())
+     |> assign(:last_updated, nil)
      |> subscribe_to_upcoming_departures()}
   end
 
@@ -61,7 +62,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
           {~t(There was a problem loading upcoming departures)}
         </.callout>
       </div>
-      <div class="block phx-error:hidden">
+      <div class="block">
         <.async_result :let={departures} assign={@departures}>
           <:loading>
             <div data-test="u_d:async_loading" class="mt-lg mb-md flex justify-center">
@@ -73,6 +74,10 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
               {~t(There was a problem loading upcoming departures)}
             </.callout>
           </:failed>
+          <div class="text-xs"
+           :if={@last_updated}>
+            {~t(Last updated:)} {@last_updated}
+          </div>
           <section data-test="u_d:async_success">
             <.upcoming_departures_section
               stop={@stop}
@@ -132,9 +137,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   end
 
   def handle_info({:upcoming_departures, upcoming_departures}, socket) do
+    now = @date_time.now()
     {:noreply,
      socket
      |> update(:departures, &AsyncResult.ok(&1, upcoming_departures))
+     |> assign(:last_updated, format!(now, :hour_12_minutes))
      |> refresh_upcoming_trip_details()}
   end
 
@@ -150,9 +157,11 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         {:noreply, update(socket, :departures, &AsyncResult.loading(&1, :loading))}
 
       upcoming_departures ->
+        now = @date_time.now()
         {:noreply,
          socket
          |> update(:departures, &AsyncResult.ok(&1, upcoming_departures))
+         |> assign(:last_updated, format!(now, :hour_12_minutes))
          |> refresh_upcoming_trip_details()}
     end
   end
