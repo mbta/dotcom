@@ -5748,3 +5748,8 @@ msgstr "%{num} 號路線"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "無法提交您的意見回饋。請重新載入頁面後再試一次。"
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last updated:"
+msgstr ""

@@ -5787,3 +5787,8 @@ msgstr "Ligne %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "Nous n'avons pas pu envoyer vos commentaires. Veuillez recharger la page et réessayer."
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last updated:"
+msgstr ""

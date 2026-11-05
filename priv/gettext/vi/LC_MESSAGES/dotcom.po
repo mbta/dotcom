@@ -5774,3 +5774,8 @@ msgstr "Tuyến %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "Chúng tôi không thể gửi phản hồi của quý vị. Vui lòng tải lại trang và thử lại."
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last updated:"
+msgstr ""
