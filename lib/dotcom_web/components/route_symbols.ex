@@ -160,6 +160,8 @@ defmodule DotcomWeb.Components.RouteSymbols do
     doc: "A list of route IDs. These should all be associated with subway routes.",
     examples: [["Blue"], ["Green-B", "Green-C"]]
 
+  attr :link, :boolean, default: false
+
   @doc """
   Renders a symbol for one or more subway routes, consisting of a colored pill
   with optionally a number of circles representing branches of a subway line.
@@ -185,7 +187,7 @@ defmodule DotcomWeb.Components.RouteSymbols do
         "text-white font-bold font-heading leading-none notranslate"
       ]}
     >
-      {@route_abbreviation}
+      <.link class="text-white" navigate={"/schedules/#{@route_id}/line"}>{@route_abbreviation}</.link>
     </div>
     """
   end

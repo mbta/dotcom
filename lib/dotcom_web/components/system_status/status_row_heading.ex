@@ -102,8 +102,21 @@ defmodule DotcomWeb.Components.SystemStatus.StatusRowHeading do
     >
       <.subway_route_pill class="group-hover/row:ring-brand-primary-lightest" route_ids={@route_ids} />
     </div>
-
+    <.link
+      :if={@status in [:normal]}
+      navigate={~p"/schedules/#{@route_ids}/line"}
+      class="text-black hover:no-underline"
+    >
+      <.status_label
+        cause={@cause}
+        description={"#{@rendered_prefix}#{@description}#{severity_suffix(@status, @severity)}"}
+        status={@status}
+        subheading_aria_label={@subheading_aria_label}
+        subheading_text={@subheading_text}
+      />
+    </.link>
     <.status_label
+      :if={@status not in [:normal]}
       cause={@cause}
       description={"#{@rendered_prefix}#{@description}#{severity_suffix(@status, @severity)}"}
       status={@status}
