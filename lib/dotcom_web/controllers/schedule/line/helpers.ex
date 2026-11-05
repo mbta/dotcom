@@ -181,8 +181,11 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
           stops_by_route()
   defp do_get_route_stops(route_id, direction_id) do
     case @stops_repo.by_route(route_id, direction_id, []) do
-      {:error, _} -> %{}
-      stops -> %{route_id => stops}
+      [_ | _] = stops ->
+        %{route_id => stops}
+
+      _ ->
+        %{}
     end
   end
 

@@ -14,8 +14,6 @@ config :dotcom, :endpoint_stops_module, Dotcom.Alerts.EndpointStops
 
 config :dotcom, :gettext_backend, Dotcom.Gettext
 
-config :dotcom, :httpoison, HTTPoison
-
 config :dotcom,
   default_locale_code: "en",
   locale_codes: ["en", "es", "ht", "pt-BR", "vi", "zh-CN", "zh-TW", "fr-FR"]
@@ -136,8 +134,6 @@ config :laboratory,
     {:use_smartling_translations, "Smartling translations",
      "Uses Smartling's translation workflows"},
     {:fares_v2, "Fares v2", "Exposes information from GTFS Fares V2 in trip plans"},
-    {:in_seat_transfers, "In Seat Transfers",
-     "Show in-seat transfers available for certain trips"},
     {:line_diagram, "New Line Diagram",
      "Adds a tab to the schedules page for the new line diagram"},
     {:new_stop_page, "New Stop Page Layout",

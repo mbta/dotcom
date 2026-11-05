@@ -50,6 +50,16 @@ defmodule Predictions.RepoTest do
       assert is_list(trips)
     end
 
+    test "includes trip transfers so cached trips keep their in-seat transfer info" do
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", opts ->
+        assert "trip.from_trip_transfers" in String.split(opts[:include], ",")
+
+        %JsonApi{data: []}
+      end)
+
+      Repo.all(trip: Faker.Internet.slug())
+    end
+
     test "filters by min_time" do
       route_id = Faker.Internet.slug()
 
@@ -349,7 +359,7 @@ defmodule Predictions.RepoTest do
 
     test "returns a list even if the server is down" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        {:error, %HTTPoison.Error{reason: :econnrefused}}
+        {:error, %Req.TransportError{reason: :econnrefused}}
       end)
 
       assert Repo.all(route: "test_down_server") == []

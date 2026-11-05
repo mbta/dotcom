@@ -101,11 +101,6 @@ msgstr " peut partir avant l’horaire à ces arrêts."
 msgid " minute walk"
 msgstr " Minute à pied"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr " sur "
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1160,11 +1155,6 @@ msgstr "Day titre de transport"
 msgid "Delay"
 msgstr "retard"
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr "Retard %{minutes}"
-
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1634,6 +1624,7 @@ msgstr "Mises à jour et projets MBTA à l’honneur"
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
@@ -3829,8 +3820,8 @@ msgstr "Suivi simple"
 msgid "Skip to main content"
 msgstr "Contourner vers le contenu principal"
 
+#: lib/dotcom_web/components/departures.ex
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
-#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
 msgstr "contourner"
@@ -4629,7 +4620,6 @@ msgstr "Voir la biographie pour %{name}"
 
 #: lib/dotcom_web/templates/alert/_summary_content.html.heex
 #: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
-#: lib/dotcom_web/templates/schedule/_timetable_suppressed.html.heex
 #, elixir-autogen, elixir-format
 msgid "View PDF Timetable"
 msgstr "Voir le PDF Horaire"
@@ -4899,6 +4889,7 @@ msgid "Zone"
 msgstr "Zone"
 
 #: lib/dotcom_web/components/transit_icons.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Zone %{zone}"
@@ -5170,21 +5161,25 @@ msgstr "Sud"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "station"
 msgstr "station"
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stations"
 msgstr "station"
 
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stop"
 msgstr "Stop"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stops"
 msgstr "arrêts"
@@ -5246,11 +5241,6 @@ msgstr "Places de stationnement totales"
 #, elixir-autogen, elixir-format
 msgid "towards"
 msgstr "vers"
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
-msgstr "Piste "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
@@ -5726,7 +5716,7 @@ msgstr "Retardé"
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr "<strong>Téléchargez%{appname}</strong> pour suivre votre voyage"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr "Le voyage continue comme"
@@ -5773,5 +5763,20 @@ msgstr "ou payer en espèces ou en paiement sans contact sur n’importe quel bu
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a station"
-msgstr "Recherche d’une station"
+msgid "%{count} %{stop} served by other trips on this route"
+msgstr "%{count} %{stop} desservi par d’autres trajets sur cette ligne"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a %{stop}"
+msgstr "Cherchez un %{stop}"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr "correspondances"
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{num}"
+msgstr "Itinéraire %{num}"

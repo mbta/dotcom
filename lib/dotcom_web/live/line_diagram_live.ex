@@ -8,6 +8,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @alerts_repo Application.compile_env!(:dotcom, :repo_modules)[:alerts]
   @date_time_module Application.compile_env!(:dotcom, :date_time_module)
   @map_config Application.compile_env(:mbta_metro, :map)
@@ -147,6 +148,8 @@ defmodule DotcomWeb.LineDiagramLive do
      end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
+     |> assign(:stop_type_label, Routes.Route.stop_type_label(route))
+     |> assign(:stop_type_label_plural, Routes.Route.stop_type_label_plural(route))
      |> assign_route_patterns()
      |> assign_route_stops()
      |> assign_route_data()
@@ -156,7 +159,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_fare_card()
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)
-     |> assign(:search_phrase, "")}
+     |> assign(:search_phrase, "")
+     |> assign_other_stops()}
   end
 
   @impl true
@@ -172,7 +176,8 @@ defmodule DotcomWeb.LineDiagramLive do
      end)
      |> apply_if_param_changed(:direction_id, &apply_direction_change/1)
      |> apply_if_param_changed(:selected_variant, &apply_variant_change/1)
-     |> assign_route_data()}
+     |> assign_route_data()
+     |> assign_other_stops()}
   end
 
   @impl true
@@ -444,27 +449,82 @@ defmodule DotcomWeb.LineDiagramLive do
           vehicle_icons={Map.values(@vehicle_icons)}
           move_map={@move_map}
         />
-        <div class="m-schedule-diagram__filter c-form__input-container">
-          <form>
+        <form id="stop_search_form">
+          <div class="m-schedule-diagram__filter c-form__input-container">
             <input
               class="c-form__input"
               type="text"
               phx-change="search"
               phx-submit="search"
               name="search"
-              placeholder={~t(Search for a station)}
+              placeholder={gettext("Search for a %{stop}", %{stop: @stop_type_label})}
+              value={@search_phrase}
             />
-          </form>
-        </div>
+            <button
+              :if={String.length(@search_phrase) > 0}
+              onclick="stop_search_form.reset()"
+              class="c-form__reset-btn btn-link"
+              aria-label="reset"
+              type="button"
+              phx-click="search"
+              phx-value-search=""
+            >
+              <i
+                aria-hidden="true"
+                class="c-form__reset-icon fa fa-times-circle"
+              ></i>
+            </button>
+          </div>
+        </form>
+
         <div class="m-schedule-diagram my-4">
           <ol>
             <li
               :for={stop <- @stops}
-              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest"}
+              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest stop_list_main_result"}
             >
-              <.stop_card stop={stop} bus_route?={@bus_route?} search_phrase={@search_phrase} />
+              <.stop_card
+                stop={stop}
+                bus_route?={@bus_route?}
+                route={@route}
+                direction_id={@direction_id}
+                search_phrase={@search_phrase}
+              />
             </li>
           </ol>
+          <DotcomWeb.Components.unstyled_accordion
+            :if={@other_stops |> Enum.count() > 0}
+            open={true}
+            class="group/other-stops"
+            summary_class="flex justify-between w-full bg-charcoal-90 border-x-[1px] border-b-[1px] group-open/other-stops:border-b-0 border-charcoal-80 cursor-pointer p-3 font-medium"
+          >
+            <:heading>
+              {gettext("%{count} %{stop} served by other trips on this route", %{
+                count: @other_stops |> Enum.count(),
+                stop:
+                  if @other_stops |> Enum.count() > 1 do
+                    @stop_type_label_plural
+                  else
+                    @stop_type_label
+                  end
+              })}
+            </:heading>
+            <:content>
+              <ol>
+                <li
+                  :for={stop <- @other_stops}
+                  class="m-schedule-diagram__stop border-xs border-gray-lightest"
+                >
+                  <.stop_card
+                    stop={stop}
+                    bus_route?={@bus_route?}
+                    route={@route}
+                    direction_id={@direction_id}
+                  />
+                </li>
+              </ol>
+            </:content>
+          </DotcomWeb.Components.unstyled_accordion>
         </div>
       </div>
       <div class="col-md-5 gap-[32px] flex flex-col">
@@ -486,15 +546,17 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp search_class(stop, search_phrase) do
-    if String.length(search_phrase) > 0 and !String.contains?(stop.name, search_phrase) do
+    if String.length(search_phrase) > 0 and
+         !stop_name_match?(stop.name, search_phrase) do
       "hidden"
     else
       ""
     end
   end
 
+  @impl true
   def handle_event("search", %{"search" => search}, socket) do
-    {:noreply, assign(socket, search_phrase: search)}
+    {:noreply, socket |> assign(search_phrase: search |> String.trim()) |> assign_other_stops()}
   end
 
   # re-fit the map to the newly selected variant or direction
@@ -585,6 +647,40 @@ defmodule DotcomWeb.LineDiagramLive do
     socket |> assign(:stops, stops)
   end
 
+  defp assign_other_stops(%{search_phrase: ""}) do
+    []
+  end
+
+  defp assign_other_stops(
+         %{
+           assigns: %{stops: stops, stops_by_id: stops_by_id, search_phrase: search_phrase}
+         } = socket
+       ) do
+    socket
+    |> assign(
+      :other_stops,
+      stops_by_id
+      |> Enum.reject(fn {stop_id, _other_stop} ->
+        stops |> Enum.find(fn stop -> stop.id == stop_id end)
+      end)
+      |> stop_search(search_phrase)
+    )
+  end
+
+  defp stop_name_match?(stop_name, search_phrase) do
+    stop_name
+    |> String.downcase()
+    |> String.contains?(search_phrase |> String.downcase())
+  end
+
+  defp stop_search(stops, search_phrase) do
+    stops
+    |> Enum.filter(fn {_stop_id, %{name: stop_name}} ->
+      stop_name_match?(stop_name, search_phrase)
+    end)
+    |> Enum.map(fn {_stop_id, stop} -> stop end)
+  end
+
   defp assign_map_attributes(socket) do
     socket
     |> assign_map_lines()
@@ -655,8 +751,17 @@ defmodule DotcomWeb.LineDiagramLive do
 
   attr :stop, Stops.Stop, required: true
   attr :bus_route?, :integer, required: true
+  attr :route, Routes.Route, required: true
+  attr :direction_id, :string, required: true
 
   defp stop_card(assigns) do
+    stop_id =
+      if assigns.stop.parent_id do
+        assigns.stop.parent_id
+      else
+        assigns.stop.id
+      end
+
     stop_name_parts =
       Regex.named_captures(
         ~r/^(?<start>.*)(?<match>#{assigns.search_phrase})(?<end>.*)$/i,
@@ -665,6 +770,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
     assigns =
       assigns
+      |> assign(:connections, stop_connections(stop_id, assigns.route.id))
       |> assign(
         :stop_name_parts,
         if is_nil(stop_name_parts) do
@@ -675,21 +781,103 @@ defmodule DotcomWeb.LineDiagramLive do
       )
 
     ~H"""
-    <section class="m-schedule-diagram__content flex justify-between">
-      <.link navigate={~p"/stops/#{@stop.id}"}>
-        <h4 class="m-schedule-diagram__stop-link notranslate">
-          {@stop_name_parts |> Map.get("start")}<span class="u-highlight strong">{@stop_name_parts |> Map.get("match")}</span>{@stop_name_parts
-          |> Map.get("end")}
-        </h4>
-      </.link>
-      <.a11y_and_parking
-        stop={@stop}
-        bus_route?={@bus_route?}
-        tooltip_placement={:bottom}
-        rounded?={true}
-      />
+    <section class="m-schedule-diagram__content flex justify-between p-1">
+      <div data-id="wrapper" class="w-full flex flex-row justify-between">
+        <div data-id="left" class="flex flex-col w-full" style="width: calc( 100% - 2rem )">
+          <div data-id="top" class="flex flex-row w-full justify-between mb-1">
+            <.link
+              class="w-full flex flex-row"
+              navigate={
+                ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
+              }
+            >
+              <h4 class="m-schedule-diagram__stop-link notranslate">
+                {@stop_name_parts |> Map.get("start")}<span class="u-highlight strong">{@stop_name_parts |> Map.get("match")}</span>{@stop_name_parts
+                |> Map.get("end")}
+              </h4>
+              <.a11y_and_parking
+                stop={@stop}
+                bus_route?={@bus_route?}
+                tooltip_placement={:bottom}
+                rounded?={true}
+              />
+            </.link>
+            <div data-id="right" class="flex flex-row m-schedule-diagram__features">
+              <span
+                :if={!is_nil(@stop.zone) and @route.type == 2}
+                class="c-icon__cr-zone h-[1.25rem]"
+              >
+                {gettext("Zone %{zone}", %{zone: @stop.zone})}
+              </span>
+            </div>
+          </div>
+          <div
+            data-id="bottom"
+            class="connections flex flex-row w-full flex-wrap mt-1"
+            aria-label={~t"Connections"}
+          >
+            <.link
+              :for={route <- @connections}
+              class="mr-1"
+              navigate={~p"/schedules/#{route.id}/line"}
+            >
+              <.tooltip title={connection_route_name(route)} placement={:top}>
+                <DotcomWeb.RouteComponents.route_icon
+                  size="small"
+                  route={route}
+                />
+              </.tooltip>
+            </.link>
+          </div>
+        </div>
+        <div data-id="right" class="flex-col content-center">
+          <.link navigate={
+            ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
+          }>
+            <.icon
+              name="chevron-right"
+              class="h-3 w-2 fill-gray-dark ml-3 mr-2 shrink-0"
+              aria-label={connection_route_name(@route)}
+            />
+          </.link>
+        </div>
+      </div>
     </section>
     """
+  end
+
+  defp connection_route_name(%{type: 2} = _route) do
+    "Commuter Rail"
+  end
+
+  defp connection_route_name(%{type: 4} = _route) do
+    ~t"Ferry"
+  end
+
+  defp connection_route_name(%{type: 3, name: name} = _route) do
+    gettext("Route %{num}", %{num: name})
+  end
+
+  defp connection_route_name(%{name: name} = _route) do
+    name
+  end
+
+  defp stop_connections(stop_id, route_id) do
+    @routes_repo.by_stop(stop_id, include: "stop.connecting_stops")
+    |> Enum.reject(fn route -> route.id == route_id end)
+    |> consolidate_type(2)
+    |> consolidate_type(4)
+  end
+
+  defp consolidate_type(connections, type) do
+    # Only keep the first #{type} connection
+    first_found = connections |> Enum.find(fn route -> route.type == type end)
+
+    if first_found do
+      connections |> Enum.reject(fn route -> route.type == type and route != first_found end)
+    else
+      connections
+    end
   end
 
   defp assign_fare_card(%{assigns: %{route: route}} = socket) do

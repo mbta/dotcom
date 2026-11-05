@@ -1,24 +1,19 @@
 import { StopId } from "../../schedule/components/__schedule";
 import {
-  Activity,
   Alert,
-  Facility,
   InformedEntitySet,
-  Lifecycle,
   TimePeriodPairs
 } from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
   isInNextXDays,
   alertsByStop,
-  uniqueByEffect,
   isDiversion,
   isActiveDiversion,
   hasAnActiveDiversion,
   alertsByRoute,
   alertsByDirectionId,
   alertsAffectingBothDirections,
-  hasCurrentFacilityAlert,
   isSuppressiveAlert
 } from "../alert";
 import { add } from "date-fns";
@@ -33,7 +28,6 @@ const activePeriodDateFormatted = (date: Date): string => {
 
 export const aroundNow = () => {
   const now = Date.now();
-  const five_minutes = 300_000;
   return [
     [
       activePeriodDateFormatted(add(now, { minutes: -5 })),
@@ -44,7 +38,6 @@ export const aroundNow = () => {
 
 export const beforeNow = () => {
   const now = Date.now();
-  const five_minutes = 300_000;
   return [
     [
       activePeriodDateFormatted(add(now, { days: -2 })),
@@ -208,24 +201,6 @@ describe("alertsByStop", () => {
   });
 });
 
-describe("uniqueByEffect", () => {
-  test("uniqueByEffect enables filtering to unique effects", () => {
-    const alerts = [
-      { effect: "shuttle" } as Alert,
-      { effect: "detour" } as Alert,
-      { effect: "detour" } as Alert,
-      { effect: "shuttle" } as Alert,
-      { effect: "unknown" } as Alert
-    ];
-    expect(alerts.filter(uniqueByEffect)).toHaveLength(3);
-    expect(alerts.filter(uniqueByEffect).map(a => a.effect)).toEqual([
-      "shuttle",
-      "detour",
-      "unknown"
-    ]);
-  });
-});
-
 describe("isActiveDiversion", () => {
   test("true if the alert is current and a diversion", () => {
     const alert: Alert = {
@@ -382,33 +357,6 @@ describe("alertsAffectingBothDirections", () => {
     expect(result[0].id).toBe("3333");
     expect(result[1].id).toBe("4444");
     expect(result[2].id).toBe("5555");
-  });
-});
-
-describe("hasCurrentFacilityAlert", () => {
-  test("should return true when facilityId matches facility in alert else false", () => {
-    let facilityId = "ele-125";
-    const facilityAlert = {
-      ...alert1,
-      informed_entity: {
-        facility: ["ele-125"]
-      } as InformedEntitySet
-    };
-
-    expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(true);
-    expect(hasCurrentFacilityAlert(facilityId, [alert2])).toBe(false);
-  });
-
-  test("should only return true if it has current alerts", () => {
-    let facilityId = "ele-125";
-    const facilityAlert = {
-      ...alert1,
-      lifecycle: "upcoming" as Lifecycle,
-      informed_entity: {
-        facility: ["ele-125"]
-      } as InformedEntitySet
-    };
-    expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(false);
   });
 });
 

@@ -1,6 +1,5 @@
 import { menuReducer, MenuAction, State } from "../reducer";
 import { EnhancedRoutePattern } from "../../__schedule";
-import { Shape } from "../../../../__v3api";
 
 const routePatternsForInbound: EnhancedRoutePattern[] = [
   {
@@ -35,15 +34,6 @@ const routePatternsForInbound: EnhancedRoutePattern[] = [
   }
 ];
 
-const shape: Shape = {
-  direction_id: 1,
-  id: "1110177",
-  name: "Woodlawn - Haymarket Station",
-  priority: 3,
-  polyline: "polyline",
-  stop_ids: []
-};
-
 const initialState: State = {
   routePattern: {
     direction_id: 0,
@@ -66,7 +56,6 @@ const initialState: State = {
     1: routePatternsForInbound
   },
   routePatternMenuOpen: true,
-  routePatternMenuAll: true,
   itemFocus: null
 };
 

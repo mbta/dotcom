@@ -1,16 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import { add } from "date-fns";
 import React from "react";
 import { DepartureInfo } from "../../models/departureInfo";
 import { PredictionWithTimestamp } from "../../models/predictions";
 import { ScheduleWithTimestamp } from "../../models/schedules";
-import { baseRoute, customStop } from "../../stop/__tests__/helpers";
+import { baseRoute } from "../../stop/__tests__/helpers";
 import {
   COMMUTER_RAIL,
   SUBWAY,
   departureInfoToTime,
   departuresListFromInfos,
-  isAtDestination,
   mergeIntoDepartureInfo
 } from "../departureInfo";
 
@@ -110,18 +108,6 @@ describe("departureInfo", () => {
 
       // Checking subway check
       expect(departureInfos[4].routeMode).toBe(SUBWAY);
-    });
-  });
-
-  describe("isAtDestination", () => {
-    it("should return true if at destination else false", () => {
-      const route = baseRoute("Blue", 2);
-      route.direction_destinations = [
-        "Wonderland Station",
-        "Inbound Destination"
-      ];
-      expect(isAtDestination("Wonderland", route, 0)).toBe(true);
-      expect(isAtDestination("Airport", route, 0)).toBe(false);
     });
   });
 

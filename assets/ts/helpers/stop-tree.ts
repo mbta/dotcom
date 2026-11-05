@@ -1,4 +1,3 @@
-import { isEmpty } from "lodash";
 import {
   RouteStop,
   StopId,
@@ -19,7 +18,6 @@ export const startingNodes = (stopTree: StopTree): StopId[] =>
 export const stopIds = (stopTree: StopTree): StopId[] =>
   Object.keys(stopTree.byId);
 
-export const nodeId = (node: StopTreeNode): StopId => node.id;
 export const nodeValue = (node: StopTreeNode): RouteStop => node.value;
 
 export const nextEdges = (edges: StopTreeEdges): StopId[] => edges.next;
@@ -120,14 +118,6 @@ export const sliceForId = (
 ): StopTreeSlice | undefined =>
   slices(stopTree).find(slice => slice.includes(id));
 
-export const sliceSizeForId = (
-  stopTree: StopTree,
-  id: StopId
-): number | undefined => {
-  const slice = sliceForId(stopTree, id);
-  return slice && sliceSize(slice);
-};
-
 export const hasBranches = (stopTree: StopTree): boolean =>
   slices(stopTree).some(slice => sliceSize(slice) > 1);
 
@@ -138,6 +128,3 @@ export const newBranchesStartingInSlice = (
   (sliceForId(stopTree, stopId) || []).filter(
     id => id !== stopId && isStartNode(stopTree, id)
   );
-
-export const isEmptyTree = (stopTree: StopTree): boolean =>
-  Object.values(stopTree).some(isEmpty);

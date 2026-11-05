@@ -395,7 +395,7 @@ defmodule Routes.RepoTest do
     end
 
     test "passes errors through" do
-      error = {:error, %HTTPoison.Error{id: nil, reason: :timeout}}
+      error = {:error, %Req.TransportError{reason: :timeout}}
       assert handle_response(error) == error
     end
   end
