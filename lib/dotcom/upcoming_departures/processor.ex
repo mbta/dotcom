@@ -12,6 +12,8 @@ defmodule Dotcom.UpcomingDepartures.Processor do
   import Dotcom.ScheduleFinder, only: [simplify_platform_name: 2]
   import Dotcom.Utils.Time, only: [truncate: 2]
 
+  alias Dotcom.InSeatTransfers
+  alias Dotcom.InSeatTransfers.TripHeading
   alias Dotcom.ScheduleFinder.{TripDetails, Platforms}
   alias Dotcom.UpcomingDepartures.{UpcomingDeparture, UpcomingTripDetails}
   alias Predictions.Prediction
@@ -266,16 +268,17 @@ defmodule Dotcom.UpcomingDepartures.Processor do
         stop_id: stop_id,
         stop_sequence: stop_sequence
       }) do
+    schedules = @schedules_repo.schedule_for_trip(trip_id, include_in_seat_transfers: true)
+    trip_ids = trip_ids(trip_id, schedules)
+
     predictions =
       @predictions_repo.all(
-        trip: trip_id,
+        trip: Enum.join(trip_ids, ","),
         include_terminals: true,
         discard_past_subway_predictions: false
       )
 
-    vehicle = predictions |> lookup_vehicle()
-
-    schedules = @schedules_repo.schedule_for_trip(trip_id)
+    vehicle = predictions |> predictions_for_trip(trip_id) |> lookup_vehicle()
 
     predicted_schedules =
       PredictedSchedule.group(predictions, schedules)
@@ -284,16 +287,11 @@ defmodule Dotcom.UpcomingDepartures.Processor do
     %TripDetails{stops: stops, vehicle_info: vehicle_info} =
       TripDetails.trip_details(%{
         predicted_schedules: predicted_schedules,
+        trip_ids: trip_ids,
         trip_vehicle: vehicle
       })
 
-    {stops_before, stop, stops_after} =
-      stops
-      |> Enum.split_while(&(&1.stop_id != stop_id || &1.stop_sequence != stop_sequence))
-      |> case do
-        {all, []} -> {[], nil, all}
-        {bef, [st | aft]} -> {bef, st, aft}
-      end
+    {stops_before, stop, stops_after} = split_at_stop(stops, stop_id, stop_sequence)
 
     %UpcomingTripDetails{
       stops_before: stops_before,
@@ -302,6 +300,50 @@ defmodule Dotcom.UpcomingDepartures.Processor do
       vehicle_info: vehicle_info
     }
   end
+
+  # The trip, followed by any in-seat transfer trips, in order
+  defp trip_ids(trip_id, schedules) when is_list(schedules) do
+    schedule_trip_ids =
+      Enum.flat_map(schedules, fn
+        %Schedule{trip: %Trip{id: id}} -> [id]
+        _ -> []
+      end)
+
+    Enum.uniq([trip_id | schedule_trip_ids])
+  end
+
+  defp trip_ids(trip_id, _), do: [trip_id]
+
+  # Only stops on the first trip (before any in-seat transfer) can be the selected stop
+  defp split_at_stop(stops, stop_id, stop_sequence) do
+    {first_trip_stops, continuing_stops} = Enum.split_while(stops, &(!match?(%TripHeading{}, &1)))
+
+    first_trip_stops
+    |> Enum.split_while(&(&1.stop_id != stop_id || &1.stop_sequence != stop_sequence))
+    |> case do
+      {_, []} ->
+        {[], nil, stops}
+
+      {stops_before, [stop | stops_after]} ->
+        [stop | stops_after] =
+          InSeatTransfers.trim_at_return(
+            [stop | stops_after ++ continuing_stops],
+            &(&1.stop_id == stop_id)
+          )
+
+        {stops_before, stop, stops_after}
+    end
+  end
+
+  defp predictions_for_trip(predictions, trip_id) do
+    case Enum.filter(predictions, &(prediction_trip_id(&1) == trip_id)) do
+      [] -> predictions
+      trip_predictions -> trip_predictions
+    end
+  end
+
+  defp prediction_trip_id(%Prediction{trip: %Trip{id: trip_id}}), do: trip_id
+  defp prediction_trip_id(%Prediction{trip_id: trip_id}), do: trip_id
 
   defp lookup_vehicle([%Prediction{vehicle_id: vehicle_id} | _]) when not is_nil(vehicle_id) do
     @vehicles_repo.get(vehicle_id)

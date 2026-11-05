@@ -4,6 +4,8 @@ defmodule DotcomWeb.Components.Departures do
   """
   use DotcomWeb, :component
 
+  alias Dotcom.InSeatTransfers.TripHeading
+  alias Dotcom.ScheduleFinder.TripDetails.TripStop
   alias DotcomWeb.RouteComponents
 
   attr :route, Routes.Route,
@@ -74,6 +76,120 @@ defmodule DotcomWeb.Components.Departures do
         {@platform_name}
       </div>
     </div>
+    """
+  end
+
+  attr :trip_heading, TripHeading, required: true
+
+  @doc """
+  A trip stop list item marking where a trip continues as an in-seat transfer trip
+  """
+  def trip_continues_as(assigns) do
+    ~H"""
+    <RouteComponents.lined_list_item
+      route={@trip_heading.route}
+      variant="none"
+      class="bg-charcoal-90"
+    >
+      <div class="flex-col w-full">
+        <div class="text-charcoal-30 text-sm text-nowrap">{~t"Trip continues as"}</div>
+        <div class="flex items-center gap-sm">
+          <RouteComponents.route_icon route={@trip_heading.route} size="small" class="shrink-0" />
+          <span>{@trip_heading.headsign}</span>
+        </div>
+      </div>
+    </RouteComponents.lined_list_item>
+    """
+  end
+
+  attr :route, Routes.Route, required: true
+  attr :stops, :list, required: true, doc: "A list of `TripStop`s and `TripHeading`s"
+
+  attr :highlight_first?, :boolean,
+    default: false,
+    doc: "Whether to highlight the first stop in the list, e.g. as the selected stop"
+
+  @doc """
+  Renders the stops visited by a trip as list items, including any
+  in-seat transfer headings. Must be rendered within a `lined_list`.
+  """
+  def trip_stops(assigns) do
+    ~H"""
+    <%= for {stop_or_heading, index} <- Enum.with_index(@stops) do %>
+      <%= if match?(%TripHeading{}, stop_or_heading) do %>
+        <.trip_continues_as trip_heading={stop_or_heading} />
+      <% else %>
+        <.trip_stop
+          highlight={@highlight_first? && index == 0}
+          route={@route}
+          trip_stop={stop_or_heading}
+        />
+      <% end %>
+    <% end %>
+    """
+  end
+
+  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
+  attr :class, :string, default: ""
+  attr :highlight, :boolean, default: false
+  attr :route, Routes.Route, required: true
+  attr :trip_stop, TripStop, required: true
+
+  @doc """
+  A single stop visited by a trip, with its arrival time or status.
+  Must be rendered within a `lined_list`.
+  """
+  def trip_stop(assigns) do
+    ~H"""
+    <RouteComponents.lined_list_item
+      background={@background}
+      route={@route}
+      class={@class}
+      stop_pin?={@highlight}
+      variant={if @trip_stop.cancelled?, do: "cancelled", else: "default"}
+    >
+      <div class={["grow", @highlight && "font-bold", @trip_stop.cancelled? && "line-through"]}>
+        <.stop_label
+          stop_name={@trip_stop.stop_name}
+          platform_name={@trip_stop.platform_name}
+        />
+      </div>
+      <div class="ml-auto flex flex-col items-end">
+        <div class={[@highlight && "font-bold"]}>
+          <.trip_stop_time cancelled?={@trip_stop.cancelled?} time={@trip_stop.time} />
+        </div>
+      </div>
+    </RouteComponents.lined_list_item>
+    """
+  end
+
+  attr :cancelled?, :boolean, default: false
+  attr :time, :any, required: true
+
+  @doc """
+  The time (or status) for a trip stop, or a "Skipped" indicator if cancelled.
+  """
+  def trip_stop_time(%{cancelled?: true} = assigns) do
+    ~H"""
+    <div class="block text-sm flex items-center gap-0.5">
+      <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" /> {~t(Skipped)}
+    </div>
+    """
+  end
+
+  def trip_stop_time(%{time: {:time, time}} = assigns) do
+    assigns = assign(assigns, :time, time)
+
+    ~H"""
+    <.formatted_time time={@time} />
+    """
+  end
+
+  def trip_stop_time(%{time: {:status, status}} = assigns) do
+    assigns = assign(assigns, :status, status)
+
+    ~H"""
+    <span>{@status}</span>
     """
   end
 end

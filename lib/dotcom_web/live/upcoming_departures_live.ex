@@ -11,6 +11,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
   import DotcomWeb.ViewHelpers, only: [mode_name: 1]
 
+  alias Dotcom.InSeatTransfers
   alias Dotcom.ServiceDateRollover
   alias DotcomWeb.Components.Departures
   alias Phoenix.{LiveView, LiveView.AsyncResult}
@@ -345,6 +346,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         </:heading>
         <:content>
           <.trip_details_wrapper
+            stop_id={@stop_id}
             route={upcoming_departure.route}
             trip_details={
               Map.get(
@@ -404,6 +406,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
 
   attr :trip_details, AsyncResult, required: true
   attr :route, Routes.Route, required: true
+  attr :stop_id, :string, required: true
 
   defp trip_details_wrapper(assigns) do
     ~H"""
@@ -417,15 +420,19 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
         <.callout>{~t(There was a problem loading trip details)}</.callout>
       </:failed>
 
-      <.trip_details trip_details={trip_details} route={@route} />
+      <.trip_details trip_details={trip_details} route={@route} stop_id={@stop_id} />
     </.async_result>
     """
   end
 
   attr :trip_details, Dotcom.UpcomingDepartures.UpcomingTripDetails, required: true
   attr :route, Routes.Route, required: true
+  attr :stop_id, :string, required: true
 
   defp trip_details(assigns) do
+    stops_after = stops_after(assigns.trip_details.stops_after, assigns.stop_id)
+    assigns = assign(assigns, :stops_after, stops_after)
+
     ~H"""
     <.lined_list>
       <.lined_list_item
@@ -440,7 +447,7 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
           />
         </div>
         <div :if={@trip_details.vehicle_info.departure_time}>
-          <.trip_stop_time time={@trip_details.vehicle_info.departure_time} />
+          <Departures.trip_stop_time time={@trip_details.vehicle_info.departure_time} />
         </div>
       </.lined_list_item>
       <details
@@ -479,28 +486,34 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
             </div>
           </.lined_list_item>
         </summary>
-        <.other_stop
-          :for={other_stop <- @trip_details.stops_before}
+        <Departures.trip_stop
+          :for={trip_stop <- @trip_details.stops_before}
           background="charcoal-90"
           class="border-t-xs border-gray-lightest bg-charcoal-90"
-          other_stop={other_stop}
           route={@route}
+          trip_stop={trip_stop}
         />
       </details>
 
-      <.other_stop
+      <Departures.trip_stop
         :if={@trip_details.stop}
         highlight
-        other_stop={@trip_details.stop}
         route={@route}
+        trip_stop={@trip_details.stop}
       />
-      <.other_stop
-        :for={other_stop <- @trip_details.stops_after}
-        other_stop={other_stop}
-        route={@route}
-      />
+      <Departures.trip_stops route={@route} stops={@stops_after} />
     </.lined_list>
     """
+  end
+
+  defp stops_after([%{stop_id: stop_id} | _] = stops, stop_id) do
+    InSeatTransfers.trim_at_return(stops, &(&1.stop_id == stop_id))
+  end
+
+  defp stops_after(stops, stop_id) do
+    [%{stop_id: stop_id} | stops]
+    |> InSeatTransfers.trim_at_return(&(&1.stop_id == stop_id))
+    |> Enum.drop(1)
   end
 
   attr :vehicle_info, Dotcom.ScheduleFinder.TripDetails.VehicleInfo, required: true
@@ -593,60 +606,6 @@ defmodule DotcomWeb.Live.UpcomingDeparturesLive do
   defp crowding_message(:some_crowding), do: ~t"Some crowding"
   defp crowding_message(:crowded), do: ~t"Crowded"
   defp crowding_message(_), do: ""
-
-  attr :background, :string, default: "white", values: ["white", "charcoal-90"]
-  attr :class, :string, default: ""
-  attr :route, Routes.Route, required: true
-  attr :other_stop, :any, required: true
-  attr :highlight, :boolean, default: false
-
-  defp other_stop(assigns) do
-    ~H"""
-    <.lined_list_item
-      background={@background}
-      route={@route}
-      class={@class}
-      stop_pin?={@highlight}
-      variant={if @other_stop.cancelled?, do: "cancelled", else: "default"}
-    >
-      <div class={["grow", @highlight && "font-bold", @other_stop.cancelled? && "line-through"]}>
-        <Departures.stop_label
-          stop_name={@other_stop.stop_name}
-          platform_name={@other_stop.platform_name}
-        />
-      </div>
-      <div class="ml-auto flex flex-col items-end">
-        <div class={[@highlight && "font-bold"]}>
-          <.trip_stop_time cancelled?={@other_stop.cancelled?} time={@other_stop.time} />
-        </div>
-      </div>
-    </.lined_list_item>
-    """
-  end
-
-  defp trip_stop_time(%{cancelled?: true} = assigns) do
-    ~H"""
-    <div class="block text-sm flex items-center gap-0.5">
-      <.icon aria-hidden type="icon-svg" name="icon-cancelled-default" class="size-3" /> {~t(Skipped)}
-    </div>
-    """
-  end
-
-  defp trip_stop_time(%{time: {:time, time}} = assigns) do
-    assigns = assigns |> assign(:time, time)
-
-    ~H"""
-    <Departures.formatted_time time={@time} />
-    """
-  end
-
-  defp trip_stop_time(%{time: {:status, status}} = assigns) do
-    assigns = assigns |> assign(:status, status)
-
-    ~H"""
-    <span>{@status}</span>
-    """
-  end
 
   defp prediction_time_display(%{arrival_status: {:scheduled, time}} = assigns) do
     assigns = assigns |> assign(:time, time)
