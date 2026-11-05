@@ -76,8 +76,8 @@ defmodule DotcomWeb.ScheduleFinderLive do
           |> assign_new(:service_today?, fn %{served_dates: dates} ->
             today in dates
           end)
-          |> assign_new(:atypical_services, fn ->
-            ServicePatterns.upcoming_atypical_service_dates_for_route(route.id)
+          |> assign_new(:holiday_services, fn ->
+            ServicePatterns.upcoming_holiday_service_dates_for_route(route.id)
           end)
           |> assign_new(:daily_schedule_date, fn assigns ->
             # Current date if there's service today, next available service date otherwise... or current date if there's no service at all!
@@ -139,7 +139,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             today={@today}
             displayed_date={@daily_schedule_date}
             valid_dates={@served_dates}
-            atypical_services={@atypical_services}
+            holiday_services={@holiday_services}
           />
           <p class="text-xl font-heading mb-sm">
             {format!(@daily_schedule_date, :date_short_ordinal)}
@@ -491,9 +491,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
   attr :today, Date, required: true
   attr :displayed_date, Date, required: true
   attr :valid_dates, :list, required: true
-  attr :atypical_services, :list, required: true
+  attr :holiday_services, :list, required: true
 
   defp service_picker(assigns) do
+    # assigns.today should always be the current service date, which at 1am should resolve to the prior day.
     assigns =
       assigns
       |> assign(:form, to_form(%{"date" => assigns.displayed_date}))
@@ -518,10 +519,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
     >
       <div class="flex gap-sm justify-between items-baseline">
         <.label for={input_id(@form, :date)} class="font-bold pt-0">
-          {~t(Find by date)}
+          {~t(Schedule for)}
         </.label>
         <div :if={@displayed_date !== @today} class="text-sm shrink-0">
-          {~t(See today)}, <.service_picker_link date={@today} target={"##{@id}-datepicker"} />
+          <.service_picker_link
+            date={@today}
+            target={"##{@id}-datepicker"}
+            label={~t(Go to today)}
+          />
         </div>
       </div>
       <.live_component
@@ -533,26 +538,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
         label={nil}
         id={@id <> "-datepicker"}
       />
-      <div :if={!Enum.empty?(@atypical_services)} class="text-sm mt-sm mb-0">
-        <% holiday_dates = Map.get(@atypical_services, :holiday_service, []) %>
-        <p :if={!Enum.empty?(holiday_dates)} class="m-0">
-          <span class="font-semibold">{~t(Upcoming holidays)}:</span>
-          <.service_picker_link
-            :for={date <- holiday_dates}
+      <div :if={!Enum.empty?(@holiday_services)} class="text-sm mt-sm mb-0">
+        <div class="font-semibold">{~t(Upcoming holidays)}:</div>
+        <p :for={{name, date} <- @holiday_services} class="m-0">
+          {name} (<.service_picker_link
             date={date}
             target={"##{@id}-datepicker"}
-            label={formatted_date(date)}
-          />
-        </p>
-        <% extra_dates = Map.get(@atypical_services, :extra_service, []) %>
-        <p :if={!Enum.empty?(extra_dates)} class="m-0">
-          <span class="font-semibold">{~t(Extra service)}:</span>
-          <.service_picker_link
-            :for={date <- extra_dates}
-            date={date}
-            target={"##{@id}-datepicker"}
-            label={formatted_date(date)}
-          />
+          />)
         </p>
       </div>
     </.form>
@@ -562,13 +554,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
   defp service_picker_link(assigns) do
     assigns =
       assign_new(assigns, :label, fn %{date: date} ->
-        format!(date, :month_day_short)
+        format!(date, :weekday_month_day_short)
       end)
 
     ~H"""
     <button
       type="button"
-      class="underline font-semibold bg-transparent p-0 hover:text-brand-primary"
+      class="underline font-medium text-brand-primary bg-transparent p-0 hover:text-brand-primary-darkest"
       phx-click={select_service_date(@target, @date)}
     >
       {@label}
@@ -757,13 +749,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
         time_list
         |> Enum.max_by(& &1, DateTime)
         |> DateTime.after?(now)
-    end
-  end
-
-  defp formatted_date(date) do
-    case Holiday.Repo.by_date(date) do
-      [%Holiday{name: name} | _] -> name
-      _ -> format!(date, :month_day_short)
     end
   end
 end

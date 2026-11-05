@@ -59,7 +59,7 @@ defmodule Dotcom.ServicePatternsTest do
     end
   end
 
-  describe "upcoming_atypical_service_dates_for_route/2" do
+  describe "upcoming_holiday_service_dates_for_route/2" do
     test "returns sorted upcoming dates grouped by atypical service type" do
       route_id = FactoryHelpers.build(:id)
       current_date = ~D[2025-01-10]
@@ -82,10 +82,9 @@ defmodule Dotcom.ServicePatternsTest do
 
       expect(Services.Repo.Mock, :by_route_id, fn ^route_id -> services end)
 
-      assert grouped_dates = upcoming_atypical_service_dates_for_route(route_id, current_date)
-      assert Map.get(grouped_dates, :extra_service) == [~D[2025-01-20]]
+      assert grouped_dates = upcoming_holiday_service_dates_for_route(route_id, current_date)
 
-      assert Map.get(grouped_dates, :holiday_service) == [
+      assert grouped_dates |> Enum.map(&elem(&1, 1)) == [
                ~D[2025-01-10],
                ~D[2025-01-13],
                ~D[2025-01-24]
