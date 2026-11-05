@@ -765,7 +765,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
     stop_name_parts =
       Regex.named_captures(
-        ~r/^(?<start>.*)(?<match>#{assigns.search_phrase})(?<end>.*)$/i,
+        ~r/^(?<start>.*)(?<match>#{assigns.search_phrase})(?<end>.*)$/iU,
         assigns.stop.name
       )
 
@@ -792,7 +792,7 @@ defmodule DotcomWeb.LineDiagramLive do
                 ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
               }
             >
-              <h4 class="m-schedule-diagram__stop-link notranslate">
+              <h4 class="m-schedule-diagram__stop-link notranslate mr-1">
                 {@stop_name_parts |> Map.get("start")}<span class="u-highlight strong">{@stop_name_parts |> Map.get("match")}</span>{@stop_name_parts
                 |> Map.get("end")}
               </h4>
