@@ -117,11 +117,13 @@ defmodule Dotcom.TripPlan.Fares.State do
 
   @dtx_park_stations ~w(place-dwnxg place-pktrm) |> Enum.map(&"mbta-ma-us:#{&1}")
 
+  @fairmount_route_ids ~w(mbta-ma-us mbta-ma-us-initial) |> Enum.map(&"#{&1}:CR-Fairmount")
+
   # Fairmount Line trips that both start and end in Zone 1A are
   # eligible for free transfers to and from subway, bus, and Silver
   # Line.
   defguardp fairmount_zone_1a?(leg)
-            when leg.route.type == 2 and leg.route.gtfs_id == "mbta-ma-us:CR-Fairmount" and
+            when leg.route.type == 2 and leg.route.gtfs_id in @fairmount_route_ids and
                    leg.from.stop.zone_id == "CR-zone-1A" and leg.to.stop.zone_id == "CR-zone-1A"
 
   @doc """

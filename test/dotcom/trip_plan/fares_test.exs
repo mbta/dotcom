@@ -522,7 +522,12 @@ defmodule Dotcom.TripPlan.FaresTest do
   defp fairmount_leg(agency, from_zone, to_zone, start_time) do
     build(:transit_leg,
       agency: agency,
-      route: build(:route, agency: agency, type: 2, gtfs_id: "mbta-ma-us:CR-Fairmount"),
+      route:
+        build(:route,
+          agency: agency,
+          type: 2,
+          gtfs_id: Faker.Util.pick(["mbta-ma-us:", "mbta-ma-us-initial:"]) <> "CR-Fairmount"
+        ),
       from: build(:place, stop: build(:stop, zone_id: "CR-zone-#{from_zone}")),
       to: build(:place, stop: build(:stop, zone_id: "CR-zone-#{to_zone}")),
       start: build(:leg_time, scheduled_time: start_time)
