@@ -510,6 +510,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
       for={@form}
       data-test="service-picker-form"
       phx-change="select_service"
+      phx-submit="select_service"
       class="mb-lg p-md bg-gray-bordered-background rounded"
       id={@id <> "-form"}
     >
@@ -563,12 +564,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
       end)
 
     ~H"""
-    <a
-      class="underline font-semibold cursor-pointer"
+    <button
+      type="button"
+      class="underline font-semibold bg-transparent p-0 hover:text-brand-primary"
       phx-click={select_service_date(@target, @date)}
     >
       {@label}
-    </a>
+    </button>
     """
   end
 
