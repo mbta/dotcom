@@ -550,7 +550,7 @@ defmodule DotcomWeb.LineDiagramLive do
          !stop_name_match?(stop.name, search_phrase) do
       "hidden"
     else
-      ""
+      "result"
     end
   end
 
