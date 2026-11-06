@@ -214,21 +214,6 @@ msgstr ""
 msgid "%{place} Information"
 msgstr ""
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Planned Work"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, ends %{date}"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, starts %{date}"
-msgstr ""
-
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "%{route_name} to %{headsign}"
@@ -890,11 +875,6 @@ msgstr ""
 msgid "Choose Your Language"
 msgstr ""
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Choose a schedule type from the available options"
-msgstr ""
-
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Christmas Day"
@@ -1515,7 +1495,6 @@ msgid "Exterior of Wonderland station"
 msgstr ""
 
 #: lib/alerts/alert.ex
-#: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Extra Service"
 msgstr ""
@@ -1922,11 +1901,6 @@ msgstr ""
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "History"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Holiday Schedules"
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
@@ -2828,7 +2802,6 @@ msgstr ""
 
 #: lib/dotcom_web/components/system_status/subway_status.ex
 #: lib/dotcom_web/components/trip_planner/input_form.ex
-#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Now"
@@ -2926,11 +2899,6 @@ msgstr ""
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Other"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Other Schedules"
 msgstr ""
 
 #: lib/dotcom_web/views/layout_view.ex
@@ -3462,6 +3430,7 @@ msgstr ""
 msgid "Schedule Change"
 msgstr ""
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Schedule for"
@@ -5302,36 +5271,6 @@ msgstr ""
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr ""
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Friday schedules"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Monday - Thursday schedules"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Saturday schedules"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Sunday schedules"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekday schedules"
-msgstr ""
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekend schedules"
-msgstr ""
-
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
@@ -5753,4 +5692,14 @@ msgstr ""
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Go to today"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Upcoming holidays"
 msgstr ""
