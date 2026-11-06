@@ -3,6 +3,34 @@ defmodule Phoenix.Router.RoutingTest do
 
   @canonical_host "www.mbta.com"
 
+  describe "error handling" do
+    test "preserves 404", %{conn: conn} do
+      response = DotcomWeb.Router.handle_errors(conn, %{reason: %{plug_status: 404}})
+      assert html_response(response, 404) =~ "Page not found"
+    end
+
+    test "preserves InvalidCSRFTokenError", %{conn: conn} do
+      response =
+        DotcomWeb.Router.handle_errors(conn, %{
+          reason: %Plug.CSRFProtection.InvalidCSRFTokenError{plug_status: 403}
+        })
+
+      assert %{"error" => _} = json_response(response, 403)
+    end
+
+    test "renders unexpected errors as 500", %{conn: conn} do
+      for reason <- [%RuntimeError{}, %{plug_status: 503}] do
+        response = DotcomWeb.Router.handle_errors(conn, %{reason: reason})
+        assert html_response(response, 500) =~ "Something went wrong on our end."
+      end
+
+      for reason <- [400, 403, 422, 429] |> Enum.map(&%{plug_status: &1}) do
+        response = DotcomWeb.Router.handle_errors(conn, %{reason: reason})
+        assert html_response(response, 500) =~ "Something went wrong on our end."
+      end
+    end
+  end
+
   describe "routes" do
     test "Proposed Sales Locations page", %{conn: conn} do
       conn = get(conn, "/fare-transformation/proposed-sales-locations")
