@@ -11,7 +11,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
   import Dotcom.Utils.Time, only: [format!: 2]
-  import DotcomWeb.RouteComponents, only: [lined_list: 1, lined_list_item: 1]
+  import DotcomWeb.RouteComponents, only: [lined_list: 1]
   import Phoenix.HTML.Form, only: [input_id: 2]
 
   alias Dotcom.InSeatTransfers
