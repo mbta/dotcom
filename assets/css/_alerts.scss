@@ -113,12 +113,22 @@
   [class*='c-svg__icon'] {
     height: $base-spacing * 2;
     width: $base-spacing * 2;
+  }
+
+  [class*='c-svg__icon-escalator'] {
     svg {
       path {
         fill: #000
       }
     }
-  }
+  };
+  [class*='c-svg__icon-elevator'] {
+    svg {
+      path {
+        fill: #000
+      }
+    }
+  };
 }
 
 .c-alert-item__effect {
