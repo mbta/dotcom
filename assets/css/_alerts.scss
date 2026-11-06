@@ -117,12 +117,14 @@
 
   [class*='c-svg__icon-escalator'] {
     svg {
+      scale: 1.5;
       path {
         fill: #000
       }
     }
   };
   [class*='c-svg__icon-elevator'] {
+    scale:1.5;
     svg {
       path {
         fill: #000
