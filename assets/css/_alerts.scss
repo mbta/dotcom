@@ -118,6 +118,8 @@
   [class*='c-svg__icon-escalator'] {
     svg {
       scale: 1.5;
+      margin-left: 0.25rem;
+      margin-top: 0.25rem;
       path {
         fill: #000
       }
@@ -125,6 +127,8 @@
   };
   [class*='c-svg__icon-elevator'] {
     scale:1.5;
+    margin-left: 0.25rem;
+    margin-top: 0.5rem;
     svg {
       path {
         fill: #000
