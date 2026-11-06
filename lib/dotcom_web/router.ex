@@ -34,6 +34,10 @@ defmodule DotcomWeb.Router do
         %{plug_status: 404} ->
           ControllerHelpers.render_404(conn)
 
+        # InvalidCSRFTokenError returns a 403, and come from the `:protect_from_forgery` plug before other plugs can transform the response
+        %Plug.CSRFProtection.InvalidCSRFTokenError{} = error ->
+          ControllerHelpers.return_error(conn, error.plug_status, error.message)
+
         _ ->
           ControllerHelpers.render_500(conn)
       end

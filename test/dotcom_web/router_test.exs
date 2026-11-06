@@ -9,6 +9,15 @@ defmodule Phoenix.Router.RoutingTest do
       assert html_response(response, 404) =~ "Page not found"
     end
 
+    test "preserves InvalidCSRFTokenError", %{conn: conn} do
+      response =
+        DotcomWeb.Router.handle_errors(conn, %{
+          reason: %Plug.CSRFProtection.InvalidCSRFTokenError{plug_status: 403}
+        })
+
+      assert %{"error" => _} = json_response(response, 403)
+    end
+
     test "renders unexpected errors as 500", %{conn: conn} do
       for reason <- [%RuntimeError{}, %{plug_status: 503}] do
         response = DotcomWeb.Router.handle_errors(conn, %{reason: reason})
