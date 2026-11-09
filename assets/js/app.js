@@ -5,7 +5,7 @@ import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import DotcomHooks from "../ts/phoenix-hooks/index.ts";
-import Map from './map.js';
+import Map from "./map.js";
 import { accordionInit } from "../ts/ui/accordion";
 import "../vendor/accessible-date-picker";
 import "../vendor/fixedsticky";

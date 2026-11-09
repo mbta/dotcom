@@ -4,7 +4,7 @@ export default () => {
 
 const scrollTo = () => {
   window.requestAnimationFrame(() => {
-    document.querySelectorAll("[data-scroll-to]").forEach((elToScrollTo) => {
+    document.querySelectorAll("[data-scroll-to]").forEach(elToScrollTo => {
       if (elToScrollTo) {
         doScrollTo(elToScrollTo);
       }

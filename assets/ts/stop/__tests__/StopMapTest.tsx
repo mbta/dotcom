@@ -16,9 +16,7 @@ const testStop = {
   name: "Test Stop Name",
   latitude: newLatOrLon(),
   longitude: newLatOrLon(),
-  parking_lots: [
-    {latitude: newLatOrLon(), longitude: newLatOrLon()}
-  ]
+  parking_lots: [{ latitude: newLatOrLon(), longitude: newLatOrLon() }]
 } as Stop;
 
 const v1 = {
