@@ -196,6 +196,7 @@ defmodule DotcomWeb.Components do
   )
 
   attr(:chevron_class, :string, default: "")
+  attr(:open, :boolean, default: false)
   attr(:rest, :global)
 
   @doc """
@@ -210,7 +211,7 @@ defmodule DotcomWeb.Components do
   """
   def unstyled_accordion(assigns) do
     ~H"""
-    <details class={"#{@class} group"} id={@id} {@rest}>
+    <details class={"#{@class} group"} id={@id} open={@open} {@rest}>
       <summary class={"#{@summary_class} cursor-pointer"}>
         {render_slot(@heading)}
         <div class={"#{@chevron_class} shrink-0"}>

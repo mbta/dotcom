@@ -4,7 +4,9 @@ defmodule Dotcom.UpcomingDeparturesTest do
   import Dotcom.Utils.Time, only: [truncate: 2]
   import Mox
 
+  alias Dotcom.InSeatTransfers.TripHeading
   alias Dotcom.ScheduleFinder.{Platforms}
+  alias Dotcom.ScheduleFinder.TripDetails.TripStop
   alias Dotcom.{UpcomingDepartures, UpcomingDepartures.UpcomingDeparture}
   alias Dotcom.Utils.ServiceDateTime
   alias Test.Support.{Factories, FactoryHelpers, Generators, PredictedScheduleHelper}
@@ -2174,7 +2176,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2244,7 +2251,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2282,7 +2294,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, 2, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, 2, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, 2, fn ^trip_id,
+                                                            [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, 2, fn _ -> vehicle end)
 
       # Exercise
@@ -2339,7 +2356,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2371,7 +2393,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2403,7 +2430,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2436,7 +2468,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2469,7 +2506,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2501,7 +2543,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2534,7 +2581,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2568,7 +2620,11 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
 
       # Exercise
       trip_details =
@@ -2600,7 +2656,11 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
 
       # Exercise
       trip_details =
@@ -2628,7 +2688,11 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(missing_vehicle?: true)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
 
       # Exercise
       trip_details =
@@ -2656,7 +2720,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data()
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> %{vehicle | stop_id: nil} end)
 
       # Exercise
@@ -2685,7 +2754,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_on_different_trip?: true)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2717,7 +2791,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2753,7 +2832,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2785,7 +2869,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 1)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2816,7 +2905,11 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
 
       # Exercise
       trip_details =
@@ -2851,7 +2944,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -2886,7 +2984,11 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
 
       # Exercise
       trip_details =
@@ -2932,7 +3034,10 @@ defmodule Dotcom.UpcomingDeparturesTest do
         end)
       end)
 
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
 
       # Exercise
       trip_details =
@@ -2977,7 +3082,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -3009,7 +3119,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         PredictedScheduleHelper.predicted_schedule_trip_data(vehicle_stop_index: 0)
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        []
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -3046,7 +3161,12 @@ defmodule Dotcom.UpcomingDeparturesTest do
         )
 
       expect(Predictions.Repo.Mock, :all, fn _ -> predictions end)
-      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id -> schedules end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn ^trip_id,
+                                                         [include_in_seat_transfers: true] ->
+        schedules
+      end)
+
       expect(Vehicles.Repo.Mock, :get, fn _ -> vehicle end)
 
       # Exercise
@@ -3063,5 +3183,168 @@ defmodule Dotcom.UpcomingDeparturesTest do
       refute trip_stop_0.cancelled?
       assert trip_stop_1.cancelled?
     end
+
+    test "includes in-seat transfer trips, and requests predictions for every trip" do
+      # Setup
+      [trip_1, trip_2] = Factories.Schedules.Trip.build_list(2, :trip)
+      [route_1, route_2] = Factories.Routes.Route.build_list(2, :bus_route)
+      [stop_a, stop_b, stop_c, stop_d] = Factories.Stops.Stop.build_list(4, :stop)
+      now = Generators.DateTime.random_date_time()
+
+      schedules =
+        chained_schedules(now, [
+          {trip_1, route_1, [stop_a, stop_b, stop_c]},
+          {trip_2, route_2, [stop_c, stop_d]}
+        ])
+
+      expected_trips = "#{trip_1.id},#{trip_2.id}"
+
+      expect(Predictions.Repo.Mock, :all, fn opts ->
+        assert Keyword.get(opts, :trip) == expected_trips
+        []
+      end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, [include_in_seat_transfers: true] ->
+        schedules
+      end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: now,
+          stop_id: stop_b.id,
+          stop_sequence: 2,
+          trip_id: trip_1.id
+        })
+
+      # Verify
+      assert trip_details.stops_before |> Enum.map(& &1.stop_id) == [stop_a.id]
+      assert trip_details.stop.stop_id == stop_b.id
+
+      assert [
+               %TripStop{stop_id: stop_c_id},
+               %TripHeading{headsign: headsign, route: ^route_2},
+               %TripStop{stop_id: stop_d_id}
+             ] = trip_details.stops_after
+
+      assert stop_c_id == stop_c.id
+      assert stop_d_id == stop_d.id
+      assert headsign == trip_2.headsign
+    end
+
+    test "uses predictions for in-seat transfer trips" do
+      # Setup
+      [trip_1, trip_2] = Factories.Schedules.Trip.build_list(2, :trip)
+      route = Factories.Routes.Route.build(:bus_route)
+      [stop_a, stop_b, stop_c] = Factories.Stops.Stop.build_list(3, :stop)
+      now = Generators.DateTime.random_date_time()
+
+      schedules =
+        chained_schedules(now, [
+          {trip_1, route, [stop_a, stop_b]},
+          {trip_2, route, [stop_b, stop_c]}
+        ])
+
+      predicted_time = now |> DateTime.add(90, :minute)
+
+      prediction =
+        Factories.Predictions.Prediction.build(:prediction,
+          arrival_time: predicted_time,
+          departure_time: predicted_time,
+          route: route,
+          schedule_relationship: nil,
+          status: nil,
+          stop: stop_c,
+          stop_sequence: 2,
+          trip: trip_2,
+          trip_id: trip_2.id,
+          vehicle_id: nil
+        )
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, [include_in_seat_transfers: true] ->
+        schedules
+      end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: now,
+          stop_id: stop_a.id,
+          stop_sequence: 1,
+          trip_id: trip_1.id
+        })
+
+      # Verify
+      assert [%TripStop{}, %TripHeading{}, %TripStop{stop_id: stop_c_id, time: time}] =
+               trip_details.stops_after
+
+      assert stop_c_id == stop_c.id
+      assert time == {:time, predicted_time |> truncate(:minute)}
+    end
+
+    test "ends the trip where an in-seat transfer trip returns to the selected stop" do
+      # Setup
+      [trip_1, trip_2] = Factories.Schedules.Trip.build_list(2, :trip)
+      route = Factories.Routes.Route.build(:bus_route)
+      [stop_a, stop_b, stop_c] = Factories.Stops.Stop.build_list(3, :stop)
+      now = Generators.DateTime.random_date_time()
+
+      schedules =
+        chained_schedules(now, [
+          {trip_1, route, [stop_a, stop_b, stop_c]},
+          {trip_2, route, [stop_c, stop_b, stop_a]}
+        ])
+
+      expect(Predictions.Repo.Mock, :all, fn _ -> [] end)
+
+      expect(Schedules.Repo.Mock, :schedule_for_trip, fn _, [include_in_seat_transfers: true] ->
+        schedules
+      end)
+
+      # Exercise
+      trip_details =
+        UpcomingDepartures.trip_details(%{
+          now: now,
+          stop_id: stop_b.id,
+          stop_sequence: 2,
+          trip_id: trip_1.id
+        })
+
+      # Verify
+      assert trip_details.stop.stop_id == stop_b.id
+
+      assert [%TripStop{stop_id: stop_c_id}, %TripHeading{}, %TripStop{stop_id: return_id}] =
+               trip_details.stops_after
+
+      assert stop_c_id == stop_c.id
+      assert return_id == stop_b.id
+    end
+  end
+
+  # Builds schedules for consecutive trips, each a list of stops, with times
+  # increasing by 10 minutes per stop after `now`.
+  defp chained_schedules(now, trips) do
+    trips
+    |> Enum.flat_map(fn {trip, route, stops} ->
+      stops
+      |> Enum.with_index(1)
+      |> Enum.map(fn {stop, stop_sequence} -> {trip, route, stop, stop_sequence} end)
+    end)
+    |> Enum.with_index(1)
+    |> Enum.map(fn {{trip, route, stop, stop_sequence}, index} ->
+      time = now |> DateTime.add(index * 10, :minute)
+
+      Factories.Schedules.Schedule.build(:schedule,
+        arrival_time: time,
+        departure_time: time,
+        route: route,
+        stop: stop,
+        stop_sequence: stop_sequence,
+        time: time,
+        trip: trip
+      )
+    end)
   end
 end

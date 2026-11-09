@@ -11,7 +11,7 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   ]
 
   @type t :: %__MODULE__{
-          stops: [__MODULE__.TripStop.t()],
+          stops: [__MODULE__.TripStop.t() | Dotcom.InSeatTransfers.TripHeading.t()],
           vehicle_info: nil | __MODULE__.VehicleInfo.t()
         }
 
@@ -79,6 +79,8 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
   import Dotcom.Utils.Time, only: [truncate: 2]
 
+  alias Dotcom.InSeatTransfers
+  alias Dotcom.InSeatTransfers.TripHeading
   alias Dotcom.ScheduleFinder
   alias Predictions.Prediction
   alias Routes.Route
@@ -88,14 +90,26 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
   @routes_repo Application.compile_env!(:dotcom, :repo_modules)[:routes]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
+  @doc """
+  Builds trip details from the predicted schedules of a trip.
+
+  If `trip_ids` is given, it lists the trip followed by its in-seat transfer
+  trips, in order. Predicted schedules are ordered by trip according to that
+  list, and a `TripHeading` marks where each subsequent trip begins.
+  Predicted schedules for trips not in that list are treated as part of the
+  first trip.
+  """
   @spec trip_details(%{
-          predicted_schedules: [PredictedSchedule.t()],
-          trip_vehicle: Vehicles.Vehicle.t() | nil
+          required(:predicted_schedules) => [PredictedSchedule.t()],
+          required(:trip_vehicle) => Vehicles.Vehicle.t() | nil,
+          optional(:trip_ids) => [Trip.id_t()]
         }) :: __MODULE__.t()
-  def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle}) do
+  def trip_details(%{predicted_schedules: predicted_schedules, trip_vehicle: vehicle} = args) do
+    trip_index_fn = trip_index_fn(Map.get(args, :trip_ids, []))
+
     upcoming_predicted_schedules =
       predicted_schedules
-      |> Enum.sort_by(&PredictedSchedule.stop_sequence(&1))
+      |> Enum.sort_by(&{trip_index_fn.(&1), PredictedSchedule.stop_sequence(&1)})
       |> drop_predicted_schedules_before_current_station(vehicle)
 
     vehicle_info =
@@ -103,24 +117,44 @@ defmodule Dotcom.ScheduleFinder.TripDetails do
 
     stops =
       upcoming_predicted_schedules
-      |> Enum.map(fn ps ->
-        stop = ps |> PredictedSchedule.stop()
-        platform_name = ps |> platform_name()
-
-        %TripStop{
-          cancelled?: PredictedSchedule.cancelled?(ps),
-          platform_name: platform_name,
-          stop_id: stop.id,
-          stop_name: stop.name,
-          stop_sequence: PredictedSchedule.stop_sequence(ps),
-          time: trip_stop_time(ps)
-        }
+      |> InSeatTransfers.insert_trip_headings(trip_index_fn, &trip_heading/1)
+      |> Enum.map(fn
+        %TripHeading{} = heading -> heading
+        ps -> trip_stop(ps)
       end)
       |> drop_first_trip_stop_if_vehicle_is_stopped(vehicle_info)
 
     %__MODULE__{
       stops: stops,
       vehicle_info: vehicle_info
+    }
+  end
+
+  defp trip_index_fn(trip_ids) do
+    trip_indexes = trip_ids |> Enum.with_index() |> Map.new()
+
+    &Map.get(trip_indexes, PredictedSchedule.trip_id(&1), 0)
+  end
+
+  defp trip_heading(predicted_schedule) do
+    trip = PredictedSchedule.trip(predicted_schedule)
+
+    %TripHeading{
+      headsign: trip && trip.headsign,
+      route: PredictedSchedule.route(predicted_schedule)
+    }
+  end
+
+  defp trip_stop(ps) do
+    stop = ps |> PredictedSchedule.stop()
+
+    %TripStop{
+      cancelled?: PredictedSchedule.cancelled?(ps),
+      platform_name: platform_name(ps),
+      stop_id: stop.id,
+      stop_name: stop.name,
+      stop_sequence: PredictedSchedule.stop_sequence(ps),
+      time: trip_stop_time(ps)
     }
   end
 

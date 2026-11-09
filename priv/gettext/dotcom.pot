@@ -101,11 +101,6 @@ msgstr ""
 msgid " minute walk"
 msgstr ""
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid " on "
-msgstr ""
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " on the "
@@ -1157,11 +1152,6 @@ msgstr ""
 msgid "Delay"
 msgstr ""
 
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "Delayed %{minutes}"
-msgstr ""
-
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1631,6 +1621,7 @@ msgstr ""
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #: lib/dotcom_web/controllers/schedule/route_breadcrumbs.ex
+#: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/live/projects_page_live.ex
 #: lib/dotcom_web/views/customer_support_view.ex
 #: lib/dotcom_web/views/helpers.ex
@@ -3811,8 +3802,8 @@ msgstr ""
 msgid "Skip to main content"
 msgstr ""
 
+#: lib/dotcom_web/components/departures.ex
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
-#: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
 msgstr ""
@@ -5149,21 +5140,25 @@ msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "station"
 msgstr ""
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stations"
 msgstr ""
 
 #: lib/dotcom_web/views/stop_view.ex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stop"
 msgstr ""
 
 #: lib/dotcom_web/templates/stop/index.html.heex
+#: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "stops"
 msgstr ""
@@ -5224,11 +5219,6 @@ msgstr ""
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "towards"
-msgstr ""
-
-#: lib/journey.ex
-#, elixir-autogen, elixir-format
-msgid "track "
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
@@ -5700,7 +5690,7 @@ msgstr ""
 msgid "Download <strong>%{appname}</strong> to track your trip"
 msgstr ""
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
+#: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
 msgstr ""
@@ -5747,5 +5737,20 @@ msgstr ""
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a station"
+msgid "%{count} %{stop} served by other trips on this route"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Search for a %{stop}"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Connections"
+msgstr ""
+
+#: lib/dotcom_web/live/line_diagram_live.ex
+#, elixir-autogen, elixir-format
+msgid "Route %{num}"
 msgstr ""

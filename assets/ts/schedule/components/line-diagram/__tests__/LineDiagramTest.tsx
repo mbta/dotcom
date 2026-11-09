@@ -1,9 +1,6 @@
 import React from "react";
-import * as swr from "swr";
-import * as UseQueryParams from "use-query-params";
 import userEvent from "@testing-library/user-event";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import * as reactRedux from "react-redux";
 import LineDiagram from "../LineDiagram";
 import { Route, RouteType } from "../../../../__v3api";
 import { RouteStop, StopTree } from "../../__schedule";

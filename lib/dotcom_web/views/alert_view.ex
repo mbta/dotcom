@@ -253,6 +253,8 @@ defmodule DotcomWeb.AlertView do
   def alert_icon(:snow), do: svg("icon-snow-default.svg")
   def alert_icon(:alert), do: svg("icon-alerts-triangle.svg")
   def alert_icon(:whale), do: svg("icon-whale.svg")
+  def alert_icon(:elevator), do: svg("icon-elevator.svg")
+  def alert_icon(:escalator), do: svg("icon-escalator.svg")
   def alert_icon(:none), do: ""
 
   def header(%Alert{effect: :station_closure} = alert) do
