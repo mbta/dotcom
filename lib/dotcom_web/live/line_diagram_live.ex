@@ -885,6 +885,7 @@ defmodule DotcomWeb.LineDiagramLive do
     else
       connections
     end
+  end
 
   defp assign_fare_card(%{assigns: %{route: route}} = socket) do
     socket
