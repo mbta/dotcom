@@ -11,7 +11,28 @@ interface MarkerEntry {
 interface IconMarkersHook extends ViewHook {
   markers: Map<string, MarkerEntry>;
   renderMarkers(): void;
-  updatePopup(entry: MarkerEntry, popupHtml: string | null): void;
+}
+
+// Returns the entry with its popup brought in line with `popupHtml`
+function syncPopup(
+  { marker, popup, popupHtml }: MarkerEntry,
+  newPopupHtml: string | null
+): MarkerEntry {
+  if (!newPopupHtml) {
+    if (popup) marker.setPopup(null);
+    return { marker, popup: null, popupHtml: null };
+  }
+
+  const activePopup =
+    popup ||
+    new maplibregl.Popup({
+      className: "m-schedule-line__stop-popup",
+      focusAfterOpen: false
+    });
+  if (!popup) marker.setPopup(activePopup);
+  if (popupHtml !== newPopupHtml) activePopup.setHTML(newPopupHtml);
+
+  return { marker, popup: activePopup, popupHtml: newPopupHtml };
 }
 
 /**
@@ -69,7 +90,7 @@ const IconMarkers: Partial<IconMarkersHook> = {
 
         if (existing) {
           existing.marker.setLngLat(lngLat).setRotation(rotation);
-          this.updatePopup(existing, popupHtml);
+          this.markers.set(id, syncPopup(existing, popupHtml));
           return;
         }
 
@@ -84,11 +105,11 @@ const IconMarkers: Partial<IconMarkersHook> = {
           element
         }).setLngLat(lngLat);
 
-        const entry: MarkerEntry = { marker, popup: null, popupHtml: null };
-        this.updatePopup(entry, popupHtml);
-
         marker.addTo(map);
-        this.markers.set(id, entry);
+        this.markers.set(
+          id,
+          syncPopup({ marker, popup: null, popupHtml: null }, popupHtml)
+        );
       });
 
     this.markers.forEach((entry, id) => {
@@ -97,36 +118,6 @@ const IconMarkers: Partial<IconMarkersHook> = {
         this.markers.delete(id);
       }
     });
-  },
-
-  updatePopup(
-    this: IconMarkersHook,
-    entry: MarkerEntry,
-    popupHtml: string | null
-  ) {
-    /* eslint-disable no-param-reassign */
-    if (!popupHtml) {
-      if (entry.popup) {
-        entry.marker.setPopup(null);
-        entry.popup = null;
-        entry.popupHtml = null;
-      }
-      return;
-    }
-
-    if (!entry.popup) {
-      entry.popup = new maplibregl.Popup({
-        className: "m-schedule-line__stop-popup",
-        focusAfterOpen: false
-      });
-      entry.marker.setPopup(entry.popup);
-    }
-
-    if (entry.popupHtml !== popupHtml) {
-      entry.popup.setHTML(popupHtml);
-      entry.popupHtml = popupHtml;
-    }
-    /* eslint-enable no-param-reassign */
   }
 };
 
