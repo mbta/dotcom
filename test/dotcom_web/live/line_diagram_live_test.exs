@@ -278,11 +278,7 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       view |> with_target("#line-diagram-map") |> render_hook("map-loaded", %{})
       assert_push_event(view, "update-markers", %{})
 
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "reset",
-        payload: %{data: []}
-      })
+      send(view.pid, :refetch_vehicles)
 
       render(view)
       assert_push_event(view, "update-markers", %{move_map: false})

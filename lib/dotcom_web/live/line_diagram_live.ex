@@ -129,27 +129,20 @@ defmodule DotcomWeb.LineDiagramLive do
     guides_for_this_route =
       @guides |> Enum.filter(fn guide -> route.type in guide.modes end)
 
-    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
-
     _ =
       if connected?(socket) do
-        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+        Vehicles.Notifications.subscribe({:route, route_id, direction_id})
       end
 
     {:ok,
      socket
      |> assign(:map_config, @map_config)
      |> assign(:direction_id, direction_id)
-     |> assign(:vehicle_topic, vehicle_topic)
-     |> assign_new(:vehicle_icons, fn ->
-       route_id
-       |> @vehicles_repo.route(direction_id: direction_id)
-       |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
-     end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:stop_type_label, Routes.Route.stop_type_label(route))
      |> assign(:stop_type_label_plural, Routes.Route.stop_type_label_plural(route))
+     |> fetch_vehicle_icons()
      |> assign_route_patterns()
      |> assign_route_stops()
      |> assign_route_data()
@@ -181,17 +174,8 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   @impl true
-  def terminate(_, socket) do
-    # stop listening for new vehicles
-    _ = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-  end
-
-  @impl true
-  def handle_info(
-        %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
-        socket
-      ) do
-    {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+  def handle_info({:vehicles_changed, _}, socket) do
+    {:noreply, socket |> fetch_vehicle_icons() |> assign(:move_map, false)}
   end
 
   @impl true
@@ -231,22 +215,17 @@ defmodule DotcomWeb.LineDiagramLive do
     Enum.any?(route_patterns, &(&1.id == variant))
   end
 
+  defp fetch_vehicle_icons(socket) do
+    %{route: route, direction_id: direction_id} = socket.assigns
+
+    @vehicles_repo.route(route.id, direction_id: direction_id)
+    |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
+    |> then(&assign(socket, :vehicle_icons, &1))
+  end
+
   defp apply_direction_change(socket) do
-    %{route_id: route_id, direction_id: direction_id} = socket.assigns
-    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
-
-    _ =
-      if connected?(socket) do
-        Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
-      end
-
     socket
-    |> assign(:vehicle_topic, vehicle_topic)
-    |> assign_vehicle_icons(
-      "reset",
-      @vehicles_repo.route(route_id, direction_id: direction_id)
-    )
+    |> fetch_vehicle_icons()
     |> assign_route_patterns()
     |> assign_route_stops()
   end
@@ -264,24 +243,6 @@ defmodule DotcomWeb.LineDiagramLive do
           [selected]
       end
     end)
-  end
-
-  def assign_vehicle_icons(socket, "remove", vehicle_ids) do
-    update(socket, :vehicle_icons, &Map.drop(&1, vehicle_ids))
-  end
-
-  def assign_vehicle_icons(socket, "reset", vehicles) do
-    vehicles
-    |> Map.new(&{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
-    |> then(&assign(socket, :vehicle_icons, &1))
-  end
-
-  # add or update
-  def assign_vehicle_icons(socket, _, vehicles) do
-    updated_vehicles =
-      Map.new(vehicles, &{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
-
-    update(socket, :vehicle_icons, &Map.merge(&1, updated_vehicles))
   end
 
   defp to_vehicle_marker(vehicle, route) do
