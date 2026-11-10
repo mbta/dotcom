@@ -17,9 +17,9 @@ const CONFIG = {
 
 export default {
   mounted() {
-    const el = this.el;
+    const { el } = this;
 
-    var customConfig = this.el.dataset.config
+    let customConfig = this.el.dataset.config
       ? JSON.parse(this.el.dataset.config)
       : {};
     customConfig = camelcaseKeys(customConfig, { deep: true });

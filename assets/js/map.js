@@ -25,7 +25,7 @@ export default {
     this.map.addControl(new maplibregl.NavigationControl(), "top-left");
 
     this.map.on("load", () => {
-      this.handleEvent("update-lines", _ => this.updateLines());
+      this.handleEvent("update-lines", () => this.updateLines());
       this.handleEvent("update-markers", params => this.updateMarkers(params));
       this.pushEventTo(this.el, "map-loaded", {});
     });
@@ -236,12 +236,12 @@ export default {
       .filter(marker => marker.coordinates.length === 2);
 
     if (markers.length === 0) {
-      move_map && this.fitMapToCenter();
+      if (move_map) this.fitMapToCenter();
 
       return;
     }
 
     this.addMarkers(markers);
-    move_map && this.fitMapToMarkers(markers);
+    if (move_map) this.fitMapToMarkers(markers);
   }
 };
