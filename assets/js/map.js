@@ -70,7 +70,7 @@ export default {
       
       const mapMarker = new maplibregl.Marker({
         anchor: marker.anchor,
-        element: marker.element,
+        element: marker.element.cloneNode(true),
         rotation: marker.rotation
       });
       if(marker.popup){
