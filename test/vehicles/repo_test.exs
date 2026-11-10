@@ -17,6 +17,7 @@ defmodule Vehicles.RepoTest do
   ]
 
   setup do
+    start_supervised!({Phoenix.PubSub, name: Vehicles.PubSub})
     _ = start_supervised({Vehicles.Repo, [pubsub_fn: &pubsub_fn/2]})
     :ok = Repo.sync_send(Vehicles.Repo, {:reset, @vehicles})
     {:ok, name: Vehicles.Repo}
