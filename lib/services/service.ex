@@ -165,7 +165,7 @@ defmodule Services.Service do
 
   @spec serves_date?(t(), Date.t()) :: boolean
   def serves_date?(service, date) do
-    date in all_valid_dates_for_service(service)
+    date in service.all_active_dates
   end
 
   @spec all_valid_dates_for_service(t()) :: [Date.t()]
