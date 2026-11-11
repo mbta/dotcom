@@ -6,7 +6,6 @@ defmodule Dotcom.ServicePatternsTest do
   import Test.Support.Factories.Services.Service
   import Test.Support.Generators.Date, only: [random_date: 0]
 
-  alias Services.Service
   alias Test.Support.FactoryHelpers
 
   setup :verify_on_exit!
@@ -59,36 +58,20 @@ defmodule Dotcom.ServicePatternsTest do
     end
   end
 
-  describe "upcoming_holiday_service_dates_for_route/2" do
-    test "returns sorted upcoming dates grouped by atypical service type" do
+  describe "upcoming_holidays_and_service/2" do
+    test "returns holidays and whether the date is served" do
       route_id = FactoryHelpers.build(:id)
-      current_date = ~D[2025-01-10]
 
-      services = [
-        %Service{
-          typicality: :extra_service,
-          all_active_dates: [~D[2025-01-09], ~D[2025-01-20]]
-        },
-        %Service{
-          typicality: :holiday_service,
-          all_active_dates: [~D[2025-01-13], ~D[2025-01-10]]
-        },
-        %Service{
-          typicality: :holiday_service,
-          all_active_dates: [~D[2025-01-24]]
-        },
-        %Service{typicality: :typical_service, all_active_dates: [~D[2025-01-11]]}
-      ]
+      expect(Services.Repo.Mock, :by_route_id, fn ^route_id ->
+        build_list(15, :service)
+      end)
 
-      expect(Services.Repo.Mock, :by_route_id, fn ^route_id -> services end)
+      expect(Schedules.Repo.Mock, :end_of_rating, fn ->
+        Dotcom.Utils.ServiceDateTime.service_date() |> Timex.shift(days: 30)
+      end)
 
-      assert grouped_dates = upcoming_holiday_service_dates_for_route(route_id, current_date)
-
-      assert grouped_dates |> Enum.map(&elem(&1, 1)) == [
-               ~D[2025-01-10],
-               ~D[2025-01-13],
-               ~D[2025-01-24]
-             ]
+      assert holidays = upcoming_holidays_and_service(route_id)
+      assert {%Holiday{}, _} = List.first(holidays)
     end
   end
 end

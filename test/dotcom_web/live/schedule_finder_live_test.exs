@@ -18,6 +18,10 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
+    stub(Schedules.Repo.Mock, :end_of_rating, fn ->
+      Dotcom.Utils.ServiceDateTime.service_date() |> Timex.shift(days: 30)
+    end)
+
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
     stub(MBTA.Api.Mock, :get_json, fn _, _ -> %JsonApi{} end)
@@ -283,7 +287,8 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       future_date = Date.shift(today, day: 14)
 
       active_services =
-        [today, future_date] |> Enum.map(&Factories.Services.Service.service_for_date(&1, %{}))
+        [today, future_date]
+        |> Enum.map(&Factories.Services.Service.build(:service, %{date: &1}))
 
       expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> active_services end)
 

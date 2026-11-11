@@ -9,6 +9,7 @@ defmodule Dotcom.ServicePatterns do
   alias Services.Service
 
   @services_repo Application.compile_env!(:dotcom, :repo_modules)[:services]
+  @schedules_repo Application.compile_env!(:dotcom, :repo_modules)[:schedules]
 
   @doc """
   Whether service is running on a route for a date. Defaults to the current service date, and supports custom dates.
@@ -38,42 +39,33 @@ defmodule Dotcom.ServicePatterns do
     |> Enum.sort(Date)
   end
 
-  @spec upcoming_holiday_service_dates_for_route(Routes.Route.id_t(), Date.t()) :: [
-          {String.t(), Date.t()}
+  @spec upcoming_holidays_and_service(Routes.Route.id_t(), Date.t()) :: [
+          {Holiday.t(), boolean()}
         ]
-  def upcoming_holiday_service_dates_for_route(
+  def upcoming_holidays_and_service(
         route_id,
         current_date \\ ServiceDateTime.service_date()
       ) do
     route_id
     |> @services_repo.by_route_id()
-    |> Stream.filter(&(&1.typicality in [:holiday_service]))
-    |> Stream.flat_map(fn service ->
-      service.all_active_dates
-      |> Stream.reject(&Date.before?(&1, current_date))
-      |> Stream.map(&%{service: service, date: &1})
-    end)
-    |> Enum.sort_by(& &1.date, Date)
-    |> Enum.map(fn %{service: service, date: date} ->
-      name =
-        case Holiday.Repo.by_date(date) do
-          [%Holiday{name: name} | _] -> name
-          _ -> holiday_name(service, Date.to_iso8601(date))
-        end
+    |> Stream.flat_map(& &1.all_active_dates)
+    |> Stream.uniq()
+    |> Stream.reject(&Date.before?(&1, current_date))
+    |> then(fn served_dates ->
+      if Enum.empty?(served_dates) do
+        []
+      else
+        last_served_date = Enum.max(served_dates, Date)
+        rating_end = @schedules_repo.end_of_rating()
+        # might still want to show holidays which aren't served by this route,
+        # but are in within the current rating
+        cutoff_date = rating_end || last_served_date
 
-      {name, date}
+        current_date
+        |> Holiday.Repo.following()
+        |> Enum.reject(&Date.after?(&1.date, cutoff_date))
+        |> Enum.map(&{&1, &1.date in served_dates})
+      end
     end)
   end
-
-  defp holiday_name(%{added_dates: [_ | _]} = service, date) do
-    case Enum.find_index(service.added_dates, &(&1 == date)) do
-      nil ->
-        service.name
-
-      index ->
-        service.added_dates_notes |> Enum.at(index, service.name)
-    end
-  end
-
-  defp holiday_name(service, _), do: service.name
 end

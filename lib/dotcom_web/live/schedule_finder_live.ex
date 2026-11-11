@@ -77,7 +77,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             today in dates
           end)
           |> assign_new(:holiday_services, fn ->
-            ServicePatterns.upcoming_holiday_service_dates_for_route(route.id)
+            ServicePatterns.upcoming_holidays_and_service(route.id)
           end)
           |> assign_new(:daily_schedule_date, fn assigns ->
             # Current date if there's service today, next available service date otherwise... or current date if there's no service at all!
@@ -539,13 +539,20 @@ defmodule DotcomWeb.ScheduleFinderLive do
         id={@id <> "-datepicker"}
       />
       <div :if={!Enum.empty?(@holiday_services)} class="text-sm mt-sm mb-0">
-        <div class="font-semibold">{~t(Upcoming holidays)}:</div>
-        <p :for={{name, date} <- @holiday_services} class="m-0">
-          {name} (<.service_picker_link
-            date={date}
-            target={"##{@id}-datepicker"}
-          />)
-        </p>
+        <div id="upcoming-holidays" class="font-bold">{~t(Upcoming holidays)}:</div>
+        <ul aria-labelledby="upcoming-holidays" class="list-unstyled p-0 m-0">
+          <li :for={{holiday, has_service?} <- @holiday_services}>
+            <span>{holiday.name}</span>
+            <%= if has_service? do %>
+              <.service_picker_link
+                date={holiday.date}
+                target={"##{@id}-datepicker"}
+              />
+            <% else %>
+              {format!(holiday.date, :weekday_month_day_short)} ({~t(No service)})
+            <% end %>
+          </li>
+        </ul>
       </div>
     </.form>
     """
