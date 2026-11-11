@@ -274,7 +274,7 @@ defmodule Dotcom.Utils.Time do
     string
   end
 
-  # 11:59 PM
+  # 11:59
   def format!(datetime, :hour_12_minutes_no_ampm) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "h:mm")
 

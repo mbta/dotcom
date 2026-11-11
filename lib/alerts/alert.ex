@@ -301,6 +301,8 @@ defmodule Alerts.Alert do
   defp do_human_delay_severity(_), do: nil
 
   @spec icon(t) :: icon_type
+  def icon(%{effect: :elevator_closure}), do: :elevator
+  def icon(%{effect: :escalator_closure}), do: :escalator
   def icon(%{cause: :presence_of_whales}), do: :whale
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel
