@@ -91,10 +91,10 @@ defmodule DotcomWeb.Schedule.Line do
     schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
 
     schedule_direction =
-      if !is_map(schedule_direction) do
-        %{}
-      else
+      if is_map(schedule_direction) do
         schedule_direction
+      else
+        %{}
       end
 
     variant = schedule_direction |> Map.get("variant", "")
