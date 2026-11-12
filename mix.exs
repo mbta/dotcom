@@ -98,7 +98,7 @@ defmodule Dotcom.Mixfile do
   # Note that you should also update `.github/dependabot.yml` and remove ignore overrides for any dependencies you update.
   defp deps do
     [
-      {:absinthe_client, "0.1.1"},
+      {:absinthe_client, "0.2.0"},
       {:address_us, "0.4.3"},
       {:algolia, "0.11.0", hex: :algolia_ex},
       {:aws, "1.0.15"},
@@ -152,7 +152,7 @@ defmodule Dotcom.Mixfile do
       {:nebulex_redis_adapter, "2.4.2"},
       {
         :open_trip_planner_client,
-        [github: "mbta/open_trip_planner_client", tag: "v0.22.0"]
+        [github: "mbta/open_trip_planner_client", tag: "v0.24.0"]
       },
       {:parallel_stream, "1.1.0"},
       {:phoenix, "1.8.15", override: true},
