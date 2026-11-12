@@ -18,6 +18,10 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
+    stub(Schedules.Repo.Mock, :end_of_rating, fn ->
+      Dotcom.Utils.ServiceDateTime.service_date() |> Timex.shift(days: 30)
+    end)
+
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
 
     stub(MBTA.Api.Mock, :get_json, fn _, _ -> %JsonApi{} end)
@@ -62,7 +66,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       Factories.Routes.Route.build(:route, %{id: route_id})
     end)
 
-    expect(Services.Repo.Mock, :by_route_id, 2, fn ^route_id ->
+    expect(Services.Repo.Mock, :by_route_id, 4, fn ^route_id ->
       []
     end)
 
@@ -278,35 +282,15 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
   end
 
   describe "Daily Departures" do
-    test "selects the requested schedule when service labels repeat across ratings", %{conn: conn} do
+    test "requests schedules for the selected date", %{conn: conn} do
       today = Dotcom.Utils.ServiceDateTime.service_date()
-      current_end_date = Date.shift(today, day: 7)
-      future_start_date = Date.shift(today, day: 14)
-      future_end_date = Date.shift(today, day: 21)
+      future_date = Date.shift(today, day: 14)
 
-      current_service =
-        Factories.Services.Service.build(:service,
-          start_date: Date.shift(today, day: -7),
-          end_date: current_end_date,
-          rating_start_date: Date.shift(today, day: -7),
-          rating_end_date: current_end_date,
-          rating_description: "Current",
-          type: :weekday,
-          typicality: :typical_service,
-          valid_days: [1, 2, 3, 4, 5, 6, 7]
-        )
+      active_services =
+        [today, future_date]
+        |> Enum.map(&Factories.Services.Service.build(:service, %{date: &1}))
 
-      future_service =
-        Factories.Services.Service.build(:service,
-          start_date: future_start_date,
-          end_date: future_end_date,
-          rating_start_date: future_start_date,
-          rating_end_date: future_end_date,
-          rating_description: "Future",
-          type: :weekday,
-          typicality: :typical_service,
-          valid_days: [1, 2, 3, 4, 5, 6, 7]
-        )
+      expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> active_services end)
 
       current_departure =
         Factories.ScheduleFinder.build(:daily_departure, trip_id: "current-departure")
@@ -317,7 +301,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       expect(Dotcom.ScheduleFinder.Mock, :daily_departures, 2, fn _, _, _, date ->
         case date do
           ^today -> {:ok, [current_departure]}
-          ^future_end_date -> {:ok, [future_departure]}
+          ^future_date -> {:ok, [future_departure]}
         end
       end)
 
@@ -331,28 +315,16 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
                  route_id,
                  direction_id,
                  stop_id,
-                 [2],
-                 [current_service, future_service]
+                 [2]
                )
 
       render_async(view)
 
-      current_service_key = "#{current_end_date}:Weekday schedules"
-      future_service_key = "#{future_end_date}:Weekday schedules"
-
-      assert has_element?(
-               view,
-               "[id='service-picker-#{route_id}'] option[value='#{current_service_key}'][selected]"
-             )
-
-      refute has_element?(
-               view,
-               "[id='service-picker-#{route_id}'] option[value='#{future_service_key}'][selected]"
-             )
+      assert has_element?(view, "[phx-value-trip='current-departure']")
 
       loading_html =
         view
-        |> form("#service-picker-form", selected_service: future_service_key)
+        |> form(~s([data-test="service-picker-form"]), date: future_date)
         |> render_change()
 
       assert loading_html
@@ -361,17 +333,12 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
 
       render_async(view)
 
-      assert has_element?(
-               view,
-               "[id='service-picker-#{route_id}'] option[value='#{future_service_key}'][selected]"
-             )
-
       assert has_element?(view, "[phx-value-trip='future-departure']")
       refute has_element?(view, "[phx-value-trip='current-departure']")
     end
 
     test "indicates no service", %{conn: conn} do
-      expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> [] end)
+      expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> [] end)
       expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
       assert {:ok, view, _html} = visit_with_valid_params(conn)
 
@@ -382,13 +349,13 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         |> Floki.find("[data-test=\"no_service\"]")
         |> Floki.text()
 
-      refute has_element?(view, "#service-picker-form")
+      refute has_element?(view, ~s([data-test="service-picker-form"]))
       assert no_service =~ ~r/There is currently no scheduled (\w+)./
     end
 
     test "indicates no service for selected schedule", %{conn: conn} do
       active_services = Factories.Services.Service.build_list(15, :service)
-      expect(Services.Repo.Mock, :by_route_id, 2, fn _ -> active_services end)
+      expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> active_services end)
 
       expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
 
@@ -401,7 +368,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         |> Floki.find("[data-test=\"no_service\"]")
         |> Floki.text()
 
-      assert has_element?(view, "#service-picker-form")
+      assert has_element?(view, ~s([data-test="service-picker-form"]))
       assert no_service =~ ~r/There is no scheduled (\N+) service at (\N+) for this time period./
     end
 

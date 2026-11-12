@@ -74,6 +74,10 @@ defmodule Dotcom.Utils.Time do
       "Saturday, January 1, 2000"
 
       iex> t = ~U[2000-01-01 23:59:00Z]
+      iex> Dotcom.Utils.Time.format!(t, :date_short_ordinal)
+      "January 1st"
+
+      iex> t = ~U[2000-01-01 23:59:00Z]
       iex> Dotcom.Utils.Time.format!(t, :weekday_date_short)
       "Sat, Jan 1, 2000"
 
@@ -203,6 +207,13 @@ defmodule Dotcom.Utils.Time do
   # Saturday, January 1, 2000
   def format!(datetime, :weekday_date_full) do
     {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "EEEE, MMMM d, y")
+
+    string
+  end
+
+  # January 1st
+  def format!(datetime, :date_short_ordinal) do
+    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMMM ddd")
 
     string
   end

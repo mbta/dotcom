@@ -10,11 +10,13 @@ defmodule DotcomWeb.ScheduleFinderLive do
   import DotcomWeb.Components.Alerts
   import Dotcom.Alerts, only: [subheading_data: 1]
   import Dotcom.Utils.ServiceDateTime, only: [service_date: 0]
+  import Dotcom.Utils.Time, only: [format!: 2]
   import DotcomWeb.RouteComponents, only: [lined_list: 1]
+  import Phoenix.HTML.Form, only: [input_id: 2]
 
   alias Dotcom.InSeatTransfers
-  alias Dotcom.ScheduleFinder.ServiceGroup
-  alias DotcomWeb.Components.Departures
+  alias Dotcom.ServicePatterns
+  alias DotcomWeb.Components.{DatePicker, Departures}
   alias DotcomWeb.Live.UpcomingDeparturesLive
   alias DotcomWeb.RouteComponents
   alias MbtaMetro.Components.SystemIcons
@@ -56,28 +58,26 @@ defmodule DotcomWeb.ScheduleFinderLive do
             yesterday: yesterday
           })
 
-        service_date = if yesterday_service_date?, do: yesterday, else: today
-        service_groups = ServiceGroup.for_route(route.id, service_date)
-
-        all_services = Enum.flat_map(service_groups, & &1.services)
-        selected_service = Enum.find(all_services, %{}, &(&1.now_date || &1.next_date))
-
         {
           :ok,
           socket
           |> subscribe_to_alerts()
           |> assign_new(:route, fn -> route end)
           |> assign_page_title(route)
+          |> assign(:today, today)
           |> assign_new(:vehicle_name, fn -> Route.vehicle_name(route) end)
           |> assign_new(:direction_id, fn -> direction_id end)
           |> assign_new(:stop, fn -> stop end)
           |> assign_new(:alerts, fn -> [] end)
-          |> assign_new(:service_groups, fn -> service_groups end)
           |> assign_new(:loaded_trips, fn -> %{} end)
-          |> assign_new(:selected_service_name, fn -> Map.get(selected_service, :label, "") end)
-          |> assign_new(:selected_service_key, fn -> service_key(selected_service) end)
-          |> assign_new(:service_today?, fn ->
-            Enum.any?(all_services, &(!is_nil(&1.now_date)))
+          |> assign_new(:served_dates, fn ->
+            ServicePatterns.served_dates_for_route(route.id)
+          end)
+          |> assign_new(:service_today?, fn %{served_dates: dates} ->
+            today in dates
+          end)
+          |> assign_new(:holiday_services, fn ->
+            ServicePatterns.upcoming_holidays_and_service(route.id)
           end)
           |> assign_new(:daily_schedule_date, fn assigns ->
             # Current date if there's service today, next available service date otherwise... or current date if there's no service at all!
@@ -85,7 +85,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             cond do
               yesterday_service_date? -> yesterday
               assigns.service_today? -> today
-              true -> Map.get(selected_service, :next_date, today)
+              true -> Enum.find(assigns.served_dates, today, &Date.after?(&1, today))
             end
           end)
           |> assign_alerts()
@@ -134,11 +134,16 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <section>
           <h2 class="mt-0 mb-md">{~t(Daily Schedules)}</h2>
           <.service_picker
+            :if={length(@served_dates) > 0}
             id={"service-picker-#{@route.id}"}
-            selected_service_name={@selected_service_name}
-            selected_service_key={@selected_service_key}
-            service_groups={@service_groups}
+            today={@today}
+            displayed_date={@daily_schedule_date}
+            valid_dates={@served_dates}
+            holiday_services={@holiday_services}
           />
+          <p class="text-xl font-heading mb-sm">
+            {format!(@daily_schedule_date, :date_short_ordinal)}
+          </p>
           <.async_result :let={departures} assign={@departures}>
             <:loading>
               <div class="mt-lg mb-md flex justify-center" data-test="departures_loading">
@@ -166,7 +171,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                       {route, destination, times} <-
                         get_subway_groups(departures, @direction_id, @stop.id)
                     }
-                    class="mt-lg mb-md"
+                    class="mt-md mb-md"
                     data-test="subway_group"
                   >
                     <.subway_destination route={route} destination={destination} />
@@ -182,7 +187,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             <% else %>
               <.callout data-test="no_service">
-                {no_service_message(@service_groups, @route, @stop)}
+                {no_service_message(@served_dates, @route, @stop)}
               </.callout>
             <% end %>
           </.async_result>
@@ -233,10 +238,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
     end
   end
 
-  def handle_event("select_service", %{"selected_service" => selected_service_key}, socket) do
+  def handle_event("select_service", %{"date" => selected_service_date}, socket) do
     {:noreply,
      socket
-     |> assign_service(selected_service_key)
+     |> assign(:daily_schedule_date, Date.from_iso8601!(selected_service_date))
      |> assign_departures()}
   end
 
@@ -374,23 +379,6 @@ defmodule DotcomWeb.ScheduleFinderLive do
     InSeatTransfers.trim_at_return(arrivals, &(&1.stop_id == stop.id))
   end
 
-  defp assign_service(socket, selected_service_key) do
-    selected_dated_service =
-      socket.assigns.service_groups
-      |> Enum.flat_map(& &1.services)
-      |> Enum.find(&(service_key(&1) == selected_service_key))
-
-    socket
-    |> assign(:selected_service_name, selected_dated_service.label)
-    |> assign(:selected_service_key, selected_service_key)
-    |> assign(:daily_schedule_date, selected_dated_service.last_service_date)
-  end
-
-  defp service_key(%{label: label, last_service_date: date}),
-    do: "#{Date.to_iso8601(date)}:#{label}"
-
-  defp service_key(_), do: ""
-
   defp get_departures(route_id, direction_id, stop_id, date) do
     case @schedule_finder.daily_departures(route_id, direction_id, stop_id, date) do
       {:ok, departures} -> {:ok, %{departures: departures}}
@@ -500,44 +488,97 @@ defmodule DotcomWeb.ScheduleFinderLive do
   end
 
   attr :id, :string, required: true
-  attr :service_groups, :list, required: true
-  attr :selected_service_name, :string, default: ""
-  attr :selected_service_key, :string, default: ""
+  attr :today, Date, required: true
+  attr :displayed_date, Date, required: true
+  attr :valid_dates, :list, required: true
+  attr :holiday_services, :list, required: true
 
   defp service_picker(assigns) do
+    # assigns.today should always be the current service date, which at 1am should resolve to the prior day.
+    assigns =
+      assigns
+      |> assign(:form, to_form(%{"date" => assigns.displayed_date}))
+      |> assign(:datepicker_config, %{
+        alt_format: "l, F J, Y",
+        default_date: assigns.displayed_date,
+        enable_time: false,
+        enable: assigns.valid_dates,
+        min_date: assigns.today,
+        date_format: "Y-m-d",
+        position: "above"
+      })
+
     ~H"""
-    <form
-      :if={length(@service_groups) > 0}
+    <.form
+      for={@form}
+      data-test="service-picker-form"
       phx-change="select_service"
-      class="mb-lg"
-      id="service-picker-form"
+      phx-submit="select_service"
+      class="mb-lg p-md bg-gray-bordered-background rounded"
+      id={@id <> "-form"}
     >
-      <label for={@id} class="sr-only">
-        {~t(Choose a schedule type from the available options)}
-      </label>
-      <select id={@id} class="mbta-input w-full" name="selected_service">
-        <%= for service_group <- @service_groups do %>
-          <optgroup label={service_group.group_label}>
-            <option
-              :for={service <- service_group.services}
-              value={service_key(service)}
-              selected={service_key(service) == @selected_service_key}
-            >
-              {service.label} {if(service.now_date, do: " (#{~t(Now)})")}
-            </option>
-          </optgroup>
-        <% end %>
-      </select>
-      <output
-        for="service-picker"
-        name="Schedules for selected service type"
-        role="status"
-        class="sr-only"
-      >
-        {@selected_service_name}
-      </output>
-    </form>
+      <div class="flex gap-sm justify-between items-baseline">
+        <.label for={input_id(@form, :date)} class="font-bold pt-0">
+          {~t(Schedule for)}
+        </.label>
+        <div :if={@displayed_date !== @today} class="text-sm shrink-0">
+          <.service_picker_link
+            date={@today}
+            target={"##{@id}-datepicker"}
+            label={~t(Go to today)}
+          />
+        </div>
+      </div>
+      <.live_component
+        phx-change="select_service"
+        module={DatePicker}
+        config={@datepicker_config}
+        locale={Gettext.get_locale(Dotcom.Gettext)}
+        field={@form[:date]}
+        label={nil}
+        id={@id <> "-datepicker"}
+      />
+      <div :if={!Enum.empty?(@holiday_services)} class="text-sm mt-sm mb-0">
+        <div id="upcoming-holidays" class="font-bold">{~t(Upcoming holidays)}:</div>
+        <ul aria-labelledby="upcoming-holidays" class="list-unstyled p-0 m-0">
+          <li :for={{holiday, has_service?} <- @holiday_services}>
+            <span>{holiday.name}</span>
+            <%= if has_service? do %>
+              <.service_picker_link
+                date={holiday.date}
+                target={"##{@id}-datepicker"}
+              />
+            <% else %>
+              {format!(holiday.date, :weekday_month_day_short)} ({~t(No service)})
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </.form>
     """
+  end
+
+  defp service_picker_link(assigns) do
+    assigns =
+      assign_new(assigns, :label, fn %{date: date} ->
+        format!(date, :weekday_month_day_short)
+      end)
+
+    ~H"""
+    <button
+      type="button"
+      class="underline font-medium text-brand-primary bg-transparent p-0 hover:text-brand-primary-darkest"
+      phx-click={select_service_date(@target, @date)}
+    >
+      {@label}
+    </button>
+    """
+  end
+
+  # updates the datepicker JS and this LiveView
+  defp select_service_date(target, date) do
+    JS.push("set_datetime", target: target, value: %{datetime: date})
+    |> JS.push("select_service", value: %{date: date})
   end
 
   attr :stop, Stop
@@ -676,14 +717,14 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp no_service_message(service_groups, route, stop) do
+  defp no_service_message(served_dates, route, stop) do
     route_name =
       if(route.type == 3 && not Route.silver_line?(route),
         do: gettext("Route %{route}", route: route.name),
         else: route.name
       )
 
-    if service_groups == [] do
+    if served_dates == [] do
       gettext("There is currently no scheduled %{route_name}.", route_name: route_name)
     else
       gettext("There is no scheduled %{route} service at %{stop} for this time period.",

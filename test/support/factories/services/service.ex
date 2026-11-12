@@ -52,5 +52,10 @@ defmodule Test.Support.Factories.Services.Service do
       rating_description: Faker.Lorem.word()
     }
     |> Map.merge(attrs)
+    |> with_active_dates()
+  end
+
+  def with_active_dates(service) do
+    %{service | all_active_dates: Service.all_valid_dates_for_service(service)}
   end
 end
