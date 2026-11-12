@@ -5759,11 +5759,6 @@ msgstr "%{count} %{stop} được phục vụ bởi các chuyến đi khác trê
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
-msgid "Search for a station"
-msgstr "Tìm kiếm một nhà ga"
-
-#: lib/dotcom_web/live/line_diagram_live.ex
-#, elixir-autogen, elixir-format
 msgid "Search for a %{stop}"
 msgstr "Tìm kiếm %{stop}"
 
@@ -5776,4 +5771,3 @@ msgstr "các điểm kết nối"
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
 msgstr "Tuyến đường %{num}"
-
