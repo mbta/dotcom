@@ -821,8 +821,6 @@ defmodule DotcomWeb.LineDiagramLive do
                   if(@stop.parent_id, do: @stop.parent_id, else: @stop.id)
                 )
             }
-            <<<<<<<
-            HEAD
             data-id="middle"
             class="platform_name mt-[-0.25rem] mb-1 font-semibold"
           >
