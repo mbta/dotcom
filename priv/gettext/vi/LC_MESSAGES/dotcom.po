@@ -5775,4 +5775,4 @@ msgstr "Tuyến đường %{num}"
 #: lib/dotcom_web/templates/customer_support/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
-msgstr ""
+msgstr "Chúng tôi không thể gửi phản hồi của bạn. Vui lòng tải lại trang và thử lại."
