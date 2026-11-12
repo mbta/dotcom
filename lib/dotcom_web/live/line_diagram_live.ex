@@ -780,7 +780,6 @@ defmodule DotcomWeb.LineDiagramLive do
           stop_name_parts
         end
       )
-      |> assign(:connections, stop_connections(stop_id, assigns.route.id))
 
     ~H"""
     <section class="m-schedule-diagram__content flex justify-between p-1">
