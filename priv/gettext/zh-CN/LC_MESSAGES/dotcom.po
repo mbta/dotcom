@@ -5748,3 +5748,8 @@ msgstr "换乘"
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
 msgstr "路线%{num}"
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "We couldn't submit your feedback. Please reload the page and try again."
+msgstr "我们无法提交您的反馈。请刷新页面后重试。"

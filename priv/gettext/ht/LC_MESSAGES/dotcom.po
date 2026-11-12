@@ -5767,3 +5767,8 @@ msgstr "koneksyon"
 #, elixir-autogen, elixir-format
 msgid "Route %{num}"
 msgstr "Wout %{num}"
+
+#: lib/dotcom_web/templates/customer_support/index.html.heex
+#, elixir-autogen, elixir-format
+msgid "We couldn't submit your feedback. Please reload the page and try again."
+msgstr "Nou pa t kapab soumèt fidbak ou a. Tanpri rechaje paj la epi eseye ankò."
