@@ -5784,4 +5784,4 @@ msgstr "Ruta %{num}"
 #: lib/dotcom_web/templates/customer_support/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
-msgstr ""
+msgstr "No pudimos enviar tu opinión. Por favor, recarga la página y vuelve a intentarlo."
