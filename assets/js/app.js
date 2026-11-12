@@ -49,7 +49,7 @@ import storageOptions from "./storage.js";
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: { ...DotcomHooks, ...MapHooks, Map },
+  hooks: { ...MapHooks, ...DotcomHooks, Map },
   dom: {
     onBeforeElUpdated(from, to) {
       /*
