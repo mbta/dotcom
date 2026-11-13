@@ -3882,11 +3882,6 @@ msgstr "Hướng Nam"
 msgid "Special Event Ticket"
 msgstr "Special Event vé"
 
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Special ticket required"
-msgstr "Yêu cầu vé đặc biệt"
-
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"

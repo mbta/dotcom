@@ -3880,11 +3880,6 @@ msgstr "Direksyon sid"
 msgid "Special Event Ticket"
 msgstr "Tikè pou evènman espesyal"
 
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Special ticket required"
-msgstr "Tikè espesyal obligatwa"
-
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"

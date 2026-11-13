@@ -3873,11 +3873,6 @@ msgstr ""
 msgid "Special Event Ticket"
 msgstr ""
 
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Special ticket required"
-msgstr ""
-
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"
