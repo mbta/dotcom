@@ -8,8 +8,11 @@ defmodule Dotcom.TripPlan.Fares.State do
       window.
     * Free in-station transfers between different subway lines, and between
       SL1/2/3/W and subway.
-    * Commuter rail and Logan Express bus fares are stored separately, and
-      have no transfer discounts.
+    * Fairmount Line Commuter Rail trips within Zone 1A are included in the
+      two-hour transfer window, allowing free transfers to and from subway,
+      bus, and Silver Line.
+    * All other commuter rail and Logan Express bus fares are stored
+      separately, and have no transfer discounts.
 
   This module models that behavior by accumulating legs via `add_leg/2` and
   keeping track of the existing transfer window and transferable fare (using
@@ -71,6 +74,27 @@ defmodule Dotcom.TripPlan.Fares.State do
       ...> )
       iex> State.new() |> State.add_leg(commuter_rail_leg) |> State.add_leg(bus_leg) |> State.fare()
       1145
+
+  A subway leg followed by a Fairmount Line leg within Zone 1A a few minutes
+  later: Fairmount Line trips within Zone 1A participate in the transfer
+  window, so the rider is only charged a single fare.
+
+      iex> subway_leg = build(:transit_leg,
+      ...>   route: build(:route, type: 1, agency: build(:agency, name: "MBTA")),
+      ...>   start: build(:leg_time, scheduled_time: ~U[2024-01-01 08:00:00Z])
+      ...> )
+      iex> fairmount_leg = build(:transit_leg,
+      ...>   route: build(:route,
+      ...>     type: 2,
+      ...>     gtfs_id: "mbta-ma-us:CR-Fairmount",
+      ...>     agency: build(:agency, name: "MBTA")
+      ...>   ),
+      ...>   from: build(:place, stop: build(:stop, zone_id: "CR-zone-1A")),
+      ...>   to: build(:place, stop: build(:stop, zone_id: "CR-zone-1A")),
+      ...>   start: build(:leg_time, scheduled_time: ~U[2024-01-01 08:10:00Z])
+      ...> )
+      iex> State.new() |> State.add_leg(subway_leg) |> State.add_leg(fairmount_leg) |> State.fare()
+      240
   """
 
   import Dotcom.TripPlan.Helpers
@@ -92,6 +116,15 @@ defmodule Dotcom.TripPlan.Fares.State do
   ]
 
   @dtx_park_stations ~w(place-dwnxg place-pktrm) |> Enum.map(&"mbta-ma-us:#{&1}")
+
+  @fairmount_route_ids ~w(mbta-ma-us mbta-ma-us-initial) |> Enum.map(&"#{&1}:CR-Fairmount")
+
+  # Fairmount Line trips that both start and end in Zone 1A are
+  # eligible for free transfers to and from subway, bus, and Silver
+  # Line.
+  defguardp fairmount_zone_1a?(leg)
+            when leg.route.type == 2 and leg.route.gtfs_id in @fairmount_route_ids and
+                   leg.from.stop.zone_id == "CR-zone-1A" and leg.to.stop.zone_id == "CR-zone-1A"
 
   @doc """
   Adds a leg to the fare state, updating the accumulated fare and, if
@@ -131,13 +164,13 @@ defmodule Dotcom.TripPlan.Fares.State do
   # leg), then we don't change the fare state at all.
   #
   # If the leg would require a fare, but isn't part of our transfer
-  # policy (e.g. commuter rail, or Logan Express), then we add the
-  # fare for that leg directly to `non_transfer_fare`, which has no
-  # transfer discount logic, and is simply added to the total fare at
-  # the end.
+  # policy (e.g. most commuter rail, or Logan Express), then we add
+  # the fare for that leg directly to `non_transfer_fare`, which has
+  # no transfer discount logic, and is simply added to the total fare
+  # at the end.
   #
-  # If the leg is a tap on the subway, bus, or ferry, then we check
-  # the following:
+  # If the leg is a tap on the subway, bus, or ferry, or a Fairmount
+  # Line trip within Zone 1A, then we check the following:
   #
   # - If there's no transfer window, we start one, and set the
   #   `transfer_window_fare` to the leg's fare.
@@ -164,7 +197,8 @@ defmodule Dotcom.TripPlan.Fares.State do
          %__MODULE__{} = fare_state,
          leg
        )
-       when leg.route.type in [0, 1, 3, 4] and agency_name?(leg, "MBTA") do
+       when (leg.route.type in [0, 1, 3, 4] or fairmount_zone_1a?(leg)) and
+              agency_name?(leg, "MBTA") do
     fare_for_leg = Dotcom.TripPlan.Fares.cents_for_leg(leg)
 
     if fare_for_leg == 0 || in_station_transfer?(fare_state, leg) do
