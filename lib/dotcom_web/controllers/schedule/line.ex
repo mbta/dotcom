@@ -89,7 +89,15 @@ defmodule DotcomWeb.Schedule.Line do
   @spec update_conn(Conn.t(), Route.t(), direction_id) :: Conn.t()
   defp update_conn(conn, route, direction_id) do
     schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
-    variant = schedule_direction["variant"]
+
+    schedule_direction =
+      if is_map(schedule_direction) do
+        schedule_direction
+      else
+        %{}
+      end
+
+    variant = schedule_direction |> Map.get("variant", "")
     expanded = Map.get(conn.query_params, "expanded")
     reverse_direction_id = reverse_direction(direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id)
