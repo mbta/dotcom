@@ -185,7 +185,7 @@ defmodule Dotcom.Mixfile do
       {:telemetry_metrics_splunk, "0.0.6-alpha"},
       {:telemetry_poller, "1.3.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
-      {:timex, git: "https://github.com/bitwalker/timex.git", override: true, branch: "main"},
+      {:timex, "3.7.13"},
       {:topo, "~> 1.0"},
       {:typed_ecto_schema, "0.5.0"},
       {:unrooted_polytree, "0.1.1"},
