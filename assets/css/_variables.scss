@@ -123,6 +123,7 @@ $btn-padding-y: $base-spacing * .6;
 
 $z-index-modal: 101;
 $z-index-desktop-menu: 100;
+$z-index-map-popup: 50; // Above marker groups; only applies within the map's isolated stacking context
 $z-index-above-leaflet: 23;
 $z-index-leaflet-level-8: 21;
 $z-index-leaflet-level-7: 21;
