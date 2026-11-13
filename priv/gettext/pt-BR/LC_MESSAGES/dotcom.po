@@ -3887,11 +3887,6 @@ msgstr "Sentido sul"
 msgid "Special Event Ticket"
 msgstr "Evento Especial"
 
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Special ticket required"
-msgstr "É necessário um requisito especial."
-
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"

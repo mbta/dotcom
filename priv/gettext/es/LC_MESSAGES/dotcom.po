@@ -3890,11 +3890,6 @@ msgstr "Dirección sur"
 msgid "Special Event Ticket"
 msgstr "Boleto de Eventos Especiales"
 
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Special ticket required"
-msgstr "Se requiere boleto especial"
-
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"

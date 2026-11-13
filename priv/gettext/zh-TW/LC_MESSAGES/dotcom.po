@@ -3867,11 +3867,6 @@ msgstr "南行"
 msgid "Special Event Ticket"
 msgstr "特別活動車票"
 
-#: lib/fares/format.ex
-#, elixir-autogen, elixir-format
-msgid "Special ticket required"
-msgstr "需要特殊車票"
-
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"
