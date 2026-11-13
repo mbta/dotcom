@@ -19,13 +19,13 @@ export default {
     this.map = new maplibregl.Map({
       container: this.el.querySelector(".mbta-map-wrapper"),
       locale: JSON.parse(this.el.dataset.locale),
-      ...this.config,
+      ...this.config
     });
 
     this.map.addControl(new maplibregl.NavigationControl(), "top-left");
 
     this.map.on("load", () => {
-      this.handleEvent("update-lines", _ => this.updateLines());
+      this.handleEvent("update-lines", () => this.updateLines());
       this.handleEvent("update-markers", params => this.updateMarkers(params));
       this.pushEventTo(this.el, "map-loaded", {});
     });
@@ -33,7 +33,7 @@ export default {
   /**
    * Destroys the map when the hook is removed.
    */
-  destroyed () {
+  destroyed() {
     delete this.map;
   },
   /**
@@ -58,7 +58,7 @@ export default {
       },
       paint: {
         "line-color": ["get", "color"],
-        "line-width": ["get", "width"],
+        "line-width": ["get", "width"]
       }
     });
   },
@@ -67,16 +67,18 @@ export default {
    */
   addMarkers(markers) {
     markers.forEach(marker => {
-      
       const mapMarker = new maplibregl.Marker({
         anchor: marker.anchor,
         element: marker.element,
         rotation: marker.rotation
       });
-      if(marker.popup){
-        const popup = new maplibregl.Popup({className: "m-schedule-line__stop-popup", focusAfterOpen: false});
-        popup.setHTML(marker.popup)
-        mapMarker.setPopup(popup)
+      if (marker.popup) {
+        const popup = new maplibregl.Popup({
+          className: "m-schedule-line__stop-popup",
+          focusAfterOpen: false
+        });
+        popup.setHTML(marker.popup);
+        mapMarker.setPopup(popup);
       }
 
       this.markers.push(mapMarker);
@@ -90,7 +92,7 @@ export default {
   calcBoundsFromCoordinates(coordinatesCollection) {
     return [
       this.getSWCoordinates(coordinatesCollection),
-      this.getNECoordinates(coordinatesCollection),
+      this.getNECoordinates(coordinatesCollection)
     ];
   },
   /**
@@ -101,7 +103,7 @@ export default {
     const bounds = this.calcBoundsFromCoordinates(coordinatesCollection);
     const maxZoom = this.config.zoom || this.config.maxZoom || 16;
 
-    this.map.fitBounds(bounds, {maxZoom, padding: 50});
+    this.map.fitBounds(bounds, { maxZoom, padding: 50 });
   },
   /**
    * Fit the map to the center of the map if one is provided in the config.
@@ -125,10 +127,10 @@ export default {
    */
   getNECoordinates(coordinatesCollection) {
     const highestLng = Math.max(
-      ...coordinatesCollection.map((coordinates) => coordinates[0])
+      ...coordinatesCollection.map(coordinates => coordinates[0])
     );
     const highestLat = Math.max(
-      ...coordinatesCollection.map((coordinates) => coordinates[1])
+      ...coordinatesCollection.map(coordinates => coordinates[1])
     );
 
     return [highestLng, highestLat];
@@ -138,10 +140,10 @@ export default {
    */
   getSWCoordinates(coordinatesCollection) {
     const lowestLng = Math.min(
-      ...coordinatesCollection.map((coordinates) => coordinates[0])
+      ...coordinatesCollection.map(coordinates => coordinates[0])
     );
     const lowestLat = Math.min(
-      ...coordinatesCollection.map((coordinates) => coordinates[1])
+      ...coordinatesCollection.map(coordinates => coordinates[1])
     );
 
     return [lowestLng, lowestLat];
@@ -154,12 +156,12 @@ export default {
       type: "Feature",
       properties: {
         color: line.color,
-        width: line.width,
+        width: line.width
       },
       geometry: {
         type: "LineString",
-        coordinates: line.coordinates,
-      },
+        coordinates: line.coordinates
+      }
     };
   },
   /**
@@ -218,29 +220,28 @@ export default {
    *
    * If there are no markers, we skip the last two steps.
    */
-  updateMarkers({move_map = true}) {
-  
+  updateMarkers({ move_map = true }) {
     this.resetMarkers();
 
-    const markers = Array.from(this.el.querySelectorAll("[data-coordinates]")).map(element => {
-      return {
-        anchor: element.getAttribute("data-anchor"),
-        coordinates: JSON.parse(element.getAttribute("data-coordinates")),
-        popup: element.getAttribute("data-popup"),
-        rotation: element.getAttribute("data-rotation"),
-        element
-      }
-    }).filter(marker => marker.coordinates.length === 2);
+    const markers = Array.from(this.el.querySelectorAll("[data-coordinates]"))
+      .map(element => {
+        return {
+          anchor: element.getAttribute("data-anchor"),
+          coordinates: JSON.parse(element.getAttribute("data-coordinates")),
+          popup: element.getAttribute("data-popup"),
+          rotation: element.getAttribute("data-rotation"),
+          element
+        };
+      })
+      .filter(marker => marker.coordinates.length === 2);
 
     if (markers.length === 0) {
-      move_map && this.fitMapToCenter();
+      if (move_map) this.fitMapToCenter();
 
       return;
     }
 
     this.addMarkers(markers);
-    move_map && this.fitMapToMarkers(markers);
-  },
-
- 
-}
+    if (move_map) this.fitMapToMarkers(markers);
+  }
+};
