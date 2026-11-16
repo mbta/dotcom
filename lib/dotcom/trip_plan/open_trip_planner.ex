@@ -17,16 +17,23 @@ defmodule Dotcom.TripPlan.OpenTripPlanner do
   @spec plan(InputForm.t()) :: OpenTripPlannerClient.Behaviour.plan_result()
 
   def plan(%InputForm{} = input_form) do
-    case input_form |> to_params() |> @otp_module.plan() do
-      {:ok, itinerary_groups} -> {:ok, itinerary_groups}
-      error -> error
+    {microseconds, result} = :timer.tc(@otp_module, :plan, [to_params(input_form)])
+    milliseconds = microseconds / :timer.seconds(1)
+    Logger.metadata(duration: milliseconds)
+
+    case result do
+      {:ok, itinerary_groups} ->
+        _ = Logger.info("result=OK")
+        {:ok, itinerary_groups}
+
+      {:error, error} ->
+        _ = Logger.warning("result=#{inspect(error)}")
+        {:error, error}
     end
   rescue
     error ->
       _ =
-        Logger.error(
-          "#{Exception.format(:error, error, __STACKTRACE__)} module=#{__MODULE__} input_form=#{inspect(Map.from_struct(input_form))}"
-        )
+        Logger.error("result=exception #{Exception.format(:error, error, __STACKTRACE__)}")
 
       {:error, fallback_error_message()}
   end
