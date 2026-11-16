@@ -126,7 +126,12 @@ describe("Trip planner configuration", () => {
     if (!source || typeof source === "boolean") {
       throw new Error("Expected an autocomplete source");
     }
-    const item = { name: "Melrose Highlands", stop_id: "place-WR-0075" };
+    const item = {
+      name: "Melrose Highlands",
+      stop_id: "place-WR-0075",
+      latitude: 42.469464,
+      longitude: -71.068297
+    };
 
     autocomplete.setIsOpen(false);
     source.onSelect!({
@@ -148,6 +153,22 @@ describe("Trip planner configuration", () => {
 
     await new Promise(resolve => setTimeout(resolve, 0));
     expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith(item);
+
+    autocomplete.setIsOpen(true);
+    autocomplete.setIsOpen(false);
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith(item);
+
+    autocomplete.setIsOpen(true);
+    autocomplete.setQuery("A different location");
+    autocomplete.setIsOpen(false);
+
+    await waitFor(() => {
+      expect(pushToLiveView).toHaveBeenLastCalledWith({
+        name: "A different location"
+      });
+    });
   });
 
   test("closing without a selection still sends the typed text", async () => {
@@ -237,7 +258,7 @@ describe("Trip planner configuration", () => {
     };
 
     const { getSources } = options;
-    const mockSetQuery = jest.fn();
+    const mockSetQuery = jest.fn(autocomplete.setQuery);
     // @ts-ignore
     const [geolocationSource] = await getSources(baseSourceParams);
     autocomplete.setIsOpen(false);
@@ -256,6 +277,8 @@ describe("Trip planner configuration", () => {
       );
       expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith(mockCoordinates);
     });
+    autocomplete.setIsOpen(true);
+    autocomplete.setIsOpen(false);
     await new Promise(resolve => setTimeout(resolve, 0));
     expect(pushToLiveView).toHaveBeenCalledTimes(1);
   });

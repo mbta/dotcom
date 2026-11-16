@@ -230,6 +230,8 @@ export const TRIP_PLANNER = ({
   pushToLiveView: Function;
   initialState: Function;
 }): Partial<AutocompleteOptions<any>> => {
+  const initialQuery = initialState();
+  let submittedQuery = initialQuery;
   let closeUpdate: ReturnType<typeof setTimeout> | undefined;
   const cancelCloseUpdate = (): void => {
     clearTimeout(closeUpdate);
@@ -248,6 +250,7 @@ export const TRIP_PLANNER = ({
       (item as ContentItem).content_title ||
       ((item as unknown) as PopularItem).name ||
       "";
+    submittedQuery = name;
     setQuery(name);
     pushToLiveView(item);
   };
@@ -255,10 +258,11 @@ export const TRIP_PLANNER = ({
   return {
     ...baseOptions,
     initialState: {
-      query: initialState()
+      query: initialQuery
     },
     onReset: (): void => {
       cancelCloseUpdate();
+      submittedQuery = "";
       pushToLiveView({});
     },
     onStateChange({ prevState, state }) {
@@ -271,13 +275,18 @@ export const TRIP_PLANNER = ({
         // Algolia closes the panel before invoking the selected source's onSelect.
         closeUpdate = setTimeout(() => {
           closeUpdate = undefined;
-          pushToLiveView(newInputData);
+          // Keep the selected coordinates unless the user actually edited the text.
+          if (state.query !== submittedQuery) {
+            submittedQuery = state.query;
+            pushToLiveView(newInputData);
+          }
         }, 0);
       }
     },
     getSources({ query }) {
       if (!query) {
         const source = geolocationSource(undefined, coordinates => {
+          submittedQuery = `${coordinates.latitude}, ${coordinates.longitude}`;
           pushToLiveView(coordinates);
         });
         return debounced([
