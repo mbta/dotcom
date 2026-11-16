@@ -95,3 +95,82 @@
       }
     }
   }
+
+  .bearing_marker {
+    filter: opacity(0.6);
+    margin-top: 0.1rem;
+    margin-left: 0.1rem;
+  }
+
+  .bearing_red {
+    g{
+      g{
+        path{
+          fill: $brand-red-line;
+        }
+      }
+    }
+  }
+  .bearing_orange {
+    g{
+      g{
+        path{
+          fill: $brand-orange-line;
+        }
+      }
+    }
+  }
+  .bearing_blue {
+    g{
+      g{
+        path{
+          fill: $brand-blue-line;
+        }
+      }
+    }
+  }
+  .bearing_green {
+    g{
+      g{
+        path{
+          fill: $brand-green-line;
+        }
+      }
+    }
+  }
+  .bearing_silver {
+    g{
+      g{
+        path{
+          fill: $brand-silver-line;
+        }
+      }
+    }
+  }
+  .bearing_bus {
+    g{
+      g{
+        path{
+          fill: $brand-bus;
+        }
+      }
+    }
+  }
+  .bearing_cr {
+    g{
+      g{
+        path{
+          fill: $brand-commuter-rail;
+        }
+      }
+    }
+  }
+  .bearing_ferry {
+    g{
+      g{
+        path{
+          fill: $brand-ferry;
+        }
+      }
+    }
+  }

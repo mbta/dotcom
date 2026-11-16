@@ -84,6 +84,8 @@ defmodule DotcomWeb.LineDiagramLive do
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
 
+  import Routes.Route, only: [is_silver_line?: 1]
+
   import DotcomWeb.ScheduleView,
     only: [
       header_class: 1,
@@ -294,14 +296,39 @@ defmodule DotcomWeb.LineDiagramLive do
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
 
+    {icon, icon_class} =
+      cond do
+        is_silver_line?(route) -> {"icon-mode-bus-silver", "bearing_silver"}
+        route.type == 0 -> {"icon-mode-trolley-default", "vehicle_icon_green bearing_green"}
+        route.type == 2 -> {"icon-mode-commuter-rail-default", "bearing_cr"}
+        route.type == 3 -> {"icon-mode-bus-default", "bearing_bus"}
+        route.type == 4 -> {"icon-mode-ferry-default", "bearing_ferry"}
+        route.id == "Red" -> {"icon-mode-subway-red", "bearing_red"}
+        route.id == "Orange" -> {"icon-mode-subway-orange", "bearing_orange"}
+        route.id == "Blue" -> {"icon-mode-subway-blue", "bearing_blue"}
+        true -> {"icon-mode-subway-default", "bearing_silver"}
+      end
+
     %{
       id: vehicle.id,
       coordinates: [vehicle.longitude, vehicle.latitude],
       type: "icon-svg",
-      name: "icon-vehicle-bordered-expanded",
-      class: "size-6 cursor-pointer",
+      name: icon,
+      class: "size-6 cursor-pointer #{icon_class}",
       popup: popup,
-      rotation: vehicle.bearing || "0"
+      rotation: "0",
+      bearing: vehicle.bearing
+    }
+  end
+
+  defp to_bearing_marker(vehicle_marker) do
+    %{
+      id: vehicle_marker.id <> "_bearing",
+      coordinates: vehicle_marker.coordinates,
+      rotation: (vehicle_marker.bearing + 180) |> Integer.mod(360) |> Integer.to_string(),
+      name: "icon-map-pin-a",
+      type: "icon-svg",
+      class: vehicle_marker.class <> " bearing_marker w-[2.25rem] h-[2.25rem]"
     }
   end
 
@@ -957,7 +984,18 @@ defmodule DotcomWeb.LineDiagramLive do
     />
 
     <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
-    <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} z_index={2} />
+    <.icon_markers
+      id="new-map-bearings"
+      map_id="new-map"
+      icons={@vehicle_icons |> Enum.map(&to_bearing_marker/1)}
+      z_index={2}
+    />
+    <.icon_markers
+      id="new-map-vehicles"
+      map_id="new-map"
+      icons={@vehicle_icons}
+      z_index={3}
+    />
     """
   end
 
