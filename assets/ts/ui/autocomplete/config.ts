@@ -223,17 +223,24 @@ const VOTE: Partial<AutocompleteOptions<any>> = {
  * LiveView integration enables the ability to update other components, such as
  * a map, from the selected location values.
  */
-const TRIP_PLANNER = ({
+export const TRIP_PLANNER = ({
   pushToLiveView,
   initialState
 }: {
   pushToLiveView: Function;
   initialState: Function;
 }): Partial<AutocompleteOptions<any>> => {
+  let closeUpdate: ReturnType<typeof setTimeout> | undefined;
+  const cancelCloseUpdate = (): void => {
+    clearTimeout(closeUpdate);
+    closeUpdate = undefined;
+  };
+
   const onSelect = ({
     item,
     setQuery
   }: OnSelectParams<AutocompleteItem>): void => {
+    cancelCloseUpdate();
     const name: string =
       (item.route as Route)?.name ||
       (item.stop as Stop)?.name ||
@@ -251,28 +258,42 @@ const TRIP_PLANNER = ({
       query: initialState()
     },
     onReset: (): void => {
+      cancelCloseUpdate();
       pushToLiveView({});
     },
     onStateChange({ prevState, state }) {
       const isCleared = state.query === "";
       const changedToClosedState = prevState.isOpen && !state.isOpen;
+      if (state.isOpen) cancelCloseUpdate();
       // Send changed input text to LiveView when leaving this input
       if (changedToClosedState) {
         const newInputData = isCleared ? {} : { name: state.query };
-        pushToLiveView(newInputData);
+        // Algolia closes the panel before invoking the selected source's onSelect.
+        closeUpdate = setTimeout(() => {
+          closeUpdate = undefined;
+          pushToLiveView(newInputData);
+        }, 0);
       }
     },
     getSources({ query }) {
-      if (!query)
+      if (!query) {
+        const source = geolocationSource(undefined, coordinates => {
+          pushToLiveView(coordinates);
+        });
         return debounced([
-          geolocationSource(undefined, coordinates => {
-            pushToLiveView(coordinates);
-          }),
+          {
+            ...source,
+            onSelect(params: OnSelectParams<{ value: string }>) {
+              cancelCloseUpdate();
+              source.onSelect?.(params);
+            }
+          },
           {
             ...popularLocationSource(),
             onSelect
           }
         ]);
+      }
       return debounced([
         {
           ...algoliaSource(query, [{ stops: { hitsPerPage: 5 } }], false),
