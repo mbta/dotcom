@@ -192,6 +192,11 @@ defmodule DotcomWeb.TripPlannerLive do
   end
 
   @impl true
+  def handle_async("get_itinerary_groups", {:exit, {:shutdown, :cancel}}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   # Triggered when the async operation fails, we add the error to the results state.
   def handle_async("get_itinerary_groups", {:exit, _reason}, socket) do
     {:noreply, handle_get_itinerary_groups_error(socket, fallback_error_message())}
@@ -538,6 +543,7 @@ defmodule DotcomWeb.TripPlannerLive do
 
   # Set an action on the changeset and submit it.
   #
+  # - Cancel any outstanding planning task
   # - Update the input form state with the new changeset
   # - Update the map state with the new pins
   # - If the changeset is valid:
@@ -548,6 +554,7 @@ defmodule DotcomWeb.TripPlannerLive do
 
     new_socket =
       socket
+      |> cancel_async("get_itinerary_groups")
       |> assign(:results, @state.results)
       |> assign(:input_form, Map.put(@state.input_form, :changeset, new_changeset))
       |> assign(:map, Map.put(@state.map, :pins, input_form_to_pins(new_changeset)))
