@@ -317,7 +317,7 @@ defmodule DotcomWeb.LineDiagramLive do
     end
   end
 
-  defp marker_stack(vechicle, popup, icon, icon_class) do
+  defp marker_stack(vehicle, popup, icon, icon_class) do
     if is_nil(vehicle.bearing) do
       # No bearing, just draw a vehicle icon with a colored circle
       [
