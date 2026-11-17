@@ -313,7 +313,16 @@ defmodule DotcomWeb.LineDiagramLive do
       # No bearing, just draw a vehicle icon with a colored circle
       [
         %{
-          id: vehicle.id <> "_bearingNil",
+          id: vehicle.id <> "_bearingNilA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-flag-tbd",
+          class: "size-7 cursor-pointer vehicle_black",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id <> "_bearingNilB",
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-flag-tbd",
@@ -326,7 +335,13 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: icon,
-          class: "size-6 cursor-pointer bearing_white",
+          class:
+            "size-6 cursor-pointer " <>
+              if icon_class != "bearing_bus" do
+                "vehicle_white"
+              else
+                "vehicle_black"
+              end,
           popup: popup,
           rotation: "0"
         }
@@ -1028,7 +1043,7 @@ defmodule DotcomWeb.LineDiagramLive do
       id="new-map-vehicles"
       map_id="new-map"
       icons={@vehicle_icons}
-      z_index={3}
+      z_index={2}
     />
     """
   end
