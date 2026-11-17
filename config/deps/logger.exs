@@ -13,7 +13,7 @@ if config_env() == :prod do
 
   config :logger, :default_formatter,
     format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-    metadata: [:ip, :mbta_id, :request_id]
+    metadata: [:ip, :mbta_id, :request_id, :module, :duration]
 
   # Drop aggressively and early to prevent the message queue from growing large.
   # Also enable terminating overloaded handlers based on memory or queue length.
@@ -38,7 +38,7 @@ end
 if config_env() == :dev do
   config :logger, :default_formatter,
     format: "$date $time [$level] $metadata$message\n",
-    metadata: [:ip, :mbta_id, :request_id]
+    metadata: [:ip, :mbta_id, :request_id, :module, :duration]
 
   config :logger, level: :notice
 end
