@@ -994,6 +994,7 @@ defmodule DotcomWeb.LineDiagramLive do
       center={[-71.0589, 42.3601]}
       style={@map_style}
       zoom={10}
+      min_zoom={7}
       class="h-96 w-full"
     />
 
