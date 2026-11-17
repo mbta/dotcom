@@ -296,19 +296,28 @@ defmodule DotcomWeb.LineDiagramLive do
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
 
-    {icon, icon_class} =
-      cond do
-        is_silver_line?(route) -> {"icon-subway", "bearing_silver"}
-        route.type == 0 -> {"icon-subway", "bearing_green"}
-        route.type == 2 -> {"icon-commuter-rail", "bearing_cr"}
-        route.type == 3 -> {"icon-bus", "bearing_bus"}
-        route.type == 4 -> {"icon-ferry", "bearing_ferry"}
-        route.id == "Red" -> {"icon-subway", "bearing_red"}
-        route.id == "Orange" -> {"icon-subway", "bearing_orange"}
-        route.id == "Blue" -> {"icon-subway", "bearing_blue"}
-        true -> {"icon-subway", "bearing_silver"}
-      end
+    {icon, icon_class} = icon_combo(route)
 
+    marker_stack(vehicle, popup, icon, icon_class)
+  end
+
+  # I disagree that the following function is too complex, it simply mirrors the state of our complex system
+  # credo:disable-for-next-line
+  defp icon_combo(route) do
+    cond do
+      is_silver_line?(route) -> {"icon-subway", "bearing_silver"}
+      route.type == 0 -> {"icon-subway", "bearing_green"}
+      route.type == 2 -> {"icon-commuter-rail", "bearing_cr"}
+      route.type == 3 -> {"icon-bus", "bearing_bus"}
+      route.type == 4 -> {"icon-ferry", "bearing_ferry"}
+      route.id == "Red" -> {"icon-subway", "bearing_red"}
+      route.id == "Orange" -> {"icon-subway", "bearing_orange"}
+      route.id == "Blue" -> {"icon-subway", "bearing_blue"}
+      true -> {"icon-subway", "bearing_silver"}
+    end
+  end
+
+  defp marker_stack(vechicle, popup, icon, icon_class) do
     if is_nil(vehicle.bearing) do
       # No bearing, just draw a vehicle icon with a colored circle
       [
