@@ -295,7 +295,6 @@ defmodule DotcomWeb.LineDiagramLive do
       })
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
-
     {icon, icon_class} = icon_combo(route)
 
     marker_stack(vehicle, popup, icon, icon_class)
@@ -325,7 +324,7 @@ defmodule DotcomWeb.LineDiagramLive do
           id: vehicle.id <> "_bearingNilA",
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
-          name: "icon-flag-tbd",
+          name: "icon-circle-semisolid",
           class: "size-7 cursor-pointer" <> other_color(icon_class),
           popup: popup,
           rotation: "0"
@@ -334,7 +333,7 @@ defmodule DotcomWeb.LineDiagramLive do
           id: vehicle.id <> "_bearingNilB",
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
-          name: "icon-flag-tbd",
+          name: "icon-circle-solid",
           class: "size-6 cursor-pointer #{icon_class}",
           popup: popup,
           rotation: "0"
