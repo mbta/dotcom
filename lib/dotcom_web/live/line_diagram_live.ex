@@ -1046,9 +1046,9 @@ defmodule DotcomWeb.LineDiagramLive do
       type="fill"
       paint={
         %{
-          "fill-color" => "#888888",
+          "fill-color" => "#f4f4f4",
           "fill-opacity" => 1,
-          "fill-outline-color" => "#000000"
+          "fill-outline-color" => "rgba(0,0,0,0)"
         }
       }
     />
