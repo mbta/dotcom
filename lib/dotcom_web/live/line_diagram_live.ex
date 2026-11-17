@@ -337,7 +337,7 @@ defmodule DotcomWeb.LineDiagramLive do
           rotation: "0"
         },
         %{
-          id: vehicle.id,
+          id: vehicle.id <> "_bearingNilC",
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: icon,
