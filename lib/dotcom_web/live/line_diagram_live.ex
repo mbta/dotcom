@@ -317,13 +317,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-flag-tbd",
-          class:
-            "size-7 cursor-pointer" <>
-              if icon_class != "bearing_bus" do
-                "vehicle_white"
-              else
-                "vehicle_black"
-              end,
+          class: "size-7 cursor-pointer" <> other_color(icon_class),
           popup: popup,
           rotation: "0"
         },
@@ -341,13 +335,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: icon,
-          class:
-            "size-6 cursor-pointer " <>
-              if icon_class != "bearing_bus" do
-                "vehicle_white"
-              else
-                "vehicle_black"
-              end,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
           popup: popup,
           rotation: "0"
         }
@@ -378,17 +366,19 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: icon,
-          class:
-            "size-6 cursor-pointer " <>
-              if icon_class != "bearing_bus" do
-                "vehicle_white"
-              else
-                "vehicle_black"
-              end,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
           popup: popup,
           rotation: "0"
         }
       ]
+    end
+  end
+
+  defp other_color(icon_class) do
+    if icon_class != "bearing_bus" do
+      " vehicle_white"
+    else
+      " vehicle_black"
     end
   end
 
