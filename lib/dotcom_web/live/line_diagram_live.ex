@@ -317,7 +317,13 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-flag-tbd",
-          class: "size-7 cursor-pointer vehicle_black",
+          class:
+            "size-7 cursor-pointer" <>
+              if icon_class != "bearing_bus" do
+                "vehicle_white"
+              else
+                "vehicle_black"
+              end,
           popup: popup,
           rotation: "0"
         },
