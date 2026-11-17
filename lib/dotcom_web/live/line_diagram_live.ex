@@ -298,38 +298,77 @@ defmodule DotcomWeb.LineDiagramLive do
 
     {icon, icon_class} =
       cond do
-        is_silver_line?(route) -> {"icon-mode-bus-silver", "bearing_silver"}
-        route.type == 0 -> {"icon-mode-trolley-default", "vehicle_icon_green bearing_green"}
-        route.type == 2 -> {"icon-mode-commuter-rail-default", "bearing_cr"}
-        route.type == 3 -> {"icon-mode-bus-default", "bearing_bus"}
-        route.type == 4 -> {"icon-mode-ferry-default", "bearing_ferry"}
-        route.id == "Red" -> {"icon-mode-subway-red", "bearing_red"}
-        route.id == "Orange" -> {"icon-mode-subway-orange", "bearing_orange"}
-        route.id == "Blue" -> {"icon-mode-subway-blue", "bearing_blue"}
-        true -> {"icon-mode-subway-default", "bearing_silver"}
+        is_silver_line?(route) -> {"icon-subway", "bearing_silver"}
+        route.type == 0 -> {"icon-subway", "bearing_green"}
+        route.type == 2 -> {"icon-commuter-rail", "bearing_cr"}
+        route.type == 3 -> {"icon-bus", "bearing_bus"}
+        route.type == 4 -> {"icon-ferry", "bearing_ferry"}
+        route.id == "Red" -> {"icon-subway", "bearing_red"}
+        route.id == "Orange" -> {"icon-subway", "bearing_orange"}
+        route.id == "Blue" -> {"icon-subway", "bearing_blue"}
+        true -> {"icon-subway", "bearing_silver"}
       end
 
-    %{
-      id: vehicle.id,
-      coordinates: [vehicle.longitude, vehicle.latitude],
-      type: "icon-svg",
-      name: icon,
-      class: "size-6 cursor-pointer #{icon_class}",
-      popup: popup,
-      rotation: "0",
-      bearing: vehicle.bearing
-    }
-  end
-
-  defp to_bearing_marker(vehicle_marker) do
-    %{
-      id: vehicle_marker.id <> "_bearing",
-      coordinates: vehicle_marker.coordinates,
-      rotation: (vehicle_marker.bearing + 180) |> Integer.mod(360) |> Integer.to_string(),
-      name: "icon-map-pin-a",
-      type: "icon-svg",
-      class: vehicle_marker.class <> " bearing_marker w-[2.25rem] h-[2.25rem]"
-    }
+    if is_nil(vehicle.bearing) do
+      # No bearing, just draw a vehicle icon with a colored circle
+      [
+        %{
+          id: vehicle.id <> "_bearingNil",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-flag-tbd",
+          class: "size-6 cursor-pointer #{icon_class}",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id,
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class: "size-6 cursor-pointer bearing_white",
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    else
+      [
+        # Bottom Layer Halo (Rotates)
+        %{
+          id: vehicle.id <> "_bearingA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-halo-light",
+          type: "icon-svg",
+          class: "cursor-pointer size-7"
+        },
+        # Middle Puck with Line/Mode Color (Rotates)
+        %{
+          id: vehicle.id <> "_bearingB",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-puck",
+          type: "icon-svg",
+          class: "cursor-pointer #{icon_class} size-6"
+        },
+        # Top layer vehicle Icon (Static)
+        %{
+          id: vehicle.id,
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class:
+            "size-6 cursor-pointer " <>
+              if icon_class != "bearing_bus" do
+                "vehicle_white"
+              else
+                "vehicle_black"
+              end,
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    end
   end
 
   def vehicle_popup(assigns) do
@@ -477,7 +516,7 @@ defmodule DotcomWeb.LineDiagramLive do
             map_route_shapes={@map_route_shapes}
             route_color={"##{@route.color}"}
             map_icons={@map_icons}
-            vehicle_icons={Map.values(@vehicle_icons)}
+            vehicle_icons={Map.values(@vehicle_icons) |> List.flatten()}
           />
         </div>
         <form id="stop_search_form">
@@ -984,12 +1023,7 @@ defmodule DotcomWeb.LineDiagramLive do
     />
 
     <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
-    <.icon_markers
-      id="new-map-bearings"
-      map_id="new-map"
-      icons={@vehicle_icons |> Enum.map(&to_bearing_marker/1)}
-      z_index={2}
-    />
+
     <.icon_markers
       id="new-map-vehicles"
       map_id="new-map"

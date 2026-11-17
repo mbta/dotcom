@@ -96,81 +96,59 @@
     }
   }
 
-  .bearing_marker {
-    filter: opacity(0.6);
-    margin-top: 0.1rem;
-    margin-left: 0.1rem;
+ .vehicle_white {
+  *{
+    fill: #FFFFFF;
   }
-
+ }
+ .vehicle_black {
+  *{
+    fill: #000000;
+  }
+ }
+ .bearing_white {
+    path{
+      fill: #FFFFFF;
+    }
+    g{g{circle{fill: #FFFFFF}}}
+  }
   .bearing_red {
-    g{
-      g{
-        path{
-          fill: $brand-red-line;
-        }
-      }
+    *{
+      fill: $brand-red-line;
     }
   }
   .bearing_orange {
-    g{
-      g{
-        path{
-          fill: $brand-orange-line;
-        }
-      }
-    }
+    *{
+      fill: $brand-orange-line;
+    }  
   }
   .bearing_blue {
-    g{
-      g{
-        path{
-          fill: $brand-blue-line;
-        }
-      }
+    *{
+      fill: $brand-blue-line;
     }
   }
   .bearing_green {
-    g{
-      g{
-        path{
-          fill: $brand-green-line;
-        }
-      }
+   *{
+      fill: $brand-green-line;
     }
   }
   .bearing_silver {
-    g{
-      g{
-        path{
-          fill: $brand-silver-line;
-        }
-      }
+    *{
+      fill: $brand-silver-line;
     }
   }
   .bearing_bus {
-    g{
-      g{
-        path{
-          fill: $brand-bus;
-        }
-      }
+    *{
+      fill: $brand-bus;
     }
   }
   .bearing_cr {
-    g{
-      g{
-        path{
-          fill: $brand-commuter-rail;
-        }
-      }
+    *{
+      fill: $brand-commuter-rail;
     }
   }
   .bearing_ferry {
-    g{
-      g{
-        path{
-          fill: $brand-ferry;
-        }
-      }
+    *{
+      fill: $brand-ferry;
     }
   }
