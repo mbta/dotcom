@@ -19,7 +19,6 @@ defmodule DotcomWeb.LineDiagramLive do
     features: [
       %{
         type: "Feature",
-        properties: %{name: "Service Area", description: "MBTA Srvice Area"},
         geometry: %{
           type: "Polygon",
           coordinates: [
@@ -38,13 +37,13 @@ defmodule DotcomWeb.LineDiagramLive do
               # SW Corner of MA area
               [-73.0, 42.00],
               # MA CT RI Triple point
-              [-71.79, 42.00],
+              [-71.8, 42.00],
               # SW Corner of RI
-              [-71.79, 41.25],
+              [-71.8, 41.25],
               # SE Corner in the sea off Nantucket
               [-69.6, 41.25],
               # NE Corner in the sea off Portsmouth
-              [-69.6, 43.10]
+              [-69.6, 43]
             ]
             |> Enum.reverse()
           ]
