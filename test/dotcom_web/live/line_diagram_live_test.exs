@@ -21,14 +21,30 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     route = Factories.Routes.Route.build(:route, %{id: "1", type: 3})
     polyline = Polyline.encode([{-71.06, 42.35}, {-71.07, 42.36}])
 
-    [pattern_a, pattern_b] =
-      Factories.RoutePatterns.RoutePattern.build_list(2, :route_pattern, %{
+    pattern_a_stops = Faker.Util.sample_uniq(14, fn -> Faker.String.base64(8) end)
+    pattern_b_stops = Faker.Util.sample_uniq(14, fn -> Faker.String.base64(8) end)
+
+    pattern_a =
+      Factories.RoutePatterns.RoutePattern.build(:route_pattern, %{
         route_id: route.id,
         representative_trip_polyline: polyline,
-        typicality: 1
+        typicality: 1,
+        stop_ids: pattern_a_stops,
+        sort_order: 0,
+        headsign: "Headsign A",
+        direction_id: 1
       })
-      |> Enum.with_index()
-      |> Enum.map(fn {p, i} -> %{p | sort_order: i, headsign: "Headsign #{i}"} end)
+
+    pattern_b =
+      Factories.RoutePatterns.RoutePattern.build(:route_pattern, %{
+        route_id: route.id,
+        representative_trip_polyline: polyline,
+        typicality: 1,
+        stop_ids: pattern_b_stops,
+        sort_order: 1,
+        headsign: "Headsign B",
+        direction_id: 1
+      })
 
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     stub(Routes.Repo.Mock, :get, fn _ -> route end)

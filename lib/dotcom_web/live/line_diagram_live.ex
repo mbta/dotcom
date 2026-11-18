@@ -640,10 +640,15 @@ defmodule DotcomWeb.LineDiagramLive do
         end)
       end)
 
+    ordered_stop_ids =
+      if(Enum.empty?(segments)) do
+        selected_route_patterns |> Stream.flat_map(& &1.stop_ids)
+      else
+        segments |> Stream.flat_map(& &1.stops) |> Stream.map(& &1.stop_id)
+      end
+
     ordered_stops =
-      segments
-      |> Enum.flat_map(& &1.stops)
-      |> Enum.map(& &1.stop_id)
+      ordered_stop_ids
       |> Stream.uniq()
       |> Stream.map(&Map.fetch!(stops_by_id, &1))
       |> Enum.to_list()

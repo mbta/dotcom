@@ -12,8 +12,9 @@ defmodule DotcomWeb.LineDiagramHelpers do
   def route_to_diagram_class(route),
     do: route |> Routes.Route.icon_atom() |> Atom.to_string() |> String.replace("_", "-")
 
-  @spec get_segments(Routes.Route.t(), 0 | 1, %{String.t() => Stops.Stop.t()}, [RoutePatterns.RouterPattern.t()]) ::
-          [GTFSRouteBranching.Segment.t()]
+  @spec get_segments(Routes.Route.t(), 0 | 1, %{String.t() => Stops.Stop.t()}, [
+          RoutePatterns.RoutePattern.t()
+        ]) :: [GTFSRouteBranching.Segment.t()]
   def get_segments(route, direction_id, stops_by_id, selected_route_patterns) do
     route_patterns_by_id =
       Map.new(selected_route_patterns, fn pattern ->
