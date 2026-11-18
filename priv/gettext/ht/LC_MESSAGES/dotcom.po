@@ -5336,7 +5336,7 @@ msgstr "avèk demann ou an."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zòn Pò Enteryè 1A"
+msgstr "Zòn Inner Harbor 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5351,43 +5351,43 @@ msgstr "<strong>Fè atansyon:</strong> direksyon pou kay asansè a pa ajiste pou
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."
+msgstr "Yon bagay pa t mache. Tanpri eseye ankò pita."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "sekirite woulant-aksesib transfè nan Downtown Crossing ka mande pou <strong>sòti nan pòt tarif la.</strong> Al wè pèsonèl estasyon an pou evite peye yon"
-" lòt tikè."
+msgstr "Transfè ki aksesib pou chèz woulant nan Downtown Crossing ka mande pou <strong>soti nan pòt tarif yo.</strong> Pale ak pèsonèl estasyon an pou evite peye"
+" yon lòt tarif."
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr "Vandredi orè"
+msgstr "Orè vandredi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr "Lendi - Jedi orè"
+msgstr "Orè lendi - jedi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr "Samdi orè"
+msgstr "Orè samdi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr "Dimanch orè"
+msgstr "Orè dimanch"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr "Ou lasemèn orè"
+msgstr "Orè jou lasemèn"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr "Wikenn orè"
+msgstr "Orè wikenn"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
