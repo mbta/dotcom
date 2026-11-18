@@ -76,6 +76,10 @@
 }
 
 .m-schedule-diagram {
+  .result .line-diagram-svg {
+    display: none;
+  }
+
   @each $line in map-keys($mbta-line-colors) {
     $fill-color: map-get($mbta-line-colors, $line);
 
