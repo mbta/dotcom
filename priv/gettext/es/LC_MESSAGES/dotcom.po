@@ -5329,7 +5329,7 @@ msgstr "Con tu petición."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zona 1A del Puerto Interior"
+msgstr "Zona 1A de Inner Harbor"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5345,55 +5345,55 @@ msgstr "<strong>Ten precaución:</strong> Las direcciones accesibles de persona 
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "Algo salió mal. Por favor, inténtalo de nuevo más tarde."
+msgstr "Algo salió mal. Inténtelo de nuevo más tarde."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "Persona en silla de ruedas-accesible transfers en Downtown Crossing puede requerir <strong>salir de la puerta de acceso.</strong> Consulta al personal"
-" de la estación para evitar pagar una tarifa adicional."
+msgstr "Los transbordos accesibles para personas en silla de ruedas en Downtown Crossing pueden requerir que <strong>salga por las puertas de acceso.</strong>"
+" Consulte al personal de la estación para evitar pagar una tarifa adicional."
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr "Viernes"
+msgstr "Horarios del viernes"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr "Lunes - Jueves horario"
+msgstr "Horarios de lunes a jueves"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr "Horario del sábado"
+msgstr "Horarios del sábado"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr "Horario dominical"
+msgstr "Horarios del domingo"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr "Día de semana horario"
+msgstr "Horarios de días de semana"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr "Fin de semana horario"
+msgstr "Horarios de fin de semana"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Earlier %{vehicle_name}"
-msgstr "Antes %{vehicle_name}"
+msgstr "%{vehicle_name} más temprano"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Later %{vehicle_name}"
-msgstr "Más tarde %{vehicle_name}"
+msgstr "%{vehicle_name} más tarde"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5418,4 +5418,4 @@ msgstr "Trenes"
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr "%{direction_name} calendario para %{route_name}, %{formatted_date}"
+msgstr "Horario de %{direction_name} para %{route_name}, %{formatted_date}"
