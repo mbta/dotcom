@@ -452,7 +452,6 @@ defmodule DotcomWeb.LineDiagramLive do
             <li
               :for={stop <- @stops}
               class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest stop_list_main_result relative"}
-              style="box-sizing: border-box;"
             >
               <.stop_card_segment
                 :if={Map.has_key?(@stop_id_to_segment, stop.id)}

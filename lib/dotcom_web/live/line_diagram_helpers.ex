@@ -83,7 +83,6 @@ defmodule DotcomWeb.LineDiagramHelpers do
       class="line-diagram-svg"
       aria-hidden
       height="100%"
-      style="z-index: 1;"
     >
       <defs>
         <pattern
