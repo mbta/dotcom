@@ -325,7 +325,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-circle-semisolid",
-          class: "size-7 cursor-pointer" <> other_color(icon_class),
+          class: "size-7 cursor-pointer vehicle_white",
           popup: popup,
           rotation: "0"
         },
