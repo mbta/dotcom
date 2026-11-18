@@ -5524,4 +5524,4 @@ msgstr "內港區 1A"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr "Winthrop和Quincy Ferry"
+msgstr "Winthrop 與 Quincy Ferry"
