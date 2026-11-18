@@ -5279,7 +5279,7 @@ msgstr "內港區 1A"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr "Winthrop和Quincy Ferry"
+msgstr "Winthrop 與 Quincy Ferry"
 
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
@@ -5289,12 +5289,12 @@ msgstr "<strong>請謹慎使用：</strong>輪椅-使用方向不會因電梯暫
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "出問題了。請稍後再試。"
+msgstr "發生錯誤。請稍後再試。"
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "在Downtown Crossing無障礙換乘可能需要<strong>退出閘機。</strong> 請向車站工作人員諮詢，以免支付額外費用。"
+msgstr "在 Downtown Crossing 進行無障礙輪椅轉乘時，可能需要離開<strong>閘機。</strong>請洽詢車站工作人員，以避免支付額外車費。"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
@@ -5341,12 +5341,12 @@ msgstr "稍後 %{vehicle_name}"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boat"
-msgstr "船"
+msgstr "渡輪"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr "船"
+msgstr "渡輪"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5356,28 +5356,28 @@ msgstr "巴士"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Trains"
-msgstr "火車"
+msgstr "列車"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr "%{direction_name} %{route_name}、%{formatted_date} 的時間表"
+msgstr "%{route_name} %{direction_name}的時刻表，%{formatted_date}"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr "時刻表和地圖（新增）"
+msgstr "時刻表和地圖（新版）"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr "順時針循環"
+msgstr "順時針環線"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr "逆時針環"
+msgstr "逆時針環線"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5387,7 +5387,7 @@ msgstr "晚上"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Morning"
-msgstr "早晨"
+msgstr "上午"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5397,22 +5397,22 @@ msgstr "可列印時刻表"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
-msgstr "巴士旅遊指南"
+msgstr "巴士搭乘指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Access Guide"
-msgstr "通勤火車"
+msgstr "Commuter Rail 搭乘指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Beginner's Guide"
-msgstr "通勤鐵路新手指南"
+msgstr "Commuter Rail 入門指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Access Guide"
-msgstr "渡輪交通指南"
+msgstr "渡輪搭乘指南"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5422,7 +5422,7 @@ msgstr "渡輪新手指南"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
-msgstr "地鐵交通指南"
+msgstr "地鐵搭乘指南"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5447,12 +5447,12 @@ msgstr "更多地鐵票價選項"
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "這篇新聞稿發佈<strong>於%{age}年前。</strong>本頁面上的資訊可能不再反映目前的服務、政策或營運情況。"
+msgstr "本新聞稿發佈時間<strong>超過 %{age} 年。</strong>本頁資訊可能已無法反映目前的服務、政策或營運情況。"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "這篇新聞稿發佈<strong>於一年多前。</strong>本頁面上的資訊可能不再反映目前的服務、政策或營運情況。"
+msgstr "本新聞稿發佈時間<strong>超過一年。</strong>本頁資訊可能已無法反映目前的服務、政策或營運情況。"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5507,17 +5507,17 @@ msgstr "價格根據行駛距離而定。"
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bring your car or bike"
-msgstr "攜帶您的汽車或自行車"
+msgstr "開車或騎自行車"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Get around the station"
-msgstr "在車站周圍環遊"
+msgstr "在車站內移動"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Purchase your fare"
-msgstr "購買您的車票"
+msgstr "購買車票"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
@@ -5527,57 +5527,57 @@ msgstr "全部"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "All %{mode} Projects"
-msgstr "所有%{mode}項目"
+msgstr "所有「%{mode}」專案"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "All Projects"
-msgstr "所有項目"
+msgstr "所有專案"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured %{mode} Projects"
-msgstr "精選項目%{mode}"
+msgstr "精選「%{mode}」專案"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured Projects"
-msgstr "特色項目"
+msgstr "精選專案"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Filter by Line"
-msgstr "按行篩選"
+msgstr "依路線篩選"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Filter by Mode"
-msgstr "按模式篩選"
+msgstr "依交通方式篩選"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Last Updated"
-msgstr "姓："
+msgstr "最後更新時間"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Last updated"
-msgstr "姓："
+msgstr "最後更新時間"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Loading featured projects"
-msgstr "正在加載特色項目"
+msgstr "正在載入精選專案"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Loading more projects"
-msgstr "正在加載更多項目"
+msgstr "正在載入更多專案"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Loading projects"
-msgstr "正在載入項目"
+msgstr "正在載入專案"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
@@ -5587,7 +5587,7 @@ msgstr "Mattapan Line"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "No projects found"
-msgstr "未找到項目"
+msgstr "找不到專案"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5597,7 +5597,7 @@ msgstr "專案"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Projects could not be loaded."
-msgstr "項目加載失敗。"
+msgstr "專案無法載入。"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5607,37 +5607,37 @@ msgstr "顯示更多"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "You've reached the end of the list."
-msgstr "您已瀏覽到清單末尾。"
+msgstr "已經到底了。"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Building a Better T"
-msgstr "打造更美好的未來"
+msgstr "打造更好的 T"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Take a look at what we're working on to make the MBTA better"
-msgstr "看看我們正在努力改善 MBTA 的工作"
+msgstr "看看我們正在推動哪些改善 MBTA 的工作"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
-msgstr "地鐵每天都在進化。我們正在翻新車站、現代化收費系統、為公共汽車、地鐵和渡輪提升服務，並改善整個系統的無障礙"
+msgstr "T 每天都在持續進步。我們正在翻修車站、使票務系統現代化、升級巴士、地鐵及渡輪服務，並改善整個系統的無障礙服務。"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download %{mbta_go} to track your %{vehicle_name}"
-msgstr "下載%{mbta_go}來追蹤您的%{vehicle_name}"
+msgstr "下載 %{mbta_go} 以追蹤您的 %{vehicle_name} 動態"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr "關閉彈跳窗"
+msgstr "關閉彈出視窗"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr "拖曳旋轉地圖，點選重置地圖北面"
+msgstr "拖曳以旋轉地圖，點擊即可恢復朝北"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
@@ -5647,12 +5647,12 @@ msgstr "放大"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr "登出"
+msgstr "縮小"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
-msgstr "切換歸屬"
+msgstr "切換歸屬資訊"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5662,62 +5662,62 @@ msgstr "查看時刻表"
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBD"
-msgstr "軌道待定"
+msgstr "軌道資訊待定"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Change Direction"
-msgstr "轉向"
+msgstr "變更方向"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Lane/Stop Enforcement"
-msgstr "巴士線/車站管制"
+msgstr "巴士專用道/停靠站執法"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
-msgstr "延遲"
+msgstr "延誤"
 
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
-msgstr "下載<strong>%{appname}</strong>來追蹤您的行程"
+msgstr "下載<strong>%{appname}</strong>以追蹤您的行程"
 
 #: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr "旅程繼續"
+msgstr "行程將接續搭乘"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "%{time_desc} from %{origin}"
-msgstr "%{time_desc} — 有效期截止於 %{origin}"
+msgstr "%{time_desc}，從 %{origin} 出發"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All branches"
-msgstr "所有分行"
+msgstr "所有支線"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
-msgstr "所有變體"
+msgstr "所有版本"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "Uncommon destinations"
-msgstr "不常見的目的地"
+msgstr "小眾目的地"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr "來自%{origin} ，不太常見的路線"
+msgstr "從 %{origin} 出發，小眾路線"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "typical route"
-msgstr "典型路線"
+msgstr "一般路線"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5727,12 +5727,12 @@ msgstr "列車%{train_no}"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
-msgstr "或使用現金或非接觸式支付在任何巴士上付款"
+msgstr "或可在任何巴士上使用現金或非接觸式支付"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
-msgstr "此路線上的其他行程也提供%{count} %{stop}服務"
+msgstr "%{count} 個%{stop}由此路線的其他班次提供服務"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5752,4 +5752,4 @@ msgstr "路線%{num}"
 #: lib/dotcom_web/templates/customer_support/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
-msgstr "我們無法提交您的回饋。請刷新頁面後重試。"
+msgstr "無法提交您的意見回饋。請重新載入頁面後再試一次。"
