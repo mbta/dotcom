@@ -5393,7 +5393,7 @@ msgstr "Horario de %{direction_name} para %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr "Horarios & mapas (nuevo)"
+msgstr "Horarios y mapas (novedad)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5413,7 +5413,7 @@ msgstr "Noche"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Morning"
-msgstr "Buenos días"
+msgstr "Mañana"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5701,7 +5701,7 @@ msgstr "Cambiar de dirección"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Lane/Stop Enforcement"
-msgstr "Control de carriles/paradas de autobús"
+msgstr "Control de carriles y paradas de autobús"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -5711,7 +5711,7 @@ msgstr "Demorado"
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
-msgstr "Descargue <strong>%{appname}</strong> para hacer seguimiento de su viaje"
+msgstr "Descargue <strong>%{appname}</strong> para hacer un seguimiento de su viaje"
 
 #: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
@@ -5721,7 +5721,7 @@ msgstr "El viaje continúa como"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "%{time_desc} from %{origin}"
-msgstr "%{time_desc} de %{origin}"
+msgstr "%{time_desc} desde %{origin}"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
@@ -5741,7 +5741,7 @@ msgstr "Destinos poco comunes"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr "desde %{origin}, ruta menos habitual"
+msgstr "desde %{origin}, ruta menos frecuente"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
@@ -5756,7 +5756,7 @@ msgstr "Tren %{train_no}"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
-msgstr "o pagar en efectivo o con pago sin contacto en cualquier autobús"
+msgstr "o pague en efectivo o con pago sin contacto en cualquier autobús"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
