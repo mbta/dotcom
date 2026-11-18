@@ -325,7 +325,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-circle-semisolid",
-          class: "size-8 cursor-pointer bearing_white",
+          class: "size-9 cursor-pointer bearing_white",
           popup: popup,
           rotation: "0"
         },
@@ -357,7 +357,7 @@ defmodule DotcomWeb.LineDiagramLive do
           rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
           name: "vehicle-halo-light",
           type: "icon-svg",
-          class: "cursor-pointer size-8 bearing_white"
+          class: "cursor-pointer size-9 bearing_white"
         },
         # Middle Puck with Line/Mode Color (Rotates)
         %{
