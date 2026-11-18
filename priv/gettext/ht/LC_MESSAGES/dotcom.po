@@ -5289,7 +5289,7 @@ msgstr "avèk demann ou an."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zòn Pò Enteryè 1A"
+msgstr "Zòn Inner Harbor 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5304,7 +5304,7 @@ msgstr "<strong>Fè atansyon:</strong> direksyon pou kay asansè a pa ajiste pou
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."
+msgstr "Yon bagay pa t mache. Tanpri eseye ankò pita."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
@@ -5362,7 +5362,7 @@ msgstr "Bato"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr "Bato"
+msgstr "Bato yo"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5383,17 +5383,17 @@ msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr "orè ak Kat (nouvo)"
+msgstr "Orè & Kat (nouvo)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr "Bouk nan sans zegwi mont lan"
+msgstr "Sikwi nan sans zegwi mont lan"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr "Boukl kontrè zegwi mont lan"
+msgstr "Sikwi nan sans kontrè ak zegwi mont lan"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5408,7 +5408,7 @@ msgstr "Maten"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Printable Schedules"
-msgstr "Lò pou enprime"
+msgstr "Orè pou enprime"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5651,12 +5651,12 @@ msgstr "Telechaje %{mbta_go} pou swiv %{vehicle_name}ou a"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr "Fèmen fenèt popup la"
+msgstr "Fèmen pop-up la"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr "Trennen pou vire kat la, klike pou retabli nò a"
+msgstr "Trennen pou vire kat la, klike pou mete nò a anlè"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
@@ -5666,12 +5666,12 @@ msgstr "Agrandi"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr "Dekonekte"
+msgstr "Diminye zoom lan"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
-msgstr "Aktive/dezaktive atribisyon an"
+msgstr "Aktive/dezaktive atribisyon"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5691,12 +5691,12 @@ msgstr "Chanje Direksyon"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Lane/Stop Enforcement"
-msgstr "Aplikasyon Liy Bis/Arè"
+msgstr "Ranfòsman règ sou liy/arè bis"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
-msgstr "Anreta"
+msgstr "An reta"
 
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5706,12 +5706,12 @@ msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr "Vwayaj la kontinye tankou"
+msgstr "Vwayaj la kontinye kòm"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "%{time_desc} from %{origin}"
-msgstr "%{time_desc} - expires %{origin}"
+msgstr "%{time_desc} soti nan %{origin}"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
@@ -5726,17 +5726,17 @@ msgstr "Tout varyant yo"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "Uncommon destinations"
-msgstr "Destinasyon estraòdinè"
+msgstr "Destinasyon ki pa komen"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr "soti nan %{origin}, wout ki mwens komen"
+msgstr "soti nan %{origin}, trajè ki mwens komen"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "typical route"
-msgstr "wout tipik"
+msgstr "trajè abityèl"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5746,12 +5746,12 @@ msgstr "Tren %{train_no}"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
-msgstr "oubyen peye ak lajan kach oubyen pèman san kontak nan nenpòt bis"
+msgstr "oswa peye ak lajan kach oswa ak pèman san kontak nan nenpòt bis"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
-msgstr "%{count} %{stop} sèvi pa lòt vwayaj sou wout sa a"
+msgstr "Lòt vwayaj sou wout sa a sèvi %{count} %{stop}"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5761,7 +5761,7 @@ msgstr "Chèche yon %{stop}"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Connections"
-msgstr "koneksyon"
+msgstr "Koneksyon"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
