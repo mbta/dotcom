@@ -5507,7 +5507,7 @@ msgstr "内港区 1A"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr "Winthrop和Quincy Ferry"
+msgstr "Winthrop 和 Quincy Ferry"
 
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
@@ -5517,9 +5517,9 @@ msgstr "<strong>请谨慎使用：</strong>轮椅-使用方向不会因电梯临
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "出问题了。请稍后再试。"
+msgstr "出问题了。请稍后重试。"
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "在Downtown Crossing无障碍换乘可能需要<strong>退出闸机。</strong> 请向车站工作人员咨询，以免支付额外费用。"
+msgstr "在 Downtown Crossing 站进行轮椅无障碍换乘时，可能需要<strong>出站并通过收费闸机</strong>。请联系车站工作人员，以免支付额外车费。"
