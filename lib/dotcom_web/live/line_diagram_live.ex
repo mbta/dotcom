@@ -632,14 +632,7 @@ defmodule DotcomWeb.LineDiagramLive do
            }
          } = socket
        ) do
-    stops =
-      selected_route_patterns
-      |> Stream.flat_map(& &1.stop_ids)
-      |> Stream.uniq()
-      |> Stream.map(&Map.fetch!(stops_by_id, &1))
-      |> Enum.to_list()
-
-    segments = get_segments(route, direction_id, stops, selected_route_patterns)
+    segments = get_segments(route, direction_id, stops_by_id, selected_route_patterns)
 
     stop_id_to_segment =
       Enum.reduce(segments, %{}, fn segment, acc ->
