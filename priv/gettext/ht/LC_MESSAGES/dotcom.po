@@ -5308,7 +5308,7 @@ msgstr "avèk demann ou an."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zòn Pò Enteryè 1A"
+msgstr "Zòn Inner Harbor 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5402,7 +5402,7 @@ msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr "orè ak Kat (nouvo)"
+msgstr "Orè & Kat (nouvo)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5427,7 +5427,7 @@ msgstr "Maten"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Printable Schedules"
-msgstr "Lò pou enprime"
+msgstr "Orè pou enprime"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5605,12 +5605,12 @@ msgstr "Telechaje %{mbta_go} pou swiv %{vehicle_name}ou a"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr "Fèmen fenèt popup la"
+msgstr "Fèmen pop-up la"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr "Trennen pou vire kat la, klike pou retabli nò a"
+msgstr "Trennen pou vire kat la, klike pou mete nò a anlè"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
@@ -5620,12 +5620,12 @@ msgstr "Agrandi"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr "Dekonekte"
+msgstr "Diminye zoom lan"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Toggle attribution"
-msgstr "Aktive/dezaktive atribisyon an"
+msgstr "Aktive/dezaktive atribisyon"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
