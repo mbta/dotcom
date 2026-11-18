@@ -325,7 +325,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-circle-semisolid",
-          class: "size-7 cursor-pointer vehicle_white",
+          class: "size-8 cursor-pointer bearing_white",
           popup: popup,
           rotation: "0"
         },
@@ -334,7 +334,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-circle-solid",
-          class: "size-6 cursor-pointer #{icon_class}",
+          class: "size-7 cursor-pointer #{icon_class}",
           popup: popup,
           rotation: "0"
         },
@@ -357,7 +357,7 @@ defmodule DotcomWeb.LineDiagramLive do
           rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
           name: "vehicle-halo-light",
           type: "icon-svg",
-          class: "cursor-pointer size-7"
+          class: "cursor-pointer size-8 bearing_white"
         },
         # Middle Puck with Line/Mode Color (Rotates)
         %{
@@ -366,7 +366,7 @@ defmodule DotcomWeb.LineDiagramLive do
           rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
           name: "vehicle-puck",
           type: "icon-svg",
-          class: "cursor-pointer #{icon_class} size-6"
+          class: "cursor-pointer #{icon_class} size-7"
         },
         # Top layer vehicle Icon (Static)
         %{
