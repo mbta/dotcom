@@ -5312,12 +5312,12 @@ msgstr "Conforme sua solicitação."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zona 1A do Porto Interior"
+msgstr "Zona 1A do Inner Harbor"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr "Balsa Winthrop e Quincy Ferry"
+msgstr "Winthrop e Quincy Ferry"
 
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
@@ -5328,49 +5328,49 @@ msgstr "<strong>Tenha cuidado:</strong> as direções da cadeira de rodas-acess�
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "Algo deu errado. Por favor, tente novamente mais tarde."
+msgstr "Ocorreu um erro. Tente novamente mais tarde."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "Os traslados de rodas acessíveis no Downtown Crossing podem exigir <strong>a saída da cadeira de acesso.</strong> Consulte os funcionários da estação para"
-" evitar o pagamento de uma tarifa adicional."
+msgstr "Para fazer baldeações acessíveis para cadeirantes em Downtown Crossing, pode ser necessário <strong>sair pelas portas de acesso.</strong> Fale com a equipe"
+" da estação para evitar o pagamento de uma tarifa adicional."
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr "Sexta-feira"
+msgstr "Horários de sexta-feira"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr "Segunda-feira - Horário Quinta-feira"
+msgstr "Horários de segunda a quinta-feira"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr "Sábado"
+msgstr "Horários de sábado"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr "Domingo"
+msgstr "Horários de domingo"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr "Dias úteis horário"
+msgstr "Horários dos dias úteis"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr "Horário de fim de semana"
+msgstr "Horários de fim de semana"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Earlier %{vehicle_name}"
-msgstr "Anteriormente %{vehicle_name}"
+msgstr "Anterior %{vehicle_name}"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
@@ -5391,7 +5391,7 @@ msgstr "Barcos"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Buses"
-msgstr "ônibus"
+msgstr "Ônibus"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5401,23 +5401,23 @@ msgstr "Trens"
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr "Horário %{direction_name} para %{route_name}, %{formatted_date}"
+msgstr "Tabela de horários de %{direction_name} para %{route_name}, %{formatted_date}"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr "Horário e mapas (novo)"
+msgstr "Horários e mapas (novo)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr "Laço no sentido horário"
+msgstr "Circuito no sentido horário"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr "Laço anti-horário"
+msgstr "Circuito no sentido anti-horário"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5432,42 +5432,42 @@ msgstr "Manhã"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Printable Schedules"
-msgstr "Horário imprimível"
+msgstr "Horários para impressão"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
-msgstr "ônibus Guia de Acesso"
+msgstr "Guia de acesso aos ônibus"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Access Guide"
-msgstr "Commuter Rail"
+msgstr "Guia de acesso ao Commuter Rail"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Beginner's Guide"
-msgstr "Guia para iniciantes do Trem suburbano"
+msgstr "Guia para iniciantes do Commuter Rail"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Access Guide"
-msgstr "Guia de Acesso à Balsa"
+msgstr "Guia de acesso às balsas"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Beginner's Guide"
-msgstr "Guia para Iniciantes em Balsa"
+msgstr "Guia para iniciantes para as balsas"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
-msgstr "Guia de Acesso"
+msgstr "Guia de acesso ao metrô"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More Commuter Rail fare options"
-msgstr "Mais opções de tarifas para trens suburbanos"
+msgstr "Mais opções de tarifas para o Commuter Rail"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5482,49 +5482,49 @@ msgstr "Mais opções de tarifas de balsa"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More subway fare options"
-msgstr "Mais opções de tarifas de metrô"
+msgstr "Mais opções de tarifas do metrô"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "Este comunicado de imprensa foi publicado <strong>há mais de %{age} anos.</strong> As informações nesta página podem não refletir mais os serviços, políticas"
-" ou operações atuais."
+msgstr "Este comunicado à imprensa foi publicado <strong>há mais de %{age} anos.</strong> As informações nesta página podem não refletir mais o serviço, as políticas"
+" ou as operações atuais."
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "Este comunicado de imprensa foi publicado <strong>há mais de um ano.</strong> As informações nesta página podem não refletir mais os serviços, políticas"
-" ou operações atuais."
+msgstr "Este comunicado à imprensa foi publicado há <strong>mais de um ano.</strong> As informações nesta página podem não refletir mais o serviço, as políticas"
+" ou as operações atuais."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Continues as"
-msgstr "Continuar"
+msgstr "Continuar como"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{route} One-Way"
-msgstr "%{route} só ida"
+msgstr "%{route} Só ida"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "Fare-Free Bus"
-msgstr "Ônibus gratuito"
+msgstr "Ônibus Tarifa Zero"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "Learn more about reduced fares"
-msgstr "Saiba mais sobre os requisitos do programa de tarifas reduzidas"
+msgstr "Saiba mais sobre tarifas reduzidas"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "Learn more about the Fare-Free Program"
-msgstr "Saiba mais sobre o Mass ID"
+msgstr "Saiba mais sobre o programa Tarifa Zero"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "Service on this route is free"
-msgstr "O serviço nesta rota é gratuito."
+msgstr "O serviço nesta rota é gratuito"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5534,37 +5534,37 @@ msgstr "Silver Line só ida"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
-msgstr "com %{ccard}, %{ctick}, pagamento por aproximação ou Dinheiro"
+msgstr "com %{ccard}, %{ctick}, pagamento por aproximação ou dinheiro"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "with reduced fare card"
-msgstr "Cartão de tarifas reduzidas"
+msgstr "com cartão de tarifa reduzida"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares"
-msgstr "%{sl1}, %{sl2}, %{sl3} e %{slw} têm o preço de passagens de metrô."
+msgstr "%{sl1}, %{sl2}, %{sl3} e %{slw} são cobrados como tarifas de metrô"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "Price based on distance traveled"
-msgstr "Preço baseado na distância percorrida."
+msgstr "Preço baseado na distância percorrida"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bring your car or bike"
-msgstr "Traga seu carro ou bicicleta."
+msgstr "Traga seu carro ou bicicleta"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Get around the station"
-msgstr "Desloque-se pela estação."
+msgstr "Desloque-se pela estação"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Purchase your fare"
-msgstr "Compre sua passagem"
+msgstr "Compre sua tarifa"
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
@@ -5574,7 +5574,7 @@ msgstr "Todos"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "All %{mode} Projects"
-msgstr "Todos os %{mode} projetos"
+msgstr "Todos os projetos %{mode}"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5584,7 +5584,7 @@ msgstr "Todos os projetos"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured %{mode} Projects"
-msgstr "Projetos em destaque %{mode}"
+msgstr "Projetos %{mode} em destaque"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5599,17 +5599,17 @@ msgstr "Filtrar por linha"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Filter by Mode"
-msgstr "Filtrar por Modo"
+msgstr "Filtrar por modo"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Last Updated"
-msgstr "Sobrenome"
+msgstr "Última atualização"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Last updated"
-msgstr "Sobrenome"
+msgstr "Última atualização"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5664,13 +5664,13 @@ msgstr "Construindo um T melhor"
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Take a look at what we're working on to make the MBTA better"
-msgstr "Confira o que estamos fazendo para melhorar o MBTA."
+msgstr "Confira tudo o que estamos fazendo para deixar o MBTA ainda melhor."
 
 #: lib/dotcom_web/live/projects_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "The T is evolving every day. We're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system"
-msgstr "O metrô está evoluindo a cada dia. Estamos reformando estações, modernizando os sistemas de cobrança de tarifas, aprimorando os serviços de nossos ônibus,"
-" metrôs e balsas e melhorando a acessibilidade de todo o sistema."
+msgstr "A T está em constante evolução. Estamos reformando estações, modernizando a cobrança de tarifas, aprimorando os serviços de ônibus, metrô e balsas e ampliando"
+" a acessibilidade em todo o sistema."
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5680,12 +5680,12 @@ msgstr "Baixe %{mbta_go} para acompanhar seu %{vehicle_name}"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Close popup"
-msgstr "Fechar janela pop-up"
+msgstr "Fechar pop-up"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Drag to rotate map, click to reset north"
-msgstr "Arraste para girar o mapa, clique para redefinir o norte."
+msgstr "Arraste para girar o mapa, clique para redefinir o norte"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
@@ -5695,7 +5695,7 @@ msgstr "Ampliar"
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
 msgid "Zoom out"
-msgstr "Sair"
+msgstr "Reduzir"
 
 #: lib/dotcom_web/components/map.ex
 #, elixir-autogen, elixir-format
@@ -5705,7 +5705,7 @@ msgstr "Alternar atribuição"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
-msgstr "Ver horário"
+msgstr "Ver horários"
 
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
@@ -5716,3 +5716,8 @@ msgstr "Via a definir"
 #, elixir-autogen, elixir-format
 msgid "Delayed"
 msgstr "Atrasado"
+
+#: lib/dotcom_web/templates/stop/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "Download <strong>%{appname}</strong> to track your trip"
+msgstr "Baixe <strong>%{appname}</strong> para acompanhar sua viagem"
