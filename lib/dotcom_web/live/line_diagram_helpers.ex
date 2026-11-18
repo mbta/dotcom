@@ -127,6 +127,6 @@ defmodule DotcomWeb.LineDiagramHelpers do
   defp lane_to_x(:right), do: 80
 
   defp vpos_to_y(:top), do: 0
-  defp vpos_to_y(:center), do: "calc(1em - 2px)"
+  defp vpos_to_y(:center), do: "1em"
   defp vpos_to_y(:bottom), do: "100%"
 end
