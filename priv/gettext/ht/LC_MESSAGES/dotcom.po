@@ -5304,7 +5304,7 @@ msgstr "avèk demann ou an."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zòn Pò Enteryè 1A"
+msgstr "Zòn Inner Harbor 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5423,7 +5423,7 @@ msgstr "Maten"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Printable Schedules"
-msgstr "Lò pou enprime"
+msgstr "Orè pou enprime"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5711,7 +5711,7 @@ msgstr "Aplikasyon Liy Bis/Arè"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
-msgstr "Anreta"
+msgstr "An reta"
 
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5721,12 +5721,12 @@ msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Trip continues as"
-msgstr "Vwayaj la kontinye tankou"
+msgstr "Vwayaj la kontinye kòm"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "%{time_desc} from %{origin}"
-msgstr "%{time_desc} - expires %{origin}"
+msgstr "%{time_desc} soti nan %{origin}"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
@@ -5741,14 +5741,14 @@ msgstr "Tout varyant yo"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "Uncommon destinations"
-msgstr "Destinasyon estraòdinè"
+msgstr "Destinasyon ki pa komen"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr "soti nan %{origin}, wout ki mwens komen"
+msgstr "soti nan %{origin}, trajè ki mwens komen"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "typical route"
-msgstr "wout tipik"
+msgstr "trajè abityèl"
