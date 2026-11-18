@@ -5307,12 +5307,12 @@ msgstr "Conforme sua solicitação."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zona 1A do Porto Interior"
+msgstr "Zona 1A do Inner Harbor"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr "Balsa Winthrop e Quincy Ferry"
+msgstr "Winthrop e Quincy Ferry"
 
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
@@ -5323,49 +5323,49 @@ msgstr "<strong>Tenha cuidado:</strong> as direções da cadeira de rodas-acess�
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "Algo deu errado. Por favor, tente novamente mais tarde."
+msgstr "Ocorreu um erro. Tente novamente mais tarde."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "Os traslados de rodas acessíveis no Downtown Crossing podem exigir <strong>a saída da cadeira de acesso.</strong> Consulte os funcionários da estação para"
-" evitar o pagamento de uma tarifa adicional."
+msgstr "Para fazer baldeações acessíveis para cadeirantes em Downtown Crossing, pode ser necessário <strong>sair pelas portas de acesso.</strong> Fale com a equipe"
+" da estação para evitar o pagamento de uma tarifa adicional."
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr "Sexta-feira"
+msgstr "Horários de sexta-feira"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr "Segunda-feira - Horário Quinta-feira"
+msgstr "Horários de segunda a quinta-feira"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr "Sábado"
+msgstr "Horários de sábado"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr "Domingo"
+msgstr "Horários de domingo"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr "Dias úteis horário"
+msgstr "Horários dos dias úteis"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr "Horário de fim de semana"
+msgstr "Horários de fim de semana"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Earlier %{vehicle_name}"
-msgstr "Anteriormente %{vehicle_name}"
+msgstr "Anterior %{vehicle_name}"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
@@ -5386,7 +5386,7 @@ msgstr "Barcos"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Buses"
-msgstr "ônibus"
+msgstr "Ônibus"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5396,23 +5396,23 @@ msgstr "Trens"
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr "Horário %{direction_name} para %{route_name}, %{formatted_date}"
+msgstr "Tabela de horários de %{direction_name} para %{route_name}, %{formatted_date}"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr "Horário e mapas (novo)"
+msgstr "Horários e mapas (novo)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr "Laço no sentido horário"
+msgstr "Circuito no sentido horário"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr "Laço anti-horário"
+msgstr "Circuito no sentido anti-horário"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5427,34 +5427,34 @@ msgstr "Manhã"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Printable Schedules"
-msgstr "Horário imprimível"
+msgstr "Horários para impressão"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
-msgstr "ônibus Guia de Acesso"
+msgstr "Guia de acesso aos ônibus"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Access Guide"
-msgstr "Commuter Rail"
+msgstr "Guia de acesso ao Commuter Rail"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Beginner's Guide"
-msgstr "Guia para iniciantes do Trem suburbano"
+msgstr "Guia para iniciantes do Commuter Rail"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Access Guide"
-msgstr "Guia de Acesso à Balsa"
+msgstr "Guia de acesso às balsas"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Beginner's Guide"
-msgstr "Guia para Iniciantes em Balsa"
+msgstr "Guia para iniciantes para as balsas"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
-msgstr "Guia de Acesso"
+msgstr "Guia de acesso ao metrô"
