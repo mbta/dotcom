@@ -5317,7 +5317,7 @@ msgstr "avèk demann ou an."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zòn Pò Enteryè 1A"
+msgstr "Zòn Inner Harbor 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5390,7 +5390,7 @@ msgstr "Bato"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr "Bato"
+msgstr "Bato yo"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
