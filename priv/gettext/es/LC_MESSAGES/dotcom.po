@@ -5530,7 +5530,7 @@ msgstr "Con tu petición."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zona 1A del Puerto Interior"
+msgstr "Zona 1A de Inner Harbor"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5546,10 +5546,10 @@ msgstr "<strong>Ten precaución:</strong> Las direcciones accesibles de persona 
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "Algo salió mal. Por favor, inténtalo de nuevo más tarde."
+msgstr "Algo salió mal. Inténtelo de nuevo más tarde."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "Persona en silla de ruedas-accesible transfers en Downtown Crossing puede requerir <strong>salir de la puerta de acceso.</strong> Consulta al personal"
-" de la estación para evitar pagar una tarifa adicional."
+msgstr "Los transbordos accesibles para personas en silla de ruedas en Downtown Crossing pueden requerir que <strong>salga por las puertas de acceso.</strong>"
+" Consulte al personal de la estación para evitar pagar una tarifa adicional."
