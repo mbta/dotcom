@@ -5695,7 +5695,7 @@ msgstr "Aplikasyon Liy Bis/Arè"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed"
-msgstr "Anreta"
+msgstr "An reta"
 
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5750,7 +5750,7 @@ msgstr "oubyen peye ak lajan kach oubyen pèman san kontak nan nenpòt bis"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} %{stop} served by other trips on this route"
-msgstr "%{count} %{stop} sèvi pa lòt vwayaj sou wout sa a"
+msgstr "Lòt vwayaj sou wout sa a sèvi %{count} %{stop}"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
