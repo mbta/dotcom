@@ -14,42 +14,42 @@ msgstr ""
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid " & Stops"
-msgstr " & Điểm dừng"
+msgstr " và điểm dừng"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid " Additional service between Boston, Hingham, and Hull is available via the %{link}"
-msgstr " Dịch vụ bổ sung giữa Boston, Hingham và Hull có sẵn qua %{link}"
+msgstr " Có dịch vụ bổ sung giữa Boston, Hingham và Hull qua %{link}"
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
 msgid " It travels along limited stops between Foxboro and either Providence or Downtown Boston (South Station)"
-msgstr " Nó đi dọc theo các điểm dừng giới hạn giữa Foxboro và Providence hoặc Downtown Boston (South Station)"
+msgstr " Tuyến này chạy giữa Foxboro và Providence hoặc Downtown Boston (South Station) với số điểm dừng hạn chế"
 
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid " Lines"
-msgstr " Dòng"
+msgstr " Tuyến tàu"
 
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid " Routes"
-msgstr " Tuyến đường"
+msgstr " Tuyến xe"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid " Service continues later in the day in the opposite direction. %{link}"
-msgstr " Dịch vụ sẽ tiếp tục hoạt động vào cuối ngày theo hướng ngược lại. %{link}"
+msgstr " Dịch vụ tiếp tục vào thời điểm muộn hơn trong ngày theo hướng ngược lại. %{link}"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid " Service is available earlier in the day in the opposite direction. %{link}"
-msgstr " Dịch vụ có sẵn vào đầu ngày theo hướng ngược lại. %{link}"
+msgstr " Có dịch vụ vào thời điểm sớm hơn trong ngày theo hướng ngược lại. %{link}"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
-msgstr " Tàu khởi hành từ Foxboro 30 phút sau khi kết thúc sự kiện"
+msgstr " Các chuyến tàu khởi hành từ Foxboro 30 phút sau khi các sự kiện kết thúc"
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
@@ -59,7 +59,7 @@ msgstr " cảnh báo"
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " at "
-msgstr " Tại "
+msgstr " tại "
 
 #: lib/dotcom_web/controllers/stop_controller.ex
 #, elixir-autogen, elixir-format
@@ -69,17 +69,17 @@ msgstr " tại %{address}"
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " at this time."
-msgstr " vào thời điểm này."
+msgstr " tại thời điểm này."
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
 msgid " depend on the distance traveled (zones). Refer to the information below:"
-msgstr " Tùy thuộc vào khoảng cách di chuyển (vùng). Vui lòng tham khảo thông tin bên dưới:"
+msgstr " phụ thuộc vào quãng đường di chuyển (các vùng). Tham khảo thông tin bên dưới:"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid " for real-time track changes."
-msgstr " Để theo dõi sự thay đổi trong thời gian thực."
+msgstr " cho các thay đổi đường ray theo thời gian thực."
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
@@ -104,17 +104,17 @@ msgstr " đang trên đường đến "
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid " may leave ahead of schedule at these stops."
-msgstr " có thể khởi hành trước lịch trình tại các điểm dừng này."
+msgstr " có thể khởi hành sớm hơn lịch trình tại các điểm dừng này."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid " minute walk"
-msgstr " đi bộ vài phút"
+msgstr " phút đi bộ"
 
 #: lib/journey.ex
 #, elixir-autogen, elixir-format
 msgid " on "
-msgstr " TRÊN "
+msgstr " trên "
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
@@ -130,7 +130,7 @@ msgstr " trên đường ray "
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid " or "
-msgstr " hoặc là "
+msgstr " hoặc "
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -150,17 +150,17 @@ msgstr " biểu tượng. Kiểm tra "
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid " that they wish to leave. Passengers waiting to board must be visible on the platform for the "
-msgstr " Họ muốn rời đi. hành khách waiting to lên xe phải được nhìn thấy trên sân ga cho "
+msgstr " mà họ muốn rời đi. Hành khách đang chờ lên tàu phải ở vị trí dễ nhìn thấy trên sân ga để "
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid " to stop."
-msgstr " dừng lại."
+msgstr " để dừng lại."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "\"Walking distance\""
-msgstr "\"Có thể đi bộ đến\""
+msgstr "\"Khoảng cách đi bộ\""
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
@@ -170,7 +170,7 @@ msgstr "%{avg} phút"
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} Stops"
-msgstr "%{count} Dừng lại"
+msgstr "%{count} điểm dừng"
 
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
@@ -180,18 +180,18 @@ msgstr "%{count} cảnh báo"
 #: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} later %{change_text}"
-msgstr "%{count} sau đó %{change_text}"
+msgstr "%{count} %{change_text} sau đó"
 
 #: lib/dotcom_web/views/cms_view.ex
 #, elixir-autogen, elixir-format
 msgid "%{date} at %{start_time} - %{end_time}"
-msgstr "%{date} tại %{start_time} - %{end_time}"
+msgstr "%{date} lúc %{start_time} - %{end_time}"
 
 #: lib/dotcom_web/components/world_cup_timetable/match_link.ex
 #: lib/dotcom_web/views/cms_view.ex
 #, elixir-autogen, elixir-format
 msgid "%{date} at %{time}"
-msgstr "%{date} tại %{time}"
+msgstr "%{date} lúc %{time}"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -221,27 +221,27 @@ msgstr "Chỉ %{mode_label}"
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
 #, elixir-autogen, elixir-format
 msgid "%{name} Commuter Rail"
-msgstr "%{name} Đường sắt ngoại ô"
+msgstr "%{name} Commuter Rail"
 
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "%{place} Information"
-msgstr "Thông tin %{place}"
+msgstr "Thông tin về %{place}"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "%{rating} Planned Work"
-msgstr "%{rating} công việc đã lên kế hoạch"
+msgstr "Công việc %{rating} đã lên kế hoạch"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "%{rating} Schedules, ends %{date}"
-msgstr "%{rating} lịch trình, kết thúc %{date}"
+msgstr "Lịch trình %{rating}, kết thúc vào %{date}"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "%{rating} Schedules, starts %{date}"
-msgstr "%{rating} lịch trình, bắt đầu %{date}"
+msgstr "Lịch trình %{rating}, bắt đầu vào %{date}"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
@@ -256,13 +256,13 @@ msgstr "%{sdate} %{stime} - %{edate} %{etime}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "%{time} on %{date}"
-msgstr "%{time} trên %{date}"
+msgstr "%{time} %{date}"
 
 #: lib/dotcom_web/components/stops/elevator_amenity.html.heex
 #: lib/dotcom_web/components/stops/escalator_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "%{y} of %{x} working"
-msgstr "%{y} trong số %{x} đang làm việc"
+msgstr "%{y}/%{x} đang hoạt động"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/vehicle_helpers.ex
@@ -273,7 +273,7 @@ msgstr ", "
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid ", cash, or "
-msgstr ", Tiền mặt, hoặc "
+msgstr ", tiền mặt, hoặc "
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
@@ -284,19 +284,19 @@ msgstr "."
 #, elixir-autogen, elixir-format
 msgid "1 Accessible Route"
 msgid_plural "%{count} Accessible Routes"
-msgstr[0] "%{count} có thể tiếp cận được Routes"
+msgstr[0] "%{count} tuyến có thể tiếp cận được"
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "1 Inaccessible Route"
 msgid_plural "%{count} Inaccessible Routes"
-msgstr[0] "%{count} Tuyến đường không thể tiếp cận"
+msgstr[0] "%{count} tuyến không thể tiếp cận"
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "1 Unavailable Route"
 msgid_plural "%{count} Unavailable Routes"
-msgstr[0] "%{count} không có sẵn Routes"
+msgstr[0] "%{count} tuyến không có sẵn"
 
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
@@ -319,7 +319,7 @@ msgstr[0] "%{count} điểm dừng"
 #, elixir-autogen, elixir-format
 msgid "1 trip later today"
 msgid_plural "%{count} trips later today"
-msgstr[0] "%{count} chuyến đi nữa vào hôm nay"
+msgstr[0] "%{count} chuyến đi muộn hơn trong hôm nay"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -329,13 +329,13 @@ msgstr "Vé 1 ngày"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "2 areas where wheeled mobility devices can be secured"
-msgstr "2 khu vực có thể đảm bảo thiết bị hỗ trợ di chuyển"
+msgstr "2 khu vực có thể cố định thiết bị hỗ trợ di chuyển có bánh"
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
 #, elixir-autogen, elixir-format
 msgid "24 hours, 7 days a week"
-msgstr "24 giờ một ngày, 7 ngày một tuần"
+msgstr "24 giờ mỗi ngày, 7 ngày mỗi tuần"
 
 #: lib/dotcom_web/views/fare_view.ex
 #: lib/fares/format.ex
@@ -347,59 +347,59 @@ msgstr "Vé 7 ngày"
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "711 for TTY callers;  VRS for ASL callers"
-msgstr "711 cho người gọi TTY;  VRS cho người gọi ASL"
+msgstr "711 dành cho người gọi TTY;  VRS dành cho người gọi ASL"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "ADA Ride"
-msgstr "Xe dành cho người khuyết tật"
+msgstr "Dịch vụ đi lại ADA"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "ADA Ride Fare"
-msgstr "Giá vé xe ADA"
+msgstr "Giá vé dịch vụ đi lại ADA"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
 msgid "ADA/Accessibility Complaints"
-msgstr "ADA/khả năng tiếp cận Khiếu nại"
+msgstr "Khiếu nại về ADA/khả năng tiếp cận"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "About"
-msgstr "Về"
+msgstr "Giới thiệu"
 
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Access"
-msgstr "Truy cập"
+msgstr "Tiếp cận"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Access Issue"
-msgstr "Vấn đề truy cập"
+msgstr "Sự cố tiếp cận"
 
 #: lib/alerts/accessibility.ex
 #, elixir-autogen, elixir-format
 msgid "Access Issues"
-msgstr "Vấn đề truy cập"
+msgstr "Các sự cố tiếp cận"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Accessibility"
-msgstr "khả năng tiếp cận"
+msgstr "Khả năng tiếp cận"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Accessibility Resources"
-msgstr "khả năng tiếp cận Tài nguyên"
+msgstr "Tài nguyên về khả năng tiếp cận"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Accessibility at %{name}"
-msgstr "khả năng tiếp cận at %{name}"
+msgstr "Khả năng tiếp cận tại %{name}"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
@@ -407,12 +407,12 @@ msgstr "khả năng tiếp cận at %{name}"
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Accessible"
-msgstr "có thể tiếp cận được"
+msgstr "Có thể tiếp cận được"
 
 #: lib/dotcom_web/templates/event/_add_button.html.heex
 #, elixir-autogen, elixir-format
 msgid "Add"
-msgstr "Thêm vào"
+msgstr "Thêm"
 
 #: lib/dotcom_web/templates/event/_add_button.html.heex
 #, elixir-autogen, elixir-format
@@ -443,12 +443,12 @@ msgstr "Người lớn"
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Agenda"
-msgstr "Chương trình nghị sự"
+msgstr "Chương trình"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "Alert"
-msgstr "cảnh báo"
+msgstr "Cảnh báo"
 
 #: lib/dotcom_web/components/layouts/alerts_layout.html.heex
 #: lib/dotcom_web/controllers/alert_controller.ex
@@ -459,12 +459,12 @@ msgstr "cảnh báo"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Alerts"
-msgstr "cảnh báo"
+msgstr "Cảnh báo"
 
 #: lib/dotcom_web/controllers/schedule/alerts_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Alerts for MBTA %{description}"
-msgstr "cảnh báo for MBTA %{description}"
+msgstr "Cảnh báo cho MBTA %{description}"
 
 #: lib/dotcom_web/templates/alert/show.html.heex
 #: lib/dotcom_web/views/partial_view.ex
@@ -475,12 +475,12 @@ msgstr "Tất cả cảnh báo"
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "All Inbound Trains"
-msgstr "All hướng đi vào trung tâm Trains"
+msgstr "Tất cả các chuyến tàu có hướng đi vào trung tâm"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "All Location Types"
-msgstr "Tất cả các loại địa điểm"
+msgstr "Tất cả loại địa điểm"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -490,7 +490,7 @@ msgstr "Tất cả các dự án cải tiến của MBTA"
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "All Outbound Trains"
-msgstr "All hướng đi ra ngoại thành Trains"
+msgstr "Tất cả các chuyến tàu có hướng đi ra ngoại thành"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -510,7 +510,7 @@ msgstr "Tất cả các chuyến tàu bị hủy"
 #: lib/dotcom_web/templates/project/updates.html.heex
 #, elixir-autogen, elixir-format
 msgid "All Updates"
-msgstr "Tất cả các bản cập nhật"
+msgstr "Tất cả cập nhật"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -520,28 +520,28 @@ msgstr "Tất cả các tuyến phà"
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "All fields with an asterisk* are required."
-msgstr "Tất cả các trường có dấu sao (*) đều bắt buộc."
+msgstr "Tất cả các trường có dấu hoa thị* đều là bắt buộc."
 
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "All modes"
-msgstr "Tất cả các chế độ"
+msgstr "Tất cả các phương tiện"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr "Tất cả các địa điểm được đề xuất đều phụ thuộc vào sự phù hợp của khu đất, giấy phép và khả năng cung cấp dịch vụ bán lẻ."
+msgstr "Tất cả các địa điểm được đề xuất đều tùy thuộc vào mức độ phù hợp của địa điểm, việc cấp phép và khả năng bố trí hoạt động bán lẻ."
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Amber Alert"
-msgstr "Amber cảnh báo"
+msgstr "Amber Alert"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "An exterior shot of the Downtown Crossing Station entrance. US Flags line the street, and skyscrapers are visible in the background. Many pedestrians are walking by."
-msgstr "Ảnh chụp bên ngoài của ngôi nhà Downtown Crossing ga lối vào. Những lá cờ Mỹ được treo dọc con phố, và những tòa nhà chọc trời hiện lên ở phía xa. Có rất"
-" nhiều người đi bộ ngang qua."
+msgstr "Ảnh chụp bên ngoài lối vào nhà ga Downtown Crossing. Cờ Hoa Kỳ xếp dọc con phố, và có thể nhìn thấy các tòa nhà chọc trời ở phía sau. Nhiều người đi bộ"
+" đang đi ngang qua."
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -551,34 +551,34 @@ msgstr "Apple Pay"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Approaching"
-msgstr "đang tiến vào ga"
+msgstr "Đang tiến vào ga"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "Arrive by"
-msgstr "Đến bằng"
+msgstr "Đến trước"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Arriving"
-msgstr "Đến nơi"
+msgstr "Đang đến"
 
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Arriving by %{time}"
-msgstr "Đến lúc %{time}"
+msgstr "Đến trước %{time}"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "At fare vending machines, you can"
-msgstr "Tại các máy bán vé tự động, bạn có thể"
+msgstr "Tại các máy bán vé tự động, quý vị có thể"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
-msgstr "Tại nhà ga có nhiều đường ray bên ngoài Phía Bắc, Hướng Nam, Back Bayvà Ruggles nhà ga, hướng đi vào trung tâm trains lên xe từ Track 2, và hướng đi ra"
-" ngoại thành trains lên xe từ Track 1 trừ khi có quy định khác. Những thay đổi về lộ trình dự kiến sẽ được đánh dấu bằng... "
+msgstr "Tại các ga có nhiều đường ray, ngoại trừ các ga North, South, Back Bay và Ruggles, tàu hướng đi vào trung tâm lên tàu tại Đường ray số 2, còn tàu hướng"
+" đi ra ngoại thành lên tàu tại Đường ray số 1, trừ khi có thông báo khác. Những thay đổi đường ray theo lịch sẽ được biểu thị bằng "
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -588,73 +588,73 @@ msgstr "Người tham dự"
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bad grouped fare card data"
-msgstr "Dữ liệu thẻ thanh toán được nhóm không chính xác"
+msgstr "Dữ liệu thẻ mua vé theo nhóm không hợp lệ"
 
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
 msgid "Before Today"
-msgstr "Trước ngày hôm nay"
+msgstr "Trước hôm nay"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Better Bus Project"
-msgstr "Dự án xe buýt tốt hơn"
+msgstr "Dự án cải thiện xe buýt"
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Bicycles Allowed?"
-msgstr "Được phép mang xe đạp?"
+msgstr "Có được phép mang xe đạp không?"
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Bicycles allowed"
-msgstr "Cho phép xe đạp"
+msgstr "Được phép mang xe đạp"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions."
-msgstr "Xe đạp được phép mang lên các chuyến tàu có biểu tượng xe đạp bên dưới số hiệu tàu, nhưng phải tuân thủ một số quy định."
+msgstr "Được phép mang xe đạp lên các chuyến tàu có biểu tượng xe đạp bên dưới số hiệu tàu, tùy thuộc vào các hạn chế áp dụng."
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Bicycles not allowed"
-msgstr "Không được phép mang xe đạp vào."
+msgstr "Không được phép mang xe đạp"
 
 #: lib/dotcom/alerts/commuter_rail.ex
 #: lib/dotcom/alerts/subway.ex
 #, elixir-autogen, elixir-format
 msgid "Bike"
-msgstr "xe đạp"
+msgstr "Xe đạp"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Bike Issue"
-msgstr "Vấn đề xe đạp"
+msgstr "Sự cố về xe đạp"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bike Storage"
-msgstr "Lưu trữ xe đạp"
+msgstr "Chỗ gửi xe đạp"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bike Storage at %{name}"
-msgstr "Chỗ để xe đạp tại %{name}"
+msgstr "Chỗ gửi xe đạp tại %{name}"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bikes"
-msgstr "xe đạp"
+msgstr "Xe đạp"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bikes Allowed"
-msgstr "xe đạp Allowed"
+msgstr "Được phép mang xe đạp"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bikes are allowed on all ferry boats"
-msgstr "Xe đạp được phép trên tất cả các thuyền phà"
+msgstr "Được phép mang xe đạp lên tất cả các chuyến phà"
 
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
@@ -664,32 +664,32 @@ msgstr "Blue Line"
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Blue Line subway platform inside State Street"
-msgstr "Blue Line tàu điện ngầm sân ga bên trong Phố State"
+msgstr "Sân ga tàu điện ngầm Blue Line bên trong State Street"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Blue Line train departing Airport station"
-msgstr "Blue Line tàu khởi hành Airport nhà ga"
+msgstr "Tàu Blue Line rời nhà ga Airport"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Boarding"
-msgstr "Lên tàu"
+msgstr "Lên phương tiện"
 
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
 msgid "Boston Visitor's Guide to The T"
-msgstr "Hướng dẫn du khách Boston đến tàu điện ngầm"
+msgstr "Hướng dẫn đi The T dành cho du khách đến Boston"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Both Directions"
-msgstr "Cả hai hướng"
+msgstr "Cả hai chiều"
 
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bringing your car or bike"
-msgstr "Mang theo ô tô hoặc xe đạp của bạn"
+msgstr "Đi ô tô hoặc xe đạp đến"
 
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/bus.ex
@@ -699,17 +699,17 @@ msgstr "Mang theo ô tô hoặc xe đạp của bạn"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Bus"
-msgstr "xe buýt"
+msgstr "Xe buýt"
 
 #: lib/dotcom/upcoming_departures/processor.ex
 #, elixir-autogen, elixir-format
 msgid "Bus %{trip_name}"
-msgstr "xe buýt %{trip_name}"
+msgstr "Xe buýt %{trip_name}"
 
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bus Beginner's Guide"
-msgstr "Hướng dẫn dành cho người mới bắt đầu đi xe buýt"
+msgstr "Hướng dẫn đi xe buýt cho người mới bắt đầu"
 
 #: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -720,7 +720,7 @@ msgstr "Giá vé xe buýt"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bus Features"
-msgstr "Tính năng xe buýt"
+msgstr "Các tiện ích trên xe buýt"
 
 #: lib/dotcom_web/views/mode_view.ex
 #, elixir-autogen, elixir-format
@@ -730,7 +730,7 @@ msgstr "Bản đồ xe buýt"
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Other"
-msgstr "xe buýt Khác"
+msgstr "Xe buýt khác"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -740,22 +740,22 @@ msgstr "Tuyến xe buýt"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Stop"
-msgstr "trạm xe buýt"
+msgstr "Trạm xe buýt"
 
 #: lib/dotcom_web/templates/bus_stop_change/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Bus Stop Changes"
-msgstr "trạm xe buýt Thay đổi"
+msgstr "Những thay đổi về trạm xe buýt"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Buses that can be lowered for easier boarding and exiting"
-msgstr "Xe buýt có thể hạ xuống để lên và xuống dễ dàng hơn"
+msgstr "Xe buýt có thể hạ thấp để hành khách lên xuống dễ dàng hơn"
 
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Business"
-msgstr "Việc kinh doanh"
+msgstr "Kinh doanh"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -777,7 +777,7 @@ msgstr "Gọi"
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "Call Us"
-msgstr "Hãy gọi cho chúng tôi"
+msgstr "Gọi cho chúng tôi"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -788,12 +788,12 @@ msgstr "Hủy"
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Cancellation"
-msgstr "huỷ chuyến"
+msgstr "Huỷ chuyến"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Cancellations"
-msgstr "huỷ chuyến"
+msgstr "Huỷ chuyến"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -803,14 +803,14 @@ msgstr "Đã hủy"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Capital Transformation"
-msgstr "Chuyển đổi vốn"
+msgstr "Chuyển đổi vốn đầu tư"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Careers"
-msgstr "Nghề nghiệp"
+msgstr "Việc làm"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
@@ -827,12 +827,12 @@ msgstr "Thay đổi"
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
-msgstr "Ngày thay đổi"
+msgstr "Thay đổi ngày"
 
 #: lib/dotcom_web/templates/schedule/_direction_select.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
-msgstr "Thay đổi hướng đi của chuyến đi."
+msgstr "Thay đổi hướng của chuyến đi."
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -847,12 +847,12 @@ msgstr "Charlestown Ferry"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Charlie Retailer"
-msgstr "Charlie Retailer"
+msgstr "Nhà bán lẻ Charlie"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Charlie Service Center"
-msgstr "Trung Tâm Dịch Vụ Charlie"
+msgstr "Charlie Service Center"
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #: lib/fares/format.ex
@@ -868,7 +868,7 @@ msgstr "CharlieCard"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "CharlieCards & Tickets"
-msgstr "CharlieCards & vé"
+msgstr "CharlieCard và vé"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -883,7 +883,7 @@ msgstr "Kiểm tra"
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
-msgstr "Đứa trẻ"
+msgstr "Trẻ em"
 
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
@@ -893,12 +893,12 @@ msgstr "Trẻ em dưới 3 tuổi"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Choose Your Language"
-msgstr "Chọn ngôn ngữ của bạn"
+msgstr "Chọn ngôn ngữ"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Choose a schedule type from the available options"
-msgstr "Chọn loại lịch trình từ các tùy chọn có sẵn"
+msgstr "Chọn loại lịch trình từ các tùy chọn hiện có"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -908,12 +908,12 @@ msgstr "Ngày Giáng sinh"
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Civil Rights"
-msgstr "Quyền công dân"
+msgstr "Quyền dân sự"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clickable graphic for User Guides"
-msgstr "Đồ họa có thể nhấp cho người dùng Hướng dẫn"
+msgstr "Hình ảnh có thể nhấp để xem Hướng dẫn người dùng"
 
 #: lib/dotcom_web/components/components.ex
 #: lib/dotcom_web/live/search_page_live.html.heex
@@ -929,7 +929,7 @@ msgstr "Đóng hộp thoại"
 #: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Coin"
-msgstr "Đồng xu"
+msgstr "Tiền xu"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -944,7 +944,7 @@ msgstr "Bình luận"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Ferry to Logan Airport"
-msgstr "Commuter phà đến Logan Airport"
+msgstr "Phà đi lại đến Logan Airport"
 
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/components/route_symbols.ex
@@ -956,54 +956,54 @@ msgstr "Commuter phà đến Logan Airport"
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail"
-msgstr "Đi lại bằng Đường sắt"
+msgstr "Commuter Rail"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail "
-msgstr "Đi lại bằng Đường sắt "
+msgstr "Commuter Rail "
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Fares"
-msgstr "Đường sắt ngoại ô Fares"
+msgstr "Giá vé Commuter Rail"
 
 #: lib/dotcom_web/views/mode_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Map"
-msgstr "Đường sắt ngoại ô Map"
+msgstr "Bản đồ Commuter Rail"
 
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Monthly Pass"
-msgstr "Đường sắt ngoại ô vé tháng vé"
+msgstr "Vé tháng Commuter Rail"
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail One-Way"
-msgstr "Đường sắt ngoại ô vé một chiều"
+msgstr "Vé một chiều Commuter Rail"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Positive Train Control"
-msgstr "Đường sắt ngoại ô Positive Train Control"
+msgstr "Hệ thống kiểm soát tàu tích cực của Commuter Rail"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Status"
-msgstr "Đường sắt ngoại ô Status"
+msgstr "Trạng thái Commuter Rail"
 
 #: lib/dotcom_web/views/mode_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Zones Map"
-msgstr "Đường sắt ngoại ô Zones Map"
+msgstr "Bản đồ các khu vực Commuter Rail"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days."
-msgstr "Tình trạng chỗ ngồi của Đường sắt ngoại ô được cập nhật thường xuyên để phản ánh lượng hành khách điển hình của chuyến đi dựa trên dữ liệu tự động và người"
-" điều khiển trong 14-30 ngày qua."
+msgstr "Thông tin về tình trạng ghế trống trên Commuter Rail được cập nhật thường xuyên để phản ánh lượng hành khách thường thấy trên một chuyến đi, dựa trên dữ"
+" liệu tự động và dữ liệu do nhân viên soát vé ghi nhận trong 14-30 ngày qua."
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -1033,12 +1033,13 @@ msgstr "Số điện thoại liên hệ"
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, lost and found, and accessibility."
-msgstr "Liên hệ với nhóm MBTA Hỗ trợ khách hàng và xem các số liên lạc bổ sung cho Cảnh sát Giao thông, Đồ thất lạc và khả năng tiếp cận."
+msgstr "Liên hệ với đội ngũ Hỗ trợ khách hàng của MBTA và xem thêm các số điện thoại liên hệ của Cảnh sát giao thông, đồ thất lạc và bộ phận hỗ trợ về khả năng"
+" tiếp cận."
 
 #: lib/dotcom_web/templates/customer_support/_transit_police.html.heex
 #, elixir-autogen, elixir-format
 msgid "Contact the Transit Police"
-msgstr "Liên hệ với Cảnh sát Giao thông"
+msgstr "Liên hệ với Cảnh sát giao thông"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -1048,7 +1049,7 @@ msgstr "Tiếp tục"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Cost"
-msgstr "Trị giá"
+msgstr "Chi phí"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1058,33 +1059,33 @@ msgstr "Giá để xe đạp có mái che"
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Covered bike racks are available"
-msgstr "Giá để xe đạp có mái che có sẵn"
+msgstr "Có sẵn giá để xe đạp có mái che"
 
 #: lib/dotcom_web/templates/alert/_t-alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "Create an Account"
-msgstr "Tạo tài khoản"
+msgstr "Tạo một tài khoản"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Credit/Debit Card"
-msgstr "Thẻ tín dụng/thẻ ghi nợ"
+msgstr "Thẻ tín dụng/ghi nợ"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Credit/debit cards"
-msgstr "Thẻ tín dụng/thẻ ghi nợ"
+msgstr "Thẻ tín dụng/ghi nợ"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Cross Harbor Ferry"
-msgstr "Băng qua cảng phà"
+msgstr "Cross Harbor Ferry"
 
 #: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex
 #, elixir-autogen, elixir-format
 msgid "Crosstown"
-msgstr "Crosstown"
+msgstr "Xuyên thành phố"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -1094,12 +1095,12 @@ msgstr "Đông đúc"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Current"
-msgstr "Hiện hành"
+msgstr "Hiện tại"
 
 #: lib/dotcom_web/views/partial_view.ex
 #, elixir-autogen, elixir-format
 msgid "Current Alerts"
-msgstr "Current cảnh báo"
+msgstr "Cảnh báo hiện tại"
 
 #: lib/dotcom_web/views/bus_stop_change_view.ex
 #, elixir-autogen, elixir-format
@@ -1109,12 +1110,12 @@ msgstr "Những thay đổi hiện tại"
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "Current Status"
-msgstr "Tình trạng hiện tại"
+msgstr "Trạng thái hiện tại"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Current seat availability thresholds are:"
-msgstr "Số lượng chỗ ngồi tối thiểu hiện tại là:"
+msgstr "Các ngưỡng hiện tại về tình trạng ghế trống là:"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #: lib/dotcom_web/templates/customer_support/index.html.heex
@@ -1132,7 +1133,7 @@ msgstr "Hằng ngày"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Daily Schedules"
-msgstr "Daily lịch trình"
+msgstr "Lịch trình hằng ngày"
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -1147,24 +1148,24 @@ msgstr "Ngày và giờ"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Day Pass"
-msgstr "Đĩa vé"
+msgstr "Vé ngày"
 
 #: lib/alerts/alert.ex
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Delay"
-msgstr "trễ chuyến"
+msgstr "Trễ chuyến"
 
 #: lib/journey.ex
 #, elixir-autogen, elixir-format
 msgid "Delayed %{minutes}"
-msgstr "Bị trì hoãn %{minutes}"
+msgstr "Trễ %{minutes}"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Delays"
-msgstr "trễ chuyến"
+msgstr "Trễ chuyến"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -1179,17 +1180,17 @@ msgstr "Khởi hành lúc"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Departures"
-msgstr "Khởi hành"
+msgstr "Các chuyến khởi hành"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Destination location is not close enough to any transit stops"
-msgstr "Địa điểm cần đến không đủ gần với bất kỳ trạm giao thông công cộng nào."
+msgstr "Điểm đến không đủ gần với bất kỳ điểm dừng giao thông công cộng nào"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Destination location is outside of our service area"
-msgstr "Địa điểm nhận hàng nằm ngoài khu vực phục vụ của chúng tôi."
+msgstr "Điểm đến nằm ngoài khu vực phục vụ của chúng tôi"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1204,37 +1205,37 @@ msgstr "Chi tiết"
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Detour"
-msgstr "đường vòng"
+msgstr "Đường vòng"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "Developers"
-msgstr "Các nhà phát triển"
+msgstr "Nhà phát triển"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Digital displays and automated announcements that share key route and stop info"
-msgstr "Màn hình kỹ thuật số và thông báo tự động chia sẻ Thông tin Các tuyến chính và dừng"
+msgstr "Màn hình kỹ thuật số và thông báo tự động cung cấp thông tin quan trọng về tuyến và điểm dừng"
 
 #: lib/dotcom_web/templates/schedule/_direction_select.html.heex
 #, elixir-autogen, elixir-format
 msgid "Direction of your trip"
-msgstr "Hướng đi của chuyến đi của bạn"
+msgstr "Hướng của chuyến đi"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Disability ID Cards"
-msgstr "Thẻ ID người khuyết tật"
+msgstr "Thẻ ID dành cho người khuyết tật"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Dock Closure"
-msgstr "bến tàu đóng đường"
+msgstr "Đóng cửa bến tàu"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Dock Issue"
-msgstr "bến tàu Issue"
+msgstr "Sự cố về bến tàu"
 
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
@@ -1244,12 +1245,12 @@ msgstr "Tài liệu"
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Does not stop at"
-msgstr "Không dừng lại ở"
+msgstr "Không dừng tại"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Due to Single Tracking"
-msgstr "Do chỉ có một kênh theo dõi."
+msgstr "Do chỉ vận hành trên một đường ray"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1259,12 +1260,12 @@ msgstr "Thẻ EBT"
 #: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "EZ Pass"
-msgstr "EZ vé"
+msgstr "Vé EZ"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Earliest Arrival"
-msgstr "Đến sớm nhất"
+msgstr "Thời gian đến sớm nhất"
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
@@ -1286,7 +1287,7 @@ msgstr "East Boston Ferry"
 #: lib/routes/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Eastbound"
-msgstr "Hướng Đông"
+msgstr "Hướng đi về phía Đông"
 
 #: lib/alerts/alert.ex
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
@@ -1299,22 +1300,22 @@ msgstr "Thang máy"
 #: lib/dotcom/alerts/subway.ex
 #, elixir-autogen, elixir-format
 msgid "Elevator & Escalator"
-msgstr "Thang máy & Thang cuốn"
+msgstr "Thang máy và thang cuốn"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Elevator Closure"
-msgstr "Elevator đóng đường"
+msgstr "Thang máy ngừng hoạt động"
 
 #: lib/alerts/accessibility.ex
 #, elixir-autogen, elixir-format
 msgid "Elevator Closures"
-msgstr "Elevator đóng đường"
+msgstr "Thang máy ngừng hoạt động"
 
 #: lib/dotcom_web/templates/customer_support/_call_us.html.heex
 #, elixir-autogen, elixir-format
 msgid "Elevator/Escalator Hotline"
-msgstr "Đường dây nóng thang máy/thang cuốn"
+msgstr "Đường dây nóng về thang máy/thang cuốn"
 
 #: lib/dotcom_web/components/stops/elevator_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1329,24 +1330,24 @@ msgstr "Thang máy tại %{name}"
 #: lib/dotcom_web/templates/customer_support/_transit_police.html.heex
 #, elixir-autogen, elixir-format
 msgid "Emergency"
-msgstr "tình huống khẩn cấp"
+msgstr "Khẩn cấp"
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_desktop.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Emergency Contacts"
-msgstr "tình huống khẩn cấp Danh bạ"
+msgstr "Liên hệ khẩn cấp"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Employee"
-msgstr "Người lao động"
+msgstr "Nhân viên"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Employee Complaint"
-msgstr "Khiếu nại của nhân viên"
+msgstr "Khiếu nại về nhân viên"
 
 #: lib/dotcom_web/templates/event/_add_button.html.heex
 #, elixir-autogen, elixir-format
@@ -1363,7 +1364,7 @@ msgstr "Tiêu chuẩn thiết kế kỹ thuật"
 #: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter a destination location"
-msgstr "Nhập địa điểm đích đến"
+msgstr "Nhập điểm đến"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
@@ -1376,12 +1377,12 @@ msgstr "Nhập vị trí"
 #: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter an origin location"
-msgstr "Nhập vị trí xuất phát"
+msgstr "Nhập điểm xuất phát"
 
 #: lib/dotcom_web/templates/project/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter keyword(s)"
-msgstr "Nhập từ khóa"
+msgstr "Nhập (các) từ khóa"
 
 #: lib/dotcom_web/templates/project/index.html.heex
 #, elixir-autogen, elixir-format
@@ -1396,37 +1397,37 @@ msgstr "Vào nhà ga"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the traffic circle"
-msgstr "Đi vào vòng tròn giao thông"
+msgstr "Đi vào vòng xuyến"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Enter your registered address"
-msgstr "Nhập địa chỉ đã đăng ký của bạn"
+msgstr "Nhập địa chỉ đã đăng ký"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Entrance to Blue and Green Lines outside Government Center"
-msgstr "lối vào to Blue và Green Lines bên ngoài Government Center"
+msgstr "Lối vào các tuyến Blue và Green bên ngoài Government Center"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Entrance to Green and Red Lines outside Park Street"
-msgstr "lối vào to Green và Red Lines bên ngoài Park Street"
+msgstr "Lối vào các tuyến Green và Red bên ngoài Park Street"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Entrance to Orange and Red Lines outside Downtown Crossing"
-msgstr "lối vào to Orange và Red Lines bên ngoài Downtown Crossing"
+msgstr "Lối vào các tuyến Orange và Red bên ngoài Downtown Crossing"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Entrance to Ruggles station"
-msgstr "lối vào to Ruggles nhà ga"
+msgstr "Lối vào nhà ga Ruggles"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Entrances to Red Line and Commuter Rail outside South Station"
-msgstr "lối vào to Red Line và Đường sắt ngoại ô outside South Station"
+msgstr "Các lối vào tuyến Red Line và Commuter Rail bên ngoài South Station"
 
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
@@ -1457,12 +1458,12 @@ msgstr "Thang cuốn (chỉ đi lên)"
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Escalator Closure"
-msgstr "Thang cuốn đóng đường"
+msgstr "Thang cuốn ngừng hoạt động"
 
 #: lib/alerts/accessibility.ex
 #, elixir-autogen, elixir-format
 msgid "Escalator Closures"
-msgstr "Thang cuốn đóng đường"
+msgstr "Thang cuốn ngừng hoạt động"
 
 #: lib/dotcom_web/components/stops/escalator_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1500,12 +1501,12 @@ msgstr "Ra khỏi nhà ga"
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Expect Delays"
-msgstr "dự kiến trễ chuyến"
+msgstr "Dự kiến trễ chuyến"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Explore stations by mode"
-msgstr "Khám phá nhà ga theo chế độ"
+msgstr "Khám phá các nhà ga theo phương tiện"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -1515,7 +1516,7 @@ msgstr "Xe buýt tốc hành"
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
 msgid "Express Bus One-Way"
-msgstr "Xe buýt tốc hành vé một chiều"
+msgstr "Vé một chiều xe buýt tốc hành"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
@@ -1537,12 +1538,12 @@ msgstr "Thông tin về cơ sở"
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Facility Issue"
-msgstr "Vấn đề cơ sở vật chất"
+msgstr "Sự cố tại cơ sở"
 
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Family 4-pack (2 adults, 2 children)"
-msgstr "Gói gia đình 4 người (2 người lớn, 2 trẻ em)"
+msgstr "Gói 4 vé gia đình (2 người lớn, 2 trẻ em)"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -1557,7 +1558,7 @@ msgstr "Các lựa chọn giá vé"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Fare Options at %{name}"
-msgstr "Các tùy chọn giá vé tại %{name}"
+msgstr "Các lựa chọn giá vé tại %{name}"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -1567,7 +1568,7 @@ msgstr "Chính sách giá vé"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Fare Retail Locations"
-msgstr "Địa điểm bán vé"
+msgstr "Các điểm bán vé"
 
 #: lib/dotcom_web/controllers/fare_controller.ex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1578,17 +1579,17 @@ msgstr "Chuyển đổi giá vé"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Fare Types"
-msgstr "Các loại vé"
+msgstr "Các loại giá vé"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Fare Vending Machine"
-msgstr "máy bán vé tự động"
+msgstr "Máy bán vé tự động"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Fare Vending Machines"
-msgstr "máy bán vé tự động"
+msgstr "Máy bán vé tự động"
 
 #: lib/dotcom_web/controllers/fare_controller.ex
 #: lib/dotcom_web/templates/mode/hub.html.heex
@@ -1608,17 +1609,17 @@ msgstr "Thông tin giá vé"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Fares Overview"
-msgstr "Tổng quan về giá vé"
+msgstr "Tổng quan giá vé"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Fares by Mode"
-msgstr "Giá vé theo phương thức vận chuyển"
+msgstr "Giá vé theo phương tiện"
 
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #, elixir-autogen, elixir-format
 msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
-msgstr "Giá vé khác nhau giữa Hingham/Hull phà và Charlestown phà. Vui lòng tham khảo thông tin bên dưới:"
+msgstr "Giá vé khác nhau giữa các tuyến phà Hingham/Hull và Charlestown. Tham khảo thông tin bên dưới:"
 
 #: lib/dotcom_web/templates/page/_whats_happening.html.heex
 #, elixir-autogen, elixir-format
@@ -1654,23 +1655,23 @@ msgstr "Bản đồ phà"
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Monthly Pass"
-msgstr "Phà vé tháng vé"
+msgstr "Vé tháng đi phà"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Few Seats Available"
-msgstr "Chỉ còn vài chỗ ngồi."
+msgstr "Còn ít ghế trống"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
 msgid "File a Discrimination Complaint"
-msgstr "Nộp đơn phân biệt đối xử Khiếu nại"
+msgstr "Gửi khiếu nại về hành vi phân biệt đối xử"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Fill out the form"
-msgstr "Điền vào mẫu đơn"
+msgstr "Điền vào biểu mẫu"
 
 #: lib/dotcom_web/live/search_page_live.html.heex
 #: lib/dotcom_web/templates/bus_stop_change/index.html.heex
@@ -1688,23 +1689,23 @@ msgstr "Tài chính"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Find Proposed Locations Near You"
-msgstr "Tìm các địa điểm được đề xuất gần bạn"
+msgstr "Tìm các địa điểm được đề xuất gần quý vị"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Find Your Polling Place"
-msgstr "Tìm địa điểm bỏ phiếu của bạn"
+msgstr "Tìm địa điểm bỏ phiếu của quý vị"
 
 #: lib/dotcom_web/templates/page/_find_a_location.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Find a Location"
-msgstr "Tìm một địa điểm"
+msgstr "Tìm vị trí"
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Find a Store Near You"
-msgstr "Tìm cửa hàng gần bạn"
+msgstr "Tìm cửa hàng gần quý vị"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -1714,24 +1715,24 @@ msgstr "Tìm hiểu cách tham gia"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Finishing another trip"
-msgstr "Kết thúc một chuyến đi khác"
+msgstr "Đang hoàn thành một chuyến đi khác"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "First %{vehicle}"
-msgstr "Đầu tiên %{vehicle}"
+msgstr "Chuyến %{vehicle} đầu tiên"
 
 #: lib/dotcom_web/components/timetable.ex
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #: lib/dotcom_web/views/schedule/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Flag Stop"
-msgstr "Dừng cờ"
+msgstr "Điểm dừng theo yêu cầu"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Flag the bus in any safe place along the route"
-msgstr "Gắn cờ xe buýt ở bất kỳ nơi an toàn nào dọc theo tuyến đường"
+msgstr "Vẫy xe buýt ở bất kỳ vị trí an toàn nào dọc theo tuyến xe"
 
 #: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
 #, elixir-autogen, elixir-format
@@ -1741,22 +1742,22 @@ msgstr "Theo dõi @MBTA trên Twitter"
 #: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
 #, elixir-autogen, elixir-format
 msgid "Follow @MBTA_CR on Twitter"
-msgstr "Hãy theo dõi @MBTA_CR trên Twitter"
+msgstr "Theo dõi @MBTA_CR trên Twitter"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Follow signs"
-msgstr "Hãy làm theo biển báo."
+msgstr "Đi theo biển báo"
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
 msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
-msgstr "Hãy nhấp vào đường dẫn bên dưới để tìm số hiệu liên quan đến phương thức hoặc tuyến đường mà bạn đã làm mất đồ."
+msgstr "Truy cập liên kết bên dưới để tìm số điện thoại tương ứng với loại phương tiện hoặc tuyến xe nơi quý vị làm mất đồ."
 
 #: lib/dotcom_web/controllers/mode/bus.ex
 #, elixir-autogen, elixir-format
 msgid "For Express Bus fares, read the complete %{link} page."
-msgstr "Để biết giá vé Xe buýt tốc hành, hãy đọc trang %{link} đầy đủ."
+msgstr "Để biết giá vé Xe buýt tốc hành, hãy đọc toàn bộ trang %{link}."
 
 #: lib/dotcom_web/components/alerts.ex
 #, elixir-autogen, elixir-format
@@ -1766,17 +1767,17 @@ msgstr "Để biết thêm thông tin"
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "For questions or comments about this press release, please contact"
-msgstr "Mọi thắc mắc hoặc góp ý về thông cáo báo chí này, vui lòng liên hệ"
+msgstr "Nếu có câu hỏi hoặc bình luận về thông cáo báo chí này, vui lòng liên hệ"
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
 msgid "For regular weekday service to Foxboro please visit: "
-msgstr "Đối với dịch vụ thường xuyên trong tuần đến Foxboro vui lòng truy cập: "
+msgstr "Để xem dịch vụ thường lệ vào các ngày trong tuần đến Foxboro, vui lòng truy cập: "
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Foxboro Special Event"
-msgstr "Sự kiện đặc biệt của Foxboro"
+msgstr "Sự kiện đặc biệt Foxboro"
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
@@ -1792,7 +1793,7 @@ msgstr "Miễn phí"
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Free Pedal and Park secured parking"
-msgstr "Đỗ xe an toàn miễn phí cho chương trình Pedal and Park"
+msgstr "Bãi đỗ xe đạp có khóa miễn phí của Pedal and Park"
 
 #: lib/dotcom_web/views/helpers.ex
 #: lib/fares/format.ex
@@ -1803,7 +1804,7 @@ msgstr "Dịch vụ miễn phí"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Friday"
-msgstr "Thứ sáu"
+msgstr "Thứ Sáu"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
@@ -1813,7 +1814,7 @@ msgstr "Từ"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Full high level platform to provide level boarding to every car in a train set"
-msgstr "Sân ga cao đầy đủ để cung cấp khả năng lên máy bay ngang bằng cho mọi toa trong một đoàn tàu"
+msgstr "Sân ga cao toàn phần cho phép đường lên tàu bằng phẳng tại mọi toa trong đoàn tàu"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -1828,12 +1829,12 @@ msgstr "Chỉ đường"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Get Involved"
-msgstr "Hãy tham gia!"
+msgstr "Tham gia"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Get Service Updates"
-msgstr "Nhận thông tin cập nhật dịch vụ"
+msgstr "Nhận thông tin cập nhật về dịch vụ"
 
 #: lib/dotcom_web/templates/alert/_t-alerts.html.heex
 #, elixir-autogen, elixir-format
@@ -1843,23 +1844,23 @@ msgstr "Nhận T-Alerts"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Get a CharlieCard"
-msgstr "Nhận thẻ CharlieCard"
+msgstr "Nhận một CharlieCard"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Get an invoice in the mail for a $1 fee"
-msgstr "Nhận hóa đơn qua đường bưu điện với phí 1 đô la."
+msgstr "Nhận hóa đơn qua đường bưu điện với phí $1"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Get directions to this parking facility"
-msgstr "Tìm đường đến bãi đậu xe này"
+msgstr "Chỉ đường đến bãi đỗ xe này"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Get to Know Us"
-msgstr "Tìm hiểu thêm về chúng tôi"
+msgstr "Tìm hiểu về chúng tôi"
 
 #: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
 #, elixir-autogen, elixir-format
@@ -1884,28 +1885,28 @@ msgstr "Green Line"
 #: lib/dotcom_web/components/route_symbols.ex
 #, elixir-autogen, elixir-format
 msgid "Green Line %{branch} Branch"
-msgstr "Chi nhánh %{branch} Green Line"
+msgstr "Nhánh %{branch} của Green Line"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Harbor Loop Ferry"
-msgstr "Harbor Loop phà"
+msgstr "Harbor Loop Ferry"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard left"
-msgstr "Cực trái"
+msgstr "Rẽ gấp sang trái"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard right"
-msgstr "Cực hữu"
+msgstr "Rẽ gấp sang phải"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Hide"
-msgstr "Trốn"
+msgstr "Ẩn"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
@@ -1920,7 +1921,7 @@ msgstr "Hingham/Hull Ferry"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Hingham/Hull ferry"
-msgstr "Hingham/Hull phà"
+msgstr "Hingham/Hull Ferry"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1931,7 +1932,7 @@ msgstr "Lịch sử"
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Holiday Schedules"
-msgstr "Holiday lịch trình"
+msgstr "Lịch trình ngày lễ"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -1953,28 +1954,28 @@ msgstr "Địa chỉ nhà"
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Icon Key"
-msgstr "Chú thích biểu tượng"
+msgstr "Chú giải biểu tượng"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
-msgstr "Nếu có thể, vui lòng ghi rõ thời gian và ngày xảy ra sự cố, tuyến đường và biển số xe."
+msgstr "Nếu phù hợp, vui lòng cung cấp ngày giờ xảy ra sự cố, tuyến xe và biển số xe."
 
 #: lib/dotcom_web/templates/customer_support/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "If you provided your contact info, check your email for a confirmation with an incident number. If you don't receive a confirmation within 10 minutes, try submitting your feedback again or call us at"
-msgstr "Nếu bạn đã cung cấp thông tin liên hệ, hãy kiểm tra email để nhận thư xác nhận kèm số hiệu sự cố. Nếu bạn không nhận được xác nhận trong vòng 10 phút,"
-" hãy thử gửi phản hồi lại hoặc gọi cho chúng tôi theo số điện thoại..."
+msgstr "Nếu đã cung cấp thông tin liên hệ, vui lòng kiểm tra email để tìm thư xác nhận có mã số sự cố. Nếu không nhận được thư xác nhận trong vòng 10 phút, hãy"
+" thử gửi lại phản hồi hoặc gọi cho chúng tôi theo số"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "If you'd like us to give you a call, please give us the best number where we can reach you."
-msgstr "Nếu bạn muốn chúng tôi gọi lại, vui lòng cung cấp số điện thoại thuận tiện nhất để chúng tôi có thể liên lạc được với bạn."
+msgstr "Nếu quý vị muốn chúng tôi gọi điện, vui lòng cung cấp số điện thoại phù hợp nhất để chúng tôi liên hệ với quý vị."
 
 #: lib/dotcom_web/templates/customer_support/_discrimination_complaint.html.heex
 #, elixir-autogen, elixir-format
 msgid "If your civil rights have been violated, you can file a complaint with the MBTA Office of Diversity and Civil Rights."
-msgstr "Nếu quyền công dân của bạn bị vi phạm, bạn có thể nộp đơn khiếu nại cho Văn phòng Đa dạng và Dân quyền MBTA."
+msgstr "Nếu quyền dân sự bị xâm phạm, có thể gửi khiếu nại đến Văn phòng Đa dạng và Quyền Dân sự của MBTA."
 
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
@@ -1984,7 +1985,7 @@ msgstr "Các liên kết quan trọng"
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Inbound Trains Cancelled"
-msgstr "hướng đi vào trung tâm Trains Cancelled"
+msgstr "Các chuyến tàu có hướng đi vào trung tâm đã bị hủy"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -1994,13 +1995,13 @@ msgstr "Ngày Độc lập"
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Information & Support"
-msgstr "Thông tin & Hỗ trợ"
+msgstr "Thông tin và hỗ trợ"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Institutional Sales"
-msgstr "Bán hàng cho tổ chức"
+msgstr "Bán vé cho tổ chức"
 
 #: lib/dotcom_web/templates/event/_meeting_info.html.heex
 #, elixir-autogen, elixir-format
@@ -2010,7 +2011,7 @@ msgstr "Đối tượng mục tiêu"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Interzone %{zone}"
-msgstr "Vùng xen kẽ %{zone}"
+msgstr "Liên vùng %{zone}"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -2030,7 +2031,7 @@ msgstr "Hóa đơn"
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "Is this helpful? Send us feedback"
-msgstr "Thông tin này có hữu ích không? Hãy gửi phản hồi cho chúng tôi"
+msgstr "Điều này có hữu ích không? Gửi phản hồi cho chúng tôi"
 
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
@@ -2049,13 +2050,13 @@ msgstr "Ngày Độc lập Juneteenth"
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf."
-msgstr "Bạn có quen chủ cửa hàng địa phương nào có thể quan tâm đến việc tham gia mạng lưới bán lẻ của chúng tôi không? Hãy đề xuất một nhà bán lẻ và chúng tôi"
-" sẽ liên hệ với họ thay mặt bạn."
+msgstr "Quý vị có biết chủ cửa hàng địa phương nào có thể quan tâm đến việc tham gia mạng lưới bán lẻ của chúng tôi không? Vui lòng đề xuất một nhà bán lẻ và chúng"
+" tôi sẽ liên hệ với họ thay mặt quý vị."
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Labor Day"
-msgstr "Ngày Lao động"
+msgstr "Ngày lễ Lao động"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -2077,19 +2078,19 @@ msgstr "Cuối cùng"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Last %{vehicle}"
-msgstr "Chuyến cuối cùng %{vehicle}"
+msgstr "Chuyến %{vehicle} cuối cùng"
 
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
 msgid "Later"
-msgstr "Sau đó"
+msgstr "Muộn hơn"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Leadership"
-msgstr "Khả năng lãnh đạo"
+msgstr "Lãnh đạo"
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2104,32 +2105,32 @@ msgstr "Tìm hiểu thêm về giá vé MBTA"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about accessibility on the T"
-msgstr "Tìm hiểu thêm về khả năng tiếp cận trên tàu điện ngầm"
+msgstr "Tìm hiểu thêm về khả năng tiếp cận trên the T"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about bike parking at the T"
-msgstr "Tìm hiểu thêm về bãi đậu xe đạp tại tàu điện ngầm"
+msgstr "Tìm hiểu thêm về bãi đỗ xe đạp tại the T"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about bike storage at this station."
-msgstr "Tìm hiểu thêm về kho xe đạp tại nhà ga này."
+msgstr "Tìm hiểu thêm về chỗ gửi xe đạp tại nhà ga này."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about bikes on Commuter Rail"
-msgstr "Tìm hiểu thêm về xe đạp trên Đường sắt ngoại ô"
+msgstr "Tìm hiểu thêm về xe đạp trên Commuter Rail"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about bus accessibility"
-msgstr "Tìm hiểu thêm về khả năng tiếp cận xe buýt"
+msgstr "Tìm hiểu thêm về khả năng tiếp cận trên xe buýt"
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about fare prices, pass types, and how to pay your fare on the T."
-msgstr "Tìm hiểu thêm về giá vé, loại vé và cách thanh toán giá vé trên tàu điện ngầm."
+msgstr "Tìm hiểu thêm về giá vé, các loại vé và cách thanh toán giá vé trên the T."
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2139,32 +2140,32 @@ msgstr "Tìm hiểu thêm về giá vé"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about ferry accessibility"
-msgstr "Tìm hiểu thêm về khả năng tiếp cận bằng phà"
+msgstr "Tìm hiểu thêm về khả năng tiếp cận phà"
 
 #: lib/dotcom_web/templates/customer_support/_discrimination_complaint.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about filing a complaint"
-msgstr "Tìm hiểu thêm về cách nộp đơn Khiếu nại"
+msgstr "Tìm hiểu thêm về cách gửi khiếu nại"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about parking at the T"
-msgstr "Tìm hiểu thêm về bãi đậu xe tại tàu điện ngầm"
+msgstr "Tìm hiểu thêm về bãi đỗ xe tại the T"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about reduced fares and eligibility"
-msgstr "Tìm hiểu thêm về Vé giảm giá và tính đủ điều kiện"
+msgstr "Tìm hiểu thêm về vé giảm giá và điều kiện được hưởng"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about seat availability trends"
-msgstr "Tìm hiểu thêm về xu hướng chỗ ngồi có sẵn"
+msgstr "Tìm hiểu thêm về xu hướng ghế trống"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about the accessibility features at this %{place}."
-msgstr "Tìm hiểu thêm về khả năng tiếp cận các tính năng tại %{place}này."
+msgstr "Tìm hiểu thêm về các tính năng hỗ trợ khả năng tiếp cận tại %{place}."
 
 #: lib/dotcom_web/templates/project/updates.html.heex
 #, elixir-autogen, elixir-format
@@ -2174,17 +2175,17 @@ msgstr "Tìm hiểu thêm về dự án này"
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn what happens after you file a complaint"
-msgstr "Tìm hiểu điều gì sẽ xảy ra sau khi bạn nộp đơn Khiếu nại"
+msgstr "Tìm hiểu điều gì xảy ra sau khi gửi khiếu nại"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Least Walking"
-msgstr "Ít đi bộ"
+msgstr "Đi bộ ít nhất"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Leave at"
-msgstr "Rời đi lúc"
+msgstr "Khởi hành lúc"
 
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
@@ -2194,17 +2195,17 @@ msgstr "Khởi hành lúc %{time}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Left"
-msgstr "Bên trái"
+msgstr "Trái"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Let us know"
-msgstr "Hãy cho chúng tôi biết"
+msgstr "Cho chúng tôi biết"
 
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Lines and Routes"
-msgstr "Các tuyến và lộ trình"
+msgstr "Các tuyến tàu và tuyến xe"
 
 #: lib/dotcom_web/templates/event/index.html.heex
 #, elixir-autogen, elixir-format
@@ -2216,8 +2217,8 @@ msgstr "Chế độ xem danh sách"
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Live service alerts for all MBTA transportation modes, including subway, bus, Commuter Rail, and ferry. Updates on delays, construction, elevator outages, and more."
-msgstr "Live cảnh báo dịch vụ cho tất cả các phương thức vận chuyển MBTA, bao gồm tàu điện ngầm, xe buýt, Đường sắt ngoại ô, và phà. Cập nhật về trễ chuyến, động"
-" thi công, ngừng hoạt động thang máy, v.v."
+msgstr "Cảnh báo dịch vụ theo thời gian thực cho tất cả các phương tiện giao thông công cộng của MBTA, bao gồm tàu điện ngầm, xe buýt, Commuter Rail và phà. Thông"
+" tin cập nhật về tình trạng trễ chuyến, hoạt động thi công, thang máy ngừng hoạt động và nhiều thông tin khác."
 
 #: lib/dotcom_web/components/search_results_live.ex
 #, elixir-autogen, elixir-format
@@ -2227,7 +2228,7 @@ msgstr "Tải thêm"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Loading arrivals..."
-msgstr "Đang tải thông tin về..."
+msgstr "Đang tải các chuyến sắp đến..."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -2237,7 +2238,7 @@ msgstr "Đang tải lịch trình cho dịch vụ đã chọn"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Loading trip details"
-msgstr "Chi tiết chuyến hàng"
+msgstr "Đang tải thông tin chi tiết chuyến đi"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -2247,7 +2248,7 @@ msgstr "Đang tải các chuyến khởi hành sắp tới"
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "Lobby inside Back Bay station"
-msgstr "Sảnh bên trong Back Bay nhà ga"
+msgstr "Sảnh bên trong nhà ga Back Bay"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -2257,7 +2258,7 @@ msgstr "Xe buýt địa phương"
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #, elixir-autogen, elixir-format
 msgid "Local Bus One-Way"
-msgstr "Local xe buýt vé một chiều"
+msgstr "Vé một chiều xe buýt địa phương"
 
 #: lib/dotcom_web/templates/event/_address.html.heex
 #: lib/dotcom_web/templates/event/_meeting_info.html.heex
@@ -2268,12 +2269,12 @@ msgstr "Vị trí"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Location is not close enough to any transit stops"
-msgstr "Vị trí này không đủ gần với bất kỳ trạm giao thông công cộng nào."
+msgstr "Vị trí này không đủ gần với bất kỳ điểm dừng giao thông công cộng nào"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Location unavailable"
-msgstr "Vị trí không có sẵn"
+msgstr "Vị trí không khả dụng"
 
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/views/helpers.ex
@@ -2291,7 +2292,7 @@ msgstr "Đường dốc dài"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Lost & Found"
-msgstr "Đồ Thất Lạc & Tìm Thấy"
+msgstr "Đồ thất lạc"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
@@ -2312,34 +2313,35 @@ msgstr "MBTA"
 #: lib/dotcom_web/controllers/schedule/line_controller.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA %{name} %{type} stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
-msgstr "MBTA %{name} %{type} nhà ga và lịch trình, bao gồm bản đồ, cập nhật thời gian thực, thông tin đỗ xe và khả năng tiếp cận cũng như các điểm kết nối."
+msgstr "Các nhà ga và lịch trình %{type} %{name} của MBTA, bao gồm bản đồ, thông tin cập nhật theo thời gian thực, bãi đỗ xe, thông tin về khả năng tiếp cận và"
+" các điểm kết nối."
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA %{route_name} %{station_name} and schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, and connections."
-msgstr "%{route_name} %{station_name} và lịch trình MBTA, bao gồm thời gian biểu, bản đồ, giá vé, cập nhật theo thời gian thực, thông tin đỗ xe và khả năng tiếp"
-" cận cũng như các điểm kết nối."
+msgstr "MBTA %{route_name} %{station_name} và lịch trình, bao gồm bảng giờ, bản đồ, giá vé, thông tin cập nhật theo thời gian thực, thông tin về bãi đỗ xe và khả"
+" năng tiếp cận, cũng như các điểm kết nối."
 
 #: lib/dotcom_web/controllers/schedule/line_controller.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA %{text} stops and schedules, including maps, parking and accessibility information, and fares."
-msgstr "MBTA %{text} các điểm dừng và lịch trình, bao gồm bản đồ, thông tin đỗ xe và khả năng tiếp cận cũng như giá vé."
+msgstr "Các điểm dừng và lịch trình %{text} của MBTA, bao gồm bản đồ, thông tin về bãi đỗ xe và khả năng tiếp cận, cũng như giá vé."
 
 #: lib/dotcom_web/controllers/schedule/line_controller.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA %{type} route %{name} stops and schedules, including maps, real-time updates, parking and accessibility information, and connections."
-msgstr "MBTA %{type} tuyến đường %{name} điểm dừng và lịch trình, bao gồm bản đồ, cập nhật theo thời gian thực, thông tin đỗ xe và khả năng tiếp cận cũng như các"
-" điểm kết nối."
+msgstr "Các điểm dừng và lịch trình của tuyến xe %{type} %{name} thuộc MBTA, bao gồm bản đồ, thông tin cập nhật theo thời gian thực, thông tin về bãi đỗ xe và"
+" khả năng tiếp cận, cũng như các điểm kết nối."
 
 #: lib/util/breadcrumb_html.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA - Massachusetts Bay Transportation Authority"
-msgstr "MBTA - Cơ quan Giao thông Vịnh Massachusetts"
+msgstr "MBTA - Cơ quan Giao thông Vận tải Vịnh Massachusetts"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Facebook"
-msgstr "Trang Facebook của MBTA"
+msgstr "Facebook của MBTA"
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2354,7 +2356,8 @@ msgstr "Cửa hàng quà tặng MBTA"
 #: lib/dotcom_web/controllers/schedule/green.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA Green Line trolley stations and schedules, including maps, real-time updates, parking and accessibility information, and connections."
-msgstr "MBTA Green Line xe đẩy nhà ga và lịch trình, bao gồm bản đồ, cập nhật thời gian thực, thông tin đỗ xe và khả năng tiếp cận cũng như các điểm kết nối."
+msgstr "Các nhà ga xe điện tuyến Green Line của MBTA và lịch trình, bao gồm bản đồ, thông tin cập nhật theo thời gian thực, bãi đỗ xe, thông tin về khả năng tiếp"
+" cận và các điểm kết nối."
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
 #: lib/dotcom_web/templates/layout/_top_tier_nav.html.heex
@@ -2375,33 +2378,33 @@ msgstr "Instagram của MBTA"
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA LinkedIn"
-msgstr "MBTA LinkedIn"
+msgstr "LinkedIn của MBTA"
 
 #: lib/dotcom_web/views/mode_view.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA Paratransit Program"
-msgstr "Chương trình MBTA Vận chuyển hành khách khuyết tật"
+msgstr "Chương trình Vận chuyển hành khách khuyết tật của MBTA"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA Projects/Programs"
-msgstr "Các dự án/chương trình của MBTA"
+msgstr "Các dự án/chương trình MBTA"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "MBTA Stations"
-msgstr "MBTA nhà ga"
+msgstr "Các nhà ga MBTA"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Threads"
-msgstr "Các chủ đề thảo luận về MBTA"
+msgstr "Threads của MBTA"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA TikTok"
-msgstr "MBTA TikTok"
+msgstr "TikTok của MBTA"
 
 #: lib/dotcom_web/templates/page/_contact_us.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -2412,7 +2415,7 @@ msgstr "Cảnh sát giao thông MBTA"
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA Trip Planner"
-msgstr "MBTA Lập kế hoạch chuyến đi"
+msgstr "Lập kế hoạch chuyến đi MBTA"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
@@ -2422,23 +2425,23 @@ msgstr "Twitter của MBTA"
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA User Guides"
-msgstr "Hướng dẫn người dùng MBTA"
+msgstr "Hướng dẫn người dùng của MBTA"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA YouTube"
-msgstr "Kênh YouTube của MBTA"
+msgstr "YouTube của MBTA"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA fare vending machines"
-msgstr "MBTA máy bán vé tự động"
+msgstr "Các máy bán vé tự động của MBTA"
 
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA riders can purchase CharlieTickets and reload and purchase %{charlie_card} for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
-msgstr "MBTA hành khách có thể mua CharlieTickets và nạp lại và mua %{charlie_card} cho xe buýt, tàu điện ngầm, Đường sắt ngoại ô, và phà tại các nhà bán lẻ trên"
-" khắp Greater Boston và các khu vực Providence ."
+msgstr "Hành khách MBTA có thể mua CharlieTickets, cũng như nạp tiền vào và mua %{charlie_card} để sử dụng trên xe buýt, tàu điện ngầm, Commuter Rail và phà tại"
+" các cửa hàng bán lẻ trên khắp khu vực Greater Boston và Providence."
 
 #: lib/dotcom_web/templates/layout/root.html.heex
 #, elixir-autogen, elixir-format
@@ -2448,12 +2451,12 @@ msgstr "Tin tức mới nhất trên MBTA.com"
 #: lib/dotcom_web/templates/page/menu.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA.com Menu"
-msgstr "Thực đơn MBTA.com"
+msgstr "Menu trên MBTA.com"
 
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Main"
-msgstr "Chủ yếu"
+msgstr "Chính"
 
 #: lib/dotcom_web/templates/customer_support/_call_us.html.heex
 #, elixir-autogen, elixir-format
@@ -2468,17 +2471,17 @@ msgstr "Menu chính"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Maintenance"
-msgstr "bảo trì"
+msgstr "Bảo trì"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Maintenance Complaint"
-msgstr "Khiếu nại bảo trì"
+msgstr "Khiếu nại về bảo trì"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Make a U-turn"
-msgstr "Quay đầu xe"
+msgstr "Quay đầu"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2488,7 +2491,7 @@ msgstr "Được quản lý bởi"
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Many Seats Available"
-msgstr "Còn nhiều chỗ ngồi trống"
+msgstr "Còn nhiều ghế trống"
 
 #: lib/dotcom_web/templates/mode/hub.html.heex
 #: lib/dotcom_web/templates/mode/index.html.heex
@@ -2501,28 +2504,28 @@ msgstr "Bản đồ"
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Martin Luther King, Jr. Day"
-msgstr "Ngày Martin Luther King, Jr."
+msgstr "Ngày Martin Luther King Jr."
 
 #: lib/dotcom_web/templates/layout/root.html.heex
 #, elixir-autogen, elixir-format
 msgid "Massachusetts Bay Transportation Authority"
-msgstr "Cơ quan Giao thông Vịnh Massachusetts"
+msgstr "Cơ quan Giao thông Vận tải Vịnh Massachusetts"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "Massachusetts Bay Transportation Authority, all rights reserved."
-msgstr "Cơ quan Giao thông Vận tải Vịnh Massachusetts, mọi quyền được bảo lưu."
+msgstr "Cơ quan Giao thông Vận tải Vịnh Massachusetts, bảo lưu mọi quyền."
 
 #: lib/dotcom_web/views/helpers.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Massport Shuttle"
-msgstr "Massport xe đưa đón"
+msgstr "Xe đưa đón Massport"
 
 #: lib/dotcom_web/components/route_symbols.ex
 #, elixir-autogen, elixir-format
 msgid "Massport Shuttle %{route_number}"
-msgstr "Massport xe đưa đón %{route_number}"
+msgstr "Xe đưa đón Massport %{route_number}"
 
 #: lib/dotcom_web/components/route_symbols.ex
 #: lib/dotcom_web/views/helpers.ex
@@ -2534,7 +2537,7 @@ msgstr "Mattapan Trolley"
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "May not be accessible"
-msgstr "May not be có thể tiếp cận được"
+msgstr "Có thể không tiếp cận được"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -2556,17 +2559,17 @@ msgstr "Thông tin cuộc họp"
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Members of the press can request to join our media list by emailing "
-msgstr "Các thành viên báo chí có thể yêu cầu được thêm vào danh sách truyền thông của chúng tôi bằng cách gửi email. "
+msgstr "Các thành viên báo chí có thể yêu cầu tham gia danh sách truyền thông của chúng tôi bằng cách gửi email đến "
 
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
 msgid "Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request."
-msgstr "Người dân có quyền yêu cầu bản sao các tài liệu của MBTA, trừ một số trường hợp ngoại lệ. Có thu phí và mức phí có thể thay đổi tùy thuộc vào yêu cầu."
+msgstr "Công chúng có quyền yêu cầu bản sao các tài liệu của MBTA, tuy nhiên có một số ngoại lệ. Áp dụng phí và mức phí có thể thay đổi tùy theo yêu cầu."
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Memorial Day"
-msgstr "Ngày tưởng niệm"
+msgstr "Ngày Tưởng niệm"
 
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
@@ -2581,7 +2584,7 @@ msgstr "Quân đội"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Mini high level platform to provide level boarding to certain cars in a train set"
-msgstr "Mini sân ga cao để cung cấp khả năng lên máy bay ngang bằng cho một số toa nhất định trong một đoàn tàu"
+msgstr "Sân ga cao kích thước nhỏ cho phép đường lên tàu bằng phẳng tại một số toa trong đoàn tàu"
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -2596,22 +2599,22 @@ msgstr "Ứng dụng di động"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Mobile Ticketing"
-msgstr "Bán vé trên thiết bị di động"
+msgstr "Mua vé trên điện thoại"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Modes"
-msgstr "Chế độ"
+msgstr "Các phương tiện"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Modes of Transit"
-msgstr "Các phương thức vận chuyển"
+msgstr "Các phương tiện giao thông công cộng"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Monday"
-msgstr "Thứ hai"
+msgstr "Thứ Hai"
 
 #: lib/dotcom_web/templates/customer_support/_call_us.html.heex
 #, elixir-autogen, elixir-format
@@ -2621,40 +2624,40 @@ msgstr "Thứ Hai - Thứ Sáu"
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Monday thru Friday"
-msgstr "Thứ Hai đến Thứ Sáu"
+msgstr "Thứ Hai đến thứ Sáu"
 
 #: lib/dotcom_web/views/schedule/stop_list.ex
 #, elixir-autogen, elixir-format
 msgid "Monday to Friday"
-msgstr "Thứ Hai đến Thứ Sáu"
+msgstr "Thứ Hai đến thứ Sáu"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Monthly"
-msgstr "vé tháng"
+msgstr "Vé tháng"
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #: lib/dotcom_web/views/fare_view.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Monthly LinkPass"
-msgstr "vé tháng LinkPass"
+msgstr "Vé tháng LinkPass"
 
 #: lib/dotcom_web/views/fare_view.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Monthly Local Bus Pass"
-msgstr "vé tháng Local xe buýt vé"
+msgstr "Vé tháng xe buýt địa phương"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass"
-msgstr "vé tháng vé"
+msgstr "Vé tháng"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Monthly Pass on mTicket App"
-msgstr "vé tháng vé trên ứng dụng mTicket"
+msgstr "Vé tháng trên ứng dụng mTicket"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
@@ -2685,9 +2688,9 @@ msgstr "Giá vé phổ biến nhất"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Most, but not all, MBTA docks are accessible to riders with disabilities. Based on the tide level and the type of vessel used for travel, you may encounter significant slopes and narrow walkways, even at accessible docks. At all docks, wait until a crew member tells you it is safe to proceed."
-msgstr "Hầu hết, nhưng không phải tất cả, MBTA bến tàu đều có thể tiếp cận được to hành khách với người khuyết tật. Dựa trên mức thủy triều và loại tàu được sử"
-" dụng để đi lại, bạn có thể gặp phải những con dốc đáng kể và lối đi hẹp, ngay cả tại có thể tiếp cận được bến tàu. Tại tất cả các bến tàu, hãy đợi cho"
-" đến khi một thành viên thủy thủ đoàn nói với bạn rằng có thể tiếp tục an toàn."
+msgstr "Phần lớn, nhưng không phải tất cả, các bến tàu của MBTA đều có thể tiếp cận được đối với hành khách khuyết tật. Tùy thuộc vào mực nước thủy triều và loại"
+" tàu được sử dụng để di chuyển, có thể gặp những đoạn dốc đáng kể và lối đi hẹp, ngay cả tại các bến tàu có thể tiếp cận được. Tại tất cả các bến tàu,"
+" vui lòng chờ cho đến khi nhân viên thông báo rằng quý vị có thể đi tiếp một cách an toàn."
 
 #: lib/dotcom_web/templates/layout/_new_nav_mobile.html.heex
 #, elixir-autogen, elixir-format
@@ -2747,12 +2750,12 @@ msgstr "Không có dịch vụ"
 #: lib/dotcom_web/templates/bus_stop_change/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "No alerts here."
-msgstr "Không có cảnh báo ở đây."
+msgstr "Không có cảnh báo nào ở đây."
 
 #: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex
 #, elixir-autogen, elixir-format
 msgid "No changes posted for the next 7 days"
-msgstr "Không có thay đổi nào được đăng tải trong 7 ngày tới."
+msgstr "Không có thay đổi nào được đăng trong 7 ngày tới"
 
 #: lib/dotcom_web/templates/event/_event_list.html.heex
 #, elixir-autogen, elixir-format
@@ -2769,22 +2772,22 @@ msgstr "Cấm đỗ xe"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service today"
-msgstr "Hôm nay không có dịch vụ."
+msgstr "Hôm nay không có dịch vụ nào"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "No transit connection was found between the origin and destination on this date and time"
-msgstr "Không tìm thấy phương tiện công cộng nào giữa điểm xuất phát và điểm đến vào ngày và giờ này"
+msgstr "Không tìm thấy điểm kết nối giao thông công cộng giữa điểm xuất phát và điểm đến vào ngày giờ này"
 
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "No transit modes selected"
-msgstr "Không có phương thức vận chuyển nào được chọn."
+msgstr "Không có phương tiện giao thông công cộng nào được chọn"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "No transit routes found within 2 hours of %{time_on_date}. Routes may be available at other times."
-msgstr "Không tìm thấy tuyến giao thông công cộng nào trong vòng 2 giờ tính từ %{time_on_date}. Các tuyến đường có thể khả dụng vào những thời điểm khác."
+msgstr "Không tìm thấy tuyến giao thông công cộng nào trong vòng 2 giờ kể từ %{time_on_date}. Các tuyến có thể hoạt động vào những thời điểm khác."
 
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
@@ -2794,19 +2797,19 @@ msgstr "Không tìm thấy chuyến đi nào"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "No upcoming holidays"
-msgstr "Không có ngày lễ sắp tới"
+msgstr "Không có ngày lễ nào sắp tới"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Normal Service"
-msgstr "dịch vụ bình thường"
+msgstr "Dịch vụ bình thường"
 
 #: lib/routes/parser.ex
 #, elixir-autogen, elixir-format
 msgid "Northbound"
-msgstr "Hướng Bắc"
+msgstr "Hướng đi về phía Bắc"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
@@ -2814,7 +2817,7 @@ msgstr "Hướng Bắc"
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Not accessible"
-msgstr "Not có thể tiếp cận được"
+msgstr "Không thể tiếp cận được"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #: lib/dotcom_web/components/stops/elevator_amenity.html.heex
@@ -2822,7 +2825,7 @@ msgstr "Not có thể tiếp cận được"
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Not available"
-msgstr "Không có sẵn"
+msgstr "Không khả dụng"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -2847,7 +2850,7 @@ msgstr "Ghi chú"
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Notice"
-msgstr "Để ý"
+msgstr "Thông báo"
 
 #: lib/dotcom_web/components/system_status/subway_status.ex
 #: lib/dotcom_web/components/trip_planner/input_form.ex
@@ -2855,12 +2858,12 @@ msgstr "Để ý"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Now"
-msgstr "Hiện nay"
+msgstr "Bây giờ"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Now at"
-msgstr "Hiện tại"
+msgstr "Hiện đang ở"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -2870,18 +2873,18 @@ msgstr "Đã quan sát"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines."
-msgstr "Trang web chính thức của MBTA -- lịch trình, bản đồ và thông tin giá vé cho hệ thống giao thông công cộng của Greater Boston, bao gồm tàu điện ngầm, Đường"
-" sắt ngoại ô, các tuyến xe buýt và các tuyến thuyền."
+msgstr "Trang web chính thức của MBTA -- lịch trình, bản đồ và thông tin giá vé của hệ thống giao thông công cộng khu vực Greater Boston, bao gồm tàu điện ngầm,"
+" đường sắt ngoại ô, các tuyến xe buýt và các tuyến thuyền."
 
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
 msgid "Official website of the MBTA — Plan a trip on public transit in the Greater Boston region"
-msgstr "Trang web chính thức của MBTA — Lên kế hoạch cho chuyến đi bằng phương tiện giao thông công cộng tại khu vực Đại Boston"
+msgstr "Trang web chính thức của MBTA — Lên kế hoạch cho chuyến đi bằng phương tiện công cộng trong khu vực Greater Boston"
 
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Oh no! We're experiencing delays."
-msgstr "Ôi không! Chúng tôi đang trải qua tình trạng trễ chuyến."
+msgstr "Ôi không! Chúng tôi đang gặp tình trạng trễ chuyến."
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -2891,22 +2894,22 @@ msgstr "Đúng giờ"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Onboard ramps at the front door of each bus"
-msgstr "Đường dốc trên xe ở cửa trước của mỗi xe buýt"
+msgstr "Dốc hỗ trợ lên xuống ở cửa trước của mỗi xe buýt"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "One-Day Pass"
-msgstr "Một ngày vé"
+msgstr "Vé một ngày"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "One-Way"
-msgstr "vé một chiều"
+msgstr "Vé một chiều"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Ongoing"
-msgstr "đang diễn ra"
+msgstr "Đang diễn ra"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2916,7 +2919,7 @@ msgstr "Hoặc,"
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid "Or, go to "
-msgstr "Hoặc, hãy truy cập vào "
+msgstr "Hoặc truy cập "
 
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
@@ -2926,22 +2929,22 @@ msgstr "Orange Line"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Order Monthly Passes"
-msgstr "Order vé tháng vé"
+msgstr "Đặt vé tháng"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Origin location is not close enough to any transit stops"
-msgstr "Địa điểm xuất phát không đủ gần với bất kỳ trạm dừng phương tiện công cộng nào."
+msgstr "Điểm xuất phát không đủ gần với bất kỳ điểm dừng phương tiện công cộng nào"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Origin location is outside of our service area"
-msgstr "Địa điểm xuất phát nằm ngoài khu vực phục vụ của chúng tôi."
+msgstr "Điểm xuất phát nằm ngoài khu vực phục vụ của chúng tôi"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Origin or destination location is outside of our service area"
-msgstr "Địa điểm xuất phát hoặc điểm đến nằm ngoài khu vực phục vụ của chúng tôi."
+msgstr "Điểm xuất phát hoặc điểm đến nằm ngoài khu vực phục vụ của chúng tôi"
 
 #: lib/alerts/alert.ex
 #: lib/dotcom/alerts/commuter_rail.ex
@@ -2954,7 +2957,7 @@ msgstr "Khác"
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Other Schedules"
-msgstr "Other lịch trình"
+msgstr "Lịch trình khác"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -2964,18 +2967,18 @@ msgstr "Công việc của chúng tôi"
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Our user guides can help you learn how to navigate the system, get to local events, use accessibility features, and more."
-msgstr "Hướng dẫn người dùng của chúng tôi có thể giúp bạn tìm hiểu cách điều hướng hệ thống, tham gia các sự kiện địa phương, sử dụng các tính năng tiếp cận và"
-" hơn thế nữa."
+msgstr "Hướng dẫn dành cho người dùng có thể giúp quý vị tìm hiểu cách di chuyển trong hệ thống, đến các sự kiện địa phương, sử dụng các tính năng hỗ trợ khả năng"
+" tiếp cận và nhiều nội dung khác."
 
 #: lib/dotcom_web/components/stops.ex
 #, elixir-autogen, elixir-format
 msgid "Out of Order"
-msgstr "Hỏng"
+msgstr "Không hoạt động"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Outbound Trains Cancelled"
-msgstr "hướng đi ra ngoại thành Trains Cancelled"
+msgstr "Các chuyến tàu có hướng đi ra ngoại thành đã bị hủy"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2985,7 +2988,7 @@ msgstr "Giá để xe đạp ngoài trời"
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Outdoor bike racks are available"
-msgstr "Giá để xe đạp ngoài trời có sẵn"
+msgstr "Có sẵn giá để xe đạp ngoài trời"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3000,7 +3003,7 @@ msgstr "Tổng quan"
 #: lib/dotcom_web/templates/schedule/_pdf_schedules.html.heex
 #, elixir-autogen, elixir-format
 msgid "PDF Schedules"
-msgstr "PDF lịch trình"
+msgstr "Lịch trình PDF"
 
 #: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
 #, elixir-autogen, elixir-format
@@ -3010,7 +3013,7 @@ msgstr "PDF sắp tới"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Page Not Found | MBTA - Massachusetts Bay Transportation Authority"
-msgstr "Trang không tìm thấy | MBTA - Cơ quan Giao thông Vịnh Massachusetts"
+msgstr "Không tìm thấy trang | MBTA - Cơ quan Giao thông Vận tải Vịnh Massachusetts"
 
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
@@ -3020,7 +3023,7 @@ msgstr "Không tìm thấy trang"
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Pages"
-msgstr "Trang"
+msgstr "Các trang"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -3036,53 +3039,53 @@ msgstr "Vận chuyển hành khách khuyết tật (The RIDE)"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Parking"
-msgstr "Đỗ xe"
+msgstr "Bãi đỗ xe"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Parking Closure"
-msgstr "Bãi đậu xe đóng đường"
+msgstr "Đóng cửa bãi đỗ xe"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Parking Issue"
-msgstr "Vấn đề đỗ xe"
+msgstr "Sự cố về đỗ xe"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Parking Rates"
-msgstr "Giá phí đậu xe"
+msgstr "Mức phí đỗ xe"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Parking at %{name}"
-msgstr "Đỗ xe tại %{name}"
+msgstr "Bãi đỗ xe tại %{name}"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Parking available"
-msgstr "Có chỗ đậu xe"
+msgstr "Có chỗ đỗ xe"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell "
-msgstr "hành khách phải nói "
+msgstr "Hành khách phải cho biết "
 
 #: lib/dotcom_web/views/bus_stop_change_view.ex
 #, elixir-autogen, elixir-format
 msgid "Past Changes"
-msgstr "Những thay đổi trong quá khứ"
+msgstr "Những thay đổi trước đây"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Patriots’ Day"
-msgstr "Ngày của những người yêu nước"
+msgstr "Ngày Yêu nước"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Pay Your Fare"
-msgstr "Trả tiền vé"
+msgstr "Thanh toán tiền vé"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3097,17 +3100,17 @@ msgstr "Mọi người"
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "People waiting as orange line train arrives inside North Station"
-msgstr "Mọi người chờ đợi khi đoàn tàu tuyến màu cam đến bên trong North Station"
+msgstr "Mọi người đang chờ khi tàu tuyến Orange đến ga North Station"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "People walking by train departure board inside North Station"
-msgstr "Những người đi bộ bằng tàu khởi hành lên xe bên trong North Station"
+msgstr "Mọi người đi ngang qua bảng thông tin giờ khởi hành của tàu bên trong North Station"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "People walking towards Green Line train inside North Station"
-msgstr "Mọi người đi bộ về phía Green Line tàu bên trong North Station"
+msgstr "Mọi người đi về phía tàu Green Line bên trong North Station"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
@@ -3118,34 +3121,34 @@ msgstr "Hiệu suất"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Plan Your Journey"
-msgstr "Lên kế hoạch cho chuyến đi của bạn"
+msgstr "Lập kế hoạch chuyến đi"
 
 #: lib/dotcom_web/templates/partial/_trip_planner_widget.html.heex
 #, elixir-autogen, elixir-format
 msgid "Plan a trip"
-msgstr "Lên kế hoạch cho chuyến đi"
+msgstr "Lập kế hoạch chuyến đi"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #: lib/dotcom_web/components/stops/elevator_amenity.html.heex
 #: lib/dotcom_web/components/stops/escalator_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Plan an accessible trip"
-msgstr "Plan an có thể tiếp cận được trip"
+msgstr "Lập kế hoạch chuyến đi có thể tiếp cận được"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Plan your trip"
-msgstr "Lên kế hoạch cho chuyến đi của bạn"
+msgstr "Lập kế hoạch chuyến đi"
 
 #: lib/dotcom_web/views/partial_view.ex
 #, elixir-autogen, elixir-format
 msgid "Planned Service Alerts"
-msgstr "Planned cảnh báo dịch vụ"
+msgstr "Cảnh báo dịch vụ theo kế hoạch"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "Planned Work"
-msgstr "công việc đã lên kế hoạch"
+msgstr "Công việc đã lên kế hoạch"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
@@ -3160,53 +3163,53 @@ msgstr "Vui lòng nhập địa chỉ email hợp lệ."
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Please enter a valid vehicle number with numeric characters only."
-msgstr "Vui lòng nhập biển số xe hợp lệ, chỉ bao gồm các ký tự số."
+msgstr "Vui lòng nhập số hiệu phương tiện hợp lệ chỉ gồm chữ số."
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Please enter an address that is within 100 miles of an MBTA service area."
-msgstr "Vui lòng nhập địa chỉ nằm trong phạm vi 100 dặm tính từ khu vực phục vụ của MBTA."
+msgstr "Vui lòng nhập địa chỉ nằm cách khu vực phục vụ của MBTA không quá 100 dặm."
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Please enter your first name to continue."
-msgstr "Vui lòng nhập tên của bạn để tiếp tục."
+msgstr "Vui lòng nhập tên để tiếp tục."
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Please enter your last name to continue."
-msgstr "Vui lòng nhập tên Chuyến cuối cùng của bạn để tiếp tục."
+msgstr "Vui lòng nhập họ để tiếp tục."
 
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Please select a destination at a different location from the origin."
-msgstr "Vui lòng chọn điểm đến ở một vị trí khác với điểm xuất phát."
+msgstr "Vui lòng chọn điểm đến ở vị trí khác với điểm xuất phát."
 
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Please select a destination location."
-msgstr "Vui lòng chọn địa điểm đến."
+msgstr "Vui lòng chọn điểm đến."
 
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Please select an origin location."
-msgstr "Vui lòng chọn địa điểm xuất phát."
+msgstr "Vui lòng chọn điểm xuất phát."
 
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Please select at least one mode of transit."
-msgstr "Vui lòng chọn ít nhất một phương thức di chuyển."
+msgstr "Vui lòng chọn ít nhất một phương tiện giao thông công cộng."
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Please select the type of concern."
-msgstr "Vui lòng chọn loại vấn đề cần quan tâm."
+msgstr "Vui lòng chọn loại vấn đề."
 
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Please specify a date and time in the future or select 'Now'."
-msgstr "Vui lòng chỉ định ngày và giờ trong tương lai hoặc chọn 'Ngay bây giờ'."
+msgstr "Vui lòng chỉ định ngày và giờ trong tương lai hoặc chọn 'Bây giờ'."
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -3217,7 +3220,7 @@ msgstr "Vui lòng thử lại hoặc gửi phản hồi cho chúng tôi tại mb
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Policies & Civil Rights"
-msgstr "Chính sách và Quyền công dân"
+msgstr "Chính sách và quyền dân sự"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -3227,22 +3230,22 @@ msgstr "Thay đổi chính sách"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Portable boarding lift"
-msgstr "Thang nâng lên xuống di động"
+msgstr "Cầu nâng di động hỗ trợ khách lên phương tiện"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Posted on"
-msgstr "Đăng tải vào"
+msgstr "Đăng vào"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Predicted departure times aren’t available yet, but they’ll appear here before the scheduled first trip."
-msgstr "Hiện tại chưa có thông tin về thời gian khởi hành dự kiến, nhưng chúng sẽ được cập nhật tại đây trước chuyến đi đầu tiên theo lịch trình."
+msgstr "Thời gian khởi hành dự kiến hiện chưa có, nhưng sẽ xuất hiện ở đây trước chuyến đầu tiên theo lịch."
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Prefer accessible routes"
-msgstr "Prefer có thể tiếp cận được routes"
+msgstr "Ưu tiên các tuyến có thể tiếp cận được"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -3252,7 +3255,7 @@ msgstr "Chuyến đi cao cấp"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Premium Ride Fare"
-msgstr "Giá vé xe hạng sang"
+msgstr "Giá vé chuyến đi cao cấp"
 
 #: lib/dotcom_web/templates/page/_news_and_updates.html.heex
 #, elixir-autogen, elixir-format
@@ -3284,29 +3287,29 @@ msgstr "Dự án"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Proposed Sales Locations"
-msgstr "Các địa điểm bán hàng được đề xuất"
+msgstr "Các địa điểm bán vé được đề xuất"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Public Meetings"
-msgstr "Các cuộc họp công cộng"
+msgstr "Các cuộc họp công khai"
 
 #: lib/dotcom_web/controllers/page_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, service alerts, real-time updates, and general information."
-msgstr "Hệ thống giao thông công cộng tại khu vực Đại Boston. Tuyến đường, lịch trình, Lập kế hoạch chuyến đi, giá vé, cảnh báo dịch vụ, cập nhật theo thời gian"
-" thực và thông tin chung."
+msgstr "Giao thông công cộng tại khu vực Greater Boston. Các tuyến, lịch trình, lập kế hoạch chuyến đi, giá vé, cảnh báo dịch vụ, thông tin cập nhật theo thời"
+" gian thực và thông tin chung."
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Purchase CharlieTickets"
-msgstr "Mua vé CharlieTickets"
+msgstr "Mua CharlieTickets"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Purchase a CharlieCard or reload an existing one"
-msgstr "Mua thẻ CharlieCard hoặc nạp tiền vào thẻ hiện có."
+msgstr "Mua CharlieCard hoặc nạp tiền vào thẻ hiện có"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3321,7 +3324,7 @@ msgstr "Mua vé tại các điểm bán lẻ gần đó."
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Quality, Compliance & Oversight"
-msgstr "Chất lượng, Tuân thủ & Giám sát"
+msgstr "Chất lượng, tuân thủ và giám sát"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -3331,22 +3334,22 @@ msgstr "Câu hỏi"
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "Rail"
-msgstr "đường ray"
+msgstr "Đường sắt"
 
 #: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
 #, elixir-autogen, elixir-format
 msgid "Receive notifications of MBTA service alerts by email or text."
-msgstr "Nhận thông báo về cảnh báo dịch vụ MBTA qua email hoặc tin nhắn."
+msgstr "Nhận thông báo về cảnh báo dịch vụ của MBTA qua email hoặc tin nhắn văn bản."
 
 #: lib/dotcom_web/templates/news_entry/_recent_news.html.heex
 #, elixir-autogen, elixir-format
 msgid "Recent News on the T"
-msgstr "Tin tức gần đây về tàu điện ngầm"
+msgstr "Tin tức mới nhất về the T"
 
 #: lib/dotcom_web/templates/partial/_recently_visited.html.heex
 #, elixir-autogen, elixir-format
 msgid "Recently Visited Schedules"
-msgstr "Recently Visited lịch trình"
+msgstr "Lịch trình đã xem gần đây"
 
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
@@ -3362,33 +3365,33 @@ msgstr "Vé giảm giá"
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Register your CharlieCard for bike parking"
-msgstr "Đăng ký CharlieCard của bạn để đậu xe đạp"
+msgstr "Đăng ký CharlieCard để đỗ xe đạp"
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Related Files"
-msgstr "Các tệp liên quan"
+msgstr "Tệp liên quan"
 
 #: lib/dotcom_web/templates/cms/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "Related Service Alerts"
-msgstr "Related cảnh báo dịch vụ"
+msgstr "Cảnh báo dịch vụ liên quan"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Report Fraud, Waste, or Abuse"
-msgstr "Báo cáo gian lận, lãng phí hoặc lạm dụng"
+msgstr "Báo cáo hành vi gian lận, lãng phí hoặc lạm dụng"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Report a Railroad Crossing Gate Issue"
-msgstr "Báo cáo sự cố liên quan đến rào chắn đường sắt"
+msgstr "Báo cáo sự cố rào chắn đường ngang"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Report an accessibility issue"
-msgstr "Báo cáo sự cố khả năng tiếp cận"
+msgstr "Báo cáo sự cố tiếp cận"
 
 #: lib/dotcom_web/components/stops/elevator_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3403,7 +3406,7 @@ msgstr "Báo cáo sự cố thang cuốn"
 #: lib/dotcom_web/templates/customer_support/_report.html.heex
 #, elixir-autogen, elixir-format
 msgid "Report suspected fraud, waste, or abuse"
-msgstr "Báo cáo các trường hợp nghi ngờ gian lận, lãng phí hoặc lạm dụng."
+msgstr "Báo cáo hành vi nghi ngờ gian lận, lãng phí hoặc lạm dụng"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #: lib/dotcom_web/templates/layout/_footer.html.heex
@@ -3417,7 +3420,7 @@ msgstr "Yêu cầu hồ sơ công khai"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Retail Sales Locations"
-msgstr "Địa điểm bán lẻ"
+msgstr "Các địa điểm bán lẻ"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
@@ -3437,33 +3440,33 @@ msgstr "Phải"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Round Trip"
-msgstr "vé khứ hồi"
+msgstr "Vé khứ hồi"
 
 #: lib/dotcom_web/components/route_symbols.ex
 #, elixir-autogen, elixir-format
 msgid "Route %{name}"
-msgstr "Tuyến đường %{name}"
+msgstr "Tuyến %{name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Route %{route}"
-msgstr "Tuyến đường %{route}"
+msgstr "Tuyến %{route}"
 
 #: lib/dotcom_web/templates/page/_tabbed_nav.html.heex
 #, elixir-autogen, elixir-format
 msgid "Routes"
-msgstr "Tuyến đường"
+msgstr "Tuyến xe"
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "Routes With High Priority Alerts"
-msgstr "Các tuyến đường có cảnh báo ưu tiên cao"
+msgstr "Các tuyến có cảnh báo ưu tiên cao"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Safety"
-msgstr "Sự an toàn"
+msgstr "An toàn"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3473,12 +3476,12 @@ msgstr "Samsung Pay"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Saturday"
-msgstr "Thứ bảy"
+msgstr "Thứ Bảy"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule & Maps"
-msgstr "lịch trình & Maps"
+msgstr "Lịch trình và bản đồ"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -3488,48 +3491,48 @@ msgstr "Thay đổi lịch trình"
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Schedule for"
-msgstr "lịch trình for"
+msgstr "Lịch trình cho"
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr "lịch trình thông tin cho các tuyến MBTA Đường sắt ngoại ô trong khu vực Greater Boston, bao gồm cập nhật theo thời gian thực và dự đoán điểm đến."
+msgstr "Thông tin lịch trình cho các tuyến Commuter Rail của MBTA trong khu vực Greater Boston, bao gồm thông tin cập nhật theo thời gian thực và dự báo giờ đến."
 
 #: lib/dotcom_web/controllers/mode/bus.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule information for MBTA bus routes in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr "Thông tin lịch trình cho các tuyến xe buýt MBTA trong khu vực Greater Boston, bao gồm cập nhật theo thời gian thực và dự đoán điểm đến."
+msgstr "Thông tin lịch trình các tuyến xe buýt của MBTA trong khu vực Greater Boston, bao gồm thông tin cập nhật theo thời gian thực và dự đoán giờ đến."
 
 #: lib/dotcom_web/controllers/mode/ferry.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule information for MBTA ferry routes operating in Massachusetts Bay, including downloadable PDFs."
-msgstr "Thông tin lịch trình cho các tuyến phà MBTA hoạt động ở Vịnh Massachusetts, bao gồm các tệp PDF có thể tải xuống."
+msgstr "Thông tin lịch trình các tuyến phà MBTA hoạt động tại Vịnh Massachusetts, bao gồm các tệp PDF có thể tải xuống."
 
 #: lib/dotcom_web/controllers/mode/subway.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule information for MBTA subway lines in Greater Boston, including real-time updates and arrival predictions."
-msgstr "Thông tin lịch trình cho các tuyến tàu điện ngầm MBTA ở Greater Boston, bao gồm cập nhật theo thời gian thực và dự đoán điểm đến."
+msgstr "Thông tin lịch trình cho các tuyến tàu điện ngầm của MBTA trong khu vực Greater Boston, bao gồm thông tin cập nhật theo thời gian thực và dự báo giờ đến."
 
 #: lib/dotcom_web/controllers/mode_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr "lịch trình thông tin về MBTA tàu điện ngầm, xe buýt, Đường sắt ngoại ô, và phà ở khu vực Greater Boston, bao gồm các bản cập nhật theo thời gian thực và"
-" dự đoán điểm đến."
+msgstr "Thông tin lịch trình tàu điện ngầm, xe buýt, Commuter Rail và phà của MBTA trong khu vực Greater Boston, bao gồm thông tin cập nhật theo thời gian thực"
+" và dự báo giờ đến."
 
 #: lib/dotcom/timetable_blocking.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule will be available soon on the MBTA website."
-msgstr "lịch trình sẽ sớm có trên trang web MBTA."
+msgstr "Lịch trình sẽ sớm có trên trang web của MBTA."
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Scheduled"
-msgstr "Đã lên lịch"
+msgstr "Theo lịch"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Scheduled service continues until %{end_of_service}"
-msgstr "Dịch vụ theo lịch trình tiếp tục cho đến %{end_of_service}"
+msgstr "Dịch vụ theo lịch tiếp tục hoạt động đến %{end_of_service}"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -3540,7 +3543,7 @@ msgstr "Dự kiến khởi hành"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules"
-msgstr "lịch trình"
+msgstr "Lịch trình"
 
 #: lib/dotcom_web/controllers/mode/hub.ex
 #: lib/dotcom_web/controllers/mode_controller.ex
@@ -3548,12 +3551,12 @@ msgstr "lịch trình"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps"
-msgstr "lịch trình & Maps"
+msgstr "Lịch trình và bản đồ"
 
 #: lib/dotcom_web/templates/mode/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Schedules and Maps"
-msgstr "lịch trình và Maps"
+msgstr "Lịch trình và bản đồ"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -3569,17 +3572,17 @@ msgstr "Tìm kiếm"
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Search MBTA.com"
-msgstr "Tìm kiếm trên MBTA.com"
+msgstr "Tìm kiếm MBTA.com"
 
 #: lib/dotcom_web/templates/stop/_search_bar.html.heex
 #, elixir-autogen, elixir-format
 msgid "Search for a stop or station"
-msgstr "Tìm kiếm điểm dừng hoặc nhà ga"
+msgstr "Tìm điểm dừng hoặc nhà ga"
 
 #: lib/dotcom_web/live/search_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Search for routes, places, information, and more"
-msgstr "Tìm kiếm tuyến đường, địa điểm, thông tin và nhiều hơn nữa"
+msgstr "Tìm kiếm các tuyến, địa điểm, thông tin và nhiều nội dung khác"
 
 #: lib/dotcom_web/components/search_results_live.ex
 #, elixir-autogen, elixir-format
@@ -3604,17 +3607,17 @@ msgstr "Dịch vụ theo mùa"
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Seat Availability"
-msgstr "Số lượng chỗ ngồi còn trống"
+msgstr "Tình trạng ghế trống"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Secretary of State's official site"
-msgstr "Trang web chính thức của Bộ trưởng State"
+msgstr "Trang web chính thức của Tổng thư ký Tiểu bang"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Secured parking is available but requires Charlie Card registration in advance."
-msgstr "Có chỗ đỗ xe an toàn nhưng yêu cầu đăng ký Charlie Card trước."
+msgstr "Có bãi đỗ xe an toàn, nhưng cần đăng ký CharlieCard trước."
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
@@ -3626,7 +3629,7 @@ msgstr "Xem cảnh báo"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "See Something, Say Something"
-msgstr "Nếu thấy điều gì bất thường, hãy báo cáo ngay!"
+msgstr "Nếu thấy điều đáng ngờ, hãy báo ngay"
 
 #: lib/dotcom_web/templates/page/_news_and_updates.html.heex
 #, elixir-autogen, elixir-format
@@ -3636,7 +3639,7 @@ msgstr "Xem tất cả thông cáo báo chí"
 #: lib/dotcom_web/templates/page/_homepage-events.html.heex
 #, elixir-autogen, elixir-format
 msgid "See all public meetings and events"
-msgstr "Xem tất cả các cuộc họp và sự kiện công cộng"
+msgstr "Xem tất cả các cuộc họp công khai và sự kiện"
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
@@ -3646,12 +3649,12 @@ msgstr "Xem tất cả cảnh báo dịch vụ"
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
 msgid "See all user guides"
-msgstr "Xem tất cả hướng dẫn người dùng"
+msgstr "Xem tất cả hướng dẫn dành cho người dùng"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Select"
-msgstr "Lựa chọn"
+msgstr "Chọn"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #: lib/dotcom_web/templates/page/_contact_us.html.heex
@@ -3663,12 +3666,12 @@ msgstr "Gửi phản hồi cho chúng tôi"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Senior CharlieCard or TAP ID"
-msgstr "người cao tuổi CharlieCard hoặc TAP ID"
+msgstr "CharlieCard dành cho người cao tuổi hoặc TAP ID"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Senior ID Cards"
-msgstr "Thẻ ID người cao tuổi"
+msgstr "Thẻ ID dành cho người cao tuổi"
 
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
@@ -3691,22 +3694,22 @@ msgstr "Dịch vụ"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Service Alerts"
-msgstr "cảnh báo dịch vụ"
+msgstr "Cảnh báo dịch vụ"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Service Change"
-msgstr "thay đổi dịch vụ"
+msgstr "Thay đổi dịch vụ"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Service Complaint"
-msgstr "Khiếu nại dịch vụ"
+msgstr "Khiếu nại về dịch vụ"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Service Inquiry"
-msgstr "Yêu cầu dịch vụ"
+msgstr "Thắc mắc về dịch vụ"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -3716,7 +3719,7 @@ msgstr "Dịch vụ đã kết thúc"
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "Service is running as expected"
-msgstr "Dịch vụ đang hoạt động như mong đợi."
+msgstr "Dịch vụ đang hoạt động bình thường"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -3726,7 +3729,7 @@ msgstr "Chuyến đi ngắn nhất"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Show"
-msgstr "Trình diễn"
+msgstr "Hiển thị"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
@@ -3746,28 +3749,28 @@ msgstr "Hiển thị thêm điểm dừng"
 #: lib/dotcom_web/templates/stop/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Showing all"
-msgstr "Hiển thị tất cả"
+msgstr "Đang hiển thị tất cả"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Showing major stops."
-msgstr "Hiển thị các điểm dừng chính."
+msgstr "Đang hiển thị các điểm dừng chính."
 
 #: lib/alerts/alert.ex
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Shuttle"
-msgstr "xe đưa đón"
+msgstr "Xe đưa đón"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Shuttles"
-msgstr "xe đưa đón"
+msgstr "Xe đưa đón"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Sign Up for Service Alerts"
-msgstr "Đăng ký cảnh báo dịch vụ"
+msgstr "Đăng ký nhận cảnh báo dịch vụ"
 
 #: lib/dotcom_web/templates/alert/_t-alerts.html.heex
 #, elixir-autogen, elixir-format
@@ -3777,7 +3780,7 @@ msgstr "Đăng nhập"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Sign up for Auto-pay"
-msgstr "Đăng ký thanh toán tự động"
+msgstr "Đăng ký tự động thanh toán"
 
 #: lib/dotcom_web/templates/customer_support/_service_updates.html.heex
 #, elixir-autogen, elixir-format
@@ -3808,28 +3811,28 @@ msgstr "Chuyến đi tương tự khởi hành lúc %{time}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Similar trips arrive at %{times}"
-msgstr "Các chuyến đi tương tự đến lúc %{times}"
+msgstr "Các chuyến tương tự đến %{times}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Similar trips depart at %{times}"
-msgstr "Các chuyến đi tương tự khởi hành lúc %{times}"
+msgstr "Các chuyến tương tự khởi hành lúc %{times}"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Single Tracking"
-msgstr "Theo dõi đơn"
+msgstr "Vận hành trên một đường ray"
 
 #: lib/dotcom_web/templates/layout/root.html.heex
 #, elixir-autogen, elixir-format
 msgid "Skip to main content"
-msgstr "đường vòng đến nội dung chính"
+msgstr "Chuyển đến nội dung chính"
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Skipped"
-msgstr "đường vòng"
+msgstr "Đã bỏ qua"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -3849,104 +3852,104 @@ msgstr "Thẻ thông minh"
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Snow Route"
-msgstr "Tuyến đường tuyết"
+msgstr "Tuyến xe tránh tuyết"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Snow Shoveling"
-msgstr "Xúc tuyết"
+msgstr "Dọn tuyết"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Some Seats Available"
-msgstr "Còn một số chỗ ngồi trống."
+msgstr "Còn một số ghế trống"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Some crowding"
-msgstr "Một số chỗ chật chội"
+msgstr "Hơi đông đúc"
 
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong on our end."
-msgstr "Đã xảy ra lỗi ở phía chúng tôi."
+msgstr "Đã xảy ra sự cố từ phía chúng tôi."
 
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Sorry! We missed your stop."
-msgstr "Lấy làm tiếc! Chúng tôi đã lỡ chuyến dừng của bạn."
+msgstr "Rất tiếc! Chúng tôi đã đi quá điểm dừng của quý khách."
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Sorry. Something went wrong. Please try again."
-msgstr "Lấy làm tiếc. Đã xảy ra lỗi. Vui lòng thử lại."
+msgstr "Rất tiếc. Đã xảy ra lỗi. Vui lòng thử lại."
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "Sorry. We had trouble uploading your image. Please try again."
-msgstr "Lấy làm tiếc. Chúng tôi đã gặp sự cố khi tải lên hình ảnh của bạn. Vui lòng thử lại."
+msgstr "Rất tiếc. Đã xảy ra sự cố khi tải lên hình ảnh của quý vị. Vui lòng thử lại."
 
 #: lib/routes/parser.ex
 #, elixir-autogen, elixir-format
 msgid "Southbound"
-msgstr "Hướng Nam"
+msgstr "Hướng đi về phía Nam"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Special Event Ticket"
-msgstr "Special Event vé"
+msgstr "Vé sự kiện đặc biệt"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Special ticket required"
-msgstr "Yêu cầu vé đặc biệt"
+msgstr "Cần có vé đặc biệt"
 
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "Station & Service Alerts"
-msgstr "nhà ga & cảnh báo dịch vụ"
+msgstr "Nhà ga và cảnh báo dịch vụ"
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "Station Accessibility"
-msgstr "nhà ga khả năng tiếp cận"
+msgstr "Khả năng tiếp cận tại nhà ga"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Station Closure"
-msgstr "nhà ga đóng đường"
+msgstr "Đóng cửa nhà ga"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Station Features"
-msgstr "Tính năng nhà ga"
+msgstr "Các tiện ích tại nhà ga"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Station Issue"
-msgstr "Nhà ga Vấn đề"
+msgstr "Sự cố tại nhà ga"
 
 #: lib/dotcom_web/controllers/stop_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Station serving MBTA %{lines} lines%{location}."
-msgstr "nhà ga phục vụ MBTA %{lines} dây chuyền%{location}."
+msgstr "Nhà ga phục vụ các tuyến %{lines} của MBTA %{location}."
 
 #: lib/dotcom_web/controllers/stop_controller.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid "Stations"
-msgstr "nhà ga"
+msgstr "Nhà ga"
 
 #: lib/dotcom_web/templates/page/_find_a_location.html.heex
 #, elixir-autogen, elixir-format
 msgid "Stations and Parking"
-msgstr "nhà ga và bãi đậu xe"
+msgstr "Nhà ga và bãi đỗ xe"
 
 #: lib/dotcom_web/live/search_page_live.ex
 #, elixir-autogen, elixir-format
 msgid "Stations and Stops"
-msgstr "nhà ga và điểm dừng"
+msgstr "Nhà ga và điểm dừng"
 
 #: lib/dotcom_web/components/stops.ex
 #, elixir-autogen, elixir-format
@@ -3956,17 +3959,17 @@ msgstr "Trạng thái"
 #: lib/dotcom_web/components/stops/header.ex
 #, elixir-autogen, elixir-format
 msgid "Stop %{id}"
-msgstr "Dừng %{id}"
+msgstr "Điểm dừng %{id}"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Stop Closure"
-msgstr "đóng điểm dừng"
+msgstr "Đóng điểm dừng"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Stop Move"
-msgstr "điểm dừng đã di chuyển"
+msgstr "Điểm dừng đã di chuyển"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
@@ -3974,29 +3977,29 @@ msgstr "điểm dừng đã di chuyển"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Stop Skipped"
-msgstr "Stop đường vòng"
+msgstr "Điểm dừng đã bỏ qua"
 
 #: lib/dotcom/alerts/endpoint_stops.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Stops"
-msgstr "Dừng lại"
+msgstr "Điểm dừng"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Stops Skipped"
-msgstr "Stops đường vòng"
+msgstr "Các điểm dừng đã bỏ qua"
 
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Student"
-msgstr "Học sinh"
+msgstr "Học sinh/Sinh viên"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Student CharlieCard"
-msgstr "Thẻ sinh viên Charlie"
+msgstr "CharlieCard dành cho Học sinh/Sinh viên"
 
 #: lib/dotcom_web/live/search_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -4006,7 +4009,7 @@ msgstr "Nộp"
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
 msgid "Submit a public records request to the MBTA"
-msgstr "Gửi yêu cầu cung cấp hồ sơ công khai đến MBTA."
+msgstr "Gửi yêu cầu hồ sơ công khai đến MBTA"
 
 #: lib/dotcom/trip_plan/input_form.ex
 #: lib/dotcom_web/controllers/mode/subway.ex
@@ -4018,12 +4021,12 @@ msgstr "Gửi yêu cầu cung cấp hồ sơ công khai đến MBTA."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Subway"
-msgstr "tàu điện ngầm"
+msgstr "Tàu điện ngầm"
 
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
 msgid "Subway Beginner's Guide"
-msgstr "tàu điện ngầm Hướng dẫn cho người mới bắt đầu"
+msgstr "Hướng dẫn đi tàu điện ngầm cho người mới bắt đầu"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -4038,12 +4041,12 @@ msgstr "Bản đồ tàu điện ngầm"
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #, elixir-autogen, elixir-format
 msgid "Subway One-Way"
-msgstr "tàu điện ngầm vé một chiều"
+msgstr "Vé tàu điện ngầm một chiều"
 
 #: lib/dotcom_web/components/system_status/subway_status.ex
 #, elixir-autogen, elixir-format
 msgid "Subway Status"
-msgstr "Tình trạng tàu điện ngầm"
+msgstr "Trạng thái tàu điện ngầm"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
@@ -4054,7 +4057,7 @@ msgstr "Đề xuất một nhà bán lẻ"
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Summary"
-msgstr "Bản tóm tắt"
+msgstr "Tóm tắt"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4064,7 +4067,7 @@ msgstr "Chủ nhật"
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Suspension"
-msgstr "Đình chỉ"
+msgstr "Tạm ngừng"
 
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -4075,17 +4078,17 @@ msgstr "Tính bền vững"
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Swap origin and destination locations"
-msgstr "Hoán đổi vị trí xuất phát và điểm đến"
+msgstr "Hoán đổi điểm xuất phát và điểm đến"
 
 #: lib/dotcom_web/components/layouts/alerts_page_content_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid "Systemwide"
-msgstr "Trên toàn hệ thống"
+msgstr "Toàn hệ thống"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "TAlerts/Countdowns/Apps"
-msgstr "Thông báo/Đếm ngược/Ứng dụng"
+msgstr "T-Alerts/Đếm ngược/Ứng dụng"
 
 #: lib/dotcom_web/templates/customer_support/_transit_police.html.heex
 #, elixir-autogen, elixir-format
@@ -4101,7 +4104,7 @@ msgstr "Điện thoại TTY"
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Take the T to Vote"
-msgstr "Đi tàu điện ngầm để bỏ phiếu"
+msgstr "Đi the T để bỏ phiếu"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -4111,12 +4114,12 @@ msgstr "Đi thang máy"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Tell Us What You Think"
-msgstr "Hãy cho chúng tôi biết suy nghĩ của bạn!"
+msgstr "Hãy cho chúng tôi biết ý kiến của quý vị"
 
 #: lib/dotcom_web/templates/alert/_t-alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "Tell us about your regular trips and receive text or email alerts that are relevant to you, at times when you want them."
-msgstr "Hãy cho chúng tôi biết về các chuyến đi thường xuyên của bạn và nhận tin nhắn hoặc email cảnh báo có liên quan đến bạn, vào những thời điểm bạn muốn."
+msgstr "Hãy cho chúng tôi biết về các chuyến đi thường lệ để nhận cảnh báo qua tin nhắn văn bản hoặc email phù hợp vào những thời điểm quý vị muốn."
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -4127,17 +4130,17 @@ msgstr "Tạm thời không có sẵn"
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Temporarily closed"
-msgstr "Tạm thời đã đóng"
+msgstr "Tạm thời đóng cửa"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Temporary Issue"
-msgstr "Vấn đề tạm thời"
+msgstr "Sự cố tạm thời"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Temporary issue"
-msgstr "Vấn đề tạm thời"
+msgstr "Sự cố tạm thời"
 
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
@@ -4147,33 +4150,33 @@ msgstr "Điều khoản Sử dụng"
 #: lib/dotcom_web/templates/customer_support/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Thank you for submitting your feedback. Our Customer Support team will review your comments soon."
-msgstr "Cảm ơn bạn đã gửi phản hồi. Nhóm Hỗ trợ khách hàng của chúng tôi sẽ sớm xem xét ý kiến của bạn."
+msgstr "Cảm ơn quý vị đã gửi phản hồi. Đội ngũ Hỗ trợ khách hàng của chúng tôi sẽ sớm xem xét ý kiến của quý vị."
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Thanksgiving Day"
-msgstr "Ngày Lễ Tạ Ơn"
+msgstr "Lễ Tạ ơn"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "The "
-msgstr "Cái "
+msgstr "The "
 
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
-msgstr "Khách hàng Engagement Coordinator in System-Wide khả năng tiếp cận & khách hàng Liaison for The RIDE chịu trách nhiệm điều phối các nghị quyết của ADA/khả"
-" năng tiếp cận Khiếu nại khi chúng được nhận."
+msgstr "Điều phối viên gắn kết khách hàng thuộc bộ phận Khả năng tiếp cận và liên lạc khách hàng trên toàn hệ thống của The RIDE chịu trách nhiệm điều phối việc"
+" giải quyết các khiếu nại về ADA/khả năng tiếp cận sau khi nhận được khiếu nại."
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
 msgid "The Foxboro Special Events line is only for occasional service."
-msgstr "Dòng Sự kiện Đặc biệt của Foxboro chỉ dành cho dịch vụ không thường xuyên."
+msgstr "Tuyến sự kiện đặc biệt Foxboro chỉ hoạt động vào một số dịp."
 
 #: lib/dotcom_web/templates/customer_support/_report.html.heex
 #, elixir-autogen, elixir-format
 msgid "The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs."
-msgstr "Đơn vị Kiểm toán Đặc biệt Nội bộ thuộc Văn phòng Tổng Thanh tra giám sát chất lượng, hiệu quả và tính liêm chính của các chương trình của MassDOT."
+msgstr "Bộ phận Kiểm toán đặc biệt nội bộ thuộc Văn phòng Tổng thanh tra giám sát chất lượng, hiệu quả và tính liêm chính của các chương trình MassDOT."
 
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
@@ -4183,22 +4186,22 @@ msgstr "The RIDE"
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "The Ride"
-msgstr "Chuyến đi"
+msgstr "The Ride"
 
 #: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
 #, elixir-autogen, elixir-format
 msgid "The interactive timetable for"
-msgstr "Thời khóa biểu tương tác cho"
+msgstr "Lịch trình tương tác cho"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "There are currently no realtime departures available."
-msgstr "Hiện tại không có thông tin về giờ khởi hành thực tế."
+msgstr "Hiện không có chuyến khởi hành theo thời gian thực nào."
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "There are currently no realtime departures available. Scheduled departures are shown below."
-msgstr "Hiện tại không có thông tin về giờ khởi hành thực tế. Lịch trình khởi hành được hiển thị bên dưới."
+msgstr "Hiện không có chuyến khởi hành theo thời gian thực nào. Các chuyến khởi hành theo lịch được hiển thị bên dưới."
 
 #: lib/dotcom_web/templates/alert/show.html.heex
 #: lib/dotcom_web/templates/page/_alerts.html.heex
@@ -4214,72 +4217,72 @@ msgstr "Không có "
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no additional accessibility features, but buses are always accessible to board."
-msgstr "Không có khả năng tiếp cận bổ sung các tính năng, nhưng Xe buýt luôn có thể tiếp cận được để lên xe."
+msgstr "Không có thêm tính năng hỗ trợ khả năng tiếp cận nào, nhưng luôn có thể tiếp cận được xe buýt để lên xe."
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts"
-msgstr "Không có cảnh báo"
+msgstr "Không có cảnh báo nào"
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no high priority"
-msgstr "Không có ưu tiên cao nào cả."
+msgstr "Không có mức ưu tiên cao"
 
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "There are no other commuter rail alerts at this time."
-msgstr "Không có Đường sắt ngoại ô cảnh báo nào khác vào thời điểm này."
+msgstr "Hiện không có cảnh báo nào khác về đường sắt ngoại ô."
 
 #: lib/dotcom_web/live/subway_alerts_live.ex
 #, elixir-autogen, elixir-format
 msgid "There are no other subway alerts at this time."
-msgstr "Không có cảnh báo tàu điện ngầm nào khác tại thời điểm này."
+msgstr "Hiện không có cảnh báo nào khác về tàu điện ngầm."
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no scheduled %{direction} trips on %{date}."
-msgstr "Không có chuyến đi %{direction} được lên lịch vào %{date}."
+msgstr "Không có chuyến %{direction} nào theo lịch vào %{date}."
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no scheduled %{direction} trips."
-msgstr "Không có chuyến đi nào được lên lịch %{direction} ."
+msgstr "Không có chuyến %{direction} nào theo lịch."
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no scheduled trips on %{date}."
-msgstr "Không có chuyến đi nào được lên lịch vào ngày %{date}."
+msgstr "Không có chuyến nào theo lịch vào %{date}."
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no scheduled trips."
-msgstr "Không có chuyến đi theo lịch trình."
+msgstr "Không có chuyến nào theo lịch."
 
 #: lib/dotcom_web/templates/project/updates.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no updates at this time."
-msgstr "Hiện tại chưa có thông tin cập nhật nào."
+msgstr "Hiện chưa có cập nhật nào."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is currently no scheduled %{route_name}."
-msgstr "Hiện tại không có lịch trình %{route_name}."
+msgstr "Hiện không có %{route_name} nào theo lịch."
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "There is no planned work information at this time."
-msgstr "Không có công việc đã lên thông tin kế hoạch tại thời điểm này."
+msgstr "Hiện chưa có thông tin về công việc đã lên kế hoạch."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route} service at %{stop} for this time period."
-msgstr "Không có dịch vụ %{route} được lên lịch tại %{stop} trong khoảng thời gian này."
+msgstr "Không có dịch vụ %{route} theo lịch tại %{stop} trong khoảng thời gian này."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There was a problem loading arrivals"
-msgstr "Đã xảy ra sự cố khi tải thông tin khách đến."
+msgstr "Đã xảy ra sự cố khi tải thông tin các chuyến sắp đến"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4289,7 +4292,7 @@ msgstr "Đã xảy ra sự cố khi tải lịch trình"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "There was a problem loading trip details"
-msgstr "Đã xảy ra lỗi khi tải thông tin chi tiết chuyến đi"
+msgstr "Đã xảy ra sự cố khi tải thông tin chi tiết chuyến đi"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -4299,7 +4302,7 @@ msgstr "Đã xảy ra sự cố khi tải các chuyến khởi hành sắp tới
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "This %{place} is not accessible."
-msgstr "This %{place} không có thể tiếp cận được."
+msgstr "%{place} này không thể tiếp cận được."
 
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
@@ -4309,17 +4312,17 @@ msgstr "Tuần này"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
-msgstr "Danh sách này không bao gồm các nhà bán lẻ hiện tại của MBTA. Để xem các địa điểm bán lẻ hiện tại, hãy sử dụng công cụ của chúng tôi."
+msgstr "Danh sách này không bao gồm các nhà bán lẻ hiện tại của MBTA. Để xem các địa điểm bán lẻ hiện tại, hãy sử dụng"
 
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "This page is no longer in service."
-msgstr "Trang này hiện không còn hoạt động."
+msgstr "Trang này không còn khả dụng."
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "This station does not have bike storage."
-msgstr "Nhà ga này không có kho xe đạp"
+msgstr "Nhà ga này không có chỗ gửi xe đạp."
 
 #: lib/dotcom_web/components/stops/elevator_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4334,17 +4337,17 @@ msgstr "Nhà ga này không có thang cuốn."
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "This station does not have parking."
-msgstr "Nhà ga này không có chỗ đậu xe."
+msgstr "Nhà ga này không có bãi đỗ xe."
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "This stop does not have fare vending machines, but you can purchase fares at a"
-msgstr "Điểm dừng này không có máy bán vé tự động, nhưng bạn có thể mua vé tại"
+msgstr "Trạm dừng này không có máy bán vé tự động, nhưng quý vị có thể mua vé tại một"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "Chuyến tàu này thường có<br /><strong>%{seats} chỗ ngồi còn trống</strong>"
+msgstr "Thông thường, chuyến tàu này có<br /><strong>%{seats} ghế còn trống</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4354,23 +4357,23 @@ msgstr "Thứ Năm"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Timetable"
-msgstr "Thời khóa biểu"
+msgstr "Lịch trình"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "To"
-msgstr "ĐẾN"
+msgstr "Đến"
 
 #: lib/dotcom_web/templates/customer_support/_rail_road.html.heex
 #: lib/dotcom_web/templates/layout/_new_nav_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "To report a problem or emergency with a railroad crossing, call"
-msgstr "Để báo cáo sự cố hoặc tình huống khẩn cấp với giao cắt đường sắt, hãy gọi"
+msgstr "Để báo cáo sự cố hoặc tình huống khẩn cấp liên quan đến đường ngang đường sắt, vui lòng gọi"
 
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "To submit an ADA/Accessibility complaint or feedback, please call"
-msgstr "Để gửi ADA/khả năng tiếp cận Khiếu nại hoặc phản hồi, vui lòng gọi"
+msgstr "Để gửi khiếu nại về ADA/khả năng tiếp cận hoặc phản hồi, vui lòng gọi"
 
 #: lib/dotcom/utils/service_date_time.ex
 #: lib/dotcom_web/components/planned_disruptions.ex
@@ -4388,35 +4391,35 @@ msgstr "Hôm nay lúc"
 #: lib/dotcom_web/templates/customer_support/_call_us.html.heex
 #, elixir-autogen, elixir-format
 msgid "Toll Free"
-msgstr "Số điện thoại miễn phí"
+msgstr "Miễn phí"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Track Boarding Change"
-msgstr "Thay đổi lịch trình lên tàu"
+msgstr "Thay đổi đường ray lên tàu"
 
 #: lib/alerts/alert.ex
 #: lib/dotcom/alerts/commuter_rail.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Track Change"
-msgstr "Theo dõi thay đổi"
+msgstr "Thay đổi đường ray"
 
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
 msgid "Track TBA"
-msgstr "Bài hát sẽ được thông báo sau."
+msgstr "Đường ray TBA"
 
 #: lib/dotcom_web/components/components.ex
 #, elixir-autogen, elixir-format
 msgid "Track your %{route_type_text} trip live with the <strong>MBTA Go</strong> app"
-msgstr "Theo dõi hành trình %{route_type_text} của bạn trực tiếp với ứng dụng <strong>MBTA Go</strong>"
+msgstr "Theo dõi trực tiếp chuyến đi %{route_type_text} bằng ứng dụng <strong>MBTA Go</strong>"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Train"
-msgstr "Xe lửa"
+msgstr "Tàu"
 
 #: lib/dotcom/upcoming_departures/processor.ex
 #, elixir-autogen, elixir-format
@@ -4426,17 +4429,17 @@ msgstr "Tàu %{trip_name}"
 #: lib/dotcom_web/views/schedule/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Train scheduled to board from %{platform} at %{station}"
-msgstr "Chuyến tàu dự kiến lên xe từ %{platform} lúc %{station}"
+msgstr "Dự kiến lên tàu từ %{platform} tại %{station}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Transfer"
-msgstr "Chuyển khoản"
+msgstr "Chuyển tuyến"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Transfers"
-msgstr "Chuyển nhượng"
+msgstr "Chuyển tuyến"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -4454,7 +4457,7 @@ msgstr "Cảnh sát giao thông"
 #: lib/dotcom_web/controllers/mode/subway.ex
 #, elixir-autogen, elixir-format
 msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
-msgstr "Du lịch bất cứ đâu trên các tuyến Blue, Orange, Redvà Green với cùng một mức giá."
+msgstr "Di chuyển đến bất kỳ đâu trên các tuyến Blue, Orange, Red và Green với cùng một mức giá."
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
@@ -4483,7 +4486,7 @@ msgstr "Các chuyến đi từ %{from} đến %{to}"
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Try searching for what you're looking for below."
-msgstr "Hãy thử tìm kiếm những gì bạn cần ở bên dưới."
+msgstr "Hãy thử tìm kiếm nội dung quý vị đang tìm bên dưới."
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4494,22 +4497,22 @@ msgstr "Thứ Ba"
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
-msgstr "Thứ Ba, ngày 5 tháng 11 là ngày cuối cùng để bỏ phiếu trong cuộc tổng tuyển cử năm 2024. Sử dụng tàu điện ngầm để đến địa điểm bỏ phiếu của quý vị."
+msgstr "Thứ Ba, ngày 5 tháng 11 là ngày cuối cùng để bỏ phiếu trong cuộc tổng tuyển cử năm 2024. Sử dụng the T để đến địa điểm bỏ phiếu."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)"
-msgstr "Thông thường chỉ có dưới 33% số ghế có sẵn và việc giữ khoảng cách là không khả thi (khoảng 3 người trở lên mỗi hàng)."
+msgstr "Thông thường, chỉ dưới 33% số ghế còn trống và khó giữ khoảng cách (~3+ người mỗi hàng)"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)"
-msgstr "Thông thường, hơn 33% số ghế vẫn còn trống và việc giữ khoảng cách có thể được thực hiện (~2-3 người mỗi hàng)."
+msgstr "Thông thường, hơn 33% số ghế vẫn còn trống và có thể giữ khoảng cách (~2-3 người mỗi hàng)"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)"
-msgstr "Thông thường, hơn 66% số ghế còn trống và việc giữ khoảng cách là hoàn toàn khả thi (khoảng 0-2 người mỗi hàng)."
+msgstr "Thông thường, hơn 66% số ghế còn trống và có thể giữ khoảng cách (~0-2 người mỗi hàng)"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4519,18 +4522,18 @@ msgstr "Không rõ"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Unscheduled Track"
-msgstr "Đường ray không theo lịch trình"
+msgstr "Đường ray không theo lịch"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "Until %{date}"
-msgstr "Cho đến khi %{date}"
+msgstr "Đến %{date}"
 
 #: lib/alerts/alert.ex
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Upcoming"
-msgstr "sắp tới"
+msgstr "Sắp tới"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex
 #: lib/dotcom_web/views/bus_stop_change_view.ex
@@ -4541,28 +4544,28 @@ msgstr "Những thay đổi sắp tới"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Departures"
-msgstr "Khởi hành sắp tới"
+msgstr "Các chuyến khởi hành sắp tới"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Holidays"
-msgstr "Những ngày lễ sắp tới"
+msgstr "Ngày lễ sắp tới"
 
 #: lib/dotcom_web/templates/page/_homepage-events.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Public Meetings and Events"
-msgstr "Các cuộc họp và sự kiện công khai sắp tới"
+msgstr "Các cuộc họp công khai và sự kiện sắp tới"
 
 #: lib/dotcom_web/templates/cms/page/_project_update.html.heex
 #: lib/dotcom_web/templates/project/update.html.heex
 #, elixir-autogen, elixir-format
 msgid "Updated on"
-msgstr "Đã cập nhật vào"
+msgstr "Cập nhật vào"
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "Updated: "
-msgstr "Đã cập nhật: "
+msgstr "Cập nhật: "
 
 #: lib/dotcom_web/controllers/cms_controller.ex
 #: lib/dotcom_web/controllers/project_controller.ex
@@ -4583,18 +4586,18 @@ msgstr "Hướng dẫn người dùng"
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Veterans Day"
-msgstr "Ngày Cựu Chiến Binh"
+msgstr "Ngày Cựu chiến binh"
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Via"
-msgstr "Thông qua"
+msgstr "Qua"
 
 #: lib/dotcom_web/templates/schedule/_empty.html.heex
 #: lib/dotcom_web/templates/stop/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "View"
-msgstr "Xem"
+msgstr "Chế độ xem"
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -4626,17 +4629,17 @@ msgstr "Xem tiểu sử của %{name}"
 #: lib/dotcom_web/templates/schedule/_timetable_suppressed.html.heex
 #, elixir-autogen, elixir-format
 msgid "View PDF Timetable"
-msgstr "Xem lịch trình PDF"
+msgstr "Xem Lịch trình PDF"
 
 #: lib/dotcom/timetable_blocking.ex
 #, elixir-autogen, elixir-format
 msgid "View PDF Timetable on the MBTA website."
-msgstr "Xem lịch trình dạng PDF trên trang web của MBTA."
+msgstr "Xem Lịch trình PDF trên trang web của MBTA."
 
 #: lib/dotcom_web/templates/event/_month.html.heex
 #, elixir-autogen, elixir-format
 msgid "View Previous"
-msgstr "Xem trước"
+msgstr "Xem mục trước"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
 #, elixir-autogen, elixir-format
@@ -4666,7 +4669,7 @@ msgstr "Xem tất cả tin tức"
 #: lib/dotcom_web/views/paragraph_view.ex
 #, elixir-autogen, elixir-format
 msgid "View all project updates"
-msgstr "Xem tất cả các cập nhật dự án"
+msgstr "Xem tất cả cập nhật dự án"
 
 #: lib/dotcom_web/views/paragraph_view.ex
 #, elixir-autogen, elixir-format
@@ -4676,17 +4679,17 @@ msgstr "Xem tất cả dự án"
 #: lib/dotcom_web/components/stops/elevator_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "View available elevators."
-msgstr "Xem các thang máy hiện có."
+msgstr "Xem các thang máy đang hoạt động."
 
 #: lib/dotcom_web/components/stops/escalator_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "View available escalators."
-msgstr "Xem các thang cuốn hiện có."
+msgstr "Xem các thang cuốn đang hoạt động."
 
 #: lib/dotcom_web/controllers/fare_controller.ex
 #, elixir-autogen, elixir-format
 msgid "View common fare information for the MBTA bus, subway, Commuter Rail, ferry, and The RIDE. Find online CharlieCard services and learn about bulk ordering programs."
-msgstr "Xem thông tin giá vé phổ biến cho MBTA xe buýt, tàu điện ngầm, Đường sắt ngoại ô, phà và The RIDE. Tìm hiểu các dịch vụ CharlieCard trực tuyến và các chương"
+msgstr "Xem thông tin giá vé phổ biến cho xe buýt, tàu điện ngầm, Commuter Rail, phà và The RIDE. Tìm các dịch vụ CharlieCard trực tuyến và tìm hiểu về các chương"
 " trình đặt hàng số lượng lớn."
 
 #: lib/dotcom_web/views/schedule_view.ex
@@ -4698,7 +4701,7 @@ msgstr "Xem lịch trình buổi tối"
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
 msgid "View fares overview"
-msgstr "Xem tổng quan về giá vé"
+msgstr "Xem tổng quan giá vé"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4718,12 +4721,12 @@ msgstr "Xem trên Google Maps"
 #: lib/dotcom_web/templates/fare/_nearby_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "View on MBTA Trip Planner"
-msgstr "Xem trên MBTA Lập kế hoạch chuyến đi"
+msgstr "Xem trên công cụ Lập kế hoạch chuyến đi của MBTA"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "View parking rates, facility information, and more."
-msgstr "Xem bảng giá đỗ xe, thông tin về tiện ích và nhiều hơn nữa."
+msgstr "Xem mức phí đỗ xe, thông tin về cơ sở và nhiều thông tin khác."
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
@@ -4733,12 +4736,12 @@ msgstr "Xem số điện thoại"
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Visit"
-msgstr "Thăm nom"
+msgstr "Truy cập"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Visit the Mobility Center"
-msgstr "Ghé thăm Trung tâm Di động"
+msgstr "Ghé thăm Trung tâm di động"
 
 #: lib/dotcom_web/controllers/vote_controller.ex
 #, elixir-autogen, elixir-format
@@ -4763,48 +4766,48 @@ msgstr "Đi bộ"
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "Walking directions only"
-msgstr "Chỉ dẫn đường đi bộ"
+msgstr "Chỉ đường đi bộ"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Washington’s Birthday"
-msgstr "Ngày sinh nhật của Washington"
+msgstr "Sinh nhật Washington"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "We can only provide trip data for the %{rating} schedule, valid until %{end_date}."
-msgstr "Chúng tôi chỉ có thể cung cấp dữ liệu chuyến đi cho lịch trình %{rating} , có giá trị đến %{end_date}."
+msgstr "Chúng tôi chỉ có thể cung cấp dữ liệu chuyến đi cho lịch trình %{rating}, có hiệu lực đến %{end_date}."
 
 #: lib/dotcom_web/templates/customer_support/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes."
-msgstr "Chúng tôi gặp sự cố khi gửi phản hồi của bạn -- vui lòng gọi cho chúng tôi theo số điện thoại đường dây nóng bên dưới hoặc thử lại sau vài phút."
+msgstr "Đã xảy ra sự cố khi gửi phản hồi -- vui lòng gọi đến Đường dây nóng chính bên dưới hoặc thử lại sau vài phút."
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "We want to make sure we're building a retail network that works for you. You can share your feedback using the form below."
-msgstr "Chúng tôi muốn đảm bảo rằng chúng tôi đang xây dựng một mạng lưới bán lẻ hoạt động hiệu quả cho bạn. Bạn có thể chia sẻ phản hồi của mình bằng cách sử"
-" dụng biểu mẫu bên dưới."
+msgstr "Chúng tôi muốn đảm bảo rằng mạng lưới bán lẻ chúng tôi đang xây dựng đáp ứng nhu cầu của quý vị. Quý vị có thể chia sẻ phản hồi bằng cách sử dụng biểu"
+" mẫu bên dưới."
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "We weren't able to find a polling place for your address. You can also visit the"
-msgstr "Chúng tôi không tìm thấy điểm bỏ phiếu nào cho địa chỉ của bạn. Bạn cũng có thể ghé thăm"
+msgstr "Chúng tôi không thể tìm thấy địa điểm bỏ phiếu cho địa chỉ của quý vị. Quý vị cũng có thể truy cập"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "We'll send you MBTA press releases and media advisories directly."
-msgstr "Chúng tôi sẽ gửi trực tiếp cho bạn các thông cáo báo chí và thông báo truyền thông của MBTA."
+msgstr "Chúng tôi sẽ gửi trực tiếp cho quý vị các thông cáo báo chí và thông báo dành cho truyền thông của MBTA."
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "We're asking the public to help guide our decisions as we roll out the Fare Transformation project over the next several years."
-msgstr "Chúng tôi đang kêu gọi công chúng giúp định hướng các quyết định của chúng tôi khi triển khai dự án Chuyển đổi Giá vé trong vài năm tới."
+msgstr "Chúng tôi đang mời công chúng góp ý để định hướng các quyết định khi triển khai dự án Chuyển đổi giá vé trong vài năm tới."
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "We're expanding our network of places where riders can get or load a CharlieCard and purchase passes."
-msgstr "Chúng tôi đang mở rộng mạng lưới những nơi hành khách có thể nhận hoặc nạp CharlieCard và mua vé."
+msgstr "Chúng tôi đang mở rộng mạng lưới các địa điểm nơi hành khách có thể nhận hoặc nạp tiền vào CharlieCard và mua vé."
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -4819,7 +4822,7 @@ msgstr "Thứ Tư"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend Pass"
-msgstr "Ngày cuối tuần vé"
+msgstr "Vé ngày cuối tuần"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4830,12 +4833,12 @@ msgstr "Cuối tuần"
 #: lib/routes/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Westbound"
-msgstr "Hướng Tây"
+msgstr "Hướng đi về phía Tây"
 
 #: lib/dotcom_web/templates/page/_whats_happening.html.heex
 #, elixir-autogen, elixir-format
 msgid "What's Happening at the MBTA"
-msgstr "Điều gì đang xảy ra tại MBTA?"
+msgstr "Có gì đang diễn ra tại MBTA"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
@@ -4845,22 +4848,22 @@ msgstr "Khi"
 #: lib/dotcom_web/templates/layout/_footer.html.heex
 #, elixir-autogen, elixir-format
 msgid "Work With Us"
-msgstr "Làm việc với chúng tôi"
+msgstr "Làm việc cùng chúng tôi"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Work with Us"
-msgstr "Làm việc với chúng tôi"
+msgstr "Làm việc cùng chúng tôi"
 
 #: lib/dotcom_web/components/stops.ex
 #, elixir-autogen, elixir-format
 msgid "Working"
-msgstr "Đang làm việc"
+msgstr "Đang hoạt động"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Write to Us"
-msgstr "Hãy viết thư cho chúng tôi"
+msgstr "Liên hệ với chúng tôi"
 
 #: lib/dotcom_web/templates/mode/_grid_buttons_ferry.html.heex
 #, elixir-autogen, elixir-format
@@ -4870,37 +4873,37 @@ msgstr "Quanh năm"
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
 msgid "You can also email"
-msgstr "Bạn cũng có thể gửi email."
+msgstr "Quý vị cũng có thể gửi email"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "You can expect a response to most tickets within 5 business days. Certain complaints may require longer investigations, up to 30 days."
-msgstr "Bạn có thể mong đợi phản hồi cho hầu hết các vé trong vòng 5 ngày làm việc. Một số Khiếu nại có thể yêu cầu điều tra lâu hơn, lên đến 30 ngày."
+msgstr "Quý vị có thể nhận được phản hồi cho hầu hết các vé trong vòng 5 ngày làm việc. Một số khiếu nại có thể cần thời gian điều tra lâu hơn, tối đa 30 ngày."
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "You can pay for your fare with"
-msgstr "Bạn có thể thanh toán tiền vé bằng"
+msgstr "Quý vị có thể thanh toán tiền vé bằng"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "You must agree to our Privacy Policy before submitting your feedback."
-msgstr "Bạn phải đồng ý với Chính sách Bảo mật của chúng tôi trước khi gửi phản hồi."
+msgstr "Quý vị phải đồng ý với Chính sách Quyền riêng tư của chúng tôi trước khi gửi phản hồi."
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
 msgid "You must complete the reCAPTCHA before submitting your feedback."
-msgstr "Bạn phải hoàn thành xác minh reCAPTCHA trước khi gửi phản hồi."
+msgstr "Phải hoàn tất reCAPTCHA trước khi gửi phản hồi."
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Your Polling Place"
-msgstr "Địa điểm bỏ phiếu của bạn"
+msgstr "Địa điểm bỏ phiếu của quý vị"
 
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #, elixir-autogen, elixir-format
 msgid "Zone"
-msgstr "Vùng"
+msgstr "Khu vực"
 
 #: lib/dotcom_web/components/transit_icons.ex
 #: lib/fares/format.ex
@@ -4911,17 +4914,17 @@ msgstr "Khu vực %{zone}"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Zones 1A-10"
-msgstr "Khu vực 1A-10"
+msgstr "Các khu vực 1A-10"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "a crew member"
-msgstr "một thành viên phi hành đoàn"
+msgstr "một nhân viên"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "accessible spots"
-msgstr "có thể tiếp cận được spots"
+msgstr "các vị trí có thể tiếp cận được"
 
 #: lib/dotcom_web/templates/alert/show.html.heex
 #: lib/dotcom_web/templates/page/_alerts.html.heex
@@ -4942,12 +4945,12 @@ msgstr "đã đến"
 #: lib/dotcom/transit_near_me.ex
 #, elixir-autogen, elixir-format
 msgid "arriving"
-msgstr "đến"
+msgstr "đang đến"
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "at this time"
-msgstr "vào thời điểm này"
+msgstr "tại thời điểm này"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -4974,7 +4977,7 @@ msgstr "trạm xe buýt"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "cash"
-msgstr "Tiền mặt"
+msgstr "tiền mặt"
 
 #: lib/dotcom_web/templates/cms/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
@@ -4994,17 +4997,17 @@ msgstr "thanh toán không tiếp xúc"
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "current"
-msgstr "hiện hành"
+msgstr "hiện tại"
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "departed"
-msgstr "đã rời đi"
+msgstr "đã khởi hành"
 
 #: lib/dotcom_web/controllers/schedule/timetable_controller.ex
 #, elixir-autogen, elixir-format
 msgid "docks"
-msgstr "bến tàu"
+msgstr "các bến tàu"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -5014,12 +5017,12 @@ msgstr "phía đông"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "few"
-msgstr "một vài"
+msgstr "ít"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "for"
-msgstr "vì"
+msgstr "cho"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
@@ -5044,12 +5047,12 @@ msgstr "thông tin"
 #: lib/dotcom_web/templates/schedule/_timetable_blocked.html.heex
 #, elixir-autogen, elixir-format
 msgid "is temporarily unavailable due to a service change."
-msgstr "là tạm thời không có sẵn do thay đổi dịch vụ."
+msgstr "tạm thời không có sẵn do thay đổi dịch vụ."
 
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "line"
-msgstr "đường kẻ"
+msgstr "tuyến"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5075,7 +5078,7 @@ msgstr "địa điểm bán lẻ gần đó"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "north"
-msgstr "phía bắc"
+msgstr "phía bắc"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -5095,22 +5098,22 @@ msgstr "lên"
 #: lib/util/and_or.ex
 #, elixir-autogen, elixir-format
 msgid "or"
-msgstr "hoặc là"
+msgstr "hoặc"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "or "
-msgstr "hoặc là "
+msgstr "hoặc "
 
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "or complete the feedback form on this page."
-msgstr "Hoặc điền vào mẫu phản hồi trên trang này."
+msgstr "hoặc điền vào biểu mẫu phản hồi trên trang này."
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "or pay with cash on any bus"
-msgstr "hoặc thanh toán bằng Tiền mặt trên bất kỳ xe buýt nào"
+msgstr "hoặc thanh toán bằng tiền mặt trên bất kỳ xe buýt nào"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -5120,17 +5123,17 @@ msgstr "hướng đi ra ngoại thành"
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
-msgstr "paper phà vé"
+msgstr "vé phà giấy"
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "planned"
-msgstr "đã lên kế hoạch"
+msgstr "theo kế hoạch"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "reduced fare card"
-msgstr "Vé giảm giá card"
+msgstr "thẻ mua vé giảm giá"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5155,12 +5158,12 @@ msgstr "công cụ tìm địa điểm bán lẻ"
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "route"
-msgstr "tuyến đường"
+msgstr "tuyến"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "see a map of all proposed sales locations"
-msgstr "Xem bản đồ tất cả các địa điểm bán hàng được đề xuất"
+msgstr "xem bản đồ tất cả các địa điểm bán vé được đề xuất"
 
 #: lib/dotcom_web/templates/cms/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
@@ -5191,22 +5194,22 @@ msgstr "nhà ga"
 #: lib/dotcom_web/views/stop_view.ex
 #, elixir-autogen, elixir-format
 msgid "stop"
-msgstr "dừng lại"
+msgstr "điểm dừng"
 
 #: lib/dotcom_web/templates/stop/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "stops"
-msgstr "dừng lại"
+msgstr "điểm dừng"
 
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid "the MBTA's home page"
-msgstr "Trang chủ của MBTA"
+msgstr "trang chủ của MBTA"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "the conductor"
-msgstr "người chỉ huy"
+msgstr "nhân viên soát vé"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -5216,18 +5219,18 @@ msgstr "sáng hôm sau"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "through"
-msgstr "bởi vì"
+msgstr "qua"
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "timetable for"
-msgstr "thời khóa biểu cho"
+msgstr "lịch trình cho"
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "to"
-msgstr "ĐẾN"
+msgstr "đến"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #: lib/dotcom_web/live/schedule_finder_live.ex
@@ -5238,33 +5241,33 @@ msgstr "đến %{destination}"
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "to find your polling place, and then use the"
-msgstr "Để tìm địa điểm bỏ phiếu của bạn, sau đó sử dụng"
+msgstr "để tìm địa điểm bỏ phiếu của quý vị, rồi sử dụng"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "to plan your trip"
-msgstr "để lên kế hoạch cho chuyến đi của bạn"
+msgstr "để lập kế hoạch chuyến đi"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "total parking spots"
-msgstr "tổng số chỗ đậu xe"
+msgstr "tổng số chỗ đỗ xe"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "towards"
-msgstr "đối với"
+msgstr "về phía"
 
 #: lib/journey.ex
 #, elixir-autogen, elixir-format
 msgid "track "
-msgstr "theo dõi "
+msgstr "đường ray "
 
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "train"
-msgstr "xe lửa"
+msgstr "tàu"
 
 #: lib/dotcom_web/templates/schedule/_empty.html.heex
 #, elixir-autogen, elixir-format
@@ -5315,17 +5318,17 @@ msgstr "với"
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
 msgid "with your request."
-msgstr "Theo yêu cầu của bạn."
+msgstr "với yêu cầu của quý vị."
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Khu vực cảng nội địa 1A"
+msgstr "Khu vực Cảng Nội đô 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Winthrop and Quincy Ferry"
-msgstr "Winthrop và Quincy Ferry"
+msgstr "Tuyến phà Winthrop và Quincy"
 
 #: lib/dotcom_web/live/trip_planner_live.ex
 #, elixir-autogen, elixir-format
@@ -5341,50 +5344,50 @@ msgstr "Đã xảy ra lỗi. Vui lòng thử lại sau."
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
-msgstr "xe lăn-có thể tiếp cận được chuyển tại Downtown Crossing có thể yêu cầu <strong>thoát khỏi cổng soát vé.</strong> Gặp nhân viên nhà ga để tránh phải trả"
-" thêm tiền vé."
+msgstr "Để đến các điểm chuyển tuyến mà xe lăn có thể tiếp cận được tại Downtown Crossing, quý vị có thể cần <strong>đi ra khỏi cổng soát vé.</strong> Vui lòng"
+" gặp nhân viên nhà ga để tránh phải trả thêm tiền vé."
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr "Friday lịch trình"
+msgstr "Lịch trình ngày Thứ Sáu"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr "Thứ Hai - Thứ Năm lịch trình"
+msgstr "Lịch trình Thứ Hai - Thứ Năm"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr "Thứ Bảy lịch trình"
+msgstr "Lịch trình ngày Thứ Bảy"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Sunday schedules"
-msgstr "Sunday lịch trình"
+msgstr "Lịch trình ngày Chủ Nhật"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr "Ngày trong tuần lịch trình"
+msgstr "Lịch trình các ngày trong tuần"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr "Ngày cuối tuần lịch trình"
+msgstr "Lịch trình ngày cuối tuần"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Earlier %{vehicle_name}"
-msgstr "Trước đó %{vehicle_name}"
+msgstr "%{vehicle_name} sớm hơn"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Later %{vehicle_name}"
-msgstr "Sau đó %{vehicle_name}"
+msgstr "%{vehicle_name} muộn hơn"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5404,9 +5407,9 @@ msgstr "Xe buýt"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Trains"
-msgstr "Tàu hỏa"
+msgstr "Tàu"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
-msgstr "%{direction_name} thời khóa biểu cho %{route_name}, %{formatted_date}"
+msgstr "Lịch trình %{direction_name} cho %{route_name}, %{formatted_date}"
