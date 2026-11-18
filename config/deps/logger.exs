@@ -19,6 +19,11 @@ if config_env() == :prod do
   # Also enable terminating overloaded handlers based on memory or queue length.
   # https://www.erlang.org/docs/28/apps/kernel/logger_chapter.html#overload_protection
   config :logger, :default_handler,
+    filters: [
+      drop_low_priority_on_load: {&Dotcom.LoggerFilters.drop_low_priority_on_load/2, 30},
+      # default logger_filters that we don't want to remove
+      remote_gl: {&:logger_filters.remote_gl/2, :stop}
+    ],
     config: [
       # default
       sync_mode_qlen: 10,
