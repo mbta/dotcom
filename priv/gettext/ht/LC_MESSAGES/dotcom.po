@@ -5299,7 +5299,7 @@ msgstr "avèk demann ou an."
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Inner Harbor Zone 1A"
-msgstr "Zòn Pò Enteryè 1A"
+msgstr "Zòn Inner Harbor 1A"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5314,7 +5314,7 @@ msgstr "<strong>Fè atansyon:</strong> direksyon pou kay asansè a pa ajiste pou
 #: lib/dotcom_web/components/trip_planner/results_summary.ex
 #, elixir-autogen, elixir-format
 msgid "Something went wrong. Please try again later."
-msgstr "Gen yon bagay ki pa mache byen. Tanpri eseye ankò pita."
+msgstr "Yon bagay pa t mache. Tanpri eseye ankò pita."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_detail.ex
 #, elixir-autogen, elixir-format
@@ -5372,7 +5372,7 @@ msgstr "Bato"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr "Bato"
+msgstr "Bato yo"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5393,17 +5393,17 @@ msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "Schedules & Maps (new)"
-msgstr "orè ak Kat (nouvo)"
+msgstr "Orè & Kat (nouvo)"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Clockwise Loop"
-msgstr "Bouk nan sans zegwi mont lan"
+msgstr "Sikwi nan sans zegwi mont lan"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr "Boukl kontrè zegwi mont lan"
+msgstr "Sikwi nan sans kontrè ak zegwi mont lan"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5418,7 +5418,7 @@ msgstr "Maten"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Printable Schedules"
-msgstr "Lò pou enprime"
+msgstr "Orè pou enprime"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5453,11 +5453,11 @@ msgstr "Gid Aksè pou Metro a"
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase %{age} ane de sa.</strong> Enfòmasyon ki sou paj sa a ka pa reflete sèvis, règleman oswa operasyon"
+msgstr "Yo te pibliye kominike pou laprès sa a <strong>sa gen plis pase %{age} ane.</strong> Enfòmasyon ki nan paj sa a ka pa reflete sèvis, règleman oswa operasyon"
 " aktyèl yo ankò."
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "Yo te pibliye kominike pou laprès sa <strong>a plis pase yon ane de sa.</strong> Enfòmasyon ki sou paj sa a ka pa reflete sèvis, règleman oswa operasyon"
+msgstr "Yo te pibliye kominike pou laprès sa a <strong>sa gen plis pase yon ane de sa.</strong> Enfòmasyon ki nan paj sa a ka pa reflete sèvis, règleman oswa operasyon"
 " aktyèl yo ankò."
