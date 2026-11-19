@@ -5356,13 +5356,13 @@ msgstr "Horarios de fin de semana"
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Earlier %{vehicle_name}"
-msgstr "Antes %{vehicle_name}"
+msgstr "%{vehicle_name} más temprano"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "Later %{vehicle_name}"
-msgstr "Más tarde %{vehicle_name}"
+msgstr "%{vehicle_name} más tarde"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5453,7 +5453,7 @@ msgstr "Guía de accesibilidad para el Subterráneo"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More Commuter Rail fare options"
-msgstr "Más opciones de tarifas para el tren de cercanías"
+msgstr "Más opciones de tarifas de Commuter Rail"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5468,13 +5468,13 @@ msgstr "Más opciones de tarifas de ferry"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More subway fare options"
-msgstr "Más opciones de tarifas del subterráneo"
+msgstr "Más opciones de tarifas de subterráneo"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than %{age} years ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "Este comunicado de prensa se publicó hace <strong>más de %{age} años.</strong> La información de esta página puede que ya no refleje el servicio, las políticas"
-" o las operaciones actuales."
+msgstr "Este comunicado de prensa se publicó hace <strong>más de %{age} años.</strong> Es posible que la información de esta página ya no refleje el servicio,"
+" las políticas o las operaciones actuales."
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5485,12 +5485,12 @@ msgstr "Este comunicado de prensa se publicó <strong>hace más de un año.</str
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{route} One-Way"
-msgstr "%{route} Solo ida"
+msgstr "%{route} solo ida"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "Fare-Free Bus"
-msgstr "Autobús sin tarifa"
+msgstr "Autobús con tarifa gratuita"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5525,7 +5525,7 @@ msgstr "con la tarjeta de tarifa reducida"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "%{sl1}, %{sl2}, %{sl3}, and %{slw} are priced as subway fares"
-msgstr "%{sl1}, %{sl2}, %{sl3} y %{slw} tienen un precio equivalente a las tarifas del Subterráneo"
+msgstr "%{sl1}, %{sl2}, %{sl3} y %{slw} tienen un precio equivalente a las tarifas de subterráneo"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
