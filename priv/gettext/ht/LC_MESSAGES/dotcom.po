@@ -43,11 +43,6 @@ msgstr " Tren yo soti Foxboro 30 minit apre fen evènman yo"
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
-msgid " alerts"
-msgstr " avètisman"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
 msgid " at "
 msgstr " nan "
 
@@ -70,11 +65,6 @@ msgstr " depann de distans ki vwayaje a (zòn yo). Gade enfòmasyon ki anba a:"
 #, elixir-autogen, elixir-format
 msgid " for real-time track changes."
 msgstr " pou chanjman sou ray yo an tan reyèl."
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " for the "
-msgstr " pou "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -260,11 +250,6 @@ msgstr ", "
 #, elixir-autogen, elixir-format
 msgid ", cash, or "
 msgstr ", lajan kach, oswa "
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "."
-msgstr "."
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -3698,11 +3683,6 @@ msgstr "Kesyon sou sèvis"
 msgid "Service ended"
 msgstr "Sèvis la fini"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "Service is running as expected"
-msgstr "Sèvis la ap fonksyone jan sa dwe fèt"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Shortest Trip"
@@ -4189,11 +4169,6 @@ msgstr "Pa gen okenn depa an tan reyèl ki disponib kounye a. Depa ki pwograme y
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "Pa gen okenn"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no "
-msgstr "Pa gen okenn "
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4962,11 +4937,6 @@ msgstr "chanjman"
 msgid "contactless payment"
 msgstr "pèman san kontak"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "current"
-msgstr "aktyèl"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "departed"
@@ -5087,11 +5057,6 @@ msgstr "derape"
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr "tikè bato an papye"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "planned"
-msgstr "Planifye"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format

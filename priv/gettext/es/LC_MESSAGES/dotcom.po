@@ -43,11 +43,6 @@ msgstr " Los trenes salen de Foxboro 30 minutos después de que concluyan los ev
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
-msgid " alerts"
-msgstr " alertas"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
 msgid " at "
 msgstr " en "
 
@@ -70,11 +65,6 @@ msgstr " dependen de la distancia recorrida (zonas). Consulte la información a 
 #, elixir-autogen, elixir-format
 msgid " for real-time track changes."
 msgstr " para cambios de vía en tiempo real."
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " for the "
-msgstr " para el "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -260,11 +250,6 @@ msgstr ", "
 #, elixir-autogen, elixir-format
 msgid ", cash, or "
 msgstr ", efectivo, o "
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "."
-msgstr "."
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -3709,11 +3694,6 @@ msgstr "Consulta sobre el servicio"
 msgid "Service ended"
 msgstr "Servicio finalizado"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "Service is running as expected"
-msgstr "El servicio funciona según lo previsto"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Shortest Trip"
@@ -4200,11 +4180,6 @@ msgstr "Actualmente no hay salidas en tiempo real disponibles. Las salidas progr
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "No hay"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no "
-msgstr "No hay "
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4975,11 +4950,6 @@ msgstr "Cambios"
 msgid "contactless payment"
 msgstr "Pago sin contacto"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "current"
-msgstr "actual"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "departed"
@@ -5100,11 +5070,6 @@ msgstr "salida de la ciudad"
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr "Boleto de papel para el ferry"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "planned"
-msgstr "Planificado"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format

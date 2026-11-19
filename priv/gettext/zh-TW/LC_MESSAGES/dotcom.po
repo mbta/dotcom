@@ -43,11 +43,6 @@ msgstr " 活動結束後 30 分鐘，列車將從 Foxboro 發車"
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
-msgid " alerts"
-msgstr " 警示"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
 msgid " at "
 msgstr " 於 "
 
@@ -70,11 +65,6 @@ msgstr " 取決於行駛距離（區域）。請參閱下方資訊："
 #, elixir-autogen, elixir-format
 msgid " for real-time track changes."
 msgstr " 即時月台異動資訊"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " for the "
-msgstr " 適用於 "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -260,11 +250,6 @@ msgstr "， "
 #, elixir-autogen, elixir-format
 msgid ", cash, or "
 msgstr "，現金或 "
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "."
-msgstr "。"
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -3684,11 +3669,6 @@ msgstr "服務查詢"
 msgid "Service ended"
 msgstr "服務已結束"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "Service is running as expected"
-msgstr "服務運作正常"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Shortest Trip"
@@ -4174,11 +4154,6 @@ msgstr "目前沒有即時發車資訊。以下顯示預定發車班次。"
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "沒有"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no "
-msgstr "沒有 "
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4946,11 +4921,6 @@ msgstr "變更"
 msgid "contactless payment"
 msgstr "非接觸式支付"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "current"
-msgstr "目前"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "departed"
@@ -5071,11 +5041,6 @@ msgstr "出站"
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr "紙本渡輪車票"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "planned"
-msgstr "預定"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
