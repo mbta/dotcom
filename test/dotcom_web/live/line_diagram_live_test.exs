@@ -64,6 +64,10 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
+    stub(GTFSRouteBranching.Mock, :calculate, fn _route, _direction_id, _canon_stop_ids, _system_data ->
+      {nil, nil, []}
+    end)
+
     %{route: route, pattern_a: pattern_a, pattern_b: pattern_b, vehicle_repo: vehicle_repo}
   end
 
@@ -153,7 +157,7 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     end
   end
 
-  describe "variant selection interaction" do
+  describe "variant picker interaction" do
     test "defaults to all variants without a variant param", %{
       conn: conn,
       route: route,
@@ -209,6 +213,26 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
       view |> element("#direction-filter") |> render_click()
       assert has_element?(view, "#variant-menu-button")
+    end
+
+    test "updates stop list when variant is changed", %{
+      conn: conn,
+      route: route,
+      pattern_a: a
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      initial_stop_names = stop_names(view)
+
+      view
+      |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
+      |> render_click()
+
+      updated_stop_names = stop_names(view)
+      expected_stop_names = Enum.map(a.stop_ids, &"Stop #{&1}")
+
+      assert updated_stop_names != initial_stop_names
+      assert updated_stop_names == expected_stop_names
     end
   end
 

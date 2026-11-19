@@ -5,6 +5,9 @@ defmodule DotcomWeb.LineDiagramHelpers do
   """
   use Phoenix.Component
 
+  @gtfs_route_branching_module Application.compile_env(:dotcom, :gtfs_route_branching_module,
+                                                         GTFSRouteBranching)
+
   @spec route_to_diagram_class(Routes.Route.t()) :: String.t()
   def route_to_diagram_class(%{id: "Green-" <> _branch}), do: "green-line"
   def route_to_diagram_class(%{id: "Mattapan"}), do: "red-line"
@@ -19,7 +22,7 @@ defmodule DotcomWeb.LineDiagramHelpers do
     route_patterns_by_id =
       Map.new(selected_route_patterns, fn pattern ->
         normalized_pattern =
-          if route.id == "Green" do
+          if route.id == "Green" && String.starts_with?(pattern.route_id, "Green-") do
             %{pattern | route_id: "Green"}
           else
             pattern
@@ -40,7 +43,7 @@ defmodule DotcomWeb.LineDiagramHelpers do
     canon_stop_ids = Map.keys(stops_by_id)
 
     {_stop_graph, _segment_graph, segments} =
-      GTFSRouteBranching.calculate(
+      @gtfs_route_branching_module.calculate(
         route,
         direction_id,
         canon_stop_ids,
