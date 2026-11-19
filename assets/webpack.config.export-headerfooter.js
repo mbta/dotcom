@@ -7,6 +7,7 @@ const WebpackAssetsManifest = require("webpack-assets-manifest");
 const path = require("path");
 const glob = require("glob");
 const sass = require("sass");
+const postcssPresetEnv = require("postcss-preset-env");
 
 const babelLoader = {
   loader: "babel-loader",
@@ -18,7 +19,8 @@ const babelLoader = {
 const tsLoader = {
   loader: "ts-loader",
   options: {
-    configFile: path.resolve(__dirname, "tsconfig.webpack.json")
+    configFile: path.resolve(__dirname, "tsconfig.webpack.json"),
+    transpileOnly: true
   }
 };
 
@@ -27,9 +29,9 @@ const tsLoader = {
  * for the MBTA.com header and footer.
  *
  * When run in both production and development modes, outputs with minified CSS and
- * unminified CSS and JS, with sourcemaps. Also sets a hash for the filenames,
- * and outputs head.html and script.html containing the appropriate <link> and
- * <script> HTML tags linked to the output files.
+ * unminified CSS and JS, with sourcemaps and hashed filenames. The asset
+ * manifest identifies the output files. The Mix task generates HTML snippets
+ * and previews using that manifest.
  */
 module.exports = (env, argv) => {
   const outputPath = path.resolve(
@@ -65,7 +67,7 @@ module.exports = (env, argv) => {
               loader: "css-loader",
               options: {
                 sourceMap: true,
-                importLoaders: 1,
+                importLoaders: 2,
                 url: false,
                 esModule: true,
                 modules: {
@@ -75,16 +77,37 @@ module.exports = (env, argv) => {
               }
             },
             {
+              loader: "postcss-loader",
+              options: {
+                sourceMap: true,
+                postcssOptions: {
+                  plugins: [
+                    require("tailwindcss"),
+                    postcssPresetEnv({
+                      autoprefixer: { grid: true },
+                      enableClientSidePolyfills: true
+                    })
+                  ]
+                }
+              }
+            },
+            {
               loader: "sass-loader",
               options: {
                 sourceMap: true,
                 implementation: sass,
+                api: "modern",
                 sassOptions: {
-                  includePaths: [
-                    "node_modules/bootstrap/scss",
-                    "node_modules/font-awesome/scss"
+                  loadPaths: [
+                    __dirname,
+                    path.resolve(__dirname, "node_modules/bootstrap"),
+                    path.resolve(
+                      __dirname,
+                      "node_modules/@fortawesome/fontawesome-free"
+                    ),
+                    path.resolve(__dirname, "vendor")
                   ],
-                  outputStyle: "expanded",
+                  style: "expanded",
                   quietDeps: true
                 }
               }
@@ -106,16 +129,29 @@ module.exports = (env, argv) => {
       // copy images and fonts
       new CopyWebpackPlugin({
         patterns: [
-          { from: "static/fonts/*", to: "fonts/[name][ext]" },
-          { from: "static/favicon.ico", to: "favicon.ico" },
-          { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
+          { from: "../priv/static/fonts/*", to: "fonts/[name][ext]" },
           {
-            from: "static/images/mbta-name-and-logo.svg",
+            from: "node_modules/@fortawesome/fontawesome-free/webfonts/*",
+            to: "fonts/[name][ext]",
+            force: true,
+            priority: 1
+          },
+          { from: "../priv/static/favicon.ico", to: "favicon.ico" },
+          {
+            from: "../priv/static/icon-svg/mbta-logo.svg",
+            to: "images/mbta-logo.svg"
+          },
+          {
+            from: "../priv/static/icon-svg/mbta-name-and-logo.svg",
             to: "images/mbta-name-and-logo.svg"
           },
           {
-            from: "static/images/mbta-logo-t-favicon.png",
+            from: "../priv/static/images/mbta-logo-t-favicon.png",
             to: "images/mbta-logo-t-favicon.png"
+          },
+          {
+            from: "../priv/static/images/mbta-logo-t-180.png",
+            to: "images/mbta-logo-t-180.png"
           }
         ]
       }),
@@ -123,9 +159,13 @@ module.exports = (env, argv) => {
       // purge CSS based on HTML
       // depends on header.html and footer.html already being present at the outputPath.
       new PurgeCSSPlugin({
-        fontFace: true, // remove unused @font-face
+        // PurgeCSS can miss font families used by Sass @extend selector groups.
+        fontFace: false,
         keyframes: true, // remove unused keyframes
-        paths: glob.sync(`${outputPath}/*.html`, { nodir: true }),
+        paths: [
+          ...glob.sync(`${outputPath}/*.html`, { nodir: true }),
+          ...glob.sync(`${outputPath}/languages/*.html`, { nodir: true })
+        ],
         rejected: true, // list removed things in stats
         variables: true, // remove unused --custom-properties
         safelist: {
