@@ -13,6 +13,8 @@ config :dotcom, :cache, Dotcom.Cache.TestCache
 
 config :dotcom, :endpoint_stops_module, Dotcom.Alerts.EndpointStops.Mock
 
+config :dotcom, :gtfs_route_branching_module, GTFSRouteBranching.Mock
+
 config :dotcom, :cms_api_module, CMS.Api.Static
 
 config :dotcom, :date_time_module, Dotcom.Utils.DateTime.Mock
