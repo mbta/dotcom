@@ -55,18 +55,13 @@ defmodule DotcomWeb.AlertView do
     Enum.uniq_by(alerts, & &1.id)
   end
 
-  @spec no_alerts_message(map, boolean) :: iolist
-  def no_alerts_message(route, stop?) do
-    [~t"There are no alerts", location_name(route, stop?), ~t" at this time."]
+  @spec no_alerts_message(map, boolean) :: String.t()
+  def no_alerts_message(stop, true) do
+    gettext("There are no alerts at %{stop_name} at this time.", stop_name: stop.name)
   end
 
-  @spec location_name(map, boolean) :: iolist
-  def location_name(route, true) do
-    [~t" at ", route.name]
-  end
-
-  def location_name(route, false) do
-    [~t" on the ", route.name]
+  def no_alerts_message(route, false) do
+    gettext("There are no alerts on the %{route_name} at this time.", route_name: route.name)
   end
 
   @spec filter_by_priority(

@@ -317,16 +317,6 @@ defmodule DotcomWeb.AlertViewTest do
     end
   end
 
-  describe "location_name/2" do
-    test "creates a location name with prefix for a route" do
-      assert IO.iodata_to_binary(location_name(%{name: "Route"}, false)) == " on the Route"
-    end
-
-    test "creates a location name with a prefix for a stop" do
-      assert IO.iodata_to_binary(location_name(%{name: "Stop"}, true)) == " at Stop"
-    end
-  end
-
   describe "_item.html" do
     @alert %Alert{
       effect: :access_issue,
