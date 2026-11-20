@@ -66,11 +66,6 @@ msgstr ""
 msgid " depend on the distance traveled (zones). Refer to the information below:"
 msgstr ""
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " for real-time track changes."
-msgstr ""
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " for the "
@@ -125,11 +120,6 @@ msgstr ""
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid " schedule and map"
-msgstr ""
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " symbol. Check "
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
@@ -563,11 +553,6 @@ msgstr ""
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "At fare vending machines, you can"
-msgstr ""
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
 msgstr ""
 
 #: lib/dotcom_web/templates/event/show.html.heex
@@ -5753,4 +5738,9 @@ msgstr ""
 #: lib/dotcom_web/templates/customer_support/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
 msgstr ""

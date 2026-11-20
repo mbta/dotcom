@@ -66,11 +66,6 @@ msgstr " 目前。"
 msgid " depend on the distance traveled (zones). Refer to the information below:"
 msgstr " 取决于乘车距离（区间）。请参阅以下信息："
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " for real-time track changes."
-msgstr " 用于获取实时轨道变更信息。"
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " for the "
@@ -126,11 +121,6 @@ msgstr " 时刻表"
 #, elixir-autogen, elixir-format
 msgid " schedule and map"
 msgstr " 时刻表和地图"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " symbol. Check "
-msgstr " 符号。核查 "
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
@@ -558,11 +548,6 @@ msgstr "乘坐%{time}抵达"
 #, elixir-autogen, elixir-format
 msgid "At fare vending machines, you can"
 msgstr "在自动售票机上，您可以"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
-msgstr "除 North Station、South Station、Back Bay Station 和 Ruggles Station 之外，在拥有多条轨道的车站，除非另有说明，进站列车在 2 号轨道上车，出站列车在 1 号轨道上车。计划的轨道变更将由 "
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5748,3 +5733,8 @@ msgstr "线路 %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "我们无法提交您的反馈。请重新加载页面，然后重试。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgstr ""

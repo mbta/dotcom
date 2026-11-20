@@ -66,11 +66,6 @@ msgstr " tại thời điểm này."
 msgid " depend on the distance traveled (zones). Refer to the information below:"
 msgstr " phụ thuộc vào quãng đường di chuyển (các vùng). Tham khảo thông tin bên dưới:"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " for real-time track changes."
-msgstr " cho các thay đổi đường ray theo thời gian thực."
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " for the "
@@ -126,11 +121,6 @@ msgstr " lịch trình"
 #, elixir-autogen, elixir-format
 msgid " schedule and map"
 msgstr " lịch trình và bản đồ"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " symbol. Check "
-msgstr " biểu tượng. Kiểm tra "
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
@@ -559,12 +549,6 @@ msgstr "Đến trước %{time}"
 #, elixir-autogen, elixir-format
 msgid "At fare vending machines, you can"
 msgstr "Tại các máy bán vé tự động, quý vị có thể"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
-msgstr "Tại các ga có nhiều đường ray, ngoại trừ các ga North, South, Back Bay và Ruggles, tàu hướng đi vào trung tâm lên tàu tại Đường ray số 2, còn tàu hướng"
-" đi ra ngoại thành lên tàu tại Đường ray số 1, trừ khi có thông báo khác. Những thay đổi đường ray theo lịch sẽ được biểu thị bằng "
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5774,3 +5758,8 @@ msgstr "Tuyến %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "Chúng tôi không thể gửi phản hồi của quý vị. Vui lòng tải lại trang và thử lại."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgstr ""

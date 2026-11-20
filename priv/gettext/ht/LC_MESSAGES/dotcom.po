@@ -66,11 +66,6 @@ msgstr " Nan moman sa a."
 msgid " depend on the distance traveled (zones). Refer to the information below:"
 msgstr " depann de distans ki vwayaje a (zòn yo). Gade enfòmasyon ki anba a:"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " for real-time track changes."
-msgstr " pou chanjman sou ray yo an tan reyèl."
-
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid " for the "
@@ -126,11 +121,6 @@ msgstr " orè"
 #, elixir-autogen, elixir-format
 msgid " schedule and map"
 msgstr " Orè ak kat jeyografik"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " symbol. Check "
-msgstr " senbòl. Tcheke "
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
@@ -564,12 +554,6 @@ msgstr "Ap rive ak %{time}"
 #, elixir-autogen, elixir-format
 msgid "At fare vending machines, you can"
 msgstr "Nan machin pou vann biyè yo, ou ka"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
-msgstr "Nan estasyon ki gen plizyè ray, eksepte estasyon Nò, Sid, Back Bay ak Ruggles, moun ap monte nan tren k ap rive yo sou ray 2, epi moun ap monte nan tren"
-" k ap derape yo sou ray 1, sof si yo presize yon lòt bagay. Chanjman ray ki pwograme yo pral endike avèk "
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5768,3 +5752,8 @@ msgstr "Wout %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "Nou pa t kapab soumèt fidbak ou a. Tanpri rechaje paj la epi eseye ankò."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgstr ""
