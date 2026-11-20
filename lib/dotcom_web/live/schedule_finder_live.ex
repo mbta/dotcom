@@ -487,7 +487,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               :for={{index, direction_name} <- @route.direction_names}
               class={"w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)}"}
               role="radio"
-              aria-current={index==@direction_id}
+              aria-current={index == @direction_id}
             >
               {direction_name}
               <%= if @route.id != "Green" do %>
