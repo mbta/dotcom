@@ -1,11 +1,11 @@
 <% mode_name = Routes.Route.vehicle_name(@route) |> String.downcase()
 
 bike = [
-  ~t(Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions.),
+  ~t"Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions.",
   content_tag(
     :p,
     [
-      content_tag(:a, ~t(Learn more about bikes on Commuter Rail),
+      content_tag(:a, ~t"Learn more about bikes on Commuter Rail",
         href: "/bikes/bringing-your-bike-the-train",
         class: "c-call-to-action"
       )
@@ -25,8 +25,8 @@ flag_stop =
   end
 
 cr_crowding = [
-  ~t(Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days.),
-  content_tag(:p, ~t(Current seat availability thresholds are:), class: "u-padding-top"),
+  ~t"Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days.",
+  content_tag(:p, ~t"Current seat availability thresholds are:", class: "u-padding-top"),
   content_tag(
     :div,
     [
@@ -35,11 +35,11 @@ cr_crowding = [
           "c-svg__icon c-icon__crowding c-icon__crowding--not_crowded c-icon__crowding--commuter-rail"
       ),
       content_tag(:p, [
-        content_tag(:strong, ~t(Many Seats Available)),
+        content_tag(:strong, ~t"Many Seats Available"),
         content_tag(
           :span,
           ": " <>
-            ~t[Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)]
+            ~t"Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)"
         )
       ])
     ],
@@ -53,11 +53,11 @@ cr_crowding = [
           "c-svg__icon c-icon__crowding c-icon__crowding--some_crowding c-icon__crowding--commuter-rail"
       ),
       content_tag(:p, [
-        content_tag(:strong, ~t(Some Seats Available)),
+        content_tag(:strong, ~t"Some Seats Available"),
         content_tag(
           :span,
           ": " <>
-            ~t[Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)]
+            ~t"Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)"
         )
       ])
     ],
@@ -71,11 +71,11 @@ cr_crowding = [
           "c-svg__icon c-icon__crowding c-icon__crowding--crowded c-icon__crowding--commuter-rail"
       ),
       content_tag(:p, [
-        content_tag(:strong, ~t(Few Seats Available)),
+        content_tag(:strong, ~t"Few Seats Available"),
         content_tag(
           :span,
           ": " <>
-            ~t[Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)]
+            ~t"Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)"
         )
       ])
     ],
@@ -83,7 +83,7 @@ cr_crowding = [
   ),
   content_tag(
     :p,
-    content_tag(:a, ~t(Learn more about seat availability trends),
+    content_tag(:a, ~t"Learn more about seat availability trends",
       href: "/crowding",
       class: "c-call-to-action"
     ),
@@ -93,21 +93,21 @@ cr_crowding = [
 
 bike_key = %{
   content: bike,
-  title: [safe_to_string(svg("icon-bikes-default.svg")), ~t(Bikes Allowed)],
+  title: [safe_to_string(svg("icon-bikes-default.svg")), ~t"Bikes Allowed"],
   prefix: "bikes-allowed"
 }
 
 core_keys = [
   %{
     content: flag_stop,
-    title: [safe_to_string(svg("icon-flag-stop-default.svg")), ~t(Flag Stop)],
+    title: [safe_to_string(svg("icon-flag-stop-default.svg")), ~t"Flag Stop"],
     prefix: "flag-stop"
   },
   %{
     content: early_departure,
     title: [
       safe_to_string(svg("icon-early-departure-stop-default.svg")),
-      ~t(Early Departure Stop)
+      ~t"Early Departure Stop"
     ],
     prefix: "early-departure-stop"
   }
@@ -115,7 +115,7 @@ core_keys = [
 
 cr_crowding_key = %{
   content: cr_crowding,
-  title: [safe_to_string(svg("icon-crowding.svg")), ~t(Seat Availability)],
+  title: [safe_to_string(svg("icon-crowding.svg")), ~t"Seat Availability"],
   prefix: "crowding"
 }
 
@@ -139,11 +139,11 @@ cr_track_boarding_change_key = %{
     )
     |> raw()
   ],
-  title: [safe_to_string(fa("shuffle", class: "track-change-icon")), ~t(Track Boarding Change)],
+  title: [safe_to_string(fa("shuffle", class: "track-change-icon")), ~t"Track Boarding Change"],
   prefix: "cr-track-change"
 } %>
 <div class="m-schedule-icon-key-container">
-  <h2 class="m-schedule-icon-key-header">{~t(Icon Key)}</h2>
+  <h2 class="m-schedule-icon-key-header">{~t"Icon Key"}</h2>
   {DotcomWeb.PartialView.render(
     "_accordion_ui.html",
     Map.merge(assigns, %{
@@ -168,7 +168,7 @@ cr_track_boarding_change_key = %{
   )}
   <%= if ferry?(@route) do %>
     <div class="m-schedule-icon-key-suffix">
-      {svg("icon-bikes-default.svg")}<span>{~t(Bikes are allowed on all ferry boats)}</span>
+      {svg("icon-bikes-default.svg")}<span>{~t"Bikes are allowed on all ferry boats"}</span>
     </div>
   <% end %>
 </div>
