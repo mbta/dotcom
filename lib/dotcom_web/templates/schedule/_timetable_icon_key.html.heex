@@ -18,10 +18,11 @@ early_departure =
   gettext("The %{mode_name} may leave ahead of schedule at these stops.", mode_name: mode_name)
 
 flag_stop =
-  ~t(Passengers must tell ) <>
-    if(ferry?(@route), do: ~t(a crew member), else: ~t(the conductor)) <>
-    ~t( that they wish to leave. Passengers waiting to board must be visible on the platform for the ) <>
-    mode_name <> ~t( to stop.)
+  if ferry?(@route) do
+    ~t"Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
+  else
+    ~t"Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
+  end
 
 cr_crowding = [
   ~t(Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days.),
