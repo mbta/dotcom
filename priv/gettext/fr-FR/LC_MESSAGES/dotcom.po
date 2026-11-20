@@ -86,7 +86,6 @@ msgstr " minute à pied"
 msgid " on track "
 msgstr " sur la voie "
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid " or "
@@ -225,16 +224,10 @@ msgstr "Le %{date} à %{time}"
 msgid "%{y} of %{x} working"
 msgstr "%{y} sur %{x} en service"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid ", "
 msgstr ", "
-
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid ", cash, or "
-msgstr ", espèces, ou "
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -5036,11 +5029,6 @@ msgstr "vers"
 msgid "or"
 msgstr "ou"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid "or "
-msgstr "ou "
-
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "or complete the feedback form on this page."
@@ -5234,7 +5222,6 @@ msgstr "site web"
 msgid "west"
 msgstr "ouest"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with"
@@ -5736,4 +5723,19 @@ msgstr "Nous n'avons pas pu envoyer vos commentaires. Veuillez recharger la page
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket} or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket}, cash, or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
 msgstr ""
