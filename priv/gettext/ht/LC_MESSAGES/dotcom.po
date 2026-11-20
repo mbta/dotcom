@@ -41,20 +41,10 @@ msgstr " Wout yo"
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " Tren yo soti Foxboro 30 minit apre fen evènman yo"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at "
-msgstr " nan "
-
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " a %{address}"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at this time."
-msgstr " Nan moman sa a."
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
@@ -90,11 +80,6 @@ msgstr " ka kite arè sa yo anvan lè ki nan orè a."
 #, elixir-autogen, elixir-format
 msgid " minute walk"
 msgstr " mache pandan yon minit"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " on the "
-msgstr " sou "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -4175,11 +4160,6 @@ msgstr "Pa gen okenn"
 msgid "There are no additional accessibility features, but buses are always accessible to board."
 msgstr "Pa gen lòt karakteristik aksesibilite, men bis yo toujou aksesib pou moun ap monte."
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no alerts"
-msgstr "Pa gen avètisman"
-
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no high priority"
@@ -5733,3 +5713,13 @@ msgstr "Wout %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "Nou pa t kapab soumèt fidbak ou a. Tanpri rechaje paj la epi eseye ankò."
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts at %{stop_name} at this time."
+msgstr ""
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts on the %{route_name} at this time."
+msgstr ""

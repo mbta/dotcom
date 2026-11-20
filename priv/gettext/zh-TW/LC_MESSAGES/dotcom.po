@@ -41,20 +41,10 @@ msgstr " 路線"
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " 活動結束後 30 分鐘，列車將從 Foxboro 發車"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at "
-msgstr " 於 "
-
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " 於 %{address}"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at this time."
-msgstr " 目前。"
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
@@ -90,11 +80,6 @@ msgstr " 可能會在這些站點提前發車。"
 #, elixir-autogen, elixir-format
 msgid " minute walk"
 msgstr " 分鐘步行路程"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " on the "
-msgstr " 於 "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -4160,11 +4145,6 @@ msgstr "沒有"
 msgid "There are no additional accessibility features, but buses are always accessible to board."
 msgstr "沒有其他無障礙設施，但巴士一律都可無障礙上車。"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no alerts"
-msgstr "沒有警報"
-
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no high priority"
@@ -5713,3 +5693,13 @@ msgstr "%{num} 號路線"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "無法提交您的意見回饋。請重新載入頁面後再試一次。"
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts at %{stop_name} at this time."
+msgstr ""
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts on the %{route_name} at this time."
+msgstr ""

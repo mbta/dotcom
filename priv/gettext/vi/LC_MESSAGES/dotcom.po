@@ -41,20 +41,10 @@ msgstr " Các tuyến"
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " Các chuyến tàu khởi hành từ Foxboro 30 phút sau khi sự kiện kết thúc"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at "
-msgstr " tại "
-
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " tại %{address}"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at this time."
-msgstr " Tại thời điểm này."
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
@@ -90,11 +80,6 @@ msgstr " có thể khởi hành sớm hơn lịch trình tại các điểm dừ
 #, elixir-autogen, elixir-format
 msgid " minute walk"
 msgstr " đi bộ một phút"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " on the "
-msgstr " trên "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -4180,11 +4165,6 @@ msgstr "Không có"
 msgid "There are no additional accessibility features, but buses are always accessible to board."
 msgstr "Không có thêm tính năng hỗ trợ khả năng tiếp cận nào, nhưng xe buýt luôn có thể tiếp cận được để lên xe."
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no alerts"
-msgstr "Không có cảnh báo nào"
-
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no high priority"
@@ -5741,3 +5721,13 @@ msgstr "Tuyến %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "Chúng tôi không thể gửi phản hồi của quý vị. Vui lòng tải lại trang và thử lại."
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts at %{stop_name} at this time."
+msgstr ""
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts on the %{route_name} at this time."
+msgstr ""
