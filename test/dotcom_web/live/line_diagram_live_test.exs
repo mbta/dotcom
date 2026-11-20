@@ -361,12 +361,13 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
       {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
 
-      assert [marker] =
+      assert [marker_bottom, _, _] =
                view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
 
-      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id]
-      assert Floki.attribute(marker, "data-rotation") == ["90"]
-      assert Floki.attribute(marker, "data-coordinates") == ["[-71.06,42.35]"]
+      assert Floki.attribute(marker_bottom, "data-marker-id") == [vehicle.id <> "_bearingA"]
+      # The icon starts at -45 in the drawing so we add 45 to the rotation
+      assert Floki.attribute(marker_bottom, "data-rotation") == ["135"]
+      assert Floki.attribute(marker_bottom, "data-coordinates") == ["[-71.06,42.35]"]
     end
 
     test "updates vehicle markers when a vehicle moves", %{
@@ -393,15 +394,16 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
       render(view)
 
-      assert [marker] =
+      assert [marker, _, _] =
                view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
 
-      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id]
-      assert Floki.attribute(marker, "data-rotation") == ["180"]
+      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id <> "_bearingA"]
+      # The icon starts at -45 in the drawing so we add 45 to the rotation
+      assert Floki.attribute(marker, "data-rotation") == ["225"]
       assert Floki.attribute(marker, "data-coordinates") == ["[-71.1,42.4]"]
     end
 
-    test "defaults the rotation to 0 when a vehicle has no bearing", %{
+    test "shows a different icon when a vehicle has no bearing", %{
       conn: conn,
       route: route
     } do
@@ -417,9 +419,11 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
       {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
 
-      assert view
-             |> new_map_html()
-             |> Floki.attribute("#new-map-vehicles [data-coordinates]", "data-rotation") == ["0"]
+      assert [marker, _, _] =
+               view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
+
+      assert Floki.attribute(marker, "data-marker-id") == [vehicle.id <> "_bearingNilA"]
+      assert Floki.attribute(marker, "name") != ["vehicle-halo-light"]
     end
   end
 

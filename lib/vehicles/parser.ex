@@ -14,7 +14,7 @@ defmodule Vehicles.Parser do
       stop_sequence: attributes["current_stop_sequence"],
       longitude: attributes["longitude"],
       latitude: attributes["latitude"],
-      bearing: attributes["bearing"] || 0,
+      bearing: attributes["bearing"],
       crowding: crowding(attributes["occupancy_status"])
     }
   end

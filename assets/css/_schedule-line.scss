@@ -95,3 +95,61 @@
       }
     }
   }
+
+ .vehicle_white {
+  *{
+    fill: #FFFFFF;
+  }
+ }
+ .vehicle_black {
+  *{
+    fill: #000000;
+  }
+ }
+ 
+ .bearing_white {
+    *{
+      fill: #FFFFFF;
+      opacity: 0.9;
+    }
+  }
+  .bearing_red {
+    *{
+      fill: $brand-red-line;
+    }
+  }
+  .bearing_orange {
+    *{
+      fill: $brand-orange-line;
+    }  
+  }
+  .bearing_blue {
+    *{
+      fill: $brand-blue-line;
+    }
+  }
+  .bearing_green {
+   *{
+      fill: $brand-green-line;
+    }
+  }
+  .bearing_silver {
+    *{
+      fill: $brand-silver-line;
+    }
+  }
+  .bearing_bus {
+    *{
+      fill: $brand-bus;
+    }
+  }
+  .bearing_cr {
+    *{
+      fill: $brand-commuter-rail;
+    }
+  }
+  .bearing_ferry {
+    *{
+      fill: $brand-ferry;
+    }
+  }
