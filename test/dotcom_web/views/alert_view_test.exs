@@ -307,13 +307,8 @@ defmodule DotcomWeb.AlertViewTest do
 
   describe "no_alerts_message/2" do
     test "reports no alerts for a route" do
-      msg = no_alerts_message(%{name: "Route", id: 1}, :route)
+      msg = no_alerts_message(%{name: "Route", id: 1})
       assert IO.iodata_to_binary(msg) == "There are no alerts on the Route at this time."
-    end
-
-    test "reports no alerts at a stop" do
-      msg = no_alerts_message(%{name: "Stop", id: 1}, :stop)
-      assert IO.iodata_to_binary(msg) == "There are no alerts at Stop at this time."
     end
   end
 
