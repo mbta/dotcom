@@ -43,11 +43,6 @@ msgstr " Các chuyến tàu khởi hành từ Foxboro 30 phút sau khi các sự
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
-msgid " alerts"
-msgstr " cảnh báo"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
 msgid " at "
 msgstr " tại "
 
@@ -70,11 +65,6 @@ msgstr " phụ thuộc vào quãng đường di chuyển (các vùng). Tham kh�
 #, elixir-autogen, elixir-format
 msgid " for real-time track changes."
 msgstr " cho các thay đổi đường ray theo thời gian thực."
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " for the "
-msgstr " cho "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -260,11 +250,6 @@ msgstr ", "
 #, elixir-autogen, elixir-format
 msgid ", cash, or "
 msgstr ", tiền mặt, hoặc "
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "."
-msgstr "."
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -3702,11 +3687,6 @@ msgstr "Thắc mắc về dịch vụ"
 msgid "Service ended"
 msgstr "Dịch vụ đã kết thúc"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "Service is running as expected"
-msgstr "Dịch vụ đang hoạt động bình thường"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Shortest Trip"
@@ -4193,11 +4173,6 @@ msgstr "Hiện không có chuyến khởi hành theo thời gian thực nào. C�
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "Không có"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no "
-msgstr "Không có "
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4967,11 +4942,6 @@ msgstr "thay đổi"
 msgid "contactless payment"
 msgstr "thanh toán không tiếp xúc"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "current"
-msgstr "hiện tại"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "departed"
@@ -5092,11 +5062,6 @@ msgstr "hướng đi ra ngoại thành"
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr "vé phà giấy"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "planned"
-msgstr "theo kế hoạch"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
