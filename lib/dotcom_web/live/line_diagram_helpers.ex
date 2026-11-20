@@ -5,8 +5,11 @@ defmodule DotcomWeb.LineDiagramHelpers do
   """
   use Phoenix.Component
 
-  @gtfs_route_branching_module Application.compile_env(:dotcom, :gtfs_route_branching_module,
-                                                         GTFSRouteBranching)
+  @gtfs_route_branching_module Application.compile_env(
+                                 :dotcom,
+                                 :gtfs_route_branching_module,
+                                 GTFSRouteBranching
+                               )
 
   @spec route_to_diagram_class(Routes.Route.t()) :: String.t()
   def route_to_diagram_class(%{id: "Green-" <> _branch}), do: "green-line"
@@ -77,7 +80,7 @@ defmodule DotcomWeb.LineDiagramHelpers do
 
   defp atomize_typicality(pattern), do: pattern
 
-  attr :segment_data, :map, required: true
+  attr :segment_data, GTFSRouteBranching.Segment.BranchStop, required: true
 
   def stop_card_segment(assigns) do
     ~H"""

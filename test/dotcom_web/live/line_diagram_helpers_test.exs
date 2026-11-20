@@ -1,6 +1,7 @@
 defmodule DotcomWeb.LineDiagramHelpersTest do
   use ExUnit.Case, async: true
 
+  alias GTFSRouteBranching.Segment.{BranchStop, StickConnection}
   alias Test.Support.Factories
   import DotcomWeb.LineDiagramHelpers
   import Phoenix.LiveViewTest
@@ -119,7 +120,7 @@ defmodule DotcomWeb.LineDiagramHelpersTest do
 
     test "renders stop at different lanes" do
       for {lane, expected_x} <- [left: "20", center: "50", right: "80"] do
-        segment_data = %{
+        segment_data = %BranchStop{
           stop_id: "test_stop",
           stop_lane: lane,
           connections: []
@@ -134,13 +135,17 @@ defmodule DotcomWeb.LineDiagramHelpersTest do
 
     test "renders connections with correct line attributes" do
       connections = [
-        %{
+        %StickConnection{
+          from_stop: "from_stop",
+          to_stop: "to_stop",
           from_lane: :left,
           from_vpos: :top,
           to_lane: :center,
           to_vpos: :center
         },
-        %{
+        %StickConnection{
+          from_stop: "from_stop",
+          to_stop: "to_stop",
           from_lane: :center,
           from_vpos: :center,
           to_lane: :right,
@@ -148,7 +153,7 @@ defmodule DotcomWeb.LineDiagramHelpersTest do
         }
       ]
 
-      segment_data = %{
+      segment_data = %BranchStop{
         stop_id: "test_stop",
         stop_lane: :center,
         connections: connections

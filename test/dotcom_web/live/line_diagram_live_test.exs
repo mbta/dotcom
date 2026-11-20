@@ -64,9 +64,13 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
-    stub(GTFSRouteBranching.Mock, :calculate, fn _route, _direction_id, _canon_stop_ids, _system_data ->
-      {nil, nil, []}
-    end)
+    stub(
+      GTFSRouteBranching.Mock,
+      :calculate,
+      fn _route, _direction_id, _canon_stop_ids, _system_data ->
+        {nil, nil, []}
+      end
+    )
 
     %{route: route, pattern_a: pattern_a, pattern_b: pattern_b, vehicle_repo: vehicle_repo}
   end
@@ -184,10 +188,10 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       refute has_element?(view, "#variant-menu-button")
 
       assert has_element?(
-              view,
-              ".m-schedule-direction__route-pattern",
-              Routes.Route.direction_destination(route, 0)
-            )
+               view,
+               ".m-schedule-direction__route-pattern",
+               Routes.Route.direction_destination(route, 0)
+             )
     end
 
     test "updates variant picker visibility when changing direction", %{
