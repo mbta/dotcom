@@ -23,7 +23,7 @@ defmodule DotcomWeb.AlertView do
   """
   def group(opts) do
     stop? = Keyword.has_key?(opts, :stop)
-    route = Keyword.get(opts, :stop) || Keyword.fetch!(opts, :route)
+    route_or_stop = Keyword.get(opts, :stop) || Keyword.fetch!(opts, :route)
     show_empty? = Keyword.get(opts, :show_empty?, false)
     priority_filter = Keyword.get(opts, :priority_filter, :any)
     date_time = Keyword.get(opts, :date_time)
@@ -39,7 +39,7 @@ defmodule DotcomWeb.AlertView do
       {[], true} ->
         content_tag(
           :div,
-          no_alerts_message(route, stop?),
+          no_alerts_message(route_or_stop, stop?),
           class: "callout"
         )
 
@@ -47,7 +47,11 @@ defmodule DotcomWeb.AlertView do
         ""
 
       _ ->
-        render(__MODULE__, "group.html", alerts: alerts, route: route, date_time: date_time)
+        render(__MODULE__, "group.html",
+          alerts: alerts,
+          route: route_or_stop,
+          date_time: date_time
+        )
     end
   end
 
