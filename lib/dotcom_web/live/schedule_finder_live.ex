@@ -476,15 +476,18 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </span>
             </div>
           </.link>
-          <div
+          <button
             :if={@duplex_stop}
             phx-click="toggle_direction"
             style="background-color:rgb(0,0,0,0.4)"
-            class="rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row"
+            class="text-left rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row"
+            role="radiogroup"
           >
             <div
               :for={{index, direction_name} <- @route.direction_names}
               class={"w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)}"}
+              role="radio"
+              aria-current={index==@direction_id}
             >
               {direction_name}
               <%= if @route.id != "Green" do %>
@@ -492,7 +495,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 <div class="font-bold">{@route.direction_destinations[index]}</div>
               <% end %>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </div>
