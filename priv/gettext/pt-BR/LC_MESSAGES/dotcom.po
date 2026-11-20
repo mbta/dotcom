@@ -86,11 +86,6 @@ msgstr " está chegando a "
 msgid " is on the way to "
 msgstr " está a caminho de "
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " may leave ahead of schedule at these stops."
-msgstr " podem partir antes do horário previsto nestas paradas."
-
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid " minute walk"
@@ -4128,11 +4123,6 @@ msgstr "Agradecemos por enviar seus comentários. Nossa equipe de Customer Suppo
 msgid "Thanksgiving Day"
 msgstr "Dia de Ação de Graças"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "The "
-msgstr "O "
-
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
@@ -5765,4 +5755,9 @@ msgstr "Não foi possível enviar seu feedback. Recarregue a página e tente nov
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "The %{mode_name} may leave ahead of schedule at these stops."
 msgstr ""

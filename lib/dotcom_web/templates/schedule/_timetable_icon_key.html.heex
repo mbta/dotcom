@@ -14,7 +14,8 @@ bike = [
   )
 ]
 
-early_departure = ~t(The ) <> mode_name <> ~t( may leave ahead of schedule at these stops.)
+early_departure =
+  gettext("The %{mode_name} may leave ahead of schedule at these stops.", mode_name: mode_name)
 
 flag_stop =
   ~t(Passengers must tell ) <>
