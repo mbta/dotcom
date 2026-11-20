@@ -5716,10 +5716,5 @@ msgstr "Nou pa t kapab soum√®t fidbak ou a. Tanpri rechaje paj la epi eseye ank√
 
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
-msgid "There are no alerts at %{stop_name} at this time."
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
 msgstr ""
