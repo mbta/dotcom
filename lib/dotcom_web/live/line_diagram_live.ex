@@ -519,14 +519,15 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  defp search_class(stop, search_phrase) do
-    if String.length(search_phrase) > 0 and
-         !stop_name_match?(stop.name, search_phrase) do
-      "hidden"
-    else
+  defp search_class(stop, search_phrase) when search_phrase != "" do
+    if stop_name_match?(stop.name, search_phrase) do
       "result"
+    else
+      "hidden"
     end
   end
+
+  defp search_class(_stop, _search_phrase), do: ""
 
   @impl true
   def handle_event("search", %{"search" => search}, socket) do
