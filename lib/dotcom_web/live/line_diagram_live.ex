@@ -520,10 +520,10 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   defp search_class(stop, search_phrase) when search_phrase != "" do
-    if !stop_name_match?(stop.name, search_phrase) do
-      "hidden"
-    else
+    if stop_name_match?(stop.name, search_phrase) do
       "result"
+    else
+      "hidden"
     end
   end
 
