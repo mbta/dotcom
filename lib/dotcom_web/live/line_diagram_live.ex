@@ -14,6 +14,44 @@ defmodule DotcomWeb.LineDiagramLive do
   @map_config Application.compile_env(:mbta_metro, :map)
   @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
+  @fog_poly_data %{
+    type: "FeatureCollection",
+    features: [
+      %{
+        type: "Feature",
+        geometry: %{
+          type: "Polygon",
+          coordinates: [
+            # Fog
+            [[-180, 0], [-180, 90], [0, 90], [0, 0], [-180, 0]],
+            # Hole in the fog
+            [
+              # NE Corner in the sea off Portsmouth
+              [-69.6, 43],
+              # Mid NH Corner to drop south and then follow state boundary
+              [-71.75, 43],
+              # Mid NH Corner to align with state boundary
+              [-71.75, 42.75],
+              # NW Corner of MA area
+              [-73.0, 42.75],
+              # SW Corner of MA area
+              [-73.0, 42.00],
+              # MA CT RI Triple point
+              [-71.8, 42.00],
+              # SW Corner of RI
+              [-71.8, 41.25],
+              # SE Corner in the sea off Nantucket
+              [-69.6, 41.25],
+              # NE Corner in the sea off Portsmouth
+              [-69.6, 43]
+            ]
+            |> Enum.reverse()
+          ]
+        }
+      }
+    ]
+  }
+
   @guides [
     %{
       title: ~t(Subway Beginner's Guide),
@@ -162,7 +200,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)
      |> assign(:search_phrase, "")
-     |> assign_other_stops()}
+     |> assign_other_stops()
+     |> assign(:fog_poly_data, @fog_poly_data)}
   end
 
   @impl true
@@ -535,6 +574,7 @@ defmodule DotcomWeb.LineDiagramLive do
             map_route_shapes={@map_route_shapes}
             route_color={"##{@route.color}"}
             map_icons={@map_icons}
+            fog_poly_data={@fog_poly_data}
             vehicle_icons={Map.values(@vehicle_icons) |> List.flatten()}
           />
         </div>
@@ -1011,6 +1051,7 @@ defmodule DotcomWeb.LineDiagramLive do
       center={[-71.0589, 42.3601]}
       style={@map_style}
       zoom={10}
+      min_zoom={7}
       class="h-96 w-full"
     />
 
@@ -1048,6 +1089,20 @@ defmodule DotcomWeb.LineDiagramLive do
       map_id="new-map"
       icons={@vehicle_icons}
       z_index={2}
+    />
+
+    <MaplibreX.Components.geojson_layer
+      id="new-map-fog"
+      map_id="new-map"
+      data={@fog_poly_data}
+      type="fill"
+      paint={
+        %{
+          "fill-color" => "#f4f4f4",
+          "fill-opacity" => 1,
+          "fill-outline-color" => "rgba(0,0,0,0)"
+        }
+      }
     />
     """
   end
