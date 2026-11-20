@@ -14,7 +14,7 @@ msgstr ""
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid " & Stops"
-msgstr " & Paradas"
+msgstr " e Paradas"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -64,7 +64,7 @@ msgstr " dependem da distância percorrida (zonas). Consulte as informações ab
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid " for real-time track changes."
-msgstr " para alterações de rota em tempo real."
+msgstr " para alterações de via em tempo real."
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format

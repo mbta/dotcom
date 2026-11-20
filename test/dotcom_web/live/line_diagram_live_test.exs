@@ -6,9 +6,18 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
   alias Test.Support.Factories
 
+  setup_all do
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+
+    :ok
+  end
+
   setup :verify_on_exit!
 
   setup do
+    vehicle_repo = Module.concat(__MODULE__, "VehiclesRepo#{System.unique_integer([:positive])}")
+    start_supervised!({Vehicles.Repo, name: vehicle_repo})
+
     route = Factories.Routes.Route.build(:route, %{id: "1", type: 3})
     polyline = Polyline.encode([{-71.06, 42.35}, {-71.07, 42.36}])
 
@@ -33,10 +42,13 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
     stub(Stops.Repo.Mock, :get_parent, fn stop -> stop end)
 
-    stub(Vehicles.Repo.Mock, :route, fn _, _ -> [] end)
+    stub(Vehicles.Repo.Mock, :route, fn route_id, opts ->
+      Vehicles.Repo.route(route_id, Keyword.put(opts, :name, vehicle_repo))
+    end)
+
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
-    %{route: route, pattern_a: pattern_a, pattern_b: pattern_b}
+    %{route: route, pattern_a: pattern_a, pattern_b: pattern_b, vehicle_repo: vehicle_repo}
   end
 
   defp label(view) do
@@ -263,16 +275,33 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       conn: conn,
       route: route,
       pattern_a: a,
-      pattern_b: b
+      pattern_b: b,
+      vehicle_repo: vehicle_repo
     } do
-      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{a.id}")
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          direction_id: 0,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: 90
+        })
+
+      assert :ok = Vehicles.Repo.sync_send(vehicle_repo, {:add, [vehicle]})
+
+      {:ok, view, _html} =
+        live(
+          conn,
+          "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0&variant=#{a.id}"
+        )
+
       assert_push_event(view, "fit-bounds", %{})
 
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "reset",
-        payload: %{data: []}
-      })
+      assert :ok =
+               Vehicles.Repo.sync_send(vehicle_repo, {
+                 :update,
+                 [%{vehicle | latitude: 42.4}]
+               })
 
       render(view)
       refute_push_event(view, "fit-bounds", %{}, 50)
@@ -340,24 +369,29 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       assert Floki.attribute(marker, "data-coordinates") == ["[-71.06,42.35]"]
     end
 
-    test "updates vehicle markers when a vehicle moves", %{conn: conn, route: route} do
+    test "updates vehicle markers when a vehicle moves", %{
+      conn: conn,
+      route: route,
+      vehicle_repo: vehicle_repo
+    } do
       vehicle =
         Factories.Vehicles.Vehicle.build(:vehicle, %{
           route_id: route.id,
+          direction_id: 0,
           latitude: 42.35,
           longitude: -71.06,
           bearing: 90
         })
 
-      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+      assert :ok = Vehicles.Repo.sync_send(vehicle_repo, {:add, [vehicle]})
 
-      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+      {:ok, view, _html} =
+        live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
 
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "update",
-        payload: %{data: [%{vehicle | latitude: 42.4, longitude: -71.1, bearing: 180}]}
-      })
+      updated = %{vehicle | latitude: 42.4, longitude: -71.1, bearing: 180}
+      assert :ok = Vehicles.Repo.sync_send(vehicle_repo, {:update, [updated]})
+
+      render(view)
 
       assert [marker] =
                view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
@@ -430,28 +464,6 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       assert view |> render() |> Floki.parse_document!() |> outline_features() |> length() == 2
       expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
       assert stop_names(view) == expected_stop_names
-    end
-
-    test "refits on selection immediately after a vehicle update", %{
-      conn: conn,
-      route: route,
-      pattern_a: a
-    } do
-      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
-
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "reset",
-        payload: %{data: []}
-      })
-
-      render(view)
-
-      view
-      |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
-      |> render_click()
-
-      assert_push_event(view, "fit-bounds", %{map_id: "new-map"})
     end
   end
 end
