@@ -17,12 +17,8 @@ describe("isVehicleChannel", () => {
   test("true for vehicle marker channel topic", () => {
     expect(isVehicleChannel("vehicles:39:1")).toBe(true);
   });
-  test("true for vehicles channel topic", () => {
-    expect(isVehicleChannel("vehicles-v2:39:1")).toBe(true);
-  });
   test("false for remove vehicles topic", () => {
     expect(isVehicleChannel("vehicles:remove")).toBe(false);
-    expect(isVehicleChannel("vehicles-v2:remove")).toBe(false);
   });
   test("false for other topics", () => {
     expect(isVehicleChannel("predictions:39:1:0")).toBe(false);
@@ -188,10 +184,10 @@ describe("joinChannel", () => {
     window.socket = socket;
     window.channels = {};
 
-    joinChannel("vehicles-v2:routeId:directionId");
+    joinChannel("vehicles:routeId:directionId");
 
-    expect(window.channels["vehicles-v2:routeId:directionId"]).toBeDefined();
-    expect(window.channels["vehicles-v2:remove"]).toBeDefined();
+    expect(window.channels["vehicles:routeId:directionId"]).toBeDefined();
+    expect(window.channels["vehicles:remove"]).toBeDefined();
   });
 });
 

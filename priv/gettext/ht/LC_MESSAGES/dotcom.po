@@ -5256,17 +5256,17 @@ msgstr "Transfè ki aksesib pou chèz woulant nan Downtown Crossing ka mande pou
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Friday schedules"
-msgstr "Orè pou vandredi"
+msgstr "Orè vandredi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Monday - Thursday schedules"
-msgstr "Lendi - Jedi orè"
+msgstr "Orè lendi - jedi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Saturday schedules"
-msgstr "Orè samdi yo"
+msgstr "Orè samdi"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
@@ -5276,12 +5276,12 @@ msgstr "Orè dimanch"
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekday schedules"
-msgstr "Orè pou jou lasemèn"
+msgstr "Orè jou lasemèn"
 
 #: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Weekend schedules"
-msgstr "Orè pou wikenn"
+msgstr "Orè wikenn"
 
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
@@ -5303,7 +5303,7 @@ msgstr "Bato"
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
 msgid "Boats"
-msgstr "Bato"
+msgstr "Bato yo"
 
 #: lib/routes/route.ex
 #, elixir-autogen, elixir-format
@@ -5334,7 +5334,7 @@ msgstr "Sikwi nan sans zegwi mont lan"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Counterclockwise Loop"
-msgstr "Bouk nan sans kontrè ak zegwi mont lan"
+msgstr "Sikwi nan sans kontrè ak zegwi mont lan"
 
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
@@ -5344,7 +5344,7 @@ msgstr "Aswè"
 #: lib/dotcom_web/templates/schedule/_timetable.html.heex
 #, elixir-autogen, elixir-format
 msgid "Morning"
-msgstr "Bonjou"
+msgstr "Maten"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5354,17 +5354,17 @@ msgstr "Orè pou enprime"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Access Guide"
-msgstr "Gid pou Aksè nan Bis"
+msgstr "Gid pou aksè nan bis"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Access Guide"
-msgstr "Gid aksè pou Tren banlye"
+msgstr "Gid pou aksè nan tren banlye"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Beginner's Guide"
-msgstr "Gid pou debutan nan tren banlye"
+msgstr "Gid pou debitan nan tren banlye"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5374,12 +5374,12 @@ msgstr "Gid pou aksè nan bato"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Ferry Beginner's Guide"
-msgstr "Gid pou debutan sou bato-travès"
+msgstr "Gid pou debitan sou bato"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Subway Access Guide"
-msgstr "Gid pou Aksè nan subway"
+msgstr "Gid pou aksè nan subway"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5389,7 +5389,7 @@ msgstr "Plis opsyon tarif pou tren banlye"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "More bus fare options"
-msgstr "Plis opsyon pri tikè pou Bis yo"
+msgstr "Plis opsyon tarif pou bis yo"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5410,7 +5410,7 @@ msgstr "Yo te pibliye kominike pou laprès sa a <strong>sa gen plis pase %{age} 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "This news release was published <strong>more than a year ago.</strong> Information on this page may no longer reflect current service, policies, or operations."
-msgstr "Kominike pou laprès sa a te pibliye <strong>plis pase yon ane de sa.</strong> Enfòmasyon ki nan paj sa a ka pa reflete sèvis, règleman, oswa operasyon"
+msgstr "Yo te pibliye kominike pou laprès sa a <strong>sa gen plis pase yon ane de sa.</strong> Enfòmasyon ki nan paj sa a ka pa reflete sèvis, règleman oswa operasyon"
 " aktyèl yo ankò."
 
 #: lib/dotcom_web/components/fare_card.ex
@@ -5461,7 +5461,7 @@ msgstr "%{sl1}, %{sl2}, %{sl3}, ak %{slw} gen menm tarif ak subway"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "Price based on distance traveled"
-msgstr "Pri a baze sou distans ki vwayaje a."
+msgstr "Pri a baze sou distans yo vwayaje a"
 
 #: lib/dotcom_web/live/stop_information_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5486,12 +5486,12 @@ msgstr "Tout"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "All %{mode} Projects"
-msgstr "Tout %{mode} pwojè"
+msgstr "Tout %{mode} pwojè yo"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "All Projects"
-msgstr "Tout pwojè"
+msgstr "Tout pwojè yo"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5501,7 +5501,7 @@ msgstr "Pwojè %{mode} ki an vedèt"
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured Projects"
-msgstr "Pwojè vedèt"
+msgstr "Pwojè ki an vedèt"
 
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
@@ -5617,7 +5617,7 @@ msgstr "Aktive/dezaktive atribisyon"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "View Schedule"
-msgstr "Gade Orè"
+msgstr "Gade Orè a"
 
 #: lib/dotcom/schedule_finder.ex
 #, elixir-autogen, elixir-format
@@ -5627,7 +5627,7 @@ msgstr "Ray TBD"
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
 msgid "Change Direction"
-msgstr "Chanje direksyon"
+msgstr "Chanje Direksyon"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -5642,7 +5642,7 @@ msgstr "An reta"
 #: lib/dotcom_web/templates/stop/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Download <strong>%{appname}</strong> to track your trip"
-msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou"
+msgstr "Telechaje <strong>%{appname}</strong> pou swiv vwayaj ou a"
 
 #: lib/dotcom_web/components/departures.ex
 #, elixir-autogen, elixir-format
@@ -5672,7 +5672,7 @@ msgstr "Destinasyon ki pa komen"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr "soti nan %{origin}, wout ki mwens komen"
+msgstr "soti nan %{origin}, trajè ki mwens komen"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
