@@ -5777,3 +5777,8 @@ msgstr "Rota %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "Não foi possível enviar seu feedback. Recarregue a página e tente novamente."
+
+#: lib/dotcom_web/live/upcoming_departures_live.ex
+#, elixir-autogen, elixir-format
+msgid "Last updated:"
+msgstr ""
