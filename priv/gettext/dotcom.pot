@@ -41,34 +41,14 @@ msgstr ""
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr ""
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " alerts"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at "
-msgstr ""
-
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr ""
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at this time."
-msgstr ""
-
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
 msgid " depend on the distance traveled (zones). Refer to the information below:"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " for the "
 msgstr ""
 
 #: lib/vehicle_helpers.ex
@@ -89,11 +69,6 @@ msgstr ""
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid " minute walk"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " on the "
 msgstr ""
 
 #: lib/vehicle_helpers.ex
@@ -234,11 +209,6 @@ msgstr ""
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid ", cash, or "
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "."
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/results.ex
@@ -3655,11 +3625,6 @@ msgstr ""
 msgid "Service ended"
 msgstr ""
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "Service is running as expected"
-msgstr ""
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Shortest Trip"
@@ -4141,19 +4106,9 @@ msgstr ""
 msgid "There are no"
 msgstr ""
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no "
-msgstr ""
-
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no additional accessibility features, but buses are always accessible to board."
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no alerts"
 msgstr ""
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
@@ -4907,11 +4862,6 @@ msgstr ""
 msgid "contactless payment"
 msgstr ""
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "current"
-msgstr ""
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "departed"
@@ -5031,11 +4981,6 @@ msgstr ""
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
-msgstr ""
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "planned"
 msgstr ""
 
 #: lib/fares/format.ex
@@ -5705,14 +5650,14 @@ msgstr ""
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr ""
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgid "There are no alerts on the %{route_name} at this time."
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
-msgid "The %{mode_name} may leave ahead of schedule at these stops."
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
@@ -5723,4 +5668,9 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "The %{mode_name} may leave ahead of schedule at these stops."
 msgstr ""

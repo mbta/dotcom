@@ -41,35 +41,15 @@ msgstr " 路線"
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " 活動結束後 30 分鐘，列車將從 Foxboro 發車"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " alerts"
-msgstr " 警示"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at "
-msgstr " 於 "
-
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " 於 %{address}"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at this time."
-msgstr " 目前。"
-
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
 msgid " depend on the distance traveled (zones). Refer to the information below:"
 msgstr " 取決於行駛距離（區域）。請參閱下方資訊："
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " for the "
-msgstr " 適用於 "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -90,11 +70,6 @@ msgstr " 正在前往 "
 #, elixir-autogen, elixir-format
 msgid " minute walk"
 msgstr " 分鐘步行路程"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " on the "
-msgstr " 於 "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -235,11 +210,6 @@ msgstr "， "
 #, elixir-autogen, elixir-format
 msgid ", cash, or "
 msgstr "，現金或 "
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "."
-msgstr "。"
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -3649,11 +3619,6 @@ msgstr "服務查詢"
 msgid "Service ended"
 msgstr "服務已結束"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "Service is running as expected"
-msgstr "服務運作正常"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Shortest Trip"
@@ -4135,20 +4100,10 @@ msgstr "目前沒有即時發車資訊。以下顯示預定發車班次。"
 msgid "There are no"
 msgstr "沒有"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no "
-msgstr "沒有 "
-
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no additional accessibility features, but buses are always accessible to board."
 msgstr "沒有額外的無障礙設施，但所有巴士都可提供無障礙上下車。"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no alerts"
-msgstr "目前沒有警示"
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
@@ -4901,11 +4856,6 @@ msgstr "變更"
 msgid "contactless payment"
 msgstr "感應式付款"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "current"
-msgstr "目前"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "departed"
@@ -5026,11 +4976,6 @@ msgstr "往郊區方向"
 #, elixir-autogen, elixir-format
 msgid "paper ferry ticket"
 msgstr "紙本渡輪車票"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "planned"
-msgstr "預定"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5699,14 +5644,14 @@ msgstr "%{num} 號路線"
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "無法提交您的意見回饋。請重新載入頁面後再試一次。"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgid "There are no alerts on the %{route_name} at this time."
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
-msgid "The %{mode_name} may leave ahead of schedule at these stops."
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
 msgstr ""
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
@@ -5717,4 +5662,9 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
+msgstr ""
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "The %{mode_name} may leave ahead of schedule at these stops."
 msgstr ""
