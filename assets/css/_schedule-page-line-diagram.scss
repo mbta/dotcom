@@ -75,6 +75,16 @@
   }
 }
 
+.m-schedule-diagram {
+  @each $line in map-keys($mbta-line-colors) {
+    $fill-color: map-get($mbta-line-colors, $line);
+
+    &.#{$line} .line-diagram-svg__line {
+      color: $fill-color;
+    }
+  }
+}
+
 .m-schedule-diagram__content {
   // Take remaining horizontal space unused by visual lines/stops
   flex-grow: 1;

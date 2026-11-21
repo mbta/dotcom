@@ -134,6 +134,7 @@ defmodule Dotcom.Mixfile do
       {:flame_on, github: "DockYard/flame_on", branch: "main", only: [:dev]},
       {:gen_stage, "1.3.2"},
       {:gettext, "1.0.2", override: true},
+      {:gtfs_route_branching, github: "mbta/gtfs_route_branching", tag: "0.1.1"},
       {:hammer, "7.5.1"},
       {:html_sanitize_ex, "1.5.6"},
       {:inflex, github: "warmwaffles/inflex", branch: "master", override: true},
