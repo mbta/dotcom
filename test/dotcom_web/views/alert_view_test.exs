@@ -307,23 +307,8 @@ defmodule DotcomWeb.AlertViewTest do
 
   describe "no_alerts_message/2" do
     test "reports no alerts for a route" do
-      msg = no_alerts_message(%{name: "Route", id: 1}, false)
+      msg = no_alerts_message(%{name: "Route", id: 1})
       assert IO.iodata_to_binary(msg) == "There are no alerts on the Route at this time."
-    end
-
-    test "reports no alerts at a stop" do
-      msg = no_alerts_message(%{name: "Stop", id: 1}, true)
-      assert IO.iodata_to_binary(msg) == "There are no alerts at Stop at this time."
-    end
-  end
-
-  describe "location_name/2" do
-    test "creates a location name with prefix for a route" do
-      assert IO.iodata_to_binary(location_name(%{name: "Route"}, false)) == " on the Route"
-    end
-
-    test "creates a location name with a prefix for a stop" do
-      assert IO.iodata_to_binary(location_name(%{name: "Stop"}, true)) == " at Stop"
     end
   end
 

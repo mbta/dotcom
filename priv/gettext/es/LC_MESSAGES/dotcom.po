@@ -41,20 +41,10 @@ msgstr " Rutas"
 msgid " Trains depart from Foxboro 30 minutes after conclusion of events"
 msgstr " Los trenes salen de Foxboro 30 minutos después de que terminan los eventos"
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at "
-msgstr " en "
-
 #: lib/dotcom_web/hooks/breadcrumbs.ex
 #, elixir-autogen, elixir-format
 msgid " at %{address}"
 msgstr " en %{address}"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " at this time."
-msgstr " en este momento."
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #, elixir-autogen, elixir-format
@@ -90,11 +80,6 @@ msgstr " puede salir antes de lo previsto en estas paradas."
 #, elixir-autogen, elixir-format
 msgid " minute walk"
 msgstr " minutos a pie"
-
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid " on the "
-msgstr " en el "
 
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
@@ -4186,11 +4171,6 @@ msgstr "No hay"
 msgid "There are no additional accessibility features, but buses are always accessible to board."
 msgstr "No hay funciones de accesibilidad adicionales, pero los autobuses siempre son accesibles para abordar."
 
-#: lib/dotcom_web/views/alert_view.ex
-#, elixir-autogen, elixir-format
-msgid "There are no alerts"
-msgstr "No hay alertas"
-
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no high priority"
@@ -5748,3 +5728,8 @@ msgstr "Ruta %{num}"
 #, elixir-autogen, elixir-format
 msgid "We couldn't submit your feedback. Please reload the page and try again."
 msgstr "No pudimos enviar sus comentarios. Recargue la página e inténtelo de nuevo."
+
+#: lib/dotcom_web/views/alert_view.ex
+#, elixir-autogen, elixir-format
+msgid "There are no alerts on the %{route_name} at this time."
+msgstr ""

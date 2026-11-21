@@ -22,8 +22,7 @@ defmodule DotcomWeb.AlertView do
 
   """
   def group(opts) do
-    stop? = Keyword.has_key?(opts, :stop)
-    route = Keyword.get(opts, :stop) || Keyword.fetch!(opts, :route)
+    route = Keyword.fetch!(opts, :route)
     show_empty? = Keyword.get(opts, :show_empty?, false)
     priority_filter = Keyword.get(opts, :priority_filter, :any)
     date_time = Keyword.get(opts, :date_time)
@@ -39,7 +38,7 @@ defmodule DotcomWeb.AlertView do
       {[], true} ->
         content_tag(
           :div,
-          no_alerts_message(route, stop?),
+          no_alerts_message(route),
           class: "callout"
         )
 
@@ -47,7 +46,11 @@ defmodule DotcomWeb.AlertView do
         ""
 
       _ ->
-        render(__MODULE__, "group.html", alerts: alerts, route: route, date_time: date_time)
+        render(__MODULE__, "group.html",
+          alerts: alerts,
+          route: route,
+          date_time: date_time
+        )
     end
   end
 
@@ -55,18 +58,9 @@ defmodule DotcomWeb.AlertView do
     Enum.uniq_by(alerts, & &1.id)
   end
 
-  @spec no_alerts_message(map, boolean) :: iolist
-  def no_alerts_message(route, stop?) do
-    [~t"There are no alerts", location_name(route, stop?), ~t" at this time."]
-  end
-
-  @spec location_name(map, boolean) :: iolist
-  def location_name(route, true) do
-    [~t" at ", route.name]
-  end
-
-  def location_name(route, false) do
-    [~t" on the ", route.name]
+  @spec no_alerts_message(map) :: String.t()
+  def no_alerts_message(route) do
+    gettext("There are no alerts on the %{route_name} at this time.", route_name: route.name)
   end
 
   @spec filter_by_priority(
