@@ -37,6 +37,8 @@ import previousEventsButton from "./view-previous-events";
 import mobileAppBanner from "./mobile-app-banner.js";
 import mobileSearchA11y from "./mobile-search-a11y.js";
 
+import lineDiagram from './line-diagram.js';
+
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
@@ -140,3 +142,5 @@ juxtapose();
 mobileAppBanner();
 
 mobileSearchA11y();
+
+lineDiagram();

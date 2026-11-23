@@ -782,7 +782,7 @@ defmodule DotcomWeb.LineDiagramLive do
       )
 
     ~H"""
-    <section class="m-schedule-diagram__content flex justify-between p-1">
+    <section id={"stop_card-#{@stop.id}"} class="m-schedule-diagram__content flex justify-between p-1 ml-[3rem] stop_card">
       <div data-id="wrapper" class="w-full flex flex-row justify-between">
         <div data-id="left" class="flex flex-col w-full" style="width: calc( 100% - 2rem )">
           <div data-id="top" class="flex flex-row w-full justify-between mb-1">
