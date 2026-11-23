@@ -891,4 +891,4 @@ defmodule Fares.FareInfo do
       }
     ]
   end
-
+end
