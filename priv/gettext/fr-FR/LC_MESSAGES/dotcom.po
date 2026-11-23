@@ -5649,26 +5649,26 @@ msgstr "Nous n'avons pas pu envoyer vos commentaires. Veuillez recharger la page
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr "Aucune alerte sur le %{route_name} pour le moment."
+msgstr "Aucune alerte sur l'itinéraire %{route_name} pour le moment."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
-msgstr "Dans les stations comportant plusieurs voies, à l'exception de North Station, South Station, Back Bay et Ruggles, les trains en direction du centre-ville"
+msgstr "Dans les stations comportant plusieurs voies, à l'exception de North Station, South Station, Back Bay et Ruggles, les trains en direction du centre-ville"
 " prennent les voyageurs sur la voie 2 et les trains en direction de la périphérie sur la voie 1, sauf indication contraire. Les changements de voie programmés"
-" seront indiqués par le symbole %{icon}. Consultez %{t_alerts_link} pour connaître les changements de voie en temps réel."
+" seront indiqués par le symbole %{icon}. Consultez %{t_alerts_link} pour voir les changements de voie en temps réel."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
-msgstr "Les passagers doivent informer un membre de l’équipage qu’ils souhaitent débarquer. Les passagers qui attendent pour monter à bord doivent être visibles"
-" sur le quai pour que le bateau s’arrête."
+msgstr "S'ils souhaitent descendre, les passagers doivent en informer l'équipage. Les passagers qui attendent pour monter à bord doivent être visibles sur le quai"
+" pour que le bateau s'arrête."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
-msgstr "Les passagers doivent indiquer au contrôleur qu’ils souhaitent descendre. Les passagers qui attendent pour monter à bord doivent être visibles sur le quai"
-" pour que le train s’arrête."
+msgstr "S'ils souhaitent descendre, les passagers doivent en informer le contrôleur. Les passagers qui attendent pour monter à bord doivent être visibles sur le"
+" quai pour que le train s'arrête."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
