@@ -253,14 +253,14 @@ defmodule Fares.FareInfo do
   end
 
   @spec mapper(map()) :: [Fare.t()]
-  def mapper(%{
-        mode: :commuter,
-        zone: zone,
-        single_trip: single_trip,
-        single_trip_reduced: single_trip_reduced,
-        monthly: monthly,
-        monthly_reduced: monthly_reduced
-      }) do
+  defp mapper(%{
+         mode: :commuter,
+         zone: zone,
+         single_trip: single_trip,
+         single_trip_reduced: single_trip_reduced,
+         monthly: monthly,
+         monthly_reduced: monthly_reduced
+       }) do
     base = %Fare{
       mode: :commuter_rail,
       name: commuter_rail_fare_name(zone)
@@ -350,16 +350,16 @@ defmodule Fares.FareInfo do
     end
   end
 
-  def mapper(%{
-        mode: :subway,
-        charlie_card_price: charlie_card_price,
-        day_reduced_price: day_reduced_price,
-        week_reduced_price: week_reduced_price,
-        month_reduced_price: month_reduced_price,
-        day_pass_price: day_pass_price,
-        week_pass_price: week_pass_price,
-        month_pass_price: month_pass_price
-      }) do
+  defp mapper(%{
+         mode: :subway,
+         charlie_card_price: charlie_card_price,
+         day_reduced_price: day_reduced_price,
+         week_reduced_price: week_reduced_price,
+         month_reduced_price: month_reduced_price,
+         day_pass_price: day_pass_price,
+         week_pass_price: week_pass_price,
+         month_pass_price: month_pass_price
+       }) do
     base = %Fare{
       mode: :subway,
       name: :subway
@@ -424,15 +424,15 @@ defmodule Fares.FareInfo do
     ]
   end
 
-  def mapper(%{
-        mode: mode,
-        charlie_card_price: charlie_card_price,
-        day_reduced_price: day_reduced_price,
-        week_reduced_price: week_reduced_price,
-        month_reduced_price: month_reduced_price,
-        month_pass_price: month_pass_price
-      })
-      when mode in [:local_bus, :express_bus] do
+  defp mapper(%{
+         mode: mode,
+         charlie_card_price: charlie_card_price,
+         day_reduced_price: day_reduced_price,
+         week_reduced_price: week_reduced_price,
+         month_reduced_price: month_reduced_price,
+         month_pass_price: month_pass_price
+       })
+       when mode in [:local_bus, :express_bus] do
     base = %Fare{
       mode: :bus,
       name: mode
@@ -487,21 +487,21 @@ defmodule Fares.FareInfo do
     end
   end
 
-  def mapper(%{
-        mode: :ferry,
-        inner_harbor_price: inner_harbor_price,
-        inner_harbor_month_price: inner_harbor_month_price,
-        inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
-        cross_harbor_price: cross_harbor_price,
-        east_boston_price: east_boston_price,
-        harbor_loop_price: harbor_loop_price,
-        lynn_price: lynn_price,
-        winthrop_price: winthrop_price,
-        commuter_ferry_price: commuter_ferry_price,
-        commuter_ferry_month_price_reduced: commuter_ferry_month_price_reduced,
-        commuter_ferry_month_price: commuter_ferry_month_price,
-        commuter_ferry_logan_price: commuter_ferry_logan_price
-      }) do
+  defp mapper(%{
+         mode: :ferry,
+         inner_harbor_price: inner_harbor_price,
+         inner_harbor_month_price: inner_harbor_month_price,
+         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
+         cross_harbor_price: cross_harbor_price,
+         east_boston_price: east_boston_price,
+         harbor_loop_price: harbor_loop_price,
+         lynn_price: lynn_price,
+         winthrop_price: winthrop_price,
+         commuter_ferry_price: commuter_ferry_price,
+         commuter_ferry_month_price_reduced: commuter_ferry_month_price_reduced,
+         commuter_ferry_month_price: commuter_ferry_month_price,
+         commuter_ferry_logan_price: commuter_ferry_logan_price
+       }) do
     fares = [
       %Fare{
         mode: :ferry,
@@ -754,13 +754,13 @@ defmodule Fares.FareInfo do
     fares ++ reduced_fares
   end
 
-  def mapper(%{
-        mode: :the_ride,
-        ada_ride: ada_ride,
-        premium_ride: premium_ride,
-        ada_ride_reduced: ada_ride_reduced,
-        premium_ride_reduced: premium_ride_reduced
-      }) do
+  defp mapper(%{
+         mode: :the_ride,
+         ada_ride: ada_ride,
+         premium_ride: premium_ride,
+         ada_ride_reduced: ada_ride_reduced,
+         premium_ride_reduced: premium_ride_reduced
+       }) do
     [
       %Fare{
         mode: :the_ride,
@@ -792,7 +792,7 @@ defmodule Fares.FareInfo do
     ]
   end
 
-  def mapper(%{mode: :foxboro, round_trip: round_trip}) do
+  defp mapper(%{mode: :foxboro, round_trip: round_trip}) do
     [
       %Fare{
         mode: :commuter_rail,
@@ -805,7 +805,7 @@ defmodule Fares.FareInfo do
     ]
   end
 
-  def mapper(%{mode: :massport_shuttle, single_trip: single_trip, name: name}) do
+  defp mapper(%{mode: :massport_shuttle, single_trip: single_trip, name: name}) do
     [
       %Fare{
         mode: :massport_shuttle,
@@ -826,15 +826,15 @@ defmodule Fares.FareInfo do
     [:subway, :bus, :ferry]
   end
 
-  def mticket_price(monthly_price) when monthly_price > 1000 do
+  defp mticket_price(monthly_price) when monthly_price > 1000 do
     monthly_price - 1000
   end
 
-  def reduced_mticket_price(reduced_monthly_price) when reduced_monthly_price > 3000 do
+  defp reduced_mticket_price(reduced_monthly_price) when reduced_monthly_price > 3000 do
     reduced_monthly_price - 500
   end
 
-  def reduced_mticket_price(reduced_monthly_price), do: reduced_monthly_price
+  defp reduced_mticket_price(reduced_monthly_price), do: reduced_monthly_price
 
   defp commuter_rail_fare_name(zone) do
     case String.split(zone, "_") do
@@ -892,43 +892,3 @@ defmodule Fares.FareInfo do
     ]
   end
 
-  @spec georges_island_ferry_fares() :: [Fare.t()]
-  def georges_island_ferry_fares do
-    base_fare = %Fare{
-      mode: :ferry,
-      name: :ferry_george,
-      duration: :round_trip,
-      media: [],
-      reduced: nil
-    }
-
-    [
-      %{base_fare | cents: dollars_to_cents("19.95"), price_label: ~t"Adult"},
-      %{base_fare | cents: dollars_to_cents("12.95"), price_label: ~t"Child"},
-      %{base_fare | cents: dollars_to_cents("0.0"), price_label: ~t"Child under 3"},
-      %{
-        base_fare
-        | cents: dollars_to_cents("49.00"),
-          price_label: ~t"Family 4-pack (2 adults, 2 children)"
-      },
-      %{
-        base_fare
-        | reduced: :student,
-          cents: dollars_to_cents("14.95"),
-          price_label: ~t"Student"
-      },
-      %{
-        base_fare
-        | reduced: :senior_disabled,
-          cents: dollars_to_cents("14.95"),
-          price_label: ~t"Seniors"
-      },
-      %{
-        base_fare
-        | reduced: :senior_disabled,
-          cents: dollars_to_cents("14.95"),
-          price_label: ~t"Military"
-      }
-    ]
-  end
-end
