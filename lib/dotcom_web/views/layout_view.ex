@@ -127,7 +127,8 @@ defmodule DotcomWeb.LayoutView do
               {~t(Fares Overview), "/fares", :internal_link},
               {~t(Reduced Fares), "/fares/reduced", :internal_link},
               {~t(Transfers), "/fares/transfers", :internal_link},
-              {~t(Fare Transformation), "/fare-transformation", :internal_link}
+              {~t(Fare Transformation), "/fares/recent-and-upcoming-fare-projects",
+               :internal_link}
             ]
           },
           %{
