@@ -749,7 +749,6 @@ msgstr "Karyè"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Cash"
 msgstr "Lajan kach"
@@ -810,11 +809,6 @@ msgstr "CharlieCards & tikè yo"
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Check"
-msgstr "Tcheke"
-
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
@@ -860,11 +854,6 @@ msgstr "Fèmen"
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Fèmen dyalòg la"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Coin"
-msgstr "Pyès monnen"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -1004,7 +993,6 @@ msgid "Create an Account"
 msgstr "Kreye yon kont"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Credit/Debit Card"
 msgstr "Kat kredi/debi"
@@ -1188,11 +1176,6 @@ msgstr "Akòz sikilasyon sou yon sèl ray tren"
 #, elixir-autogen, elixir-format
 msgid "EBT card"
 msgstr "Kat EBT"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "EZ Pass"
-msgstr "EZ Pass"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -1959,11 +1942,6 @@ msgstr "Dire ki pa valab"
 msgid "Invalid Fare"
 msgstr "Pri tikè ki pa valab"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Invoice"
-msgstr "Fakti"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -2510,11 +2488,6 @@ msgstr "Mini platfòm wo nivo pou pèmèt moun monte nan menm nivo ak sèten vag
 #, elixir-autogen, elixir-format
 msgid "Minutes"
 msgstr "Minit"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Mobile App"
-msgstr "Aplikasyon mobil"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -3755,11 +3728,6 @@ msgstr "Yon ti kras a goch"
 #, elixir-autogen, elixir-format
 msgid "Slightly right"
 msgstr "Yon ti kras adwat"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Smart Card"
-msgstr "Kat entèlijan"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
