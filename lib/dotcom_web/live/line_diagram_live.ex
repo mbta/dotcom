@@ -84,6 +84,8 @@ defmodule DotcomWeb.LineDiagramLive do
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
 
+  import Routes.Route, only: [is_silver_line?: 1]
+
   import DotcomWeb.ScheduleView,
     only: [
       header_class: 1,
@@ -259,16 +261,99 @@ defmodule DotcomWeb.LineDiagramLive do
       })
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
+    {icon, icon_class} = icon_combo(route)
 
-    %{
-      id: vehicle.id,
-      coordinates: [vehicle.longitude, vehicle.latitude],
-      type: "icon-svg",
-      name: "icon-vehicle-bordered-expanded",
-      class: "size-6 cursor-pointer",
-      popup: popup,
-      rotation: vehicle.bearing || "0"
-    }
+    marker_stack(vehicle, popup, icon, icon_class)
+  end
+
+  # I disagree that the following function is too complex, it simply mirrors the state of our complex system
+  # credo:disable-for-next-line
+  defp icon_combo(route) do
+    cond do
+      is_silver_line?(route) -> {"icon-subway", "bearing_silver"}
+      route.type == 0 -> {"icon-subway", "bearing_green"}
+      route.type == 2 -> {"icon-commuter-rail", "bearing_cr"}
+      route.type == 3 -> {"icon-bus", "bearing_bus"}
+      route.type == 4 -> {"icon-ferry", "bearing_ferry"}
+      route.id == "Red" -> {"icon-subway", "bearing_red"}
+      route.id == "Orange" -> {"icon-subway", "bearing_orange"}
+      route.id == "Blue" -> {"icon-subway", "bearing_blue"}
+      true -> {"icon-subway", "bearing_silver"}
+    end
+  end
+
+  defp marker_stack(vehicle, popup, icon, icon_class) do
+    if is_nil(vehicle.bearing) do
+      # No bearing, just draw a vehicle icon with a colored circle
+      [
+        %{
+          id: vehicle.id <> "_bearingNilA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-circle-semisolid",
+          class: "size-9 cursor-pointer vehicle_black",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id <> "_bearingNilB",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-circle-solid",
+          class: "size-7 cursor-pointer #{icon_class}",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id <> "_bearingNilC",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    else
+      [
+        # Bottom Layer Halo (Rotates)
+        %{
+          id: vehicle.id <> "_bearingA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-halo-light",
+          type: "icon-svg",
+          class: "cursor-pointer size-9 vehicle_black"
+        },
+        # Middle Puck with Line/Mode Color (Rotates)
+        %{
+          id: vehicle.id <> "_bearingB",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-puck",
+          type: "icon-svg",
+          class: "cursor-pointer #{icon_class} size-7"
+        },
+        # Top layer vehicle Icon (Static)
+        %{
+          id: vehicle.id,
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    end
+  end
+
+  defp other_color(icon_class) do
+    if icon_class != "bearing_bus" do
+      " vehicle_white"
+    else
+      " vehicle_black"
+    end
   end
 
   def vehicle_popup(assigns) do
@@ -416,7 +501,7 @@ defmodule DotcomWeb.LineDiagramLive do
             map_route_shapes={@map_route_shapes}
             route_color={"##{@route.color}"}
             map_icons={@map_icons}
-            vehicle_icons={Map.values(@vehicle_icons)}
+            vehicle_icons={Map.values(@vehicle_icons) |> List.flatten()}
           />
         </div>
         <form id="stop_search_form">
@@ -952,7 +1037,13 @@ defmodule DotcomWeb.LineDiagramLive do
     />
 
     <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
-    <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} z_index={2} />
+
+    <.icon_markers
+      id="new-map-vehicles"
+      map_id="new-map"
+      icons={@vehicle_icons}
+      z_index={2}
+    />
     """
   end
 
