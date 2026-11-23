@@ -371,11 +371,6 @@ msgstr "Ajoute nan kalandriye a"
 msgid "Admins Only"
 msgstr "Pou administratè sèlman"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Adult"
-msgstr "Granmoun"
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Agenda"
@@ -814,16 +809,6 @@ msgstr "CharlieTicket"
 #, elixir-autogen, elixir-format
 msgid "Check"
 msgstr "Tcheke"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child"
-msgstr "Timoun"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child under 3"
-msgstr "Timoun ki poko gen 3 an"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1471,11 +1456,6 @@ msgstr "Enfòmasyon sou etablisman"
 #, elixir-autogen, elixir-format
 msgid "Facility Issue"
 msgstr "Pwoblèm etablisman"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Family 4-pack (2 adults, 2 children)"
-msgstr "Pake fanmi pou 4 moun (2 granmoun, 2 timoun)"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -2495,11 +2475,6 @@ msgstr "Jou Souvni"
 #, elixir-autogen, elixir-format
 msgid "Menu"
 msgstr "Meni"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Military"
-msgstr "Militè"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3590,11 +3565,6 @@ msgstr "Senior CharlieCard oswa TAP ID"
 msgid "Senior ID Cards"
 msgstr "Kat idantite pou granmoun aje"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Seniors"
-msgstr "Granmoun aje"
-
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Server issue"
@@ -3899,11 +3869,6 @@ msgstr "Arè yo"
 #, elixir-autogen, elixir-format
 msgid "Stops Skipped"
 msgstr "Arè ki kontoune yo"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Student"
-msgstr "Etidyan"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format

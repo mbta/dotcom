@@ -365,11 +365,6 @@ msgstr "Thêm vào lịch"
 msgid "Admins Only"
 msgstr "Chỉ dành cho quản trị viên"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Adult"
-msgstr "Người lớn"
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Agenda"
@@ -809,16 +804,6 @@ msgstr "CharlieTicket"
 #, elixir-autogen, elixir-format
 msgid "Check"
 msgstr "Kiểm tra"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child"
-msgstr "Trẻ em"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child under 3"
-msgstr "Trẻ em dưới 3 tuổi"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1467,11 +1452,6 @@ msgstr "Thông tin về cơ sở"
 #, elixir-autogen, elixir-format
 msgid "Facility Issue"
 msgstr "Sự cố tại cơ sở"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Family 4-pack (2 adults, 2 children)"
-msgstr "Gói 4 vé gia đình (2 người lớn, 2 trẻ em)"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -2496,11 +2476,6 @@ msgstr "Ngày Tưởng niệm"
 #, elixir-autogen, elixir-format
 msgid "Menu"
 msgstr "Menu"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Military"
-msgstr "Quân đội"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3593,11 +3568,6 @@ msgstr "CharlieCard dành cho người cao tuổi hoặc TAP ID"
 msgid "Senior ID Cards"
 msgstr "Thẻ ID dành cho người cao tuổi"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Seniors"
-msgstr "Người cao tuổi"
-
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Server issue"
@@ -3902,11 +3872,6 @@ msgstr "Điểm dừng"
 #, elixir-autogen, elixir-format
 msgid "Stops Skipped"
 msgstr "Các điểm dừng đã bỏ qua"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Student"
-msgstr "Học sinh/Sinh viên"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format

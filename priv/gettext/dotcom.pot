@@ -371,11 +371,6 @@ msgstr ""
 msgid "Admins Only"
 msgstr ""
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Adult"
-msgstr ""
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Agenda"
@@ -813,16 +808,6 @@ msgstr ""
 #: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Check"
-msgstr ""
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child"
-msgstr ""
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child under 3"
 msgstr ""
 
 #: lib/dotcom_web/views/layout_view.ex
@@ -1469,11 +1454,6 @@ msgstr ""
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Facility Issue"
-msgstr ""
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Family 4-pack (2 adults, 2 children)"
 msgstr ""
 
 #: lib/feedback/message.ex
@@ -2490,11 +2470,6 @@ msgstr ""
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Menu"
-msgstr ""
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Military"
 msgstr ""
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
@@ -3582,11 +3557,6 @@ msgstr ""
 msgid "Senior ID Cards"
 msgstr ""
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Seniors"
-msgstr ""
-
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Server issue"
@@ -3890,11 +3860,6 @@ msgstr ""
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
 msgid "Stops Skipped"
-msgstr ""
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Student"
 msgstr ""
 
 #: lib/fares/format.ex
