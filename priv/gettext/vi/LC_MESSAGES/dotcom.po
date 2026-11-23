@@ -5672,24 +5672,27 @@ msgstr "Chúng tôi không thể gửi phản hồi của quý vị. Vui lòng t
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr ""
+msgstr "Hiện không có cảnh báo nào về tuyến %{route_name}."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
-msgstr ""
+msgstr "Tại các ga có nhiều đường ray, ngoại trừ các Ga North, South, Back Bay và Ruggles, tàu hướng đi vào trung tâm đón khách tại Đường ray số 2, và tàu hướng"
+" đi ra ngoại thành đón khách tại Đường ray số 1, trừ khi có thông báo khác. Những thay đổi về đường ray theo lịch sẽ được biểu thị bằng biểu tượng %{icon}."
+" Kiểm tra %{t_alerts_link} để biết các thay đổi về đường ray theo thời gian thực."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
-msgstr ""
+msgstr "Hành khách phải báo cho một thành viên thủy thủ đoàn biết rằng họ muốn xuống tàu. Hành khách đang chờ lên tàu phải ở vị trí dễ nhìn thấy trên bến tàu để"
+" tàu dừng lại."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
-msgstr ""
+msgstr "Hành khách phải báo cho nhân viên soát vé biết rằng họ muốn xuống tàu. Hành khách đang chờ lên tàu phải ở vị trí dễ nhìn thấy trên sân ga để tàu dừng lại."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "The %{mode_name} may leave ahead of schedule at these stops."
-msgstr ""
+msgstr "%{mode_name} có thể khởi hành sớm hơn lịch trình tại những điểm dừng này."
