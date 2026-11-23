@@ -4,7 +4,9 @@ const updatePatternOffsets = ()=>{
   let offsetSum=0;
   for(let i=1;i<cards.length;i++){
     offsetSum=(offsetSum+(cards[i-1].offsetHeight))%PATTERN_HEIGHT;
-    const stop_id = cards[i].id.split("-")[1];
+    let stop_id = cards[i].id.split("-")
+    stop_id.shift();
+    stop_id=stop_id.join("-");
     const pattern = document.getElementById(`diagonalHatch-${stop_id}`);
     if(pattern){
       const svg = pattern.parentNode.parentNode;
@@ -15,13 +17,11 @@ const updatePatternOffsets = ()=>{
       pattern.patternTransform.baseVal.initialize(move);
       pattern.patternTransform.baseVal.appendItem(rot);
     }
-    //pattern.setAttribute("patternTransform", `rotate(45 0 0) translate(0 ${offsetSum})`);
-
   }
 
 }
 
 export default () => {
     window.addEventListener("resize", updatePatternOffsets);
-    window.addEventListener("load", updatePatternOffsets);
+    window.addEventListener("phx:page-loading-stop", updatePatternOffsets);
 }
