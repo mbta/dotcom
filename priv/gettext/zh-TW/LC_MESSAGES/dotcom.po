@@ -5697,4 +5697,4 @@ msgstr "無法提交您的意見回饋。請重新載入頁面後再試一次。
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr ""
+msgstr "目前沒有%{route_name}服務異動通知。"
