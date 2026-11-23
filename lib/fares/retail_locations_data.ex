@@ -43,21 +43,21 @@ defmodule Fares.RetailLocations.Data do
   end
 
   @spec parse_v3_multiple(JsonApi.t() | {:error, any}) :: [Location.t()] | {:error, any}
-  defp parse_v3_multiple({:error, _} = error) do
+  def parse_v3_multiple({:error, _} = error) do
     error
   end
 
-  defp parse_v3_multiple(api) do
+  def parse_v3_multiple(api) do
     api.data
     |> Enum.map(&parse_v3_facility/1)
     |> Enum.map(fn {:ok, facility} -> facility end)
   end
 
-  defp parse_v3_facility({:ok, %JsonApi.Item{} = item}), do: parse_v3_facility(item)
-  defp parse_v3_facility({:error, [%JsonApi.Error{code: "not_found"} | _]}), do: {:ok, nil}
-  defp parse_v3_facility({:error, _} = error), do: error
+  def parse_v3_facility({:ok, %JsonApi.Item{} = item}), do: parse_v3_facility(item)
+  def parse_v3_facility({:error, [%JsonApi.Error{code: "not_found"} | _]}), do: {:ok, nil}
+  def parse_v3_facility({:error, _} = error), do: error
 
-  defp parse_v3_facility(%JsonApi.Item{} = item) do
+  def parse_v3_facility(%JsonApi.Item{} = item) do
     location = %Location{
       name: item.attributes["long_name"],
       address: v3_property(item, "address"),
@@ -70,7 +70,7 @@ defmodule Fares.RetailLocations.Data do
   end
 
   @spec v3_property(JsonApi.Item.t(), String.t()) :: String.t()
-  defp v3_property(%JsonApi.Item{} = item, prop) do
+  def v3_property(%JsonApi.Item{} = item, prop) do
     property =
       item.attributes["properties"]
       |> Enum.filter(&(&1["name"] == prop))
