@@ -5647,24 +5647,24 @@ msgstr "無法提交您的意見回饋。請重新載入頁面後再試一次。
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr ""
+msgstr "目前 %{route_name} 沒有任何警示。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
-msgstr ""
+msgstr "除North、South、Back Bay和Ruggles車站外，除非另有說明，設有多條軌道車站的往郊區方向列車會從2號軌道月臺上車，出站列車則從1號軌道月臺上車。表定軌道變更將以 %{icon} 符號標示。查看 %{t_alerts_link} 以掌握即時軌道異動。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
-msgstr ""
+msgstr "乘客必須告知船員自己想要離船。 等候上船的乘客必須在碼頭上清楚可見，船隻才會停靠。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
-msgstr ""
+msgstr "乘客必須告知列車長他們想要下車。 候車乘客必須在月臺上保持清楚可見，列車才會停靠。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "The %{mode_name} may leave ahead of schedule at these stops."
-msgstr ""
+msgstr "%{mode_name} 可能會在這些站點提前發車。"
