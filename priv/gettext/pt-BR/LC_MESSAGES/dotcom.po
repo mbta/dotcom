@@ -5725,4 +5725,4 @@ msgstr "Não foi possível enviar seu feedback. Recarregue a página e tente nov
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr ""
+msgstr "Não há alertas para %{route_name} no momento."
