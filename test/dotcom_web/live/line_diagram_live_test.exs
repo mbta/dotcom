@@ -6,20 +6,45 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
   alias Test.Support.Factories
 
+  setup_all do
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+
+    :ok
+  end
+
   setup :verify_on_exit!
 
   setup do
+    vehicle_repo = Module.concat(__MODULE__, "VehiclesRepo#{System.unique_integer([:positive])}")
+    start_supervised!({Vehicles.Repo, name: vehicle_repo})
+
     route = Factories.Routes.Route.build(:route, %{id: "1", type: 3})
     polyline = Polyline.encode([{-71.06, 42.35}, {-71.07, 42.36}])
 
-    [pattern_a, pattern_b] =
-      Factories.RoutePatterns.RoutePattern.build_list(2, :route_pattern, %{
+    pattern_a_stops = Faker.Util.sample_uniq(14, fn -> Faker.String.base64(8) end)
+    pattern_b_stops = Faker.Util.sample_uniq(14, fn -> Faker.String.base64(8) end)
+
+    pattern_a =
+      Factories.RoutePatterns.RoutePattern.build(:route_pattern, %{
         route_id: route.id,
         representative_trip_polyline: polyline,
-        typicality: 1
+        typicality: 1,
+        stop_ids: pattern_a_stops,
+        sort_order: 0,
+        headsign: "Headsign A",
+        direction_id: 1
       })
-      |> Enum.with_index()
-      |> Enum.map(fn {p, i} -> %{p | sort_order: i, headsign: "Headsign #{i}"} end)
+
+    pattern_b =
+      Factories.RoutePatterns.RoutePattern.build(:route_pattern, %{
+        route_id: route.id,
+        representative_trip_polyline: polyline,
+        typicality: 1,
+        stop_ids: pattern_b_stops,
+        sort_order: 1,
+        headsign: "Headsign B",
+        direction_id: 1
+      })
 
     stub_with(Dotcom.Utils.DateTime.Mock, Dotcom.Utils.DateTime)
     stub(Routes.Repo.Mock, :get, fn _ -> route end)
@@ -33,10 +58,21 @@ defmodule DotcomWeb.LineDiagramLiveTest do
 
     stub(Stops.Repo.Mock, :get_parent, fn stop -> stop end)
 
-    stub(Vehicles.Repo.Mock, :route, fn _, _ -> [] end)
+    stub(Vehicles.Repo.Mock, :route, fn route_id, opts ->
+      Vehicles.Repo.route(route_id, Keyword.put(opts, :name, vehicle_repo))
+    end)
+
     stub(Alerts.Repo.Mock, :by_route_ids, fn _, _ -> [] end)
 
-    %{route: route, pattern_a: pattern_a, pattern_b: pattern_b}
+    stub(
+      GTFSRouteBranching.Mock,
+      :calculate,
+      fn _route, _direction_id, _canon_stop_ids, _system_data ->
+        {nil, nil, []}
+      end
+    )
+
+    %{route: route, pattern_a: pattern_a, pattern_b: pattern_b, vehicle_repo: vehicle_repo}
   end
 
   defp label(view) do
@@ -52,179 +88,204 @@ defmodule DotcomWeb.LineDiagramLiveTest do
     view
     |> render()
     |> Floki.parse_document!()
-    |> Floki.find(".stop_list_main_result")
-    |> Floki.find(".m-schedule-diagram__stop-link")
+    |> Floki.find(".stop_list_main_result .m-schedule-diagram__stop-link")
     |> Enum.map(&(Floki.text(&1) |> String.trim()))
   end
 
-  test "defaults to all variants without a variant param", %{
-    conn: conn,
-    route: route,
-    pattern_a: a,
-    pattern_b: b
-  } do
-    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+  describe "accessibility and parking icons" do
+    test "shows parking when the parent station has parking", %{
+      conn: conn,
+      route: route,
+      pattern_a: pattern
+    } do
+      stop_id = hd(pattern.stop_ids)
+      parent = Factories.Stops.Stop.build(:stop, %{parking_lots: [%Stops.Stop.ParkingLot{}]})
 
-    assert label(view) =~ "All variants"
-    expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
-    assert stop_names(view) == expected_stop_names
+      stub(Stops.Repo.Mock, :get, fn
+        ^stop_id -> Factories.Stops.Stop.build(:stop, %{id: stop_id, parent_id: parent.id})
+        id -> Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
+      end)
+
+      stub(Stops.Repo.Mock, :get_parent, fn
+        %{id: ^stop_id} -> parent
+        stop -> stop
+      end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+      assert has_element?(view, ~s|[title="Parking available"]|)
+    end
+
+    test "shows accessibility for accessible stops", %{
+      conn: conn,
+      route: route,
+      pattern_a: pattern
+    } do
+      stop_id = hd(pattern.stop_ids)
+
+      stub(Stops.Repo.Mock, :get, fn
+        ^stop_id ->
+          Factories.Stops.Stop.build(:stop, %{id: stop_id, accessibility: ["accessible"]})
+
+        id ->
+          Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
+      end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+      assert has_element?(view, ~s|[title="Accessible"]|)
+    end
+
+    test "shows accessibility for bus stops by default", %{
+      conn: conn,
+      route: route,
+      pattern_a: pattern
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+      assert has_element?(view, ~s|[title="Accessible"]|)
+    end
+
+    test "does not assume non-bus stops are accessible", %{
+      conn: conn,
+      route: route,
+      pattern_a: pattern
+    } do
+      stub(Routes.Repo.Mock, :get, fn _ -> %{route | type: 2} end)
+      canonical_pattern = %{pattern | canonical: true}
+      stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [canonical_pattern] end)
+
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+
+      refute has_element?(view, ~s|[title="Accessible"]|)
+    end
   end
 
-  test "shows parking when the parent station has parking", %{
-    conn: conn,
-    route: route,
-    pattern_a: pattern
-  } do
-    stop_id = hd(pattern.stop_ids)
-    parent = Factories.Stops.Stop.build(:stop, %{parking_lots: [%Stops.Stop.ParkingLot{}]})
+  describe "variant picker interaction" do
+    test "defaults to all variants without a variant param", %{
+      conn: conn,
+      route: route,
+      pattern_a: a,
+      pattern_b: b
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
 
-    stub(Stops.Repo.Mock, :get, fn
-      ^stop_id -> Factories.Stops.Stop.build(:stop, %{id: stop_id, parent_id: parent.id})
-      id -> Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
-    end)
+      assert label(view) =~ "All variants"
+      expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
+      assert stop_names(view) == expected_stop_names
+    end
 
-    stub(Stops.Repo.Mock, :get_parent, fn
-      %{id: ^stop_id} -> parent
-      stop -> stop
-    end)
+    test "hides the variant picker when there is only one variant", %{
+      conn: conn,
+      route: route,
+      pattern_a: pattern
+    } do
+      stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [pattern] end)
 
-    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+      {:ok, view, _html} =
+        live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
 
-    assert has_element?(view, ~s|[title="Parking available"]|)
+      refute has_element?(view, "#variant-menu-button")
+
+      assert has_element?(
+               view,
+               ".m-schedule-direction__route-pattern",
+               Routes.Route.direction_destination(route, 0)
+             )
+    end
+
+    test "updates variant picker visibility when changing direction", %{
+      conn: conn,
+      route: route,
+      pattern_a: pattern_a,
+      pattern_b: pattern_b
+    } do
+      stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, opts ->
+        case Keyword.fetch!(opts, :direction_id) do
+          0 -> [pattern_a, pattern_b]
+          1 -> [pattern_a]
+        end
+      end)
+
+      {:ok, view, _html} =
+        live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
+
+      assert has_element?(view, "#variant-menu-button")
+
+      view |> element("#direction-filter") |> render_click()
+      refute has_element?(view, "#variant-menu-button")
+
+      view |> element("#direction-filter") |> render_click()
+      assert has_element?(view, "#variant-menu-button")
+    end
+
+    test "updates stop list when variant is changed", %{
+      conn: conn,
+      route: route,
+      pattern_a: a
+    } do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+
+      initial_stop_names = stop_names(view)
+
+      view
+      |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
+      |> render_click()
+
+      updated_stop_names = stop_names(view)
+      expected_stop_names = Enum.map(a.stop_ids, &"Stop #{&1}")
+
+      assert updated_stop_names != initial_stop_names
+      assert updated_stop_names == expected_stop_names
+    end
   end
 
-  test "shows accessibility for accessible stops", %{
-    conn: conn,
-    route: route,
-    pattern_a: pattern
-  } do
-    stop_id = hd(pattern.stop_ids)
+  describe "variant from URL" do
+    test "selects the variant from the URL param", %{conn: conn, route: route, pattern_b: b} do
+      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{b.id}")
 
-    stub(Stops.Repo.Mock, :get, fn
-      ^stop_id ->
-        Factories.Stops.Stop.build(:stop, %{id: stop_id, accessibility: ["accessible"]})
+      assert label(view) =~ b.headsign
+    end
 
-      id ->
-        Factories.Stops.Stop.build(:stop, %{id: id, name: "Stop #{id}"})
-    end)
+    test "removes an unknown variant param from the URL", %{conn: conn, route: route} do
+      path = "/schedules/#{route.id}/line_new"
 
-    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+      assert {:error, {:live_redirect, %{to: ^path}}} = live(conn, "#{path}?variant=nope")
 
-    assert has_element?(view, ~s|[title="Accessible"]|)
-  end
+      {:ok, view, _html} = live(conn, path)
 
-  test "shows accessibility for bus stops by default", %{
-    conn: conn,
-    route: route,
-    pattern_a: pattern
-  } do
-    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+      assert label(view) =~ "All variants"
+    end
 
-    assert has_element?(view, ~s|[title="Accessible"]|)
-  end
+    test "selecting a variant updates the URL, preserving other params", %{
+      conn: conn,
+      route: route,
+      pattern_a: a
+    } do
+      path = "/schedules/#{route.id}/line_new"
+      {:ok, view, _html} = live(conn, "#{path}?schedule_direction[direction_id]=0")
 
-  test "does not assume non-bus stops are accessible", %{
-    conn: conn,
-    route: route,
-    pattern_a: pattern
-  } do
-    stub(Routes.Repo.Mock, :get, fn _ -> %{route | type: 2} end)
-    canonical_pattern = %{pattern | canonical: true}
-    stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [canonical_pattern] end)
+      view
+      |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
+      |> render_click()
 
-    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{pattern.id}")
+      query =
+        URI.encode_query(%{"schedule_direction[direction_id]" => "0", "variant" => a.id})
 
-    refute has_element?(view, ~s|[title="Accessible"]|)
-  end
+      assert_patch(view, "#{path}?#{query}")
+      assert label(view) =~ a.headsign
 
-  test "hides the variant picker when there is only one variant", %{
-    conn: conn,
-    route: route,
-    pattern_a: pattern
-  } do
-    stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ -> [pattern] end)
+      view
+      |> element("#variant-menu-menu li:not([phx-value-option])")
+      |> render_click()
 
-    {:ok, view, _html} =
-      live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
+      assert_patch(
+        view,
+        "#{path}?#{URI.encode_query(%{"schedule_direction[direction_id]" => "0"})}"
+      )
 
-    refute has_element?(view, "#variant-menu-button")
-
-    assert has_element?(
-             view,
-             ".m-schedule-direction__route-pattern",
-             Routes.Route.direction_destination(route, 0)
-           )
-  end
-
-  test "updates variant picker visibility when changing direction", %{
-    conn: conn,
-    route: route,
-    pattern_a: pattern_a,
-    pattern_b: pattern_b
-  } do
-    stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, opts ->
-      case Keyword.fetch!(opts, :direction_id) do
-        0 -> [pattern_a, pattern_b]
-        1 -> [pattern_a]
-      end
-    end)
-
-    {:ok, view, _html} =
-      live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
-
-    assert has_element?(view, "#variant-menu-button")
-
-    view |> element("#direction-filter") |> render_click()
-    refute has_element?(view, "#variant-menu-button")
-
-    view |> element("#direction-filter") |> render_click()
-    assert has_element?(view, "#variant-menu-button")
-  end
-
-  test "selects the variant from the URL param", %{conn: conn, route: route, pattern_b: b} do
-    {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{b.id}")
-
-    assert label(view) =~ b.headsign
-  end
-
-  test "removes an unknown variant param from the URL", %{conn: conn, route: route} do
-    path = "/schedules/#{route.id}/line_new"
-
-    assert {:error, {:live_redirect, %{to: ^path}}} = live(conn, "#{path}?variant=nope")
-
-    {:ok, view, _html} = live(conn, path)
-
-    assert label(view) =~ "All variants"
-  end
-
-  test "selecting a variant updates the URL, preserving other params", %{
-    conn: conn,
-    route: route,
-    pattern_a: a
-  } do
-    path = "/schedules/#{route.id}/line_new"
-    {:ok, view, _html} = live(conn, "#{path}?schedule_direction[direction_id]=0")
-
-    view
-    |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
-    |> render_click()
-
-    query =
-      URI.encode_query(%{"schedule_direction[direction_id]" => "0", "variant" => a.id})
-
-    assert_patch(view, "#{path}?#{query}")
-    assert label(view) =~ a.headsign
-
-    view
-    |> element("#variant-menu-menu li:not([phx-value-option])")
-    |> render_click()
-
-    assert_patch(
-      view,
-      "#{path}?#{URI.encode_query(%{"schedule_direction[direction_id]" => "0"})}"
-    )
-
-    assert label(view) =~ "All variants"
+      assert label(view) =~ "All variants"
+    end
   end
 
   describe "new map" do
@@ -263,16 +324,33 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       conn: conn,
       route: route,
       pattern_a: a,
-      pattern_b: b
+      pattern_b: b,
+      vehicle_repo: vehicle_repo
     } do
-      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new?variant=#{a.id}")
+      vehicle =
+        Factories.Vehicles.Vehicle.build(:vehicle, %{
+          route_id: route.id,
+          direction_id: 0,
+          latitude: 42.35,
+          longitude: -71.06,
+          bearing: 90
+        })
+
+      assert :ok = Vehicles.Repo.sync_send(vehicle_repo, {:add, [vehicle]})
+
+      {:ok, view, _html} =
+        live(
+          conn,
+          "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0&variant=#{a.id}"
+        )
+
       assert_push_event(view, "fit-bounds", %{})
 
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "reset",
-        payload: %{data: []}
-      })
+      assert :ok =
+               Vehicles.Repo.sync_send(vehicle_repo, {
+                 :update,
+                 [%{vehicle | latitude: 42.4}]
+               })
 
       render(view)
       refute_push_event(view, "fit-bounds", %{}, 50)
@@ -341,24 +419,29 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       assert Floki.attribute(marker_bottom, "data-coordinates") == ["[-71.06,42.35]"]
     end
 
-    test "updates vehicle markers when a vehicle moves", %{conn: conn, route: route} do
+    test "updates vehicle markers when a vehicle moves", %{
+      conn: conn,
+      route: route,
+      vehicle_repo: vehicle_repo
+    } do
       vehicle =
         Factories.Vehicles.Vehicle.build(:vehicle, %{
           route_id: route.id,
+          direction_id: 0,
           latitude: 42.35,
           longitude: -71.06,
           bearing: 90
         })
 
-      stub(Vehicles.Repo.Mock, :route, fn _, _ -> [vehicle] end)
+      assert :ok = Vehicles.Repo.sync_send(vehicle_repo, {:add, [vehicle]})
 
-      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
+      {:ok, view, _html} =
+        live(conn, "/schedules/#{route.id}/line_new?schedule_direction[direction_id]=0")
 
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "update",
-        payload: %{data: [%{vehicle | latitude: 42.4, longitude: -71.1, bearing: 180}]}
-      })
+      updated = %{vehicle | latitude: 42.4, longitude: -71.1, bearing: 180}
+      assert :ok = Vehicles.Repo.sync_send(vehicle_repo, {:update, [updated]})
+
+      render(view)
 
       assert [marker, _, _] =
                view |> new_map_html() |> Floki.find("#new-map-vehicles [data-coordinates]")
@@ -434,28 +517,6 @@ defmodule DotcomWeb.LineDiagramLiveTest do
       assert view |> render() |> Floki.parse_document!() |> outline_features() |> length() == 2
       expected_stop_names = Enum.uniq(a.stop_ids ++ b.stop_ids) |> Enum.map(&"Stop #{&1}")
       assert stop_names(view) == expected_stop_names
-    end
-
-    test "refits on selection immediately after a vehicle update", %{
-      conn: conn,
-      route: route,
-      pattern_a: a
-    } do
-      {:ok, view, _html} = live(conn, "/schedules/#{route.id}/line_new")
-
-      send(view.pid, %Phoenix.Socket.Broadcast{
-        topic: "vehicles-v2:#{route.id}:1",
-        event: "reset",
-        payload: %{data: []}
-      })
-
-      render(view)
-
-      view
-      |> element(~s|#variant-menu-menu li[phx-value-option="#{a.id}"]|)
-      |> render_click()
-
-      assert_push_event(view, "fit-bounds", %{map_id: "new-map"})
     end
   end
 end

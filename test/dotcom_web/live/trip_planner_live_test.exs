@@ -244,6 +244,41 @@ defmodule DotcomWeb.TripPlannerLiveTest do
       assert document =~ "Please select a destination at a different location from the origin."
     end
 
+    test "changing inputs cancels outstanding planning tasks, even when inputs become invalid", %{
+      view: view
+    } do
+      test_pid = self()
+
+      expect(OpenTripPlannerClient.Mock, :plan, 2, fn _ ->
+        send(test_pid, {:planning, self()})
+
+        receive do
+          :finish -> {:ok, []}
+        end
+      end)
+
+      view |> element("form") |> render_change(%{"input_form" => @valid_params})
+      assert_receive {:planning, first_task}
+      first_ref = Process.monitor(first_task)
+
+      view
+      |> element("form")
+      |> render_change(%{"input_form" => %{"wheelchair" => "true"}})
+
+      assert_receive {:DOWN, ^first_ref, :process, ^first_task, {:shutdown, :cancel}}
+      assert_receive {:planning, second_task}
+      second_ref = Process.monitor(second_task)
+
+      view
+      |> element("form")
+      |> render_change(%{"input_form" => %{"to" => @valid_params["from"]}})
+
+      assert_receive {:DOWN, ^second_ref, :process, ^second_task, {:shutdown, :cancel}}
+      render_async(view)
+
+      refute has_element?(view, "span[data-test='results-summary:error']")
+    end
+
     test "an OTP connection error shows up as an error message", %{view: view} do
       # Setup
       expect(OpenTripPlannerClient.Mock, :plan, fn _ ->

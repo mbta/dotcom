@@ -1,4 +1,5 @@
 import {
+  createAutocomplete,
   AutocompleteState,
   GetSourcesParams,
   OnSelectParams,
@@ -7,7 +8,7 @@ import {
 import { AutocompleteSource } from "@algolia/autocomplete-js";
 import { waitFor } from "@testing-library/react";
 import { Item } from "../__autocomplete";
-import configs from "./../config";
+import configs, { TRIP_PLANNER } from "./../config";
 
 const sourceIds = (sources: any[]) =>
   (sources as AutocompleteSource<any>[]).map(s => s.sourceId);
@@ -101,6 +102,95 @@ describe("Proposed sales locations configuration", () => {
 });
 
 describe("Trip planner configuration", () => {
+  const setupCloseUpdate = () => {
+    const pushToLiveView = jest.fn();
+    const options = TRIP_PLANNER({
+      pushToLiveView,
+      initialState: () => ""
+    });
+    const autocomplete = createAutocomplete({
+      ...options
+    });
+    autocomplete.setQuery("Melrose Highlands");
+    autocomplete.setIsOpen(true);
+    return { options, autocomplete, pushToLiveView };
+  };
+
+  test("selecting a suggestion cancels the preceding close-only update", async () => {
+    const { options, autocomplete, pushToLiveView } = setupCloseUpdate();
+    const sources = await options.getSources!({
+      ...baseSourceParams,
+      query: "Melrose"
+    });
+    const source = sources[0];
+    if (!source || typeof source === "boolean") {
+      throw new Error("Expected an autocomplete source");
+    }
+    const item = {
+      name: "Melrose Highlands",
+      stop_id: "place-WR-0075",
+      latitude: 42.469464,
+      longitude: -71.068297
+    };
+
+    autocomplete.setIsOpen(false);
+    source.onSelect!({
+      ...baseSourceParams,
+      item,
+      setQuery: autocomplete.setQuery,
+      source: {
+        ...source,
+        getItemInputValue: () => item.name,
+        getItemUrl: () => undefined,
+        onSelect: source.onSelect!,
+        onActive: jest.fn(),
+        onResolve: jest.fn()
+      },
+      event: new MouseEvent("click"),
+      itemInputValue: item.name,
+      itemUrl: undefined
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith(item);
+
+    autocomplete.setIsOpen(true);
+    autocomplete.setIsOpen(false);
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith(item);
+
+    autocomplete.setIsOpen(true);
+    autocomplete.setQuery("A different location");
+    autocomplete.setIsOpen(false);
+
+    await waitFor(() => {
+      expect(pushToLiveView).toHaveBeenLastCalledWith({
+        name: "A different location"
+      });
+    });
+  });
+
+  test("closing without a selection still sends the typed text", async () => {
+    const { autocomplete, pushToLiveView } = setupCloseUpdate();
+    autocomplete.setIsOpen(false);
+
+    await waitFor(() => {
+      expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith({
+        name: "Melrose Highlands"
+      });
+    });
+  });
+
+  test("reset cancels the close-only update", async () => {
+    const { options, autocomplete, pushToLiveView } = setupCloseUpdate();
+    autocomplete.setIsOpen(false);
+    options.onReset!({ ...baseSourceParams, event: new Event("reset") });
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith({});
+  });
+
   const pushToLiveViewMock = jest.fn();
   const config = configs["trip-planner"]({
     pushToLiveView: pushToLiveViewMock,
@@ -151,7 +241,8 @@ describe("Trip planner configuration", () => {
     expect(pushToLiveViewMock).toHaveBeenCalledWith(item);
   });
 
-  test("geolocation source sends location to LiveView", async () => {
+  test("geolocation selection sends only coordinates to LiveView", async () => {
+    const { options, autocomplete, pushToLiveView } = setupCloseUpdate();
     const mockCoordinates = {
       latitude: 40,
       longitude: -71
@@ -166,10 +257,11 @@ describe("Trip planner configuration", () => {
       )
     };
 
-    const { getSources } = config;
-    const mockSetQuery = jest.fn();
+    const { getSources } = options;
+    const mockSetQuery = jest.fn(autocomplete.setQuery);
     // @ts-ignore
     const [geolocationSource] = await getSources(baseSourceParams);
+    autocomplete.setIsOpen(false);
     (geolocationSource as AutocompleteSource<any>)?.onSelect!({
       setContext: jest.fn() as StateUpdater<
         AutocompleteState<{ value: string }>["context"]
@@ -183,7 +275,11 @@ describe("Trip planner configuration", () => {
       expect(mockSetQuery).toHaveBeenCalledWith(
         `${mockCoordinates.latitude}, ${mockCoordinates.longitude}`
       );
-      expect(pushToLiveViewMock).toHaveBeenCalledWith(mockCoordinates);
+      expect(pushToLiveView).toHaveBeenCalledExactlyOnceWith(mockCoordinates);
     });
+    autocomplete.setIsOpen(true);
+    autocomplete.setIsOpen(false);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(pushToLiveView).toHaveBeenCalledTimes(1);
   });
 });

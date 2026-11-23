@@ -135,6 +135,9 @@ defmodule DotcomWeb.LineDiagramLive do
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
   import DotcomWeb.Schedule.Defaults, only: [default_direction_id: 1]
 
+  import DotcomWeb.LineDiagramHelpers,
+    only: [route_to_diagram_class: 1, get_segments: 4, stop_card_segment: 1]
+
   on_mount DotcomWeb.Hooks.AssignRoute
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
 
@@ -169,27 +172,22 @@ defmodule DotcomWeb.LineDiagramLive do
     guides_for_this_route =
       @guides |> Enum.filter(fn guide -> route.type in guide.modes end)
 
-    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
-
     _ =
       if connected?(socket) do
-        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+        Vehicles.Notifications.subscribe({:route, route_id, direction_id})
       end
 
     {:ok,
      socket
      |> assign(:map_config, @map_config)
      |> assign(:direction_id, direction_id)
-     |> assign(:vehicle_topic, vehicle_topic)
-     |> assign_new(:vehicle_icons, fn ->
-       route_id
-       |> @vehicles_repo.route(direction_id: direction_id)
-       |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
-     end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:stop_type_label, Routes.Route.stop_type_label(route))
      |> assign(:stop_type_label_plural, Routes.Route.stop_type_label_plural(route))
+     |> fetch_vehicle_icons()
+     |> assign(:line_diagram_segments, [])
+     |> assign(:stop_id_to_segment, %{})
      |> assign_route_patterns()
      |> assign_route_stops()
      |> assign_route_data()
@@ -223,17 +221,8 @@ defmodule DotcomWeb.LineDiagramLive do
   end
 
   @impl true
-  def terminate(_, socket) do
-    # stop listening for new vehicles
-    _ = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-  end
-
-  @impl true
-  def handle_info(
-        %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
-        socket
-      ) do
-    {:noreply, assign_vehicle_icons(socket, event, payload.data)}
+  def handle_info({:vehicles_changed, _}, socket) do
+    {:noreply, socket |> fetch_vehicle_icons() |> assign(:move_map, false)}
   end
 
   @impl true
@@ -273,22 +262,17 @@ defmodule DotcomWeb.LineDiagramLive do
     Enum.any?(route_patterns, &(&1.id == variant))
   end
 
+  defp fetch_vehicle_icons(socket) do
+    %{route: route, direction_id: direction_id} = socket.assigns
+
+    @vehicles_repo.route(route.id, direction_id: direction_id)
+    |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
+    |> then(&assign(socket, :vehicle_icons, &1))
+  end
+
   defp apply_direction_change(socket) do
-    %{route_id: route_id, direction_id: direction_id} = socket.assigns
-    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
-
-    _ =
-      if connected?(socket) do
-        Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
-      end
-
     socket
-    |> assign(:vehicle_topic, vehicle_topic)
-    |> assign_vehicle_icons(
-      "reset",
-      @vehicles_repo.route(route_id, direction_id: direction_id)
-    )
+    |> fetch_vehicle_icons()
     |> assign_route_patterns()
     |> assign_route_stops()
   end
@@ -306,24 +290,6 @@ defmodule DotcomWeb.LineDiagramLive do
           [selected]
       end
     end)
-  end
-
-  def assign_vehicle_icons(socket, "remove", vehicle_ids) do
-    update(socket, :vehicle_icons, &Map.drop(&1, vehicle_ids))
-  end
-
-  def assign_vehicle_icons(socket, "reset", vehicles) do
-    vehicles
-    |> Map.new(&{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
-    |> then(&assign(socket, :vehicle_icons, &1))
-  end
-
-  # add or update
-  def assign_vehicle_icons(socket, _, vehicles) do
-    updated_vehicles =
-      Map.new(vehicles, &{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
-
-    update(socket, :vehicle_icons, &Map.merge(&1, updated_vehicles))
   end
 
   defp to_vehicle_marker(vehicle, route) do
@@ -364,7 +330,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-circle-semisolid",
-          class: "size-7 cursor-pointer" <> other_color(icon_class),
+          class: "size-9 cursor-pointer vehicle_black",
           popup: popup,
           rotation: "0"
         },
@@ -373,7 +339,7 @@ defmodule DotcomWeb.LineDiagramLive do
           coordinates: [vehicle.longitude, vehicle.latitude],
           type: "icon-svg",
           name: "icon-circle-solid",
-          class: "size-6 cursor-pointer #{icon_class}",
+          class: "size-7 cursor-pointer #{icon_class}",
           popup: popup,
           rotation: "0"
         },
@@ -396,7 +362,7 @@ defmodule DotcomWeb.LineDiagramLive do
           rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
           name: "vehicle-halo-light",
           type: "icon-svg",
-          class: "cursor-pointer size-7"
+          class: "cursor-pointer size-9 vehicle_black"
         },
         # Middle Puck with Line/Mode Color (Rotates)
         %{
@@ -405,7 +371,7 @@ defmodule DotcomWeb.LineDiagramLive do
           rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
           name: "vehicle-puck",
           type: "icon-svg",
-          class: "cursor-pointer #{icon_class} size-6"
+          class: "cursor-pointer #{icon_class} size-7"
         },
         # Top layer vehicle Icon (Static)
         %{
@@ -606,12 +572,16 @@ defmodule DotcomWeb.LineDiagramLive do
           </div>
         </form>
 
-        <div class="m-schedule-diagram my-4">
+        <div class={"m-schedule-diagram #{route_to_diagram_class(@route)} my-4"}>
           <ol>
             <li
               :for={stop <- @stops}
-              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest stop_list_main_result"}
+              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest stop_list_main_result relative"}
             >
+              <.stop_card_segment
+                :if={Map.has_key?(@stop_id_to_segment, stop.id)}
+                segment_data={Map.get(@stop_id_to_segment, stop.id)}
+              />
               <.stop_card
                 stop={stop}
                 bus_route?={@bus_route?}
@@ -674,14 +644,15 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  defp search_class(stop, search_phrase) do
-    if String.length(search_phrase) > 0 and
-         !stop_name_match?(stop.name, search_phrase) do
-      "hidden"
-    else
+  defp search_class(stop, search_phrase) when search_phrase != "" do
+    if stop_name_match?(stop.name, search_phrase) do
       "result"
+    else
+      "hidden"
     end
   end
+
+  defp search_class(_stop, _search_phrase), do: ""
 
   @impl true
   def handle_event("search", %{"search" => search}, socket) do
@@ -694,7 +665,7 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp assign_route_data(socket) do
     socket
-    |> assign_stops()
+    |> assign_line_diagram()
     |> assign_map_attributes()
   end
 
@@ -776,18 +747,42 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp inherit_parent_parking(stop), do: stop
 
-  defp assign_stops(
-         %{assigns: %{selected_route_patterns: selected_route_patterns, stops_by_id: stops_by_id}} =
-           socket
+  defp assign_line_diagram(
+         %{
+           assigns: %{
+             direction_id: direction_id,
+             route: route,
+             selected_route_patterns: selected_route_patterns,
+             stops_by_id: stops_by_id
+           }
+         } = socket
        ) do
-    stops =
-      selected_route_patterns
-      |> Stream.flat_map(& &1.stop_ids)
+    segments = get_segments(route, direction_id, stops_by_id, selected_route_patterns)
+
+    stop_id_to_segment =
+      Enum.reduce(segments, %{}, fn segment, acc ->
+        Enum.reduce(segment.stops, acc, fn branch_stop, acc ->
+          Map.put(acc, branch_stop.stop_id, branch_stop)
+        end)
+      end)
+
+    ordered_stop_ids =
+      if Enum.empty?(segments) do
+        selected_route_patterns |> Stream.flat_map(& &1.stop_ids)
+      else
+        segments |> Stream.flat_map(& &1.stops) |> Stream.map(& &1.stop_id)
+      end
+
+    ordered_stops =
+      ordered_stop_ids
       |> Stream.uniq()
       |> Stream.map(&Map.fetch!(stops_by_id, &1))
       |> Enum.to_list()
 
-    socket |> assign(:stops, stops)
+    socket
+    |> assign(:stops, ordered_stops)
+    |> assign(:line_diagram_segments, segments)
+    |> assign(:stop_id_to_segment, stop_id_to_segment)
   end
 
   defp assign_other_stops(%{search_phrase: ""}) do

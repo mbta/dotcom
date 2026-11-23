@@ -217,6 +217,58 @@ defmodule Dotcom.TripPlan.FaresTest do
       assert fare == max_transfer_fare + commuter_rail_fare
     end
 
+    test "includes Fairmount Line trips within Zone 1A in the 2-hour transfer window" do
+      # Setup
+      mbta_agency = build(:agency, name: "MBTA")
+      itinerary_start_time = Generators.DateTime.random_date_time()
+      transfer_window_end_time = itinerary_start_time |> DateTime.shift(hour: 2)
+
+      transfer_legs = legs_in_window(itinerary_start_time, transfer_window_end_time)
+
+      fairmount_leg_start = Faker.DateTime.between(itinerary_start_time, transfer_window_end_time)
+
+      fairmount_leg = fairmount_leg(mbta_agency, "1A", "1A", fairmount_leg_start)
+
+      legs = [fairmount_leg | transfer_legs] |> Enum.sort_by(& &1.start.scheduled_time, DateTime)
+
+      itinerary = build(:itinerary, legs: legs)
+
+      # Exercise
+      fare = fare(itinerary)
+
+      # Verify
+      max_leg_fare = legs |> Enum.map(&cents_for_leg/1) |> Enum.max()
+
+      assert fare == max_leg_fare
+    end
+
+    test "charges Fairmount Line trips outside of Zone 1A separately from other modes" do
+      # Setup
+      mbta_agency = build(:agency, name: "MBTA")
+      itinerary_start_time = Generators.DateTime.random_date_time()
+      transfer_window_end_time = itinerary_start_time |> DateTime.shift(hour: 2)
+
+      transfer_legs = legs_in_window(itinerary_start_time, transfer_window_end_time)
+
+      [from_zone, to_zone] = Enum.shuffle(["1A", "2"])
+
+      fairmount_leg_start = Faker.DateTime.between(itinerary_start_time, transfer_window_end_time)
+
+      fairmount_leg = fairmount_leg(mbta_agency, from_zone, to_zone, fairmount_leg_start)
+
+      legs = [fairmount_leg | transfer_legs] |> Enum.sort_by(& &1.start.scheduled_time, DateTime)
+
+      itinerary = build(:itinerary, legs: legs)
+
+      # Exercise
+      fare = fare(itinerary)
+
+      # Verify
+      max_transfer_fare = transfer_legs |> Enum.map(&cents_for_leg/1) |> Enum.max()
+
+      assert fare == max_transfer_fare + cents_for_leg(fairmount_leg)
+    end
+
     test "charges Logan Express fares separately from other modes" do
       # Setup
       itinerary_start_time = Generators.DateTime.random_date_time()
@@ -465,6 +517,21 @@ defmodule Dotcom.TripPlan.FaresTest do
         start: build(:leg_time, scheduled_time: start_time)
       )
     end)
+  end
+
+  defp fairmount_leg(agency, from_zone, to_zone, start_time) do
+    build(:transit_leg,
+      agency: agency,
+      route:
+        build(:route,
+          agency: agency,
+          type: 2,
+          gtfs_id: Faker.Util.pick(["mbta-ma-us:", "mbta-ma-us-initial:"]) <> "CR-Fairmount"
+        ),
+      from: build(:place, stop: build(:stop, zone_id: "CR-zone-#{from_zone}")),
+      to: build(:place, stop: build(:stop, zone_id: "CR-zone-#{to_zone}")),
+      start: build(:leg_time, scheduled_time: start_time)
+    )
   end
 
   defp subway_or_silver_line_route(agency) do

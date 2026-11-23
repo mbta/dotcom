@@ -223,17 +223,26 @@ const VOTE: Partial<AutocompleteOptions<any>> = {
  * LiveView integration enables the ability to update other components, such as
  * a map, from the selected location values.
  */
-const TRIP_PLANNER = ({
+export const TRIP_PLANNER = ({
   pushToLiveView,
   initialState
 }: {
   pushToLiveView: Function;
   initialState: Function;
 }): Partial<AutocompleteOptions<any>> => {
+  const initialQuery = initialState();
+  let submittedQuery = initialQuery;
+  let closeUpdate: ReturnType<typeof setTimeout> | undefined;
+  const cancelCloseUpdate = (): void => {
+    clearTimeout(closeUpdate);
+    closeUpdate = undefined;
+  };
+
   const onSelect = ({
     item,
     setQuery
   }: OnSelectParams<AutocompleteItem>): void => {
+    cancelCloseUpdate();
     const name: string =
       (item.route as Route)?.name ||
       (item.stop as Stop)?.name ||
@@ -241,6 +250,7 @@ const TRIP_PLANNER = ({
       (item as ContentItem).content_title ||
       ((item as unknown) as PopularItem).name ||
       "";
+    submittedQuery = name;
     setQuery(name);
     pushToLiveView(item);
   };
@@ -248,31 +258,51 @@ const TRIP_PLANNER = ({
   return {
     ...baseOptions,
     initialState: {
-      query: initialState()
+      query: initialQuery
     },
     onReset: (): void => {
+      cancelCloseUpdate();
+      submittedQuery = "";
       pushToLiveView({});
     },
     onStateChange({ prevState, state }) {
       const isCleared = state.query === "";
       const changedToClosedState = prevState.isOpen && !state.isOpen;
+      if (state.isOpen) cancelCloseUpdate();
       // Send changed input text to LiveView when leaving this input
       if (changedToClosedState) {
         const newInputData = isCleared ? {} : { name: state.query };
-        pushToLiveView(newInputData);
+        // Algolia closes the panel before invoking the selected source's onSelect.
+        closeUpdate = setTimeout(() => {
+          closeUpdate = undefined;
+          // Keep the selected coordinates unless the user actually edited the text.
+          if (state.query !== submittedQuery) {
+            submittedQuery = state.query;
+            pushToLiveView(newInputData);
+          }
+        }, 0);
       }
     },
     getSources({ query }) {
-      if (!query)
+      if (!query) {
+        const source = geolocationSource(undefined, coordinates => {
+          submittedQuery = `${coordinates.latitude}, ${coordinates.longitude}`;
+          pushToLiveView(coordinates);
+        });
         return debounced([
-          geolocationSource(undefined, coordinates => {
-            pushToLiveView(coordinates);
-          }),
+          {
+            ...source,
+            onSelect(params: OnSelectParams<{ value: string }>) {
+              cancelCloseUpdate();
+              source.onSelect?.(params);
+            }
+          },
           {
             ...popularLocationSource(),
             onSelect
           }
         ]);
+      }
       return debounced([
         {
           ...algoliaSource(query, [{ stops: { hitsPerPage: 5 } }], false),

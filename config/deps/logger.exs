@@ -13,12 +13,17 @@ if config_env() == :prod do
 
   config :logger, :default_formatter,
     format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-    metadata: [:ip, :mbta_id, :request_id]
+    metadata: [:ip, :mbta_id, :request_id, :module, :duration]
 
   # Drop aggressively and early to prevent the message queue from growing large.
   # Also enable terminating overloaded handlers based on memory or queue length.
   # https://www.erlang.org/docs/28/apps/kernel/logger_chapter.html#overload_protection
   config :logger, :default_handler,
+    filters: [
+      drop_low_priority_on_load: {&Dotcom.LoggerFilters.drop_low_priority_on_load/2, 30},
+      # default logger_filters that we don't want to remove
+      remote_gl: {&:logger_filters.remote_gl/2, :stop}
+    ],
     config: [
       # default
       sync_mode_qlen: 10,
@@ -38,7 +43,7 @@ end
 if config_env() == :dev do
   config :logger, :default_formatter,
     format: "$date $time [$level] $metadata$message\n",
-    metadata: [:ip, :mbta_id, :request_id]
+    metadata: [:ip, :mbta_id, :request_id, :module, :duration]
 
   config :logger, level: :notice
 end
