@@ -53,7 +53,7 @@ media =
       |> raw()
 
     _ ->
-      Fares.Format.media(fare)
+      gettext("with %{fare_media}", fare_media: Fares.Format.media(fare))
   end
 
 link_class =
