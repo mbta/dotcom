@@ -5557,6 +5557,16 @@ msgstr ""
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
+msgid "with CharlieTicket or mTicket App"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
+msgid "with mTicket App, paper ferry ticket, contactless payment, or cash"
+msgstr ""
+
+#: lib/dotcom_web/components/fare_card.ex
+#, elixir-autogen, elixir-format
 msgid "with reduced fare card"
 msgstr ""
 
