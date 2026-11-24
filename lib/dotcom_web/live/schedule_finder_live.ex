@@ -141,9 +141,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
             valid_dates={@served_dates}
             holiday_services={@holiday_services}
           />
-          <p class="text-xl font-heading mb-sm">
-            {format!(@daily_schedule_date, :date_short_ordinal)}
-          </p>
+          <h3 class="mb-sm text-lg">
+            {format!(@daily_schedule_date, :date_full_ordinal)}
+          </h3>
           <.async_result :let={departures} assign={@departures}>
             <:loading>
               <div class="mt-lg mb-md flex justify-center" data-test="departures_loading">
@@ -539,7 +539,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         id={@id <> "-datepicker"}
       />
       <div :if={!Enum.empty?(@holiday_services)} class="text-sm mt-sm mb-0">
-        <div id="upcoming-holidays" class="font-bold">{~t(Upcoming holidays)}:</div>
+        <div id="upcoming-holidays" class="font-bold">{~t(Upcoming Holidays)}</div>
         <ul aria-labelledby="upcoming-holidays" class="list-unstyled p-0 m-0">
           <li :for={{holiday, has_service?} <- @holiday_services}>
             <span>{holiday.name}</span>
@@ -710,10 +710,10 @@ defmodule DotcomWeb.ScheduleFinderLive do
 
   defp subway_destination(assigns) do
     ~H"""
-    <div class="flex gap-sm text-lg font-bold font-heading mb-3">
+    <h4 class="flex gap-sm mb-3 text-md items-center">
       <RouteComponents.route_icon route={@route} />
       {gettext("to %{destination}", destination: @destination)}
-    </div>
+    </h4>
     """
   end
 
