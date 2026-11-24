@@ -76,7 +76,6 @@ msgstr ""
 msgid " on track "
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid " or "
@@ -200,15 +199,9 @@ msgstr ""
 msgid "%{y} of %{x} working"
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid ", "
-msgstr ""
-
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid ", cash, or "
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/results.ex
@@ -4963,11 +4956,6 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid "or "
-msgstr ""
-
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "or complete the feedback form on this page."
@@ -5156,7 +5144,6 @@ msgstr ""
 msgid "west"
 msgstr ""
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with"
@@ -5673,4 +5660,24 @@ msgstr ""
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "The %{mode_name} may leave ahead of schedule at these stops."
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket} or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket}, cash, or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{fare_media}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
 msgstr ""

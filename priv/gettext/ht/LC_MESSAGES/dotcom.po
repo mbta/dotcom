@@ -76,7 +76,6 @@ msgstr " mache pandan yon minit"
 msgid " on track "
 msgstr " sou ray "
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid " or "
@@ -200,16 +199,10 @@ msgstr "%{time} sou %{date}"
 msgid "%{y} of %{x} working"
 msgstr "%{y} sou %{x} k ap fonksyone"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid ", "
 msgstr ", "
-
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid ", cash, or "
-msgstr ", lajan kach, oswa "
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -4973,11 +4966,6 @@ msgstr "sou"
 msgid "or"
 msgstr "oswa"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid "or "
-msgstr "oswa "
-
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "or complete the feedback form on this page."
@@ -5166,7 +5154,6 @@ msgstr "sit entènèt"
 msgid "west"
 msgstr "lwès"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with"
@@ -5690,3 +5677,23 @@ msgstr "Pasaje yo dwe di kondiktè a yo vle desann. Pasaje k ap tann pou yo mont
 #, elixir-autogen, elixir-format
 msgid "The %{mode_name} may leave ahead of schedule at these stops."
 msgstr "%{mode_name} la ka pati anvan lè ki nan orè a nan estasyon sa yo."
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket} or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket}, cash, or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{fare_media}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
+msgstr ""
