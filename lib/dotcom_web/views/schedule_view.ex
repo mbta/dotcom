@@ -505,22 +505,16 @@ defmodule DotcomWeb.ScheduleView do
   end
 
   @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil
-  def timetable_crowding_description(crowding) do
-    seats =
-      case crowding do
-        :not_crowded -> ~t"many"
-        :some_crowding -> ~t"some"
-        :crowded -> ~t"few"
-        _ -> nil
-      end
+  def timetable_crowding_description(:not_crowded),
+    do: ~t"This train typically has<br /><strong>many seats available</strong>"
 
-    if seats do
-      gettext(
-        "This train typically has<br /><strong>%{seats} seats available</strong>",
-        seats: seats
-      )
-    end
-  end
+  def timetable_crowding_description(:some_crowding),
+    do: ~t"This train typically has<br /><strong>some seats available</strong>"
+
+  def timetable_crowding_description(:crowded),
+    do: ~t"This train typically has<br /><strong>few seats available</strong>"
+
+  def timetable_crowding_description(_), do: nil
 
   attr :track_changes, :list, required: true
 

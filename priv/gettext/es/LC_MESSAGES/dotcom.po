@@ -4176,11 +4176,6 @@ msgstr "Esta estación no tiene estacionamiento."
 msgid "This stop does not have fare vending machines, but you can purchase fares at a"
 msgstr "Esta parada no tiene máquinas expendedoras de boletos, pero puede pagar su tarifa en un"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "Por lo general, este tren tiene<br /><strong>%{seats} asientos disponibles</strong>"
-
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Thursday"
@@ -4826,11 +4821,6 @@ msgstr "muelles"
 msgid "east"
 msgstr "este"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr "pocos"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -4876,11 +4866,6 @@ msgstr "ubicación"
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "Aplicación de mTicket"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr "muchos"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4966,11 +4951,6 @@ msgstr "consulte un mapa de todos los puntos de venta propuestos"
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr "servicio"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr "algunos"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -5645,4 +5625,19 @@ msgstr ""
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
+msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>few seats available</strong>"
+msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>many seats available</strong>"
+msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>some seats available</strong>"
 msgstr ""
