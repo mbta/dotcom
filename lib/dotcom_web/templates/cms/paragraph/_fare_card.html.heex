@@ -26,30 +26,34 @@ price =
     _ -> Fares.Format.price(fare)
   end
 
-mticket_html = content_tag(:span, ~t"mTicket App", class: "no-wrap")
+mticket_html = content_tag(:span, ~t"mTicket App", class: "no-wrap") |> safe_to_string()
 
 media =
   case fare do
     %Fares.Summary{duration: :weekend} ->
-      [Fares.Format.media(:charlie_ticket), ~t(, cash, or ), mticket_html]
+      gettext("with %{charlie_ticket}, cash, or %{mticket}",
+        charlie_ticket: Fares.Format.media(:charlie_ticket),
+        mticket: mticket_html
+      )
+      |> raw()
 
     %Fares.Summary{modes: [:ferry]} ->
-      [
-        mticket_html,
-        ~t", ",
-        Fares.Format.media(:paper_ferry),
-        ~t", ",
-        Fares.Format.media(:contactless_payment),
-        ~t", ",
-        ~t"or ",
-        Fares.Format.media(:cash)
-      ]
+      gettext("with %{mticket}, %{paper_ferry}, %{contactless}, or cash",
+        mticket: mticket_html,
+        paper_ferry: Fares.Format.media(:paper_ferry),
+        contactless: Fares.Format.media(:contactless_payment)
+      )
+      |> raw()
 
     %Fares.Summary{} ->
-      [Fares.Format.media(:charlie_ticket), ~t( or ), mticket_html]
+      gettext("with %{charlie_ticket} or %{mticket}",
+        charlie_ticket: Fares.Format.media(:charlie_ticket),
+        mticket: mticket_html
+      )
+      |> raw()
 
     _ ->
-      Fares.Format.media(fare)
+      gettext("with %{fare_media}", fare_media: Fares.Format.media(fare))
   end
 
 link_class =
@@ -90,7 +94,7 @@ card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration] %>
 
   <%= if @fare_card.show_media && media do %>
     <p class="c-fare-card__media">
-      {~t(with)} {media}
+      {media}
     </p>
   <% end %>
 
@@ -116,7 +120,7 @@ card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration] %>
       </div>
       <%= if @fare_card.show_media do %>
         <p class="c-fare-card__media">
-          {~t(with)} {media}
+          {media}
         </p>
       <% end %>
 

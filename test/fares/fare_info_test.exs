@@ -276,12 +276,4 @@ defmodule Fares.FareInfoTest do
       assert mticket_price(2000) == 1000
     end
   end
-
-  describe "georges_island_ferry_fares/0" do
-    test "returns 7 Fare structs with name :ferry_george" do
-      fares = georges_island_ferry_fares()
-      assert length(fares) == 7
-      assert Enum.all?(fares, fn %Fare{name: :ferry_george} -> true end)
-    end
-  end
 end

@@ -56,8 +56,7 @@ defmodule Fares.RetailLocationsDataTest do
                  latitude: 32.0,
                  longitude: -41.0,
                  address: "facility address",
-                 phone: "1800facility",
-                 payment: ["Cash", "Invoice"]
+                 phone: "1800facility"
                }
     end
 
@@ -102,22 +101,6 @@ defmodule Fares.RetailLocationsDataTest do
       }
 
       assert Data.v3_property(item, "prop_name") == "prop_value"
-    end
-  end
-
-  describe "v3_property_multiple" do
-    test "parses aggregate properties" do
-      item = %JsonApi.Item{
-        attributes: %{
-          "properties" => [
-            %{"name" => "prop_name", "value" => "1"},
-            %{"name" => "different_prop", "value" => "2"},
-            %{"name" => "prop_name", "value" => "3"}
-          ]
-        }
-      }
-
-      assert Data.v3_property_multiple(item, "prop_name") == ["1", "3"]
     end
   end
 end

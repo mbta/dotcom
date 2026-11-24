@@ -830,11 +830,11 @@ defmodule Fares.FareInfo do
     monthly_price - 1000
   end
 
-  def reduced_mticket_price(reduced_monthly_price) when reduced_monthly_price > 3000 do
+  defp reduced_mticket_price(reduced_monthly_price) when reduced_monthly_price > 3000 do
     reduced_monthly_price - 500
   end
 
-  def reduced_mticket_price(reduced_monthly_price), do: reduced_monthly_price
+  defp reduced_mticket_price(reduced_monthly_price), do: reduced_monthly_price
 
   defp commuter_rail_fare_name(zone) do
     case String.split(zone, "_") do
@@ -888,46 +888,6 @@ defmodule Fares.FareInfo do
         media: [],
         reduced: nil,
         cents: dollars_to_cents("0.00")
-      }
-    ]
-  end
-
-  @spec georges_island_ferry_fares() :: [Fare.t()]
-  def georges_island_ferry_fares do
-    base_fare = %Fare{
-      mode: :ferry,
-      name: :ferry_george,
-      duration: :round_trip,
-      media: [],
-      reduced: nil
-    }
-
-    [
-      %{base_fare | cents: dollars_to_cents("19.95"), price_label: ~t"Adult"},
-      %{base_fare | cents: dollars_to_cents("12.95"), price_label: ~t"Child"},
-      %{base_fare | cents: dollars_to_cents("0.0"), price_label: ~t"Child under 3"},
-      %{
-        base_fare
-        | cents: dollars_to_cents("49.00"),
-          price_label: ~t"Family 4-pack (2 adults, 2 children)"
-      },
-      %{
-        base_fare
-        | reduced: :student,
-          cents: dollars_to_cents("14.95"),
-          price_label: ~t"Student"
-      },
-      %{
-        base_fare
-        | reduced: :senior_disabled,
-          cents: dollars_to_cents("14.95"),
-          price_label: ~t"Seniors"
-      },
-      %{
-        base_fare
-        | reduced: :senior_disabled,
-          cents: dollars_to_cents("14.95"),
-          price_label: ~t"Military"
       }
     ]
   end
