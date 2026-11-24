@@ -5630,19 +5630,19 @@ msgstr "El %{mode_name} podría salir antes del horario previsto en estas parada
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr ""
+msgstr "con %{charlie_ticket} o %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr ""
+msgstr "con %{charlie_ticket}, efectivo o %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr ""
+msgstr "con %{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr ""
+msgstr "con %{mticket}, %{paper_ferry}, %{contactless} o efectivo"
