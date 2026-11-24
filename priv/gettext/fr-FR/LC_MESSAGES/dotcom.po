@@ -364,11 +364,6 @@ msgstr "Ajouter au calendrier"
 msgid "Admins Only"
 msgstr "Réservé aux administrateurs"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Adult"
-msgstr "Adulte"
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Agenda"
@@ -803,16 +798,6 @@ msgstr "CharlieCards et billets"
 #, elixir-autogen, elixir-format
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child"
-msgstr "Enfant"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child under 3"
-msgstr "Enfant de moins de 3 ans"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1450,11 +1435,6 @@ msgstr "Informations sur les installations"
 #, elixir-autogen, elixir-format
 msgid "Facility Issue"
 msgstr "Problème lié aux installations"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Family 4-pack (2 adults, 2 children)"
-msgstr "Forfait familial pour 4 personnes (2 adultes, 2 enfants)"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -2476,11 +2456,6 @@ msgstr "Memorial Day"
 #, elixir-autogen, elixir-format
 msgid "Menu"
 msgstr "Menu"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Military"
-msgstr "Militaires"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3568,11 +3543,6 @@ msgstr "CharlieCard Senior ou TAP ID"
 msgid "Senior ID Cards"
 msgstr "Cartes pour les personnes âgées"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Seniors"
-msgstr "Personnes âgées"
-
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Server issue"
@@ -3872,11 +3842,6 @@ msgstr "Arrêts"
 #, elixir-autogen, elixir-format
 msgid "Stops Skipped"
 msgstr "Arrêts non desservis"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Student"
-msgstr "Étudiant"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format

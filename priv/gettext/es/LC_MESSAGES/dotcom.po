@@ -364,11 +364,6 @@ msgstr "Agregar al calendario"
 msgid "Admins Only"
 msgstr "Solo para administradores"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Adult"
-msgstr "Adulto"
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Agenda"
@@ -802,16 +797,6 @@ msgstr "CharlieCards y boletos"
 #, elixir-autogen, elixir-format
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child"
-msgstr "Niño"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child under 3"
-msgstr "Niño menor de 3 años"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1449,11 +1434,6 @@ msgstr "Información de las instalaciones"
 #, elixir-autogen, elixir-format
 msgid "Facility Issue"
 msgstr "Problema con las instalaciones"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Family 4-pack (2 adults, 2 children)"
-msgstr "Paquete familiar para 4 personas (2 adultos, 2 menores)"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -2474,11 +2454,6 @@ msgstr "Día de los Caídos"
 #, elixir-autogen, elixir-format
 msgid "Menu"
 msgstr "Menú"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Military"
-msgstr "Militar"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3566,11 +3541,6 @@ msgstr "CharlieCard para adultos mayores o TAP ID"
 msgid "Senior ID Cards"
 msgstr "Tarjetas de identificación para adultos mayores"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Seniors"
-msgstr "Adultos mayores"
-
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Server issue"
@@ -3870,11 +3840,6 @@ msgstr "Paradas"
 #, elixir-autogen, elixir-format
 msgid "Stops Skipped"
 msgstr "Paradas omitidas"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Student"
-msgstr "Estudiante"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format

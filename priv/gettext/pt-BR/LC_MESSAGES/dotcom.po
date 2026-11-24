@@ -364,11 +364,6 @@ msgstr "Adicionar ao calendário"
 msgid "Admins Only"
 msgstr "Apenas admins"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Adult"
-msgstr "Adulto"
-
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Agenda"
@@ -802,16 +797,6 @@ msgstr "CharlieCards & passagens"
 #, elixir-autogen, elixir-format
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child"
-msgstr "Criança"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Child under 3"
-msgstr "Criança com menos de 3 anos"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -1449,11 +1434,6 @@ msgstr "Informações sobre as instalações"
 #, elixir-autogen, elixir-format
 msgid "Facility Issue"
 msgstr "Problema nas instalações"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Family 4-pack (2 adults, 2 children)"
-msgstr "Pacote familiar para 4 pessoas (2 adultos, 2 crianças)"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -2470,11 +2450,6 @@ msgstr "Dia da Memória"
 #, elixir-autogen, elixir-format
 msgid "Menu"
 msgstr "Menu"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Military"
-msgstr "Militar"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3561,11 +3536,6 @@ msgstr "CharlieCard para Idosos ou TAP ID"
 msgid "Senior ID Cards"
 msgstr "Cartões de identificação para idosos"
 
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Seniors"
-msgstr "Seniores"
-
 #: lib/dotcom_web/views/error_view.ex
 #, elixir-autogen, elixir-format
 msgid "Server issue"
@@ -3865,11 +3835,6 @@ msgstr "Paradas"
 #, elixir-autogen, elixir-format
 msgid "Stops Skipped"
 msgstr "Paradas não atendidas"
-
-#: lib/fares/fare_info.ex
-#, elixir-autogen, elixir-format
-msgid "Student"
-msgstr "Estudante"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
