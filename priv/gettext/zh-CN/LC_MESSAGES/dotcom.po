@@ -5567,44 +5567,44 @@ msgstr "我们无法提交您的反馈。请重新加载页面，然后重试。
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr "目前，%{route_name}没有警报。"
+msgstr "目前，%{route_name}暂无服务提醒。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
-msgstr "在 North Station、South Station、Back Bay 和 Ruggles Station 以外的多轨道车站，进城列车在 2 号轨道上车，出城列车在 1 号轨道上车，另有说明除外。计划中的轨道变更将以 %{icon} 符号标示。查看 %{t_alerts_link}，了解实时轨道变更信息。"
+msgstr "在 North Station、South Station、Back Bay 和 Ruggles Station 以外的多轨道车站，进城列车在 2 号轨道上车，出城列车在 1 号轨道上车，另有说明除外。计划轨道变更将以 %{icon} 图标标示。查看 %{t_alerts_link}，获取实时轨道变更信息。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
-msgstr "乘客必须告知工作人员，他们希望下车。等候上车的乘客必须在码头上清晰可见，船只才能停靠。"
+msgstr "乘客需告知工作人员，其本人要下车。等候登船的乘客需在码头范围内便于船员看见，船只才会停靠。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
-msgstr "乘客必须告知列车员，他们希望下车。等候上车的乘客必须在站台上清晰可见，列车才能停车。"
+msgstr "乘客需告知列车员，其本人要下车。等候登车的乘客需在站台上便于司机看见，列车才会停车。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "The %{mode_name} may leave ahead of schedule at these stops."
-msgstr "%{mode_name} 可能会在这些站点提前发车。"
+msgstr "%{mode_name} 可能在这些站点提前发车。"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr ""
+msgstr "与 %{charlie_ticket} 或 %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr ""
+msgstr "使用%{charlie_ticket}、现金，或%{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr ""
+msgstr "与 %{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr ""
+msgstr "使用 %{mticket}、%{paper_ferry}、%{contactless}或现金"
