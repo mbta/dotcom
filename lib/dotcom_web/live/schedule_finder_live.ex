@@ -179,7 +179,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </div>
             <% else %>
               <.callout data-test="no_service">
-                {no_service_message(@served_dates, @route, @stop)}
+                {no_service_message(@route, @stop, @daily_schedule_date)}
               </.callout>
             <% end %>
           </.async_result>
@@ -709,21 +709,25 @@ defmodule DotcomWeb.ScheduleFinderLive do
     """
   end
 
-  defp no_service_message(served_dates, route, stop) do
+  defp no_service_message(%{name: "Foxboro Event Service"}, stop, date) do
+    gettext("There is no scheduled Foxboro Event Service at %{stop} on %{date}.",
+      stop: stop.name,
+      date: format!(date, :date_full)
+    )
+  end
+
+  defp no_service_message(route, stop, date) do
     route_name =
       if(route.type == 3 && not Route.silver_line?(route),
         do: gettext("Route %{route}", route: route.name),
         else: route.name
       )
 
-    if served_dates == [] do
-      gettext("There is currently no scheduled %{route_name}.", route_name: route_name)
-    else
-      gettext("There is no scheduled %{route} service at %{stop} for this time period.",
-        route: route_name,
-        stop: stop.name
-      )
-    end
+    gettext("There is no scheduled %{route_name} service at %{stop} on %{date}.",
+      route_name: route_name,
+      stop: stop.name,
+      date: format!(date, :date_full)
+    )
   end
 
   defp future_trips_from_yesterdays_service?(%{

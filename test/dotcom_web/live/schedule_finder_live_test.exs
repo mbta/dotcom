@@ -337,22 +337,6 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
       refute has_element?(view, "[phx-value-trip='current-departure']")
     end
 
-    test "indicates no service", %{conn: conn} do
-      expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> [] end)
-      expect(Dotcom.ScheduleFinder.Mock, :daily_departures, fn _, _, _, _ -> {:ok, []} end)
-      assert {:ok, view, _html} = visit_with_valid_params(conn)
-
-      no_service =
-        view
-        |> render_async()
-        |> Floki.parse_fragment!()
-        |> Floki.find("[data-test=\"no_service\"]")
-        |> Floki.text()
-
-      refute has_element?(view, ~s([data-test="service-picker-form"]))
-      assert no_service =~ ~r/There is currently no scheduled (\w+)./
-    end
-
     test "indicates no service for selected schedule", %{conn: conn} do
       active_services = Factories.Services.Service.build_list(15, :service)
       expect(Services.Repo.Mock, :by_route_id, 4, fn _ -> active_services end)
@@ -369,7 +353,7 @@ defmodule DotcomWeb.ScheduleFinderLiveTest do
         |> Floki.text()
 
       assert has_element?(view, ~s([data-test="service-picker-form"]))
-      assert no_service =~ ~r/There is no scheduled (\N+) service at (\N+) for this time period./
+      assert no_service =~ ~r/There is no scheduled (\N+) service at (\N+) on (\N+)./
     end
 
     test "handles loading errors & shows custom message", %{conn: conn} do
