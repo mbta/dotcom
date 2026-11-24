@@ -114,7 +114,7 @@ msgstr "%{count} 則警示"
 #: lib/dotcom_web/components/system_status/commuter_rail_upcoming_changes.ex
 #, elixir-autogen, elixir-format
 msgid "%{count} later %{change_text}"
-msgstr "%{count} 晚於 %{change_text}"
+msgstr "%{count} 則後續%{change_text}"
 
 #: lib/dotcom_web/views/cms_view.ex
 #, elixir-autogen, elixir-format
@@ -228,7 +228,7 @@ msgstr[0] "%{count} 個停靠站"
 #, elixir-autogen, elixir-format
 msgid "1 trip later today"
 msgid_plural "%{count} trips later today"
-msgstr[0] "今日稍晚的 %{count} 個班次"
+msgstr[0] "今日後續的 %{count} 個班次"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -379,7 +379,7 @@ msgstr "所有警示"
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "All Inbound Trains"
-msgstr "所有往市中心方向列車"
+msgstr "所有【往市中心方向】列車"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -394,7 +394,7 @@ msgstr "所有 MBTA 改善計畫"
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "All Outbound Trains"
-msgstr "所有往郊區方向列車"
+msgstr "所有【往郊區方向】列車"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -572,7 +572,7 @@ msgstr "Blue Line 列車自 Airport 車站發車"
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Boarding"
-msgstr "乘車"
+msgstr "登車中"
 
 #: lib/dotcom_web/templates/page/_user_guides.html.heex
 #, elixir-autogen, elixir-format
@@ -657,7 +657,7 @@ msgstr "可降低車身高度，方便乘客上下車的巴士"
 #: lib/dotcom_web/templates/page/_important_links.html.heex
 #, elixir-autogen, elixir-format
 msgid "Business"
-msgstr "商業"
+msgstr "商業合作機會"
 
 #: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -705,7 +705,7 @@ msgstr "已取消"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Capital Transformation"
-msgstr "資本轉型"
+msgstr "資本應用"
 
 #: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
@@ -833,23 +833,23 @@ msgstr "前往 Logan Airport 的通勤渡輪"
 #: lib/dotcom_web/views/page_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail"
-msgstr "通勤鐵路"
+msgstr "Commuter Rail"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail "
-msgstr "通勤鐵路 "
+msgstr "Commuter Rail "
 
 #: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Fares"
-msgstr "通勤鐵路票價"
+msgstr "Commuter Rail 票價"
 
 #: lib/dotcom_web/views/mode_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Map"
-msgstr "通勤鐵路路線圖"
+msgstr "Commuter Rail 路線圖"
 
 #: lib/dotcom_web/views/fare_view.ex
 #, elixir-autogen, elixir-format
@@ -859,27 +859,27 @@ msgstr "Commuter Rail 月票"
 #: lib/dotcom_web/templates/layout/_new_nav_popular_fares.html.heex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail One-Way"
-msgstr "通勤鐵路單程票"
+msgstr "Commuter Rail 單程票"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Positive Train Control"
-msgstr "通勤鐵路列車主動控制系統"
+msgstr "Commuter Rail 列車主動控制系統"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Status"
-msgstr "通勤鐵路營運狀態"
+msgstr "Commuter Rail 營運狀態"
 
 #: lib/dotcom_web/views/mode_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Zones Map"
-msgstr "通勤鐵路票價分區圖"
+msgstr "Commuter Rail 票價分區圖"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail seat availability is regularly updated to reflect a trip's typical ridership based on automated and conductor data from the past 14-30 days."
-msgstr "通勤鐵路的座位供應情況會定期更新，根據過去 14 至 30 天的自動化系統資料及列車長提供的資料，反映各班次的預期乘客量。"
+msgstr "Commuter Rail 的座位供應情況會定期更新，根據過去 14 至 30 天的自動化系統資料及列車長提供的資料，反映各班次的預期乘客量。"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -961,7 +961,7 @@ msgstr "Cross Harbor 渡輪"
 #: lib/dotcom_web/templates/mode/_grid_buttons_bus.html.heex
 #, elixir-autogen, elixir-format
 msgid "Crosstown"
-msgstr "跨區"
+msgstr "Crosstown（跨區）"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
@@ -1672,12 +1672,12 @@ msgstr "星期五"
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "From"
-msgstr "從 "
+msgstr "出發地"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Full high level platform to provide level boarding to every car in a train set"
-msgstr "全長高架月臺，讓列車編組中的每節車廂都能無階差上下車"
+msgstr "全長架高月臺，讓列車編組中的每節車廂都能無階差上下車"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -1692,7 +1692,7 @@ msgstr "查詢路線"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "Get Involved"
-msgstr "瞭解如何參與"
+msgstr "參與改革"
 
 #: lib/dotcom_web/controllers/customer_support_controller.ex
 #, elixir-autogen, elixir-format
@@ -1843,7 +1843,7 @@ msgstr "重要連結"
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Inbound Trains Cancelled"
-msgstr "往市中心方向的列車已取消"
+msgstr "【往市中心方向】的列車已取消"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -1930,7 +1930,7 @@ msgstr "最末班 %{vehicle}"
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
 msgid "Later"
-msgstr "稍後"
+msgstr "後續"
 
 #: lib/dotcom_web/templates/layout/_footer_links.html.heex
 #: lib/dotcom_web/templates/page/_important_links.html.heex
@@ -1967,7 +1967,7 @@ msgstr "進一步瞭解此車站的自行車停放設施。"
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Learn more about bikes on Commuter Rail"
-msgstr "進一步瞭解通勤鐵路的自行車搭乘規定"
+msgstr "進一步瞭解 Commuter Rail 的自行車搭乘規定"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2277,7 +2277,7 @@ msgstr "MBTA 自動售票機"
 #: lib/dotcom_web/templates/fare/retail_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "MBTA riders can purchase CharlieTickets and reload and purchase %{charlie_card} for the bus, subway, Commuter Rail, and ferry in retailers throughout the Greater Boston and Providence areas."
-msgstr "MBTA 乘客可在大波士頓地區 (Greater Boston) 及 Providence 地區各地的零售商店購買 CharlieTickets，並購買或儲值可搭乘巴士、地鐵、通勤鐵路及渡輪的 %{charlie_card}。"
+msgstr "MBTA 乘客可在大波士頓地區 (Greater Boston) 及 Providence 地區各地的零售商店購買 CharlieTickets，並購買或儲值可搭乘巴士、地鐵、Commuter Rail 及渡輪的 %{charlie_card}。"
 
 #: lib/dotcom_web/templates/layout/root.html.heex
 #, elixir-autogen, elixir-format
@@ -2292,7 +2292,7 @@ msgstr "MBTA.com 選單"
 #: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Main"
-msgstr "主要"
+msgstr "主要聯絡電話"
 
 #: lib/dotcom_web/templates/customer_support/_call_us.html.heex
 #, elixir-autogen, elixir-format
@@ -2409,7 +2409,7 @@ msgstr "美國陣亡將士紀念日"
 #: lib/dotcom_web/templates/layout/_new_header.html.heex
 #, elixir-autogen, elixir-format
 msgid "Menu"
-msgstr "功能表"
+msgstr "選單"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2424,7 +2424,7 @@ msgstr "分鐘"
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
 msgid "Mobile Ticketing"
-msgstr "電子車票"
+msgstr "App 票務相關"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
@@ -2544,7 +2544,7 @@ msgstr "最新消息"
 #: lib/dotcom_web/templates/news_entry/index.html.heex
 #, elixir-autogen, elixir-format
 msgid "Next"
-msgstr "下一步"
+msgstr "下一頁"
 
 #: lib/dotcom/utils/service_date_time.ex
 #, elixir-autogen, elixir-format
@@ -2794,7 +2794,7 @@ msgstr "故障"
 #: lib/dotcom_web/components/system_status/commuter_rail_status.ex
 #, elixir-autogen, elixir-format
 msgid "Outbound Trains Cancelled"
-msgstr "往郊區方向的列車已取消"
+msgstr "【往郊區方向】的列車已取消"
 
 #: lib/dotcom_web/components/stops/bike_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3040,7 +3040,7 @@ msgstr "政策變更"
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "Portable boarding lift"
-msgstr "可攜式登車升降台"
+msgstr "便攜式登車升降台"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -3329,7 +3329,7 @@ msgstr "大波士頓地區 MBTA 地鐵路線的時刻表資訊，包括即時資
 #: lib/dotcom_web/controllers/mode_controller.ex
 #, elixir-autogen, elixir-format
 msgid "Schedule information for MBTA subway, bus, Commuter Rail, and ferry in the Greater Boston region, including real-time updates and arrival predictions."
-msgstr "大波士頓地區 MBTA 地鐵、巴士、通勤鐵路及渡輪的時刻表資訊，包括即時資訊及預計抵達時間。"
+msgstr "大波士頓地區 MBTA 地鐵、巴士、Commuter Rail 及渡輪的時刻表資訊，包括即時資訊及預計抵達時間。"
 
 #: lib/dotcom/timetable_blocking.ex
 #, elixir-autogen, elixir-format
@@ -4129,7 +4129,7 @@ msgstr "時刻表"
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "To"
-msgstr "往 "
+msgstr "目的地"
 
 #: lib/dotcom_web/templates/customer_support/_rail_road.html.heex
 #: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
@@ -4163,7 +4163,7 @@ msgstr "免付費電話"
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Track Boarding Change"
-msgstr "乘車軌道月臺變更"
+msgstr "登車月臺變更"
 
 #: lib/alerts/alert.ex
 #: lib/dotcom/alerts/commuter_rail.ex
@@ -5227,7 +5227,7 @@ msgstr "Silver Line單程票"
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "with %{ccard}, %{ctick}, contactless payment, or cash"
-msgstr "使用%{ccard}、%{ctick}、非接觸式支付或現金"
+msgstr "使用%{ccard}、%{ctick}、感應式付款或現金"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
@@ -5442,17 +5442,17 @@ msgstr "所有支線"
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
-msgstr "所有版本"
+msgstr "所有改道路線"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "Uncommon destinations"
-msgstr "小眾目的地"
+msgstr "非常規終點站"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}, less common route"
-msgstr "從 %{origin} 出發，小眾路線"
+msgstr "從 %{origin} 發車，偏離常規路線"
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
@@ -5467,7 +5467,7 @@ msgstr "%{train_no} 列車"
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "or pay with cash or contactless payment on any bus"
-msgstr "或可在任何巴士上使用現金或非接觸式支付"
+msgstr "或可在任何巴士上使用現金或感應式付款"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #, elixir-autogen, elixir-format
@@ -5497,47 +5497,47 @@ msgstr "無法提交您的意見回饋。請重新載入頁面後再試一次。
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr "目前 %{route_name} 沒有任何警示。"
+msgstr "目前沒有%{route_name}服務異動通知。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
-msgstr "除North、South、Back Bay和Ruggles車站外，除非另有說明，設有多條軌道車站的往郊區方向列車會從2號軌道月臺上車，出站列車則從1號軌道月臺上車。表定軌道變更將以 %{icon} 符號標示。查看 %{t_alerts_link} 以掌握即時軌道異動。"
+msgstr "除North、South、Back Bay和Ruggles車站外，除非另有說明，設有多條軌道車站的往市中心方向列車會從2號軌道月臺上車，往郊區方向列車則從1號軌道月臺上車。表定軌道月臺變更將以 %{icon} 符號標示。查看 %{t_alerts_link} 以掌握即時軌道月臺異動。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
-msgstr "乘客必須告知船員自己想要離船。 等候上船的乘客必須在碼頭上清楚可見，船隻才會停靠。"
+msgstr "乘客必須告知船員自己想要下船。等候上船的乘客必須待在碼頭上明顯可見的位置，船隻才會停靠。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
-msgstr "乘客必須告知列車長他們想要下車。 候車乘客必須在月臺上保持清楚可見，列車才會停靠。"
+msgstr "乘客必須告知列車長自己想要下車。候車乘客必須待在月臺上明顯可見的位置，列車才會停靠。"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "The %{mode_name} may leave ahead of schedule at these stops."
-msgstr "%{mode_name} 可能會在這些站點提前發車。"
+msgstr "%{mode_name}可能會在這些站點提前發車。"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr ""
+msgstr "使用%{charlie_ticket}或%{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr ""
+msgstr "使用%{charlie_ticket}、現金或%{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr ""
+msgstr "與%{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr ""
+msgstr "使用%{mticket}、%{paper_ferry}、%{contactless}或現金"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
