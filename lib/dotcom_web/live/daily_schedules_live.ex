@@ -41,8 +41,7 @@ defmodule DotcomWeb.DailySchedulesLive do
     daily_schedules =
       services
       |> Enum.flat_map(fn svc ->
-        svc
-        |> Services.Service.all_valid_dates_for_service()
+        svc.all_active_dates
         |> Enum.map(&{&1, svc})
       end)
       |> Enum.group_by(fn {date, _svc} -> date end)

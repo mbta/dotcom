@@ -163,21 +163,6 @@ msgstr "%{name} Commuter Rail"
 msgid "%{place} Information"
 msgstr "Enfòmasyon sou %{place}"
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Planned Work"
-msgstr "%{rating} Travay ki planifye"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, ends %{date}"
-msgstr "Orè %{rating}, ki fini %{date}"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, starts %{date}"
-msgstr "%{rating} orè, kòmanse %{date}"
-
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "%{route_name} to %{headsign}"
@@ -802,11 +787,6 @@ msgstr "CharlieTicket"
 msgid "Choose Your Language"
 msgstr "Chwazi lang ou"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Choose a schedule type from the available options"
-msgstr "Chwazi yon kalite orè nan opsyon ki disponib yo"
-
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Christmas Day"
@@ -1417,7 +1397,6 @@ msgid "Exterior of Wonderland station"
 msgstr "Deyò estasyon Wonderland"
 
 #: lib/alerts/alert.ex
-#: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Extra Service"
 msgstr "Sèvis anplis"
@@ -1820,11 +1799,6 @@ msgstr "Bato Hingham/Hull"
 #, elixir-autogen, elixir-format
 msgid "History"
 msgstr "Istorik"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Holiday Schedules"
-msgstr "Orè pou jou ferye yo"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -2714,7 +2688,6 @@ msgstr "Avi"
 
 #: lib/dotcom_web/components/system_status/subway_status.ex
 #: lib/dotcom_web/components/trip_planner/input_form.ex
-#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Now"
@@ -2814,11 +2787,6 @@ msgstr "Kote depa a oswa kote destinasyon an pa nan zòn sèvis nou an"
 #, elixir-autogen, elixir-format
 msgid "Other"
 msgstr "Lòt"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Other Schedules"
-msgstr "Lòt orè"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -3345,6 +3313,7 @@ msgstr "Orè & kat jeyografik"
 msgid "Schedule Change"
 msgstr "Chanjman nan orè"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Schedule for"
@@ -4086,20 +4055,10 @@ msgstr "Pa gen vwayaj ki pwograme."
 msgid "There are no updates at this time."
 msgstr "Pa gen mizajou nan moman sa a."
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "There is currently no scheduled %{route_name}."
-msgstr "Pa gen %{route_name} ki pwograme kounye a."
-
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "There is no planned work information at this time."
 msgstr "Pa gen enfòmasyon sou travay ki planifye nan moman sa a."
-
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "There is no scheduled %{route} service at %{stop} for this time period."
-msgstr "Pa gen sèvis %{route} ki pwograme nan %{stop} pandan peryòd sa a."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4365,6 +4324,7 @@ msgstr "Chanjman k ap vini"
 msgid "Upcoming Departures"
 msgstr "Depa k ap vini yo"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Holidays"
@@ -5123,36 +5083,6 @@ msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>
 msgstr "Transfè ki aksesib pou chèz woulant nan Downtown Crossing ka mande pou <strong>soti nan pòt tarif yo.</strong> Pale ak pèsonèl estasyon an pou evite peye"
 " yon lòt tarif."
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Friday schedules"
-msgstr "Orè vandredi"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Monday - Thursday schedules"
-msgstr "Orè lendi - jedi"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Saturday schedules"
-msgstr "Orè samdi"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Sunday schedules"
-msgstr "Orè dimanch"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekday schedules"
-msgstr "Orè jou lasemèn"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekend schedules"
-msgstr "Orè wikenn"
-
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
@@ -5630,3 +5560,23 @@ msgstr "avèk %{fare_media}"
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
 msgstr "avèk %{mticket}, %{paper_ferry}, %{contactless}, oswa lajan kach"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Go to today"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "No service"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
+msgstr ""

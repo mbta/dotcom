@@ -163,21 +163,6 @@ msgstr "%{name} Commuter Rail"
 msgid "%{place} Information"
 msgstr "Thông tin về %{place}"
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Planned Work"
-msgstr "Công việc %{rating} đã lên kế hoạch"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, ends %{date}"
-msgstr "Lịch trình %{rating}, kết thúc vào %{date}"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, starts %{date}"
-msgstr "Lịch trình %{rating}, bắt đầu vào %{date}"
-
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "%{route_name} to %{headsign}"
@@ -797,11 +782,6 @@ msgstr "CharlieTicket"
 msgid "Choose Your Language"
 msgstr "Chọn ngôn ngữ"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Choose a schedule type from the available options"
-msgstr "Chọn loại lịch trình từ các tùy chọn hiện có"
-
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Christmas Day"
@@ -1413,7 +1393,6 @@ msgid "Exterior of Wonderland station"
 msgstr "Bên ngoài nhà ga Wonderland"
 
 #: lib/alerts/alert.ex
-#: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Extra Service"
 msgstr "Dịch vụ bổ sung"
@@ -1816,11 +1795,6 @@ msgstr "Hingham/Hull Ferry"
 #, elixir-autogen, elixir-format
 msgid "History"
 msgstr "Lịch sử"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Holiday Schedules"
-msgstr "Lịch trình ngày lễ"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -2716,7 +2690,6 @@ msgstr "Thông báo"
 
 #: lib/dotcom_web/components/system_status/subway_status.ex
 #: lib/dotcom_web/components/trip_planner/input_form.ex
-#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Now"
@@ -2816,11 +2789,6 @@ msgstr "Điểm xuất phát hoặc điểm đến nằm ngoài khu vực phục
 #, elixir-autogen, elixir-format
 msgid "Other"
 msgstr "Khác"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Other Schedules"
-msgstr "Lịch trình khác"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -3348,6 +3316,7 @@ msgstr "Lịch trình và bản đồ"
 msgid "Schedule Change"
 msgstr "Thay đổi lịch trình"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Schedule for"
@@ -4089,20 +4058,10 @@ msgstr "Không có chuyến nào theo lịch."
 msgid "There are no updates at this time."
 msgstr "Hiện chưa có cập nhật nào."
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "There is currently no scheduled %{route_name}."
-msgstr "Hiện không có %{route_name} nào theo lịch."
-
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "There is no planned work information at this time."
 msgstr "Hiện chưa có thông tin về công việc đã lên kế hoạch."
-
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "There is no scheduled %{route} service at %{stop} for this time period."
-msgstr "Không có dịch vụ %{route} theo lịch tại %{stop} trong khoảng thời gian này."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4368,6 +4327,7 @@ msgstr "Những thay đổi sắp tới"
 msgid "Upcoming Departures"
 msgstr "Các chuyến khởi hành sắp tới"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Holidays"
@@ -5128,36 +5088,6 @@ msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>
 msgstr "Để đến các điểm chuyển tuyến mà xe lăn có thể tiếp cận được tại Downtown Crossing, quý vị có thể cần <strong>đi ra khỏi cổng soát vé.</strong> Vui lòng"
 " gặp nhân viên nhà ga để tránh phải trả thêm tiền vé."
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Friday schedules"
-msgstr "Lịch trình ngày Thứ Sáu"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Monday - Thursday schedules"
-msgstr "Lịch trình Thứ Hai - Thứ Năm"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Saturday schedules"
-msgstr "Lịch trình ngày Thứ Bảy"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Sunday schedules"
-msgstr "Lịch trình ngày Chủ Nhật"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekday schedules"
-msgstr "Lịch trình các ngày trong tuần"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekend schedules"
-msgstr "Lịch trình ngày cuối tuần"
-
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
@@ -5636,3 +5566,23 @@ msgstr "với %{fare_media}"
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
 msgstr "bằng %{mticket}, %{paper_ferry}, %{contactless} hoặc tiền mặt"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Go to today"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "No service"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
+msgstr ""
