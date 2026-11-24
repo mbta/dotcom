@@ -239,8 +239,8 @@ msgstr[1] "%{count} rutas no disponibles"
 #, elixir-autogen, elixir-format
 msgid "1 Unscheduled Track Change"
 msgid_plural "%{count} Unscheduled Track Changes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 Unscheduled Track Change"
+msgstr[1] "%{count} Unscheduled Track Changes"
 
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
@@ -1948,7 +1948,7 @@ msgstr "Ir"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "Go to today"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2902,7 +2902,7 @@ msgstr "No se encontraron proyectos"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "No service"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
@@ -4464,12 +4464,12 @@ msgstr "No hay información sobre trabajos planificados en este momento."
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "There is no scheduled %{route_name} service at %{stop} on %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4551,17 +4551,17 @@ msgstr "Esta parada no tiene máquinas expendedoras de boletos, pero puede pagar
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>few seats available</strong>"
-msgstr ""
+msgstr "This train typically has<br /><strong>few seats available</strong>"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>many seats available</strong>"
-msgstr ""
+msgstr "This train typically has<br /><strong>many seats available</strong>"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>some seats available</strong>"
-msgstr ""
+msgstr "This train typically has<br /><strong>some seats available</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
