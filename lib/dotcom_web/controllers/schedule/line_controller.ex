@@ -39,8 +39,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
-    service_date = Map.get(conn.assigns, :date_time, Util.now()) |> Util.service_date()
-
     assign(
       conn,
       :schedule_page_data,
@@ -66,7 +64,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
-        services: services(conn.assigns.route.id, service_date),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,
@@ -82,89 +79,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
           ),
         variant: conn.assigns.variant
       }
-    )
-  end
-
-  @spec services(Routes.Route.id_t(), Date.t()) :: [Service.t()]
-  def services(route_id, service_date) do
-    route_id
-    |> Dotcom.ServicePatterns.services_for_route()
-    |> Enum.map(&Map.put(&1, :service_date, service_date))
-    |> tag_default_service()
-  end
-
-  # Some routes have no services (ie, "Green")
-  defp tag_default_service([]), do: []
-
-  defp tag_default_service(services) do
-    current_service =
-      services
-      |> Enum.filter(&current_service?/1)
-      |> get_default_service(services)
-
-    if is_map(current_service) do
-      Enum.map(
-        services,
-        &Map.put(&1, :default_service?, &1.id === Map.get(current_service, :id, ""))
-      )
-    else
-      services
-    end
-  end
-
-  # Find candidates that could be valid for today:
-  # - within the :start_date and :end_date (REJECT otherwise)
-  # - today NOT present in :removed_dates (REJECT if present)
-  # - today IS present in :added_dates
-  defp current_service?(service) do
-    service_date_string = Date.to_iso8601(service.service_date)
-
-    end_of_rating = Schedules.Repo.end_of_rating()
-
-    in_current_rating? =
-      if is_nil(end_of_rating) do
-        false
-      else
-        Date.compare(service.start_date, end_of_rating) != :gt
-      end
-
-    added_in? = Enum.member?(service.added_dates, service_date_string)
-
-    # removed dates with notes generally describe holidays. removed dates
-    # *without* notes are likely served by (no school) services, and we still
-    # wish to consider the service "current" despite hiding (no school) services
-    # from the frontend.
-    removed_date_with_note? =
-      Map.get(service.removed_dates_notes, service_date_string) |> is_binary()
-
-    (in_current_rating? || added_in?) && !removed_date_with_note?
-  end
-
-  # Prevent page crash when there are services, but none are valid for today.
-  # Uses first of original services found for this route.
-  defp get_default_service([], all_services), do: List.first(all_services)
-
-  # Get today's default service (reduce valid candidates to best match)
-  # - prefer if today's date is present inside :added_dates (typically means holiday)
-  # - otherwise, if today's day of week is within set of :valid_days
-  # - if all else fails, use the first candidate (already sorted by :start_date)
-  defp get_default_service(current_services, _all_services) do
-    service_date = current_services |> List.first() |> Map.get(:service_date)
-
-    # Fallback #2: First service
-    first_service = List.first(current_services)
-
-    # Fallback #1: Today is a valid day for this service
-    day_service =
-      Enum.find(current_services, first_service, fn service ->
-        service_date in Service.all_valid_dates_for_service(service)
-      end)
-
-    # Best match: Today is explicitly listed in this service's :added_in list
-    Enum.find(
-      current_services,
-      day_service,
-      &Enum.member?(&1.added_dates, Date.to_iso8601(service_date))
     )
   end
 

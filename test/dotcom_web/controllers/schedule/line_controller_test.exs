@@ -1,10 +1,7 @@
 defmodule DotcomWeb.Schedule.LineControllerTest do
   use DotcomWeb.ConnCase, async: false
 
-  alias DotcomWeb.ScheduleController.LineController
-
   import Mox
-  import Test.Support.Factories.Services.Service
 
   setup :verify_on_exit!
 
@@ -36,20 +33,6 @@ defmodule DotcomWeb.Schedule.LineControllerTest do
       assert "MBTA bus route CT2" <> _ = conn.assigns.meta_description
       conn = get(conn, line_path(conn, :show, "751"))
       assert "MBTA Silver Line route SL4" <> _ = conn.assigns.meta_description
-    end
-  end
-
-  describe "services/2" do
-    test "omits services in the past" do
-      past_service =
-        build(:service, end_date: Faker.Date.backward(3), typicality: :typical_service)
-
-      expect(Services.Repo.Mock, :by_route_id, fn _ ->
-        [past_service]
-      end)
-
-      services = LineController.services("1", Faker.Date.forward(3))
-      assert Enum.empty?(services)
     end
   end
 
