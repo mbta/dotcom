@@ -736,7 +736,6 @@ msgstr "徵才資訊"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Cash"
 msgstr "現金"
@@ -797,11 +796,6 @@ msgstr "CharlieCard 與車票"
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Check"
-msgstr "核查"
-
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
@@ -847,11 +841,6 @@ msgstr "關閉"
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "關閉對話框"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Coin"
-msgstr "硬幣"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -990,7 +979,6 @@ msgid "Create an Account"
 msgstr "建立帳戶"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Credit/Debit Card"
 msgstr "信用卡/金融卡"
@@ -1174,11 +1162,6 @@ msgstr "因單線通行"
 #, elixir-autogen, elixir-format
 msgid "EBT card"
 msgstr "EBT 卡"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "EZ Pass"
-msgstr "EZ 通票"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -1944,11 +1927,6 @@ msgstr "期限無效"
 msgid "Invalid Fare"
 msgstr "票價無效"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Invoice"
-msgstr "發票"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -2493,11 +2471,6 @@ msgstr "小型高月臺，讓列車編組中的特定車廂可供乘客無階差
 #, elixir-autogen, elixir-format
 msgid "Minutes"
 msgstr "分鐘"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Mobile App"
-msgstr "行動應用程式"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -3734,11 +3707,6 @@ msgstr "稍微左轉"
 #, elixir-autogen, elixir-format
 msgid "Slightly right"
 msgstr "稍微右轉"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Smart Card"
-msgstr "Smart Card"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format

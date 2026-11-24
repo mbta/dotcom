@@ -742,7 +742,6 @@ msgstr ""
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Cash"
 msgstr ""
@@ -803,11 +802,6 @@ msgstr ""
 msgid "CharlieTicket"
 msgstr ""
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Check"
-msgstr ""
-
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
@@ -852,11 +846,6 @@ msgstr ""
 #: lib/dotcom_web/templates/event/_popup.html.heex
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Coin"
 msgstr ""
 
 #: lib/holiday/repo.ex
@@ -996,7 +985,6 @@ msgid "Create an Account"
 msgstr ""
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Credit/Debit Card"
 msgstr ""
@@ -1179,11 +1167,6 @@ msgstr ""
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "EBT card"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "EZ Pass"
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
@@ -1950,11 +1933,6 @@ msgstr ""
 msgid "Invalid Fare"
 msgstr ""
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Invoice"
-msgstr ""
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -2498,11 +2476,6 @@ msgstr ""
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Minutes"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Mobile App"
 msgstr ""
 
 #: lib/feedback/message.ex
@@ -3739,11 +3712,6 @@ msgstr ""
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly right"
-msgstr ""
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Smart Card"
 msgstr ""
 
 #: lib/alerts/alert.ex

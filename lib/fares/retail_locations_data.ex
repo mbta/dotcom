@@ -63,8 +63,7 @@ defmodule Fares.RetailLocations.Data do
       address: v3_property(item, "address"),
       latitude: item.attributes["latitude"],
       longitude: item.attributes["longitude"],
-      phone: v3_property(item, "contact-phone"),
-      payment: Enum.map(v3_property_multiple(item, "payment-form-accepted"), &pretty_payment/1)
+      phone: v3_property(item, "contact-phone")
     }
 
     {:ok, location}
@@ -79,21 +78,4 @@ defmodule Fares.RetailLocations.Data do
 
     property["value"]
   end
-
-  @spec v3_property_multiple(JsonApi.Item.t(), String.t()) :: [String.t()]
-  def v3_property_multiple(%JsonApi.Item{} = item, prop) do
-    item.attributes["properties"]
-    |> Enum.filter(&(&1["name"] == prop))
-    |> Enum.map(& &1["value"])
-  end
-
-  @spec pretty_payment(String.t()) :: String.t()
-  def pretty_payment("cash"), do: ~t"Cash"
-  def pretty_payment("check"), do: ~t"Check"
-  def pretty_payment("coin"), do: ~t"Coin"
-  def pretty_payment("credit-debit-card"), do: ~t"Credit/Debit Card"
-  def pretty_payment("e-zpass"), do: ~t"EZ Pass"
-  def pretty_payment("invoice"), do: ~t"Invoice"
-  def pretty_payment("mobile-app"), do: ~t"Mobile App"
-  def pretty_payment("smartcard"), do: ~t"Smart Card"
 end

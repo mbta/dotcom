@@ -743,7 +743,6 @@ msgstr "Carreiras"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Cash"
 msgstr "Dinheiro"
@@ -804,11 +803,6 @@ msgstr "CharlieCards & passagens"
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Check"
-msgstr "Verificar"
-
 #: lib/fares/fare_info.ex
 #, elixir-autogen, elixir-format
 msgid "Child"
@@ -854,11 +848,6 @@ msgstr "Fechar"
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Fechar caixa de diálogo"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Coin"
-msgstr "Moeda"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -999,7 +988,6 @@ msgid "Create an Account"
 msgstr "Criar uma conta"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Credit/Debit Card"
 msgstr "Cartão de crédito/débito"
@@ -1183,11 +1171,6 @@ msgstr "Devido à operação em via única"
 #, elixir-autogen, elixir-format
 msgid "EBT card"
 msgstr "Cartão EBT"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "EZ Pass"
-msgstr "EZ Pass"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -1954,11 +1937,6 @@ msgstr "Duração inválida"
 msgid "Invalid Fare"
 msgstr "Tarifa inválida"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Invoice"
-msgstr "Fatura"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -2507,11 +2485,6 @@ msgstr "Miniplataforma elevada para permitir o embarque no mesmo nível em deter
 #, elixir-autogen, elixir-format
 msgid "Minutes"
 msgstr "Minutos"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Mobile App"
-msgstr "Aplicativo móvel"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -3753,11 +3726,6 @@ msgstr "Levemente à esquerda"
 #, elixir-autogen, elixir-format
 msgid "Slightly right"
 msgstr "Levemente à direita"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Smart Card"
-msgstr "Cartão inteligente"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
