@@ -74,8 +74,8 @@ defmodule Dotcom.Utils.Time do
       "Saturday, January 1, 2000"
 
       iex> t = ~U[2000-01-01 23:59:00Z]
-      iex> Dotcom.Utils.Time.format!(t, :date_short_ordinal)
-      "January 1st"
+      iex> Dotcom.Utils.Time.format!(t, :date_full_ordinal)
+      "Saturday, January 1st"
 
       iex> t = ~U[2000-01-01 23:59:00Z]
       iex> Dotcom.Utils.Time.format!(t, :weekday_date_short)
@@ -212,8 +212,8 @@ defmodule Dotcom.Utils.Time do
   end
 
   # January 1st
-  def format!(datetime, :date_short_ordinal) do
-    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "MMMM ddd")
+  def format!(datetime, :date_full_ordinal) do
+    {:ok, string} = Cldr.DateTime.to_string(datetime, Dotcom.Cldr, format: "EEEE, MMMM ddd")
 
     string
   end
