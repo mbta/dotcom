@@ -236,7 +236,7 @@ msgstr[0] "%{count}条不可用路线"
 #, elixir-autogen, elixir-format
 msgid "1 Unscheduled Track Change"
 msgid_plural "%{count} Unscheduled Track Changes"
-msgstr[0] ""
+msgstr[0] "%{count} Unscheduled Track Changes"
 
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
@@ -1935,7 +1935,7 @@ msgstr "前往"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "转到今天"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2878,7 +2878,7 @@ msgstr "未找到项目"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "暂停运营"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
@@ -4432,12 +4432,12 @@ msgstr "目前没有计划工作信息。"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "%{date} 当日，在 %{stop} 没有排定的 %{route_name} 班次。"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "%{date} 当日，在 %{stop} 没有排定的 Foxboro Event Service。"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4517,17 +4517,17 @@ msgstr "此站点未设有自动售票机，但您可以在以下地点购买车
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>few seats available</strong>"
-msgstr ""
+msgstr "This train typically has<br /><strong>few seats available</strong>"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>many seats available</strong>"
-msgstr ""
+msgstr "This train typically has<br /><strong>many seats available</strong>"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>some seats available</strong>"
-msgstr ""
+msgstr "This train typically has<br /><strong>some seats available</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -5518,22 +5518,22 @@ msgstr "使用 %{ccard}、%{ctick}、非接触式支付或现金"
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr "与 %{charlie_ticket} 或 %{mticket}"
+msgstr "使用 %{charlie_ticket} 或 %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr "使用%{charlie_ticket}、现金，或%{mticket}"
+msgstr "使用 %{charlie_ticket}、现金或 %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr "与 %{fare_media}"
+msgstr "使用 %{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr "使用 %{mticket}、%{paper_ferry}、%{contactless}或现金"
+msgstr "使用 %{mticket}、%{paper_ferry}、%{contactless} 或现金"
 
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
