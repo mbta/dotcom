@@ -51,11 +51,6 @@ msgstr " em %{address}"
 msgid " depend on the distance traveled (zones). Refer to the information below:"
 msgstr " dependem da distância percorrida (zonas). Consulte as informações abaixo:"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " for real-time track changes."
-msgstr " para alterações de faixa em tempo real."
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " has arrived at "
@@ -70,11 +65,6 @@ msgstr " está chegando em "
 #, elixir-autogen, elixir-format
 msgid " is on the way to "
 msgstr " está a caminho de "
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " may leave ahead of schedule at these stops."
-msgstr " Pode sair antes do horário previsto nestes pontos."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -100,21 +90,6 @@ msgstr " horário"
 #, elixir-autogen, elixir-format
 msgid " schedule and map"
 msgstr " horário e mapa"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " symbol. Check "
-msgstr " símbolo. Verificar "
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " that they wish to leave. Passengers waiting to board must be visible on the platform for the "
-msgstr " que eles desejam partir. passageiro aguardando embarque deve estar visível na plataforma para o "
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " to stop."
-msgstr " parar."
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -528,12 +503,6 @@ msgstr "Chegando por %{time}"
 #, elixir-autogen, elixir-format
 msgid "At fare vending machines, you can"
 msgstr "Na máquina de venda de passagens você pode"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
-msgstr "Na estação com vários trilhos fora da estação Norte, Sul, Back Bay e Ruggles , os trens sentido centro embarcam da Trilha 2 e os trens sentido bairro embarcam"
-" da Trilha 1, salvo especificação em contrário. As alterações de trajeto programadas serão indicadas pelo(s) "
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -3013,11 +2982,6 @@ msgstr "Estacionamento em %{name}"
 msgid "Parking available"
 msgstr "Estacionamento disponível"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "Passengers must tell "
-msgstr "deve dizer "
-
 #: lib/dotcom_web/views/bus_stop_change_view.ex
 #, elixir-autogen, elixir-format
 msgid "Past Changes"
@@ -4102,11 +4066,6 @@ msgstr "Obrigado por enviar seu feedback. Nossa equipe de Atendimento ao Cliente
 msgid "Thanksgiving Day"
 msgstr "Dia de Ação de Graças"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "The "
-msgstr "O "
-
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
@@ -4839,11 +4798,6 @@ msgstr "Zona %{zone}"
 msgid "Zones 1A-10"
 msgstr "Zonas 1A-10"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "a crew member"
-msgstr "um membro da tripulação"
-
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "accessible spots"
@@ -5112,11 +5066,6 @@ msgstr "para"
 #, elixir-autogen, elixir-format
 msgid "the MBTA's home page"
 msgstr "Página inicial do MBTA"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "the conductor"
-msgstr "o condutor"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -5712,24 +5661,48 @@ msgstr "Não foi possível enviar seu feedback. Recarregue a página e tente nov
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr ""
+msgstr "Não há alertas para %{route_name} no momento."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgstr "Em estações com várias vias, exceto nas estações Norte, Sul, Back Bay e Ruggles, os trens no sentido centro embarcam pela via 2, e os trens no sentido"
+" bairro embarcam pela via 1, salvo indicação em contrário. As alterações de via programadas serão indicadas pelo símbolo %{icon}. Acesse %{t_alerts_link}"
+" para ver alterações de via em tempo real."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
+msgstr "Os passageiros devem informar um membro da equipe de que desejam desembarcar. Os passageiros que aguardam para embarcar devem estar visíveis no píer para"
+" que a embarcação pare."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
+msgstr "Os passageiros devem informar ao condutor que desejam desembarcar. Passageiros que aguardam para embarcar devem estar visíveis na plataforma para que o"
+" trem pare."
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "The %{mode_name} may leave ahead of schedule at these stops."
+msgstr "%{mode_name} pode sair antes do horário previsto nestas paradas."
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr ""
+msgstr "com %{charlie_ticket} ou %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr ""
-
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr ""
+msgstr "com %{charlie_ticket}, dinheiro ou %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr ""
+msgstr "com %{fare_media}"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
+msgstr "com %{mticket}, %{paper_ferry}, %{contactless} ou dinheiro"
