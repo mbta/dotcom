@@ -5600,15 +5600,15 @@ msgstr "Não há alertas para %{route_name} no momento."
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
-msgstr "Nas estações com várias vias, exceto nas estações Norte, Sul, Back Bay e Ruggles, os trens no sentido centro embarcam pela via 2, e os trens no sentido"
-" bairro embarcam pela via 1, salvo indicação em contrário. As alterações programadas de via serão indicadas pelo símbolo %{icon}. Verifique %{t_alerts_link}"
+msgstr "Em estações com várias vias, exceto nas estações Norte, Sul, Back Bay e Ruggles, os trens no sentido centro embarcam pela via 2, e os trens no sentido"
+" bairro embarcam pela via 1, salvo indicação em contrário. As alterações de via programadas serão indicadas pelo símbolo %{icon}. Acesse %{t_alerts_link}"
 " para ver alterações de via em tempo real."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
 msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
-msgstr "Os passageiros devem informar um membro da tripulação de que desejam desembarcar. Os passageiros que aguardam para embarcar devem estar visíveis no píer"
-" para que a embarcação pare."
+msgstr "Os passageiros devem informar um membro da equipe de que desejam desembarcar. Os passageiros que aguardam para embarcar devem estar visíveis no píer para"
+" que a embarcação pare."
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
@@ -5624,19 +5624,19 @@ msgstr "%{mode_name} pode sair antes do horário previsto nestas paradas."
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr ""
+msgstr "com %{charlie_ticket} ou %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr ""
+msgstr "com %{charlie_ticket}, dinheiro ou %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr ""
+msgstr "com %{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr ""
+msgstr "com %{mticket}, %{paper_ferry}, %{contactless} ou dinheiro"
