@@ -735,11 +735,6 @@ msgstr "徵才資訊"
 msgid "Cash"
 msgstr "現金"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "變更"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -749,11 +744,6 @@ msgstr "變更日期"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "變更行程方向。"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "變更"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4317,11 +4307,6 @@ msgstr "通常有超過 66% 的座位可供使用，且可以保持適當距離�
 msgid "Unknown"
 msgstr "未知"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "未排定軌道月臺"
-
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "Until %{date}"
@@ -5603,3 +5588,9 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>some seats available</strong>"
 msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] ""

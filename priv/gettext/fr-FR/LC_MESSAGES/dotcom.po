@@ -743,11 +743,6 @@ msgstr "Carrières"
 msgid "Cash"
 msgstr "Espèces"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "Modifier"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -757,11 +752,6 @@ msgstr "Modifier la date"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "Modifiez la direction du trajet."
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "Modifications"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4344,11 +4334,6 @@ msgstr "En règle générale, plus de 66 % des places sont disponibles et la di
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "Voie non programmée"
-
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "Until %{date}"
@@ -5644,3 +5629,10 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>some seats available</strong>"
 msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] ""
+msgstr[1] ""

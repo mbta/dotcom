@@ -736,11 +736,6 @@ msgstr "Việc làm"
 msgid "Cash"
 msgstr "Tiền mặt"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "Thay đổi"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -750,11 +745,6 @@ msgstr "Thay đổi ngày"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "Thay đổi hướng của chuyến đi."
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "Thay đổi"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4335,11 +4325,6 @@ msgstr "Thông thường, hơn 66% số ghế còn trống và có thể giữ k
 msgid "Unknown"
 msgstr "Không rõ"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "Đường ray không theo lịch"
-
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "Until %{date}"
@@ -5631,3 +5616,9 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>some seats available</strong>"
 msgstr ""
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] ""
