@@ -143,10 +143,7 @@ defmodule DotcomWeb.Components.FareCard do
           {Fares.Format.price(@min_full_fare)} &ndash; {Fares.Format.price(@max_full_fare)}
         </h4>
         <p>
-          {gettext("with %{ccard}, %{ctick}, contactless payment, or cash", %{
-            ccard: "CharlieCard",
-            ctick: "CharlieTicket"
-          })}
+          {gettext("with CharlieTicket or mTicket App")}
         </p>
       </div>
       <div class="c-multi-column__column">
@@ -206,10 +203,7 @@ defmodule DotcomWeb.Components.FareCard do
       <div class="c-multi-column__column border-b-2">
         <h4 class="mt-0">{Fares.Format.price(@full_fare)}</h4>
         <p>
-          {gettext("with %{ccard}, %{ctick}, contactless payment, or cash", %{
-            ccard: "CharlieCard",
-            ctick: "CharlieTicket"
-          })}
+          {gettext("with mTicket App, paper ferry ticket, contactless payment, or cash")}
         </p>
       </div>
       <div class="c-multi-column__column">
