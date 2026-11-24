@@ -16,7 +16,7 @@ defmodule DotcomWeb.Components.FareCard do
     "Boat-F7" => :ferry_winthrop,
     "Boat-F8" => :ferry_winthrop,
     "Boat-F10" => :ferry_harbor_loop,
-    "Boat-EastBoston" => :ferry_cross_harbor,
+    "Boat-EastBoston" => :ferry_east_boston,
     "Boat-Lynn" => :ferry_lynn
   }
 
