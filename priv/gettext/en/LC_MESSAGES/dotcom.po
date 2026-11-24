@@ -143,6 +143,7 @@ msgid "%{date} until further notice"
 msgstr ""
 
 #: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr ""
@@ -5435,11 +5436,6 @@ msgstr ""
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "through"
-msgstr ""
-
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "timetable for"
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
