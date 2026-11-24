@@ -51,11 +51,6 @@ msgstr " 位于%{address}"
 msgid " depend on the distance traveled (zones). Refer to the information below:"
 msgstr " 取决于行程距离（区域）。请参阅以下信息："
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " for real-time track changes."
-msgstr " 用于获取实时轨道变更信息。"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " has arrived at "
@@ -70,11 +65,6 @@ msgstr " 即将抵达 "
 #, elixir-autogen, elixir-format
 msgid " is on the way to "
 msgstr " 正在前往 "
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " may leave ahead of schedule at these stops."
-msgstr " 车辆可能会在这些站点提前发车。"
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -100,21 +90,6 @@ msgstr " 时刻表"
 #, elixir-autogen, elixir-format
 msgid " schedule and map"
 msgstr " 时刻表和地图"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " symbol. Check "
-msgstr " 符号。核查 "
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " that they wish to leave. Passengers waiting to board must be visible on the platform for the "
-msgstr " 他们希望下车的地点。等候上车的乘客必须出现在站台上，以便 "
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid " to stop."
-msgstr " 以停靠。"
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
@@ -521,11 +496,6 @@ msgstr "抵达时间：%{time}"
 #, elixir-autogen, elixir-format
 msgid "At fare vending machines, you can"
 msgstr "在自动售票机上，您可以"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the "
-msgstr "除North、South、Back Bay和Ruggles车站外，在设有多条轨道的车站，进城列车从2号轨道上车，出城列车从1号轨道上车，另有说明的情况除外。计划中的轨道变更将通过以下标明： "
 
 #: lib/dotcom_web/templates/event/show.html.heex
 #, elixir-autogen, elixir-format
@@ -2996,11 +2966,6 @@ msgstr "停靠位置：%{name}"
 msgid "Parking available"
 msgstr "提供停车位"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "Passengers must tell "
-msgstr "乘客必须告知 "
-
 #: lib/dotcom_web/views/bus_stop_change_view.ex
 #, elixir-autogen, elixir-format
 msgid "Past Changes"
@@ -4082,11 +4047,6 @@ msgstr "感谢您提交反馈。我们的客户支持团队将尽快查看您的
 msgid "Thanksgiving Day"
 msgstr "感恩节"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "The "
-msgstr "该 "
-
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "The Customer Engagement Coordinator in System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received."
@@ -4816,11 +4776,6 @@ msgstr "区域%{zone}"
 msgid "Zones 1A-10"
 msgstr "分区1A–10"
 
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "a crew member"
-msgstr "一名工作人员"
-
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
 msgid "accessible spots"
@@ -5089,11 +5044,6 @@ msgstr "站点"
 #, elixir-autogen, elixir-format
 msgid "the MBTA's home page"
 msgstr "MBTA主页"
-
-#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
-#, elixir-autogen, elixir-format
-msgid "the conductor"
-msgstr "列车乘务员"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -5684,19 +5634,44 @@ msgstr "我们无法提交您的反馈。请重新加载页面，然后重试。
 #: lib/dotcom_web/views/alert_view.ex
 #, elixir-autogen, elixir-format
 msgid "There are no alerts on the %{route_name} at this time."
-msgstr ""
+msgstr "目前，%{route_name}暂无服务提醒。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the %{icon} symbol. Check %{t_alerts_link} for real-time track changes."
+msgstr "在 North Station、South Station、Back Bay 和 Ruggles Station 以外的多轨道车站，进城列车在 2 号轨道上车，出城列车在 1 号轨道上车，另有说明除外。计划轨道变更将以 %{icon} 图标标示。查看 %{t_alerts_link}，获取实时轨道变更信息。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Passengers must tell a crew member that they wish to leave. Passengers waiting to board must be visible on the dock for the boat to stop."
+msgstr "乘客需告知工作人员，其本人要下车。等候登船的乘客需在码头范围内便于船员看见，船只才会停靠。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "Passengers must tell the conductor that they wish to leave. Passengers waiting to board must be visible on the platform for the train to stop."
+msgstr "乘客需告知列车员，其本人要下车。等候登车的乘客需在站台上便于司机看见，列车才会停车。"
+
+#: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
+#, elixir-autogen, elixir-format
+msgid "The %{mode_name} may leave ahead of schedule at these stops."
+msgstr "%{mode_name} 可能在这些站点提前发车。"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr ""
+msgstr "使用 %{charlie_ticket} 或 %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr ""
+msgstr "使用 %{charlie_ticket}、现金或 %{mticket}"
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{fare_media}"
+msgstr "使用 %{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr ""
+msgstr "使用 %{mticket}、%{paper_ferry}、%{contactless} 或现金"
