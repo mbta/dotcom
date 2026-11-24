@@ -79,15 +79,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
           |> assign_new(:holiday_services, fn ->
             ServicePatterns.upcoming_holidays_and_service(route.id)
           end)
-          |> assign_new(:daily_schedule_date, fn assigns ->
-            # Current date if there's service today, next available service date otherwise... or current date if there's no service at all!
-
-            cond do
-              yesterday_service_date? -> yesterday
-              assigns.service_today? -> today
-              true -> Enum.find(assigns.served_dates, today, &Date.after?(&1, today))
-            end
-          end)
+          |> assign(:daily_schedule_date, if(yesterday_service_date?, do: yesterday, else: today))
           |> assign_alerts()
           |> assign_departures()
           |> assign_duplex_stop?()
