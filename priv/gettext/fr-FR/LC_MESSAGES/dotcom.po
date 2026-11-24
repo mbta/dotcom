@@ -76,7 +76,6 @@ msgstr " minute à pied"
 msgid " on track "
 msgstr " sur la voie "
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
 msgid " or "
@@ -200,16 +199,10 @@ msgstr "Le %{date} à %{time}"
 msgid "%{y} of %{x} working"
 msgstr "%{y} sur %{x} en service"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid ", "
 msgstr ", "
-
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid ", cash, or "
-msgstr ", espèces, ou "
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -746,7 +739,6 @@ msgstr "Carrières"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Cash"
 msgstr "Espèces"
@@ -807,11 +799,6 @@ msgstr "CharlieCards et billets"
 msgid "CharlieTicket"
 msgstr "CharlieTicket"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Check"
-msgstr "Vérifier"
-
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Choose Your Language"
@@ -847,11 +834,6 @@ msgstr "Fermer"
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Fermer la boîte de dialogue"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Coin"
-msgstr "Pièce"
 
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
@@ -992,7 +974,6 @@ msgid "Create an Account"
 msgstr "Créer un compte"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
-#: lib/fares/retail_locations_data.ex
 #, elixir-autogen, elixir-format
 msgid "Credit/Debit Card"
 msgstr "Carte de crédit/débit"
@@ -1176,11 +1157,6 @@ msgstr "En raison de la circulation sur une seule voie"
 #, elixir-autogen, elixir-format
 msgid "EBT card"
 msgstr "Carte EBT"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "EZ Pass"
-msgstr "Titre de transport EZ"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
@@ -1943,11 +1919,6 @@ msgstr "Durée non valide"
 msgid "Invalid Fare"
 msgstr "Titre de transport non valide"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Invoice"
-msgstr "Facture"
-
 #: lib/dotcom_web/templates/event/_month_select.html.heex
 #: lib/dotcom_web/templates/event/_year_select.html.heex
 #: lib/dotcom_web/templates/event/index.html.heex
@@ -2495,11 +2466,6 @@ msgstr "Mini-quai surélevé permettant l’accès de plain-pied à certaines vo
 #, elixir-autogen, elixir-format
 msgid "Minutes"
 msgstr "Comptes rendus"
-
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Mobile App"
-msgstr "Application mobile"
 
 #: lib/feedback/message.ex
 #, elixir-autogen, elixir-format
@@ -3738,11 +3704,6 @@ msgstr "Légèrement à gauche"
 msgid "Slightly right"
 msgstr "Légèrement à droite"
 
-#: lib/fares/retail_locations_data.ex
-#, elixir-autogen, elixir-format
-msgid "Smart Card"
-msgstr "Carte à puce"
-
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
 msgid "Snow Route"
@@ -4954,11 +4915,6 @@ msgstr "vers"
 msgid "or"
 msgstr "ou"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
-#, elixir-autogen, elixir-format
-msgid "or "
-msgstr "ou "
-
 #: lib/dotcom_web/templates/customer_support/_accessibility.html.heex
 #, elixir-autogen, elixir-format
 msgid "or complete the feedback form on this page."
@@ -5147,7 +5103,6 @@ msgstr "site web"
 msgid "west"
 msgstr "ouest"
 
-#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #: lib/dotcom_web/templates/cms/paragraph/_grouped_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with"
@@ -5674,3 +5629,23 @@ msgstr "Les passagers doivent indiquer au contrôleur qu’ils souhaitent descen
 #, elixir-autogen, elixir-format
 msgid "The %{mode_name} may leave ahead of schedule at these stops."
 msgstr "Le %{mode_name} peut partir plus tôt que prévu à ces arrêts."
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket} or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{charlie_ticket}, cash, or %{mticket}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{fare_media}"
+msgstr ""
+
+#: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
+#, elixir-autogen, elixir-format
+msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
+msgstr ""

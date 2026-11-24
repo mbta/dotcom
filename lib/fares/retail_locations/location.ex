@@ -6,8 +6,7 @@ defmodule Fares.RetailLocations.Location do
           address: String.t(),
           latitude: float,
           longitude: float,
-          phone: String.t(),
-          payment: [String.t()]
+          phone: String.t()
         }
 
   defimpl Util.Position do

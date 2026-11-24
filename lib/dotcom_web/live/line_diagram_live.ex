@@ -14,6 +14,44 @@ defmodule DotcomWeb.LineDiagramLive do
   @map_config Application.compile_env(:mbta_metro, :map)
   @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
+  @fog_poly_data %{
+    type: "FeatureCollection",
+    features: [
+      %{
+        type: "Feature",
+        geometry: %{
+          type: "Polygon",
+          coordinates: [
+            # Fog
+            [[-180, 0], [-180, 90], [0, 90], [0, 0], [-180, 0]],
+            # Hole in the fog
+            [
+              # NE Corner in the sea off Portsmouth
+              [-69.6, 43],
+              # Mid NH Corner to drop south and then follow state boundary
+              [-71.75, 43],
+              # Mid NH Corner to align with state boundary
+              [-71.75, 42.75],
+              # NW Corner of MA area
+              [-73.0, 42.75],
+              # SW Corner of MA area
+              [-73.0, 42.00],
+              # MA CT RI Triple point
+              [-71.8, 42.00],
+              # SW Corner of RI
+              [-71.8, 41.25],
+              # SE Corner in the sea off Nantucket
+              [-69.6, 41.25],
+              # NE Corner in the sea off Portsmouth
+              [-69.6, 43]
+            ]
+            |> Enum.reverse()
+          ]
+        }
+      }
+    ]
+  }
+
   @guides [
     %{
       title: ~t(Subway Beginner's Guide),
@@ -83,6 +121,8 @@ defmodule DotcomWeb.LineDiagramLive do
   import DotcomWeb.Components.ScheduleHeaderComponents, only: [route_header: 1]
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
+
+  import Routes.Route, only: [is_silver_line?: 1]
 
   import DotcomWeb.ScheduleView,
     only: [
@@ -158,7 +198,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)
      |> assign(:search_phrase, "")
-     |> assign_other_stops()}
+     |> assign_other_stops()
+     |> assign(:fog_poly_data, @fog_poly_data)}
   end
 
   @impl true
@@ -259,16 +300,99 @@ defmodule DotcomWeb.LineDiagramLive do
       })
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
+    {icon, icon_class} = icon_combo(route)
 
-    %{
-      id: vehicle.id,
-      coordinates: [vehicle.longitude, vehicle.latitude],
-      type: "icon-svg",
-      name: "icon-vehicle-bordered-expanded",
-      class: "size-6 cursor-pointer",
-      popup: popup,
-      rotation: vehicle.bearing || "0"
-    }
+    marker_stack(vehicle, popup, icon, icon_class)
+  end
+
+  # I disagree that the following function is too complex, it simply mirrors the state of our complex system
+  # credo:disable-for-next-line
+  defp icon_combo(route) do
+    cond do
+      is_silver_line?(route) -> {"icon-subway", "bearing_silver"}
+      route.type == 0 -> {"icon-subway", "bearing_green"}
+      route.type == 2 -> {"icon-commuter-rail", "bearing_cr"}
+      route.type == 3 -> {"icon-bus", "bearing_bus"}
+      route.type == 4 -> {"icon-ferry", "bearing_ferry"}
+      route.id == "Red" -> {"icon-subway", "bearing_red"}
+      route.id == "Orange" -> {"icon-subway", "bearing_orange"}
+      route.id == "Blue" -> {"icon-subway", "bearing_blue"}
+      true -> {"icon-subway", "bearing_silver"}
+    end
+  end
+
+  defp marker_stack(vehicle, popup, icon, icon_class) do
+    if is_nil(vehicle.bearing) do
+      # No bearing, just draw a vehicle icon with a colored circle
+      [
+        %{
+          id: vehicle.id <> "_bearingNilA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-circle-semisolid",
+          class: "size-9 cursor-pointer vehicle_black",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id <> "_bearingNilB",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-circle-solid",
+          class: "size-7 cursor-pointer #{icon_class}",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id <> "_bearingNilC",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    else
+      [
+        # Bottom Layer Halo (Rotates)
+        %{
+          id: vehicle.id <> "_bearingA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-halo-light",
+          type: "icon-svg",
+          class: "cursor-pointer size-9 vehicle_black"
+        },
+        # Middle Puck with Line/Mode Color (Rotates)
+        %{
+          id: vehicle.id <> "_bearingB",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-puck",
+          type: "icon-svg",
+          class: "cursor-pointer #{icon_class} size-7"
+        },
+        # Top layer vehicle Icon (Static)
+        %{
+          id: vehicle.id,
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    end
+  end
+
+  defp other_color(icon_class) do
+    if icon_class != "bearing_bus" do
+      " vehicle_white"
+    else
+      " vehicle_black"
+    end
   end
 
   def vehicle_popup(assigns) do
@@ -416,7 +540,8 @@ defmodule DotcomWeb.LineDiagramLive do
             map_route_shapes={@map_route_shapes}
             route_color={"##{@route.color}"}
             map_icons={@map_icons}
-            vehicle_icons={Map.values(@vehicle_icons)}
+            fog_poly_data={@fog_poly_data}
+            vehicle_icons={Map.values(@vehicle_icons) |> List.flatten()}
           />
         </div>
         <form id="stop_search_form">
@@ -519,14 +644,15 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  defp search_class(stop, search_phrase) do
-    if String.length(search_phrase) > 0 and
-         !stop_name_match?(stop.name, search_phrase) do
-      "hidden"
-    else
+  defp search_class(stop, search_phrase) when search_phrase != "" do
+    if stop_name_match?(stop.name, search_phrase) do
       "result"
+    else
+      "hidden"
     end
   end
+
+  defp search_class(_stop, _search_phrase), do: ""
 
   @impl true
   def handle_event("search", %{"search" => search}, socket) do
@@ -920,6 +1046,7 @@ defmodule DotcomWeb.LineDiagramLive do
       center={[-71.0589, 42.3601]}
       style={@map_style}
       zoom={10}
+      min_zoom={7}
       class="h-96 w-full"
     />
 
@@ -951,7 +1078,27 @@ defmodule DotcomWeb.LineDiagramLive do
     />
 
     <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
-    <.icon_markers id="new-map-vehicles" map_id="new-map" icons={@vehicle_icons} z_index={2} />
+
+    <.icon_markers
+      id="new-map-vehicles"
+      map_id="new-map"
+      icons={@vehicle_icons}
+      z_index={2}
+    />
+
+    <MaplibreX.Components.geojson_layer
+      id="new-map-fog"
+      map_id="new-map"
+      data={@fog_poly_data}
+      type="fill"
+      paint={
+        %{
+          "fill-color" => "#f4f4f4",
+          "fill-opacity" => 1,
+          "fill-outline-color" => "rgba(0,0,0,0)"
+        }
+      }
+    />
     """
   end
 
