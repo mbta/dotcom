@@ -152,9 +152,9 @@ describe("LineDiagram", () => {
   it("should go to /departures/ when a user clicks on the results stop card", async () => {
     const user = userEvent.setup();
     const locationSpy = jest.fn();
-    Object.defineProperty(window, 'location', {
+    Object.defineProperty(window, "location", {
       writable: true,
-      value: { assign: locationSpy },
+      value: { assign: locationSpy }
     });
     renderWithProviders(
       <LineDiagram
@@ -173,7 +173,7 @@ describe("LineDiagram", () => {
     await userEvent.click(scheduleButton);
 
     await waitFor(() => {
-      expect(locationSpy).toHaveBeenCalled()
+      expect(locationSpy).toHaveBeenCalled();
     });
   });
 });

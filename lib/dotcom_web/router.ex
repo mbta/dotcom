@@ -34,6 +34,10 @@ defmodule DotcomWeb.Router do
         %{plug_status: 404} ->
           ControllerHelpers.render_404(conn)
 
+        # InvalidCSRFTokenError returns a 403, and come from the `:protect_from_forgery` plug before other plugs can transform the response
+        %Plug.CSRFProtection.InvalidCSRFTokenError{} = error ->
+          ControllerHelpers.return_error(conn, error.plug_status, error.message)
+
         _ ->
           ControllerHelpers.render_500(conn)
       end
@@ -312,7 +316,6 @@ defmodule DotcomWeb.Router do
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)
     resources("/fares", FareController, only: [:show])
-    post("/search/query", SearchController, :query)
     get("/bus-stop-changes", BusStopChangeController, :show)
 
     # Temporarily removed because the elections API only returns
@@ -395,6 +398,13 @@ defmodule DotcomWeb.Router do
     get("/stop/:id/route-patterns", StopController, :grouped_route_patterns)
     get("/map-config", MapConfigController, :get)
     get("/routes/:route_ids", RouteController, :get_by_route_ids)
+  end
+
+  # This endpoint only reads public search results; it does not use session state.
+  scope "/search", DotcomWeb do
+    pipe_through([:secure, :api])
+
+    post("/query", SearchController, :query)
   end
 
   scope "/algolia", DotcomWeb do

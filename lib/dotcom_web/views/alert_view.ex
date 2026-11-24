@@ -22,11 +22,9 @@ defmodule DotcomWeb.AlertView do
 
   """
   def group(opts) do
-    stop? = Keyword.has_key?(opts, :stop)
-    route = Keyword.get(opts, :stop) || Keyword.fetch!(opts, :route)
+    route = Keyword.fetch!(opts, :route)
     show_empty? = Keyword.get(opts, :show_empty?, false)
     priority_filter = Keyword.get(opts, :priority_filter, :any)
-    timeframe = Keyword.get(opts, :timeframe, nil)
     date_time = Keyword.get(opts, :date_time)
 
     alerts =
@@ -40,7 +38,7 @@ defmodule DotcomWeb.AlertView do
       {[], true} ->
         content_tag(
           :div,
-          no_alerts_message(route, stop?, timeframe),
+          no_alerts_message(route),
           class: "callout"
         )
 
@@ -48,7 +46,11 @@ defmodule DotcomWeb.AlertView do
         ""
 
       _ ->
-        render(__MODULE__, "group.html", alerts: alerts, route: route, date_time: date_time)
+        render(__MODULE__, "group.html",
+          alerts: alerts,
+          route: route,
+          date_time: date_time
+        )
     end
   end
 
@@ -56,61 +58,10 @@ defmodule DotcomWeb.AlertView do
     Enum.uniq_by(alerts, & &1.id)
   end
 
-  @spec no_alerts_message(map, boolean, atom) :: iolist
-  def no_alerts_message(route, false, :current) do
-    [
-      ~t"Service is running as expected",
-      location_name(route, false),
-      ". ",
-      empty_message_for_timeframe(:current, "")
-    ]
+  @spec no_alerts_message(map) :: String.t()
+  def no_alerts_message(route) do
+    gettext("There are no alerts on the %{route_name} at this time.", route_name: route.name)
   end
-
-  def no_alerts_message(route, false, :upcoming) do
-    empty_message_for_timeframe(:upcoming, [~t" for the ", route.name])
-  end
-
-  def no_alerts_message(route, stop?, timeframe) do
-    empty_message_for_timeframe(timeframe, location_name(route, stop?))
-  end
-
-  @spec location_name(map, boolean) :: iolist
-  def location_name(route, true) do
-    [~t" at ", route.name]
-  end
-
-  def location_name(route, false) do
-    [~t" on the ", route.name]
-  end
-
-  @spec format_alerts_timeframe(atom | nil) :: String.t() | nil
-  def format_alerts_timeframe(:upcoming) do
-    ~t"planned"
-  end
-
-  def format_alerts_timeframe(:current) do
-    ~t"current"
-  end
-
-  def format_alerts_timeframe(_) do
-    ""
-  end
-
-  @spec empty_message_for_timeframe(atom | nil, String.t() | iolist | nil) :: iolist
-  def empty_message_for_timeframe(:current, location),
-    do: [~t"There are no ", format_alerts_timeframe(:current), ~t" alerts", location, ~t"."]
-
-  def empty_message_for_timeframe(nil, location),
-    do: [~t"There are no alerts", location, ~t" at this time."]
-
-  def empty_message_for_timeframe(timeframe, location),
-    do: [
-      ~t"There are no ",
-      format_alerts_timeframe(timeframe),
-      ~t" alerts",
-      location,
-      ~t" at this time."
-    ]
 
   @spec filter_by_priority(
           priority_filter,

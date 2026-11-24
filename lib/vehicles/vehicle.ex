@@ -28,7 +28,7 @@ defmodule Vehicles.Vehicle do
           direction_id: 0 | 1,
           longitude: float,
           latitude: float,
-          bearing: non_neg_integer,
+          bearing: non_neg_integer | nil,
           status: status,
           stop_sequence: non_neg_integer,
           crowding: crowding | nil

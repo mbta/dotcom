@@ -2,6 +2,7 @@
 
 # External
 Mox.defmock(AwsClient.Mock, for: AwsClient.Behaviour)
+Mox.defmock(GTFSRouteBranching.Mock, for: GTFSRouteBranching.Behaviour)
 Mox.defmock(Req.Mock, for: Req.Behaviour)
 Mox.defmock(Dotcom.SearchService.Mock, for: Dotcom.SearchService)
 

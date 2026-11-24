@@ -1,9 +1,5 @@
 import { StopId } from "../../schedule/components/__schedule";
-import {
-  Alert,
-  InformedEntitySet,
-  TimePeriodPairs
-} from "../../__v3api";
+import { Alert, InformedEntitySet, TimePeriodPairs } from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
   isInNextXDays,

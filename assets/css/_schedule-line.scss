@@ -40,6 +40,10 @@
 }
 
 .m-schedule-line__stop-popup {
+  // Must stay above the z-index set on marker groups (see `z_index` on `icon_markers`).
+  // The map wrapper is `isolate`d so this can't overlap dropdowns outside the map.
+  z-index: $z-index-map-popup;
+
   .maplibregl-popup-content {
     background-color: $black;
     color: $white;
@@ -89,5 +93,63 @@
       &[aria-label="commuter rail"], &[aria-label="ferry"] {
         scale: 1.25;
       }
+    }
+  }
+
+ .vehicle_white {
+  *{
+    fill: #FFFFFF;
+  }
+ }
+ .vehicle_black {
+  *{
+    fill: #000000;
+  }
+ }
+ 
+ .bearing_white {
+    *{
+      fill: #FFFFFF;
+      opacity: 0.9;
+    }
+  }
+  .bearing_red {
+    *{
+      fill: $brand-red-line;
+    }
+  }
+  .bearing_orange {
+    *{
+      fill: $brand-orange-line;
+    }  
+  }
+  .bearing_blue {
+    *{
+      fill: $brand-blue-line;
+    }
+  }
+  .bearing_green {
+   *{
+      fill: $brand-green-line;
+    }
+  }
+  .bearing_silver {
+    *{
+      fill: $brand-silver-line;
+    }
+  }
+  .bearing_bus {
+    *{
+      fill: $brand-bus;
+    }
+  }
+  .bearing_cr {
+    *{
+      fill: $brand-commuter-rail;
+    }
+  }
+  .bearing_ferry {
+    *{
+      fill: $brand-ferry;
     }
   }

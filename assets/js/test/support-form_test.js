@@ -242,6 +242,10 @@ describe("support form", () => {
       $("#test").html(`
         <div class="form-container">
           <div class="support-confirmation support-confirmation--success hidden-xs-up"></div>
+          <div class="support-confirmation support-confirmation--error hidden-xs-up" tabindex="-1">
+            <div class="support-submission-error">Please try again in a few minutes.</div>
+            <div class="support-csrf-error hidden-xs-up">Please reload the page and try again.</div>
+          </div>
           <form id="support" action="/customer-support">
             <div class="support-support_subject-error-container hidden-xs-up"></div>
             <select id="support_subject" name="support[subject]" required="required"> 
@@ -490,7 +494,7 @@ describe("support form", () => {
       $("#privacy").prop("checked", "checked");
       $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
-      spy.firstCall.args[0].error();
+      spy.firstCall.args[0].error({ status: 500 });
       assert.isFalse(
         $(".support-confirmation--error").hasClass("hidden-xs-up")
       );
@@ -498,6 +502,37 @@ describe("support form", () => {
         storageOptions.localStorage.getItem("support-form-cache"),
         "draft"
       );
+    });
+
+    it("asks users to reload on 403 and preserves their draft", () => {
+      storageOptions.localStorage.setItem("support-form-cache", "draft");
+      $("#no_request_response").prop("checked", true);
+      $("#comments").val("A comment");
+      $("#g-recaptcha-response").val("response");
+      $("#support-submit").click();
+
+      const onError = spy.firstCall.args[0].error;
+      onError({ status: 403 });
+
+      assert.isFalse(
+        $(".support-confirmation--error").hasClass("hidden-xs-up")
+      );
+      assert.isFalse($(".support-csrf-error").hasClass("hidden-xs-up"));
+      assert.include(
+        $(".support-csrf-error").text(),
+        "Please reload the page and try again."
+      );
+      assert.isTrue($(".support-submission-error").hasClass("hidden-xs-up"));
+      assert.isFalse($("#support-submit").prop("disabled"));
+      assert.equal($("#comments").val(), "A comment");
+      assert.equal(
+        storageOptions.localStorage.getItem("support-form-cache"),
+        "draft"
+      );
+
+      onError({ status: 500 });
+      assert.isTrue($(".support-csrf-error").hasClass("hidden-xs-up"));
+      assert.isFalse($(".support-submission-error").hasClass("hidden-xs-up"));
     });
 
     it("shows comment validation when other fields provided", () => {

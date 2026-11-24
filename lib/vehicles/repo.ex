@@ -3,10 +3,11 @@ defmodule Vehicles.Repo do
   Repository for Vehicles. Vehicles are updated via server-sent events in Vehicles.Stream.
   This module listens to that stream and updates the local cache (ETS table) when things change,
   and also has public functions for retrieving vehicles from the cache.
+  Vehicles.Notifications publishes scoped invalidations after cache changes.
   """
 
   use GenServer
-  alias Vehicles.Vehicle
+  alias Vehicles.{Notifications, Vehicle}
   alias Vehicles.Repo.Behaviour
 
   @behaviour Behaviour
@@ -104,28 +105,35 @@ defmodule Vehicles.Repo do
   @impl GenServer
   def handle_info({:reset, vehicles}, state) do
     table = table(state)
+    previous = all(name: table)
     _ = :ets.delete_all_objects(table)
     [] = :ets.tab2list(table)
     _ = add_vehicles(vehicles, table)
+    :ok = Notifications.broadcast_changes(previous, vehicles)
     {:noreply, state}
   end
 
-  def handle_info({:add, [%Vehicle{} = vehicle]}, state) do
-    _ = add_vehicles([vehicle], table(state))
-    {:noreply, state}
-  end
-
-  def handle_info({:update, [%Vehicle{} = vehicle]}, state) do
-    _ = add_vehicles([vehicle], table(state))
+  def handle_info({event, [%Vehicle{} = vehicle]}, state) when event in [:add, :update] do
+    table = table(state)
+    previous = vehicles_for_id(table, vehicle.id)
+    _ = add_vehicles([vehicle], table)
+    :ok = Notifications.broadcast_changes(previous, [vehicle])
     {:noreply, state}
   end
 
   def handle_info({:remove, [<<id::binary>>]}, state) do
-    _ = :ets.delete(table(state), id)
+    table = table(state)
+    previous = vehicles_for_id(table, id)
+    _ = :ets.delete(table, id)
+    :ok = Notifications.broadcast_changes(previous, [])
     {:noreply, state}
   end
 
   defp table(%{table_name: table_name}), do: table_name
+
+  defp vehicles_for_id(table, id) do
+    for {_, _, _, _, vehicle} <- :ets.lookup(table, id), do: vehicle
+  end
 
   @spec add_vehicles([Vehicle.t()], atom) :: true
   defp add_vehicles(vehicles, tab) when is_list(vehicles) do

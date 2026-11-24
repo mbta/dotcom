@@ -14,6 +14,44 @@ defmodule DotcomWeb.LineDiagramLive do
   @map_config Application.compile_env(:mbta_metro, :map)
   @vehicles_repo Application.compile_env!(:dotcom, :repo_modules)[:vehicles]
 
+  @fog_poly_data %{
+    type: "FeatureCollection",
+    features: [
+      %{
+        type: "Feature",
+        geometry: %{
+          type: "Polygon",
+          coordinates: [
+            # Fog
+            [[-180, 0], [-180, 90], [0, 90], [0, 0], [-180, 0]],
+            # Hole in the fog
+            [
+              # NE Corner in the sea off Portsmouth
+              [-69.6, 43],
+              # Mid NH Corner to drop south and then follow state boundary
+              [-71.75, 43],
+              # Mid NH Corner to align with state boundary
+              [-71.75, 42.75],
+              # NW Corner of MA area
+              [-73.0, 42.75],
+              # SW Corner of MA area
+              [-73.0, 42.00],
+              # MA CT RI Triple point
+              [-71.8, 42.00],
+              # SW Corner of RI
+              [-71.8, 41.25],
+              # SE Corner in the sea off Nantucket
+              [-69.6, 41.25],
+              # NE Corner in the sea off Portsmouth
+              [-69.6, 43]
+            ]
+            |> Enum.reverse()
+          ]
+        }
+      }
+    ]
+  }
+
   @guides [
     %{
       title: ~t(Subway Beginner's Guide),
@@ -84,6 +122,8 @@ defmodule DotcomWeb.LineDiagramLive do
 
   import DotcomWeb.ModeView, only: [mode_fare_card: 1]
 
+  import Routes.Route, only: [is_silver_line?: 1]
+
   import DotcomWeb.ScheduleView,
     only: [
       header_class: 1,
@@ -94,6 +134,9 @@ defmodule DotcomWeb.LineDiagramLive do
 
   import DotcomWeb.Views.Helpers.AlertHelpers, only: [alert_badge: 1]
   import DotcomWeb.Schedule.Defaults, only: [default_direction_id: 1]
+
+  import DotcomWeb.LineDiagramHelpers,
+    only: [route_to_diagram_class: 1, get_segments: 4, stop_card_segment: 1]
 
   on_mount DotcomWeb.Hooks.AssignRoute
   on_mount {DotcomWeb.Hooks.Breadcrumbs, :schedule_page}
@@ -129,27 +172,22 @@ defmodule DotcomWeb.LineDiagramLive do
     guides_for_this_route =
       @guides |> Enum.filter(fn guide -> route.type in guide.modes end)
 
-    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
-
     _ =
       if connected?(socket) do
-        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
+        Vehicles.Notifications.subscribe({:route, route_id, direction_id})
       end
 
     {:ok,
      socket
      |> assign(:map_config, @map_config)
      |> assign(:direction_id, direction_id)
-     |> assign(:vehicle_topic, vehicle_topic)
-     |> assign_new(:vehicle_icons, fn ->
-       route_id
-       |> @vehicles_repo.route(direction_id: direction_id)
-       |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
-     end)
      |> assign(:route_id, route_id)
      |> assign(:route, route)
      |> assign(:stop_type_label, Routes.Route.stop_type_label(route))
      |> assign(:stop_type_label_plural, Routes.Route.stop_type_label_plural(route))
+     |> fetch_vehicle_icons()
+     |> assign(:line_diagram_segments, [])
+     |> assign(:stop_id_to_segment, %{})
      |> assign_route_patterns()
      |> assign_route_stops()
      |> assign_route_data()
@@ -160,7 +198,8 @@ defmodule DotcomWeb.LineDiagramLive do
      |> assign_pdfs()
      |> assign(:guides, guides_for_this_route)
      |> assign(:search_phrase, "")
-     |> assign_other_stops()}
+     |> assign_other_stops()
+     |> assign(:fog_poly_data, @fog_poly_data)}
   end
 
   @impl true
@@ -177,21 +216,13 @@ defmodule DotcomWeb.LineDiagramLive do
      |> apply_if_param_changed(:direction_id, &apply_direction_change/1)
      |> apply_if_param_changed(:selected_variant, &apply_variant_change/1)
      |> assign_route_data()
+     |> push_fit_bounds()
      |> assign_other_stops()}
   end
 
   @impl true
-  def terminate(_, socket) do
-    # stop listening for new vehicles
-    _ = Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-  end
-
-  @impl true
-  def handle_info(
-        %Phoenix.Socket.Broadcast{topic: "vehicles-v2:" <> _, event: event, payload: payload},
-        socket
-      ) do
-    {:noreply, socket |> assign_vehicle_icons(event, payload.data) |> assign(:move_map, false)}
+  def handle_info({:vehicles_changed, _}, socket) do
+    {:noreply, socket |> fetch_vehicle_icons() |> assign(:move_map, false)}
   end
 
   @impl true
@@ -231,22 +262,17 @@ defmodule DotcomWeb.LineDiagramLive do
     Enum.any?(route_patterns, &(&1.id == variant))
   end
 
+  defp fetch_vehicle_icons(socket) do
+    %{route: route, direction_id: direction_id} = socket.assigns
+
+    @vehicles_repo.route(route.id, direction_id: direction_id)
+    |> Map.new(&{&1.id, to_vehicle_marker(&1, route)})
+    |> then(&assign(socket, :vehicle_icons, &1))
+  end
+
   defp apply_direction_change(socket) do
-    %{route_id: route_id, direction_id: direction_id} = socket.assigns
-    vehicle_topic = "vehicles-v2:#{route_id}:#{direction_id}"
-
-    _ =
-      if connected?(socket) do
-        Phoenix.PubSub.unsubscribe(Dotcom.PubSub, socket.assigns.vehicle_topic)
-        Phoenix.PubSub.subscribe(Dotcom.PubSub, vehicle_topic)
-      end
-
     socket
-    |> assign(:vehicle_topic, vehicle_topic)
-    |> assign_vehicle_icons(
-      "reset",
-      @vehicles_repo.route(route_id, direction_id: direction_id)
-    )
+    |> fetch_vehicle_icons()
     |> assign_route_patterns()
     |> assign_route_stops()
   end
@@ -266,24 +292,6 @@ defmodule DotcomWeb.LineDiagramLive do
     end)
   end
 
-  def assign_vehicle_icons(socket, "remove", vehicle_ids) do
-    update(socket, :vehicle_icons, &Map.drop(&1, vehicle_ids))
-  end
-
-  def assign_vehicle_icons(socket, "reset", vehicles) do
-    vehicles
-    |> Map.new(&{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
-    |> then(&assign(socket, :vehicle_icons, &1))
-  end
-
-  # add or update
-  def assign_vehicle_icons(socket, _, vehicles) do
-    updated_vehicles =
-      Map.new(vehicles, &{&1.id, to_vehicle_marker(&1, socket.assigns.route)})
-
-    update(socket, :vehicle_icons, &Map.merge(&1, updated_vehicles))
-  end
-
   defp to_vehicle_marker(vehicle, route) do
     %{stops: _, vehicle_info: vehicle_info} =
       Dotcom.ScheduleFinder.TripDetails.trip_details(%{
@@ -292,15 +300,99 @@ defmodule DotcomWeb.LineDiagramLive do
       })
 
     popup = vehicle_popup(%{route: route, vehicle_info: vehicle_info, vehicle: vehicle})
+    {icon, icon_class} = icon_combo(route)
 
-    %{
-      coordinates: [vehicle.longitude, vehicle.latitude],
-      type: "icon-svg",
-      name: "icon-vehicle-bordered-expanded",
-      class: "size-6 cursor-pointer",
-      popup: popup,
-      rotation: vehicle.bearing || "0"
-    }
+    marker_stack(vehicle, popup, icon, icon_class)
+  end
+
+  # I disagree that the following function is too complex, it simply mirrors the state of our complex system
+  # credo:disable-for-next-line
+  defp icon_combo(route) do
+    cond do
+      is_silver_line?(route) -> {"icon-subway", "bearing_silver"}
+      route.type == 0 -> {"icon-subway", "bearing_green"}
+      route.type == 2 -> {"icon-commuter-rail", "bearing_cr"}
+      route.type == 3 -> {"icon-bus", "bearing_bus"}
+      route.type == 4 -> {"icon-ferry", "bearing_ferry"}
+      route.id == "Red" -> {"icon-subway", "bearing_red"}
+      route.id == "Orange" -> {"icon-subway", "bearing_orange"}
+      route.id == "Blue" -> {"icon-subway", "bearing_blue"}
+      true -> {"icon-subway", "bearing_silver"}
+    end
+  end
+
+  defp marker_stack(vehicle, popup, icon, icon_class) do
+    if is_nil(vehicle.bearing) do
+      # No bearing, just draw a vehicle icon with a colored circle
+      [
+        %{
+          id: vehicle.id <> "_bearingNilA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-circle-semisolid",
+          class: "size-9 cursor-pointer vehicle_black",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id <> "_bearingNilB",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: "icon-circle-solid",
+          class: "size-7 cursor-pointer #{icon_class}",
+          popup: popup,
+          rotation: "0"
+        },
+        %{
+          id: vehicle.id <> "_bearingNilC",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    else
+      [
+        # Bottom Layer Halo (Rotates)
+        %{
+          id: vehicle.id <> "_bearingA",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-halo-light",
+          type: "icon-svg",
+          class: "cursor-pointer size-9 vehicle_black"
+        },
+        # Middle Puck with Line/Mode Color (Rotates)
+        %{
+          id: vehicle.id <> "_bearingB",
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          rotation: (vehicle.bearing + 45) |> Integer.mod(360) |> Integer.to_string(),
+          name: "vehicle-puck",
+          type: "icon-svg",
+          class: "cursor-pointer #{icon_class} size-7"
+        },
+        # Top layer vehicle Icon (Static)
+        %{
+          id: vehicle.id,
+          coordinates: [vehicle.longitude, vehicle.latitude],
+          type: "icon-svg",
+          name: icon,
+          class: "size-6 cursor-pointer " <> other_color(icon_class),
+          popup: popup,
+          rotation: "0"
+        }
+      ]
+    end
+  end
+
+  defp other_color(icon_class) do
+    if icon_class != "bearing_bus" do
+      " vehicle_white"
+    else
+      " vehicle_black"
+    end
   end
 
   def vehicle_popup(assigns) do
@@ -441,14 +533,17 @@ defmodule DotcomWeb.LineDiagramLive do
             {~t(Change Direction)}
           </.link>
         </div>
-        <.map
-          map_config={@map_config}
-          route_patterns={@route_patterns}
-          map_lines={@map_lines}
-          map_icons={@map_icons}
-          vehicle_icons={Map.values(@vehicle_icons)}
-          move_map={@move_map}
-        />
+
+        <div class="flex flex-col gap-2 isolate">
+          <.map
+            map_style={@map_config.style}
+            map_route_shapes={@map_route_shapes}
+            route_color={"##{@route.color}"}
+            map_icons={@map_icons}
+            fog_poly_data={@fog_poly_data}
+            vehicle_icons={Map.values(@vehicle_icons) |> List.flatten()}
+          />
+        </div>
         <form id="stop_search_form">
           <div class="m-schedule-diagram__filter c-form__input-container">
             <input
@@ -477,12 +572,16 @@ defmodule DotcomWeb.LineDiagramLive do
           </div>
         </form>
 
-        <div class="m-schedule-diagram my-4">
+        <div class={"m-schedule-diagram #{route_to_diagram_class(@route)} my-4"}>
           <ol>
             <li
               :for={stop <- @stops}
-              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest stop_list_main_result"}
+              class={search_class(stop, @search_phrase) <> " m-schedule-diagram__stop border-xs border-gray-lightest stop_list_main_result relative"}
             >
+              <.stop_card_segment
+                :if={Map.has_key?(@stop_id_to_segment, stop.id)}
+                segment_data={Map.get(@stop_id_to_segment, stop.id)}
+              />
               <.stop_card
                 stop={stop}
                 bus_route?={@bus_route?}
@@ -545,27 +644,42 @@ defmodule DotcomWeb.LineDiagramLive do
     """
   end
 
-  defp search_class(stop, search_phrase) do
-    if String.length(search_phrase) > 0 and
-         !stop_name_match?(stop.name, search_phrase) do
-      "hidden"
+  defp search_class(stop, search_phrase) when search_phrase != "" do
+    if stop_name_match?(stop.name, search_phrase) do
+      "result"
     else
-      ""
+      "hidden"
     end
   end
+
+  defp search_class(_stop, _search_phrase), do: ""
 
   @impl true
   def handle_event("search", %{"search" => search}, socket) do
     {:noreply, socket |> assign(search_phrase: search |> String.trim()) |> assign_other_stops()}
   end
 
-  # re-fit the map to the newly selected variant or direction
+  def handle_event(_event, _params, socket) do
+    {:noreply, socket}
+  end
+
   defp assign_route_data(socket) do
     socket
-    |> assign_stops()
+    |> assign_line_diagram()
     |> assign_map_attributes()
-    |> assign(:move_map, true)
   end
+
+  # re-fit the map to the newly selected variant or direction
+  defp push_fit_bounds(%{assigns: %{map_icons: [_ | _] = map_icons}} = socket) do
+    push_event(socket, "fit-bounds", %{
+      map_id: "new-map",
+      bounds: icons_to_bounds(map_icons),
+      padding: 50,
+      max_zoom: 16
+    })
+  end
+
+  defp push_fit_bounds(socket), do: socket
 
   defp assign_route_patterns(%{assigns: %{route: route, direction_id: direction_id}} = socket) do
     route_patterns =
@@ -633,18 +747,42 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp inherit_parent_parking(stop), do: stop
 
-  defp assign_stops(
-         %{assigns: %{selected_route_patterns: selected_route_patterns, stops_by_id: stops_by_id}} =
-           socket
+  defp assign_line_diagram(
+         %{
+           assigns: %{
+             direction_id: direction_id,
+             route: route,
+             selected_route_patterns: selected_route_patterns,
+             stops_by_id: stops_by_id
+           }
+         } = socket
        ) do
-    stops =
-      selected_route_patterns
-      |> Stream.flat_map(& &1.stop_ids)
+    segments = get_segments(route, direction_id, stops_by_id, selected_route_patterns)
+
+    stop_id_to_segment =
+      Enum.reduce(segments, %{}, fn segment, acc ->
+        Enum.reduce(segment.stops, acc, fn branch_stop, acc ->
+          Map.put(acc, branch_stop.stop_id, branch_stop)
+        end)
+      end)
+
+    ordered_stop_ids =
+      if Enum.empty?(segments) do
+        selected_route_patterns |> Stream.flat_map(& &1.stop_ids)
+      else
+        segments |> Stream.flat_map(& &1.stops) |> Stream.map(& &1.stop_id)
+      end
+
+    ordered_stops =
+      ordered_stop_ids
       |> Stream.uniq()
       |> Stream.map(&Map.fetch!(stops_by_id, &1))
       |> Enum.to_list()
 
-    socket |> assign(:stops, stops)
+    socket
+    |> assign(:stops, ordered_stops)
+    |> assign(:line_diagram_segments, segments)
+    |> assign(:stop_id_to_segment, stop_id_to_segment)
   end
 
   defp assign_other_stops(%{search_phrase: ""}) do
@@ -687,10 +825,8 @@ defmodule DotcomWeb.LineDiagramLive do
     |> assign_map_icons()
   end
 
-  defp assign_map_lines(
-         %{assigns: %{route: route, selected_route_patterns: selected_route_patterns}} = socket
-       ) do
-    map_line_shapes =
+  defp assign_map_lines(%{assigns: %{selected_route_patterns: selected_route_patterns}} = socket) do
+    map_route_shapes =
       selected_route_patterns
       |> Enum.map(fn route_pattern ->
         %{
@@ -701,18 +837,7 @@ defmodule DotcomWeb.LineDiagramLive do
         }
       end)
 
-    map_lines_outlines =
-      map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 6, color: "#000000"})))
-
-    map_lines_with_route_colors =
-      map_line_shapes
-      |> Enum.map(&(&1 |> Map.merge(%{width: 4, color: "##{route.color}"})))
-
-    map_lines = map_lines_outlines ++ map_lines_with_route_colors
-
-    socket
-    |> assign(:map_lines, map_lines)
+    assign(socket, :map_route_shapes, map_route_shapes)
   end
 
   defp assign_map_icons(%{assigns: %{stops: stops}} = socket) do
@@ -720,6 +845,7 @@ defmodule DotcomWeb.LineDiagramLive do
       stops
       |> Enum.map(
         &%{
+          id: &1.id,
           coordinates: [&1.longitude, &1.latitude],
           type: "icon-svg",
           name: "icon-stop-circle-bordered-expanded",
@@ -792,7 +918,7 @@ defmodule DotcomWeb.LineDiagramLive do
                 ~p"/departures?route_id=#{@route.id}&stop_id=#{@stop.id}&direction_id=#{@direction_id}"
               }
             >
-              <h4 class="m-schedule-diagram__stop-link notranslate mr-1">
+              <h4 class="m-schedule-diagram__stop-link notranslate mr-2">
                 {@stop_name_parts |> Map.get("start")}<span class="u-highlight strong">{@stop_name_parts |> Map.get("match")}</span>{@stop_name_parts
                 |> Map.get("end")}
               </h4>
@@ -811,6 +937,19 @@ defmodule DotcomWeb.LineDiagramLive do
                 {gettext("Zone %{zone}", %{zone: @stop.zone})}
               </span>
             </div>
+          </div>
+          <div
+            :if={
+              !is_nil(@stop.platform_name) and
+                Dotcom.ScheduleFinder.Platforms.has_platforms?(
+                  @route.type,
+                  if(@stop.parent_id, do: @stop.parent_id, else: @stop.id)
+                )
+            }
+            data-id="middle"
+            class="platform_name mt-[-0.25rem] mb-1 font-semibold"
+          >
+            {@stop.platform_name}
           </div>
           <div
             data-id="bottom"
@@ -902,16 +1041,131 @@ defmodule DotcomWeb.LineDiagramLive do
 
   defp map(assigns) do
     ~H"""
-    <.live_component
-      module={DotcomWeb.Components.Map}
-      id="line-diagram-map"
+    <MaplibreX.Components.map
+      id="new-map"
+      center={[-71.0589, 42.3601]}
+      style={@map_style}
+      zoom={10}
+      min_zoom={7}
       class="h-96 w-full"
-      config={@map_config}
-      lines={@map_lines}
-      icons={@map_icons ++ @vehicle_icons}
-      move_map={@move_map}
+    />
+
+    <MaplibreX.Components.navigation_control
+      id="new-map-navigation"
+      map_id="new-map"
+      position="top-left"
+    />
+
+    <%!-- Receives the "fit-bounds" event pushed when the direction or variant changes --%>
+    <div id="new-map-fit" phx-hook="FitBounds" />
+
+    <MaplibreX.Components.geojson_layer
+      id="new-map-lines-outline"
+      map_id="new-map"
+      data={map_shapes_to_feature_collection(@map_route_shapes)}
+      type="line"
+      paint={%{"line-color" => "#000000", "line-width" => 6}}
+      layout={%{"line-cap" => "round", "line-join" => "round"}}
+    />
+
+    <%!-- Shares the source created by the outline layer above; added after it so it draws on top --%>
+    <MaplibreX.Components.line_layer
+      id="new-map-lines"
+      map_id="new-map"
+      source_id="new-map-lines-outline-source"
+      paint={%{"line-color" => @route_color, "line-width" => 4}}
+      layout={%{"line-cap" => "round", "line-join" => "round"}}
+    />
+
+    <.icon_markers id="new-map-stops" map_id="new-map" icons={@map_icons} z_index={1} />
+
+    <.icon_markers
+      id="new-map-vehicles"
+      map_id="new-map"
+      icons={@vehicle_icons}
+      z_index={2}
+    />
+
+    <MaplibreX.Components.geojson_layer
+      id="new-map-fog"
+      map_id="new-map"
+      data={@fog_poly_data}
+      type="fill"
+      paint={
+        %{
+          "fill-color" => "#f4f4f4",
+          "fill-opacity" => 1,
+          "fill-outline-color" => "rgba(0,0,0,0)"
+        }
+      }
     />
     """
+  end
+
+  defp icons_to_bounds(icons) do
+    {lngs, lats} = icons |> Enum.map(&List.to_tuple(&1.coordinates)) |> Enum.unzip()
+
+    [[Enum.min(lngs), Enum.min(lats)], [Enum.max(lngs), Enum.max(lats)]]
+  end
+
+  attr :id, :string, required: true
+  attr :map_id, :string, required: true, doc: "The id of the MaplibreX map to add the icons to"
+
+  attr :icons, :list,
+    required: true,
+    doc:
+      "Maps with `:coordinates`, `:type`, `:name`, and optionally `:id`, `:class`, `:anchor`, `:rotation`, `:popup`"
+
+  attr :z_index, :integer,
+    default: nil,
+    doc: "Stacking order against other icon groups on the map; higher draws on top"
+
+  defp icon_markers(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="IconMarkers"
+      data-map-id={@map_id}
+      data-z-index={@z_index}
+      class="hidden"
+    >
+      <.icon
+        :for={icon <- @icons}
+        type={icon.type}
+        name={icon.name}
+        class={Map.get(icon, :class)}
+        data-coordinates={Jason.encode!(icon.coordinates)}
+        data-marker-id={Map.get(icon, :id)}
+        data-anchor={Map.get(icon, :anchor, "center")}
+        data-rotation={Map.get(icon, :rotation, 0)}
+        data-popup={icon |> Map.get(:popup) |> render_popup()}
+      />
+    </div>
+    """
+  end
+
+  defp render_popup(nil), do: nil
+
+  defp render_popup(%Phoenix.LiveView.Rendered{} = heex) do
+    heex
+    |> Phoenix.HTML.Safe.to_iodata()
+    |> IO.iodata_to_binary()
+  end
+
+  defp render_popup(html), do: html
+
+  defp map_shapes_to_feature_collection(shapes) do
+    %{
+      "type" => "FeatureCollection",
+      "features" =>
+        Enum.map(shapes, fn %{coordinates: coordinates} ->
+          %{
+            "type" => "Feature",
+            "properties" => %{},
+            "geometry" => %{"type" => "LineString", "coordinates" => coordinates}
+          }
+        end)
+    }
   end
 
   defp route_pdf_sidebar_content(assigns) do

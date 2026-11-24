@@ -8,6 +8,21 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    :nth-last-child(1 of .result) {
+      border-bottom: 0.0625rem solid #e9eaed;
+    }
+  }
+
+  .result .line-diagram-svg {
+    display: none;
+  }
+
+  @each $line in map-keys($mbta-line-colors) {
+    $fill-color: map-get($mbta-line-colors, $line);
+
+    &.#{$line} .line-diagram-svg__line {
+      color: $fill-color;
+    }
   }
 }
 

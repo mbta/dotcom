@@ -6,6 +6,25 @@ defmodule DotcomWeb.SearchControllerTest do
   setup :verify_on_exit!
 
   describe "query" do
+    test "accepts a read-only JSON search without a CSRF token or session", %{conn: conn} do
+      hits = [%{"objectID" => "stop-test"}]
+
+      expect(Dotcom.SearchService.Mock, :query, fn "bus", opts ->
+        assert opts[:category] == "stops"
+        {:ok, %{hits: hits}}
+      end)
+
+      assert conn
+             |> put_private(:plug_skip_csrf_protection, false)
+             |> put_req_header("accept", "application/json")
+             |> put_req_header("content-type", "application/json")
+             |> post(
+               "/search/query",
+               Jason.encode!(%{algoliaQuery: "bus", algoliaIndexesWithParams: [%{stops: %{}}]})
+             )
+             |> json_response(200) == %{"results" => hits}
+    end
+
     test "sends a POST to Algolia and returns the results", %{conn: conn} do
       index = "drupal"
 

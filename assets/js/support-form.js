@@ -489,11 +489,13 @@ export function handleSubmitClick($, toUpload) {
         li.appendChild(text);
         return li;
       });
-      const recaptchaError = document.querySelectorAll(".has-danger > #g-recaptcha-response").length > 0
-      if(recaptchaError){
+      const recaptchaError =
+        document.querySelectorAll(".has-danger > #g-recaptcha-response")
+          .length > 0;
+      if (recaptchaError) {
         const li = document.createElement("li");
         li.appendChild(document.createTextNode("Recaptcha"));
-        errors.push(li)
+        errors.push(li);
       }
       if (errors.length) {
         errors.forEach(err => {
@@ -509,8 +511,10 @@ export function handleSubmitClick($, toUpload) {
         elem.classList.remove("hidden");
       });
 
-      if(recaptchaError){
-        document.getElementById("recaptcha-error-indicator").classList.remove("hidden");
+      if (recaptchaError) {
+        document
+          .getElementById("recaptcha-error-indicator")
+          .classList.remove("hidden");
       }
 
       if (!document.getElementById("privacy").checked) {
@@ -562,6 +566,8 @@ export function handleSubmitClick($, toUpload) {
       },
       error: (xhr, errorString, errorObject) => {
         console.error(errorString);
+        $(".support-csrf-error").toggleClass("hidden-xs-up", xhr.status !== 403);
+        $(".support-submission-error").toggleClass("hidden-xs-up", xhr.status === 403);
         $(".support-confirmation--error")
           .removeClass("hidden-xs-up")
           .focus();

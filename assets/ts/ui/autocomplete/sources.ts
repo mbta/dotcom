@@ -163,14 +163,10 @@ export const algoliaSource = (
         : AlgoliaItemTemplate
     },
     getItems() {
-      const token = document
-        .querySelector('meta[name="csrf-token"]')
-        ?.getAttribute("content");
       return fetch("/search/query", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token || ""
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           algoliaQuery: query,

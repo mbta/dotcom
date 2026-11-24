@@ -176,7 +176,7 @@ defmodule Fares.FareInfo do
       monthly: "257.00",
       monthly_reduced: "124.00"
     },
-    %{mode: :foxboro, round_trip: "WorldCup"},
+    %{mode: :foxboro, round_trip: "20.00"},
     %{
       mode: :subway,
       charlie_card_price: "2.40",
@@ -792,7 +792,7 @@ defmodule Fares.FareInfo do
     ]
   end
 
-  def mapper(%{mode: :foxboro, round_trip: "WorldCup"}) do
+  def mapper(%{mode: :foxboro, round_trip: round_trip}) do
     [
       %Fare{
         mode: :commuter_rail,
@@ -800,7 +800,7 @@ defmodule Fares.FareInfo do
         duration: :round_trip,
         media: [:mticket, :special_event, :cash],
         reduced: nil,
-        cents: "WorldCup"
+        cents: dollars_to_cents(round_trip)
       }
     ]
   end
