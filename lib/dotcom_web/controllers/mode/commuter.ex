@@ -1,9 +1,6 @@
 defmodule DotcomWeb.Mode.CommuterRailController do
   use Dotcom.Gettext.Sigils
 
-  import DotcomWeb.Router.Helpers, only: [fare_path: 3]
-  import PhoenixHTMLHelpers.Link, only: [link: 2]
-
   def meta_description,
     do:
       ~t"Schedule information for MBTA Commuter Rail lines in the Greater Boston region, including real-time updates and arrival predictions."
@@ -14,20 +11,7 @@ defmodule DotcomWeb.Mode.CommuterRailController do
 
   def mode_icon, do: :commuter_rail
 
-  def fare_description do
-    [
-      link_to_zone_fares(),
-      ~t" depend on the distance traveled (zones). Refer to the information below:"
-    ]
-  end
-
   def fares do
     DotcomWeb.ViewHelpers.mode_summaries(:commuter_rail)
-  end
-
-  defp link_to_zone_fares do
-    path = fare_path(DotcomWeb.Endpoint, :show, "commuter-rail")
-
-    link(~t"Commuter Rail Fares", to: path)
   end
 end

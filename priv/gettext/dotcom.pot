@@ -46,11 +46,6 @@ msgstr ""
 msgid " at %{address}"
 msgstr ""
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
-#, elixir-autogen, elixir-format
-msgid " depend on the distance traveled (zones). Refer to the information below:"
-msgstr ""
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " has arrived at "
@@ -710,7 +705,6 @@ msgstr ""
 msgid "Bus Beginner's Guide"
 msgstr ""
 
-#: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Fares"
@@ -963,7 +957,6 @@ msgstr ""
 msgid "Commuter Rail Beginner's Guide"
 msgstr ""
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Fares"
@@ -1645,11 +1638,6 @@ msgstr ""
 msgid "Fares by Mode"
 msgstr ""
 
-#: lib/dotcom_web/controllers/mode/ferry.ex
-#, elixir-autogen, elixir-format
-msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
-msgstr ""
-
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured %{mode} Projects"
@@ -1813,11 +1801,6 @@ msgstr ""
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
 msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/bus.ex
-#, elixir-autogen, elixir-format
-msgid "For Express Bus fares, read the complete %{link} page."
 msgstr ""
 
 #: lib/dotcom_web/components/alerts.ex
@@ -4655,11 +4638,6 @@ msgstr ""
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Transit Police"
-msgstr ""
-
-#: lib/dotcom_web/controllers/mode/subway.ex
-#, elixir-autogen, elixir-format
-msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
 msgstr ""
 
 #: lib/dotcom_web/components/timetable.ex

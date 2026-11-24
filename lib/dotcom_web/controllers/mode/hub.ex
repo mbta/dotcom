@@ -42,7 +42,6 @@ defmodule DotcomWeb.Mode.Hub do
     |> assign(:route_type, mode_module.route_type() |> Route.type_atom())
     |> assign(:mode_name, mode_module.mode_name())
     |> assign(:mode_icon, mode_module.mode_icon())
-    |> assign(:fare_description, mode_module.fare_description())
     |> assign(:maps, mode_module.mode_icon() |> maps())
     |> assign(:paragraph, mode_module.mode_icon() |> extra_paragraph())
     |> async_assign_default(:guides, guides_fn, [])
