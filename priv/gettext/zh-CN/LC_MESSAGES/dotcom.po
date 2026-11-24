@@ -163,21 +163,6 @@ msgstr "%{name}通勤火车"
 msgid "%{place} Information"
 msgstr "%{place}信息"
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Planned Work"
-msgstr "%{rating}计划工作"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, ends %{date}"
-msgstr "%{rating}时刻表，结束于%{date}"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "%{rating} Schedules, starts %{date}"
-msgstr "%{rating}时刻表，始于%{date}"
-
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "%{route_name} to %{headsign}"
@@ -796,11 +781,6 @@ msgstr "CharlieTicket"
 msgid "Choose Your Language"
 msgstr "选择您的语言"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "Choose a schedule type from the available options"
-msgstr "从可用选项中选择时刻表类型"
-
 #: lib/holiday/repo.ex
 #, elixir-autogen, elixir-format
 msgid "Christmas Day"
@@ -1410,7 +1390,6 @@ msgid "Exterior of Wonderland station"
 msgstr "Wonderland车站外景"
 
 #: lib/alerts/alert.ex
-#: lib/dotcom/service_patterns.ex
 #, elixir-autogen, elixir-format
 msgid "Extra Service"
 msgstr "额外服务"
@@ -1813,11 +1792,6 @@ msgstr "Hingham/Hull渡轮"
 #, elixir-autogen, elixir-format
 msgid "History"
 msgstr "历史"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Holiday Schedules"
-msgstr "节假日时刻表"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #: lib/dotcom_web/views/layout_view.ex
@@ -2703,7 +2677,6 @@ msgstr "通知"
 
 #: lib/dotcom_web/components/system_status/subway_status.ex
 #: lib/dotcom_web/components/trip_planner/input_form.ex
-#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
 msgid "Now"
@@ -2802,11 +2775,6 @@ msgstr "出发地或目的地不在我们的服务区域内"
 #, elixir-autogen, elixir-format
 msgid "Other"
 msgstr "其他"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Other Schedules"
-msgstr "其他时刻表"
 
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
@@ -3332,6 +3300,7 @@ msgstr "时刻表与地图"
 msgid "Schedule Change"
 msgstr "时刻表变更"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Schedule for"
@@ -4071,20 +4040,10 @@ msgstr "没有已安排的行程。"
 msgid "There are no updates at this time."
 msgstr "目前没有更新。"
 
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "There is currently no scheduled %{route_name}."
-msgstr "目前没有已安排的%{route_name}。"
-
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
 msgid "There is no planned work information at this time."
 msgstr "目前没有计划工作信息。"
-
-#: lib/dotcom_web/live/schedule_finder_live.ex
-#, elixir-autogen, elixir-format
-msgid "There is no scheduled %{route} service at %{stop} for this time period."
-msgstr "在此时段，%{stop}没有安排%{route}服务。"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4350,6 +4309,7 @@ msgstr "即将进行的变更"
 msgid "Upcoming Departures"
 msgstr "即将进行的发车班次"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Upcoming Holidays"
@@ -5106,36 +5066,6 @@ msgstr "出问题了。请稍后重试。"
 msgid "Wheelchair-accessible transfers at Downtown Crossing may require <strong>exiting the fare gates.</strong> See station personnel to avoid paying an additional fare."
 msgstr "在 Downtown Crossing 站进行轮椅无障碍换乘时，可能需要<strong>出站并通过收费闸机</strong>。请联系车站工作人员，以免支付额外车费。"
 
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Friday schedules"
-msgstr "周五时刻表"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Monday - Thursday schedules"
-msgstr "周一至周四时刻表"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Saturday schedules"
-msgstr "周六时刻表"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Sunday schedules"
-msgstr "周日时刻表"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekday schedules"
-msgstr "工作日时刻表"
-
-#: lib/dotcom/service_patterns.ex
-#, elixir-autogen, elixir-format
-msgid "Weekend schedules"
-msgstr "周末时刻表"
-
 #: lib/dotcom_web/components/new_timetable.ex
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
@@ -5607,4 +5537,24 @@ msgstr ""
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Go to today"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "No service"
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
+msgstr ""
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
 msgstr ""
