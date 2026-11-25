@@ -484,7 +484,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
             <label
               :for={{index, direction_name} <- @route.direction_names}
               for={"direction_radio_#{index}"}
-              class={"cursor-pointer w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)} mb-0  "}
+              class={"has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-primary-light cursor-pointer w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)} mb-0  "}
             >
               <input
                 phx-change="toggle_direction"
@@ -492,7 +492,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
                 id={"direction_radio_#{index}"}
                 value={direction_name}
                 type="radio"
-                class="w-0"
+                class="w-0 absolute"
                 aria-current={index == @direction_id}
                 checked={index == @direction_id}
               />
