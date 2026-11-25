@@ -1042,7 +1042,7 @@ msgstr "聯絡大眾運輸警察"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Continue onto %{street_name}"
-msgstr ""
+msgstr "繼續沿%{street_name}前進"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1177,7 +1177,7 @@ msgstr "出發時間"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Depart onto %{street_name}"
-msgstr ""
+msgstr "沿%{street_name}出發"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1410,12 +1410,12 @@ msgstr "輸入專案關鍵字"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the station through %{street_name}"
-msgstr ""
+msgstr "經由%{street_name}進入車站"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the traffic circle onto %{street_name}"
-msgstr ""
+msgstr "進入圓環後沿%{street_name}前進"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
@@ -1519,7 +1519,7 @@ msgstr "活動"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Exit the station towards %{street_name}"
-msgstr ""
+msgstr "往%{street_name}方向出站"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1801,7 +1801,7 @@ msgstr "在 Twitter 上追蹤 @MBTA_CR"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Follow signs for %{street_name}"
-msgstr ""
+msgstr "依照前往%{street_name}的指標行進"
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
@@ -1930,7 +1930,7 @@ msgstr "取得行程建議"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Go onto %{street_name}"
-msgstr ""
+msgstr "沿%{street_name}前進"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1961,12 +1961,12 @@ msgstr "Harbor Loop 環線渡輪"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard left onto %{street_name}"
-msgstr ""
+msgstr "急左轉進入%{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard right onto %{street_name}"
-msgstr ""
+msgstr "急右轉進入%{street_name}"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
@@ -2275,7 +2275,7 @@ msgstr "於 %{time} 出發"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Left onto %{street_name}"
-msgstr ""
+msgstr "左轉進入%{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2565,7 +2565,7 @@ msgstr "維護投訴"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Make a U-turn onto %{street_name}"
-msgstr ""
+msgstr "迴轉進入%{street_name}"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3569,7 +3569,7 @@ msgstr "搭乘 %{route} %{train}列車"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right onto %{street_name}"
-msgstr ""
+msgstr "右轉進入%{street_name}"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -3994,12 +3994,12 @@ msgstr "不停靠此站"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly left onto %{street_name}"
-msgstr ""
+msgstr "靠左進入%{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly right onto %{street_name}"
-msgstr ""
+msgstr "靠右進入%{street_name}"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4270,7 +4270,7 @@ msgstr "搭乘 The T 前往投票所"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Take the elevator onto %{street_name}"
-msgstr ""
+msgstr "搭乘電梯前往%{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
