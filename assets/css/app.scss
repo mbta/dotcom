@@ -7,6 +7,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  // Enable height transitioning of details elements!
+  details::details-content {
+    height: 0;
+    interpolate-size: allow-keywords;
+    overflow: clip;
+    transition: height var(--transition-duration) ease, content-visibility var(--transition-duration) ease allow-discrete;
+  }
+
+  details[open]::details-content {
+    height: auto;
+  }
+}
+
 // Since Dotcom doesn't use Tailwind's Preflight, but some components require
 // it, we can include some of Preflight's styles here.
 *,
