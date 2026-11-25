@@ -235,6 +235,13 @@ msgid_plural "%{count} Unavailable Routes"
 msgstr[0] "1 Wout ki pa disponib"
 msgstr[1] "%{count} wout ki pa disponib"
 
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] "1 Chanjman nan ray tren ki pa pwograme"
+msgstr[1] "%{count} Chanjman nan ray tren ki pa pwograme"
+
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "1 alert"
@@ -823,11 +830,6 @@ msgstr "Karyè"
 msgid "Cash"
 msgstr "Lajan kach"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "Chanjman"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -842,11 +844,6 @@ msgstr "Chanje Direksyon"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "Chanje direksyon vwayaj la."
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "Chanjman"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4540,8 +4537,18 @@ msgstr "Arè sa a pa gen machin pou vann biyè, men ou ka achte tikè nan yon"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "Anjeneral, tren sa a gen<br /><strong>%{seats} plas disponib</strong>"
+msgid "This train typically has<br /><strong>few seats available</strong>"
+msgstr "Anjeneral, tren sa a pa gen<br /><strong>anpil plas disponib</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>many seats available</strong>"
+msgstr "Anjeneral, tren sa a gen<br /><strong>anpil plas disponib</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>some seats available</strong>"
+msgstr "Anjeneral, tren sa a gen<br /><strong>kèk plas disponib</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4738,11 +4745,6 @@ msgstr "Destinasyon ki pa komen"
 #, elixir-autogen, elixir-format
 msgid "Unknown"
 msgstr "Enkoni"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "Ray tren ki pa pwograme"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
@@ -5252,11 +5254,6 @@ msgstr "waf"
 msgid "east"
 msgstr "lès"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr "kèk"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -5307,11 +5304,6 @@ msgstr "kote"
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "Aplikasyon mTicket"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr "anpil"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5402,11 +5394,6 @@ msgstr "wè yon kat jeyografik tout kote yo pwopoze pou lavant"
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr "sèvis"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr "kèk"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format

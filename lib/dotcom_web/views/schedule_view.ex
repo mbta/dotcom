@@ -505,30 +505,25 @@ defmodule DotcomWeb.ScheduleView do
   end
 
   @spec timetable_crowding_description(Vehicles.Vehicle.crowding() | nil) :: String.t() | nil
-  def timetable_crowding_description(crowding) do
-    seats =
-      case crowding do
-        :not_crowded -> ~t"many"
-        :some_crowding -> ~t"some"
-        :crowded -> ~t"few"
-        _ -> nil
-      end
+  def timetable_crowding_description(:not_crowded),
+    do: ~t"This train typically has<br /><strong>many seats available</strong>"
 
-    if seats do
-      gettext(
-        "This train typically has<br /><strong>%{seats} seats available</strong>",
-        seats: seats
-      )
-    end
-  end
+  def timetable_crowding_description(:some_crowding),
+    do: ~t"This train typically has<br /><strong>some seats available</strong>"
+
+  def timetable_crowding_description(:crowded),
+    do: ~t"This train typically has<br /><strong>few seats available</strong>"
+
+  def timetable_crowding_description(_), do: nil
 
   attr :track_changes, :list, required: true
 
   def track_changes(assigns) do
     assigns = assign(assigns, :count, Enum.count(assigns.track_changes))
 
-    # Create the proper plural form for "Change"/"Changes"
-    change_text = if assigns.count == 1, do: ~t"Change", else: ~t"Changes"
+    change_text =
+      ngettext("1 Unscheduled Track Change", "%{count} Unscheduled Track Changes", assigns.count)
+
     assigns = assign(assigns, :change_text, change_text)
 
     ~H"""
@@ -540,7 +535,7 @@ defmodule DotcomWeb.ScheduleView do
       <:heading>
         <div class="flex items-center gap-sm">
           <.icon name="shuffle" class="h-4 w-4" aria-hidden="true" />
-          <span>{@count} {~t"Unscheduled Track"} {@change_text}</span>
+          <span>{@change_text}</span>
         </div>
       </:heading>
       <:content>

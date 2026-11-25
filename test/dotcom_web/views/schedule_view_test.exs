@@ -501,6 +501,27 @@ defmodule DotcomWeb.ScheduleViewTest do
     end
   end
 
+  describe "timetable_crowding_description/1" do
+    test "works for :not_crowded" do
+      assert timetable_crowding_description(:not_crowded) ==
+               "This train typically has<br /><strong>many seats available</strong>"
+    end
+
+    test "works for :some_crowding" do
+      assert timetable_crowding_description(:some_crowding) ==
+               "This train typically has<br /><strong>some seats available</strong>"
+    end
+
+    test "works for :crowded" do
+      assert timetable_crowding_description(:crowded) ==
+               "This train typically has<br /><strong>few seats available</strong>"
+    end
+
+    test "returns nil for other values" do
+      assert timetable_crowding_description(:maybe_crowded) == nil
+    end
+  end
+
   describe "track_changes/1 shows alert headers" do
     test "no content with no changes" do
       none = Phoenix.LiveViewTest.render_component(&track_changes/1, track_changes: [])

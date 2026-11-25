@@ -235,6 +235,13 @@ msgid_plural "%{count} Unavailable Routes"
 msgstr[0] "1 itinéraire indisponible"
 msgstr[1] "%{count} itinéraires indisponibles"
 
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] "Un changement de voie non programmé"
+msgstr[1] "%{count} changements de voie non programmés"
+
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "1 alert"
@@ -826,11 +833,6 @@ msgstr "Carrières"
 msgid "Cash"
 msgstr "Espèces"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "Modifier"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -845,11 +847,6 @@ msgstr "Changer de direction"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "Modifiez la direction du trajet."
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "Modifications"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4555,8 +4552,18 @@ msgstr "Cet arrêt ne dispose pas de distributeurs de titres de transport, mais 
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "Ce train dispose généralement de<br /><strong>%{seats} places disponibles</strong>"
+msgid "This train typically has<br /><strong>few seats available</strong>"
+msgstr "Ce train dispose généralement de<br /><strong>peu de places disponibles</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>many seats available</strong>"
+msgstr "Ce train dispose généralement de<br /><strong>nombreuses places disponibles</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>some seats available</strong>"
+msgstr "Ce train dispose généralement de<br /><strong>quelques places disponibles</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4753,11 +4760,6 @@ msgstr "Destinations peu courantes"
 #, elixir-autogen, elixir-format
 msgid "Unknown"
 msgstr "Inconnu"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "Voie non programmée"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
@@ -5271,11 +5273,6 @@ msgstr "quais"
 msgid "east"
 msgstr "est"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr "peu"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -5326,11 +5323,6 @@ msgstr "lieu"
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "Application mTicket"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr "nombreux"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5421,11 +5413,6 @@ msgstr "voir la carte de tous les points de vente proposés"
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr "service"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr "certains"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
