@@ -1048,7 +1048,7 @@ msgstr "Liên hệ với Cảnh sát giao thông"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Continue onto %{street_name}"
-msgstr ""
+msgstr "Tiếp tục đến %{street_name}"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1183,7 +1183,7 @@ msgstr "Khởi hành lúc"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Depart onto %{street_name}"
-msgstr ""
+msgstr "Đi ra %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1416,12 +1416,12 @@ msgstr "Nhập từ khóa dự án"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the station through %{street_name}"
-msgstr ""
+msgstr "Vào nhà ga từ %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the traffic circle onto %{street_name}"
-msgstr ""
+msgstr "Đi vào vòng xuyến để rẽ vào %{street_name}"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
@@ -1525,7 +1525,7 @@ msgstr "Sự kiện"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Exit the station towards %{street_name}"
-msgstr ""
+msgstr "Ra khỏi nhà ga hướng về %{street_name}"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1807,7 +1807,7 @@ msgstr "Theo dõi @MBTA_CR trên Twitter"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Follow signs for %{street_name}"
-msgstr ""
+msgstr "Đi theo biển chỉ dẫn đến %{street_name}"
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
@@ -1936,7 +1936,7 @@ msgstr "Nhận gợi ý chuyến đi"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Go onto %{street_name}"
-msgstr ""
+msgstr "Đi vào %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1967,12 +1967,12 @@ msgstr "Harbor Loop Ferry"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard left onto %{street_name}"
-msgstr ""
+msgstr "Rẽ gấp sang trái vào %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard right onto %{street_name}"
-msgstr ""
+msgstr "Rẽ gấp sang phải vào %{street_name}"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
@@ -2283,7 +2283,7 @@ msgstr "Khởi hành lúc %{time}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Left onto %{street_name}"
-msgstr ""
+msgstr "Rẽ trái vào %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2579,7 +2579,7 @@ msgstr "Khiếu nại về bảo trì"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Make a U-turn onto %{street_name}"
-msgstr ""
+msgstr "Quay đầu xe sang %{street_name}"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3589,7 +3589,7 @@ msgstr "Đi tàu %{route} %{train}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right onto %{street_name}"
-msgstr ""
+msgstr "Rẽ phải vào %{street_name}"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4015,12 +4015,12 @@ msgstr "Đã bỏ qua"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly left onto %{street_name}"
-msgstr ""
+msgstr "Rẽ nhánh bên trái vào %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly right onto %{street_name}"
-msgstr ""
+msgstr "Rẽ nhánh bên phải vào %{street_name}"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4291,7 +4291,7 @@ msgstr "Đi the T để bỏ phiếu"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Take the elevator onto %{street_name}"
-msgstr ""
+msgstr "Đi thang máy ra %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
