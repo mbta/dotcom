@@ -235,6 +235,13 @@ msgid_plural "%{count} Unavailable Routes"
 msgstr[0] "1 itinéraire indisponible"
 msgstr[1] "%{count} itinéraires indisponibles"
 
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] "Un changement de voie non programmé"
+msgstr[1] "%{count} changements de voie non programmés"
+
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "1 alert"
@@ -826,11 +833,6 @@ msgstr "Carrières"
 msgid "Cash"
 msgstr "Espèces"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "Modifier"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -845,11 +847,6 @@ msgstr "Changer de direction"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "Modifiez la direction du trajet."
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "Modifications"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -1059,7 +1056,7 @@ msgstr "Contacter la police des transports"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Continue onto %{street_name}"
-msgstr "Continuez vers %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1194,7 +1191,7 @@ msgstr "Départ à"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Depart onto %{street_name}"
-msgstr "Départ en direction de %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1427,12 +1424,12 @@ msgstr "Saisissez les mots-clés du projet"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the station through %{street_name}"
-msgstr "Entrez dans la station par %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the traffic circle onto %{street_name}"
-msgstr "Engagez-vous dans le rond-point en direction de %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
@@ -1536,7 +1533,7 @@ msgstr "Événements"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Exit the station towards %{street_name}"
-msgstr "Sortez de la station en direction de %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1818,7 +1815,7 @@ msgstr "Suivez @MBTA_CR sur Twitter"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Follow signs for %{street_name}"
-msgstr "Suivez les panneaux pour %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
@@ -1947,7 +1944,7 @@ msgstr "Obtenir des suggestions de trajet"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Go onto %{street_name}"
-msgstr "Allez sur %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1978,12 +1975,12 @@ msgstr "Harbor Loop Ferry"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard left onto %{street_name}"
-msgstr "Virage serré à gauche sur %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard right onto %{street_name}"
-msgstr "Virage serré à droite sur %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
@@ -2295,7 +2292,7 @@ msgstr "Départ à %{time}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Left onto %{street_name}"
-msgstr "À gauche sur %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2591,7 +2588,7 @@ msgstr "Réclamation relative à la maintenance"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Make a U-turn onto %{street_name}"
-msgstr "Faites demi-tour sur %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3602,7 +3599,7 @@ msgstr "Prenez le train %{train} %{route}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right onto %{street_name}"
-msgstr "À droite sur %{street_name}"
+msgstr ""
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4029,12 +4026,12 @@ msgstr "Non desservi"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly left onto %{street_name}"
-msgstr "Légèrement à gauche sur %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly right onto %{street_name}"
-msgstr "Légèrement à droite sur %{street_name}"
+msgstr ""
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4305,7 +4302,7 @@ msgstr "Prenez le métro pour aller voter"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Take the elevator onto %{street_name}"
-msgstr "Prenez l'ascenseur jusqu'à %{street_name}"
+msgstr ""
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4555,8 +4552,18 @@ msgstr "Cet arrêt ne dispose pas de distributeurs de titres de transport, mais 
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "Ce train dispose généralement de<br /><strong>%{seats} places disponibles</strong>"
+msgid "This train typically has<br /><strong>few seats available</strong>"
+msgstr "Ce train dispose généralement de<br /><strong>peu de places disponibles</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>many seats available</strong>"
+msgstr "Ce train dispose généralement de<br /><strong>nombreuses places disponibles</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>some seats available</strong>"
+msgstr "Ce train dispose généralement de<br /><strong>quelques places disponibles</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4753,11 +4760,6 @@ msgstr "Destinations peu courantes"
 #, elixir-autogen, elixir-format
 msgid "Unknown"
 msgstr "Inconnu"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "Voie non programmée"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
@@ -5271,11 +5273,6 @@ msgstr "quais"
 msgid "east"
 msgstr "est"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr "peu"
-
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
 msgid "from %{origin}"
@@ -5321,11 +5318,6 @@ msgstr "lieu"
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "Application mTicket"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr "nombreux"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5411,11 +5403,6 @@ msgstr "voir la carte de tous les points de vente proposés"
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr "service"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr "certains"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
