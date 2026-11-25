@@ -5583,19 +5583,19 @@ msgstr "avec %{mticket}, %{paper_ferry}, %{contactless} ou en espèces"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "Aller à aujourd’hui"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "Aucun service"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "Aucun service %{route_name} n'est prévu à %{stop} le %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "Aucun Foxboro Event Service n'est prévu à %{stop} le %{date}."
