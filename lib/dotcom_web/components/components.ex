@@ -394,6 +394,7 @@ defmodule DotcomWeb.Components do
 
   attr :banner_source, :string, required: true
   attr :classes, :string, required: false, default: ""
+  attr :limit_view_count?, :boolean, default: true
 
   slot :inner_block, required: true
 
@@ -401,13 +402,13 @@ defmodule DotcomWeb.Components do
   def mbta_go_cta(assigns) do
     ~H"""
     <.cta
-      phx-hook="MBTAGoCTABanner"
+      phx-hook={@limit_view_count? && "MBTAGoCTABanner"}
       id="mbta-go-cta-banner"
       link={"/app-store?pt=117998862&ct=dotcom-#{@banner_source}&mt=8&referrer=utm_source%3Ddotcom%26utm_campaign%3D#{@banner_source}"}
       icon="icon-mbta-go"
       large_icon
       arrow
-      classes={"hidden items-center bg-cobalt-90 border-xs border-cobalt-70 rounded-lg " <> @classes}
+      classes={"#{@limit_view_count? && "hidden"} items-center bg-cobalt-90 border-xs border-cobalt-70 rounded-lg " <> @classes}
     >
       {render_slot(@inner_block)}
     </.cta>

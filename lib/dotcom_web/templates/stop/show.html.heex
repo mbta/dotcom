@@ -15,6 +15,7 @@
     <DotcomWeb.Components.mbta_go_cta
       banner_source="stop-page-go-redirect"
       classes="mb-0"
+      limit_view_count?={false}
     >
       {gettext("Download <strong>%{appname}</strong> to track your trip", %{appname: "MBTA Go"})
       |> Phoenix.HTML.raw()}
