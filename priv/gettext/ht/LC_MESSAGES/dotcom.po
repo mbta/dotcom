@@ -1948,7 +1948,7 @@ msgstr "Ale"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "Ale nan jodi a"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2895,7 +2895,7 @@ msgstr "Pa jwenn okenn pwojè"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "Pa gen sèvis"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
@@ -4454,12 +4454,12 @@ msgstr "Pa gen enfòmasyon sou travay ki planifye nan moman sa a."
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "Pa gen sèvis %{route_name} ki pwograme nan %{stop} nan dat %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "Pa gen okenn sèvis Foxboro Event Service ki pwograme nan %{stop} nan dat %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -5559,7 +5559,7 @@ msgstr "avèk %{charlie_ticket} oswa %{mticket}"
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr "ak %{charlie_ticket}, lajan kach, oswa %{mticket}"
+msgstr "avèk %{charlie_ticket}, lajan kach, oswa %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
