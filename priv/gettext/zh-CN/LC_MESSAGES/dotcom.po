@@ -5522,39 +5522,39 @@ msgstr "%{mode_name} 可能在这些站点提前发车。"
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket} or %{mticket}"
-msgstr "与 %{charlie_ticket} 或 %{mticket}"
+msgstr "使用 %{charlie_ticket} 或 %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr "使用%{charlie_ticket}、现金，或%{mticket}"
+msgstr "使用 %{charlie_ticket}、现金或 %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr "与 %{fare_media}"
+msgstr "使用 %{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{mticket}, %{paper_ferry}, %{contactless}, or cash"
-msgstr "使用 %{mticket}、%{paper_ferry}、%{contactless}或现金"
+msgstr "使用 %{mticket}、%{paper_ferry}、%{contactless} 或现金"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "转到今天"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "暂停运营"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "%{date} 当日，在 %{stop} 没有排定的 %{route_name} 班次。"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "%{date} 当日，在 %{stop} 没有排定的 Foxboro Event Service。"
