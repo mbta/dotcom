@@ -187,35 +187,63 @@ defmodule DotcomWeb.Components.TripPlanner.Helpers do
         relative_direction: relative_direction,
         street_name: street_name
       }) do
-    "#{human_relative_direction(relative_direction)} #{human_relative_preposition(relative_direction)} #{street_name}"
+    do_walk_summary(relative_direction, street_name)
   end
 
   def walk_summary(%Leg{distance: meters, duration: seconds, transit_leg: false}) do
     "#{seconds_to_localized_minutes(seconds)}, #{meters_to_localized_miles(meters)}"
   end
 
-  defp human_relative_direction(:DEPART), do: ~t"Depart"
-  defp human_relative_direction(:SLIGHTLY_LEFT), do: ~t"Slightly left"
-  defp human_relative_direction(:LEFT), do: ~t"Left"
-  defp human_relative_direction(:HARD_LEFT), do: ~t"Hard left"
-  defp human_relative_direction(:SLIGHTLY_RIGHT), do: ~t"Slightly right"
-  defp human_relative_direction(:RIGHT), do: ~t"Right"
-  defp human_relative_direction(:HARD_RIGHT), do: ~t"Hard right"
-  defp human_relative_direction(:CONTINUE), do: ~t"Continue"
-  defp human_relative_direction(:CIRCLE_CLOCKWISE), do: ~t"Enter the traffic circle"
-  defp human_relative_direction(:CIRCLE_COUNTERCLOCKWISE), do: ~t"Enter the traffic circle"
-  defp human_relative_direction(:ELEVATOR), do: ~t"Take the elevator"
-  defp human_relative_direction(:UTURN_LEFT), do: ~t"Make a U-turn"
-  defp human_relative_direction(:UTURN_RIGHT), do: ~t"Make a U-turn"
-  defp human_relative_direction(:ENTER_STATION), do: ~t"Enter the station"
-  defp human_relative_direction(:EXIT_STATION), do: ~t"Exit the station"
-  defp human_relative_direction(:FOLLOW_SIGNS), do: ~t"Follow signs"
-  defp human_relative_direction(_), do: ~t"Go"
+  defp do_walk_summary(:DEPART, street_name),
+    do: gettext("Depart onto %{street_name}", street_name: street_name)
 
-  defp human_relative_preposition(:FOLLOW_SIGNS), do: ~t"for"
-  defp human_relative_preposition(:ENTER_STATION), do: ~t"through"
-  defp human_relative_preposition(:EXIT_STATION), do: ~t"towards"
-  defp human_relative_preposition(_), do: ~t"onto"
+  defp do_walk_summary(:SLIGHTLY_LEFT, street_name),
+    do: gettext("Slightly left onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:LEFT, street_name),
+    do: gettext("Left onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:HARD_LEFT, street_name),
+    do: gettext("Hard left onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:SLIGHTLY_RIGHT, street_name),
+    do: gettext("Slightly right onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:RIGHT, street_name),
+    do: gettext("Right onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:HARD_RIGHT, street_name),
+    do: gettext("Hard right onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:CONTINUE, street_name),
+    do: gettext("Continue onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:CIRCLE_CLOCKWISE, street_name),
+    do: gettext("Enter the traffic circle onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:CIRCLE_COUNTERCLOCKWISE, street_name),
+    do: gettext("Enter the traffic circle onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:ELEVATOR, street_name),
+    do: gettext("Take the elevator onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:UTURN_LEFT, street_name),
+    do: gettext("Make a U-turn onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:UTURN_RIGHT, street_name),
+    do: gettext("Make a U-turn onto %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:ENTER_STATION, street_name),
+    do: gettext("Enter the station through %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:EXIT_STATION, street_name),
+    do: gettext("Exit the station towards %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(:FOLLOW_SIGNS, street_name),
+    do: gettext("Follow signs for %{street_name}", street_name: street_name)
+
+  defp do_walk_summary(_, street_name),
+    do: gettext("Go onto %{street_name}", street_name: street_name)
 
   @doc """
   Render meters into miles, with localized formatting.
