@@ -145,7 +145,7 @@ msgstr "Horaires de la ligne %{route_name}, direction %{direction_name}, le %{fo
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "%{minutes} minute walk"
-msgstr ""
+msgstr "%{minutes} minute walk"
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
