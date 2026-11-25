@@ -66,11 +66,6 @@ msgstr " ap rive nan "
 msgid " is on the way to "
 msgstr " sou wout pou ale nan "
 
-#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
-#, elixir-autogen, elixir-format
-msgid " minute walk"
-msgstr " mache pandan yon minit"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " on track "
@@ -146,6 +141,11 @@ msgstr "%{date} jiskaske yo bay lòt avi"
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "%{minutes} minute walk"
+msgstr ""
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format

@@ -66,11 +66,6 @@ msgstr " đang đến "
 msgid " is on the way to "
 msgstr " đang trên đường đến "
 
-#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
-#, elixir-autogen, elixir-format
-msgid " minute walk"
-msgstr " phút đi bộ"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " on track "
@@ -146,6 +141,11 @@ msgstr "%{date} cho đến khi có thông báo mới"
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "Lịch trình %{direction_name} cho %{route_name}, %{formatted_date}"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "%{minutes} minute walk"
+msgstr ""
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
