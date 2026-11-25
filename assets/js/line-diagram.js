@@ -1,6 +1,5 @@
 const updatePatternOffsets = () => {
   const cards = document.getElementsByClassName("stop_card");
-  let offsetSum = 0;
   for (let i = 0; i < cards.length; i++) {
     let stop_id = cards[i].id.split("-");
     stop_id.shift();
