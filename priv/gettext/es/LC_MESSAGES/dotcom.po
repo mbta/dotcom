@@ -236,6 +236,13 @@ msgid_plural "%{count} Unavailable Routes"
 msgstr[0] "1 ruta no disponible"
 msgstr[1] "%{count} rutas no disponibles"
 
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] "1 cambio de vía no programado"
+msgstr[1] "%{count} cambios de vía no programados"
+
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
 msgid "1 alert"
@@ -826,11 +833,6 @@ msgstr "Empleos"
 msgid "Cash"
 msgstr "Efectivo"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "Cambio"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -845,11 +847,6 @@ msgstr "Cambiar de dirección"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "Cambiar el sentido del viaje."
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "Cambios"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -1952,7 +1949,7 @@ msgstr "Ir"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "Ir a la fecha de hoy"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2906,7 +2903,7 @@ msgstr "No se encontraron proyectos"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "Sin servicio"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
@@ -4468,12 +4465,12 @@ msgstr "No hay información sobre trabajos planificados en este momento."
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "No hay servicio de %{route_name} programado en %{stop} el %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "No está programado el Foxboro Event Service en %{stop} el %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4554,8 +4551,18 @@ msgstr "Esta parada no tiene máquinas expendedoras de boletos, pero puede pagar
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "Por lo general, este tren tiene<br /><strong>%{seats} asientos disponibles</strong>"
+msgid "This train typically has<br /><strong>few seats available</strong>"
+msgstr "Este tren suele tener<br /><strong>pocos asientos disponibles</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>many seats available</strong>"
+msgstr "Este tren suele tener<br /><strong>muchos asientos disponibles</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>some seats available</strong>"
+msgstr "Este tren suele tener<br /><strong>algunos asientos disponibles</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4753,11 +4760,6 @@ msgstr "Destinos poco comunes"
 #, elixir-autogen, elixir-format
 msgid "Unknown"
 msgstr "Desconocido"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "Vía no programada"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
@@ -5269,11 +5271,6 @@ msgstr "muelles"
 msgid "east"
 msgstr "este"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr "pocos"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -5324,11 +5321,6 @@ msgstr "ubicación"
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "Aplicación de mTicket"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr "muchos"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5419,11 +5411,6 @@ msgstr "consulte un mapa de todos los puntos de venta propuestos"
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr "servicio"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr "algunos"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format

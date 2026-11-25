@@ -74,7 +74,7 @@ msgstr " 分鐘步行路程"
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " on track "
-msgstr " 於軌道月臺 "
+msgstr " 於軌道月臺  "
 
 #: lib/dotcom_web/templates/error/error_layout.html.heex
 #, elixir-autogen, elixir-format
@@ -213,7 +213,7 @@ msgstr "%{y}/%{x} 運作中"
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid ", "
-msgstr "， "
+msgstr "、 "
 
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
@@ -232,6 +232,12 @@ msgstr[0] "%{count} 條路線未設無障礙設施"
 msgid "1 Unavailable Route"
 msgid_plural "%{count} Unavailable Routes"
 msgstr[0] "%{count} 條路線無法提供服務"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] "%{count} 項臨時軌道變更"
 
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
@@ -816,11 +822,6 @@ msgstr "徵才資訊"
 msgid "Cash"
 msgstr "現金"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "變更"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -835,11 +836,6 @@ msgstr "變更方向"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "變更行程方向。"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "變更"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -1596,7 +1592,7 @@ msgstr "售票據點"
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Fare Transformation"
-msgstr "票價制度轉型"
+msgstr "票價改革"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1864,7 +1860,7 @@ msgstr "免費服務"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Friday"
-msgstr "星期五"
+msgstr "週五"
 
 #: lib/dotcom_web/components/trip_planner/input_form.ex
 #, elixir-autogen, elixir-format
@@ -1940,7 +1936,7 @@ msgstr "前往"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "前往今日"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2697,22 +2693,22 @@ msgstr "交通方式"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Monday"
-msgstr "星期一"
+msgstr "週一"
 
 #: lib/dotcom_web/templates/customer_support/_call_us.html.heex
 #, elixir-autogen, elixir-format
 msgid "Monday - Friday"
-msgstr "星期一至星期五"
+msgstr "週一至週五"
 
 #: lib/dotcom_web/templates/layout/_contact_numbers.html.heex
 #, elixir-autogen, elixir-format
 msgid "Monday thru Friday"
-msgstr "星期一至星期五"
+msgstr "週一至週五"
 
 #: lib/dotcom_web/views/schedule/stop_list.ex
 #, elixir-autogen, elixir-format
 msgid "Monday to Friday"
-msgstr "星期一至星期五"
+msgstr "週一至週五"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2883,7 +2879,7 @@ msgstr "找不到專案"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "無服務"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
@@ -3213,7 +3209,7 @@ msgstr "民眾"
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
 msgid "People waiting as orange line train arrives inside North Station"
-msgstr "Orange Line（橘線）列車抵達 North Station 站內時，等候的乘客"
+msgstr "乘客等候 Orange Line 列車抵達 North Station 站"
 
 #: lib/hub_stops.ex
 #, elixir-autogen, elixir-format
@@ -3620,7 +3616,7 @@ msgstr "Samsung Pay"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Saturday"
-msgstr "星期六"
+msgstr "週六"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
@@ -4223,7 +4219,7 @@ msgstr "摘要"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Sunday"
-msgstr "星期日"
+msgstr "週日"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4437,12 +4433,12 @@ msgstr "目前沒有預定工程的相關資訊。"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "%{date}%{stop}暫無表定的%{route_name}服務。"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "%{date}%{stop}暫無表定的Foxboro Event Service。"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4521,13 +4517,23 @@ msgstr "此站未設有自動售票機，但若要購買車票，您可以前往
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "這班列車通常有<br /> <strong>%{seats}座位可用</strong>"
+msgid "This train typically has<br /><strong>few seats available</strong>"
+msgstr "本列車通常<br /><strong>座位有限</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>many seats available</strong>"
+msgstr "本列車通常有<br /><strong>許多座位可使用</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>some seats available</strong>"
+msgstr "本列車通常有<br /><strong>一些座位可使用</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Thursday"
-msgstr "星期四"
+msgstr "週四"
 
 #: lib/dotcom_web/live/line_diagram_live.ex
 #: lib/dotcom_web/views/schedule_view.ex
@@ -4687,13 +4693,13 @@ msgstr "請在下方搜尋您要找的內容。"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Tuesday"
-msgstr "星期二"
+msgstr "週二"
 
 #: lib/dotcom_web/controllers/vote_controller.ex
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
 msgid "Tuesday, November 5 is the last day to vote in the 2024 general election. Use the T to get to your polling location."
-msgstr "11 月 5 日（星期二）是 2024 年美國大選的最後投票日。搭乘 The T 前往您的投票所吧！"
+msgstr "11 月 5 日（週二）是 2024 年美國大選的最後投票日。搭乘 The T 前往您的投票所吧！"
 
 #: lib/dotcom_web/templates/schedule/_timetable_icon_key.html.heex
 #, elixir-autogen, elixir-format
@@ -4719,11 +4725,6 @@ msgstr "非常規終點站"
 #, elixir-autogen, elixir-format
 msgid "Unknown"
 msgstr "未知"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "未排定軌道月臺"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
@@ -5018,7 +5019,7 @@ msgstr "網站"
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
 msgid "Wednesday"
-msgstr "星期三"
+msgstr "週三"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -5231,11 +5232,6 @@ msgstr "碼頭"
 msgid "east"
 msgstr "東"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr "很少"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -5286,11 +5282,6 @@ msgstr "地點"
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "mTicket App"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr "許多"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5381,11 +5372,6 @@ msgstr "在地圖上查看所有規劃中銷售據點位置"
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr "服務"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr "有些"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
@@ -5538,7 +5524,7 @@ msgstr "使用%{charlie_ticket}、現金或%{mticket}"
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{fare_media}"
-msgstr "與%{fare_media}"
+msgstr "使用%{fare_media}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
