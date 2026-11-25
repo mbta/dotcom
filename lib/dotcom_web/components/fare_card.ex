@@ -171,7 +171,7 @@ defmodule DotcomWeb.Components.FareCard do
       Fares.Repo.for_fare_class(:ferry_fare)
       |> Fares.Repo.filter(%{
         duration: :single_trip,
-        includes_media: :cash,
+        includes_media: :paper_ferry,
         name: @ferry_routes_to_fare_names |> Map.get(id)
       })
       |> List.first()
