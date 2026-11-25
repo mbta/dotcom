@@ -17,7 +17,7 @@ import fullstory from "./fullstory";
 import googleAnalytics from "./google-analytics";
 import googleTranslate from "./google-translate";
 import juxtapose from "./juxtapose";
-import { MapHooks } from "maplibrex"
+import { MapHooks } from "maplibrex";
 import modal from "./modal";
 import photoGallery from "./photo-gallery";
 import pslPageSetup from "./psl-page-setup.js";
@@ -37,7 +37,7 @@ import previousEventsButton from "./view-previous-events";
 import mobileAppBanner from "./mobile-app-banner.js";
 import mobileSearchA11y from "./mobile-search-a11y.js";
 
-import lineDiagram from './line-diagram.js';
+import lineDiagram from "./line-diagram.js";
 
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
