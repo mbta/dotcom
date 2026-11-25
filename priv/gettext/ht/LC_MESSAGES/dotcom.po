@@ -1052,7 +1052,7 @@ msgstr "Kontakte lapolis transpò a"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Continue onto %{street_name}"
-msgstr ""
+msgstr "Kontinye sou %{street_name}"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1187,7 +1187,7 @@ msgstr "Lè depa"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Depart onto %{street_name}"
-msgstr ""
+msgstr "Pati sou %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1420,12 +1420,12 @@ msgstr "Antre mo kle pwojè a"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the station through %{street_name}"
-msgstr ""
+msgstr "Antre nan estasyon an pa %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the traffic circle onto %{street_name}"
-msgstr ""
+msgstr "Antre nan wonpwen trafik la sou %{street_name}"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
@@ -1529,7 +1529,7 @@ msgstr "Evènman"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Exit the station towards %{street_name}"
-msgstr ""
+msgstr "Soti nan estasyon an nan direksyon %{street_name}"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1811,7 +1811,7 @@ msgstr "Swiv @MBTA_CR sou Twitter"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Follow signs for %{street_name}"
-msgstr ""
+msgstr "Swiv siy yo pou %{street_name}"
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
@@ -1940,7 +1940,7 @@ msgstr "Jwenn sijesyon pou vwayaj"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Go onto %{street_name}"
-msgstr ""
+msgstr "Ale sou %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1971,12 +1971,12 @@ msgstr "Harbor Loop Ferry"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard left onto %{street_name}"
-msgstr ""
+msgstr "Agoch nèt sou %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard right onto %{street_name}"
-msgstr ""
+msgstr "Adwat nèt sou %{street_name}"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
@@ -2286,7 +2286,7 @@ msgstr "Pati a %{time}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Left onto %{street_name}"
-msgstr ""
+msgstr "Vire agoch sou %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2578,7 +2578,7 @@ msgstr "Plent sou antretyen"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Make a U-turn onto %{street_name}"
-msgstr ""
+msgstr "Fè yon demi-tou sou %{street_name}"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3585,7 +3585,7 @@ msgstr "Pran tren %{route} la %{train}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right onto %{street_name}"
-msgstr ""
+msgstr "Vire adwat sou %{street_name}"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4011,12 +4011,12 @@ msgstr "Kontoune"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly left onto %{street_name}"
-msgstr ""
+msgstr "Yon ti kras agoch sou %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly right onto %{street_name}"
-msgstr ""
+msgstr "Yon ti kras adwat sou %{street_name}"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4287,7 +4287,7 @@ msgstr "Pran T a pou Vote"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Take the elevator onto %{street_name}"
-msgstr ""
+msgstr "Pran asansè a pou ale sou %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
