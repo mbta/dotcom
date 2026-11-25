@@ -6,6 +6,7 @@ defmodule Dotcom.ServicePatternsTest do
   import Test.Support.Factories.Services.Service
   import Test.Support.Generators.Date, only: [random_date: 0]
 
+  alias Services.Service
   alias Test.Support.FactoryHelpers
 
   setup :verify_on_exit!
@@ -59,19 +60,28 @@ defmodule Dotcom.ServicePatternsTest do
   end
 
   describe "upcoming_holidays_and_service/2" do
-    test "returns holidays and whether the date is served" do
+    test "returns upcoming holiday dates, names, and whether they are served" do
       route_id = FactoryHelpers.build(:id)
+      current_date = ~D[2026-12-24]
+      holiday_date = ~D[2026-12-25]
 
       expect(Services.Repo.Mock, :by_route_id, fn ^route_id ->
-        build_list(15, :service)
+        [
+          %Service{
+            typicality: :holiday_service,
+            all_active_dates: [holiday_date],
+            added_dates_notes: %{Date.to_iso8601(holiday_date) => "Extra Christmas service"}
+          }
+        ]
       end)
 
       expect(Schedules.Repo.Mock, :end_of_rating, fn ->
-        Dotcom.Utils.ServiceDateTime.service_date() |> Timex.shift(days: 30)
+        holiday_date
       end)
 
-      assert holidays = upcoming_holidays_and_service(route_id)
-      assert {%Holiday{}, _} = List.first(holidays)
+      assert upcoming_holidays_and_service(route_id, current_date) == [
+               {holiday_date, "Extra Christmas service", true}
+             ]
     end
   end
 end
