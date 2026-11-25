@@ -5124,8 +5124,8 @@ msgstr "Toute l’année"
 
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
-msgid "You can also email"
-msgstr "Vous pouvez également envoyer un e-mail"
+msgid "You can also email %{email_address} with your request"
+msgstr ""
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
@@ -5565,8 +5565,3 @@ msgstr "avec %{mticket}, %{paper_ferry}, %{contactless} ou en espèces"
 #, elixir-autogen, elixir-format
 msgid "with reduced fare card"
 msgstr "avec une carte tarif réduit"
-
-#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
-#, elixir-autogen, elixir-format
-msgid "with your request."
-msgstr "à votre demande."

@@ -5106,8 +5106,8 @@ msgstr "Pandan tout ane a"
 
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
-msgid "You can also email"
-msgstr "Ou ka voye yon imèl tou"
+msgid "You can also email %{email_address} with your request"
+msgstr ""
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
@@ -5546,8 +5546,3 @@ msgstr "avèk %{mticket}, %{paper_ferry}, %{contactless}, oswa lajan kach"
 #, elixir-autogen, elixir-format
 msgid "with reduced fare card"
 msgstr "ak kat tarif ki gen rabè"
-
-#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
-#, elixir-autogen, elixir-format
-msgid "with your request."
-msgstr "avèk demann ou an."
