@@ -494,11 +494,6 @@ msgstr "Tout chan ki gen yon asterisk* obligatwa."
 msgid "All modes"
 msgstr "Tout mwayen transpò yo"
 
-#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
-#, elixir-autogen, elixir-format
-msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr "Tout kote yo pwopoze yo depann de si sit la apwopriye, si yo ka jwenn pèmi yo, ak si gen espas komèsyal ki disponib."
-
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
@@ -4490,8 +4485,8 @@ msgstr "Semèn sa a"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
-msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
-msgstr "Lis sa a pa enkli revandè MBTA aktyèl yo. Pou wè kote lavant an detay aktyèl yo, sèvi ak"
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
+msgstr ""
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format

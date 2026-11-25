@@ -488,11 +488,6 @@ msgstr "Tất cả các trường có dấu hoa thị* đều là bắt buộc."
 msgid "All modes"
 msgstr "Tất cả các phương tiện"
 
-#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
-#, elixir-autogen, elixir-format
-msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr "Tất cả các địa điểm được đề xuất đều tùy thuộc vào mức độ phù hợp của địa điểm, việc cấp phép và khả năng bố trí hoạt động bán lẻ."
-
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
@@ -4494,8 +4489,8 @@ msgstr "Tuần này"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
-msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
-msgstr "Danh sách này không bao gồm các nhà bán lẻ hiện tại của MBTA. Để xem các địa điểm bán lẻ hiện tại, hãy sử dụng"
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
+msgstr ""
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format

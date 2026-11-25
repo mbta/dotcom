@@ -495,11 +495,6 @@ msgstr "Todos los campos con un asterisco* son obligatorios."
 msgid "All modes"
 msgstr "Todos los modos"
 
-#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
-#, elixir-autogen, elixir-format
-msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr "Todas las ubicaciones propuestas están sujetas a la idoneidad del sitio, la obtención de permisos y la disponibilidad de espacios comerciales."
-
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
@@ -4503,8 +4498,8 @@ msgstr "Esta semana"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
-msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
-msgstr "Esta lista no incluye los puntos de venta actuales de la MBTA. Para ver los puntos de venta actuales, utilice nuestro"
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
+msgstr ""
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format

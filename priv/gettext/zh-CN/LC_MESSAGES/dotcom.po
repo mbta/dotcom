@@ -487,11 +487,6 @@ msgstr "所有带星号*的字段均为必填项。"
 msgid "All modes"
 msgstr "所有交通方式"
 
-#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
-#, elixir-autogen, elixir-format
-msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr "所有拟议地点均须满足场地适用性、许可审批及零售场地可用性要求。"
-
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
 msgid "All variants"
@@ -4471,8 +4466,8 @@ msgstr "本周"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
-msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
-msgstr "此列表不包含MBTA目前的零售网点。如需查看当前零售网点，请使用我们的"
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
+msgstr ""
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
