@@ -3910,6 +3910,11 @@ msgstr "Trajet le plus court"
 msgid "Show"
 msgstr "Afficher"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Show %{n} more dates"
+msgstr ""
+
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "Show Details"
@@ -3919,6 +3924,11 @@ msgstr "Afficher les détails"
 #, elixir-autogen, elixir-format
 msgid "Show More"
 msgstr "Afficher plus"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Show fewer dates"
+msgstr ""
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format
