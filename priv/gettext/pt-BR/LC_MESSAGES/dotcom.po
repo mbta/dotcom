@@ -1951,7 +1951,7 @@ msgstr "Ir"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "Ir para hoje"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2901,7 +2901,7 @@ msgstr "Nenhum projeto encontrado"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "Sem serviço"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
@@ -4463,12 +4463,12 @@ msgstr "Não há informações sobre obras programadas no momento."
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "Não há serviço de %{route_name} programado em %{stop} em %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "Não há serviço Foxboro Event Service programado para %{stop} em %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
