@@ -239,8 +239,8 @@ msgstr[1] "%{count} wout ki pa disponib"
 #, elixir-autogen, elixir-format
 msgid "1 Unscheduled Track Change"
 msgid_plural "%{count} Unscheduled Track Changes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 Chanjman nan ray tren ki pa pwograme"
+msgstr[1] "%{count} Chanjman nan ray tren ki pa pwograme"
 
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
@@ -1945,7 +1945,7 @@ msgstr "Ale"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "Go to today"
-msgstr ""
+msgstr "Ale nan jodi a"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -2892,7 +2892,7 @@ msgstr "Pa jwenn okenn pwojè"
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "No service"
-msgstr ""
+msgstr "Pa gen sèvis"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #: lib/dotcom_web/live/upcoming_departures_live.ex
@@ -4451,12 +4451,12 @@ msgstr "Pa gen enfòmasyon sou travay ki planifye nan moman sa a."
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled %{route_name} service at %{stop} on %{date}."
-msgstr ""
+msgstr "Pa gen sèvis %{route_name} ki pwograme nan %{stop} nan dat %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "There is no scheduled Foxboro Event Service at %{stop} on %{date}."
-msgstr ""
+msgstr "Pa gen okenn sèvis Foxboro Event Service ki pwograme nan %{stop} nan dat %{date}."
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -4538,17 +4538,17 @@ msgstr "Arè sa a pa gen machin pou vann biyè, men ou ka achte tikè nan yon"
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>few seats available</strong>"
-msgstr ""
+msgstr "Anjeneral, tren sa a pa gen<br /><strong>anpil plas disponib</strong>"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>many seats available</strong>"
-msgstr ""
+msgstr "Anjeneral, tren sa a gen<br /><strong>anpil plas disponib</strong>"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
 msgid "This train typically has<br /><strong>some seats available</strong>"
-msgstr ""
+msgstr "Anjeneral, tren sa a gen<br /><strong>kèk plas disponib</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -5546,7 +5546,7 @@ msgstr "avèk %{charlie_ticket} oswa %{mticket}"
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
 msgid "with %{charlie_ticket}, cash, or %{mticket}"
-msgstr "ak %{charlie_ticket}, lajan kach, oswa %{mticket}"
+msgstr "avèk %{charlie_ticket}, lajan kach, oswa %{mticket}"
 
 #: lib/dotcom_web/templates/cms/paragraph/_fare_card.html.heex
 #, elixir-autogen, elixir-format
