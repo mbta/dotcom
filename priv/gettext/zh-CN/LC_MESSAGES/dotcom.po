@@ -145,7 +145,7 @@ msgstr "%{formatted_date}%{route_name}%{direction_name}方向时刻表"
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #, elixir-autogen, elixir-format
 msgid "%{minutes} minute walk"
-msgstr ""
+msgstr "步行%{minutes}分钟"
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
@@ -231,6 +231,12 @@ msgstr[0] "%{count}条不具备无障碍条件的路线"
 msgid "1 Unavailable Route"
 msgid_plural "%{count} Unavailable Routes"
 msgstr[0] "%{count}条不可用路线"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "1 Unscheduled Track Change"
+msgid_plural "%{count} Unscheduled Track Changes"
+msgstr[0] "%{count} 项非计划轨道变更"
 
 #: lib/dotcom_web/views/helpers/alert_helpers.ex
 #, elixir-autogen, elixir-format
@@ -815,11 +821,6 @@ msgstr "职业"
 msgid "Cash"
 msgstr "现金"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Change"
-msgstr "变更"
-
 #: lib/dotcom_web/templates/schedule/_trip_view_filters.html.heex
 #, elixir-autogen, elixir-format
 msgid "Change Date"
@@ -834,11 +835,6 @@ msgstr "切换方向"
 #, elixir-autogen, elixir-format
 msgid "Change Direction of Trip."
 msgstr "更改行程方向。"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Changes"
-msgstr "变更"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -4520,8 +4516,18 @@ msgstr "此站点未设有自动售票机，但您可以在以下地点购买车
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
-msgid "This train typically has<br /><strong>%{seats} seats available</strong>"
-msgstr "这趟列车通常有<br /><strong>%{seats}个空座位</strong>"
+msgid "This train typically has<br /><strong>few seats available</strong>"
+msgstr "该列车通常有<br /><strong>少量空余座位</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>many seats available</strong>"
+msgstr "该列车通常有<br /><strong>大量空余座位</strong>"
+
+#: lib/dotcom_web/views/schedule_view.ex
+#, elixir-autogen, elixir-format
+msgid "This train typically has<br /><strong>some seats available</strong>"
+msgstr "该列车通常有<br /><strong>部分空余座位</strong>"
 
 #: lib/dotcom_web/templates/schedule/_date_picker.html.heex
 #, elixir-autogen, elixir-format
@@ -4718,11 +4724,6 @@ msgstr "冷门目的地"
 #, elixir-autogen, elixir-format
 msgid "Unknown"
 msgstr "未知"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "Unscheduled Track"
-msgstr "非计划轨道"
 
 #: lib/dotcom_web/components/planned_disruptions.ex
 #, elixir-autogen, elixir-format
@@ -5230,11 +5231,6 @@ msgstr "码头"
 msgid "east"
 msgstr "东"
 
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "few"
-msgstr "少数"
-
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "for"
@@ -5285,11 +5281,6 @@ msgstr "地点"
 #, elixir-autogen, elixir-format
 msgid "mTicket App"
 msgstr "mTicket应用"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "many"
-msgstr "许多"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -5380,11 +5371,6 @@ msgstr "查看所有拟议销售地点的地图"
 #, elixir-autogen, elixir-format
 msgid "service"
 msgstr "服务"
-
-#: lib/dotcom_web/views/schedule_view.ex
-#, elixir-autogen, elixir-format
-msgid "some"
-msgstr "一些"
 
 #: lib/dotcom_web/views/schedule_view.ex
 #, elixir-autogen, elixir-format
