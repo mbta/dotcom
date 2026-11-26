@@ -11,7 +11,7 @@
  */
 import { expect, test } from "@playwright/test";
 import { syncLiveView } from "../utils";
-import { scenario as otp_scenario } from '../scenarios/plan-a-trip'; 
+import { scenario as otp_scenario } from "../scenarios/plan-a-trip";
 
 const baseURL = process.env.HOST
   ? `https://${process.env.HOST}`
@@ -78,7 +78,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
     const main = page.locator("main");
     expect(main).toContainText("Meeting Info");
     expect(main).toContainText("Event Description");
-    await main.getByRole("link", { title: /Add .* to Calendar/i }).click();//Adding a pattern here in case we decide to change the title to "Add {event title} to Calendar" here too
+    await main.getByRole("link", { title: /Add .* to Calendar/i }).click(); //Adding a pattern here in case we decide to change the title to "Add {event title} to Calendar" here too
   });
 
   test("projects page, filter, selected project", async ({ page }) => {
@@ -146,7 +146,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
       .locator(".m-alerts__mode-buttons .m-alerts__mode-name")
       .getByText("Bus")
       .click();
-    await page.getByRole("link", { name: "Access" }).click();  //All/current/planned buttons+behavior have been removed from this page.  We'll click on a mode button instead to verify things.
+    await page.getByRole("link", { name: "Access" }).click(); //All/current/planned buttons+behavior have been removed from this page.  We'll click on a mode button instead to verify things.
   });
 
   test("search page", async ({ page }) => {
@@ -185,74 +185,78 @@ test.describe(`${baseURL} passes smoke test`, () => {
     await ok(page, "/parking");
   });
 
-  test("inaccessible stations don't show accesiblity icon", async ({page}) => {
-    await ok(page, "/stops/place-bomnl");//Bowdoin (blue)
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
-    await ok(page, "/stops/place-WML-0081");//Newtonvile (Worcester)
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
-    await ok(page, "/stops/place-valrd");//Valley Road (Mattapan)
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
-    await ok(page, "/stops/place-hymnl");//Hynes (Green)
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: false});
+  test("inaccessible stations don't show accesiblity icon", async ({
+    page,
+  }) => {
+    await ok(page, "/stops/place-bomnl"); //Bowdoin (blue)
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: false });
+    await ok(page, "/stops/place-WML-0081"); //Newtonvile (Worcester)
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: false });
+    await ok(page, "/stops/place-valrd"); //Valley Road (Mattapan)
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: false });
+    await ok(page, "/stops/place-hymnl"); //Hynes (Green)
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: false });
     //Busses, ferries, orange, and red are all accessible it seems.
   });
 
-  test("accessible stations do show the accessible icon", async ({page}) => {
+  test("accessible stations do show the accessible icon", async ({ page }) => {
     await ok(page, "/stops/place-dwnxg");
-    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await expect(page.getByLabel("Accessible")).toBeVisible();
     await ok(page, "/stops/place-sstat");
-    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await expect(page.getByLabel("Accessible")).toBeVisible();
     await ok(page, "/stops/place-north");
-    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await expect(page.getByLabel("Accessible")).toBeVisible();
     await ok(page, "/stops/place-pktrm");
-    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await expect(page.getByLabel("Accessible")).toBeVisible();
     await ok(page, "/stops/place-gover");
-    await expect( page.getByLabel("Accessible") ).toBeVisible();
+    await expect(page.getByLabel("Accessible")).toBeVisible();
   });
 
-  test("inaccessible stations that only serve buses show accessibilty icon", async ({page}) => {
+  test("inaccessible stations that only serve buses show accessibilty icon", async ({
+    page,
+  }) => {
     // This is only a subset of applicable stops.
     // Bus Route 1
-    await ok(page, "/stops/104");//Massachusetts Ave @ Inman St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/104"); //Massachusetts Ave @ Inman St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // Bus Route 15
-    await ok(page, "/stops/1481");//Dudley St @ Belden St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
-    await ok(page, "/stops/1489");//Dudley St @ Dearborn St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/1481"); //Dudley St @ Belden St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
+    await ok(page, "/stops/1489"); //Dudley St @ Dearborn St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // Bus Route 18
-    await ok(page, "/stops/312");//Auckland St @ Dewar St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/312"); //Auckland St @ Dewar St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // Bus Route 21
-    await ok(page, "/stops/542");//Morton St @ Theodore St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/542"); //Morton St @ Theodore St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // 34E
-    await ok(page, "/stops/91618");//624 Washington St opp Bird Middle School
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/91618"); //624 Washington St opp Bird Middle School
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // 59
-    await ok(page, "/stops/81442");//Hillside Ave @ Hunnewell St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
-    await ok(page, "/stops/84885");//Winchester St @ Centre St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/81442"); //Hillside Ave @ Hunnewell St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
+    await ok(page, "/stops/84885"); //Winchester St @ Centre St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // 100
-    await ok(page, "/stops/5269");//Fellsway @ Myrtle St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/5269"); //Fellsway @ Myrtle St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // 139
-    await ok(page, "/stops/16000");//Wyoming St @ Ravine Rd
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/16000"); //Wyoming St @ Ravine Rd
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // 350/354
-    await ok(page, "/stops/8234");//Cambridge St @ Church Ln
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/8234"); //Cambridge St @ Church Ln
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // 429/430
-    await ok(page, "/stops/7523");//Vine St @ Beech St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/7523"); //Vine St @ Beech St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
     // 558
-    await ok(page, "/stops/78121");//River St @ Jackson St
-    await expect( page.getByLabel("Accessible") ).toBeVisible({visible: true});
+    await ok(page, "/stops/78121"); //River St @ Jackson St
+    await expect(page.getByLabel("Accessible")).toBeVisible({ visible: true });
   });
 
-  test("a trip can be planned on OTP", async ({page}) => {
-    return otp_scenario({page, baseURL});
+  test("a trip can be planned on OTP", async ({ page }) => {
+    return otp_scenario({ page, baseURL });
   });
 });
 
