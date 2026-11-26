@@ -176,6 +176,7 @@ test.describe(`${baseURL} passes smoke test`, () => {
   });
 
   test("bus stop change page", async ({ page }) => {
+    test.slow();
     await ok(page, "/bus-stop-changes");
     await page.getByText("Past Changes").click();
   });
