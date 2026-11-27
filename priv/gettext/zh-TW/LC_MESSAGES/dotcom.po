@@ -4467,7 +4467,7 @@ msgstr "本週"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr ""
+msgstr "此清單未包含目前的 MBTA 銷售據點。如需查看目前的銷售據點位置，請使用 %{location_finder_link}。所有建議的銷售據點仍須視場地條件、許可核准及業者的意願而定。"
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
