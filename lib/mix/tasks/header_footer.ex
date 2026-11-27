@@ -10,12 +10,18 @@ if Mix.env() in [:dev, :test] do
         (all font files)
     - images/
         (images)
+    - languages/
+        (translated header and footer fragments)
+    - assets-manifest.json
     - favicon.ico
     - footer.html
     - head.html
     - header.b2fee8c6f272e94d70dd.js
     - header.b2fee8c6f272e94d70dd.js.map
     - header.html
+    - index.html
+    - index.njk
+    - README.md
     - scripts.html
     - styles.105dc30b074592c46ad9.css
     - styles.105dc30b074592c46ad9.css.map
@@ -31,6 +37,7 @@ if Mix.env() in [:dev, :test] do
     use Wallaby.DSL
 
     @css_prefix "mbta__dotcomchrome__"
+    @export_path "export/"
     @languages [
       {"en", "English"},
       {"es", "Spanish"},
@@ -125,14 +132,13 @@ if Mix.env() in [:dev, :test] do
     end
 
     defp make_zip do
-      path = "export/"
-      files = create_files_list(path)
+      files = create_files_list(@export_path)
       Application.ensure_all_started(:timex)
       ts = Timex.now() |> DateTime.to_iso8601()
       zip_file_path = "headerfooter-#{ts}.zip"
       :zip.create(to_charlist(zip_file_path), files)
       IO.puts("#{IO.ANSI.magenta()}zip file generated at #{zip_file_path}.")
-      {:ok, _files} = File.rm_rf("export")
+      {:ok, _files} = File.rm_rf(@export_path)
     end
 
     defp strip_base_path(nil, filename_path), do: filename_path
@@ -178,9 +184,14 @@ if Mix.env() in [:dev, :test] do
 
       IO.puts("#{IO.ANSI.yellow()}writing #{header_or_footer} HTML (#{lang_code})")
 
-      :ok = File.mkdir_p("export")
-      filename_suffix = if lang_code == "en", do: "", else: "-#{String.downcase(lang_code)}"
-      File.write("export/#{header_or_footer}#{filename_suffix}.html", html)
+      {directory, filename_suffix} =
+        case lang_code do
+          "en" -> {@export_path, ""}
+          lang -> {Path.join(@export_path, "languages"), "-#{String.downcase(lang)}"}
+        end
+
+      :ok = File.mkdir_p(directory)
+      File.write(Path.join(directory, "#{header_or_footer}#{filename_suffix}.html"), html)
     end
 
     # Make relative links absolute.
@@ -278,7 +289,7 @@ if Mix.env() in [:dev, :test] do
             "--config",
             "webpack.config.export-headerfooter.js",
             "--output-path",
-            "../../../export"
+            Path.expand(@export_path)
           ],
           cd: "assets"
         )
