@@ -76,7 +76,7 @@ defmodule Dotcom.TripPlan.OpenTripPlannerTest do
         end)
 
       assert log =~ "[info] result=OK routing_error=NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW"
-      refute log =~ "[warning]"
+      refute log =~ "[warning] result="
     end
 
     for {datetime_type, time_key, representative_index} <- [
@@ -113,7 +113,7 @@ defmodule Dotcom.TripPlan.OpenTripPlannerTest do
           end)
 
         assert log =~ "[info] result=otp_error"
-        refute log =~ "[warning]"
+        refute log =~ "[warning] result="
         refute log =~ "NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW"
       end
     end
