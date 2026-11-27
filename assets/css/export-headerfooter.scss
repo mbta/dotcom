@@ -4,11 +4,40 @@
   justify-content: end;
 }
 
+@each $weight, $normal, $italic in
+  (100, 'Thin', 'ThinItalic'),
+  (200, 'ExtraLight', 'ExtraLightItalic'),
+  (300, 'Light', 'LightItalic'),
+  (400, 'Regular', 'Italic'),
+  (500, 'Medium', 'MediumItalic'),
+  (600, 'SemiBold', 'SemiBoldItalic'),
+  (700, 'Bold', 'BoldItalic'),
+  (800, 'ExtraBold', 'ExtraBoldItalic'),
+  (900, 'Black', 'BlackItalic') {
+  @font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: $weight;
+    src: url('fonts/Inter-#{$normal}.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: $weight;
+    src: url('fonts/Inter-#{$italic}.woff2') format('woff2');
+  }
+}
+
+$fa-font-path: 'fonts';
+
 @import 'functions';
 @import 'variables';
 @import 'mixins';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
 @import 'vendor/fontawesome';
 @import 'typography';
 @import 'layout';
@@ -19,10 +48,20 @@
 @import 'header'; // some nav styles still here
 @import 'footer';
 @import 'global-navigation'; // other nav styles
+@import 'spacing';
 
 .header--new,
 .m-footer__outer-background {
-  @include base-font__new();
+  box-sizing: border-box;
+  font-family: $font-family-base;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+// compensating for absent search bar
+.header-navbar.new .navbar-logo {
+  margin-right: 4.625rem;
 }
 
 // we overwrite .no-js with .js class on mbta.com

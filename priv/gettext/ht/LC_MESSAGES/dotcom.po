@@ -61,11 +61,6 @@ msgstr " ap rive nan "
 msgid " is on the way to "
 msgstr " sou wout pou ale nan "
 
-#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
-#, elixir-autogen, elixir-format
-msgid " minute walk"
-msgstr " mache pandan yon minit"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " on track "
@@ -138,9 +133,15 @@ msgid "%{date} until further notice"
 msgstr "%{date} jiskaske yo bay lòt avi"
 
 #: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "%{minutes} minute walk"
+msgstr "%{minutes} minit mache"
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
@@ -488,11 +489,6 @@ msgstr "Tout chan ki gen yon asterisk* obligatwa."
 #, elixir-autogen, elixir-format
 msgid "All modes"
 msgstr "Tout mwayen transpò yo"
-
-#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
-#, elixir-autogen, elixir-format
-msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr "Tout kote yo pwopoze yo depann de si sit la apwopriye, si yo ka jwenn pèmi yo, ak si gen espas komèsyal ki disponib."
 
 #: lib/dotcom_web/components/variant_picker.ex
 #, elixir-autogen, elixir-format
@@ -1044,8 +1040,8 @@ msgstr "Kontakte lapolis transpò a"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Continue"
-msgstr "Kontinye"
+msgid "Continue onto %{street_name}"
+msgstr "Kontinye sou %{street_name}"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1172,15 +1168,15 @@ msgstr "An reta"
 msgid "Delays"
 msgstr "Reta"
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex
-#, elixir-autogen, elixir-format
-msgid "Depart"
-msgstr "Depa"
-
 #: lib/dotcom_web/components/trip_planner/results.ex
 #, elixir-autogen, elixir-format
 msgid "Depart at"
 msgstr "Lè depa"
+
+#: lib/dotcom_web/components/trip_planner/helpers.ex
+#, elixir-autogen, elixir-format
+msgid "Depart onto %{street_name}"
+msgstr "Pati sou %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1412,13 +1408,13 @@ msgstr "Antre mo kle pwojè a"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Enter the station"
-msgstr "Antre nan estasyon an"
+msgid "Enter the station through %{street_name}"
+msgstr "Antre nan estasyon an pa %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Enter the traffic circle"
-msgstr "Antre nan wonpwen trafik la"
+msgid "Enter the traffic circle onto %{street_name}"
+msgstr "Antre nan wonpwen trafik la sou %{street_name}"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
@@ -1521,8 +1517,8 @@ msgstr "Evènman"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Exit the station"
-msgstr "Soti nan estasyon an"
+msgid "Exit the station towards %{street_name}"
+msgstr "Soti nan estasyon an nan direksyon %{street_name}"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1798,8 +1794,8 @@ msgstr "Swiv @MBTA_CR sou Twitter"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Follow signs"
-msgstr "Swiv siy yo"
+msgid "Follow signs for %{street_name}"
+msgstr "Swiv siy yo pou %{street_name}"
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
@@ -1922,8 +1918,8 @@ msgstr "Jwenn sijesyon pou vwayaj"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Go"
-msgstr "Ale"
+msgid "Go onto %{street_name}"
+msgstr "Ale sou %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1953,13 +1949,13 @@ msgstr "Harbor Loop Ferry"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Hard left"
-msgstr "Agoch nèt"
+msgid "Hard left onto %{street_name}"
+msgstr "Agoch nèt sou %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Hard right"
-msgstr "Adwat nèt"
+msgid "Hard right onto %{street_name}"
+msgstr "Adwat nèt sou %{street_name}"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
@@ -2268,8 +2264,8 @@ msgstr "Pati a %{time}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Left"
-msgstr "Agoch"
+msgid "Left onto %{street_name}"
+msgstr "Vire agoch sou %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2560,8 +2556,8 @@ msgstr "Plent sou antretyen"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Make a U-turn"
-msgstr "Fè yon demi-tou"
+msgid "Make a U-turn onto %{street_name}"
+msgstr "Fè yon demi-tou sou %{street_name}"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3567,8 +3563,8 @@ msgstr "Pran tren %{route} la %{train}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Right"
-msgstr "Adwat"
+msgid "Right onto %{street_name}"
+msgstr "Vire adwat sou %{street_name}"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -3993,13 +3989,13 @@ msgstr "Kontoune"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Slightly left"
-msgstr "Yon ti kras a goch"
+msgid "Slightly left onto %{street_name}"
+msgstr "Yon ti kras agoch sou %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Slightly right"
-msgstr "Yon ti kras adwat"
+msgid "Slightly right onto %{street_name}"
+msgstr "Yon ti kras adwat sou %{street_name}"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4269,8 +4265,8 @@ msgstr "Pran T a pou Vote"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
-msgid "Take the elevator"
-msgstr "Pran asansè a"
+msgid "Take the elevator onto %{street_name}"
+msgstr "Pran asansè a pou ale sou %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -4371,10 +4367,14 @@ msgid "There are currently no realtime departures available. Scheduled departure
 msgstr "Pa gen okenn depa an tan reyèl ki disponib kounye a. Depa ki pwograme yo parèt anba a."
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "Pa gen okenn"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no %{alert_type} at this time"
+msgstr ""
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4388,8 +4388,8 @@ msgstr "Pa gen avètisman sou %{route_name} nan moman sa a."
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
-msgid "There are no high priority"
-msgstr "Pa gen okenn ki gen gwo priyorite"
+msgid "There are no high priority %{mode} alerts at this time"
+msgstr ""
 
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #, elixir-autogen, elixir-format
@@ -4473,8 +4473,8 @@ msgstr "Semèn sa a"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
-msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
-msgstr "Lis sa a pa enkli revandè MBTA aktyèl yo. Pou wè kote lavant an detay aktyèl yo, sèvi ak"
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
+msgstr ""
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5084,8 +5084,8 @@ msgstr "Pandan tout ane a"
 
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
-msgid "You can also email"
-msgstr "Ou ka voye yon imèl tou"
+msgid "You can also email %{email_address} with your request"
+msgstr ""
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
@@ -5150,7 +5150,6 @@ msgid "accessible spots"
 msgstr "plas aksesib"
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
 msgstr "avètisman nan moman sa a"
@@ -5169,11 +5168,6 @@ msgstr "rive nan"
 #, elixir-autogen, elixir-format
 msgid "arriving"
 msgstr "ap rive"
-
-#: lib/dotcom_web/templates/page/_alerts.html.heex
-#, elixir-autogen, elixir-format
-msgid "at this time"
-msgstr "nan moman sa a"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -5231,11 +5225,6 @@ msgstr "waf"
 #, elixir-autogen, elixir-format
 msgid "east"
 msgstr "lès"
-
-#: lib/dotcom_web/components/trip_planner/helpers.ex
-#, elixir-autogen, elixir-format
-msgid "for"
-msgstr "pou"
 
 #: lib/dotcom_web/components/system_status/commuter_rail_route_status.ex
 #, elixir-autogen, elixir-format
@@ -5302,11 +5291,6 @@ msgstr "ki depase 30 minit"
 #, elixir-autogen, elixir-format
 msgid "of more than an hour"
 msgstr "ki depase yon èdtan"
-
-#: lib/dotcom_web/components/trip_planner/helpers.ex
-#, elixir-autogen, elixir-format
-msgid "onto"
-msgstr "sou"
 
 #: lib/util/and_or.ex
 #, elixir-autogen, elixir-format
@@ -5413,16 +5397,6 @@ msgstr "paj dakèy MBTA a"
 msgid "the next morning"
 msgstr "nan maten ki vin apre a"
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex
-#, elixir-autogen, elixir-format
-msgid "through"
-msgstr "atravè"
-
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "timetable for"
-msgstr "kalandriye pou"
-
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #: lib/dotcom_web/views/helpers.ex
 #, elixir-autogen, elixir-format
@@ -5450,7 +5424,6 @@ msgstr "pou planifye vwayaj ou"
 msgid "total parking spots"
 msgstr "kantite total plas pakin"
 
-#: lib/dotcom_web/components/trip_planner/helpers.ex
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "towards"
@@ -5540,8 +5513,3 @@ msgstr "avèk %{mticket}, %{paper_ferry}, %{contactless}, oswa lajan kach"
 #, elixir-autogen, elixir-format
 msgid "with reduced fare card"
 msgstr "ak kat tarif ki gen rabè"
-
-#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
-#, elixir-autogen, elixir-format
-msgid "with your request."
-msgstr "avèk demann ou an."

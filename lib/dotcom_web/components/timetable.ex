@@ -49,7 +49,13 @@ defmodule DotcomWeb.Components.Timetable do
     <div id="timetable" class="m-timetable__table-container" data-sticky-container>
       <table
         class="m-timetable__table"
-        aria-label={"#{@direction_name} #{~t(timetable for)} #{@route.name}, #{@formatted_date}"}
+        aria-label={
+          gettext("%{direction_name} timetable for %{route_name}, %{formatted_date}",
+            direction_name: @direction_name,
+            route_name: @route.name,
+            formatted_date: @formatted_date
+          )
+        }
       >
         <tr class="js-timetable-train-labels">
           <th
@@ -188,7 +194,13 @@ defmodule DotcomWeb.Components.Timetable do
     <div id="timetable" class="m-timetable__table-container" data-sticky-container>
       <table
         class="m-timetable__table"
-        aria-label={"#{@direction_name} #{~t(timetable for)} #{@route.name}, #{@formatted_date}"}
+        aria-label={
+          gettext("%{direction_name} timetable for %{route_name}, %{formatted_date}",
+            direction_name: @direction_name,
+            route_name: @route.name,
+            formatted_date: @formatted_date
+          )
+        }
       >
         <tr class="js-timetable-train-labels">
           <th
