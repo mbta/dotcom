@@ -161,7 +161,7 @@ defmodule Dotcom.Mixfile do
       {:phoenix_html_helpers, "1.0.1"},
       {:phoenix_live_dashboard, "0.9.1"},
       {:phoenix_live_reload, "1.7.0", only: [:dev, :test]},
-      {:phoenix_live_view, "1.2.14", override: true},
+      {:phoenix_live_view, "1.2.15", override: true},
       {:phoenix_pubsub, "2.4.1"},
       {:phoenix_view, "2.0.4"},
       {:plug, "1.20.4"},
