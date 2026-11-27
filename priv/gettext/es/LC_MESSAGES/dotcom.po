@@ -4396,14 +4396,14 @@ msgstr "Actualmente no hay salidas en tiempo real disponibles."
 msgid "There are currently no realtime departures available. Scheduled departures are shown below."
 msgstr "Actualmente no hay salidas en tiempo real disponibles. Las salidas programadas se muestran a continuación."
 
-#: lib/dotcom_web/templates/alert/show.html.heex
-#, elixir-autogen, elixir-format
-msgid "There are no"
-msgstr "No hay"
-
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no %{alert_type} at this time"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no %{mode} alerts at this time."
 msgstr ""
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
@@ -5186,11 +5186,6 @@ msgstr "Alejar"
 #, elixir-autogen, elixir-format
 msgid "accessible spots"
 msgstr "lugares accesibles"
-
-#: lib/dotcom_web/templates/alert/show.html.heex
-#, elixir-autogen, elixir-format
-msgid "alerts at this time"
-msgstr "alertas en este momento"
 
 #: lib/util/and_or.ex
 #, elixir-autogen, elixir-format
