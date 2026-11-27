@@ -6,7 +6,7 @@
     <:main_section>
       <.alerts_page_content_layout
         {assigns}
-        empty_message={~t(There are no) <> " #{mode_name(@id)} " <> ~t(alerts at this time) <> "."}
+        empty_message={gettext("There are no %{mode} alerts at this time.", mode: mode_name(@id))}
       >
         <:heading>
           <h2 class="sr-only">{~t(All Alerts)}</h2>

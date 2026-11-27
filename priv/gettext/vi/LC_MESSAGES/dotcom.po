@@ -4387,14 +4387,14 @@ msgstr "Hiện không có chuyến khởi hành theo thời gian thực nào."
 msgid "There are currently no realtime departures available. Scheduled departures are shown below."
 msgstr "Hiện không có chuyến khởi hành theo thời gian thực nào. Các chuyến khởi hành theo lịch được hiển thị bên dưới."
 
-#: lib/dotcom_web/templates/alert/show.html.heex
-#, elixir-autogen, elixir-format
-msgid "There are no"
-msgstr "Không có"
-
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no %{alert_type} at this time"
+msgstr ""
+
+#: lib/dotcom_web/templates/alert/show.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no %{mode} alerts at this time."
 msgstr ""
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
@@ -5175,11 +5175,6 @@ msgstr "Thu nhỏ"
 #, elixir-autogen, elixir-format
 msgid "accessible spots"
 msgstr "các vị trí có thể tiếp cận được"
-
-#: lib/dotcom_web/templates/alert/show.html.heex
-#, elixir-autogen, elixir-format
-msgid "alerts at this time"
-msgstr "cảnh báo tại thời điểm này"
 
 #: lib/util/and_or.ex
 #, elixir-autogen, elixir-format
