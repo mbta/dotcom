@@ -4398,10 +4398,14 @@ msgid "There are currently no realtime departures available. Scheduled departure
 msgstr "Il n’y a actuellement aucun départ en temps réel disponible. Les départs programmés sont indiqués ci-dessous."
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "Aucun(e)"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no %{alert_type} at this time"
+msgstr ""
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4415,8 +4419,8 @@ msgstr "Aucune alerte sur l'itinéraire %{route_name} pour le moment."
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
-msgid "There are no high priority"
-msgstr "Aucune alerte prioritaire"
+msgid "There are no high priority %{mode} alerts at this time"
+msgstr ""
 
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #, elixir-autogen, elixir-format
@@ -5186,7 +5190,6 @@ msgid "accessible spots"
 msgstr "lieux accessibles"
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
 msgstr "alertes en ce moment"
@@ -5205,11 +5208,6 @@ msgstr "arrivé à"
 #, elixir-autogen, elixir-format
 msgid "arriving"
 msgstr "arrivée"
-
-#: lib/dotcom_web/templates/page/_alerts.html.heex
-#, elixir-autogen, elixir-format
-msgid "at this time"
-msgstr "actuellement"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format

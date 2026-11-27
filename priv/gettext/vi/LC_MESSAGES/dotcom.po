@@ -4388,10 +4388,14 @@ msgid "There are currently no realtime departures available. Scheduled departure
 msgstr "Hiện không có chuyến khởi hành theo thời gian thực nào. Các chuyến khởi hành theo lịch được hiển thị bên dưới."
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "Không có"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no %{alert_type} at this time"
+msgstr ""
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4405,8 +4409,8 @@ msgstr "Hiện không có cảnh báo nào về tuyến %{route_name}."
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
-msgid "There are no high priority"
-msgstr "Không có mức ưu tiên cao"
+msgid "There are no high priority %{mode} alerts at this time"
+msgstr ""
 
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #, elixir-autogen, elixir-format
@@ -5173,7 +5177,6 @@ msgid "accessible spots"
 msgstr "các vị trí có thể tiếp cận được"
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
 msgstr "cảnh báo tại thời điểm này"
@@ -5192,11 +5195,6 @@ msgstr "đã đến"
 #, elixir-autogen, elixir-format
 msgid "arriving"
 msgstr "đang đến"
-
-#: lib/dotcom_web/templates/page/_alerts.html.heex
-#, elixir-autogen, elixir-format
-msgid "at this time"
-msgstr "tại thời điểm này"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
