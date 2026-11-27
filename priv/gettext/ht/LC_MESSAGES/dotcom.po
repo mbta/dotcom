@@ -4374,7 +4374,7 @@ msgstr "Pa gen okenn"
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no %{alert_type} at this time"
-msgstr ""
+msgstr "There are no %{alert_type} at this time"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4389,7 +4389,7 @@ msgstr "Pa gen avètisman sou %{route_name} nan moman sa a."
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no high priority %{mode} alerts at this time"
-msgstr ""
+msgstr "There are no high priority %{mode} alerts at this time"
 
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #, elixir-autogen, elixir-format
@@ -4474,7 +4474,8 @@ msgstr "Semèn sa a"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr ""
+msgstr "Lis sa a pa enkli revandè MBTA aktyèl yo. Pou wè kote pwen lavant an detay aktyèl yo ye, sèvi ak %{location_finder_link} nou an. Tout kote yo pwopoze yo"
+" depann de si sit la apwopriye, si yo ka jwenn pèmi yo, ak si gen espas komèsyal ki disponib."
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5085,7 +5086,7 @@ msgstr "Pandan tout ane a"
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
 msgid "You can also email %{email_address} with your request"
-msgstr ""
+msgstr "You can also email %{email_address} with your request"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
