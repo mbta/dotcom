@@ -5090,7 +5090,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
-msgid "You can also email"
+msgid "You can also email %{email_address} with your request"
 msgstr ""
 
 #: lib/dotcom_web/views/customer_support_view.ex
@@ -5518,9 +5518,4 @@ msgstr ""
 #: lib/dotcom_web/components/fare_card.ex
 #, elixir-autogen, elixir-format
 msgid "with reduced fare card"
-msgstr ""
-
-#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
-#, elixir-autogen, elixir-format
-msgid "with your request."
 msgstr ""

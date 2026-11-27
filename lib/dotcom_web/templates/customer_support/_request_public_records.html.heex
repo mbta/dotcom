@@ -7,6 +7,11 @@
   <% end %>
 </p>
 <p>
-  {~t(You can also email)}
-  <a href="mailto:mbta.rao@mbta.com">mbta.rao@mbta.com</a> {~t(with your request.)}
+  {gettext("You can also email %{email_address} with your request",
+    email_address:
+      ~H(<a href="mailto:mbta.rao@mbta.com">mbta.rao@mbta.com</a>)
+      |> Phoenix.HTML.Safe.to_iodata()
+      |> IO.iodata_to_binary()
+  )
+  |> raw()}
 </p>

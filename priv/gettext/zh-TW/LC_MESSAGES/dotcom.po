@@ -5083,8 +5083,8 @@ msgstr "全年"
 
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
-msgid "You can also email"
-msgstr "您也可以傳送電子郵件至 "
+msgid "You can also email %{email_address} with your request"
+msgstr ""
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
@@ -5512,8 +5512,3 @@ msgstr "使用%{mticket}、%{paper_ferry}、%{contactless}或現金"
 #, elixir-autogen, elixir-format
 msgid "with reduced fare card"
 msgstr "使用減價票乘車卡"
-
-#: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
-#, elixir-autogen, elixir-format
-msgid "with your request."
-msgstr "與您的申請一併提供。"
