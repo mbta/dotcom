@@ -46,11 +46,6 @@ msgstr " Các chuyến tàu khởi hành từ Foxboro 30 phút sau khi các sự
 msgid " at %{address}"
 msgstr " tại %{address}"
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
-#, elixir-autogen, elixir-format
-msgid " depend on the distance traveled (zones). Refer to the information below:"
-msgstr " phụ thuộc vào quãng đường di chuyển (các vùng). Tham khảo thông tin bên dưới:"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " has arrived at "
@@ -703,7 +698,6 @@ msgstr "Hướng dẫn tiếp cận xe buýt"
 msgid "Bus Beginner's Guide"
 msgstr "Hướng dẫn đi xe buýt cho người mới bắt đầu"
 
-#: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Fares"
@@ -956,7 +950,6 @@ msgstr "Hướng dẫn tiếp cận Commuter Rail"
 msgid "Commuter Rail Beginner's Guide"
 msgstr "Hướng dẫn về Commuter Rail cho người mới bắt đầu"
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Fares"
@@ -1640,11 +1633,6 @@ msgstr "Tổng quan giá vé"
 msgid "Fares by Mode"
 msgstr "Giá vé theo phương tiện"
 
-#: lib/dotcom_web/controllers/mode/ferry.ex
-#, elixir-autogen, elixir-format
-msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
-msgstr "Giá vé khác nhau giữa các tuyến phà Hingham/Hull và Charlestown. Tham khảo thông tin bên dưới:"
-
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured %{mode} Projects"
@@ -1809,11 +1797,6 @@ msgstr "Đi theo biển chỉ dẫn đến %{street_name}"
 #, elixir-autogen, elixir-format
 msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
 msgstr "Truy cập liên kết bên dưới để tìm số điện thoại tương ứng với loại phương tiện hoặc tuyến xe nơi quý vị làm mất đồ."
-
-#: lib/dotcom_web/controllers/mode/bus.ex
-#, elixir-autogen, elixir-format
-msgid "For Express Bus fares, read the complete %{link} page."
-msgstr "Để biết giá vé Xe buýt tốc hành, hãy đọc toàn bộ trang %{link}."
 
 #: lib/dotcom_web/components/alerts.ex
 #, elixir-autogen, elixir-format
@@ -4674,11 +4657,6 @@ msgstr "Giao thông công cộng"
 #, elixir-autogen, elixir-format
 msgid "Transit Police"
 msgstr "Cảnh sát giao thông"
-
-#: lib/dotcom_web/controllers/mode/subway.ex
-#, elixir-autogen, elixir-format
-msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
-msgstr "Di chuyển đến bất kỳ đâu trên các tuyến Blue, Orange, Red và Green với cùng một mức giá."
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format

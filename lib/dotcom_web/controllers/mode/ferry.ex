@@ -11,10 +11,6 @@ defmodule DotcomWeb.Mode.FerryController do
 
   def mode_icon, do: :ferry
 
-  def fare_description do
-    ~t"Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
-  end
-
   def fares do
     DotcomWeb.ViewHelpers.mode_summaries(:ferry)
   end

@@ -46,11 +46,6 @@ msgstr " Les trains partent de Foxboro 30 minutes après la fin des événement
 msgid " at %{address}"
 msgstr " à %{address}"
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
-#, elixir-autogen, elixir-format
-msgid " depend on the distance traveled (zones). Refer to the information below:"
-msgstr " en fonction de la distance parcourue (zones). Consultez les informations ci-dessous :"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " has arrived at "
@@ -710,7 +705,6 @@ msgstr "Guide d'accès aux bus"
 msgid "Bus Beginner's Guide"
 msgstr "Guide du bus pour les débutants"
 
-#: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Fares"
@@ -963,7 +957,6 @@ msgstr "Guide d'accès au Commuter Rail"
 msgid "Commuter Rail Beginner's Guide"
 msgstr "Guide du Commuter Rail pour les débutants"
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Fares"
@@ -1647,11 +1640,6 @@ msgstr "Aperçu des tarifs"
 msgid "Fares by Mode"
 msgstr "Tarifs par moyen de transport"
 
-#: lib/dotcom_web/controllers/mode/ferry.ex
-#, elixir-autogen, elixir-format
-msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
-msgstr "Les tarifs diffèrent entre les ferrys Hingham/Hull et ceux de Charlestown. Veuillez consulter les informations ci-dessous :"
-
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured %{mode} Projects"
@@ -1816,11 +1804,6 @@ msgstr "Suivez les panneaux pour %{street_name}"
 #, elixir-autogen, elixir-format
 msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
 msgstr "Suivez le lien ci-dessous pour trouver le numéro correspondant au mode de transport ou à la ligne où vous avez perdu votre objet."
-
-#: lib/dotcom_web/controllers/mode/bus.ex
-#, elixir-autogen, elixir-format
-msgid "For Express Bus fares, read the complete %{link} page."
-msgstr "Pour connaître les tarifs du Bus express, consultez la page complète %{link}."
 
 #: lib/dotcom_web/components/alerts.ex
 #, elixir-autogen, elixir-format
@@ -4684,11 +4667,6 @@ msgstr "Transports en commun"
 #, elixir-autogen, elixir-format
 msgid "Transit Police"
 msgstr "Police des transports"
-
-#: lib/dotcom_web/controllers/mode/subway.ex
-#, elixir-autogen, elixir-format
-msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
-msgstr "Voyagez n’importe où sur les lignes Blue, Orange, Red et Green au même tarif."
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format

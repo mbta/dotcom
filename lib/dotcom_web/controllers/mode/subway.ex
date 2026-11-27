@@ -22,8 +22,4 @@ defmodule DotcomWeb.Mode.SubwayController do
   def mode_name, do: ~t"Subway"
 
   def mode_icon, do: :subway
-
-  def fare_description do
-    ~t"Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
-  end
 end

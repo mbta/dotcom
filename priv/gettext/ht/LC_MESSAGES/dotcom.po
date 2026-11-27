@@ -46,11 +46,6 @@ msgstr " Tren yo kite Foxboro 30 minit apre evènman yo fini"
 msgid " at %{address}"
 msgstr " nan %{address}"
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
-#, elixir-autogen, elixir-format
-msgid " depend on the distance traveled (zones). Refer to the information below:"
-msgstr " depann de distans yo vwayaje a (zòn yo). Gade enfòmasyon ki anba a:"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " has arrived at "
@@ -708,7 +703,6 @@ msgstr "Gid pou aksè nan bis"
 msgid "Bus Beginner's Guide"
 msgstr "Gid pou debitan nan bis"
 
-#: lib/dotcom_web/controllers/mode/bus.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Bus Fares"
@@ -961,7 +955,6 @@ msgstr "Gid pou aksè nan tren banlye"
 msgid "Commuter Rail Beginner's Guide"
 msgstr "Gid pou debitan nan tren banlye"
 
-#: lib/dotcom_web/controllers/mode/commuter.ex
 #: lib/dotcom_web/views/layout_view.ex
 #, elixir-autogen, elixir-format
 msgid "Commuter Rail Fares"
@@ -1644,11 +1637,6 @@ msgstr "Apèsi sou pri tikè yo"
 msgid "Fares by Mode"
 msgstr "Pri tikè selon mwayen transpò"
 
-#: lib/dotcom_web/controllers/mode/ferry.ex
-#, elixir-autogen, elixir-format
-msgid "Fares differ between Hingham/Hull Ferries & Charlestown Ferries. Refer to the information below:"
-msgstr "Pri tikè yo diferan ant bato Hingham/Hull yo & bato Charlestown yo. Gade enfòmasyon ki anba a:"
-
 #: lib/dotcom_web/live/projects_page_live.html.heex
 #, elixir-autogen, elixir-format
 msgid "Featured %{mode} Projects"
@@ -1813,11 +1801,6 @@ msgstr "Swiv siy yo pou %{street_name}"
 #, elixir-autogen, elixir-format
 msgid "Follow the link below to find the number associated with the mode or route where you lost your item."
 msgstr "Swiv lyen ki anba a pou jwenn nimewo ki koresponn ak mwayen transpò oswa liy kote ou te pèdi atik ou a."
-
-#: lib/dotcom_web/controllers/mode/bus.ex
-#, elixir-autogen, elixir-format
-msgid "For Express Bus fares, read the complete %{link} page."
-msgstr "Pou pri tikè Bis Express yo, li paj %{link} la nèt."
 
 #: lib/dotcom_web/components/alerts.ex
 #, elixir-autogen, elixir-format
@@ -4670,11 +4653,6 @@ msgstr "Transpò"
 #, elixir-autogen, elixir-format
 msgid "Transit Police"
 msgstr "Lapolis transpò"
-
-#: lib/dotcom_web/controllers/mode/subway.ex
-#, elixir-autogen, elixir-format
-msgid "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
-msgstr "Vwayaje nenpòt kote sou liy Blue, Orange, Red ak Green yo pou menm pri a."
 
 #: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
