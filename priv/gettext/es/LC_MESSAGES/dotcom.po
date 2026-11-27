@@ -4499,7 +4499,8 @@ msgstr "Esta semana"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr ""
+msgstr "En esta lista no figuran los puntos de venta minorista actuales de la MBTA. Para consultar los puntos de venta minorista actuales, use nuestro %{location_finder_link}."
+" Todas las ubicaciones propuestas están sujetas a que el sitio sea adecuado, a la obtención de permisos y a la disponibilidad de comercios."
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
