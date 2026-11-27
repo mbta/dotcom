@@ -4388,7 +4388,7 @@ msgstr "Aucun(e)"
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no %{alert_type} at this time"
-msgstr ""
+msgstr "Pas de %{alert_type} pour le moment"
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4403,7 +4403,7 @@ msgstr "Aucune alerte sur l'itinéraire %{route_name} pour le moment."
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no high priority %{mode} alerts at this time"
-msgstr ""
+msgstr "Aucune alerte prioritaire concernant %{mode} pour le moment"
 
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #, elixir-autogen, elixir-format
@@ -4488,7 +4488,8 @@ msgstr "Cette semaine"
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
 msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
-msgstr ""
+msgstr "Cette liste ne comprend pas les points de vente actuels de la MBTA. Pour les consulter, utilisez notre %{location_finder_link}. Tous les emplacements proposés"
+" sont soumis à une évaluation de leur adéquation au site, à l'obtention des autorisations nécessaires et à la disponibilité de locaux commerciaux."
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
 #, elixir-autogen, elixir-format
@@ -5102,7 +5103,7 @@ msgstr "Toute l’année"
 #: lib/dotcom_web/templates/customer_support/_request_public_records.html.heex
 #, elixir-autogen, elixir-format
 msgid "You can also email %{email_address} with your request"
-msgstr ""
+msgstr "You can also email %{email_address} with your request"
 
 #: lib/dotcom_web/views/customer_support_view.ex
 #, elixir-autogen, elixir-format
