@@ -42,7 +42,9 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   top: 0;
-
+  overflow: clip;
+  overflow-clip-margin: 1px;
+  
   &__line:not([stroke]),
   &__stop {
     stroke: currentColor;

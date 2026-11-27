@@ -28,14 +28,20 @@ describe("FitBounds hook", () => {
 
     handlers["fit-bounds"]({
       map_id: "the-map",
-      bounds: [[-71.1, 42.3], [-71, 42.4]],
+      bounds: [
+        [-71.1, 42.3],
+        [-71, 42.4]
+      ],
       padding: 50,
       max_zoom: 16
     });
 
     expect(received).toHaveLength(1);
     expect(received[0].detail).toEqual({
-      bounds: [[-71.1, 42.3], [-71, 42.4]],
+      bounds: [
+        [-71.1, 42.3],
+        [-71, 42.4]
+      ],
       padding: 50,
       maxZoom: 16
     });
@@ -43,7 +49,13 @@ describe("FitBounds hook", () => {
 
   it("ignores events for a map that is not on the page", () => {
     expect(() =>
-      handlers["fit-bounds"]({ map_id: "missing", bounds: [[0, 0], [1, 1]] })
+      handlers["fit-bounds"]({
+        map_id: "missing",
+        bounds: [
+          [0, 0],
+          [1, 1]
+        ]
+      })
     ).not.toThrow();
   });
 });

@@ -566,8 +566,14 @@ export function handleSubmitClick($, toUpload) {
       },
       error: (xhr, errorString, errorObject) => {
         console.error(errorString);
-        $(".support-csrf-error").toggleClass("hidden-xs-up", xhr.status !== 403);
-        $(".support-submission-error").toggleClass("hidden-xs-up", xhr.status === 403);
+        $(".support-csrf-error").toggleClass(
+          "hidden-xs-up",
+          xhr.status !== 403
+        );
+        $(".support-submission-error").toggleClass(
+          "hidden-xs-up",
+          xhr.status === 403
+        );
         $(".support-confirmation--error")
           .removeClass("hidden-xs-up")
           .focus();
