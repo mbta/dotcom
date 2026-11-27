@@ -66,11 +66,6 @@ msgstr " 即将抵达 "
 msgid " is on the way to "
 msgstr " 正在前往 "
 
-#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
-#, elixir-autogen, elixir-format
-msgid " minute walk"
-msgstr " 分钟步行"
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " on track "
@@ -146,6 +141,11 @@ msgstr "%{date}，直至另行通知"
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "%{formatted_date}%{route_name}%{direction_name}方向时刻表"
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "%{minutes} minute walk"
+msgstr "步行%{minutes}分钟"
 
 #: lib/dotcom/schedule_note.ex
 #, elixir-autogen, elixir-format
@@ -1037,7 +1037,7 @@ msgstr "联系交通警察"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Continue onto %{street_name}"
-msgstr ""
+msgstr "继续驶入 %{street_name}"
 
 #: lib/dotcom_web/components/stops/fare_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -1172,7 +1172,7 @@ msgstr "发车时间："
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Depart onto %{street_name}"
-msgstr ""
+msgstr "出发驶入 %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1405,12 +1405,12 @@ msgstr "输入项目关键词"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the station through %{street_name}"
-msgstr ""
+msgstr "通过 %{street_name} 进入车站"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Enter the traffic circle onto %{street_name}"
-msgstr ""
+msgstr "驶入环岛，进入 %{street_name}"
 
 #: lib/dotcom_web/templates/vote/show.html.heex
 #, elixir-autogen, elixir-format
@@ -1514,7 +1514,7 @@ msgstr "活动"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Exit the station towards %{street_name}"
-msgstr ""
+msgstr "离开车站，前往 %{street_name}"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
@@ -1796,7 +1796,7 @@ msgstr "在Twitter上关注@MBTA_CR"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Follow signs for %{street_name}"
-msgstr ""
+msgstr "沿 %{street_name} 的指示牌前行"
 
 #: lib/dotcom_web/templates/customer_support/_lost_and_found.html.heex
 #, elixir-autogen, elixir-format
@@ -1925,7 +1925,7 @@ msgstr "获取行程建议"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Go onto %{street_name}"
-msgstr ""
+msgstr "驶入 %{street_name}"
 
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
@@ -1956,12 +1956,12 @@ msgstr "港湾环线渡轮"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard left onto %{street_name}"
-msgstr ""
+msgstr "向左急转驶入 %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Hard right onto %{street_name}"
-msgstr ""
+msgstr "向右急转驶入 %{street_name}"
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #: lib/dotcom_web/templates/stop/index.html.heex
@@ -2270,7 +2270,7 @@ msgstr "于%{time}出发"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Left onto %{street_name}"
-msgstr ""
+msgstr "左转驶入 %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
@@ -2560,7 +2560,7 @@ msgstr "维护投诉"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Make a U-turn onto %{street_name}"
-msgstr ""
+msgstr "掉头驶入 %{street_name}"
 
 #: lib/dotcom_web/components/stops/parking_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -3564,7 +3564,7 @@ msgstr "乘坐%{route}列车%{train}"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Right onto %{street_name}"
-msgstr ""
+msgstr "右转驶入 %{street_name}"
 
 #: lib/fares/format.ex
 #, elixir-autogen, elixir-format
@@ -3989,12 +3989,12 @@ msgstr "已跳过"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly left onto %{street_name}"
-msgstr ""
+msgstr "稍向左转驶入 %{street_name}"
 
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Slightly right onto %{street_name}"
-msgstr ""
+msgstr "稍向右转驶入 %{street_name}"
 
 #: lib/alerts/alert.ex
 #, elixir-autogen, elixir-format
@@ -4265,7 +4265,7 @@ msgstr "乘坐巴士和地铁前往投票"
 #: lib/dotcom_web/components/trip_planner/helpers.ex
 #, elixir-autogen, elixir-format
 msgid "Take the elevator onto %{street_name}"
-msgstr ""
+msgstr "乘坐电梯前往 %{street_name}"
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
