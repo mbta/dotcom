@@ -138,6 +138,7 @@ msgid "%{date} until further notice"
 msgstr "%{date} jiskaske yo bay lòt avi"
 
 #: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
 msgstr "Orè %{direction_name} pou %{route_name}, %{formatted_date}"
@@ -5419,11 +5420,6 @@ msgstr "paj dakèy MBTA a"
 #, elixir-autogen, elixir-format
 msgid "the next morning"
 msgstr "nan maten ki vin apre a"
-
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "timetable for"
-msgstr "kalandriye pou"
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
 #: lib/dotcom_web/views/helpers.ex
