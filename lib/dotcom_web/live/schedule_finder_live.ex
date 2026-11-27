@@ -456,23 +456,34 @@ defmodule DotcomWeb.ScheduleFinderLive do
               </span>
             </div>
           </.link>
-          <div
+          <form
             :if={@duplex_stop}
-            phx-click="toggle_direction"
             style="background-color:rgb(0,0,0,0.4)"
-            class="rounded-lg relative cursor-pointer p-0.5 flex items-center gap-xs flex-row"
+            class="text-left rounded-lg relative  p-0.5 flex items-center gap-xs flex-row"
           >
-            <div
+            <label
               :for={{index, direction_name} <- @route.direction_names}
-              class={"w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)}"}
+              for={"direction_radio_#{index}"}
+              class={"has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-primary-light cursor-pointer w-1/2 p-2 rounded-md #{if index == @direction_id, do: route_to_background_class(@route)} mb-0  "}
             >
+              <input
+                phx-change="toggle_direction"
+                name="direction_id"
+                id={"direction_radio_#{index}"}
+                value={direction_name}
+                type="radio"
+                class="w-0 absolute"
+                aria-current={index == @direction_id}
+                checked={index == @direction_id}
+              />
+
               {direction_name}
               <%= if @route.id != "Green" do %>
                 {~t"towards"}
                 <div class="font-bold">{@route.direction_destinations[index]}</div>
               <% end %>
-            </div>
-          </div>
+            </label>
+          </form>
         </div>
       </div>
     </div>
