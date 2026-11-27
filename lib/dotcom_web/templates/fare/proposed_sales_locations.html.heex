@@ -15,10 +15,18 @@
         )}.
       </p>
       <p>
-        <b>{~t(Note)}</b>: {~t(This list does not include current MBTA retailers. To see current retail locations, use our)} {link(
-          ~t(retail sales location finder),
-          to: fare_path(@conn, :show, "retail-sales-locations")
-        )}. {~t(All proposed locations are subject to site suitability, permitting, and retail availability.)}
+        <b>{~t(Note)}</b>: {gettext(
+          "This list does not include current MBTA retailers. To see current retail locations," <>
+            " use our %{location_finder_link}. All proposed locations are subject to site" <>
+            " suitability, permitting, and retail availability.",
+          location_finder_link:
+            link(
+              ~t"retail sales location finder",
+              to: fare_path(@conn, :show, "retail-sales-locations")
+            )
+            |> safe_to_string()
+        )
+        |> raw()}
       </p>
 
       <h2 class="u-mb-2">{~t(Find Proposed Locations Near You)}</h2>

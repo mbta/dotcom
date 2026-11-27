@@ -66,11 +66,6 @@ msgstr ""
 msgid " is on the way to "
 msgstr ""
 
-#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
-#, elixir-autogen, elixir-format
-msgid " minute walk"
-msgstr ""
-
 #: lib/vehicle_helpers.ex
 #, elixir-autogen, elixir-format
 msgid " on track "
@@ -143,8 +138,14 @@ msgid "%{date} until further notice"
 msgstr ""
 
 #: lib/dotcom_web/components/new_timetable.ex
+#: lib/dotcom_web/components/timetable.ex
 #, elixir-autogen, elixir-format
 msgid "%{direction_name} timetable for %{route_name}, %{formatted_date}"
+msgstr ""
+
+#: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
+#, elixir-autogen, elixir-format
+msgid "%{minutes} minute walk"
 msgstr ""
 
 #: lib/dotcom/schedule_note.ex
@@ -492,11 +493,6 @@ msgstr ""
 #: lib/dotcom/trip_plan/input_form.ex
 #, elixir-autogen, elixir-format
 msgid "All modes"
-msgstr ""
-
-#: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
-#, elixir-autogen, elixir-format
-msgid "All proposed locations are subject to site suitability, permitting, and retail availability."
 msgstr ""
 
 #: lib/dotcom_web/components/variant_picker.ex
@@ -4478,7 +4474,7 @@ msgstr ""
 
 #: lib/dotcom_web/templates/fare/proposed_sales_locations.html.heex
 #, elixir-autogen, elixir-format
-msgid "This list does not include current MBTA retailers. To see current retail locations, use our"
+msgid "This list does not include current MBTA retailers. To see current retail locations, use our %{location_finder_link}. All proposed locations are subject to site suitability, permitting, and retail availability."
 msgstr ""
 
 #: lib/dotcom_web/templates/news_entry/show.html.heex
@@ -5407,11 +5403,6 @@ msgstr ""
 #: lib/dotcom_web/live/schedule_finder_live.ex
 #, elixir-autogen, elixir-format
 msgid "the next morning"
-msgstr ""
-
-#: lib/dotcom_web/components/timetable.ex
-#, elixir-autogen, elixir-format
-msgid "timetable for"
 msgstr ""
 
 #: lib/dotcom_web/components/trip_planner/itinerary_summary.ex
