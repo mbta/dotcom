@@ -3891,6 +3891,11 @@ msgstr "Vwayaj ki pi kout"
 msgid "Show"
 msgstr "Montre"
 
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Show %{n} more dates"
+msgstr ""
+
 #: lib/dotcom_web/components/trip_planner/transit_leg.ex
 #, elixir-autogen, elixir-format
 msgid "Show Details"
@@ -3900,6 +3905,11 @@ msgstr "Montre detay"
 #, elixir-autogen, elixir-format
 msgid "Show More"
 msgstr "Montre plis"
+
+#: lib/dotcom_web/live/schedule_finder_live.ex
+#, elixir-autogen, elixir-format
+msgid "Show fewer dates"
+msgstr ""
 
 #: lib/dotcom_web/live/upcoming_departures_live.ex
 #, elixir-autogen, elixir-format

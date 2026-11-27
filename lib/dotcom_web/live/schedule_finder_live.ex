@@ -489,7 +489,9 @@ defmodule DotcomWeb.ScheduleFinderLive do
     # assigns.today should always be the current service date, which at 1am should resolve to the prior day.
     assigns =
       assigns
+      |> assign(:max_count, 3)
       |> assign(:form, to_form(%{"date" => assigns.displayed_date}))
+      |> assign(:on_select, &select_service_date("##{assigns.id}-datepicker", &1))
       |> assign(:datepicker_config, %{
         alt_format: "l, F J, Y",
         default_date: assigns.displayed_date,
@@ -516,7 +518,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
         <div :if={@displayed_date !== @today} class="text-sm shrink-0">
           <.service_picker_link
             date={@today}
-            target={"##{@id}-datepicker"}
+            on_select={@on_select}
             label={~t(Go to today)}
           />
         </div>
@@ -532,21 +534,45 @@ defmodule DotcomWeb.ScheduleFinderLive do
       />
       <div :if={!Enum.empty?(@holiday_services)} class="text-sm mt-sm mb-0">
         <div id="upcoming-holidays" class="font-bold">{~t(Upcoming Holidays)}</div>
-        <ul aria-labelledby="upcoming-holidays" class="list-unstyled p-0 m-0">
-          <li :for={{holiday, has_service?} <- @holiday_services}>
-            <span>{holiday.name}</span>
-            <%= if has_service? do %>
-              <.service_picker_link
-                date={holiday.date}
-                target={"##{@id}-datepicker"}
+        <%= if Enum.count(@holiday_services) <= @max_count do %>
+          <.holiday_list on_select={@on_select} holiday_services={@holiday_services} />
+        <% else %>
+          <% {shown, hidden} = Enum.split(@holiday_services, @max_count - 1) %>
+          <.holiday_list on_select={@on_select} holiday_services={shown} />
+          <details class="group">
+            <summary class="cursor-pointer flex items-center gap-xs">
+              <.icon
+                name="angle-right"
+                class="h-3 w-3 transition-transform group-open:rotate-90"
               />
-            <% else %>
-              {format!(holiday.date, :weekday_month_day_short)} ({~t(No service)})
-            <% end %>
-          </li>
-        </ul>
+              <span class="group-open:hidden">
+                {gettext("Show %{n} more dates", n: Enum.count(hidden))}
+              </span>
+              <span class="hidden group-open:inline-block">{~t(Show fewer dates)}</span>
+            </summary>
+            <.holiday_list on_select={@on_select} holiday_services={hidden} />
+          </details>
+        <% end %>
       </div>
     </.form>
+    """
+  end
+
+  defp holiday_list(assigns) do
+    ~H"""
+    <ul aria-labelledby="upcoming-holidays" class="list-unstyled p-0 m-0">
+      <li :for={{holiday_date, holiday_name, has_service?} <- @holiday_services}>
+        <span>{holiday_name}</span>
+        <%= if has_service? do %>
+          <.service_picker_link
+            date={holiday_date}
+            on_select={@on_select}
+          />
+        <% else %>
+          {format!(holiday_date, :weekday_month_day_short)} ({~t(No service)})
+        <% end %>
+      </li>
+    </ul>
     """
   end
 
@@ -560,7 +586,7 @@ defmodule DotcomWeb.ScheduleFinderLive do
     <button
       type="button"
       class="underline font-medium text-brand-primary bg-transparent p-0 hover:text-brand-primary-darkest"
-      phx-click={select_service_date(@target, @date)}
+      phx-click={@on_select.(@date)}
     >
       {@label}
     </button>
