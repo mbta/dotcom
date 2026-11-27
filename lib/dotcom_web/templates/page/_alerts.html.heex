@@ -14,7 +14,9 @@
             </a>
             <%= if Enum.empty?(routes) do %>
               <p>
-                {~t(There are no high priority)} {String.downcase(mode_name)} {~t(alerts at this time)}
+                {gettext("There are no high priority %{mode} alerts at this time",
+                  mode: String.downcase(mode_name)
+                )}
               </p>
             <% else %>
               <ul class={"m-homepage__alerts-route #{ mode }"}>
@@ -45,7 +47,9 @@
             <h3>{title}</h3>
             <%= if Enum.empty?(stops) do %>
               <p>
-                {~t(There are no)} {String.downcase(title)} {~t(at this time)}
+                {gettext("There are no %{alert_type} at this time",
+                  alert_type: String.downcase(title)
+                )}
               </p>
             <% else %>
               <ul class="m-homepage__alerts-stops">

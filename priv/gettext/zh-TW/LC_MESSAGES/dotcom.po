@@ -4369,10 +4369,14 @@ msgid "There are currently no realtime departures available. Scheduled departure
 msgstr "目前沒有即時發車資訊。以下顯示預定發車班次。"
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "There are no"
 msgstr "沒有"
+
+#: lib/dotcom_web/templates/page/_alerts.html.heex
+#, elixir-autogen, elixir-format
+msgid "There are no %{alert_type} at this time"
+msgstr ""
 
 #: lib/dotcom_web/components/stops/accessibility_amenity.html.heex
 #, elixir-autogen, elixir-format
@@ -4386,8 +4390,8 @@ msgstr "目前沒有%{route_name}服務異動通知。"
 
 #: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
-msgid "There are no high priority"
-msgstr "沒有高優先順序"
+msgid "There are no high priority %{mode} alerts at this time"
+msgstr ""
 
 #: lib/dotcom_web/live/commuter_rail_alerts_live.ex
 #, elixir-autogen, elixir-format
@@ -5149,7 +5153,6 @@ msgid "accessible spots"
 msgstr "無障礙停車位"
 
 #: lib/dotcom_web/templates/alert/show.html.heex
-#: lib/dotcom_web/templates/page/_alerts.html.heex
 #, elixir-autogen, elixir-format
 msgid "alerts at this time"
 msgstr "目前的警示"
@@ -5168,11 +5171,6 @@ msgstr "已抵達 "
 #, elixir-autogen, elixir-format
 msgid "arriving"
 msgstr "即將抵達"
-
-#: lib/dotcom_web/templates/page/_alerts.html.heex
-#, elixir-autogen, elixir-format
-msgid "at this time"
-msgstr "目前"
 
 #: lib/dotcom_web/components/system_status/status_row_heading.ex
 #, elixir-autogen, elixir-format
