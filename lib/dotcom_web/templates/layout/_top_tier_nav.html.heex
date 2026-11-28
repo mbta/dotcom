@@ -19,7 +19,7 @@
         </div>
       </a>
       <div id="languages-toggle">
-        <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- DotcomWeb.LayoutView.language_nav_link_content do %>
+        <%= for {%{menu_section: name, link: href, sub_menus: sub_menus}, menu_index} <- Enum.with_index(DotcomWeb.LayoutView.language_nav_link_content()) do %>
           <a
             class="m-menu--dropdown__toggle m-menu--top-tier__toggle"
             href={"#{ href }"}
@@ -39,11 +39,18 @@
                   class={"m-menu-dropdown__section #{ to_camelcase(name) }"}
                   data-nav="dropdown-section"
                 >
-                  <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
-                    <div class="m-menu__section-heading">
+                  <%= for {%{links: links, sub_menu_section: section_name}, section_index} <- Enum.with_index(sub_menus) do %>
+                    <div
+                      id={"language-menu-heading-#{menu_index}-#{section_index}"}
+                      class="m-menu__section-heading"
+                    >
                       {section_name}
                     </div>
-                    <div class="m-menu-dropdown__submenu-section" aria-label={"#{ section_name }"}>
+                    <div
+                      class="m-menu-dropdown__submenu-section"
+                      role="group"
+                      aria-labelledby={"language-menu-heading-#{menu_index}-#{section_index}"}
+                    >
                       {Enum.map(links, &DotcomWeb.LayoutView.render_nav_link/1)}
                     </div>
                   <% end %>
